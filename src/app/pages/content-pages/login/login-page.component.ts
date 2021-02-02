@@ -49,17 +49,16 @@ export class LoginPageComponent {
       });
 
     this.authService.signinUser(this.loginForm.value.username, this.loginForm.value.password)
-      .then((res) => {
-        console.log(JSON.stringify(res));
+      .subscribe(res => {
+        console.log(res);
         this.spinner.hide();
         this.router.navigate(['/dashboard/dashboard1']);
-      })
-      .catch((err) => {
-        this.isLoginFailed = true;
-        this.spinner.hide();
-        console.log('error: ' + err)
+      },
+      err => {
+        console.error(err);
       }
       );
+      
   }
 
 }

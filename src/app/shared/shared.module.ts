@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,ErrorHandler } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +15,9 @@ import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { HorizontalMenuComponent } from './horizontal-menu/horizontal-menu.component';
 import { VerticalMenuComponent } from "./vertical-menu/vertical-menu.component";
-
+import {ErrorHandling} from './util/error-handling';
+import {AppErrorHandler} from './util/app-error-handler';
+import {StorageService} from './storage-service';
 //DIRECTIVES
 import { ToggleFullscreenDirective } from "./directives/toggle-fullscreen.directive";
 import { SidebarLinkDirective } from './directives/sidebar-link.directive';
@@ -65,6 +67,11 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         TopMenuDropdownDirective,
         TopMenuAnchorToggleDirective,
         TopMenuDirective
-    ]
+    ],
+    providers: [
+        {provide: ErrorHandler, useClass: AppErrorHandler},
+        StorageService,
+        ErrorHandling
+      ]
 })
 export class SharedModule { }

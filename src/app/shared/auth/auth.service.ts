@@ -5,7 +5,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import {Observable} from 'rxjs/Observable';
 import {host} from '../../shared/hosts/main.host';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-//import {ErrorHandling} from '../../shared/util/error-handling';
+import {ErrorHandling} from '../../shared/util/error-handling';
 import {Login} from '../services/models/login'
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AuthService {
   private userDetails: any = null;
 
   constructor(public _firebaseAuth: AngularFireAuth, public router: Router, private http: HttpClient,
-    //private errorHandling: ErrorHandling
+    private errorHandling: ErrorHandling
     ) {
     this.user = _firebaseAuth.authState;
     this.user.subscribe(
@@ -43,15 +43,9 @@ export class AuthService {
       UserName: email,
       Password: password
       };    
-      let headers = new HttpHeaders()
-      .set( 'Content-Type', 'application/json')
-      .set('Access-Control-Allow-Origin', '*' )
-      .set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE' );
-    return this.http
-    .post<Login>(
-        `${host}Authenticate/login`, body, { headers: headers }
-      )
-      .toPromise();
+      
+    return this.http.post<any>(`${host}Authenticate/login`, body).catch(this.errorHandling.handleError);
+     // .toPromise();
   /*return new Promise(function(resolve, reject) {
       setTimeout(function() {
         const url = `${host}Authenticate/login`;
