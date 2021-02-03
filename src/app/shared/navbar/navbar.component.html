@@ -13,7 +13,7 @@
           <a class="nav-link apptogglefullscreen" id="navbar-fullscreen" href="javascript:;" appToggleFullscreen
             (click)="ToggleClass()"><i class=" {{toggleClass}} font-medium-3"></i></a>
         </li>
-       <!-- <li class="nav-item nav-search">
+        <!--<li class="nav-item nav-search">
           <a class="nav-link nav-link-search" id="navbar-search" href="javascript:" (click)="toggleSearchOpenClass(true)"><i
               class="ft-search font-medium-3"></i></a>
           <div class="search-input {{searchOpenClass}}">
@@ -21,11 +21,11 @@
               <i class="ft-search font-medium-3"></i>
             </div>
             <input [formControl]="control" #search class="input" type="text" placeholder="Explore Apex..." tabindex="0"
-              autofocus data-search="template-search"> (keyup.enter)="onEnter()" (keydown.esc)="onEscEvent()" (keyup)="onSearchKey($event)" />
+              autofocus data-search="template-search" [appAutocomplete]="autocomplete" (keyup.enter)="onEnter()" (keydown.esc)="onEscEvent()" (keyup)="onSearchKey($event)" />
             <div class="search-input-close" (click)="toggleSearchOpenClass(false)">
               <i class="ft-x font-medium-3"></i>
             </div>
-            
+
             <app-autocomplete #autocomplete="appAutocomplete">
               <ng-template appAutocompleteContent >
                 <ng-container *ngIf="(listItems | filter: control.value) as result">
@@ -66,18 +66,19 @@
                 [src]="selectedLanguageFlag" alt="flag" /><span
                 class="selected-language d-md-flex d-none">{{selectedLanguageText}}</span></a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="dropdown-flag">
-              <a class="dropdown-item" href="javascript:;"><img
+              <a class="dropdown-item" href="javascript:;" data-language="en"><img
                   class="langimg mr-2" src="./assets/img/flags/us.png" alt="flag" /><span
-                  class="font-small-3">English</span></a><a class="dropdown-item" href="javascript:;"><img class="langimg mr-2" src="./assets/img/flags/es.png"
+                  class="font-small-3">English</span></a><a class="dropdown-item" href="javascript:;" data-language="es"
+               ><img class="langimg mr-2" src="./assets/img/flags/es.png"
                   alt="flag" /><span class="font-small-3">Spanish</span></a><a class="dropdown-item" href="javascript:;"
                 data-language="pt" ><img class="langimg mr-2"
                   src="./assets/img/flags/pt.png" alt="flag" /><span class="font-small-3">Portuguese</span></a>
-              <a class="dropdown-item" href="javascript:;" ><img
+              <a class="dropdown-item" href="javascript:;" data-language="de" ><img
                   class="langimg mr-2" src="./assets/img/flags/de.png" alt="flag" /><span
                   class="font-small-3">German</span></a>
             </div>
           </li>
-          <!--<li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
+          <li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle dropdown-notification p-0 mt-2" id="drp-notification" href="javascript:;"
               data-toggle="dropdown" ngbDropdownToggle><i class="ft-bell font-medium-3"></i><span
                 class="notification badge badge-pill badge-danger">4</span></a>
@@ -261,7 +262,7 @@
                 </div>
               </li>
             </ul>
-          </li>-->
+          </li>
           <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
@@ -296,10 +297,10 @@
               </a>
             </div>
           </li>
-         <!-- <li class="nav-item d-none d-lg-block mr-2 mt-1">
+          <li class="nav-item d-none d-lg-block mr-2 mt-1">
             <a class="nav-link notification-sidebar-toggle" (click)="toggleNotificationSidebar();"><i
                 class="ft-align-right font-medium-3"></i></a>
-          </li>-->
+          </li>
         </ul>
       </div>
     </div>

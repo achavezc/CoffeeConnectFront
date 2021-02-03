@@ -3,7 +3,7 @@ import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from '../../../shared/auth/auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import { ILogin } from '../../../shared/services/models/login';
 
 @Component({
   selector: 'app-login-page',
@@ -13,6 +13,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 
 export class LoginPageComponent {
 
+  loginModel  : ILogin;
   loginFormSubmitted = false;
   isLoginFailed = false;
 
@@ -21,7 +22,6 @@ export class LoginPageComponent {
     password: new FormControl('p@ssw0rd', [Validators.required]),
     rememberMe: new FormControl(true)
   });
-
 
   constructor(private router: Router, private authService: AuthService,
     private spinner: NgxSpinnerService,
@@ -51,8 +51,13 @@ export class LoginPageComponent {
     this.authService.signinUser(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(res => {
         console.log(res);
+        this.loginModel = res;
+        if (res.Result.Success)
+        {
         this.spinner.hide();
+        localStorage.setItem("user", JSON.stringify(this.loginModel));
         this.router.navigate(['/dashboard/dashboard1']);
+        }
       },
       err => {
         console.error(err);

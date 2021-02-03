@@ -4,174 +4,174 @@ import { RouteInfo } from './vertical-menu.metadata';
 export const ROUTES: RouteInfo[] = [
 
   {
-    path: '', title: 'Dashboard', icon: 'ft-home', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-      { path: '/dashboard/dashboard1', title: 'Dashboard 1', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/dashboard/dashboard2', title: 'Dashboard 2', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    Path: '', Title: 'Dashboard', Icon: 'ft-home', Class: 'has-sub', Badge: '2', BadgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', IsExternalLink: false, Submenu: [
+      { Path: '/dashboard/dashboard1', Title: 'Dashboard 1', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/dashboard/dashboard2', Title: 'Dashboard 2', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
     ]
   },
-  { path: '/inbox', title: 'Email', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-  { path: '/chat', title: 'Chat', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-  { path: '/chat-ngrx', title: 'Chat NgRx', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-  { path: '/taskboard', title: 'Task Board', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-  { path: '/taskboard-ngrx', title: 'Task Board NgRx', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-  { path: '/calendar', title: 'Calendar', icon: 'ft-calendar', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+  { Path: '/inbox', Title: 'Email', Icon: 'ft-mail', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+  { Path: '/chat', Title: 'Chat', Icon: 'ft-message-square', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+  { Path: '/chat-ngrx', Title: 'Chat NgRx', Icon: 'ft-message-square', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+  { Path: '/taskboard', Title: 'Task Board', Icon: 'ft-file-text', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+  { Path: '/taskboard-ngrx', Title: 'Task Board NgRx', Icon: 'ft-file-text', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+  { Path: '/calendar', Title: 'Calendar', Icon: 'ft-calendar', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
   {
-    path: '', title: 'UI Kit', icon: 'ft-aperture', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-    submenu: [
-      { path: '/uikit/grids', title: 'Grid', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/uikit/typography', title: 'Typography', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/uikit/syntaxhighlighter', title: 'Syntax Highlighter', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/uikit/helperclasses', title: 'Helper Classes', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/uikit/textutilities', title: 'Text Utilities', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/uikit/colorpalettes', title: 'Color Palette', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    Path: '', Title: 'UI Kit', Icon: 'ft-aperture', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+    Submenu: [
+      { Path: '/uikit/grids', Title: 'Grid', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/uikit/typography', Title: 'Typography', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/uikit/syntaxhighlighter', Title: 'Syntax Highlighter', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/uikit/helperClasses', Title: 'Helper Classes', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/uikit/textutilities', Title: 'Text Utilities', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/uikit/colorpalettes', Title: 'Color Palette', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
 
       {
-        path: '', title: 'Icons', icon: 'ft-arrow-right submenu-icon', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
-          { path: '/uikit/feather', title: 'Feather Icon', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/uikit/font-awesome', title: 'Font Awesome Icon', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/uikit/simple-line', title: 'Simple Line Icon', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+        Path: '', Title: 'Icons', Icon: 'ft-arrow-right submenu-icon', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [
+          { Path: '/uikit/feather', Title: 'Feather Icon', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/uikit/font-awesome', Title: 'Font Awesome Icon', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/uikit/simple-line', Title: 'Simple Line Icon', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
         ]
       },
     ]
   },
   {
-    path: '', title: 'Components', icon: 'ft-box', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-    submenu: [
+    Path: '', Title: 'Components', Icon: 'ft-box', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+    Submenu: [
       {
-        path: '', title: 'Bootstrap', icon: 'ft-arrow-right submenu-icon', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
-          { path: '/components/buttons', title: 'Buttons', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/ng-buttons', title: 'NG Buttons', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/alerts', title: 'Alerts', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/badges', title: 'Badges', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/dropdowns', title: 'Dropdowns', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/media', title: 'Media Objects', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/pagination', title: 'Pagination', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/progress', title: 'Progress Bars', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/models', title: 'Modals', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/collapse', title: 'Collapse', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/lists', title: 'List', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/accordion', title: 'Accordion', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/carousel', title: 'Carousel', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/popover', title: 'Popover', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/rating', title: 'Rating', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/navs', title: 'Navs', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/tooltip', title: 'Tooltip', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/typeahead', title: 'Typeahead', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
+        Path: '', Title: 'Bootstrap', Icon: 'ft-arrow-right submenu-icon', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [
+          { Path: '/components/buttons', Title: 'Buttons', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/ng-buttons', Title: 'NG Buttons', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/alerts', Title: 'Alerts', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/badges', Title: 'Badges', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/dropdowns', Title: 'Dropdowns', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/media', Title: 'Media Objects', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/pagination', Title: 'Pagination', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/progress', Title: 'Progress Bars', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/models', Title: 'Modals', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/collapse', Title: 'Collapse', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/lists', Title: 'List', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/accordion', Title: 'Accordion', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/carousel', Title: 'Carousel', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/popover', Title: 'Popover', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/rating', Title: 'Rating', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/navs', Title: 'Navs', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/tooltip', Title: 'Tooltip', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/typeahead', Title: 'Typeahead', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] }
         ]
       },
       {
-        path: '', title: 'Extra', icon: 'ft-arrow-right submenu-icon', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
-          { path: '/components/sweetalerts', title: 'Sweet Alert', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/toastr', title: 'Toastr', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/nouislider', title: 'NoUI Slider', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/upload', title: 'Upload', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/dragndrop', title: 'Drag and Drop', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/tour', title: 'Tour', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/cropper', title: 'Image Cropper', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/avatar', title: 'Avatar', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/components/swiper', title: 'Swiper', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
+        Path: '', Title: 'Extra', Icon: 'ft-arrow-right submenu-icon', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [
+          { Path: '/components/sweetalerts', Title: 'Sweet Alert', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/toastr', Title: 'Toastr', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/nouislider', Title: 'NoUI Slider', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/upload', Title: 'Upload', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/dragndrop', Title: 'Drag and Drop', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/tour', Title: 'Tour', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/cropper', Title: 'Image Cropper', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/avatar', Title: 'Avatar', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/components/swiper', Title: 'Swiper', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] }
         ]
       },
     ]
   },
   {
-    path: '', title: 'Forms', icon: 'ft-edit', class: 'has-sub', badge: 'New', badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1', isExternalLink: false,
-    submenu: [
+    Path: '', Title: 'Forms', Icon: 'ft-edit', Class: 'has-sub', Badge: 'New', BadgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1', IsExternalLink: false,
+    Submenu: [
       {
-        path: '', title: 'Elements', icon: 'ft-arrow-right submenu-icon', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-        submenu: [
-          { path: '/forms/inputs', title: 'Inputs', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/input-groups', title: 'Input Groups', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/radio', title: 'Radio', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/checkbox', title: 'Checkbox', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/switch', title: 'Switch', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/select', title: 'Select', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/editor', title: 'Editor', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/tags', title: 'Input Tags', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/datepicker', title: 'Datepicker', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/forms/timepicker', title: 'Timepicker', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+        Path: '', Title: 'Elements', Icon: 'ft-arrow-right submenu-icon', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+        Submenu: [
+          { Path: '/forms/inputs', Title: 'Inputs', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/input-groups', Title: 'Input Groups', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/radio', Title: 'Radio', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/checkbox', Title: 'Checkbox', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/switch', Title: 'Switch', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/select', Title: 'Select', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/editor', Title: 'Editor', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/tags', Title: 'Input Tags', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/datepicker', Title: 'Datepicker', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/forms/timepicker', Title: 'Timepicker', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
         ]
       },
-      { path: '/forms/layout', title: 'Layouts', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/forms/validation', title: 'Validation', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/forms/archwizard', title: 'Wizard', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
+      { Path: '/forms/layout', Title: 'Layouts', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/forms/validation', Title: 'Validation', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/forms/archwizard', Title: 'Wizard', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] }
     ]
   },
   {
-    path: '', title: 'Tables', icon: 'ft-grid', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-    submenu: [
-      { path: '/tables/basic', title: 'Basic', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/tables/extended', title: 'Extended', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/tables/tables', title: 'Angular', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
+    Path: '', Title: 'Tables', Icon: 'ft-grid', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+    Submenu: [
+      { Path: '/tables/basic', Title: 'Basic', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/tables/extended', Title: 'Extended', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/tables/tables', Title: 'Angular', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] }
     ]
   },
   {
-    path: '/datatables', title: 'Data Tables', icon: 'ft-layout', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []
+    Path: '/datatables', Title: 'Data Tables', Icon: 'ft-layout', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: []
   },
   {
-    path: '', title: 'Cards', icon: 'ft-layers', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
-      { path: '/cards/basic', title: 'Basic Cards', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/cards/advanced', title: 'Advanced Cards', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    Path: '', Title: 'Cards', Icon: 'ft-layers', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [
+      { Path: '/cards/basic', Title: 'Basic Cards', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/cards/advanced', Title: 'Advanced Cards', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
     ]
   },
   {
-    path: '', title: 'Maps', icon: 'ft-map', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-    submenu: [
-      { path: '/maps/google', title: 'Google Map', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/maps/fullscreen', title: 'Full Screen Map', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    Path: '', Title: 'Maps', Icon: 'ft-map', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+    Submenu: [
+      { Path: '/maps/google', Title: 'Google Map', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/maps/fullscreen', Title: 'Full Screen Map', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
     ]
   },
   {
-    path: '', title: 'Charts', icon: 'ft-bar-chart-2', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
-    submenu: [
-      { path: '/charts/chartjs', title: 'ChartJs', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/charts/chartist', title: 'Chartist', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/charts/apex', title: 'Apex', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/charts/ngx', title: 'NGX', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    Path: '', Title: 'Charts', Icon: 'ft-bar-chart-2', Class: 'has-sub', Badge: '2', BadgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', IsExternalLink: false,
+    Submenu: [
+      { Path: '/charts/chartjs', Title: 'ChartJs', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/charts/chartist', Title: 'Chartist', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/charts/apex', Title: 'Apex', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/charts/ngx', Title: 'NGX', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
     ]
   },
   {
-    path: '', title: 'Pages', icon: 'ft-copy', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-    submenu: [
+    Path: '', Title: 'Pages', Icon: 'ft-copy', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+    Submenu: [
       {
-        path: '', title: 'Authentication', icon: 'ft-arrow-right submenu-icon', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-        submenu: [
-          { path: '/pages/forgotpassword', title: 'Forgot Password', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-          { path: '/pages/login', title: 'Login', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-          { path: '/pages/register', title: 'Register', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-          { path: '/pages/lockscreen', title: 'Lock Screen', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
+        Path: '', Title: 'Authentication', Icon: 'ft-arrow-right submenu-icon', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+        Submenu: [
+          { Path: '/pages/forgotpassword', Title: 'Forgot Password', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
+          { Path: '/pages/login', Title: 'Login', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
+          { Path: '/pages/register', Title: 'Register', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
+          { Path: '/pages/lockscreen', Title: 'Lock Screen', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
         ]
       },
-      { path: '/pages/horizontaltimeline', title: 'Horizontal Timeline', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { Path: '/pages/horizontaltimeline', Title: 'Horizontal Timeline', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
 
       {
-        path: '', title: 'Vertical Timeline', icon: 'ft-arrow-right submenu-icon', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-        submenu: [
-          { path: '/pages/timeline-vertical-center', title: 'Center', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/pages/timeline-vertical-left', title: 'Left', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/pages/timeline-vertical-right', title: 'Right', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
+        Path: '', Title: 'Vertical Timeline', Icon: 'ft-arrow-right submenu-icon', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+        Submenu: [
+          { Path: '/pages/timeline-vertical-center', Title: 'Center', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/pages/timeline-vertical-left', Title: 'Left', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/pages/timeline-vertical-right', Title: 'Right', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] }
         ]
       },
       {
-        path: '', title: 'Users', icon: 'ft-arrow-right submenu-icon', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-        submenu: [
-          { path: '/pages/users-list', title: 'List', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/pages/users-view', title: 'View', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-          { path: '/pages/users-edit', title: 'Edit', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
+        Path: '', Title: 'Users', Icon: 'ft-arrow-right submenu-icon', Class: 'has-sub', Badge: '', BadgeClass: '', IsExternalLink: false,
+        Submenu: [
+          { Path: '/pages/users-list', Title: 'List', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/pages/users-view', Title: 'View', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+          { Path: '/pages/users-edit', Title: 'Edit', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] }
         ]
       },
-      { path: '/pages/account-settings', title: 'Account Settings', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/pages/profile', title: 'User Profile', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/pages/invoice', title: 'Invoice', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/pages/error', title: 'Error', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-      { path: '/pages/comingsoon', title: 'Coming Soon', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-      { path: '/pages/maintenance', title: 'Maintenance', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-      { path: '/pages/gallery', title: 'Gallery', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/pages/search', title: 'Search', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/pages/faq', title: 'FAQ', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/pages/kb', title: 'Knowledge Base', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { Path: '/pages/account-settings', Title: 'Account Settings', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/pages/profile', Title: 'User Profile', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/pages/invoice', Title: 'Invoice', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/pages/error', Title: 'Error', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
+      { Path: '/pages/comingsoon', Title: 'Coming Soon', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
+      { Path: '/pages/maintenance', Title: 'Maintenance', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
+      { Path: '/pages/gallery', Title: 'Gallery', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/pages/search', Title: 'Search', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/pages/faq', Title: 'FAQ', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
+      { Path: '/pages/kb', Title: 'Knowledge Base', Icon: 'ft-arrow-right submenu-icon', Class: '', Badge: '', BadgeClass: '', IsExternalLink: false, Submenu: [] },
     ]
   },
-  { path: 'https://pixinvent.com/apex-angular-4-bootstrap-admin-template/documentation', title: 'Documentation', icon: 'ft-book', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-  { path: 'https://pixinvent.ticksy.com/', title: 'Support', icon: 'ft-life-buoy', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
+  { Path: 'https://pixinvent.com/apex-angular-4-bootstrap-admin-template/documentation', Title: 'Documentation', Icon: 'ft-book', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
+  { Path: 'https://pixinvent.ticksy.com/', Title: 'Support', Icon: 'ft-life-buoy', Class: '', Badge: '', BadgeClass: '', IsExternalLink: true, Submenu: [] },
 ];

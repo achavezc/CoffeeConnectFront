@@ -3,9 +3,9 @@
   <div class="logo clearfix">
     <a [routerLink]="['/']" class="logo-text float-left">
       <div class="logo-img">
-        <img [src]="logoUrl" alt="Apex logo"/>
+        <img [src]="logoUrl" alt="Apex logo" height="35" width="35"/>
       </div>
-      <span class="text align-middle">APEX</span>
+      <span class="text align-middle" style="font-size: 8px;word-wrap: break-word;">{{nameEmpresa}}</span>
     </a>
     <a class="nav-toggle d-none d-lg-none d-xl-block" id="sidebarToggle" href="javascript:;"
       (click)="toggleSidebar()">
@@ -26,64 +26,64 @@
   <div class="nav-container">
     <ul class="navigation" appSidebarDropdown>
       <!-- First level menu -->
-      <li appSidebarlink *ngFor="let menuItem of menuItems" [parent]="menuItem.title" [path]="menuItem.path" level="{{level + 1}}" [hasSub]="menuItem.class.includes('has-sub') ? true: false"
-        [ngClass]="{'has-sub': menuItem.class.includes('has-sub') ? true: false}"
-        [routerLinkActive]="menuItem.submenu.length != 0 ? 'open' : 'active'" [routerLinkActiveOptions]="{exact: false}">
-        <a appSidebarAnchorToggle *ngIf="menuItem.submenu.length > 0 && !menuItem.isExternalLink">
-          <i [ngClass]="[menuItem.icon]"></i>
-          <span class="menu-title">{{menuItem.title  <!--| translate--> }}</span>
-          <span *ngIf="menuItem.badge && menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
+      <li appSidebarlink *ngFor="let menuItem of menuItems" [parent]="menuItem.Title" [path]="menuItem.Path" level="{{level + 1}}" [hasSub]="menuItem.Class.includes('has-sub') ? true: false"
+        [ngClass]="{'has-sub': menuItem.Class.includes('has-sub') ? true: false}"
+        [routerLinkActive]="menuItem.Submenu.length != 0 ? 'open' : 'active'" [routerLinkActiveOptions]="{exact: false}">
+        <a appSidebarAnchorToggle *ngIf="menuItem.Submenu.length > 0 && !menuItem.IsExternalLink">
+          <i [ngClass]="[menuItem.Icon]"></i>
+          <span class="menu-title">{{menuItem.Title }}</span>
+          <span *ngIf="menuItem.Badge && menuItem.Badge != '' " [ngClass]="[menuItem.BadgeClass]">{{menuItem.Badge}}</span>
         </a>
-        <a appSidebarAnchorToggle routerLink="{{menuItem.path}}"
-          *ngIf="menuItem.submenu.length === 0 && !menuItem.isExternalLink">
-          <i [ngClass]="[menuItem.icon]"></i>
-          <span class="menu-title">{{menuItem.title <!--| translate -->}}</span>
-          <span *ngIf="menuItem.badge && menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
+        <a appSidebarAnchorToggle routerLink="{{menuItem.Path}}"
+          *ngIf="menuItem.Submenu.length === 0 && !menuItem.IsExternalLink">
+          <i [ngClass]="[menuItem.Icon]"></i>
+          <span class="menu-title">{{menuItem.Title}}</span>
+          <span *ngIf="menuItem.Badge && menuItem.Badge != '' " [ngClass]="[menuItem.BadgeClass]">{{menuItem.Badge}}</span>
         </a>
-        <a [href]="[menuItem.path]" target="_blank" *ngIf="menuItem.isExternalLink">
-          <i [ngClass]="[menuItem.icon]"></i>
-          <span class="menu-title">{{menuItem.title <!--| translate -->}}</span>
-          <span *ngIf="menuItem.badge && menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
+        <a [href]="[menuItem.Path]" target="_blank" *ngIf="menuItem.IsExternalLink">
+          <i [ngClass]="[menuItem.Icon]"></i>
+          <span class="menu-title">{{menuItem.Title}}</span>
+          <span *ngIf="menuItem.Badge && menuItem.Badge != '' " [ngClass]="[menuItem.BadgeClass]">{{menuItem.Badge}}</span>
         </a>
          <!-- Second level menu -->
-        <ul appSidebarDropdown class="menu-content" *ngIf="menuItem.submenu.length > 0 ">
-          <li appSidebarlink *ngFor="let menuSubItem of menuItem.submenu" [parent]="menuItem.title" [hasSub]="menuSubItem.class.includes('has-sub') ? true: false"
-          [path]="menuSubItem.path" level="{{level + 2}}" [ngClass]="{'has-sub': menuSubItem.class.includes('has-sub') ? true: false}"
-            [routerLinkActive]="menuSubItem.submenu.length != 0 ? 'open' : 'active'">
-            <a appSidebarAnchorToggle *ngIf="menuSubItem.submenu.length > 0 && !menuSubItem.isExternalLink">
-              <i [ngClass]="[menuSubItem.icon]"></i>
-              <span class="menu-title">{{menuSubItem.title <!--| translate -->}}</span>
-              <span *ngIf="menuSubItem.badge && menuSubItem.badge != '' " [ngClass]="[menuSubItem.badgeClass]">{{menuSubItem.badge}}</span>
+        <ul appSidebarDropdown class="menu-content" *ngIf="menuItem.Submenu.length > 0 ">
+          <li appSidebarlink *ngFor="let menuSubItem of menuItem.Submenu" [parent]="menuItem.Title" [hasSub]="menuSubItem.Class.includes('has-sub') ? true: false"
+          [path]="menuSubItem.Path" level="{{level + 2}}" [ngClass]="{'has-sub': menuSubItem.Class.includes('has-sub') ? true: false}"
+            [routerLinkActive]="menuSubItem.Submenu.length != 0 ? 'open' : 'active'">
+            <a appSidebarAnchorToggle *ngIf="menuSubItem.Submenu.length > 0 && !menuSubItem.IsExternalLink">
+              <i [ngClass]="[menuSubItem.Icon]"></i>
+              <span class="menu-title">{{menuSubItem.Title}}</span>
+              <span *ngIf="menuSubItem.Badge && menuSubItem.Badge != '' " [ngClass]="[menuSubItem.BadgeClass]">{{menuSubItem.Badge}}</span>
             </a>
-            <a appSidebarAnchorToggle routerLink="{{menuSubItem.path}}"
-              *ngIf="menuSubItem.submenu.length === 0 && !menuSubItem.isExternalLink">
-              <i [ngClass]="[menuSubItem.icon]"></i>
-              <span class="menu-title">{{menuSubItem.title <!--| translate  -->}}</span>
-              <span *ngIf="menuSubItem.badge && menuSubItem.badge != '' " [ngClass]="[menuSubItem.badgeClass]">{{menuSubItem.badge}}</span>
+            <a appSidebarAnchorToggle routerLink="{{menuSubItem.Path}}"
+              *ngIf="menuSubItem.Submenu.length === 0 && !menuSubItem.IsExternalLink">
+              <i [ngClass]="[menuSubItem.Icon]"></i>
+              <span class="menu-title">{{menuSubItem.Title}}</span>
+              <span *ngIf="menuSubItem.Badge && menuSubItem.Badge != '' " [ngClass]="[menuSubItem.BadgeClass]">{{menuSubItem.Badge}}</span>
             </a>
-            <a routerLink="{{menuSubItem.path}}" target="_blank" *ngIf="menuSubItem.isExternalLink">
-              <i [ngClass]="[menuSubItem.icon]"></i>
-              <span class="menu-title">{{menuSubItem.title <!--| translate -->}}</span>
-              <span *ngIf="menuSubItem.badge && menuSubItem.badge != '' " [ngClass]="[menuSubItem.badgeClass]">{{menuSubItem.badge}}</span>
+            <a routerLink="{{menuSubItem.Path}}" target="_blank" *ngIf="menuSubItem.IsExternalLink">
+              <i [ngClass]="[menuSubItem.Icon]"></i>
+              <span class="menu-title">{{menuSubItem.Title }}</span>
+              <span *ngIf="menuSubItem.Badge && menuSubItem.Badge != '' " [ngClass]="[menuSubItem.BadgeClass]">{{menuSubItem.Badge}}</span>
             </a>
             <!-- Third level menu -->
-            <ul appSidebarDropdown class="menu-content" *ngIf="menuSubItem.submenu.length > 0">
-              <li appSidebarlink *ngFor="let menuSubsubItem of menuSubItem.submenu" [parent]="menuItem.title" [hasSub]="false"
-              [path]="menuSubsubItem.path" level="{{level + 3}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                [ngClass]="config.layout.menuPosition === 'Side' ? menuSubsubItem.class : ''">
-                <a appSidebarAnchorToggle routerLink="{{menuSubsubItem.path}}"
-                  *ngIf="!menuSubsubItem.isExternalLink; else externalSubSubLinkBlock">
-                  <i [ngClass]="[menuSubsubItem.icon]"></i>
-                  <span class="menu-title">{{menuSubsubItem.title <!--| translate  -->}}</span>
-                  <span *ngIf="menuSubsubItem.badge && menuSubsubItem.badge != '' "
-                    [ngClass]="[menuSubsubItem.badgeClass]">{{menuSubsubItem.badge}}</span>
+            <ul appSidebarDropdown class="menu-content" *ngIf="menuSubItem.Submenu.length > 0">
+              <li appSidebarlink *ngFor="let menuSubsubItem of menuSubItem.Submenu" [parent]="menuItem.Title" [hasSub]="false"
+              [path]="menuSubsubItem.Path" level="{{level + 3}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                [ngClass]="config.layout.menuPosition === 'Side' ? menuSubsubItem.Class : ''">
+                <a appSidebarAnchorToggle routerLink="{{menuSubsubItem.Path}}"
+                  *ngIf="!menuSubsubItem.IsExternalLink; else externalSubSubLinkBlock">
+                  <i [ngClass]="[menuSubsubItem.Icon]"></i>
+                  <span class="menu-title">{{menuSubsubItem.Title}}</span>
+                  <span *ngIf="menuSubsubItem.Badge && menuSubsubItem.Badge != '' "
+                    [ngClass]="[menuSubsubItem.BadgeClass]">{{menuSubsubItem.Badge}}</span>
                 </a>
                 <ng-template #externalSubSubLinkBlock>
-                  <a routerLink="{{menuSubsubItem.path}}" target="_blank">
-                    <i [ngClass]="[menuSubsubItem.icon]"></i>
-                    <span class="menu-title">{{menuSubsubItem.title <!-- | translate  -->}}</span>
-                    <span *ngIf="menuSubsubItem.badge && menuSubsubItem.badge != '' "
-                      [ngClass]="[menuSubsubItem.badgeClass]">{{menuSubsubItem.badge}}</span>
+                  <a routerLink="{{menuSubsubItem.Path}}" target="_blank">
+                    <i [ngClass]="[menuSubsubItem.Icon]"></i>
+                    <span class="menu-title">{{menuSubsubItem.Title}}</span>
+                    <span *ngIf="menuSubsubItem.Badge && menuSubsubItem.Badge != '' "
+                      [ngClass]="[menuSubsubItem.BadgeClass]">{{menuSubsubItem.Badge}}</span>
                   </a>
                 </ng-template>
               </li>

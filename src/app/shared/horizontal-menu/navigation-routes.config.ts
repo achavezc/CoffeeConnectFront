@@ -3,13 +3,13 @@ import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
 export const HROUTES: RouteInfo[] = [
 
   {
-    path: '', title: 'Dashboard', icon: 'ft-home', class: 'dropdown nav-item has-sub', isExternalLink: false,
-    submenu: [
-      { path: '/dashboard/dashboard1', title: 'Dashboard 1', icon: 'ft-arrow-right submenu-icon', class: 'dropdown-item', isExternalLink: false, submenu: [] },
-      { path: '/dashboard/dashboard2', title: 'Dashboard 2', icon: 'ft-arrow-right submenu-icon', class: 'dropdown-item', isExternalLink: false, submenu: [] }
+    Path: '', Title: 'Dashboard', Icon: 'ft-home', Class: 'dropdown nav-item has-sub', IsExternalLink: false,
+    Submenu: [
+      { Path: '/dashboard/dashboard1', Title: 'Dashboard 1', Icon: 'ft-arrow-right submenu-icon', Class: 'dropdown-item', IsExternalLink: false, Submenu: [] },
+      { Path: '/dashboard/dashboard2', Title: 'Dashboard 2', Icon: 'ft-arrow-right submenu-icon', Class: 'dropdown-item', IsExternalLink: false, Submenu: [] }
     ]
-  },
-  {
+  }//,
+  /*{
     path: '', title: 'Apps', icon: 'ft-box', class: 'dropdown nav-item has-sub', isExternalLink: false,
     submenu: [
       { path: '/inbox', title: 'Email', icon: 'ft-arrow-right submenu-icon', class: 'dropdown-item', isExternalLink: false, submenu: [] },
@@ -188,5 +188,5 @@ export const HROUTES: RouteInfo[] = [
       { path: '/pages/faq', title: 'FAQ', icon: 'ft-arrow-right submenu-icon', class: 'dropdown-item', isExternalLink: false, submenu: [] },
       { path: '/pages/kb', title: 'Knowledge Base', icon: 'ft-arrow-right submenu-icon', class: 'dropdown-item', isExternalLink: false, submenu: [] }
     ]
-  }
+  }*/
 ];

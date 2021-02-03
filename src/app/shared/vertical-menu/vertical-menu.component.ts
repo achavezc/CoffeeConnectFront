@@ -12,6 +12,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
+import { ILogin} from '../../shared/services/models/login';
+import { LoginTest} from '../../shared/services/models/login';
 
 @Component({
   selector: "app-sidebar",
@@ -23,7 +25,8 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toggleIcon') toggleIcon: ElementRef;
   public menuItems: any[];
   level: number = 0;
-  logoUrl = 'assets/img/logo.png';
+  logoUrl = 'assets/img/LogoJuanSantosAtahualpa.jpg';
+  nameEmpresa: string;
   public config: any = {};
   protected innerWidth: any;
   layoutSub: Subscription;
@@ -31,7 +34,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   perfectScrollbarEnable = true;
   collapseSidebar = false;
   resizeTimeout;
-
+  //this.logoUrl = 'assets/img/LogoJuanSantosAtahualpa.jpg';
   constructor(
     private router: Router,
     //public translate: TranslateService,
@@ -45,9 +48,15 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isTouchDevice();
   }
 
-
+  login : ILogin;
   ngOnInit() {
-    this.menuItems = ROUTES;
+  //this.menuItems = ROUTES;
+  this.login  = JSON.parse(localStorage.getItem("user"));
+  this.menuItems  = this.login.Result.Data.Opciones;
+ this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
+ //  this.logoUrl = 'assets/img/LogoJuanSantosAtahualpa.jpg';
+  this.nameEmpresa = "EMPRESA";//this.login.Result.Data.RazonSocialEmpresa;
+   //this.menuItems = LoginTest;
   }
 
   ngAfterViewInit() {
@@ -90,7 +99,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     else if (this.config.layout.menuPosition === "Side") { // Vertical Menu{
-      this.menuItems = ROUTES;
+      this.menuItems = LoginTest;
     }
 
 
@@ -100,7 +109,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
       this.logoUrl = 'assets/img/logo-dark.png';
     }
     else {
-      this.logoUrl = 'assets/img/logo.png';
+      this.logoUrl = "this.login.Result.Data.LogoEmpresa"//'assets/img/logo.png';
     }
 
     if(this.config.layout.sidebar.collapsed) {

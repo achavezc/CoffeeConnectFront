@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {host} from '../../shared/hosts/main.host';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ErrorHandling} from '../../shared/util/error-handling';
-import {Login} from '../services/models/login'
+import { ILogin} from '../../shared/services/models/login';
 
 @Injectable()
 export class AuthService {
@@ -33,7 +33,6 @@ export class AuthService {
   signupUser(email: string, password: string) {
     //your code for signing up the new user
   }
-  private data: Login;
   signinUser(email: string, password: string){
     //your code for checking credentials and getting tokens for for signing in user
    // return '1';
@@ -44,7 +43,7 @@ export class AuthService {
       Password: password
       };    
       
-    return this.http.post<any>(`${host}Authenticate/login`, body).catch(this.errorHandling.handleError);
+    return this.http.post<ILogin>(`${host}Authenticate/login`, body).catch(this.errorHandling.handleError);
      // .toPromise();
   /*return new Promise(function(resolve, reject) {
       setTimeout(function() {
@@ -56,12 +55,7 @@ export class AuthService {
     
     
   }
-  public login(): Observable<Login>
-  {
-    const url = `${host}Authenticate/login`;
-    return this.http.get<Login>(url);
-     
-  }
+  
 
   logout() {
     this._firebaseAuth.signOut();

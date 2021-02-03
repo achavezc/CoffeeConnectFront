@@ -30,6 +30,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
+  nombreUsuario: "Pamela";
+  img:"";
 
   @ViewChild('search') searchElement: ElementRef;
   @ViewChildren('searchResults') searchResults: QueryList<any>;
@@ -52,6 +54,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //const browserLang: string = translate.getBrowserLang();
     //translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
+
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
 
