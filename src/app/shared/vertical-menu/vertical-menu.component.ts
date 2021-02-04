@@ -25,7 +25,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toggleIcon') toggleIcon: ElementRef;
   public menuItems: any[];
   level: number = 0;
-  logoUrl = 'assets/img/LogoJuanSantosAtahualpa.jpg';
+  logoUrl: string;
   nameEmpresa: string;
   public config: any = {};
   protected innerWidth: any;
@@ -34,7 +34,6 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   perfectScrollbarEnable = true;
   collapseSidebar = false;
   resizeTimeout;
-  //this.logoUrl = 'assets/img/LogoJuanSantosAtahualpa.jpg';
   constructor(
     private router: Router,
     //public translate: TranslateService,
@@ -50,13 +49,10 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
   login : ILogin;
   ngOnInit() {
-  //this.menuItems = ROUTES;
-  this.login  = JSON.parse(localStorage.getItem("user"));
-  this.menuItems  = this.login.Result.Data.Opciones;
+ this.login  = JSON.parse(localStorage.getItem("user"));
+ this.menuItems  = this.login.Result.Data.Opciones;
  this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
- //  this.logoUrl = 'assets/img/LogoJuanSantosAtahualpa.jpg';
-  this.nameEmpresa = "EMPRESA";//this.login.Result.Data.RazonSocialEmpresa;
-   //this.menuItems = LoginTest;
+ this.nameEmpresa = this.login.Result.Data.RazonSocialEmpresa;
   }
 
   ngAfterViewInit() {
@@ -99,17 +95,17 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     else if (this.config.layout.menuPosition === "Side") { // Vertical Menu{
-      this.menuItems = LoginTest;
+      this.menuItems = this.login.Result.Data.Opciones;
     }
 
 
 
 
     if (this.config.layout.sidebar.backgroundColor === 'white') {
-      this.logoUrl = 'assets/img/logo-dark.png';
+      this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
     }
     else {
-      this.logoUrl = "this.login.Result.Data.LogoEmpresa"//'assets/img/logo.png';
+      this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
     }
 
     if(this.config.layout.sidebar.collapsed) {
