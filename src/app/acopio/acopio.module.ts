@@ -14,6 +14,10 @@ import { PipeModule } from "../shared/pipes/pipe.module";
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
 
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+
+import { NgbDateCustomParserFormatter } from "../shared/util/NgbDateCustomParserFormatter";
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,7 +33,11 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
     NgxDatatableModule,
   ],
   declarations: [
-    MateriaPrimaListComponent
+    MateriaPrimaListComponent,
+    
   ],
+  providers: [
+    {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter}
+   ]
 })
 export class AcopioModule {}
