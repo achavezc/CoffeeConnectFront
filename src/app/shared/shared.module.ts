@@ -18,7 +18,7 @@ import { VerticalMenuComponent } from "./vertical-menu/vertical-menu.component";
 import {ErrorHandling} from './util/error-handling';
 import {AppErrorHandler} from './util/app-error-handler';
 import {StorageService} from './storage-service';
-import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
+
 //DIRECTIVES
 import { ToggleFullscreenDirective } from "./directives/toggle-fullscreen.directive";
 import { SidebarLinkDirective } from './directives/sidebar-link.directive';
@@ -53,8 +53,7 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         ReactiveFormsModule ,
         PerfectScrollbarModule,
         ClickOutsideModule,
-        PipeModule,
-        AutocompleteModule
+        PipeModule
     ],
     declarations: [
         FooterComponent,
