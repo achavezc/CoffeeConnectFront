@@ -8,7 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //import { TranslateModule } from '@ngx-translate/core';
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { ClickOutsideModule } from 'ng-click-outside';
-
+import { PipeModule } from './pipes/pipe.module';
 
 //COMPONENTS
 import { FooterComponent } from "./footer/footer.component";
@@ -51,7 +51,8 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         OverlayModule,
         ReactiveFormsModule ,
         PerfectScrollbarModule,
-        ClickOutsideModule
+        ClickOutsideModule,
+        PipeModule
     ],
     declarations: [
         FooterComponent,
