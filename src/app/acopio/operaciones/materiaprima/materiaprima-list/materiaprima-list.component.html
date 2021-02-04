@@ -1,0 +1,149 @@
+
+<div class="row">
+	<div class="col-12">
+		<div class="content-header">Bandeja de Guia de Recepcción de Materia Prima</div>
+	</div>
+</div>
+
+<!-- Filter Datatables -->
+<section id="ngx-datatable-filter">
+    <div class="row">
+      <div class="col-12">
+        <!-- Filter starts -->
+        <section id="basic-input">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <fieldset class="form-group">
+                          <label for="basicInput">Nro de Guia</label>
+                          <input type="text" class="form-control" id="numeroGuia"  placeholder="Enter Número Guia">
+                        </fieldset>
+        
+                        <fieldset class="form-group">
+                          <label for="basicInput">Fecha Inicio</label>
+                          <div class="input-group">
+                            <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="popupModel" ngbDatepicker
+                            #d2="ngbDatepicker">
+                            <div class="input-group-append">
+                              <div class="input-group-text" (click)="d2.toggle()">
+                                <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+        
+                        <fieldset class="form-group">
+                          <label for="basicInput">Fecha Fin</label>
+                          <input type="text" class="form-control" id="basicInput"  placeholder="Enter Fecha Fin">
+                        </fieldset>
+
+                      </div>
+                      <div class="col-md-4">
+                        <fieldset class="form-group">
+                          <label for="basicInput">Tipo Documento</label>
+                          <ng-select [items]="listaTipoDocumento" bindLabel="name" placeholder="Select Tipo Documento" [(ngModel)]="selectedTipoDocumento">
+                          </ng-select>
+                         <!--  <p class="text-italic font-small-2 mt-1">
+                            Selected city: {{selectedTipoDocumento | json}}
+                          </p>  -->
+                        </fieldset>
+                        <fieldset class="form-group">
+                          <label for="basicInput">Nro Documento</label>
+                          <input type="text" class="form-control" id="basicInput"  placeholder="Enter Número Documento">
+                        </fieldset>
+        
+                        <fieldset class="form-group">
+                          <label for="basicInput">Codigo Socio</label>
+                          <input type="text" class="form-control" id="basicInput"  placeholder="Enter Codigo Socio">
+                        </fieldset>
+                      </div>
+                      <div class="col-md-4">
+                        <fieldset class="form-group">
+                          <label for="basicInput">Nombre/Raz.Social</label>
+                          <input type="text" class="form-control" id="basicInput"  placeholder="Enter Nombre/Raz.Social">
+                        </fieldset>
+                        <fieldset class="form-group">
+                          <label for="basicInput">Estado</label>
+                          <ng-select [items]="listaEstado" bindLabel="name" placeholder="Select Estado" [(ngModel)]="selectedEstado">
+                          </ng-select>
+                        </fieldset>
+                        
+                      </div>
+                      <div class="col-md-4">
+                        <button type="button" class="btn btn-primary mr-1 mb-1">Buscar</button>
+                        <button type="button" class="btn btn-primary mr-1 mb-1">Nuevo</button>
+                        <button type="button" class="btn btn-primary mr-1 mb-1">Anular</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Filter ends -->
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <!-- ngx-datatable-filter -->
+              <fieldset class="form-group">
+                <label>Show
+                  <select name="users-list-select"
+                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                    (click)="updateLimit($event)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries</label>
+                <label for="ngx-filter-ref" class="float-right">Search:
+                  <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                    type="text" (keyup)="filterUpdate($event)" />
+                </label>
+              </fieldset>
+              <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                [columns]="columns">
+                <ngx-datatable-column name="Numero Guia" prop="Numero" width="40">
+
+                    <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                        <div class="d-flex align-items-center">      
+                          <div class="cell-line-height">
+                            <a class="line-height-1 mb-0" routerLink="/pages/users-view">{{ name }}</a>
+                          </div>
+                        </div>
+                      </ng-template> 
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Codigo Socio" prop="CodigoSocio" width="30"></ngx-datatable-column>
+                <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="30"></ngx-datatable-column>
+                <ngx-datatable-column name="Numero Documento" prop="TipoDocumento" width="50"></ngx-datatable-column>
+                <ngx-datatable-column name="Nombre o Razon Social" prop="NombreRazonSocialProveedor" width="120"></ngx-datatable-column>
+                <ngx-datatable-column name="Fecha" prop="FechaRegistro" width="30"></ngx-datatable-column>
+                <ngx-datatable-column name="Estado" prop="Estado" width="40">
+                  <ng-template let-status="value" ngx-datatable-cell-template>
+                    <div class="badge" [ngClass]="{
+                        'bg-light-success': status == 'PESADO',
+                        'bg-light-danger': status == 'ANULADO',
+                        'bg-light-warning': status == 'ANALIZADO'
+                      }">
+                      {{ status }}
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+              <!-- ngx-datatable-filter -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Filter Datatables -->
+  
