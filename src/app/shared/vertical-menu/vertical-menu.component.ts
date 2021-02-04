@@ -6,14 +6,13 @@ import { ROUTES } from './vertical-menu-routes.config';
 import { HROUTES } from '../horizontal-menu/navigation-routes.config';
 
 import { Router } from "@angular/router";
-//import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { customAnimations } from "../animations/custom-animations";
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
 import { ILogin} from '../../shared/services/models/login';
-import { LoginTest} from '../../shared/services/models/login';
 
 @Component({
   selector: "app-sidebar",
@@ -26,7 +25,6 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   public menuItems: any[];
   level: number = 0;
   logoUrl: string;
-  nameEmpresa: string;
   public config: any = {};
   protected innerWidth: any;
   layoutSub: Subscription;
@@ -52,7 +50,6 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
  this.login  = JSON.parse(localStorage.getItem("user"));
  this.menuItems  = this.login.Result.Data.Opciones;
  this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
- this.nameEmpresa = this.login.Result.Data.RazonSocialEmpresa;
   }
 
   ngAfterViewInit() {

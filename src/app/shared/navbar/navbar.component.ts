@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, Inject, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
-//import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
@@ -8,6 +8,7 @@ import { CustomizerService } from '../services/customizer.service';
 import { FormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
+import { ILogin} from '../../shared/services/models/login';
 
 @Component({
   selector: "app-navbar",
@@ -15,9 +16,9 @@ import { Router } from '@angular/router';
   styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  currentLang = "en";
-  selectedLanguageText = "English";
-  selectedLanguageFlag = "./assets/img/flags/us.png";
+  currentLang = "es";
+  selectedLanguageText = "Spanish";
+  selectedLanguageFlag = "./assets/img/flags/es.png";
   toggleClass = "ft-maximize";
   placement = "bottom-right";
   logoUrl = 'assets/img/logo.png';
@@ -44,16 +45,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   listItems = [];
   control = new FormControl();
-
+  login: ILogin;
+  user: string;
   public config: any = {};
 
-  constructor(//public translate: TranslateService,
+  constructor(public translate: TranslateService,
     private layoutService: LayoutService,
     private router: Router,
     private configService: ConfigService, private cdr: ChangeDetectorRef) {
 
-    //const browserLang: string = translate.getBrowserLang();
-    //translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
+    const browserLang: string = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|es/) ? browserLang : "es");
 
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
@@ -67,6 +69,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.listItems = LISTITEMS;
+    this.login  = JSON.parse(localStorage.getItem("user"));
+    this.user  = this.login.Result.Data.NombreCompletoUsuario;
 
     if (this.innerWidth < 1200) {
       this.isSmallScreen = true;
@@ -173,7 +177,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-/*  ChangeLanguage(language: string) {
+  ChangeLanguage(language: string) {
     this.translate.use(language);
 
     if (language === 'en') {
@@ -184,15 +188,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedLanguageText = "Spanish";
       this.selectedLanguageFlag = "./assets/img/flags/es.png";
     }
-    else if (language === 'pt') {
-      this.selectedLanguageText = "Portuguese";
-      this.selectedLanguageFlag = "./assets/img/flags/pt.png";
-    }
-    else if (language === 'de') {
-      this.selectedLanguageText = "German";
-      this.selectedLanguageFlag = "./assets/img/flags/de.png";
-    }
-  }*/
+    
+  }
 
   ToggleClass() {
     if (this.toggleClass === "ft-maximize") {

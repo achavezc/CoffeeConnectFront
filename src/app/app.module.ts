@@ -32,6 +32,9 @@ import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+}
 var firebaseConfig = {
   apiKey: "YOUR_API_KEY", //YOUR_API_KEY
   authDomain: "YOUR_AUTH_DOMAIN", //YOUR_AUTH_DOMAIN
@@ -64,7 +67,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AgmCoreModule.forRoot({
       apiKey: "YOUR_GOOGLE_MAP_API_KEY"
     }),
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     AuthService,

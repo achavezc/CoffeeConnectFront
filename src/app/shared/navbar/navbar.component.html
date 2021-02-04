@@ -13,8 +13,8 @@
           <a class="nav-link apptogglefullscreen" id="navbar-fullscreen" href="javascript:;" appToggleFullscreen
             (click)="ToggleClass()"><i class=" {{toggleClass}} font-medium-3"></i></a>
         </li>
-        <!--<li class="nav-item nav-search">
-          <a class="nav-link nav-link-search" id="navbar-search" href="javascript:" (click)="toggleSearchOpenClass(true)"><i
+      <!-- <li class="nav-item nav-search">
+         <a class="nav-link nav-link-search" id="navbar-search" href="javascript:" (click)="toggleSearchOpenClass(true)"><i
               class="ft-search font-medium-3"></i></a>
           <div class="search-input {{searchOpenClass}}">
             <div class="search-input-icon">
@@ -25,7 +25,7 @@
             <div class="search-input-close" (click)="toggleSearchOpenClass(false)">
               <i class="ft-x font-medium-3"></i>
             </div>
-
+  
             <app-autocomplete #autocomplete="appAutocomplete">
               <ng-template appAutocompleteContent >
                 <ng-container *ngIf="(listItems | filter: control.value) as result">
@@ -49,8 +49,7 @@
           <ul class="navbar-nav">
             <li class="nav-item">
               <div class="logo"><a class="logo-text" [routerLink]="['/']" *ngIf="config?.layout.menuPosition === 'Top'">
-                  <div class="logo-img"><img class="logo-img" alt="Apex logo" [src]="logoUrl"></div><span
-                    class="text">APEX</span>
+                  <div class="logo-img"><img class="logo-img" alt="Apex logo" [src]="logoUrl"></div>
                 </a></div>
             </li>
           </ul>
@@ -66,20 +65,15 @@
                 [src]="selectedLanguageFlag" alt="flag" /><span
                 class="selected-language d-md-flex d-none">{{selectedLanguageText}}</span></a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="dropdown-flag">
-              <a class="dropdown-item" href="javascript:;" data-language="en"><img
+              <a class="dropdown-item" href="javascript:;" data-language="en" (click)="ChangeLanguage('en')"><img
                   class="langimg mr-2" src="./assets/img/flags/us.png" alt="flag" /><span
-                  class="font-small-3">English</span></a><a class="dropdown-item" href="javascript:;" data-language="es"
+                  class="font-small-3">English</span></a><a class="dropdown-item" href="javascript:;" data-language="es" (click)="ChangeLanguage('es')"
                ><img class="langimg mr-2" src="./assets/img/flags/es.png"
-                  alt="flag" /><span class="font-small-3">Spanish</span></a><a class="dropdown-item" href="javascript:;"
-                data-language="pt" ><img class="langimg mr-2"
-                  src="./assets/img/flags/pt.png" alt="flag" /><span class="font-small-3">Portuguese</span></a>
-              <a class="dropdown-item" href="javascript:;" data-language="de" ><img
-                  class="langimg mr-2" src="./assets/img/flags/de.png" alt="flag" /><span
-                  class="font-small-3">German</span></a>
+                  alt="flag" /><span class="font-small-3">Spanish</span></a>
             </div>
           </li>
-          <li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
-            <a class="nav-link dropdown-toggle dropdown-notification p-0 mt-2" id="drp-notification" href="javascript:;"
+         <!--<li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
+          <a class="nav-link dropdown-toggle dropdown-notification p-0 mt-2" id="drp-notification" href="javascript:;"
               data-toggle="dropdown" ngbDropdownToggle><i class="ft-bell font-medium-3"></i><span
                 class="notification badge badge-pill badge-danger">4</span></a>
             <ul ngbDropdownMenu
@@ -262,19 +256,18 @@
                 </div>
               </li>
             </ul>
-          </li>
+          </li>-->
           <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
               <div class="user d-md-flex d-none mr-2">
-                <span class="text-right">John Doe</span><span
-                  class="text-right text-muted font-small-3">Available</span>
+                <span class="text-right">{{user}}</span>
               </div>
-              <img class="avatar" src="assets/img/portrait/small/avatar-s-1.png" alt="avatar" height="35" width="35" />
+              <img class="avatar" src="assets/img/avatar.png" alt="avatar" height="35" width="35" />
             </a>
             <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0" aria-labelledby="dropdownBasic2"
               ngbDropdownMenu>
-              <a class="dropdown-item" routerLink="/chat">
+             <!-- <a class="dropdown-item" routerLink="/chat">
                 <div class="d-flex align-items-center">
                   <i class="ft-message-square mr-2"></i><span>Chat</span>
                 </div>
@@ -288,7 +281,7 @@
                 <div class="d-flex align-items-center">
                   <i class="ft-mail mr-2"></i><span>My Inbox</span>
                 </div>
-              </a>
+              </a>-->
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" routerLink="/pages/login">
                 <div class="d-flex align-items-center">
@@ -305,9 +298,4 @@
       </div>
     </div>
   </div>
-
-
-
-
-
 </nav>

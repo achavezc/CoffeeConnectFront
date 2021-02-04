@@ -37,15 +37,3 @@ export interface ILogin {
     Total: number;
     Identificador: string;
   }
-
-  export const LoginTest: Opciones[] =
-  [{
-    Path: "",
-    Title: "Test",
-    Icon: "ft-arrow-right submenu-icon",
-    Class: "",
-    Badge: 2,
-    BadgeClass: "badge badge-pill badge-danger float-right mr-1 mt-1",
-    IsExternalLink: false,
-    Submenu: []
-  }]
