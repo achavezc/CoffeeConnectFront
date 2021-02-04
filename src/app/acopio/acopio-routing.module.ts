@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'operaciones',
     children: [
       {
-        path: 'materiaprima-list',
+        path: 'guiarecepcionmateriaprima-list',
         component: MateriaPrimaListComponent,
         data: {
           title: 'List'

@@ -82,5 +82,8 @@ export class MateriaPrimaListComponent implements OnInit {
         this.limitRef = limit.target.value;
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+
+        
+    }
 }

@@ -6,9 +6,5 @@ export const CONTENT_ROUTES: Routes = [
      {
         path: 'pages',
         loadChildren: () => import('../../pages/content-pages/content-pages.module').then(m => m.ContentPagesModule)
-    },
-    {
-        path: 'acopio',
-        loadChildren: () => import('../../acopio/acopio.module').then(m => m.AcopioModule)
     }
 ];
