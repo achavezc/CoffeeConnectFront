@@ -50,6 +50,7 @@ export class LoginPageComponent {
 
     this.authService.signinUser(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(res => {
+        this.spinner.hide();
         console.log(res);
         this.loginModel = res;
         if (res.Result.Success)
@@ -60,6 +61,8 @@ export class LoginPageComponent {
         }
       },
       err => {
+        this.isLoginFailed = true;
+        this.spinner.hide();
         console.error(err);
       }
       );

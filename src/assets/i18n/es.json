@@ -140,11 +140,11 @@
 			"Label":"Operaciones",
 			"RegistroActividades":
 				{
-				  "Label":"RegistroActividades"
+				  "Label":"Registro Actividades"
 				},
 			"RegistroCosechas":
 				{
-				  "Label":"RegistroCosechas"
+				  "Label":"Registro Cosechas"
 				}
 		},
 		"Administracion":
@@ -152,15 +152,15 @@
 			"Label":"Administracion",
 			"Productor":
 				{
-				  "Label":"Productor"
+				  "Label":"Datos Productor"
 				},
 			"EntidadesCertificadoras":
 				{
-				  "Label":"EntidadesCertificadoras"
+				  "Label":"Entidades Certificadoras"
 				},
 			"MaestrosGenerales":
 				{
-				  "Label":"MaestrosGenerales"
+				  "Label":"Maestros Generales"
 				}	
 		}
 	},
@@ -172,11 +172,11 @@
 			"Label":"Operaciones",
 			"RecepcionMateriaPrima":
 				{
-					"Label":"RecepcionMateriaPrima"
+					"Label":"Recepcion Materia Prima"
 				},
 			"RecepcionProductoTerminado":
 				{
-					"Label":"RecepcionProductoTerminado"
+					"Label":"Recepcion Producto Terminado"
 				}
 		},
 		"Administracion":
@@ -192,7 +192,7 @@
 				},
 			"MaestrosGenerales":
 				{
-				  "Label":"MaestrosGenerales"
+				  "Label":"Maestros Generales"
 				}	
 		}
 	},
@@ -204,7 +204,7 @@
 			"Label":"Operaciones",
 			"GuiaIngreso":
 				{
-					"Label":"GuiaIngreso"
+					"Label":"Guia de Ingreso"
 				}
 		},
 		"Administracion":
@@ -212,7 +212,7 @@
 			"Label":"Administracion",
 			"MaestrosGenerales":
 				{
-				  "Label":"MaestrosGenerales"
+				  "Label":"Maestros Generales"
 				}
 		}
 	},

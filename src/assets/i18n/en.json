@@ -133,94 +133,94 @@
   "Third Level 1.2": "Third Level 1.2",
   "Productor":
 	{
-		"Label":"Productor2",
+		"Label":"Producer",
 		"Operaciones":
 		{
-			"Label":"Operaciones",
+			"Label":"Operations",
 			"RegistroActividades":
 				{
-				  "Label":"RegistroActividades"
+				  "Label":"Activity Register"
 				},
 			"RegistroCosechas":
 				{
-				  "Label":"RegistroCosechas"
+				  "Label":"Harvest Register"
 				}
 		},
 		"Administracion":
 		{
-			"Label":"Administracion",
+			"Label":"Administration",
 			"Productor":
 				{
-				  "Label":"Productor"
+				  "Label":"Producer Data"
 				},
 			"EntidadesCertificadoras":
 				{
-				  "Label":"EntidadesCertificadoras"
+				  "Label":"Certifying Entities"
 				},
 			"MaestrosGenerales":
 				{
-				  "Label":"MaestrosGenerales"
+				  "Label":"Master Generals"
 				}	
 		}
 	},
   "Acopio":
 	{
-		"Label":"Acopio2",
+		"Label":"Gathering",
 		"Operaciones":
 		{
-			"Label":"Operaciones",
+			"Label":"Operations",
 			"RecepcionMateriaPrima":
 				{
-					"Label":"RecepcionMateriaPrima"
+					"Label":"Raw Material Reception"
 				},
 			"RecepcionProductoTerminado":
 				{
-					"Label":"RecepcionProductoTerminado"
+					"Label":"Finished Product Reception"
 				}
 		},
 		"Administracion":
 		{
-			"Label":"Administracion",
+			"Label":"Administration",
 			"Proveedores":
 				{
-				  "Label":"Proveedores"
+				  "Label":"Suppliers"
 				},
 			"Terceros":
 				{
-				  "Label":"Terceros"
+				  "Label":"Third"
 				},
 			"MaestrosGenerales":
 				{
-				  "Label":"MaestrosGenerales"
+				  "Label":"Master Generals"
 				}	
 		}
 	},
 	"Planta":
 	{
-		"Label":"Planta2",
+		"Label":"Manufactures",
 		"Operaciones":
 		{
-			"Label":"Operaciones",
+			"Label":"Operations",
 			"GuiaIngreso":
 				{
-					"Label":"GuiaIngreso"
+					"Label":"Entry Guide"
 				}
 		},
 		"Administracion":
 		{
-			"Label":"Administracion",
+			"Label":"Administration",
 			"MaestrosGenerales":
 				{
-				  "Label":"MaestrosGenerales"
+				  "Label":"Master Generals"
 				}
 		}
 	},
 	"Exportador":
 	{
-		"Label":"Exportador2"
+		"Label":"Exporter"
 	},
 	"Transporte":
 	{
-		"Label":"Transporte2"
+		"Label":"Transport"
 	}
 }
