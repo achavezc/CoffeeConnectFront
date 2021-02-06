@@ -6,5 +6,10 @@ export const Full_ROUTES: Routes = [
   {
     path: 'acopio',
     loadChildren: () => import('../../acopio/acopio.module').then(m => m.AcopioModule)
+  },
+  {
+    path: 'pages',
+    loadChildren: () => import('../../pages/full-pages/full-pages.module').then(m => m.FullPagesModule)
   }
+
 ];
