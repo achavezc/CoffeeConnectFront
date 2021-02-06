@@ -4,8 +4,13 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {ErrorHandling} from '../shared/util/error-handling';
 
+export interface Maestro {
+    Codigo: string;
+    Label: string;
+}
+
 @Injectable()
-export class ProyectoService {
+export class MaestroService {
   private url = `${host}GuiaRecepcionMateriaPrima`;
 
 
@@ -14,9 +19,10 @@ export class ProyectoService {
               private errorHandling: ErrorHandling) {
   }
 
+  
 
 
-  obtenerMaestros(codigoTabla: string, empresaId: string): Observable<any> {
+  obtenerMaestros(codigoTabla: string, empresaId: number): Observable<any> {
     const url = `${this.url}/Consultar`;
 
     const body: any = {

@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { materiaPrimaListData } from "./data/materiaprima-list.data";
+import { MaestroService, Maestro } from '../../../../services/maestro.service';
+import { MaestroUtil } from '../../../../services/util/maestro.util';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: "app-materiaprima-list",
@@ -11,17 +14,14 @@ import { materiaPrimaListData } from "./data/materiaprima-list.data";
     ],
     encapsulation: ViewEncapsulation.None,
 })
+
+
+  
 export class MateriaPrimaListComponent implements OnInit {
 
-    listaTipoDocumento = [
-        { id: 1, name: 'DNI' },
-        { id: 2, name: 'RUC' }
-    ];
-    listaEstado = [
-        { id: 1, name: 'Anulado' },
-        { id: 2, name: 'Pesado' },
-        { id: 3, name: 'Analizado' }
-    ];
+    
+    listaEstado$: Observable<Maestro[]>;
+    listaTipoDocumento$: Observable<Maestro[]>;
     selectedTipoDocumento: any;
     selectedEstado: any;
     popupModel;
@@ -47,7 +47,7 @@ export class MateriaPrimaListComponent implements OnInit {
     // private
     private tempData = [];
 
-    constructor() {
+    constructor( private maestroUtil: MaestroUtil) {
         this.tempData = materiaPrimaListData;
     }
 
@@ -83,7 +83,10 @@ export class MateriaPrimaListComponent implements OnInit {
     }
 
     ngOnInit(): void { 
-
-        
+        this.listaEstado$ = this.maestroUtil.obtenerMaestro("EstadoGuiaRecepcion",1);
+        this.listaTipoDocumento$ = this.maestroService.obtenerMaestros("TipoDocumento",1);
     }
+
+    
+
 }
