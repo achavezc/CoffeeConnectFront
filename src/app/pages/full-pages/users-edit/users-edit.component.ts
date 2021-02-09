@@ -1,14 +1,31 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,Input,ViewChild } from '@angular/core';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import { materiaPrimaListData } from "../../../acopio/operaciones/materiaprima/materiaprima-list/data/materiaprima-list.data";
 
 @Component({
   selector: 'app-users-edit',
   templateUrl: './users-edit.component.html',
   styleUrls: ['./users-edit.component.scss', '/assets/sass/pages/page-users.scss', '/assets/sass/libs/select.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  template: `
+    <div class="modal-header">
+      <h4 class="modal-title">Hi there!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Hello, {{name}}!</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+  `
 })
 export class UsersEditComponent implements OnInit {
-
-
+  @Input() name;
+  closeResult: string;
   selectedLanguages = ["English"];
   languages = [
       { value: "English", name: 'English' },
@@ -43,9 +60,60 @@ export class UsersEditComponent implements OnInit {
       { value: "Airplane!", name: 'Airplane!' },
   ];
 
-  constructor() { }
+  selectedEstado: any;
+  popupModel;
+  listaEstado = [
+    { id: 1, name: 'Anulado' },
+    { id: 2, name: 'Pesado' },
+    { id: 3, name: 'Analizado' }
+];
+@ViewChild(DatatableComponent) table: DatatableComponent;
+
+    // row data
+    public rows = materiaPrimaListData;
+    public ColumnMode = ColumnMode;
+    public limitRef = 10;
+
+    // column header
+    public columns = [
+        { name: "ID", prop: "ID" },
+        { name: "Username", prop: "Username" },
+        { name: "Name", prop: "Name" },
+        { name: "Last Activity", prop: "Last Activity" },
+        { name: "Verified", prop: "Verified" },
+        { name: "Role", prop: "Role" },
+        { name: "Status", prop: "Status" },
+        { name: "Actions", prop: "Actions" },
+    ];
+
+    // private
+    private tempData = [];
+
+
+constructor(private modalService: NgbModal) { 
+  this.tempData = materiaPrimaListData;
+}
 
   ngOnInit(): void {
   }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+}
+
+// This function is used in open
+private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+    } else {
+        return `with: ${reason}`;
+    }
+}
 
 }

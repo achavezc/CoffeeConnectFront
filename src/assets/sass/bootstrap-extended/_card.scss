@@ -122,9 +122,43 @@
   // any h* will signal the larger size should render as 24sp
   .card-title {
     letter-spacing: 0.03rem;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     margin-bottom: 0.25rem;
   }
+  .card-title-empresa {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  .card-forms{
+    font-size: 0.7rem;
+    font-weight: 500;
+    //margin-bottom: 0.25rem;
+  }
+  .card-subtitle-empresa
+  {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+  }
+  .card-subtitle-form
+  {
+    font-size: 0.8rem;
+    margin-bottom: 0.35rem;
+    margin-top: 0.35rem;
+    color: white;
+    font-weight: 500;
+    margin-left: 0.8rem;
+
+  }
+  .card-text
+  {
+    font-size: 0.7rem;
+  }
+  .card-text2
+  {
+    font-size: 0.5rem;
+  }
+  
 
   .card-footer {
     // assume footer is the set of actions?

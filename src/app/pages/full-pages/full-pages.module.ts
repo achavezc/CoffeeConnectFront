@@ -9,7 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { InvoicePageComponent } from "./invoice/invoice-page.component";
-
+import {UsersEditComponent} from "./users-edit/users-edit.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 @NgModule({
   imports: [
@@ -26,7 +26,8 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
     NgxDatatableModule,
   ],
   declarations: [
-    InvoicePageComponent
+    InvoicePageComponent,
+    UsersEditComponent
   ],
 })
 export class FullPagesModule {}
