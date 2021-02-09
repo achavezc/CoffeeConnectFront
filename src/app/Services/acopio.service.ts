@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {ErrorHandling} from '../shared/util/error-handling';
 
 @Injectable()
-export class ProyectoService {
+export class AcopioService {
   private url = `${host}GuiaRecepcionMateriaPrima`;
 
 
@@ -16,12 +16,19 @@ export class ProyectoService {
 
 
 
-  obtenerMaestros(codigoTabla: string, empresaId: string): Observable<any> {
+  consultarMateriaPrima(): Observable<any> {
     const url = `${this.url}/Consultar`;
 
     const body: any = {
-      Consultar: codigoTabla,
-      EmpresaId: empresaId
+      Numero: "",
+      NombreRazonSocial: "",
+      TipoDocumentoId: "",
+      NumeroDocumento: "47846136",
+      ProductoId: "01",
+      CodigoSocio: "",
+      EstadoId: "",
+      FechaInicio: "2020-01-27T18:25:43.511Z",
+      FechaFin: "2021-01-31T18:25:43.511Z",
     };
 
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);

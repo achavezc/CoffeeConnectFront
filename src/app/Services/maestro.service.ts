@@ -1,32 +1,28 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {host} from '../shared/hosts/main.host';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
 import {ErrorHandling} from '../shared/util/error-handling';
 
-export interface Maestro {
-    Codigo: string;
-    Label: string;
-}
+
 
 @Injectable()
 export class MaestroService {
-  private url = `${host}GuiaRecepcionMateriaPrima`;
+  private url = `${host}Maestro`;
 
 
 
-  constructor(private http: HttpClient,
-              private errorHandling: ErrorHandling) {
+  constructor( private http: HttpClient,private errorHandling: ErrorHandling)
+  {
+    
   }
-
   
 
 
-  obtenerMaestros(codigoTabla: string, empresaId: number): Observable<any> {
+  obtenerMaestros(codigoTabla: string, empresaId: number) {
     const url = `${this.url}/Consultar`;
 
     const body: any = {
-      Consultar: codigoTabla,
+      CodigoTabla: codigoTabla,
       EmpresaId: empresaId
     };
 
