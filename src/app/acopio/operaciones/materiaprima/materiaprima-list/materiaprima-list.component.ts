@@ -1,22 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-//import { materiaPrimaListData } from "./data/materiaprima-list.data";
 import { MaestroService } from '../../../../services/maestro.service';
-import { AcopioService } from '../../../../services/acopio.service';
-
-import { CustomValidator, DateValidators } from '../../../../shared/util/CustomValidator';
-//import { MaestroUtil } from '../../../../services/util/maestro.util';
+import { AcopioService, FiltrosMateriaPrima} from '../../../../services/acopio.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup, Validators, NgForm, MaxLengthValidator } from '@angular/forms';
-import { DatePipe } from '@angular/common'
-import {formatDate} from '@angular/common';
-/*
-export class User {
-  public fname: string;
-  public lname: string;
-  public city: string;
-}
-*/
+import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
+
 @Component({
     selector: "app-materiaprima-list",
     templateUrl: "./materiaprima-list.component.html",
@@ -32,20 +20,17 @@ export class User {
 export class MateriaPrimaListComponent implements OnInit {
 
     @ViewChild('vform') validationForm: FormGroup;
-    //user: User;
-    //model = new User();
     submitted = false;
-
     listaEstado: Observable<any[]>;
     listaTipoDocumento: Observable<any[]>;
+    listaProducto: Observable<any[]>;
     selectedTipoDocumento: any;
     selectedEstado: any;
+    selectedProducto: any;
     consultaMateriaPrimaForm: FormGroup;
-    //fechaInicio;
-    //fechaFin;
-    
-   
-
+    error:any={isError:false,errorMessage:''};
+    errorFecha:any={isError:false,errorMessage:''};
+    errorGeneral:any={isError:false,errorMessage:''};
     @ViewChild(DatatableComponent) table: DatatableComponent;
 
     // row data
@@ -68,40 +53,15 @@ export class MateriaPrimaListComponent implements OnInit {
     // private
     private tempData = [];
     constructor(private maestroService: MaestroService,
-                private acopioService: AcopioService) {
-                  /*
-                  this.model = {
-                    fname: 'Mark',
-                    lname: 'Otto',
-                    city: ''
-                  }}*/
-        //this.tempData = materiaPrimaListData;
+                private acopioService: AcopioService,
+                private filtrosMateriaPrima: FiltrosMateriaPrima) {
+  
     }
-    /*
-    onSubmit(form) {
-      console.log(form.value)
-    }
-    */
-   /*
-    onCustomFormSubmit() {
-      this.validationForm.reset();
-    }  
-    */
+
     
     get f() {
       return this.consultaMateriaPrimaForm.controls;
     }
-    
-    onReactiveFormSubmit() {
-      this.submitted = true;
-      if (this.consultaMateriaPrimaForm.invalid) {
-        return;
-      }else{
-        this.buscar();
-      }
-      console.log(this.consultaMateriaPrimaForm.value);
-    }
-
 
     // Public Methods
     // -----------------------------------------------------------------------------------------------------
@@ -112,19 +72,15 @@ export class MateriaPrimaListComponent implements OnInit {
      * @param event
      */
     filterUpdate(event) {
-        
         const val = event.target.value.toLowerCase();
-
         // filter our data
         const temp = this.tempData.filter(function (d) {
             return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
         });
-
         // update the rows
         this.rows = temp;
         // Whenever the filter changes, always go back to the first page
         this.table.offset = 0;
-        
     }
 
     /**
@@ -141,10 +97,8 @@ export class MateriaPrimaListComponent implements OnInit {
       this.cargarForm();
       this.cargarcombos();
 
-
-
-        this.consultaMateriaPrimaForm.controls['fechaFin'].setValue(this.currentDate());
-        this.consultaMateriaPrimaForm.controls['fechaInicio'].setValue(this.currentMonthAgo());
+      this.consultaMateriaPrimaForm.controls['fechaFin'].setValue(this.currentDate());
+      this.consultaMateriaPrimaForm.controls['fechaInicio'].setValue(this.currentMonthAgo());
         
     }
     currentDate() {
@@ -160,49 +114,18 @@ export class MateriaPrimaListComponent implements OnInit {
 
     cargarForm(){
       this.consultaMateriaPrimaForm = new FormGroup(
-        {
-        numeroGuia: new FormControl('',
-         [Validators.required, 
-          Validators.minLength(5), 
-          Validators.maxLength(20),
-          Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')
-        ]
-        ),
+      {
+        numeroGuia: new FormControl('',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         tipoDocumento: new FormControl('', []),
-        nombre: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
-        fechaInicio: new FormControl('', 
-        [Validators.required
-          //,CustomeDateValidators.fromToDate('fechaFin','fechaInicio')
-        ]
-        ),
-        numeroDocumento: new FormControl('', 
-        [Validators.required, 
-         Validators.minLength(8), 
-         Validators.maxLength(20), 
-         Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')
-        ]
-        ),
+        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(20)]),
+        fechaInicio: new FormControl('', [Validators.required]),
+        numeroDocumento: new FormControl('',[Validators.minLength(8),Validators.maxLength(20),Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         estado: new FormControl('', []),
-        fechaFin: new FormControl('',
-         [Validators.required
-         // ,CustomeDateValidators.fromToDate('fechaFin','fechaInicio')
-        ]
-        ),
-        codigoSocio: new FormControl('', 
-        [Validators.required, 
-          Validators.minLength(5), 
-          Validators.maxLength(20),
-          Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')
-        ]),
-      }
-      // , { validators: Validators.compose([
-      //   DateValidators.dateLessThan('fechaFin', 'fechaInicio', { 'loaddate': false })
-      //   //,DateValidators.dateLessThan('cargoLoadDate', 'cargoDeliveryDate', { 'cargoloaddate': true })
-      // ])
-      //   }
-      
-      );
-
+        fechaFin: new FormControl('',[Validators.required,]),
+        codigoSocio: new FormControl('',[Validators.minLength(5),Validators.maxLength(20),Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        producto: new FormControl('', [])
+      });
+      this.consultaMateriaPrimaForm.setValidators(this.comparisonValidator())
     }
     cargarcombos(){
       this.maestroService.obtenerMaestros("EstadoGuiaRecepcion",1)
@@ -228,35 +151,109 @@ export class MateriaPrimaListComponent implements OnInit {
           console.error(err);
         }
       );
+
+      this.maestroService.obtenerMaestros("Producto",1)
+      .subscribe(res => {
+          if (res.Result.Success)
+          {
+            this.listaProducto = res.Result.Data;
+          }
+        },
+        err => {
+          console.error(err);
+        }
+      );
     }
+
     buscar() {
-      //this.submitted = true;
-      if (this.consultaMateriaPrimaForm.invalid) {
+      if (this.consultaMateriaPrimaForm.invalid || this.errorGeneral.isError)
+      {
         this.submitted = true;
         return;
       }else{
         this.submitted = false;
-        this.acopioService.consultarMateriaPrima()
+        this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
+        this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
+        this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
+        this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
+        this.filtrosMateriaPrima.ProductoId = "";//this.consultaMateriaPrimaForm.controls['numeroGuia'].value
+        this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
+        this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
+        this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
+        this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
+        this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
         .subscribe(res => {
             if (res.Result.Success)
             {
-              this.tempData = res.Result.Data;
-              this.rows = [...this.tempData];
+              if(res.Result.ErrCode == ""){
+                 this.tempData = res.Result.Data;
+                 this.rows = [...this.tempData];
+              }else if(res.Result.Message != "" && res.Result.ErrCode != ""){
+                this.errorGeneral={isError:true,errorMessage:res.Result.Message};
+              }else{
+                this.errorGeneral={isError:true,errorMessage:'Ocurrio un error interno'};
+              }
             }
           },
           err => {
             console.error(err);
+            this.errorGeneral={isError:true,errorMessage:'Ocurrio un error interno'};
           }
         );
       }
-      console.log(this.consultaMateriaPrimaForm.value);
-       
-
-        //return;
-      
-
-        
     }
     
+    compareTwoDates(){
+      var anioFechaInicio = new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value).getFullYear()
+      var anioFechaFin = new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value).getFullYear()
+      
+      if(new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value)<new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value)){
+          this.error={isError:true,errorMessage:'La fecha fin no puede ser anterior a la fecha inicio'};
+          this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
+      }else if(this.years(anioFechaInicio,anioFechaFin) > 2 ){
+          this.error={isError:true,errorMessage:'El Rango de fechas no puede ser mayor a 2 años'};
+          this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
+      } else{
+        this.error={isError:false,errorMessage:''};
+      }
+    }
 
+    compareFechas(){
+      var anioFechaInicio = new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value).getFullYear()
+      var anioFechaFin = new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value).getFullYear()
+      if(new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value)>new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value)){
+          this.errorFecha={isError:true,errorMessage:'La fecha inicio no puede ser mayor a la fecha fin'};
+          this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
+      }else if(this.years(anioFechaInicio,anioFechaFin) > 2 ){
+        this.errorFecha={isError:true,errorMessage:'El Rango de fechas no puede ser mayor a 2 años'};
+        this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
+      }else{
+        this.errorFecha={isError:false,errorMessage:''};
+      }
+    }
+
+    years(startYear, endYear) {
+      var years = [];
+      startYear = startYear || 1980;  
+      while ( startYear <= endYear ) {
+          years.push(startYear++);
+      }   
+      return years.length;
+    }
+    public comparisonValidator() : ValidatorFn{
+      return (group: FormGroup): ValidationErrors => {
+         const numeroGuia = group.controls['numeroGuia'];
+         const numeroDocumento = group.controls['numeroDocumento'];
+         const codigoSocio = group.controls['codigoSocio'];
+         const nombre = group.controls['nombre'];
+         if (numeroGuia.value == "" && numeroDocumento.value == "" && codigoSocio.value == "" && nombre.value == "") {
+
+          this.errorGeneral={isError:true,errorMessage:'Ingrese por lo menos un campo'};
+          
+         } else {
+          this.errorGeneral={isError:false,errorMessage:''};
+         }
+         return;
+   };
+}
 }
