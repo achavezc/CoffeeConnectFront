@@ -172,7 +172,7 @@ export class MateriaPrimaListComponent implements OnInit {
       this.submitted = true;
       return;
     } else {
-      
+
       this.submitted = false;
       this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value;
       this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value;
@@ -270,36 +270,62 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   ExportExcel() {
-    if (this.rows == null || this.rows.length <= 0) {
-      alert('No Existen datos');
-    } else {
-      this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
-      this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
-      this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
-      this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
-      this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value
-      this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
-      this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
-      this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
-      this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
-      this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
-        .subscribe(res => {
-          if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
-              this.tempData = res.Result.Data;
-              this.excelService.ExportJSONAsExcel(this.tempData, 'EjemploExport');
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-            } else {
+    try {
+      if (this.rows == null || this.rows.length <= 0) {
+        alert('No Existen datos');
+      } else {
+        this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
+        this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
+        this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
+        this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
+        this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value
+        this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
+        this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
+        this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
+        this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
+        this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
+          .subscribe(res => {
+            if (res.Result.Success) {
+              if (res.Result.ErrCode == "") {
+                this.tempData = res.Result.Data;
+                let vCols = [
+                  "Número Guia",
+                  "Código Socio",
+                  "Tipo Documento",
+                  "Número Documento",
+                  "Nombre o Razón Social",
+                  "Fecha Registro",
+                  "Estado"
+                ];
+                let vArrData: any[] = [];
+                for (let i = 0; i < this.tempData.length; i++) {
+                  vArrData.push([
+                    this.tempData[i].Numero,
+                    this.tempData[i].CodigoSocio,
+                    this.tempData[i].TipoDocumento,
+                    this.tempData[i].NumeroDocumento,
+                    this.tempData[i].NombreRazonSocial,
+                    this.tempData[i].FechaRegistro,
+                    this.tempData[i].Estado
+                  ]);
+                }
+                this.excelService.ExportJSONAsExcel(vCols, vArrData, 'DatosMateriaPrima');
+              } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+                this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              } else {
+                this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
+              }
+            }
+          },
+            err => {
+              console.error(err);
               this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
             }
-          }
-        },
-          err => {
-            console.error(err);
-            this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
-          }
-        );
+          );
+      }
+    }
+    catch (err) {
+      alert('Ha ocurrio un error en la descarga delExcel.');
     }
   }
 }
