@@ -121,7 +121,7 @@ export class MateriaPrimaListComponent implements OnInit {
       {
         numeroGuia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         tipoDocumento: new FormControl('', []),
-        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(200)]),
+        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
         fechaInicio: new FormControl('', [Validators.required]),
         numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         estado: new FormControl('', []),
@@ -196,6 +196,12 @@ export class MateriaPrimaListComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
+              res.Result.Data.forEach(obj => {
+                
+                var fecha = new Date(obj.FechaRegistro);
+                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" +fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
+
+               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -258,6 +264,7 @@ export class MateriaPrimaListComponent implements OnInit {
       const numeroDocumento = group.controls['numeroDocumento'];
       const codigoSocio = group.controls['codigoSocio'];
       const nombre = group.controls['nombre'];
+      const tipoDocumento = group.controls['tipoDocumento'];
       if (numeroGuia.value == "" && numeroDocumento.value == "" && codigoSocio.value == "" && nombre.value == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
@@ -265,11 +272,31 @@ export class MateriaPrimaListComponent implements OnInit {
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
+
+      if(numeroDocumento.value != "" && (tipoDocumento.value == "" ||  tipoDocumento.value == undefined)){
+
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
+
+      }else if(numeroDocumento.value == "" && (tipoDocumento.value != "" &&  tipoDocumento.value != undefined)){
+        
+        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
+
+      }
+
       return;
     };
   }
 
-  ExportExcel() {
+  nuevo(){
+    
+  }
+  anular(){
+    
+  }
+  enviar(){
+    
+  }
+  exportar(){
     if (this.rows == null || this.rows.length <= 0) {
       alert('No Existen datos');
     } else {
