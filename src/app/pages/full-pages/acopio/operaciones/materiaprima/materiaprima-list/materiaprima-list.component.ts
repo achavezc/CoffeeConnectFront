@@ -197,11 +197,11 @@ export class MateriaPrimaListComponent implements OnInit {
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
               res.Result.Data.forEach(obj => {
-                
-                var fecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" +fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
 
-               });
+                var fecha = new Date(obj.FechaRegistro);
+                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" + fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
+
+              });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -273,12 +273,12 @@ export class MateriaPrimaListComponent implements OnInit {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
 
-      if(numeroDocumento.value != "" && (tipoDocumento.value == "" ||  tipoDocumento.value == undefined)){
+      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
 
-      }else if(numeroDocumento.value == "" && (tipoDocumento.value != "" &&  tipoDocumento.value != undefined)){
-        
+      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
+
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
 
       }
@@ -287,21 +287,20 @@ export class MateriaPrimaListComponent implements OnInit {
     };
   }
 
-  nuevo(){
-    
+  nuevo() {
+
   }
-  
-  anular(){
-    
+
+  anular() {
+
   }
-  
-  enviar(){
-    
+
+  enviar() {
+
   }
-  
-  exportar(){
-	try
-	{
+
+  exportar() {
+    try {
       if (this.rows == null || this.rows.length <= 0) {
         alert('No Existen datos');
       } else {

@@ -145,7 +145,6 @@
                 <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
                   type="text" (keyup)="filterUpdate($event)" />
               </label>
-              <button class="btn btn-sm btn-primary float-right" (click)="exportar()">XLSX</button>
             </fieldset>
             <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
               [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
@@ -163,7 +162,8 @@
               <ngx-datatable-column name="Codigo Socio" prop="CodigoSocio" width="30"></ngx-datatable-column>
               <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="30"></ngx-datatable-column>
               <ngx-datatable-column name="Numero Documento" prop="NumeroDocumento" width="50"></ngx-datatable-column>
-              <ngx-datatable-column name="Nombre o Razon Social" prop="NombreRazonSocial" width="120"></ngx-datatable-column>
+              <ngx-datatable-column name="Nombre o Razon Social" prop="NombreRazonSocial" width="120">
+              </ngx-datatable-column>
               <ngx-datatable-column name="Producto" prop="Producto" width="30"></ngx-datatable-column>
               <ngx-datatable-column name="Fecha Registro" prop="FechaRegistroCadena" width="30"></ngx-datatable-column>
               <ngx-datatable-column name="Estado" prop="Estado" width="40">
