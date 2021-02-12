@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { MaestroService } from '../../../../services/maestro.service';
-import { AcopioService, FiltrosMateriaPrima } from '../../../../services/acopio.service';
+import { MaestroService } from '../../../../../../services/maestro.service';
+import { AcopioService, FiltrosMateriaPrima } from '../../../../../../services/acopio.service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ExcelService } from '../../../../shared/services/excel.service';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({

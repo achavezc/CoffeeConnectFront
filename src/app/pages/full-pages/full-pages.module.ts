@@ -9,8 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { InvoicePageComponent } from "./invoice/invoice-page.component";
-import {UsersEditComponent} from "./users-edit/users-edit.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import {AcopioModule } from "./acopio/acopio.module";
 @NgModule({
   imports: [
     CommonModule,
@@ -22,12 +22,11 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
     NgSelectModule,
     NgbModule,
     SwiperModule,
-    
     NgxDatatableModule,
+    AcopioModule
   ],
   declarations: [
-    InvoicePageComponent,
-    UsersEditComponent
+    InvoicePageComponent
   ],
 })
 export class FullPagesModule {}

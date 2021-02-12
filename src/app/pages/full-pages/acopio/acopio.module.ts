@@ -8,19 +8,20 @@ import { AgmCoreModule } from "@agm/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
-import { PipeModule } from "../shared/pipes/pipe.module";
+import { PipeModule } from "../../../shared/pipes/pipe.module";
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { ArchwizardModule } from 'angular-archwizard';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { TagInputModule } from 'ngx-chips';
 import { QuillModule } from 'ngx-quill'
-import { MatchHeightModule } from "../shared/directives/match-height.directive";
+import { MatchHeightModule } from "../../../shared/directives/match-height.directive";
 
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
+import { MateriaPrimaEditComponent } from "./operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component";
 
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 
-import { NgbDateCustomParserFormatter } from "../shared/util/NgbDateCustomParserFormatter";
+import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -47,6 +48,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   declarations: [
     MateriaPrimaListComponent,
+    MateriaPrimaEditComponent
     
   ],
   providers: [

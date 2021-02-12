@@ -8,7 +8,7 @@ import { CustomizerService } from '../services/customizer.service';
 import { FormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
-import { ILogin} from '../../shared/services/models/login';
+import { ILogin} from '../../services/models/login';
 
 @Component({
   selector: "app-navbar",
