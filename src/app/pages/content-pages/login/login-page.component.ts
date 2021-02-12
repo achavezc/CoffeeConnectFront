@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthService } from '../../../shared/auth/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
-import { ILogin } from '../../../shared/services/models/login';
+import { ILogin } from '../../../services/models/login';
 
 @Component({
   selector: 'app-login-page',

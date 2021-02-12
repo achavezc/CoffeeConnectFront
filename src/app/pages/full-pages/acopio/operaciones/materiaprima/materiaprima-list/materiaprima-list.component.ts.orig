@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { MaestroService } from '../../../../services/maestro.service';
-import { AcopioService, FiltrosMateriaPrima } from '../../../../services/acopio.service';
+import { MaestroService } from '../../../../../../services/maestro.service';
+import { AcopioService, FiltrosMateriaPrima } from '../../../../../../services/acopio.service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ExcelService } from '../../../../shared/services/excel.service';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
@@ -121,7 +121,7 @@ export class MateriaPrimaListComponent implements OnInit {
       {
         numeroGuia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         tipoDocumento: new FormControl('', []),
-        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(200)]),
+        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
         fechaInicio: new FormControl('', [Validators.required]),
         numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         estado: new FormControl('', []),
@@ -196,6 +196,12 @@ export class MateriaPrimaListComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
+              res.Result.Data.forEach(obj => {
+                
+                var fecha = new Date(obj.FechaRegistro);
+                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" +fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
+
+               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -258,6 +264,7 @@ export class MateriaPrimaListComponent implements OnInit {
       const numeroDocumento = group.controls['numeroDocumento'];
       const codigoSocio = group.controls['codigoSocio'];
       const nombre = group.controls['nombre'];
+      const tipoDocumento = group.controls['tipoDocumento'];
       if (numeroGuia.value == "" && numeroDocumento.value == "" && codigoSocio.value == "" && nombre.value == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
@@ -265,10 +272,22 @@ export class MateriaPrimaListComponent implements OnInit {
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
+
+      if(numeroDocumento.value != "" && (tipoDocumento.value == "" ||  tipoDocumento.value == undefined)){
+
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
+
+      }else if(numeroDocumento.value == "" && (tipoDocumento.value != "" &&  tipoDocumento.value != undefined)){
+        
+        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
+
+      }
+
       return;
     };
   }
 
+<<<<<<< HEAD:src/app/acopio/operaciones/materiaprima/materiaprima-list/materiaprima-list.component.ts
   ExportExcel() {
     try {
       if (this.rows == null || this.rows.length <= 0) {
@@ -319,6 +338,39 @@ export class MateriaPrimaListComponent implements OnInit {
           },
             err => {
               console.error(err);
+=======
+  nuevo(){
+    
+  }
+  anular(){
+    
+  }
+  enviar(){
+    
+  }
+  exportar(){
+    if (this.rows == null || this.rows.length <= 0) {
+      alert('No Existen datos');
+    } else {
+      this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
+      this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
+      this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
+      this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
+      this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value
+      this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
+      this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
+      this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
+      this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
+      this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
+        .subscribe(res => {
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              this.tempData = res.Result.Data;
+              this.excelService.ExportJSONAsExcel(this.tempData, 'EjemploExport');
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+>>>>>>> f77865e658a2a2dab7c09857a73ac746d4a58250:src/app/pages/full-pages/acopio/operaciones/materiaprima/materiaprima-list/materiaprima-list.component.ts
               this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
             }
           );

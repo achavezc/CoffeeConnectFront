@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 //import firebase from 'firebase/app'
 import {Observable} from 'rxjs/Observable';
-import {host} from '../../shared/hosts/main.host';
+import {host} from '../shared/hosts/main.host';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ErrorHandling} from '../../shared/util/error-handling';
-import { ILogin} from '../../shared/services/models/login';
+import {ErrorHandling} from '../shared/util/error-handling';
+import { ILogin} from '../services/models/login';
 
 @Injectable()
 export class AuthService {

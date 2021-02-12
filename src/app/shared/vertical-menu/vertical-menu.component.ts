@@ -12,7 +12,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
-import { ILogin} from '../../shared/services/models/login';
+import { ILogin} from '../../services/models/login';
 
 @Component({
   selector: "app-sidebar",

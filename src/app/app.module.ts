@@ -28,7 +28,7 @@ import { AppComponent } from "./app.component";
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 
-import { AuthService } from "./shared/auth/auth.service";
+import { AuthService } from "./services/auth.service";
 import { MaestroService } from "./services/maestro.service";
 import { AcopioService,FiltrosMateriaPrima } from "./services/acopio.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";

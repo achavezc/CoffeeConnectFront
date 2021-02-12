@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InvoicePageComponent } from "./invoice/invoice-page.component";
-import {UsersEditComponent} from "./users-edit/users-edit.component";
 
 const routes: Routes = [
+  {
+    path: 'acopio',
+    loadChildren: () => import('../../pages/full-pages/acopio/acopio.module').then(m => m.AcopioModule)
+},
   {
     path: '',
     children: [
@@ -12,13 +15,6 @@ const routes: Routes = [
         component: InvoicePageComponent,
         data: {
           title: 'Invoice Page'
-        }
-      },
-      {
-        path: 'user-edit',
-        component: UsersEditComponent,
-        data: {
-          title: 'User Edit'
         }
       }
     ]
