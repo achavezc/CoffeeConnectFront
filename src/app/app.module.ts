@@ -30,7 +30,7 @@ import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 
 import { AuthService } from "./shared/auth/auth.service";
 import { MaestroService } from "./services/maestro.service";
-import { AcopioService } from "./services/acopio.service";
+import { AcopioService,FiltrosMateriaPrima } from "./services/acopio.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
 
@@ -80,6 +80,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   providers: [
     AcopioService,
+    FiltrosMateriaPrima,
     MaestroService,
     AuthService,
     AuthGuard,
