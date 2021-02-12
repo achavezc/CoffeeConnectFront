@@ -22,6 +22,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 
 import { NgbDateCustomParserFormatter } from "../shared/util/NgbDateCustomParserFormatter";
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
     UiSwitchModule,
     TagInputModule,
     QuillModule,
-    MatchHeightModule
+    MatchHeightModule,
+    NgxSpinnerModule
   ],
   declarations: [
     MateriaPrimaListComponent,

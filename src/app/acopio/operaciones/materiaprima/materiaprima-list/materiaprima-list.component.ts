@@ -5,6 +5,7 @@ import { AcopioService, FiltrosMateriaPrima } from '../../../../services/acopio.
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ExcelService } from '../../../../shared/services/excel.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-materiaprima-list",
@@ -54,7 +55,8 @@ export class MateriaPrimaListComponent implements OnInit {
   constructor(private maestroService: MaestroService,
     private acopioService: AcopioService,
     private filtrosMateriaPrima: FiltrosMateriaPrima,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private spinner: NgxSpinnerService) {
 
   }
 
@@ -170,18 +172,28 @@ export class MateriaPrimaListComponent implements OnInit {
       this.submitted = true;
       return;
     } else {
+      
       this.submitted = false;
-      this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
-      this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
-      this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
-      this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
-      this.filtrosMateriaPrima.ProductoId = "";//this.consultaMateriaPrimaForm.controls['numeroGuia'].value
-      this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
-      this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
-      this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
-      this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
+      this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value;
+      this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value;
+      this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value;
+      this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value;
+      this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value;
+      this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value;
+      this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value;
+      this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value;
+      this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value;
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
       this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
         .subscribe(res => {
+          this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
               this.tempData = res.Result.Data;
@@ -194,6 +206,7 @@ export class MateriaPrimaListComponent implements OnInit {
           }
         },
           err => {
+            this.spinner.hide();
             console.error(err);
             this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
           }
@@ -264,7 +277,7 @@ export class MateriaPrimaListComponent implements OnInit {
       this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
       this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
       this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
-      this.filtrosMateriaPrima.ProductoId = "";//this.consultaMateriaPrimaForm.controls['numeroGuia'].value
+      this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value
       this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
       this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
       this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
