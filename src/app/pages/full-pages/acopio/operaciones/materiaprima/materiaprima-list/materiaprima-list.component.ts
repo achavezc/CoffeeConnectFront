@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { HeaderExcel } from '../../../../../../Services/models/headerexcel.model';
 
 @Component({
   selector: "app-materiaprima-list",
@@ -313,20 +314,25 @@ export class MateriaPrimaListComponent implements OnInit {
         this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
         this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
         this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
+
+        let vArrHeaderExcel: HeaderExcel[] = [];
+
         this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
           .subscribe(res => {
             if (res.Result.Success) {
               if (res.Result.ErrCode == "") {
                 this.tempData = res.Result.Data;
-                let vCols = [
-                  "Número Guia",
-                  "Código Socio",
-                  "Tipo Documento",
-                  "Número Documento",
-                  "Nombre o Razón Social",
-                  "Fecha Registro",
-                  "Estado"
+
+                vArrHeaderExcel = [
+                  new HeaderExcel("Número Guia", "center"),
+                  new HeaderExcel("Código Socio", "center"),
+                  new HeaderExcel("Tipo Documento", "center"),
+                  new HeaderExcel("Número Documento", "right", "#"),
+                  new HeaderExcel("Nombre o Razón Social"),
+                  new HeaderExcel("Fecha Registro", "center", "dd/mm/yyyy"),
+                  new HeaderExcel("Estado", "center")
                 ];
+
                 let vArrData: any[] = [];
                 for (let i = 0; i < this.tempData.length; i++) {
                   vArrData.push([
@@ -335,11 +341,11 @@ export class MateriaPrimaListComponent implements OnInit {
                     this.tempData[i].TipoDocumento,
                     this.tempData[i].NumeroDocumento,
                     this.tempData[i].NombreRazonSocial,
-                    this.tempData[i].FechaRegistro,
+                    new Date(this.tempData[i].FechaRegistro),
                     this.tempData[i].Estado
                   ]);
                 }
-                this.excelService.ExportJSONAsExcel(vCols, vArrData, 'DatosMateriaPrima');
+                this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosMateriaPrima');
               } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
                 this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
               } else {

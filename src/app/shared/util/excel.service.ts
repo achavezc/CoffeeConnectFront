@@ -1,7 +1,7 @@
-import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
 import * as Excel from 'exceljs/dist/exceljs.min.js';
 import * as FileSaver from 'file-saver';
+import { HeaderExcel } from '../../Services/models/headerexcel.model';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = 'xlsx';
@@ -18,23 +18,28 @@ export class ExcelService {
 
   constructor() { }
 
-  public ExportJSONAsExcel(pCols: string[], dataJSON: any[],
+  public ExportJSONAsExcel(pArrHeadersXls: HeaderExcel[], dataJSON: any[],
     excelFileName: string): void {
 
-    if (pCols.length > 0 && dataJSON != null && dataJSON.length > 0
+    if (pArrHeadersXls.length > 0 && dataJSON != null && dataJSON.length > 0
       && excelFileName.trim().length > 0) {
 
       let vArrCols: any[] = [];
       let wb = new Excel.Workbook(options);
       let ws = wb.addWorksheet("Data");
 
-      for (let i = 0; i < pCols.length; i++) {
+      for (let i = 0; i < pArrHeadersXls.length; i++) {
         vArrCols.push({
-          header: pCols[i],
-          key: "Col" + i.toString(),
+          header: pArrHeadersXls[i].Name,
+          key: `Col${i}`,
           style: {
             font: {
               bold: true
+            },
+            numFmt: pArrHeadersXls[i].Format,
+            alignment: {
+              horizontal: pArrHeadersXls[i].Align == undefined ? 'left'
+                : pArrHeadersXls[i].Align.trim() == '' ? 'left' : pArrHeadersXls[i].Align.trim().toLowerCase()
             }
           }
         });
@@ -45,6 +50,7 @@ export class ExcelService {
         ws.addRows(dataJSON, "n");
 
         let wSheet = wb.getWorksheet(1);
+        wSheet.getRow(1).alignment = { horizontal: 'center' };
 
         for (let i = 0; i <= dataJSON.length; i++) {
           if (i > 0) {
