@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { HeaderExcel } from '../../../../../../Services/models/headerexcel.model';
 
 @Component({
   selector: "app-materiaprima-list",
@@ -121,7 +122,7 @@ export class MateriaPrimaListComponent implements OnInit {
       {
         numeroGuia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         tipoDocumento: new FormControl('', []),
-        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(200)]),
+        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
         fechaInicio: new FormControl('', [Validators.required]),
         numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         estado: new FormControl('', []),
@@ -172,7 +173,7 @@ export class MateriaPrimaListComponent implements OnInit {
       this.submitted = true;
       return;
     } else {
-      
+
       this.submitted = false;
       this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value;
       this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value;
@@ -196,6 +197,12 @@ export class MateriaPrimaListComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
+              res.Result.Data.forEach(obj => {
+
+                var fecha = new Date(obj.FechaRegistro);
+                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" + fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
+
+              });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -258,6 +265,7 @@ export class MateriaPrimaListComponent implements OnInit {
       const numeroDocumento = group.controls['numeroDocumento'];
       const codigoSocio = group.controls['codigoSocio'];
       const nombre = group.controls['nombre'];
+      const tipoDocumento = group.controls['tipoDocumento'];
       if (numeroGuia.value == "" && numeroDocumento.value == "" && codigoSocio.value == "" && nombre.value == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
@@ -265,41 +273,95 @@ export class MateriaPrimaListComponent implements OnInit {
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
+
+      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
+
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
+
+      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
+
+        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
+
+      }
+
       return;
     };
   }
 
-  ExportExcel() {
-    if (this.rows == null || this.rows.length <= 0) {
-      alert('No Existen datos');
-    } else {
-      this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
-      this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
-      this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
-      this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
-      this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value
-      this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
-      this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
-      this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
-      this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
-      this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
-        .subscribe(res => {
-          if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
-              this.tempData = res.Result.Data;
-              this.excelService.ExportJSONAsExcel(this.tempData, 'EjemploExport');
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-            } else {
+  nuevo() {
+
+  }
+
+  anular() {
+
+  }
+
+  enviar() {
+
+  }
+
+  exportar() {
+    try {
+      if (this.rows == null || this.rows.length <= 0) {
+        alert('No Existen datos');
+      } else {
+        this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
+        this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
+        this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
+        this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
+        this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value
+        this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
+        this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
+        this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
+        this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
+
+        let vArrHeaderExcel: HeaderExcel[] = [];
+
+        this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
+          .subscribe(res => {
+            if (res.Result.Success) {
+              if (res.Result.ErrCode == "") {
+                this.tempData = res.Result.Data;
+
+                vArrHeaderExcel = [
+                  new HeaderExcel("Número Guia", "center"),
+                  new HeaderExcel("Código Socio", "center"),
+                  new HeaderExcel("Tipo Documento", "center"),
+                  new HeaderExcel("Número Documento", "right", "#"),
+                  new HeaderExcel("Nombre o Razón Social"),
+                  new HeaderExcel("Fecha Registro", "center", "dd/mm/yyyy"),
+                  new HeaderExcel("Estado", "center")
+                ];
+
+                let vArrData: any[] = [];
+                for (let i = 0; i < this.tempData.length; i++) {
+                  vArrData.push([
+                    this.tempData[i].Numero,
+                    this.tempData[i].CodigoSocio,
+                    this.tempData[i].TipoDocumento,
+                    this.tempData[i].NumeroDocumento,
+                    this.tempData[i].NombreRazonSocial,
+                    new Date(this.tempData[i].FechaRegistro),
+                    this.tempData[i].Estado
+                  ]);
+                }
+                this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosMateriaPrima');
+              } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+                this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              } else {
+                this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
+              }
+            }
+          },
+            err => {
+              console.error(err);
               this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
             }
-          }
-        },
-          err => {
-            console.error(err);
-            this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
-          }
-        );
+          );
+      }
+    }
+    catch (err) {
+      alert('Ha ocurrio un error en la descarga delExcel.');
     }
   }
 }
