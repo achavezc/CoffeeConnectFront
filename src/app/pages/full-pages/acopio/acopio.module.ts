@@ -24,6 +24,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list/notacompra-list.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   declarations: [
     MateriaPrimaListComponent,
-    MateriaPrimaEditComponent
+    MateriaPrimaEditComponent,
+    NotacompraListComponent
 
   ],
   providers: [
