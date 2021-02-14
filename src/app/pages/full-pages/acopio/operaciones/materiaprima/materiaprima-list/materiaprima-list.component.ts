@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { MaestroUtil} from '../../../../../../services/util/maestro-util';
-import { AlertUtil} from '../../../../../../services/util/alert-util';
-import { DateUtil} from '../../../../../../services/util/date-util';
+import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { DateUtil } from '../../../../../../services/util/date-util';
 import { AcopioService, FiltrosMateriaPrima } from '../../../../../../services/acopio.service';
 import { NotaIngresoAlmacenService } from '../../../../../../services/nota-ingreso-almacen.service';
 import { Observable } from 'rxjs';
@@ -36,7 +36,7 @@ export class MateriaPrimaListComponent implements OnInit {
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
-  selected =[]
+  selected = []
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estadoPesado = "01";
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -49,18 +49,18 @@ export class MateriaPrimaListComponent implements OnInit {
   // private
   private tempData = [];
   constructor(
-    private maestroUtil:MaestroUtil,
-    private alertUtil:AlertUtil,
-    private dateUtil:DateUtil,
+    private maestroUtil: MaestroUtil,
+    private alertUtil: AlertUtil,
+    private dateUtil: DateUtil,
     private acopioService: AcopioService,
     private notaIngrersoService: NotaIngresoAlmacenService,
     private filtrosMateriaPrima: FiltrosMateriaPrima,
     private excelService: ExcelService,
     private spinner: NgxSpinnerService) {
-      this.singleSelectCheck = this.singleSelectCheck.bind(this);
+    this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
-  singleSelectCheck (row:any) {
+  singleSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
   get f() {
@@ -112,21 +112,21 @@ export class MateriaPrimaListComponent implements OnInit {
 
   cargarcombos() {
     var form = this;
-    this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion",  function(res){
+    this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion", function (res) {
       if (res.Result.Success) {
         form.listaEstado = res.Result.Data;
       }
-     });
-     this.maestroUtil.obtenerMaestros("TipoDocumento",  function(res){
+    });
+    this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
       if (res.Result.Success) {
         form.listaTipoDocumento = res.Result.Data;
       }
-     });
-     this.maestroUtil.obtenerMaestros("Producto",  function(res){
+    });
+    this.maestroUtil.obtenerMaestros("Producto", function (res) {
       if (res.Result.Success) {
         form.listaProducto = res.Result.Data;
       }
-     });
+    });
   }
 
   buscar() {
@@ -171,7 +171,7 @@ export class MateriaPrimaListComponent implements OnInit {
             } else {
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
-          }else{
+          } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
@@ -247,38 +247,38 @@ export class MateriaPrimaListComponent implements OnInit {
 
   }
 
-  anular(){
-    if(this.selected.length> 0){
-      if(this.selected[0].EstadoId == this.estadoPesado){
-            var form = this;
-            swal.fire({
-              title: '¿Estas seguro?',
-              text: "¿Estas seguro de anular la guia?",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#2F8BE6',
-              cancelButtonColor: '#F55252',
-              confirmButtonText: 'Si',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-danger ml-1'
-              },
-              buttonsStyling: false,
-            }).then(function (result) {
-              if (result.value) {
-                form.anularGuia(); 
-              }
-            });
-        }else{
-          this.alertUtil.alertError("Error","Solo se puede anular guias con estado pesado")
-        }
+  anular() {
+    if (this.selected.length > 0) {
+      if (this.selected[0].EstadoId == this.estadoPesado) {
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estas seguro de anular la guia?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.anularGuia();
+          }
+        });
+      } else {
+        this.alertUtil.alertError("Error", "Solo se puede anular guias con estado pesado")
       }
-     
+    }
+
 
   }
 
   enviar() {
-    if(this.selected.length> 0){
+    if (this.selected.length > 0) {
       var form = this;
       swal.fire({
         title: '¿Estas seguro?',
@@ -295,57 +295,57 @@ export class MateriaPrimaListComponent implements OnInit {
         buttonsStyling: false,
       }).then(function (result) {
         if (result.value) {
-           form.enviarAlmacenGuia(); 
+          form.enviarAlmacenGuia();
         }
       });
     }
   }
 
-  anularGuia(){
+  anularGuia() {
     this.acopioService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId)
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Anulado!','Guia Anulada.');
+            this.alertUtil.alertOk('Anulado!', 'Guia Anulada.');
             this.buscar();
-            
+
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.alertUtil.alertError('Error',res.Result.Message);
+            this.alertUtil.alertError('Error', res.Result.Message);
           } else {
-            this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
           }
-        }else{
-          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       },
         err => {
           console.error(err);
-          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
   }
 
-  enviarAlmacenGuia(){
+  enviarAlmacenGuia() {
     this.notaIngrersoService.enviarAlmacen(this.selected[0].GuiaRecepcionMateriaPrimaId)
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Enviado!','Enviado Almacen.');
+            this.alertUtil.alertOk('Enviado!', 'Enviado Almacen.');
             this.buscar();
-            
+
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.alertUtil.alertError('Error',res.Result.Message);
-            
+            this.alertUtil.alertError('Error', res.Result.Message);
+
           } else {
-            this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
           }
-        }else{
-          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       },
         err => {
           console.error(err);
-          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
   }
@@ -353,7 +353,7 @@ export class MateriaPrimaListComponent implements OnInit {
   exportar() {
     try {
       if (this.rows == null || this.rows.length <= 0) {
-        alert('No Existen datos');
+        this.alertUtil.alertError("Error", "No existen datos a exportar.");
       } else {
         this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
         this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value

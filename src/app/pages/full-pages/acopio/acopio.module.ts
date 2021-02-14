@@ -49,10 +49,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   declarations: [
     MateriaPrimaListComponent,
     MateriaPrimaEditComponent
-    
+
   ],
   providers: [
-    {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter}
-   ]
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+  ]
 })
-export class AcopioModule {}
+export class AcopioModule { }
