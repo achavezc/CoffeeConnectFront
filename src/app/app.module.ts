@@ -30,7 +30,12 @@ import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 
 import { AuthService } from "./services/auth.service";
 import { MaestroService } from "./services/maestro.service";
+import { MaestroUtil } from "./services/util/maestro-util";
+import { AlertUtil } from "./services/util/alert-util";
+import { DateUtil } from "./services/util/date-util";
 import { AcopioService,FiltrosMateriaPrima } from "./services/acopio.service";
+import { NotaIngresoAlmacenService} from "./services/nota-ingreso-almacen.service";
+NotaIngresoAlmacenService
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
 
@@ -81,7 +86,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   providers: [
     AcopioService,
     FiltrosMateriaPrima,
+    NotaIngresoAlmacenService,
     MaestroService,
+    MaestroUtil,
+    AlertUtil,
+    DateUtil,
     AuthService,
     AuthGuard,
     DragulaService,
@@ -103,3 +112,4 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 
 export class AppModule { }
+

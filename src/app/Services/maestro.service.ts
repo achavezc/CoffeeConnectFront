@@ -18,12 +18,12 @@ export class MaestroService {
   
 
 
-  obtenerMaestros(codigoTabla: string, empresaId: number) {
+  obtenerMaestros(codigoTabla: string) {
     const url = `${this.url}/Consultar`;
 
     const body: any = {
       CodigoTabla: codigoTabla,
-      EmpresaId: empresaId
+      EmpresaId: 1
     };
 
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);

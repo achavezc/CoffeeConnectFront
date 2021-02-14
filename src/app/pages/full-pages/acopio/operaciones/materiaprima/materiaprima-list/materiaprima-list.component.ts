@@ -1,12 +1,17 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { MaestroService } from '../../../../../../services/maestro.service';
+import { MaestroUtil} from '../../../../../../services/util/maestro-util';
+import { AlertUtil} from '../../../../../../services/util/alert-util';
+import { DateUtil} from '../../../../../../services/util/date-util';
 import { AcopioService, FiltrosMateriaPrima } from '../../../../../../services/acopio.service';
+import { NotaIngresoAlmacenService } from '../../../../../../services/nota-ingreso-almacen.service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { HeaderExcel } from '../../../../../../Services/models/headerexcel.model';
+import swal from 'sweetalert2';
+
 
 @Component({
   selector: "app-materiaprima-list",
@@ -19,7 +24,6 @@ import { HeaderExcel } from '../../../../../../Services/models/headerexcel.model
 })
 
 export class MateriaPrimaListComponent implements OnInit {
-
   @ViewChild('vform') validationForm: FormGroup;
   submitted = false;
   listaEstado: Observable<any[]>;
@@ -32,48 +36,38 @@ export class MateriaPrimaListComponent implements OnInit {
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
+  selected =[]
+  mensajeErrorGenerico = "Ocurrio un error interno.";
+  estadoPesado = "01";
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   // row data
-  public rows = [];//materiaPrimaListData;
+  public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
 
-  // column header
-  public columns = [
-    { name: "ID", prop: "ID" },
-    { name: "Username", prop: "Username" },
-    { name: "Name", prop: "Name" },
-    { name: "Last Activity", prop: "Last Activity" },
-    { name: "Verified", prop: "Verified" },
-    { name: "Role", prop: "Role" },
-    { name: "Status", prop: "Status" },
-    { name: "Actions", prop: "Actions" },
-  ];
-
   // private
   private tempData = [];
-  constructor(private maestroService: MaestroService,
+  constructor(
+    private maestroUtil:MaestroUtil,
+    private alertUtil:AlertUtil,
+    private dateUtil:DateUtil,
     private acopioService: AcopioService,
+    private notaIngrersoService: NotaIngresoAlmacenService,
     private filtrosMateriaPrima: FiltrosMateriaPrima,
     private excelService: ExcelService,
     private spinner: NgxSpinnerService) {
-
+      this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
-
+  singleSelectCheck (row:any) {
+    return this.selected.indexOf(row) === -1;
+  }
   get f() {
     return this.consultaMateriaPrimaForm.controls;
   }
 
-  // Public Methods
-  // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * filterUpdate
-   *
-   * @param event
-   */
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     // filter our data
@@ -86,11 +80,6 @@ export class MateriaPrimaListComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  /**
-   * updateLimit
-   *
-   * @param limit
-   */
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
@@ -100,21 +89,9 @@ export class MateriaPrimaListComponent implements OnInit {
     this.cargarForm();
     this.cargarcombos();
 
-    this.consultaMateriaPrimaForm.controls['fechaFin'].setValue(this.currentDate());
-    this.consultaMateriaPrimaForm.controls['fechaInicio'].setValue(this.currentMonthAgo());
+    this.consultaMateriaPrimaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
+    this.consultaMateriaPrimaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
 
-  }
-
-  currentDate() {
-    const currentDate = new Date();
-    return currentDate.toISOString().substring(0, 10);
-  }
-
-  currentMonthAgo() {
-    let now = new Date();
-    let monthAgo = new Date();
-    monthAgo.setMonth(now.getMonth() - 1);
-    return monthAgo.toISOString().substring(0, 10);
   }
 
   cargarForm() {
@@ -134,38 +111,22 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   cargarcombos() {
-    this.maestroService.obtenerMaestros("EstadoGuiaRecepcion", 1)
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaEstado = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-
-    this.maestroService.obtenerMaestros("TipoDocumento", 1)
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaTipoDocumento = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-
-    this.maestroService.obtenerMaestros("Producto", 1)
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaProducto = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
+    var form = this;
+    this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion",  function(res){
+      if (res.Result.Success) {
+        form.listaEstado = res.Result.Data;
+      }
+     });
+     this.maestroUtil.obtenerMaestros("TipoDocumento",  function(res){
+      if (res.Result.Success) {
+        form.listaTipoDocumento = res.Result.Data;
+      }
+     });
+     this.maestroUtil.obtenerMaestros("Producto",  function(res){
+      if (res.Result.Success) {
+        form.listaProducto = res.Result.Data;
+      }
+     });
   }
 
   buscar() {
@@ -208,14 +169,16 @@ export class MateriaPrimaListComponent implements OnInit {
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
-              this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
+          }else{
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
           err => {
             this.spinner.hide();
             console.error(err);
-            this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
@@ -228,7 +191,7 @@ export class MateriaPrimaListComponent implements OnInit {
     if (new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value) < new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value)) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
       this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
-    } else if (this.years(anioFechaInicio, anioFechaFin) > 2) {
+    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
       this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
     } else {
@@ -242,7 +205,7 @@ export class MateriaPrimaListComponent implements OnInit {
     if (new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value) > new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value)) {
       this.errorFecha = { isError: true, errorMessage: 'La fecha inicio no puede ser mayor a la fecha fin' };
       this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
-    } else if (this.years(anioFechaInicio, anioFechaFin) > 2) {
+    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
       this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
     } else {
@@ -250,14 +213,6 @@ export class MateriaPrimaListComponent implements OnInit {
     }
   }
 
-  years(startYear, endYear) {
-    var years = [];
-    startYear = startYear || 1980;
-    while (startYear <= endYear) {
-      years.push(startYear++);
-    }
-    return years.length;
-  }
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
@@ -292,12 +247,107 @@ export class MateriaPrimaListComponent implements OnInit {
 
   }
 
-  anular() {
+  anular(){
+    if(this.selected.length> 0){
+      if(this.selected[0].EstadoId == this.estadoPesado){
+            var form = this;
+            swal.fire({
+              title: '¿Estas seguro?',
+              text: "¿Estas seguro de anular la guia?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#2F8BE6',
+              cancelButtonColor: '#F55252',
+              confirmButtonText: 'Si',
+              customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-danger ml-1'
+              },
+              buttonsStyling: false,
+            }).then(function (result) {
+              if (result.value) {
+                form.anularGuia(); 
+              }
+            });
+        }else{
+          this.alertUtil.alertError("Error","Solo se puede anular guias con estado pesado")
+        }
+      }
+     
 
   }
 
   enviar() {
+    if(this.selected.length> 0){
+      var form = this;
+      swal.fire({
+        title: '¿Estas seguro?',
+        text: "¿Estas seguro de enviar a almacen?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+           form.enviarAlmacenGuia(); 
+        }
+      });
+    }
+  }
 
+  anularGuia(){
+    this.acopioService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId)
+      .subscribe(res => {
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Anulado!','Guia Anulada.');
+            this.buscar();
+            
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error',res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+          }
+        }else{
+          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          console.error(err);
+          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+        }
+      );
+  }
+
+  enviarAlmacenGuia(){
+    this.notaIngrersoService.enviarAlmacen(this.selected[0].GuiaRecepcionMateriaPrimaId)
+      .subscribe(res => {
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Enviado!','Enviado Almacen.');
+            this.buscar();
+            
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error',res.Result.Message);
+            
+          } else {
+            this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+          }
+        }else{
+          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          console.error(err);
+          this.alertUtil.alertError('Error',this.mensajeErrorGenerico);
+        }
+      );
   }
 
   exportar() {
@@ -349,13 +399,13 @@ export class MateriaPrimaListComponent implements OnInit {
               } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
                 this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
               } else {
-                this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
+                this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
               }
             }
           },
             err => {
               console.error(err);
-              this.errorGeneral = { isError: true, errorMessage: 'Ocurrio un error interno' };
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           );
       }
@@ -364,4 +414,6 @@ export class MateriaPrimaListComponent implements OnInit {
       alert('Ha ocurrio un error en la descarga delExcel.');
     }
   }
+
 }
+

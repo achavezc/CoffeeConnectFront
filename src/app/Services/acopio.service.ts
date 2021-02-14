@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {ErrorHandling} from '../shared/util/error-handling';
 
+
 export class FiltrosMateriaPrima {
   Numero: string;
   NombreRazonSocial: string;
@@ -30,22 +31,17 @@ export class AcopioService {
 
   consultarMateriaPrima(filtros: FiltrosMateriaPrima): Observable<any> {
     const url = `${this.url}/Consultar`;
-   /*
-    const body: any = {
-      Numero: "",
-      NombreRazonSocial: "",
-      TipoDocumentoId: "",
-      NumeroDocumento: "47846136",
-      ProductoId: "01",
-      CodigoSocio: "",
-      EstadoId: "",
-      FechaInicio: "2020-01-27T18:25:43.511Z",
-      FechaFin: "2021-01-31T18:25:43.511Z",
-    };
-    */
-
     return this.http.post<any>(url, filtros).catch(this.errorHandling.handleError);
   }
 
+  anularMateriaPrima(id:number): Observable<any> {
+    const url = `${this.url}/Anular`;
+     
+    const body: any = {
+      GuiaRecepcionMateriaPrimaId: id,
+      Usuario: "mruizb"
+    };
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
 
 }
