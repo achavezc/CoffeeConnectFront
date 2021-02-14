@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { materiaPrimaListData } from "../../materiaprima/materiaprima-list/data/materiaprima-list.data";
-import { NotaCompraService } from '../../../../../../Services/nota-compra.service';../
 import { host } from '../../../../../../shared/hosts/main.host';
 
 @Component({
@@ -30,12 +29,9 @@ export class MateriaPrimaEditComponent implements OnInit {
   private tempData = [];
 
 
-  constructor(private modalService: NgbModal,
-    private notaCompraService: NotaCompraService) {
+  constructor(private modalService: NgbModal) {
     this.tempData = materiaPrimaListData;
   }
-
-  pdfSrc = "";
 
   ngOnInit(): void {
   }
