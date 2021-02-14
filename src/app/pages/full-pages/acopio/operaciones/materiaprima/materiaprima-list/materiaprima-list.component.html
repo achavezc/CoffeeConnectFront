@@ -105,8 +105,8 @@
               </div>
               <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular()">Anular</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" (click)="enviar()">Enviar a Almacen</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="anular()">Anular</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="enviar()">Enviar a Almacen</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" (click)="exportar()">Exportar</button>
             </form>
           </div>
@@ -148,7 +148,7 @@
             </fieldset>
             <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
               [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
-              [columns]="columns">
+              [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
               <ngx-datatable-column name="Numero Guia" prop="Numero" width="40">
 
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
