@@ -102,7 +102,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
       this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
     }
     else {
-      this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
+      //this.logoUrl = `assets/img/${this.login.Result.Data.LogoEmpresa}`;
     }
 
     if(this.config.layout.sidebar.collapsed) {
