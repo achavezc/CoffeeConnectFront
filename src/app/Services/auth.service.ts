@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {host} from '../shared/hosts/main.host';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ErrorHandling} from '../shared/util/error-handling';
-import { ILogin} from '../services/models/login';
+import { ILogin} from './models/login';
 
 @Injectable()
 export class AuthService {

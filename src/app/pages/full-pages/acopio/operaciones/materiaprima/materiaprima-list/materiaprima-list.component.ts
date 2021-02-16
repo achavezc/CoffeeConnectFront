@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
-import { HeaderExcel } from '../../../../../../Services/models/headerexcel.model';
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import swal from 'sweetalert2';
 
 
@@ -70,13 +70,10 @@ export class MateriaPrimaListComponent implements OnInit {
 
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
-    // filter our data
     const temp = this.tempData.filter(function (d) {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    // update the rows
     this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
 

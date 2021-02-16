@@ -6,9 +6,7 @@ import { ErrorHandling } from '../shared/util/error-handling';
 
 import { ReqNotaCompraConsultar } from './models/req-notacompra-consulta';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NotaCompraService {
 
   constructor(private http: HttpClient, private errorHandling: ErrorHandling) { }

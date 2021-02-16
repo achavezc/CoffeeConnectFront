@@ -1,1 +1,219 @@
-<p>NOTA DE COMPRA</p>
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">Bandeja de Notas de Compra</div>
+    </div>
+</div>
+
+<section id="tooltip-validation">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="consultaNotaCompraForm">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nroGuiaRecepcion">Nro Guia Recepción</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="nroGuiaRecepcion"
+                                        class="form-control" id="nroGuiaRecepcion"
+                                        placeholder="Número de guia de recepción"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nroGuiaRecepcion.invalid, 'is-valid': submitted &&  !f.nroGuiaRecepcion.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroGuiaRecepcion.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroGuiaRecepcion.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroGuiaRecepcion.errors?.pattern">Solo letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="tipoDocumento">Tipo Documento</label>
+                                    <ng-select [items]="listTypeDocuments" formControlName="tipoDocumento"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                                        placeholder="Tipo Documento"
+                                        [ngClass]="{ 'is-invalid': submitted && f.tipoDocumento.invalid, 'is-valid': submitted && !f.tipoDocumento.invalid }"
+                                        [(ngModel)]="selectedTypeDocument">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="numeroDocumento">Numero Documento</label>
+                                    <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
+                                        class="form-control" id="numeroDocumento" placeholder="Numero Documento"
+                                        [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
+                                        letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
+                                        letras</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nroNotaCompra">Nro Nota Compra</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="nroNotaCompra"
+                                        class="form-control" id="nroNotaCompra"
+                                        placeholder="Número de guia de recepción"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nroNotaCompra.invalid, 'is-valid': submitted &&  !f.nroNotaCompra.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroNotaCompra.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroNotaCompra.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroNotaCompra.errors?.pattern">Solo letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                        id="fechaInicio" name="fechaInicio" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <!-- <small class="form-text text-muted danger"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small> -->
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaFin">Fecha Fin</label>
+                                    <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
+                                        name="fechaFin" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado">Estado</label>
+                                    <ng-select [items]="listStates" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
+                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [(ngModel)]="selectedState">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nombreRazonSocial">Nombre/Razón Social</label>
+                                    <input type="text" minlength="5" maxlength="100" formControlName="nombreRazonSocial"
+                                        class="form-control" id="nombreRazonSocial" placeholder="Nombre / Razón Social"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nombreRazonSocial.invalid, 'is-valid': submitted && !f.nombreRazonSocial.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nombreRazonSocial.errors?.minlength">Ingrese 5 a 20
+                                        letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nombreRazonSocial.errors?.maxlength">Ingrese 5 a 20
+                                        letras</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="codigoSocio">Código Socio</label>
+                                    <input type="text" minlength="5" maxlength="20" formControlName="codigoSocio"
+                                        class="form-control" id="codigoSocio" placeholder="Codigo Socio"
+                                        [ngClass]="{ 'is-invalid': submitted && f.codigoSocio.invalid, 'is-valid': submitted && !f.codigoSocio.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.codigoSocio.errors?.minlength">Ingrese 5 a 20
+                                        letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.codigoSocio.errors?.maxlength">Ingrese 5 a 20
+                                        letras</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="tipo">Tipo</label>
+                                    <ng-select [items]="listTypes" formControlName="tipo" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="tipo" placeholder="Tipo"
+                                        [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }"
+                                        [(ngModel)]="selectedType">
+                                    </ng-select>
+                                </div>
+                                <!-- <small class="form-text text-muted danger"
+                                    *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small> -->
+                            </div>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit"
+                                [disabled]="!consultaNotaCompraForm.valid" (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()">Anular</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                (click)="Exportar()">Exportar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
+                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
+                            [scrollbarH]="true" [selectCheck]="singleSelectCheck" [selected]="selected"
+                            [selectionType]="'single'">
+                            <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="40">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0" routerLink="/pages/users-view">{{ name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="N° Nota de Compra" prop="Numero" width="30">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="30">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="30">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="50">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha" prop="FechaRegistroCadena" width="30">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="40">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge" [ngClass]="{
+                          'bg-light-success': status == 'Pesado',
+                          'bg-light-danger': status == 'Anulado',
+                          'bg-light-warning': status == 'Analizado'
+                        }">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo" prop="Tipo" width="30">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="KG. Neto a Pagar" prop="KilosNetosPagar" width="30">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Importe" prop="Importe" width="30">
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

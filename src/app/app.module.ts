@@ -35,10 +35,9 @@ import { AlertUtil } from "./services/util/alert-util";
 import { DateUtil } from "./services/util/date-util";
 import { AcopioService, FiltrosMateriaPrima } from "./services/acopio.service";
 import { NotaIngresoAlmacenService } from "./services/nota-ingreso-almacen.service";
-NotaIngresoAlmacenService
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
-import { NotaCompraService } from './Services/nota-compra.service';
+import { NotaCompraService } from './services/nota-compra.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
