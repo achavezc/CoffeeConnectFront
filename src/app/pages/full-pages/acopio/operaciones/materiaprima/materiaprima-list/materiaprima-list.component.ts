@@ -305,8 +305,17 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   anularGuia() {
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
     this.acopioService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId)
       .subscribe(res => {
+        this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.alertUtil.alertOk('Anulado!', 'Guia Anulada.');
@@ -322,6 +331,7 @@ export class MateriaPrimaListComponent implements OnInit {
         }
       },
         err => {
+          this.spinner.hide();
           console.log(err);
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
@@ -329,8 +339,17 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   enviarAlmacenGuia() {
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
     this.notaIngrersoService.enviarAlmacen(this.selected[0].GuiaRecepcionMateriaPrimaId)
       .subscribe(res => {
+        this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.alertUtil.alertOk('Enviado!', 'Enviado Almacen.');
@@ -347,6 +366,7 @@ export class MateriaPrimaListComponent implements OnInit {
         }
       },
         err => {
+          this.spinner.hide();
           console.log(err);
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
@@ -370,8 +390,17 @@ export class MateriaPrimaListComponent implements OnInit {
 
         let vArrHeaderExcel: HeaderExcel[] = [];
 
+        this.spinner.show(undefined,
+          {
+            type: 'ball-triangle-path',
+            size: 'medium',
+            bdColor: 'rgba(0, 0, 0, 0.8)',
+            color: '#fff',
+            fullScreen: true
+          });
         this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
           .subscribe(res => {
+            this.spinner.hide();
             if (res.Result.Success) {
               if (res.Result.ErrCode == "") {
                 this.tempData = res.Result.Data;
@@ -407,6 +436,7 @@ export class MateriaPrimaListComponent implements OnInit {
             }
           },
             err => {
+              this.spinner.hide();
               console.log(err);
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
