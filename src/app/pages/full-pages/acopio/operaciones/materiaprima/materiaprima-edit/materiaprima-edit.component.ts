@@ -3,9 +3,11 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup,Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { AcopioService, FiltrosProveedor } from '../../../../../../services/acopio.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { host } from '../../../../../../shared/hosts/main.host';
+import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-materiaprima-list',
@@ -29,31 +31,30 @@ export class MateriaPrimaEditComponent implements OnInit {
   selectProducto: any;
   selectSubProducto: any;
   listSub: any[];
-  selected =[];
+  selected = [];
   popupModel;
+  login: ILogin;
   private tempData = [];
   public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
+  listTipoSocio: any[];
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-
-  
-
-
-  constructor(private modalService: NgbModal, private maestroService: MaestroService,private filtrosProveedor: FiltrosProveedor,
-   private spinner: NgxSpinnerService, private acopioService: AcopioService){
+  constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
+    private spinner: NgxSpinnerService, private acopioService: AcopioService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
-  singleSelectCheck (row:any) {
+  singleSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
   ngOnInit(): void {
     this.cargarForm();
     this.cargarcombos();
+    this.login = JSON.parse(localStorage.getItem("user"));
   }
 
   cargarForm() {
@@ -62,15 +63,24 @@ export class MateriaPrimaEditComponent implements OnInit {
         numGuia: new FormControl('', []),
         numReferencia: new FormControl('', []),
         producto: new FormControl('', []),
-        subproducto: new FormControl('', [])
+        subproducto: new FormControl('', []),
+        provNombre: new FormControl('', []),
+        provDocumento: new FormControl('', []),
+        provTipoSocio: new FormControl('', []),
+        provCodigo: new FormControl('', []),
+        provDepartamento: new FormControl('', []),
+        provProvincia: new FormControl('', []),
+        provDistrito: new FormControl('', []),
+        provZona: new FormControl('', [])
       });
   }
   /*open(content) {
     this.modalService.open(content).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
+      this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+<<<<<<< HEAD
 }*/
   openModal(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
@@ -138,7 +148,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         socio: new FormControl('', []),
         rzsocial: new FormControl('', [])
       });
-      this.consultaProveedor.setValidators(this.comparisonValidator())
+    this.consultaProveedor.setValidators(this.comparisonValidator())
 
     this.maestroService.obtenerMaestros("TipoProveedor")
       .subscribe(res => {
@@ -172,17 +182,24 @@ export class MateriaPrimaEditComponent implements OnInit {
     };
   }
 
-  seleccionarProveedor(row)
-  {
-    this.consultaProveedor.controls['tipoproveedor'].setValue = row.tipoproveedor;
-    let a = 1;
+  seleccionarProveedor(e) {
+    this.listTipoSocio = this.listaTipoProveedor;
+    this.consultaMateriaPrimaFormEdit.get('provNombre').setValue(e[0].NombreRazonSocial);
+    this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].NumeroDocumento);
+    this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].NumeroDocumento);
+    this.consultaMateriaPrimaFormEdit.get('provTipoSocio').setValue("0" + e[0].SocioId);
+    this.consultaMateriaPrimaFormEdit.get('provCodigo').setValue(e[0].CodigoSocio);
+    this.consultaMateriaPrimaFormEdit.get('provDepartamento').setValue(e[0].Departamento);
+    this.consultaMateriaPrimaFormEdit.get('provProvincia').setValue(e[0].Provincia);
+    this.consultaMateriaPrimaFormEdit.get('provDistrito').setValue(e[0].Distrito);
+    this.consultaMateriaPrimaFormEdit.get('provZona').setValue(e[0].Zona);
+    this.modalService.dismissAll();
   }
   buscar() {
     if (this.consultaProveedor.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
     } else {
-
       this.submitted = false;
       this.filtrosProveedor.TipoProveedorId = this.consultaProveedor.controls['tipoproveedor'].value;
       this.filtrosProveedor.NombreRazonSocial = this.consultaProveedor.controls['ruc'].value;
@@ -202,7 +219,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
-              
+
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -210,7 +227,7 @@ export class MateriaPrimaEditComponent implements OnInit {
             } else {
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
-          }else{
+          } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
@@ -222,4 +239,25 @@ export class MateriaPrimaEditComponent implements OnInit {
         );
     }
   }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  ExportPDF(id: number): void {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}NotaCompra/GenerarPDF?id=${id === undefined ? 1 : id}`;
+    link.download = "NotaCompra.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
 }
+

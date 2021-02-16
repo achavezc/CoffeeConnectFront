@@ -1,8 +1,8 @@
-import {Observable} from 'rxjs/Observable';
-import {NotFoundError} from './not-found-error';
-import {BadRequestError} from './bad-request-error';
-import {AppError} from './app-error';
-import {Injectable} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { NotFoundError } from './not-found-error';
+import { BadRequestError } from './bad-request-error';
+import { AppError } from './app-error';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ErrorHandling {

@@ -1,14 +1,12 @@
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
-
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { AgmCoreModule } from "@agm/core";
-import { HTTP_INTERCEPTORS,HttpClientModule, HttpClient } from "@angular/common/http";
-import {HttpInterceptorImpl} from './shared/http-interceptor-impl';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from "@angular/common/http";
+import { HttpInterceptorImpl } from './shared/http-interceptor-impl';
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { StoreModule } from "@ngrx/store";
@@ -27,7 +25,6 @@ import { SharedModule } from "./shared/shared.module";
 import { AppComponent } from "./app.component";
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
-
 import { AuthService } from "./services/auth.service";
 import { MaestroService } from "./services/maestro.service";
 import { MaestroUtil } from "./services/util/maestro-util";
@@ -38,10 +35,12 @@ import { NotaIngresoAlmacenService} from "./services/nota-ingreso-almacen.servic
 NotaIngresoAlmacenService
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
+import { NotaCompraService } from './Services/nota-compra.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
+
 var firebaseConfig = {
   apiKey: "YOUR_API_KEY", //YOUR_API_KEY
   authDomain: "YOUR_AUTH_DOMAIN", //YOUR_AUTH_DOMAIN
@@ -52,10 +51,12 @@ var firebaseConfig = {
   appId: "YOUR_APP_ID", //YOUR_APP_ID
   measurementId: "YOUR_MEASUREMENT_ID" //YOUR_MEASUREMENT_ID
 };
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelPropagation: false
 };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -95,6 +96,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AuthService,
     AuthGuard,
     DragulaService,
+    NotaCompraService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorImpl,
@@ -109,8 +111,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   bootstrap: [AppComponent]
 })
-
-
 
 export class AppModule { }
 

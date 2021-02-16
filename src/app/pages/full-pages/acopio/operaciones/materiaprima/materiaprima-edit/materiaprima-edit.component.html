@@ -6,9 +6,9 @@
           <form [formGroup]="consultaMateriaPrimaFormEdit">
             <div class="row">
               <div class="col-12 col-md-8">
-                <div class="card-title-empresa">COOPERATIVA AGROECOLOGICA INDUSTRIAL JUAN SANTOS ATAHUALPA</div>
-                <div class="card-subtitle-empresa">Jr. Ramon Castilla Nº336 - Pichanaqui - Chanchamayo - Junin</div>
-                <div class="card-subtitle-empresa">RUC: 20568333820
+                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
                 </div>
               </div>
               <div class="col-12 col-md-2">
@@ -77,13 +77,18 @@
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-5">
                 <label for="basicInput" style="font-size: 0.7rem;">Nombre</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Nombre">
+                <input type="text" class="form-control" id="basicInput"  formControlName="provNombre" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Doc. Identidad</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Doc. Identidad">
-                <label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Tipo">
+                <input type="text" class="form-control" id="basicInput"  formControlName="provDocumento" disabled>
+                <!--<label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
+                <input type="text" class="form-control" id="basicInput"   formControlName="provTipoSocio" disabled>-->
+                <label  for="basicInput" style="font-size: 0.7rem;">Tipo</label>
+                              <ng-select   [items]="listTipoSocio" [(ngModel)]="selectTipoProveedor"
+                                formControlName="provTipoSocio" bindLabel="Label" bindValue="Codigo" [disabled]="true">
+                              </ng-select>
+                             
                 <label for="basicInput" style="font-size: 0.7rem;">Codigo</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Codigo">
+                <input type="text" class="form-control" id="basicInput"   formControlName="provCodigo" disabled>
               </div>
               <div class="col-12 col-md-2" style="padding-left: 0cm;">
                 <ng-template #customContent let-c="close" let-d="dismiss">
@@ -182,12 +187,16 @@
                           <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
                             style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selected" 
-                            [selectionType]="'single'">
+                            [selectionType]="'single'" (select)="seleccionarProveedor(selected)" >
                             <ngx-datatable-column name="Cod. Socio" prop="CodigoSocio" width="30">
                               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                          
-                                    <a class="nav-link edit" (click)="seleccionarProveedor(value)">{{ name }}</a>
-                                  
+                                
+                                <div class="d-flex align-items-center">
+                                  <div class="cell-line-height">
+                                <a >{{ name }}</a>
+                                  </div>
+                                  </div>
+
                               </ng-template>
                             </ngx-datatable-column>
                            
@@ -215,15 +224,13 @@
               </div>
               <div class="col-12 col-md-5">
                 <label for="basicInput" style="font-size: 0.7rem;">Departamento</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Departamento">
+                <input type="text" class="form-control" id="basicInput"   formControlName="provDepartamento" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Provincia</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Provincia">
+                <input type="text" class="form-control" id="basicInput"   formControlName="provProvincia" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Distrito</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Distrito">
+                <input type="text" class="form-control" id="basicInput"  formControlName="provDistrito" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Zona</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Zona">
-                <label for="basicInput" style="font-size: 0.7rem;">Predio/Finca</label>
-                <input type="text" class="form-control" id="basicInput" placeholder="Enter Predio/Finca">
+                <input type="text" class="form-control" id="basicInput"   formControlName="provZona" disabled>
               </div>
             </div>
             <div class="row"
