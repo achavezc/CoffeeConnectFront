@@ -16,10 +16,18 @@ export class FiltrosMateriaPrima {
   FechaInicio: Date;
   FechaFin: Date;
 }
-
+export class FiltrosProveedor
+{
+  TipoProveedorId: string;
+  NombreRazonSocial: string;
+  TipoDocumentoId: string;
+  NumeroDocumento: string;
+  CodigoSocio: string;
+}
 @Injectable()
 export class AcopioService {
   private url = `${host}GuiaRecepcionMateriaPrima`;
+  private urlProveedor = `${host}Proveedor`;
 
 
 
@@ -27,6 +35,10 @@ export class AcopioService {
               private errorHandling: ErrorHandling) {
   }
 
+  consultarProveedor (filtros: FiltrosProveedor): Observable<any> {
+    const url = `${this.urlProveedor}/Consultar`;
+    return this.http.post<any>(url, filtros).catch(this.errorHandling.handleError);
+  }
 
 
   consultarMateriaPrima(filtros: FiltrosMateriaPrima): Observable<any> {

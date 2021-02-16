@@ -1,9 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
-
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { AgmCoreModule } from "@agm/core";
@@ -27,14 +25,13 @@ import { SharedModule } from "./shared/shared.module";
 import { AppComponent } from "./app.component";
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
-
 import { AuthService } from "./services/auth.service";
 import { MaestroService } from "./services/maestro.service";
 import { MaestroUtil } from "./services/util/maestro-util";
 import { AlertUtil } from "./services/util/alert-util";
 import { DateUtil } from "./services/util/date-util";
-import { AcopioService, FiltrosMateriaPrima } from "./services/acopio.service";
-import { NotaIngresoAlmacenService } from "./services/nota-ingreso-almacen.service";
+import { AcopioService,FiltrosMateriaPrima, FiltrosProveedor} from "./services/acopio.service";
+import { NotaIngresoAlmacenService} from "./services/nota-ingreso-almacen.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
 import { NotaCompraService } from './services/nota-compra.service';
@@ -89,6 +86,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   providers: [
     AcopioService,
     FiltrosMateriaPrima,
+    FiltrosProveedor,
     NotaIngresoAlmacenService,
     MaestroService,
     MaestroUtil,
