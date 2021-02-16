@@ -39,6 +39,7 @@ export class MateriaPrimaListComponent implements OnInit {
   selected = []
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estadoPesado = "01";
+  estadoAnalizado = "02";
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   // row data
@@ -166,6 +167,7 @@ export class MateriaPrimaListComponent implements OnInit {
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
+              this.selected = [];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
@@ -177,8 +179,8 @@ export class MateriaPrimaListComponent implements OnInit {
         },
           err => {
             this.spinner.hide();
-            console.error(err);
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
@@ -279,25 +281,29 @@ export class MateriaPrimaListComponent implements OnInit {
 
   enviar() {
     if (this.selected.length > 0) {
-      var form = this;
-      swal.fire({
-        title: '¿Estas seguro?',
-        text: "¿Estas seguro de enviar a almacen?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then(function (result) {
-        if (result.value) {
-          form.enviarAlmacenGuia();
+      if (this.selected[0].EstadoId == this.estadoAnalizado) {
+          var form = this;
+          swal.fire({
+            title: '¿Estas seguro?',
+            text: "¿Estas seguro de enviar a almacen?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then(function (result) {
+            if (result.value) {
+              form.enviarAlmacenGuia();
+            }
+          });
+        } else {
+          this.alertUtil.alertError("Error", "Solo se puede enviar guias con estado analizado")
         }
-      });
     }
   }
 
@@ -319,7 +325,7 @@ export class MateriaPrimaListComponent implements OnInit {
         }
       },
         err => {
-          console.error(err);
+          console.log(err);
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
@@ -344,7 +350,7 @@ export class MateriaPrimaListComponent implements OnInit {
         }
       },
         err => {
-          console.error(err);
+          console.log(err);
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
@@ -404,7 +410,7 @@ export class MateriaPrimaListComponent implements OnInit {
             }
           },
             err => {
-              console.error(err);
+              console.log(err);
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           );

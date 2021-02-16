@@ -107,7 +107,7 @@
               <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="anular()">Anular</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="enviar()">Enviar a Almacen</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" (click)="exportar()">Exportar</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="exportar()">Exportar</button>
             </form>
           </div>
         </div>
