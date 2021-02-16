@@ -1,4 +1,4 @@
-<section class="users-edit">
+<section class="users-edit"  id="tooltip-validation">
   <div class="row">
     <div class="col-12">
       <div class="card">
@@ -62,7 +62,7 @@
                 <div class="form-group" style="margin-bottom: 0.5rem !important;">
                   <div class="controls">
                     <ng-select style="height: 20px !important" [items]="listaSubProducto" bindLabel="name"
-                      [(ngModel)]="selectedEstado">
+                      [(ngModel)]="selectedEstado"  placeholder="Seleccionar Estado">
                     </ng-select>
                   </div>
 
@@ -94,33 +94,35 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form [formGroup]="consultaProveedor" style="padding-left: 0.3rem; padding-right: 0.3rem;">
+                    <form [formGroup]="consultaProveedor" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;">
                       <div class="row" style="text-align: center; margin-top: 1rem; background-color: #F7F7F8;">
                         <div class="card-subtitle-form card-text">Criterios de Busqueda</div>
                       </div>
-                      <div class="row" style="margin-top: 0.5rem;">
+                      <div class="row">
                         <div class="col-12 col-md-4">
-
-                          <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label class="col-md-3 col-form-label card-text2" for="horizontal-form-1">Tipo</label>
+                          <div class="form-group row" style="margin-bottom: 0.3rem !important; margin-top: 0.1rem">
+                            <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">Tipo</label>
                             <div class="col-md-9">
-                              <ng-select [items]="listaTipoProveedor" bindLabel="name" [(ngModel)]="selectTipoProveedor"
-                                formControlName="tipoproveedor" class="form-control" bindLabel="Label"
-                                bindValue="Codigo" placeholder="Seleccionar Tipo Proveedor">
+                              <ng-select  id="validationTooltip05" [items]="listaTipoProveedor" [(ngModel)]="selectTipoProveedor"
+                                formControlName="tipoproveedor" bindLabel="Label" bindValue="Codigo" placeholder="Seleccionar"
+                                [ngClass]="{ 'is-invalid': submitted && f.tipoproveedor.invalid, 'is-valid': submitted && !f.tipoproveedor.invalid }">
                               </ng-select>
                             </div>
                           </div>
                           <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label class="col-md-3 col-form-label card-text2" for="horizontal-form-1">Ruc</label>
+                            <label  for="validationTooltip06" class="col-md-3 col-form-label card-text2">Ruc</label>
                             <div class="col-md-9">
-                              <input type="text" class="form-control" id="horizontal-form-1" name="first-name">
+                              <input  id="validationTooltip06" type="text" formControlName="ruc" class="form-control" name="first-name"
+                              [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
                             </div>
                           </div>
                           <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label class="col-md-3 col-form-label card-text2"
-                              for="horizontal-form-1">Dni</label>
+                            <label  for="validationTooltip07" class="col-md-3 col-form-label card-text2">Dni</label>
                             <div class="col-md-9">
-                              <input type="text" class="form-control" id="horizontal-form-1" name="first-name">
+                              <input  id="validationTooltip07" type="text" formControlName="dni" class="form-control" name="first-name"
+                              [ngClass]="{ 'is-invalid': submitted && f.dni.invalid, 'is-valid': submitted && !f.dni.invalid }">
+                              <small class="form-text text-muted danger" *ngIf="f.dni.errors?.minlength">Ingrese 8 dígitos</small>
+                              <small class="form-text text-muted danger" *ngIf="f.dni.errors?.maxlength">Ingrese 8 dígitos</small>
                             </div>
                           </div>
 
@@ -128,64 +130,78 @@
                         </div>
 
                         <div class="col-12 col-md-8">
-                          <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label class="col-md-3 col-form-label card-text2" for="horizontal-form-1">Socio</label>
+                          <div class="form-group row" style="margin-top: 1rem; margin-bottom: 0.3rem !important;">
+                            <label  for="validationTooltip08" class="col-md-3 col-form-label card-text2">Socio</label>
                             <div class="col-md-9">
-                              <input type="text" class="form-control" id="horizontal-form-1" name="first-name">
+                              <input  id="validationTooltip08" type="text" class="form-control" formControlName="socio" name="first-name"
+                              [ngClass]="{ 'is-invalid': submitted && f.socio.invalid, 'is-valid': submitted && !f.socio.invalid }">
                             </div>
                           </div>
                           <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Nombre/Rz.
-                              Social</label>
+                            <label class="col-md-3 col-form-label card-text"  for="validationTooltip09" >Nombre/Rz. Social</label>
                             <div class="col-md-9">
-                              <input type="text" class="form-control" id="horizontal-form-1"
-                                name="first-name">
+                              <input type="text" class="form-control" id="validationTooltip09" formControlName="rzsocial"
+                              [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }"name="first-name">
                             </div>
                           </div>
+                          <div class="form-group row">
+                            <div class="col-md-9">
+                              <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            </div>
+                            <div class="col-md-3">
+                          <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                        </div>
+                        </div>
                         </div>
                       </div>
-
-                      <div class="row" style="text-align: center; margin-top: 1rem; background-color: #F7F7F8;">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <ngx-spinner></ngx-spinner>
+                      </div>
+                      <div class="row" style="text-align: center; background-color: #F7F7F8;">
                         <div class="card-subtitle-form card-text">Resultado de la Busqueda</div>
                       </div>
+                      
                       <div class="row" style="margin-top: 0.5rem;">
-                        <div class="col-12 col-md-12">
+                        <div class="col-12">
+                          <fieldset class="form-group">
+                            <label>Show
+                              <select name="users-list-select" style="font-size: 0.8rem;"
+                                class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                (click)="updateLimit($event)">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                              </select>
+                              entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                              <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                                type="text" (keyup)="filterUpdate($event)" />
+                            </label>
+                          </fieldset>
                           <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            [columns]="columns" style="font-size: 0.7rem; max-width: 650px !important;">
-                            <ngx-datatable-column name="Numero Guia" prop="Numero" width="40">
-
+                            style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selected" 
+                            [selectionType]="'single'">
+                            <ngx-datatable-column name="Cod. Socio" prop="CodigoSocio" width="30">
                               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                                <div class="d-flex align-items-center">
-                                  <div class="cell-line-height">
-                                    <a class="line-height-1 mb-0" routerLink="/pages/users-view">{{ name }}</a>
-                                  </div>
-                                </div>
+                          
+                                    <a class="nav-link edit" (click)="seleccionarProveedor(value)">{{ name }}</a>
+                                  
                               </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Codigo Socio" prop="CodigoSocio" width="30">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="30">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Numero Documento" prop="TipoDocumento" width="50">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Nombre o Razon Social" prop="NombreRazonSocialProveedor"
-                              width="120"></ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha" prop="FechaRegistro" width="30"></ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="40">
-                              <ng-template let-status="value" ngx-datatable-cell-template>
-                                <div class="badge" [ngClass]="{
-                                            'bg-light-success': status == 'PESADO',
-                                            'bg-light-danger': status == 'ANULADO',
-                                            'bg-light-warning': status == 'ANALIZADO'
-                                          }">
-                                  {{ status }}
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
+                           
+                            <ngx-datatable-column name="Tipo Doc." prop="TipoDocumento" width="20"></ngx-datatable-column>
+                            <ngx-datatable-column name="Documento" prop="NumeroDocumento" width="40"></ngx-datatable-column>
+                            <ngx-datatable-column name="Razon Social" prop="NombreRazonSocial"width="60"></ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="25"></ngx-datatable-column>
+                            <ngx-datatable-column name="Provincia" prop="Provincia" width="25"></ngx-datatable-column>
+                            <ngx-datatable-column name="Distrito" prop="Distrito" width="25"></ngx-datatable-column>
+                            <ngx-datatable-column name="Zona" prop="Zona" width="25"></ngx-datatable-column>
                           </ngx-datatable>
                         </div>
                       </div>
+                    
                     </form>
                   </div>
                   <div class="modal-footer">
@@ -220,17 +236,16 @@
                 <div class="form-group">
                   <div class="controls">
                     <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto"
-                      placeholder="Seleccionar Tipo" formControlName="producto" class="form-control"
+                      placeholder="Seleccionar Tipo" formControlName="producto"
                       (change)="changeSubProducto($event)" bindLabel="Label" bindValue="Codigo">
                     </ng-select>
                   </div>
-
                 </div>
                 <label for="basicInput" style="font-size: 0.7rem;">SUB TIPO</label>
                 <div class="form-group" style="margin-bottom: 0.5rem !important;">
                   <div class="controls">
                     <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
-                      formControlName="subproducto" class="form-control" bindLabel="Label" bindValue="Codigo"
+                      formControlName="subproducto" bindLabel="Label" bindValue="Codigo"
                       placeholder="Seleccionar Tipo Producto">
                     </ng-select>
                   </div>
@@ -262,6 +277,7 @@
       </div>
     </div>
   </div>
+  
 </section>
 <section class="users-edit">
   <div class="row">
