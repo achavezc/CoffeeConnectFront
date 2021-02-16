@@ -17,4 +17,13 @@ export class NotaCompraService {
     let url = `${this.url}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+
+  Anular(pNotaCompraId: number) {
+    let url = `${this.url}/Anular`;
+    let request = {
+      NotaCompraId: pNotaCompraId,
+      Usuario: 'mruizb'
+    }
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
 }

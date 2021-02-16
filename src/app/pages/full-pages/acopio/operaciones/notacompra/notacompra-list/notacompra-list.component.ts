@@ -1,18 +1,23 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { NotaCompraService } from '../../../../../../services/nota-compra.service';
 import { ReqNotaCompraConsultar } from '../../../../../../services/models/req-notacompra-consulta';
+import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-notacompra-list',
   templateUrl: './notacompra-list.component.html',
-  styleUrls: ['./notacompra-list.component.scss'],
+  styleUrls: ['./notacompra-list.component.scss',
+    "/assets/sass/libs/datatables.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class NotacompraListComponent implements OnInit {
@@ -21,10 +26,13 @@ export class NotacompraListComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
-    private notaCompraService: NotaCompraService) {
+    private notaCompraService: NotaCompraService,
+    private alertUtil: AlertUtil,
+    private excelService: ExcelService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
+  @ViewChild('vform') validationForm: FormGroup;
   consultaNotaCompraForm: any;
   selectedTypeDocument: any;
   selectedState: any;
@@ -41,10 +49,13 @@ export class NotacompraListComponent implements OnInit {
   ColumnMode = ColumnMode;
   selected = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
+  mensajeErrorGenerico: string = "Ocurrio un error interno.";
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
+    // this.consultaNotaCompraForm.value.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
+    // this.consultaNotaCompraForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
   }
 
   LoadForm(): void {
@@ -111,13 +122,10 @@ export class NotacompraListComponent implements OnInit {
 
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
-    // filter our data
     const temp = this.tempData.filter(function (d) {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    // update the rows
     this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
 
@@ -125,7 +133,7 @@ export class NotacompraListComponent implements OnInit {
     return this.selected.indexOf(row) === -1;
   }
 
-  Buscar(): void {
+  Buscar(exportExcel?: boolean): void {
     if (this.consultaNotaCompraForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -156,37 +164,118 @@ export class NotacompraListComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
-              let vFecha: Date;
-              res.Result.Data.forEach((obj: any) => {
-                vFecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistroCadena = vFecha.getUTCDate() + "/" + vFecha.getUTCMonth() + 1 + "/" + vFecha.getUTCFullYear();
-              });
-              this.tempData = res.Result.Data;
-              this.rows = [...this.tempData];
+              if (!exportExcel) {
+                let vFecha: Date;
+                res.Result.Data.forEach((obj: any) => {
+                  vFecha = new Date(obj.FechaRegistro);
+                  obj.FechaRegistroCadena = vFecha.getUTCDate() + "/" + vFecha.getUTCMonth() + 1 + "/" + vFecha.getUTCFullYear();
+                });
+                this.tempData = res.Result.Data;
+                this.rows = [...this.tempData];
+              } else {
+                let vArrHeaderExcel: HeaderExcel[] = [
+                  new HeaderExcel("Número Guia de Recepción", "center"),
+                  new HeaderExcel("Número Nota de Compra", "center"),
+                  new HeaderExcel("Código Socio", "center"),
+                  new HeaderExcel("Tipo Documento", "center"),
+                  new HeaderExcel("Número Documento", "right", "#"),
+                  new HeaderExcel("Nombre o Razón Social"),
+                  new HeaderExcel("Fecha", "center", "dd/mm/yyyy"),
+                  new HeaderExcel("Estado", "center"),
+                  new HeaderExcel("Tipo", "center"),
+                  new HeaderExcel("KG. Neto a Pagar", "right"),
+                  new HeaderExcel("Importe", "right")
+                ];
+
+                let vArrData: any[] = [];
+                for (let i = 0; i < res.Result.Data.length; i++) {
+                  vArrData.push([
+                    res.Result.Data[i].NumeroGuiaRecepcion,
+                    res.Result.Data[i].Numero,
+                    res.Result.Data[i].CodigoSocio,
+                    res.Result.Data[i].TipoDocumento,
+                    res.Result.Data[i].NumeroDocumento,
+                    res.Result.Data[i].NombreRazonSocial,
+                    new Date(res.Result.Data[i].FechaRegistro),
+                    res.Result.Data[i].Estado,
+                    res.Result.Data[i].Tipo,
+                    res.Result.Data[i].KilosNetosPagar,
+                    res.Result.Data[i].Importe
+                  ]);
+                }
+                this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosNotaCompra');
+              }
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              // this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
-              // this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           } else {
-            // this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
           err => {
             this.spinner.hide();
             console.error(err);
-            // this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
   }
 
-  Anular() {
+  Anular(): void {
+    if (this.selected.length > 0) {
+      if (this.selected[0].EstadoId == "01") {
+        let form = this;
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Estas seguro de anular la nota de compra "${this.selected[0].Numero}"?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.AnularNCSeleccionada();
+          }
+        });
+      } else {
+        this.alertUtil.alertError("Error", "Solo se puede anular notas de compra con estado pesado.")
+      }
+    }
+  }
 
+  AnularNCSeleccionada() {
+    this.notaCompraService.Anular(this.selected[0].NotaCompraId)
+      .subscribe(res => {
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Anulado!', 'Nota de compra Anulada.');
+            this.Buscar();
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
   }
 
   Exportar() {
-
+    this.Buscar(true);
   }
 
 }
