@@ -133,9 +133,9 @@
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="!ingresoAlmacenForm.valid" (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="rows.length <= 0">Generar Lotes</button>
+                                [disabled]="!selected.length">Generar Lotes</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
-                                [disabled]="rows.length <= 0">Exportar</button>
+                                [disabled]="!rows.length">Exportar</button>
                         </form>
                     </div>
                 </div>

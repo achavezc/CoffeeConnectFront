@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
-import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
@@ -11,7 +11,6 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { ReqIngresoAlmacenConsultar } from '../../../../../services/models/req-ingresoalmacen-consultar.model';
 import { NotaIngresoAlmacenService } from '../../../../../services/nota-ingreso-almacen.service';
-import { date } from 'ngx-custom-validators/src/app/date/validator';
 
 @Component({
   selector: 'app-ingreso-almacen',
@@ -34,8 +33,8 @@ export class IngresoAlmacenComponent implements OnInit {
   listTypeDocuments: Observable<any>;
   listStates: Observable<any>;
   listAlmacen: Observable<any>;
-  listProducts: Observable<any>;
-  listByProducts: Observable<any>;
+  listProducts: [];
+  listByProducts: [];
   selectedTypeDocument: any;
   selectedState: any;
   selectedAlmacen: any;
@@ -50,7 +49,6 @@ export class IngresoAlmacenComponent implements OnInit {
   submitted: boolean = false;
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  // ColumnMode = ColumnMode;
   selected = [];
 
   ngOnInit(): void {
@@ -103,7 +101,6 @@ export class IngresoAlmacenComponent implements OnInit {
         form.listProducts = res.Result.Data;
       }
     });
-
   }
 
   public comparisonValidator(): ValidatorFn {
@@ -113,14 +110,17 @@ export class IngresoAlmacenComponent implements OnInit {
       let tipoDocumento = group.controls['tipoDocumento'].value;
       let codigoSocio = group.controls['codigoSocio'].value.trim();
       let nombre = group.controls['nombreRazonSocial'].value.trim();
+      let vProduct = group.controls['producto'].value;
+      let vByProduct = group.controls['subProducto'].value;
 
-      if (numeroGuia == "" && numeroDocumento == "" && codigoSocio == "" && nombre == ""
-        && (tipoDocumento == undefined || tipoDocumento.trim() == "")) {
+      if (!numeroGuia && !numeroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } else if (numeroDocumento != "" && (tipoDocumento == "" || tipoDocumento == undefined)) {
+      } else if (numeroDocumento && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      } else if (numeroDocumento == "" && (tipoDocumento != "" && tipoDocumento != undefined)) {
+      } else if (!numeroDocumento && tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
+      } else if (vByProduct && !vProduct) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -148,13 +148,19 @@ export class IngresoAlmacenComponent implements OnInit {
 
   changeProduct(e: any): void {
     let form = this;
-    this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
-      if (res.Result.Success) {
-        if (res.Result.Data.length > 0) {
-          form.listByProducts = res.Result.Data.filter(x => x.Val1 == e.Codigo);
+    if (e) {
+      this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
+        if (res.Result.Success) {
+          if (res.Result.Data.length > 0) {
+            form.listByProducts = res.Result.Data.filter(x => x.Val1 == e.Codigo);
+          } else {
+            form.listByProducts = [];
+          }
         }
-      }
-    });
+      });
+    } else {
+      form.listByProducts = [];
+    }
   }
 
   updateLimit(limit) {
@@ -179,6 +185,7 @@ export class IngresoAlmacenComponent implements OnInit {
       this.submitted = true;
       return;
     } else {
+      this.selected = [];
       this.submitted = false;
       let request = new ReqIngresoAlmacenConsultar(this.ingresoAlmacenForm.value.nroGuiaRecepcion,
         this.ingresoAlmacenForm.value.nombreRazonSocial,
@@ -205,7 +212,7 @@ export class IngresoAlmacenComponent implements OnInit {
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
+            if (!res.Result.ErrCode) {
               if (!exportExcel) {
                 res.Result.Data.forEach((obj: any) => {
                   obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
@@ -243,7 +250,7 @@ export class IngresoAlmacenComponent implements OnInit {
                 }
                 this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosIngresoAlmacen');
               }
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            } else if (res.Result.Message && res.Result.ErrCode) {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };

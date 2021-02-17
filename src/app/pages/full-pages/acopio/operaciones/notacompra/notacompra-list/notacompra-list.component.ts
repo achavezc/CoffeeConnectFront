@@ -106,12 +106,11 @@ export class NotacompraListComponent implements OnInit {
       let codigoSocio = group.controls['codigoSocio'].value.trim();
       let nombre = group.controls['nombreRazonSocial'].value.trim();
 
-      if (numeroGuia == "" && numeroDocumento == "" && codigoSocio == "" && nombre == ""
-        && nroNotaCompra == "" && (tipoDocumento == undefined || tipoDocumento.trim() == "")) {
+      if (!numeroGuia && !numeroDocumento && !codigoSocio && !nombre && !nroNotaCompra && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } else if (numeroDocumento != "" && (tipoDocumento == "" || tipoDocumento == undefined)) {
+      } else if (numeroDocumento && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      } else if (numeroDocumento == "" && (tipoDocumento != "" && tipoDocumento != undefined)) {
+      } else if (!numeroDocumento && tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -186,7 +185,7 @@ export class NotacompraListComponent implements OnInit {
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
+            if (!res.Result.ErrCode) {
               if (!exportExcel) {
                 res.Result.Data.forEach((obj: any) => {
                   obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
@@ -226,7 +225,7 @@ export class NotacompraListComponent implements OnInit {
                 }
                 this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosNotaCompra');
               }
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            } else if (res.Result.Message && res.Result.ErrCode) {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
@@ -276,10 +275,10 @@ export class NotacompraListComponent implements OnInit {
     this.notaCompraService.Anular(this.selected[0].NotaCompraId)
       .subscribe(res => {
         if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
+          if (!res.Result.ErrCode) {
             this.alertUtil.alertOk('Anulado!', 'Nota de compra Anulada.');
             this.Buscar();
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          } else if (res.Result.Message && res.Result.ErrCode) {
             this.alertUtil.alertError('Error', res.Result.Message);
           } else {
             this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
