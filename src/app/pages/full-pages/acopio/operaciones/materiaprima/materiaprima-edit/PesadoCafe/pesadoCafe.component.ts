@@ -1,17 +1,12 @@
-import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { Observable } from 'rxjs';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { NgxSpinnerService } from "ngx-spinner";
+import { Component, OnInit} from '@angular/core';
+
 
 @Component({
   selector: 'app-pesadoCafe',
   templateUrl: './pesadoCafe.component.html',
-  styleUrls: ['./pesadoCafev.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./pesadoCafe.component.scss']
 })
-export class PesadoCafe implements OnInit {
+export class PesadoCafeComponent implements OnInit {
     ngOnInit(): void {
     }
 
