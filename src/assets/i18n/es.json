@@ -177,6 +177,10 @@
 			"RecepcionProductoTerminado":
 				{
 					"Label":"Recepcion Producto Terminado"
+				},
+			"LiquidacionCompra":
+				{
+					"Label":"Liquidacion de Compra"
 				}
 		},
 		"Administracion":
