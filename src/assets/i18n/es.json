@@ -181,6 +181,10 @@
 			"LiquidacionCompra":
 				{
 					"Label":"Liquidacion de Compra"
+				},
+			"IngresoAlmacen":
+				{
+					"Label":"Ingreso Almacén"
 				}
 		},
 		"Administracion":
