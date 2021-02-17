@@ -1,4 +1,4 @@
-<section class="users-edit"  id="tooltip-validation">
+<section class="users-edit" id="tooltip-validation">
   <div class="row">
     <div class="col-12">
       <div class="card">
@@ -62,7 +62,7 @@
                 <div class="form-group" style="margin-bottom: 0.5rem !important;">
                   <div class="controls">
                     <ng-select style="height: 20px !important" [items]="listaSubProducto" bindLabel="name"
-                      [(ngModel)]="selectedEstado"  placeholder="Seleccionar Estado">
+                      [(ngModel)]="selectedEstado" placeholder="Seleccionar Estado">
                     </ng-select>
                   </div>
 
@@ -77,18 +77,16 @@
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-5">
                 <label for="basicInput" style="font-size: 0.7rem;">Nombre</label>
-                <input type="text" class="form-control" id="basicInput"  formControlName="provNombre" disabled>
+                <input type="text" class="form-control" id="basicInput" formControlName="provNombre" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Doc. Identidad</label>
-                <input type="text" class="form-control" id="basicInput"  formControlName="provDocumento" disabled>
-                <!--<label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
-                <input type="text" class="form-control" id="basicInput"   formControlName="provTipoSocio" disabled>-->
-                <label  for="basicInput" style="font-size: 0.7rem;">Tipo</label>
-                              <ng-select   [items]="listTipoSocio" [(ngModel)]="selectTipoProveedor"
-                                formControlName="provTipoSocio" bindLabel="Label" bindValue="Codigo" disabled>
-                              </ng-select>
-                             
+                <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" disabled>
+                <label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
+                <ng-select [items]="listTipoSocio" [(ngModel)]="selectTipoSocio" formControlName="provTipoSocio"
+                  bindLabel="Label" bindValue="Codigo" >
+                </ng-select>
+
                 <label for="basicInput" style="font-size: 0.7rem;">Codigo</label>
-                <input type="text" class="form-control" id="basicInput"   formControlName="provCodigo" disabled>
+                <input type="text" class="form-control" id="basicInput" formControlName="provCodigo" disabled>
               </div>
               <div class="col-12 col-md-2" style="padding-left: 0cm;">
                 <ng-template #customContent let-c="close" let-d="dismiss">
@@ -99,77 +97,98 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form [formGroup]="consultaProveedor" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;">
+                    <form [formGroup]="consultaProveedor" class="needs-validation"
+                      style="padding-left: 0.3rem; padding-right: 0.3rem;">
                       <div class="row" style="text-align: center; margin-top: 1rem; background-color: #F7F7F8;">
                         <div class="card-subtitle-form card-text">Criterios de Busqueda</div>
                       </div>
                       <div class="row">
-                        <div class="col-12 col-md-4">
-                          <div class="form-group row" style="margin-bottom: 0.3rem !important; margin-top: 0.1rem">
+                        <div class="col-12 col-md-5">
+                          <div class="form-group row" style="margin-top: 1rem">
                             <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">Tipo</label>
                             <div class="col-md-9">
-                              <ng-select  id="validationTooltip05" [items]="listaTipoProveedor" [(ngModel)]="selectTipoProveedor"
-                                formControlName="tipoproveedor" bindLabel="Label" bindValue="Codigo" placeholder="Seleccionar"
+                              <ng-select #ngSelectComponent id="validationTooltip05" [items]="listaTipoProveedor"
+                                [(ngModel)]="selectTipoProveedor" formControlName="tipoproveedor" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar"
                                 [ngClass]="{ 'is-invalid': submitted && f.tipoproveedor.invalid, 'is-valid': submitted && !f.tipoproveedor.invalid }">
                               </ng-select>
-                            </div>
-                          </div>
-                          <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label  for="validationTooltip06" class="col-md-3 col-form-label card-text2">Ruc</label>
-                            <div class="col-md-9">
-                              <input  id="validationTooltip06" type="text" formControlName="ruc" class="form-control" name="first-name"
-                              [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
-                            </div>
-                          </div>
-                          <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label  for="validationTooltip07" class="col-md-3 col-form-label card-text2">Dni</label>
-                            <div class="col-md-9">
-                              <input  id="validationTooltip07" type="text" formControlName="dni" class="form-control" name="first-name"
-                              [ngClass]="{ 'is-invalid': submitted && f.dni.invalid, 'is-valid': submitted && !f.dni.invalid }">
-                              <small class="form-text text-muted danger" *ngIf="f.dni.errors?.minlength">Ingrese 8 dígitos</small>
-                              <small class="form-text text-muted danger" *ngIf="f.dni.errors?.maxlength">Ingrese 8 dígitos</small>
-                            </div>
-                          </div>
-
-
-                        </div>
-
-                        <div class="col-12 col-md-8">
-                          <div class="form-group row" style="margin-top: 1rem; margin-bottom: 0.3rem !important;">
-                            <label  for="validationTooltip08" class="col-md-3 col-form-label card-text2">Socio</label>
-                            <div class="col-md-9">
-                              <input  id="validationTooltip08" type="text" class="form-control" formControlName="socio" name="first-name"
-                              [ngClass]="{ 'is-invalid': submitted && f.socio.invalid, 'is-valid': submitted && !f.socio.invalid }">
-                            </div>
-                          </div>
-                          <div class="form-group row" style="margin-bottom: 0.3rem !important;">
-                            <label class="col-md-3 col-form-label card-text"  for="validationTooltip09" >Nombre/Rz. Social</label>
-                            <div class="col-md-9">
-                              <input type="text" class="form-control" id="validationTooltip09" formControlName="rzsocial"
-                              [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }"name="first-name">
+                              <small class="form-text text-muted danger" *ngIf="f.tipoproveedor.errors?.required">Ingrese el Tipo de Socio</small>
                             </div>
                           </div>
                           <div class="form-group row">
+                            <label for="validationTooltip01" class="col-md-3 col-form-label card-text2">Tipo Doc.</label>
                             <div class="col-md-9">
-                              <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                              <ng-select [items]="listaTipoDocumento" formControlName="tipoDocumento" bindLabel="Label"
+                                bindValue="Codigo" id="validationTooltip01" placeholder="Seleccionar"
+                                [ngClass]="{ 'is-invalid': submitted && f.tipoDocumento.invalid, 'is-valid': submitted && !f.tipoDocumento.invalid }"
+                                [(ngModel)]="selectedTipoDocumento">
+                              </ng-select>
                             </div>
-                            <div class="col-md-3">
-                          <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                          </div>
+                          <div class="form-group row" >
+                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Numero
+                              Doc.</label>
+                            <div class="col-md-9">
+                              <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
+                                class="form-control" id="validationTooltip08" placeholder="Numero Documento"
+                                [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
+                                <small class="form-text text-muted danger" *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
+                              letras</small>
+                            <small class="form-text text-muted danger"
+                              *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
+                              letras</small>
+                            </div>
+                            
+                          </div>
+
+
+                        </div>
+                        <div class="col-12 col-md-7">
+                          <div class="form-group row" style="margin-top: 1rem;">
+                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Socio</label>
+                            <div class="col-md-9">
+                              <input id="validationTooltip08" type="text" class="form-control" formControlName="socio"
+                                name="first-name"
+                                [ngClass]="{ 'is-invalid': submitted && f.socio.invalid, 'is-valid': submitted && !f.socio.invalid }">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-3 col-form-label card-text" for="validationTooltip09">Nombre/Rz.
+                              Social</label>
+                            <div class="col-md-9">
+                              <input type="text" class="form-control" id="validationTooltip09"
+                                formControlName="rzsocial"
+                                [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }"
+                                name="first-name">
+                            </div>
+                          </div>
                         </div>
                         </div>
+                        <div class="row">
+                          <div class="col-12">
+                          <div class="form-group row">
+                            <div class="col-md-10">
+                              <small class="form-text text-muted danger"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            </div>
+                            <div class="col-md-2">
+                              <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                        </div>
+                      
                       <div class="d-flex justify-content-between align-items-center">
                         <ngx-spinner></ngx-spinner>
                       </div>
                       <div class="row" style="text-align: center; background-color: #F7F7F8;">
                         <div class="card-subtitle-form card-text">Resultado de la Busqueda</div>
                       </div>
-                      
+
                       <div class="row" style="margin-top: 0.5rem;">
                         <div class="col-12">
                           <fieldset class="form-group">
-                            <label>Show
+                            <label style="font-size: 0.6rem;">Show
                               <select name="users-list-select" style="font-size: 0.8rem;"
                                 class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
                                 (click)="updateLimit($event)">
@@ -179,38 +198,43 @@
                                 <option value="100">100</option>
                               </select>
                               entries</label>
-                            <label for="ngx-filter-ref" class="float-right">Search:
-                              <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
-                                type="text" (keyup)="filterUpdate($event)" />
+                            <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
+                              <input id="ngx-filter-ref"
+                                class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                (keyup)="filterUpdate($event)" />
                             </label>
                           </fieldset>
-                          <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
+                          <ngx-datatable #tableProveedor class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selected" 
-                            [selectionType]="'single'" (select)="seleccionarProveedor(selected)" >
+                            style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selected"
+                            [selectionType]="'single'" (select)="seleccionarProveedor(selected)">
                             <ngx-datatable-column name="Cod. Socio" prop="CodigoSocio" width="30">
                               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                                
+
                                 <div class="d-flex align-items-center">
                                   <div class="cell-line-height">
-                                <a >{{ name }}</a>
+                                    <a>{{ name }}</a>
                                   </div>
-                                  </div>
+                                </div>
 
                               </ng-template>
                             </ngx-datatable-column>
-                           
-                            <ngx-datatable-column name="Tipo Doc." prop="TipoDocumento" width="20"></ngx-datatable-column>
-                            <ngx-datatable-column name="Documento" prop="NumeroDocumento" width="40"></ngx-datatable-column>
-                            <ngx-datatable-column name="Razon Social" prop="NombreRazonSocial"width="60"></ngx-datatable-column>
-                            <ngx-datatable-column name="Departamento" prop="Departamento" width="25"></ngx-datatable-column>
+
+                            <ngx-datatable-column name="Tipo Doc." prop="TipoDocumento" width="20">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Documento" prop="NumeroDocumento" width="40">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Razon Social" prop="NombreRazonSocial" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="25">
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Provincia" prop="Provincia" width="25"></ngx-datatable-column>
                             <ngx-datatable-column name="Distrito" prop="Distrito" width="25"></ngx-datatable-column>
                             <ngx-datatable-column name="Zona" prop="Zona" width="25"></ngx-datatable-column>
                           </ngx-datatable>
                         </div>
                       </div>
-                    
+
                     </form>
                   </div>
                   <div class="modal-footer">
@@ -224,13 +248,13 @@
               </div>
               <div class="col-12 col-md-5">
                 <label for="basicInput" style="font-size: 0.7rem;">Departamento</label>
-                <input type="text" class="form-control" id="basicInput"   formControlName="provDepartamento" disabled>
+                <input type="text" class="form-control" id="basicInput" formControlName="provDepartamento" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Provincia</label>
-                <input type="text" class="form-control" id="basicInput"   formControlName="provProvincia" disabled>
+                <input type="text" class="form-control" id="basicInput" formControlName="provProvincia" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Distrito</label>
-                <input type="text" class="form-control" id="basicInput"  formControlName="provDistrito" disabled>
+                <input type="text" class="form-control" id="basicInput" formControlName="provDistrito" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Zona</label>
-                <input type="text" class="form-control" id="basicInput"   formControlName="provZona" disabled>
+                <input type="text" class="form-control" id="basicInput" formControlName="provZona" disabled>
               </div>
             </div>
             <div class="row"
@@ -243,8 +267,8 @@
                 <div class="form-group">
                   <div class="controls">
                     <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto"
-                      placeholder="Seleccionar Tipo" formControlName="producto"
-                      (change)="changeSubProducto($event)" bindLabel="Label" bindValue="Codigo">
+                      placeholder="Seleccionar Tipo" formControlName="producto" (change)="changeSubProducto($event)"
+                      bindLabel="Label" bindValue="Codigo">
                     </ng-select>
                   </div>
                 </div>
@@ -284,7 +308,7 @@
       </div>
     </div>
   </div>
-  
+
 </section>
 <section class="users-edit">
   <div class="row">
@@ -299,193 +323,15 @@
                   <span class="d-none d-sm-block">Pesado del Cafe</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <!-- Account content starts -->
-                  <div class="mt-2" id="account">
-
-                    <!-- Account form starts -->
-                    <form>
-                      <div class="row">
-                        <div class="col-12 col-md-6">
-                          <ul class="list-group" id="multiple-list-group-a">
-                            <li class="list-group-item draggable">
-                              <div class="media">
-                                <div class="media-body">
-                                  <h5 class="mt-0" style="text-align: center;">Pesado del Café</h5>
-                                  <div class="form-group row"
-                                    style="background-color: #F7F7F8; text-align: center; margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-6 col-form-label" for="striped-form">DETALLE</label>
-                                    <label class="col-md-6 col-form-label" for="striped-form">VALORES</label>
-
-                                  </div>
-                                  <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Unidad
-                                      Medida</label>
-                                    <div class="col-md-8">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text"
-                                      for="horizontal-form-1">Cantidad</label>
-                                    <div class="col-md-8">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Kilos
-                                      Brutos</label>
-                                    <div class="col-md-8">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text"
-                                      for="horizontal-form-1">Tara</label>
-                                    <div class="col-md-8">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row last mb-3">
-                                    <label class="col-md-3 label-control card-text"
-                                      for="bordered-form-6">Observaciones</label>
-                                    <div class="col-md-9">
-                                      <div class="position-relative has-icon-left">
-                                        <textarea id="bordered-form-6" rows="4" class="form-control"
-                                          name="notes"></textarea>
-                                        <div class="form-control-position">
-                                          <i class="ft-file"></i>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                          <ul class="list-group" id="multiple-list-group-a">
-                            <li class="list-group-item draggable">
-                              <div class="media">
-                                <div class="media-body">
-                                  <h5 class="mt-0" style="text-align: center;">Analisis Fisico (Rendimiento Exportable)
-                                  </h5>
-                                  <div class="form-group row"
-                                    style="background-color: #F7F7F8; text-align: center;margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">Detalle</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">Gramos</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">%</label>
-                                  </div>
-                                  <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text"
-                                      for="horizontal-form-1">Exportable</label>
-                                    <div class="col-md-4">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                    <div class="col-md-4">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label"
-                                      for="horizontal-form-1 card-text">Descarte</label>
-                                    <div class="col-md-4">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                    <div class="col-md-4">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text"
-                                      for="horizontal-form-1">Cascarilla</label>
-                                    <div class="col-md-4">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                    <div class="col-md-4">
-                                      <input type="text" class="form-control square" id="horizontal-form-1"
-                                        name="first-name">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row"
-                                    style="background-color: #F7F7F8; text-align: center;margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">Total</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">0.00</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">0%</label>
-                                  </div>
-                                  <div class="form-group row last mb-3">
-                                    <label class="col-md-3 label-control card-text"
-                                      for="bordered-form-6">Observaciones</label>
-                                    <div class="col-md-9">
-                                      <div class="position-relative has-icon-left">
-                                        <textarea id="bordered-form-6" rows="4" class="form-control"
-                                          name="notes"></textarea>
-                                        <div class="form-control-position">
-                                          <i class="ft-file"></i>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="row" style="margin-top: 2rem;">
-                        <div class="col-12 d-flex flex-sm-row flex-column">
-
-                          <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                          <div class="col-md-5">
-                            <input type="text" class="form-control square" id="horizontal-form-1" name="first-name"
-                              value="Soto Torres, Luis">
-                          </div>
-                          <div class="col-md-4 justify-content-end !important">
-                            <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2">Guardar</button>
-                          </div>
-                        </div>
-
-                      </div>
-
-                    </form>
-                    <!-- Account form ends -->
-                  </div>
-                  <!-- Account content ends -->
-
-
-                </ng-template>
-
+                <app-pesadoCafe></app-pesadoCafe>
+              </ng-template>
               </li>
               <li [ngbNavItem]="2">
                 <a ngbNavLink class="nav-link d-flex align-items-center">
                   <span class="d-none d-sm-block">Control de Calidad</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <ngb-alert [dismissible]="false" class="d-block mt-3" type="success">
-                    This tab content DOM will always stay in DOM
-                  </ngb-alert>
-
-                  <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-                    farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip
-                    jean shorts
-                    ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.
-                    Keytar
-                    helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum
-                    wes anderson
-                    8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party
-                    scenester
-                    stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+                 <app-controlCalidad></app-controlCalidad>
                 </ng-template>
               </li>
               <li [ngbNavItem]="3">

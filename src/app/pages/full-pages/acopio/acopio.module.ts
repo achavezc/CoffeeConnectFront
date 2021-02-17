@@ -18,6 +18,8 @@ import { MatchHeightModule } from "../../../shared/directives/match-height.direc
 
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
 import { MateriaPrimaEditComponent } from "./operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component";
+import { PesadoCafeComponent } from "./operaciones/materiaprima/materiaprima-edit/pesadoCafe/pesadoCafe.component";
+import { ControlCalidadComponent } from "./operaciones/materiaprima/materiaprima-edit/controlCalidad/controlCalidad.component";
 
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 
@@ -52,8 +54,13 @@ import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-al
     MateriaPrimaListComponent,
     MateriaPrimaEditComponent,
     NotacompraListComponent,
+    PesadoCafeComponent,
+    ControlCalidadComponent,
     IngresoAlmacenComponent
-
+  ],
+  exports: [
+    PesadoCafeComponent,
+    ControlCalidadComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

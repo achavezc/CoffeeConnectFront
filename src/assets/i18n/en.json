@@ -180,6 +180,10 @@
 			"LiquidacionCompra":
 				{
 					"Label":"Purchase Settlement"
+				},
+			"IngresoAlmacen":
+				{
+					"Label":"Warehouse Entry"
 				}
 		},
 		"Administracion":

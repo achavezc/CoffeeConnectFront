@@ -8,6 +8,8 @@ import { AcopioService, FiltrosProveedor } from '../../../../../../services/acop
 import { NgxSpinnerService } from "ngx-spinner";
 import { host } from '../../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../../services/models/login';
+import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-materiaprima-list',
@@ -27,9 +29,11 @@ export class MateriaPrimaEditComponent implements OnInit {
   listaSubProducto: any[];
   listaTipoProveedor: any[];
   selectTipoProveedor: any;
+  selectTipoSocio: any;
   selectedEstado: any;
   selectProducto: any;
   selectSubProducto: any;
+  selectedTipoDocumento: any;
   listSub: any[];
   selected = [];
   popupModel;
@@ -41,11 +45,12 @@ export class MateriaPrimaEditComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   listTipoSocio: any[];
+  listaTipoDocumento: any[];
 
-  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
-    private spinner: NgxSpinnerService, private acopioService: AcopioService) {
+    private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
   singleSelectCheck(row: any) {
@@ -66,7 +71,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         subproducto: new FormControl('', []),
         provNombre: new FormControl('', []),
         provDocumento: new FormControl('', []),
-        provTipoSocio: new FormControl('', []),
+        provTipoSocio: new FormControl({disabled: true}, []),
         provCodigo: new FormControl('', []),
         provDepartamento: new FormControl('', []),
         provProvincia: new FormControl('', []),
@@ -80,11 +85,23 @@ export class MateriaPrimaEditComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-<<<<<<< HEAD
 }*/
   openModal(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
+    
     this.cargarProveedor();
+    this.clear();
+    
+  }
+
+  clear() {
+    this.consultaProveedor.controls['numeroDocumento'].reset;
+    this.consultaProveedor.controls['tipoDocumento'].reset;
+    this.consultaProveedor.controls['numeroDocumento'].reset;
+    this.consultaProveedor.controls['socio'].reset;
+    this.consultaProveedor.controls['rzsocial'].reset;
+    this.selectTipoProveedor = [];
+    this.rows = [];
   }
 
   /*private getDismissReason(reason: any): string {
@@ -127,14 +144,11 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
-    // filter our data
     const temp = this.tempData.filter(function (d) {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    // update the rows
     this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.tableProveedor.offset = 0;
   }
   updateLimit(limit) {
     this.limitRef = limit.target.value;
@@ -142,14 +156,24 @@ export class MateriaPrimaEditComponent implements OnInit {
   cargarProveedor() {
     this.consultaProveedor = new FormGroup(
       {
-        tipoproveedor: new FormControl('', []),
-        ruc: new FormControl('', []),
-        dni: new FormControl('', [Validators.minLength(8), Validators.maxLength(8)]),
-        socio: new FormControl('', []),
+        tipoproveedor: new FormControl('', [Validators.required]),
+        tipoDocumento: new FormControl('', []),
+        numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        socio: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         rzsocial: new FormControl('', [])
       });
     this.consultaProveedor.setValidators(this.comparisonValidator())
 
+    this.maestroService.obtenerMaestros("TipoDocumento")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listaTipoDocumento = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
     this.maestroService.obtenerMaestros("TipoProveedor")
       .subscribe(res => {
         if (res.Result.Success) {
@@ -167,16 +191,25 @@ export class MateriaPrimaEditComponent implements OnInit {
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       const tipoproveedor = group.controls['tipoproveedor'];
-      const ruc = group.controls['ruc'];
-      const dni = group.controls['dni'];
+      const tipoDocumento = group.controls['tipoDocumento'];
+      const numeroDocumento = group.controls['numeroDocumento'];
       const socio = group.controls['socio'];
       const rzsocial = group.controls['rzsocial'];
-      if ((tipoproveedor.value == "" || tipoproveedor.value == undefined) && ruc.value == "" && dni.value == "" && socio.value == "" && rzsocial.value == "") {
+      if ((tipoproveedor.value == "" || tipoproveedor.value == undefined) && numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
 
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
+      }
+      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
+
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
+
+      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
+
+        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
+
       }
       return;
     };
@@ -185,9 +218,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   seleccionarProveedor(e) {
     this.listTipoSocio = this.listaTipoProveedor;
     this.consultaMateriaPrimaFormEdit.get('provNombre').setValue(e[0].NombreRazonSocial);
-    this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].NumeroDocumento);
-    this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].NumeroDocumento);
-    this.consultaMateriaPrimaFormEdit.get('provTipoSocio').setValue("0" + e[0].SocioId);
+    this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].TipoDocumento+ "-" + e[0].NumeroDocumento);
+    this.consultaMateriaPrimaFormEdit.get('provTipoSocio').setValue(this.consultaProveedor.controls["tipoproveedor"].value );
     this.consultaMateriaPrimaFormEdit.get('provCodigo').setValue(e[0].CodigoSocio);
     this.consultaMateriaPrimaFormEdit.get('provDepartamento').setValue(e[0].Departamento);
     this.consultaMateriaPrimaFormEdit.get('provProvincia').setValue(e[0].Provincia);
@@ -202,10 +234,10 @@ export class MateriaPrimaEditComponent implements OnInit {
     } else {
       this.submitted = false;
       this.filtrosProveedor.TipoProveedorId = this.consultaProveedor.controls['tipoproveedor'].value;
-      this.filtrosProveedor.NombreRazonSocial = this.consultaProveedor.controls['ruc'].value;
-      this.filtrosProveedor.TipoDocumentoId = this.consultaProveedor.controls['dni'].value;
-      this.filtrosProveedor.NumeroDocumento = this.consultaProveedor.controls['socio'].value;
-      this.filtrosProveedor.CodigoSocio = this.consultaProveedor.controls['rzsocial'].value;
+      this.filtrosProveedor.NombreRazonSocial = this.consultaProveedor.controls['rzsocial'].value;
+      this.filtrosProveedor.TipoDocumentoId = this.consultaProveedor.controls['tipoDocumento'].value;
+      this.filtrosProveedor.NumeroDocumento = this.consultaProveedor.controls['numeroDocumento'].value;
+      this.filtrosProveedor.CodigoSocio = this.consultaProveedor.controls['socio'].value;
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
