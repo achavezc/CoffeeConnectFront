@@ -176,6 +176,10 @@
 			"RecepcionProductoTerminado":
 				{
 					"Label":"Finished Product Reception"
+				},
+			"LiquidacionCompra":
+				{
+					"Label":"Purchase Settlement"
 				}
 		},
 		"Administracion":
