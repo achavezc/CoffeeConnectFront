@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
@@ -8,7 +8,7 @@ import swal from 'sweetalert2';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { NotaCompraService } from '../../../../../../services/nota-compra.service';
-import { ReqNotaCompraConsultar } from '../../../../../../services/models/req-notacompra-consulta';
+import { ReqNotaCompraConsultar } from '../../../../../../services/models/req-notacompra-consulta.model';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
@@ -32,8 +32,7 @@ export class NotacompraListComponent implements OnInit {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
-  @ViewChild('vform') validationForm: FormGroup;
-  consultaNotaCompraForm: any;
+  consultaNotaCompraForm: FormGroup;
   selectedTypeDocument: any;
   selectedState: any;
   selectedType: any;
@@ -50,32 +49,33 @@ export class NotacompraListComponent implements OnInit {
   selected = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
+  errorFecha: any = { isError: false, errorMessage: '' };
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    // this.consultaNotaCompraForm.value.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
-    // this.consultaNotaCompraForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
+    this.consultaNotaCompraForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
+    this.consultaNotaCompraForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
   }
 
   LoadForm(): void {
     this.consultaNotaCompraForm = this.fb.group({
-      nroGuiaRecepcion: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      tipoDocumento: [''],
-      numeroDocumento: [''],
-      nroNotaCompra: [''],
+      nroGuiaRecepcion: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      tipoDocumento: [],
+      numeroDocumento: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      nroNotaCompra: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: [''],
-      nombreRazonSocial: [''],
+      estado: [],
+      nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       codigoSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      tipo: ['']
+      tipo: []
     });
-    // this.consultaNotaCompraForm.setValidators();
+    this.consultaNotaCompraForm.setValidators(this.comparisonValidator());
   }
 
   LoadCombos(): void {
-    var form = this;
+    let form = this;
     this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion", function (res) {
       if (res.Result.Success) {
         form.listStates = res.Result.Data;
@@ -94,7 +94,30 @@ export class NotacompraListComponent implements OnInit {
   }
 
   get f() {
-    return this.consultaNotaCompraForm.value;
+    return this.consultaNotaCompraForm.controls;
+  }
+
+  public comparisonValidator(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors => {
+      let numeroGuia = group.controls['nroGuiaRecepcion'].value.trim();
+      let nroNotaCompra = group.controls['nroNotaCompra'].value.trim();
+      let numeroDocumento = group.controls['numeroDocumento'].value.trim();
+      let tipoDocumento = group.controls['tipoDocumento'].value;
+      let codigoSocio = group.controls['codigoSocio'].value.trim();
+      let nombre = group.controls['nombreRazonSocial'].value.trim();
+
+      if (numeroGuia == "" && numeroDocumento == "" && codigoSocio == "" && nombre == ""
+        && nroNotaCompra == "" && (tipoDocumento == undefined || tipoDocumento.trim() == "")) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      } else if (numeroDocumento != "" && (tipoDocumento == "" || tipoDocumento == undefined)) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
+      } else if (numeroDocumento == "" && (tipoDocumento != "" && tipoDocumento != undefined)) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
+      } else {
+        this.errorGeneral = { isError: false, errorMessage: '' };
+      }
+      return;
+    };
   }
 
   compareTwoDates(): void {
@@ -106,10 +129,10 @@ export class NotacompraListComponent implements OnInit {
 
     if (vEndDate < vBeginDate) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
-      this.consultaNotaCompraForm.value.fechaInicio.setErrors({ isError: true })
+      this.consultaNotaCompraForm.value.fechaInicio.setErrors({ isError: true });
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaNotaCompraForm.value.fechaFin.setErrors({ isError: true })
+      this.consultaNotaCompraForm.value.fechaFin.setErrors({ isError: true });
     }
     else {
       this.error = { isError: false, errorMessage: '' };

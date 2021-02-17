@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorHandling } from '../shared/util/error-handling';
 
-import { ReqNotaCompraConsultar } from './models/req-notacompra-consulta';
+import { ReqNotaCompraConsultar } from './models/req-notacompra-consulta.model';
 
 @Injectable()
 export class NotaCompraService {
