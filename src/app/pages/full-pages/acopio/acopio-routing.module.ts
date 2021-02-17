@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
 import { MateriaPrimaEditComponent } from './operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component';
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list/notacompra-list.component';
+import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 
 const routes: Routes = [
   {
@@ -27,7 +28,14 @@ const routes: Routes = [
         path: 'notasdecompra-list',
         component: NotacompraListComponent,
         data: {
-          title: 'List'
+          title: 'Liquidación de compra'
+        }
+      },
+      {
+        path: 'ingresoalmacen-list',
+        component: IngresoAlmacenComponent,
+        data: {
+          title: 'Ingreso a almacen'
         }
       }
     ]

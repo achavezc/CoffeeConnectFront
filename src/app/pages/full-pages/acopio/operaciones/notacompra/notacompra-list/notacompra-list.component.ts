@@ -8,7 +8,7 @@ import swal from 'sweetalert2';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { NotaCompraService } from '../../../../../../services/nota-compra.service';
-import { ReqNotaCompraConsultar } from '../../../../../../services/models/req-notacompra-consulta';
+import { ReqNotaCompraConsultar } from '../../../../../../services/models/req-notacompra-consulta.model';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
@@ -129,10 +129,10 @@ export class NotacompraListComponent implements OnInit {
 
     if (vEndDate < vBeginDate) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
-      this.consultaNotaCompraForm.value.fechaInicio.setErrors({ isError: true })
+      this.consultaNotaCompraForm.value.fechaInicio.setErrors({ isError: true });
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaNotaCompraForm.value.fechaFin.setErrors({ isError: true })
+      this.consultaNotaCompraForm.value.fechaFin.setErrors({ isError: true });
     }
     else {
       this.error = { isError: false, errorMessage: '' };
