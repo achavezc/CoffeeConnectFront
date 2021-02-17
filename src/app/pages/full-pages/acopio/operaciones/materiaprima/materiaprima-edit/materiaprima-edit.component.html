@@ -80,11 +80,9 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="provNombre" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Doc. Identidad</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" disabled>
-                <!--<label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
-                <input type="text" class="form-control" id="basicInput"   formControlName="provTipoSocio" disabled>-->
                 <label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
-                <ng-select [items]="listTipoSocio" [(ngModel)]="selectTipoProveedor" formControlName="provTipoSocio"
-                  bindLabel="Label" bindValue="Codigo" disabled>
+                <ng-select [items]="listTipoSocio" [(ngModel)]="selectTipoSocio" formControlName="provTipoSocio"
+                  bindLabel="Label" bindValue="Codigo" disabled ="disabled">
                 </ng-select>
 
                 <label for="basicInput" style="font-size: 0.7rem;">Codigo</label>

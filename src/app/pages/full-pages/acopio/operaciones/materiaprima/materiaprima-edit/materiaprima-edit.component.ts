@@ -29,6 +29,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   listaSubProducto: any[];
   listaTipoProveedor: any[];
   selectTipoProveedor: any;
+  selectTipoSocio: any;
   selectedEstado: any;
   selectProducto: any;
   selectSubProducto: any;
@@ -47,7 +48,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   listaTipoDocumento: any[];
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
-  @ViewChild(NgSelectComponent) ngSelectComponent: NgSelectComponent;
+
   constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
     private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
@@ -90,19 +91,17 @@ export class MateriaPrimaEditComponent implements OnInit {
     
     this.cargarProveedor();
     this.clear();
+    
   }
 
   clear() {
     this.consultaProveedor.controls['numeroDocumento'].reset;
-    //this.consultaProveedor.get('provZtipoproveedorona').setValue();
-    //this.consultaProveedor.controls['tipoproveedor'].value(new );
     this.consultaProveedor.controls['tipoDocumento'].reset;
     this.consultaProveedor.controls['numeroDocumento'].reset;
     this.consultaProveedor.controls['socio'].reset;
     this.consultaProveedor.controls['rzsocial'].reset;
-    //this.tableProveedor.des
-    this.ngSelectComponent.readonly= true;
-
+    this.selectTipoProveedor = [];
+    this.rows = [];
   }
 
   /*private getDismissReason(reason: any): string {
@@ -145,13 +144,10 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
-    // filter our data
     const temp = this.tempData.filter(function (d) {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    // update the rows
     this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
     this.tableProveedor.offset = 0;
   }
   updateLimit(limit) {
