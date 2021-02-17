@@ -132,6 +132,8 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="!ingresoAlmacenForm.valid" (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="rows.length <= 0">Generar Lotes</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
                                 [disabled]="rows.length <= 0">Exportar</button>
                         </form>
@@ -171,18 +173,10 @@
                                     (keyup)="filterUpdate($event)" />
                             </label>
                         </fieldset>
-                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
-                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            [scrollbarH]="true" [selectCheck]="singleSelectCheck" [selected]="selected"
-                            [selectionType]="'single'">
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'multi'">
                             <ngx-datatable-column name="N° Nota Ingreso" prop="Numero" width="130">
-                                <!-- <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                                    <div class="d-flex align-items-center">
-                                        <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0" routerLink="/pages/users-view">{{ name }}</a>
-                                        </div>
-                                    </div>
-                                </ng-template> -->
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="70">
                             </ngx-datatable-column>
@@ -210,6 +204,9 @@
                                         {{ status }}
                                     </div>
                                 </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Lote" prop="Lote" width="50" [headerCheckboxable]="true"
+                                [checkboxable]="true">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>

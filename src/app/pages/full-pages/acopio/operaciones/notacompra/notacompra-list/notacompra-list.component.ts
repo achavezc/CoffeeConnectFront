@@ -76,7 +76,7 @@ export class NotacompraListComponent implements OnInit {
 
   LoadCombos(): void {
     let form = this;
-    this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion", function (res) {
+    this.maestroUtil.obtenerMaestros("EstadoNotaCompra", function (res) {
       if (res.Result.Success) {
         form.listStates = res.Result.Data;
       }
@@ -188,10 +188,8 @@ export class NotacompraListComponent implements OnInit {
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
               if (!exportExcel) {
-                let vFecha: Date;
                 res.Result.Data.forEach((obj: any) => {
-                  vFecha = new Date(obj.FechaRegistro);
-                  obj.FechaRegistroCadena = vFecha.getUTCDate() + "/" + vFecha.getUTCMonth() + 1 + "/" + vFecha.getUTCFullYear();
+                  obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
                 });
                 this.tempData = res.Result.Data;
                 this.rows = [...this.tempData];
@@ -248,7 +246,7 @@ export class NotacompraListComponent implements OnInit {
 
   Anular(): void {
     if (this.selected.length > 0) {
-      if (this.selected[0].EstadoId == "01") {
+      if (this.selected[0].EstadoId == "02") {
         let form = this;
         swal.fire({
           title: 'Confirmación',

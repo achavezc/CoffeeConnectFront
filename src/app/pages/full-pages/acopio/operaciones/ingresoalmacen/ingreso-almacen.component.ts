@@ -50,7 +50,7 @@ export class IngresoAlmacenComponent implements OnInit {
   submitted: boolean = false;
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  ColumnMode = ColumnMode;
+  // ColumnMode = ColumnMode;
   selected = [];
 
   ngOnInit(): void {
@@ -103,11 +103,7 @@ export class IngresoAlmacenComponent implements OnInit {
         form.listProducts = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
-      if (res.Result.Success) {
-        form.listByProducts = res.Result.Data;
-      }
-    });
+
   }
 
   public comparisonValidator(): ValidatorFn {
@@ -151,7 +147,14 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   changeProduct(e: any): void {
-
+    let form = this;
+    this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
+      if (res.Result.Success) {
+        if (res.Result.Data.length > 0) {
+          form.listByProducts = res.Result.Data.filter(x => x.Val1 == e.Codigo);
+        }
+      }
+    });
   }
 
   updateLimit(limit) {
@@ -204,10 +207,8 @@ export class IngresoAlmacenComponent implements OnInit {
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
               if (!exportExcel) {
-                let vFecha: Date;
                 res.Result.Data.forEach((obj: any) => {
-                  vFecha = new Date(obj.FechaRegistro);
-                  obj.FechaRegistroCadena = vFecha.getUTCDate() + "/" + vFecha.getUTCMonth() + 1 + "/" + vFecha.getUTCFullYear();
+                  obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
                 });
                 this.tempData = res.Result.Data;
                 this.rows = [...this.tempData];
@@ -264,4 +265,12 @@ export class IngresoAlmacenComponent implements OnInit {
     this.Buscar(true);
   }
 
+  GenerarLote(): void {
+    let request = {
+      NotasIngresoAlmacenId: [],
+      Usuario: "",
+      EmpresaId: 0,
+      AlmacenId: 0
+    }
+  }
 }
