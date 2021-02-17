@@ -67,8 +67,8 @@
                                         id="fechaInicio" name="fechaInicio" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
                                         (blur)="compareTwoDates()" />
-                                    <!-- <small class="form-text text-muted danger"
-                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small> -->
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaFin">Fecha Fin</label>
@@ -123,14 +123,15 @@
                                         [(ngModel)]="selectedType">
                                     </ng-select>
                                 </div>
-                                <!-- <small class="form-text text-muted danger"
-                                    *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small> -->
                             </div>
+                            <small class="form-text text-muted danger"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="!consultaNotaCompraForm.valid" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()">Anular</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button"
-                                (click)="Exportar()">Exportar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
+                                [disabled]="selected.length <= 0">Anular</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
+                                [disabled]="rows.length <= 0">Exportar</button>
                         </form>
                     </div>
                 </div>
@@ -172,7 +173,7 @@
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
                             [scrollbarH]="true" [selectCheck]="singleSelectCheck" [selected]="selected"
                             [selectionType]="'single'">
-                            <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="40">
+                            <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="130">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -181,19 +182,19 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° Nota de Compra" prop="Numero" width="60">
+                            <ngx-datatable-column name="N° Nota de Compra" prop="Numero" width="120">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="60">
+                            <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="70">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="30">
+                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="60">
+                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha" prop="FechaRegistroCadena" width="40">
+                            <ngx-datatable-column name="Fecha" prop="FechaRegistroCadena" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="40">
+                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge" [ngClass]="{
                           'bg-light-success': status == 'Pesado',
@@ -204,11 +205,11 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo" prop="Tipo" width="50">
+                            <ngx-datatable-column name="Tipo" prop="Tipo" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="KG. Neto a Pagar" prop="KilosNetosPagar" width="30">
+                            <ngx-datatable-column name="KG. Neto a Pagar" prop="KilosNetosPagar" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Importe" prop="Importe" width="30">
+                            <ngx-datatable-column name="Importe" prop="Importe" width="80">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
