@@ -11,6 +11,8 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { ReqIngresoAlmacenConsultar } from '../../../../../services/models/req-ingresoalmacen-consultar.model';
 import { NotaIngresoAlmacenService } from '../../../../../services/nota-ingreso-almacen.service';
+import { LoteService } from '../../../../../services/lote.service';
+import { AlertUtil } from '../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-ingreso-almacen',
@@ -25,8 +27,10 @@ export class IngresoAlmacenComponent implements OnInit {
     private dateUtil: DateUtil,
     private excelService: ExcelService,
     private spinner: NgxSpinnerService,
-    private ingresoAlmacenService: NotaIngresoAlmacenService) {
-    this.singleSelectCheck = this.singleSelectCheck.bind(this);
+    private ingresoAlmacenService: NotaIngresoAlmacenService,
+    private loteService: LoteService,
+    private alertUtil: AlertUtil) {
+    // this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
   ingresoAlmacenForm: any;
@@ -176,8 +180,49 @@ export class IngresoAlmacenComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  singleSelectCheck(row: any) {
-    return this.selected.indexOf(row) === -1;
+  // singleSelectCheck(row: any) {
+  //   return this.selected.indexOf(row) === -1;
+  // }
+
+  onSelect(event): void {
+    if (event && event.selected.length > 0) {
+      let obj: any = {};
+      for (let i = 0; i < event.selected.length; i++) {
+        obj = event.selected[i];
+        if (obj.EstadoId == "01" && obj.AlmacenId) {
+          this.selected.push(obj);
+        }
+      }
+      if (event.selected.length > 1 && this.selected.length <= 0) {
+        this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y se encuentra en estado INGRESADO.");
+      }
+    }
+  }
+
+  onActive(event): void {
+    if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
+      if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
+        let obj: any = {};
+        for (let i = 0; i < this.selected.length; i++) {
+          obj = this.selected[i];
+          if (obj.GuiaRecepcionMateriaPrimaId == event.row.GuiaRecepcionMateriaPrimaId
+            && obj.TipoProvedorId == event.row.TipoProvedorId
+            && obj.ProveedorId == event.row.ProveedorId
+            && obj.TipoDocumentoId == event.row.TipoDocumentoId
+            && obj.SubProductoId == event.row.SubProductoId
+            && obj.EstadoId == event.row.EstadoId
+            && obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
+            this.selected.splice(i, 1);
+            this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN o su estado no es INGRESADO.");
+            break;
+          }
+        }
+      }
+    } else {
+      if (this.selected.length <= 0) {
+        this.selected = [];
+      }
+    }
   }
 
   Buscar(exportExcel?: boolean): void {
@@ -273,11 +318,61 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   GenerarLote(): void {
-    let request = {
-      NotasIngresoAlmacenId: [],
-      Usuario: "",
-      EmpresaId: 0,
-      AlmacenId: 0
-    }
+    let form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `Solo se procesarán las filas que se encuentren en estado INGRESADO y cuenten con un ALMACÉN asignado.¿Estás seguro de continuar?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        form.ProcesarGenerarLote();
+      }
+    });
   }
+
+  ProcesarGenerarLote(): void {
+    this.spinner.show();
+    let request = {}
+    let obj: any = {}
+    for (let i = 0; i < this.selected.length; i++) {
+      obj = this.selected[i];
+      if (obj.EstadoId && obj.EstadoId == "01" && obj.AlmacenId) {
+        request = {
+          NotasIngresoAlmacenId: [{
+            Id: obj.NotaIngresoAlmacenId
+          }],
+          Usuario: "mruizb",
+          EmpresaId: 1,
+          AlmacenId: obj.AlmacenId
+        };
+
+        this.loteService.Generar(request)
+          .subscribe(res => {
+            this.spinner.hide();
+            if (!res.Result.Success) {
+              if (res.Result.Message && res.Result.ErrCode) {
+                this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              } else {
+                this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              }
+            }
+          }, err => {
+            console.log(err);
+            this.spinner.hide();
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          });
+      }
+    }
+    this.spinner.hide();
+  }
+
 }

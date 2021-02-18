@@ -132,7 +132,7 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="!ingresoAlmacenForm.valid" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GenerarLote()"
                                 [disabled]="!selected.length">Generar Lotes</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
                                 [disabled]="!rows.length">Exportar</button>
@@ -175,7 +175,8 @@
                         </fieldset>
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
-                            [selected]="selected" [selectionType]="'multi'">
+                            [selected]="selected" [selectionType]="'checkbox'" (activate)="onActive($event)"
+                            (select)="onSelect($event)">
                             <ngx-datatable-column name="N° Nota Ingreso" prop="Numero" width="130">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="70">
@@ -197,15 +198,15 @@
                             <ngx-datatable-column name="Estado" prop="Estado" width="100">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge" [ngClass]="{
-                          'bg-light-success': status == 'Pesado',
+                          'bg-light-success': status == 'Ingresado',
                           'bg-light-danger': status == 'Anulado',
-                          'bg-light-warning': status == 'Analizado'
+                          'bg-light-warning': status == 'Lotizado'
                         }">
                                         {{ status }}
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Lote" prop="Lote" width="50" [headerCheckboxable]="true"
+                            <ngx-datatable-column name="Lote" prop="Lote" width="70" [headerCheckboxable]="true"
                                 [checkboxable]="true">
                             </ngx-datatable-column>
                         </ngx-datatable>
