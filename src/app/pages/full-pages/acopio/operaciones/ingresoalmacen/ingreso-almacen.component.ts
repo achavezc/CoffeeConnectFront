@@ -185,44 +185,45 @@ export class IngresoAlmacenComponent implements OnInit {
   // }
 
   onSelect(event): void {
-    if (event && event.selected.length > 0) {
-      let obj: any = {};
-      for (let i = 0; i < event.selected.length; i++) {
-        obj = event.selected[i];
-        if (obj.EstadoId == "01" && obj.AlmacenId) {
-          this.selected.push(obj);
-        }
-      }
-      if (event.selected.length > 1 && this.selected.length <= 0) {
-        this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y se encuentra en estado INGRESADO.");
-      }
-    }
+    this.selected = event.selected;
+    // if (event && event.selected.length > 0) {
+    //   let obj: any = {};
+    //   for (let i = 0; i < event.selected.length; i++) {
+    //     obj = event.selected[i];
+    //     if (obj.EstadoId == "01" && obj.AlmacenId) {
+    //       this.selected.push(obj);
+    //     }
+    //   }
+    //   if (event.selected.length > 1 && this.selected.length <= 0) {
+    //     this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y se encuentra en estado INGRESADO.");
+    //   }
+    // }
   }
 
   onActive(event): void {
-    if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
-      if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
-        let obj: any = {};
-        for (let i = 0; i < this.selected.length; i++) {
-          obj = this.selected[i];
-          if (obj.GuiaRecepcionMateriaPrimaId == event.row.GuiaRecepcionMateriaPrimaId
-            && obj.TipoProvedorId == event.row.TipoProvedorId
-            && obj.ProveedorId == event.row.ProveedorId
-            && obj.TipoDocumentoId == event.row.TipoDocumentoId
-            && obj.SubProductoId == event.row.SubProductoId
-            && obj.EstadoId == event.row.EstadoId
-            && obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
-            this.selected.splice(i, 1);
-            this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN o su estado no es INGRESADO.");
-            break;
-          }
-        }
-      }
-    } else {
-      if (this.selected.length <= 0) {
-        this.selected = [];
-      }
-    }
+    // if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
+    //   if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
+    //     let obj: any = {};
+    //     for (let i = 0; i < this.selected.length; i++) {
+    //       obj = this.selected[i];
+    //       if (obj.GuiaRecepcionMateriaPrimaId == event.row.GuiaRecepcionMateriaPrimaId
+    //         && obj.TipoProvedorId == event.row.TipoProvedorId
+    //         && obj.ProveedorId == event.row.ProveedorId
+    //         && obj.TipoDocumentoId == event.row.TipoDocumentoId
+    //         && obj.SubProductoId == event.row.SubProductoId
+    //         && obj.EstadoId == event.row.EstadoId
+    //         && obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
+    //         this.selected.splice(i, 1);
+    //         this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN o su estado no es INGRESADO.");
+    //         break;
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   if (this.selected.length <= 0) {
+    //     this.selected = [];
+    //   }
+    // }
   }
 
   Buscar(exportExcel?: boolean): void {
@@ -318,44 +319,35 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   GenerarLote(): void {
-    let form = this;
-    swal.fire({
-      title: 'Confirmación',
-      text: `Solo se procesarán las filas que se encuentren en estado INGRESADO y cuenten con un ALMACÉN asignado.¿Estás seguro de continuar?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2F8BE6',
-      cancelButtonColor: '#F55252',
-      confirmButtonText: 'Si',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        form.ProcesarGenerarLote();
-      }
-    });
+    if (this.selected.length > 0) {
+      let form = this;
+      swal.fire({
+        title: 'Confirmación',
+        text: `Solo se procesarán las filas que se encuentren en estado INGRESADO y cuenten con ALMACÉN asignado.¿Estás seguro de continuar?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.ProcesarGenerarLote();
+        }
+      });
+    }
   }
 
   ProcesarGenerarLote(): void {
     this.spinner.show();
-    let request = {}
-    let obj: any = {}
-    for (let i = 0; i < this.selected.length; i++) {
-      obj = this.selected[i];
-      if (obj.EstadoId && obj.EstadoId == "01" && obj.AlmacenId) {
-        request = {
-          NotasIngresoAlmacenId: [{
-            Id: obj.NotaIngresoAlmacenId
-          }],
-          Usuario: "mruizb",
-          EmpresaId: 1,
-          AlmacenId: obj.AlmacenId
-        };
-
-        this.loteService.Generar(request)
+    let request = this.DevolverRequestGenerarLotes();
+    if (request && request.length > 0) {
+      for (let i = 0; i < request.length; i++) {
+        this.loteService.Generar(request[i])
           .subscribe(res => {
             this.spinner.hide();
             if (!res.Result.Success) {
@@ -371,8 +363,100 @@ export class IngresoAlmacenComponent implements OnInit {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           });
       }
+    } else {
+      this.alertUtil.alertError("Advertencia",
+        "Niguna de las filas seleccionadas se encuentran en estado INGRESADO y tienen asignado un ALMACEN.");
     }
     this.spinner.hide();
+  }
+
+  Anular(): void {
+    if (this.selected.length > 0) {
+      if (this.selected.length == 1) {
+        let vIngresados = this.DevolverSoloIngresados();
+        if (vIngresados.length <= 0) {
+          this.alertUtil.alertError("Advertencia",
+            "Ninguna de las filas selccionadas se encuentran en estado INGRESADO.");
+          return;
+        }
+        this.spinner.show();
+        let obj: any = {};
+        for (let i = 0; i < vIngresados.length; i++) {
+          obj = this.selected[i];
+          this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, "mruizb")
+            .subscribe(res => {
+              if (!res.Result.Success) {
+                if (res.Result.Message && res.Result.ErrCode) {
+                  this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+                } else {
+                  this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+                }
+              }
+            }, err => {
+              console.log(err);
+              this.spinner.hide();
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            });
+        }
+        this.alertUtil.alertOk("Confirmación",
+          "Se han anulado las filas seleccionadas correctamente.");
+      } else {
+        this.alertUtil.alertError("Advertencia",
+          "Por favor para ANULAR solo seleccionar de UNO en UNO.");
+      }
+    } else {
+      this.alertUtil.alertError("Advertencia",
+        "No existen filas seleccionadas para anular.");
+    }
+  }
+
+  DevolverSoloIngresados(): any[] {
+    let result: any[] = [];
+    let obj: any = {};
+    for (let i = 0; i < this.selected.length; i++) {
+      obj = this.selected[i];
+      if (obj.EstadoId && obj.EstadoId == "01") {
+        result.push(obj);
+      }
+    }
+    return result;
+  }
+
+  DevolverFilasValidas(): any[] {
+    let result: any[] = [];
+    let obj: any = {};
+    for (let i = 0; i < this.selected.length; i++) {
+      obj = this.selected[i];
+      if (obj.EstadoId && obj.EstadoId == "01" && obj.AlmacenId) {
+        result.push(obj);
+      }
+    }
+    return result;
+  }
+
+  DevolverRequestGenerarLotes(): any[] {
+    let result: any[] = [], vObjRequest: any = {};
+    let vFilas = this.DevolverFilasValidas();
+    if (vFilas && vFilas.length > 0) {
+      let vArrAlmacenes: number[] = vFilas.map(x => x.AlmacenId);
+      if (vArrAlmacenes) {
+        let vArrIdsNotaIngreso: any[] = [];
+        vArrAlmacenes.forEach((cv, index, arr) => {
+          vFilas.filter(x => x.AlmacenId == cv).forEach(x => {
+            vArrIdsNotaIngreso.push({ Id: x.NotaIngresoAlmacenId })
+          });
+
+          vObjRequest = {
+            Usuario: "mruizb",
+            EmpresaId: 1,
+            AlmacenId: cv
+          };
+          vObjRequest.NotasIngresoAlmacenId.push(vArrIdsNotaIngreso);
+          result.push(vObjRequest);
+        });
+      }
+    }
+    return result;
   }
 
 }
