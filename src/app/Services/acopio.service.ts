@@ -59,12 +59,14 @@ export class AcopioService {
 
   registrarPesado(request:ReqRegistrarPesado): Observable<any> {
     const url = `${this.url}/RegistrarPesado`;
-     
-    const body: any = {
-      GuiaRecepcionMateriaPrimaId: request,
-      Usuario: "mruizb"
-    };
-    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+    request.EmpresaId = 1;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+  
+  actualizarPesado(request:ReqRegistrarPesado): Observable<any> {
+    const url = `${this.url}/RegistrarPesado`;
+    request.EmpresaId = 1;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
 
