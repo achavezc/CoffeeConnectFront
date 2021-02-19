@@ -17,4 +17,14 @@ export class LoteService {
     let url = `${this.url}/Generar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+
+  Consultar(request: any) {
+    let url = `${this.url}/Consultar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
+
+  Anular(request: any) {
+    let url = `${this.url}/Anular`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
 }

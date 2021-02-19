@@ -5,6 +5,7 @@ import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiapri
 import { MateriaPrimaEditComponent } from './operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component';
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
+import { LotesComponent } from './operaciones/lotes/lotes.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,13 @@ const routes: Routes = [
         component: IngresoAlmacenComponent,
         data: {
           title: 'Ingreso a almacen'
+        }
+      },
+      {
+        path: 'lotes-list',
+        component: LotesComponent,
+        data: {
+          title: 'Lotes'
         }
       }
     ]

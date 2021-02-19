@@ -28,6 +28,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
+import { LotesComponent } from './operaciones/lotes/lotes.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-al
     NotacompraListComponent,
     PesadoCafeComponent,
     ControlCalidadComponent,
-    IngresoAlmacenComponent
+    IngresoAlmacenComponent,
+    LotesComponent
   ],
   exports: [
     PesadoCafeComponent,

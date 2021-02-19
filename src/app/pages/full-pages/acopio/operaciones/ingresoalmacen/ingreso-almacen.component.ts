@@ -398,6 +398,7 @@ export class IngresoAlmacenComponent implements OnInit {
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             });
         }
+        this.Buscar();
         this.alertUtil.alertOk("Confirmación",
           "Se han anulado las filas seleccionadas correctamente.");
       } else {
