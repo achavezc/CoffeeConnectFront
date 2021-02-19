@@ -150,6 +150,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.rows = temp;
     this.tableProveedor.offset = 0;
   }
+  
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
@@ -291,5 +292,9 @@ export class MateriaPrimaEditComponent implements OnInit {
     link.click();
     link.remove();
   }
+  guardar(){
+    alert("guardado");
+  }
+
 }
 
