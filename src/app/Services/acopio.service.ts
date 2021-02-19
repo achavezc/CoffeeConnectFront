@@ -3,7 +3,8 @@ import {host} from '../shared/hosts/main.host';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {ErrorHandling} from '../shared/util/error-handling';
-
+import { ReqRegistrarPesado } from './models/req-registrar-pesado';
+import { ReqActualizarPesado } from './models/req-actualizar-pesado';
 
 export class FiltrosMateriaPrima {
   Numero: string;
@@ -55,5 +56,16 @@ export class AcopioService {
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
+
+  registrarPesado(request:ReqRegistrarPesado): Observable<any> {
+    const url = `${this.url}/RegistrarPesado`;
+     
+    const body: any = {
+      GuiaRecepcionMateriaPrimaId: request,
+      Usuario: "mruizb"
+    };
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
+
 
 }
