@@ -3,7 +3,8 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header" style="margin-bottom: 2rem;">
-          <form [formGroup]="consultaMateriaPrimaFormEdit">
+          <form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit">
+            
             <div class="row">
               <div class="col-12 col-md-8">
                 <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
@@ -69,6 +70,7 @@
                 </div>
               </div>
             </div>
+
             <div class="row"
               style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
               <div class="card-subtitle-form">DATOS DEL PROVEEDOR</div>
@@ -258,18 +260,21 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="provZona" disabled>
               </div>
             </div>
+            
             <div class="row"
               style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
               <div class="card-subtitle-form">DATOS DEL PRODUCTO</div>
             </div>
+            
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-5">
                 <label for="basicInput" style="font-size: 0.7rem;">TIPO</label>
                 <div class="form-group">
                   <div class="controls">
-                    <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto"
+                    <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
                       placeholder="Seleccionar Tipo" formControlName="producto" (change)="changeSubProducto($event)"
-                      bindLabel="Label" bindValue="Codigo">
+                      bindLabel="Label" bindValue="Codigo"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.producto.invalid, 'is-valid': submittedEdit && !fedit.producto.invalid }">
                     </ng-select>
                   </div>
                 </div>
@@ -277,8 +282,9 @@
                 <div class="form-group" style="margin-bottom: 0.5rem !important;">
                   <div class="controls">
                     <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
-                      formControlName="subproducto" bindLabel="Label" bindValue="Codigo"
-                      placeholder="Seleccionar Tipo Producto">
+                      formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
+                      placeholder="Seleccionar Tipo Producto" 
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }">
                     </ng-select>
                   </div>
 
@@ -290,19 +296,15 @@
                 </button>
               </div>
               <div class="col-12 col-md-5">
-                <label for="basicInput" style="font-size: 0.7rem;">FECHA DE COSECHA</label>
-                <div class="controls">
-                  <div class="input-group">
-                    <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="popupModel"
-                      ngbDatepicker #d3="ngbDatepicker">
-                    <div class="input-group-append">
-                      <div class="input-group-text" (click)="d3.toggle()">
-                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <label for="validationTooltip10">Fecha Fin</label>
+                <input type="date" class="form-control" formControlName="fechaPesado" id="validationTooltip10"
+                  name="fechaPesado" placeholder="date" date
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaPesado.invalid, 'is-valid': submittedEdit && !fedit.fechaPesado.invalid }" />
+
               </div>
+            </div>
+            <div class="col-md-4 justify-content-end !important">
+              <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
             </div>
           </form>
         </div>
@@ -360,6 +362,7 @@
             <div class="tab-content">
               <div [ngbNavOutlet]="nav"></div>
             </div>
+
           </div>
         </div>
       </div>

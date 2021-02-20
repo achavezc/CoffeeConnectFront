@@ -7,7 +7,12 @@ import { Component, OnInit} from '@angular/core';
   styleUrls: ['./pesadoCafe.component.scss']
 })
 export class PesadoCafeComponent implements OnInit {
+
+    
+
     ngOnInit(): void {
     }
+
+ 
 
 }

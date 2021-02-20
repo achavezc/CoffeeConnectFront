@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-
+import { resultMemoize } from '@ngrx/store';
 
 @Injectable()
 export class DateUtil {
- 
-  constructor(){  }
 
+  constructor() { }
 
   currentDate() {
     const currentDate = new Date();
@@ -27,5 +26,20 @@ export class DateUtil {
     }
     return years.length;
   }
- 
+
+  formatDate(date: Date, separator?: string): string {
+    let result: string;
+    let d: number = date.getDate();
+    let m: number = (date.getMonth() + 1);
+    let y: number = date.getFullYear();
+
+    if (separator != undefined && separator != null && separator !== "") {
+      result = `${d}${separator}${m}${separator}${y}`;
+    } else {
+      result = `${d}/${m}/${y}`;
+    }
+
+    return result;
+  }
+
 }

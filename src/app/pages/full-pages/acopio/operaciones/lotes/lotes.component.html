@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <div class="content-header">Bandeja de Nota de Ingreso a Almacen</div>
+        <div class="content-header">Bandeja de Lotes</div>
     </div>
 </div>
 
@@ -10,20 +10,19 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="needs-validation" [formGroup]="ingresoAlmacenForm">
+                        <form class="needs-validation" [formGroup]="banLoteForm">
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroGuiaRecepcion">Número Guia Recepción</label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="nroGuiaRecepcion"
-                                        class="form-control" id="nroGuiaRecepcion"
-                                        placeholder="Número de guia de recepción"
-                                        [ngClass]="{ 'is-invalid': submitted && f.nroGuiaRecepcion.invalid, 'is-valid': submitted &&  !f.nroGuiaRecepcion.invalid }">
+                                    <label for="nroLote">Número Lote</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="nroLote"
+                                        class="form-control" id="nroLote" placeholder="Número de guia de recepción"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nroLote.invalid, 'is-valid': submitted &&  !f.nroLote.invalid }">
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.nroGuiaRecepcion.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                        *ngIf="f.nroLote.errors?.minlength">Ingrese 5 a 50 letras</small>
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.nroGuiaRecepcion.errors?.maxlength">Ingrese 5 a 50 letras</small>
-                                    <small class="form-text text-muted danger"
-                                        *ngIf="f.nroGuiaRecepcion.errors?.pattern">Solo letras y números</small>
+                                        *ngIf="f.nroLote.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger" *ngIf="f.nroLote.errors?.pattern">Solo
+                                        letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="tipoDocumento">Tipo Documento</label>
@@ -35,16 +34,14 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="numeroDocumento">Número Documento</label>
-                                    <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
-                                        class="form-control" id="numeroDocumento" placeholder="Número Documento"
-                                        [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
+                                    <label for="nroDoc">Número Documento</label>
+                                    <input type="text" minlength="8" maxlength="20" formControlName="nroDoc"
+                                        class="form-control" id="nroDoc" placeholder="Número Documento"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nroDoc.invalid, 'is-valid': submitted && !f.nroDoc.invalid }">
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
-                                        letras</small>
+                                        *ngIf="f.nroDoc.errors?.minlength">Ingrese 8 a 20 letras</small>
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
-                                        letras</small>
+                                        *ngIf="f.nroDoc.errors?.maxlength">Ingrese 8 a 20 letras</small>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -67,15 +64,15 @@
                                         *ngIf="error.isError">{{error.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="codigoSocio">Código Socio</label>
-                                    <input type="text" minlength="5" maxlength="20" formControlName="codigoSocio"
-                                        class="form-control" id="codigoSocio" placeholder="Codigo Socio"
-                                        [ngClass]="{ 'is-invalid': submitted && f.codigoSocio.invalid, 'is-valid': submitted && !f.codigoSocio.invalid }">
+                                    <label for="codSocio">Código Socio</label>
+                                    <input type="text" minlength="5" maxlength="20" formControlName="codSocio"
+                                        class="form-control" id="codSocio" placeholder="Codigo Socio"
+                                        [ngClass]="{ 'is-invalid': submitted && f.codSocio.invalid, 'is-valid': submitted && !f.codSocio.invalid }">
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.codigoSocio.errors?.minlength">Ingrese 5 a 20
+                                        *ngIf="f.codSocio.errors?.minlength">Ingrese 5 a 20
                                         letras</small>
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.codigoSocio.errors?.maxlength">Ingrese 5 a 20
+                                        *ngIf="f.codSocio.errors?.maxlength">Ingrese 5 a 20
                                         letras</small>
                                 </div>
                             </div>
@@ -130,11 +127,8 @@
                             </div>
                             <small class="form-text text-muted danger"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit"
-                                [disabled]="!ingresoAlmacenForm.valid" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
-                                data-placement="top" title="Solo INGRESADOS y con ALMACEN." (click)="GenerarLote()"
-                                [disabled]="!rows.length || !selected.length">Generar Lotes</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!banLoteForm.valid"
+                                (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
                                 [disabled]="!rows.length || !selected.length">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
@@ -178,39 +172,30 @@
                         </fieldset>
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
-                            [selected]="selected" [selectionType]="'checkbox'" (activate)="onActive($event)"
-                            (select)="onSelect($event)">
-                            <ngx-datatable-column name="N° Nota Ingreso" prop="Numero" width="130">
+                            [selected]="selected" [selectionType]="'single'">
+                            <ngx-datatable-column name="Número Lote" prop="Numero" width="130">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="70">
+                            <ngx-datatable-column name="Almacén" prop="Almacen" width="70">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">
+                            <ngx-datatable-column name="Fecha Lote" prop="FechaRegistroCadena" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="100">
+                            <ngx-datatable-column name="Peso Neto" prop="TotalKilosNetosPesado" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="150">
+                            <ngx-datatable-column name="% Rend. Promedio" prop="PromedioRendimientoPorcentaje"
+                                width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Producto" prop="Producto" width="150">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="150">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Almacén" prop="Almacen" width="150">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha" prop="FechaRegistroCadena" width="100">
+                            <ngx-datatable-column name="% Hum. Promedio" prop="PromedioHumedadPorcentaje" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="100">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge" [ngClass]="{
                           'bg-light-success': status == 'Ingresado',
                           'bg-light-danger': status == 'Anulado',
-                          'bg-light-warning': status == 'Lotizado'
+                          'bg-light-warning': status == 'Generado Nota Salida'
                         }">
                                         {{ status }}
                                     </div>
                                 </ng-template>
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Lote" prop="Lote" width="70" [headerCheckboxable]="true"
-                                [checkboxable]="true">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>

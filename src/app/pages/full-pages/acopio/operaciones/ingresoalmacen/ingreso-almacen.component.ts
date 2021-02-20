@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
-import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
@@ -11,7 +11,8 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { ReqIngresoAlmacenConsultar } from '../../../../../services/models/req-ingresoalmacen-consultar.model';
 import { NotaIngresoAlmacenService } from '../../../../../services/nota-ingreso-almacen.service';
-import { date } from 'ngx-custom-validators/src/app/date/validator';
+import { LoteService } from '../../../../../services/lote.service';
+import { AlertUtil } from '../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-ingreso-almacen',
@@ -26,16 +27,18 @@ export class IngresoAlmacenComponent implements OnInit {
     private dateUtil: DateUtil,
     private excelService: ExcelService,
     private spinner: NgxSpinnerService,
-    private ingresoAlmacenService: NotaIngresoAlmacenService) {
-    this.singleSelectCheck = this.singleSelectCheck.bind(this);
+    private ingresoAlmacenService: NotaIngresoAlmacenService,
+    private loteService: LoteService,
+    private alertUtil: AlertUtil) {
+    // this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
   ingresoAlmacenForm: any;
   listTypeDocuments: Observable<any>;
   listStates: Observable<any>;
   listAlmacen: Observable<any>;
-  listProducts: Observable<any>;
-  listByProducts: Observable<any>;
+  listProducts: [];
+  listByProducts: [];
   selectedTypeDocument: any;
   selectedState: any;
   selectedAlmacen: any;
@@ -50,7 +53,6 @@ export class IngresoAlmacenComponent implements OnInit {
   submitted: boolean = false;
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  ColumnMode = ColumnMode;
   selected = [];
 
   ngOnInit(): void {
@@ -103,11 +105,6 @@ export class IngresoAlmacenComponent implements OnInit {
         form.listProducts = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
-      if (res.Result.Success) {
-        form.listByProducts = res.Result.Data;
-      }
-    });
   }
 
   public comparisonValidator(): ValidatorFn {
@@ -117,14 +114,17 @@ export class IngresoAlmacenComponent implements OnInit {
       let tipoDocumento = group.controls['tipoDocumento'].value;
       let codigoSocio = group.controls['codigoSocio'].value.trim();
       let nombre = group.controls['nombreRazonSocial'].value.trim();
+      let vProduct = group.controls['producto'].value;
+      let vByProduct = group.controls['subProducto'].value;
 
-      if (numeroGuia == "" && numeroDocumento == "" && codigoSocio == "" && nombre == ""
-        && (tipoDocumento == undefined || tipoDocumento.trim() == "")) {
+      if (!numeroGuia && !numeroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } else if (numeroDocumento != "" && (tipoDocumento == "" || tipoDocumento == undefined)) {
+      } else if (numeroDocumento && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      } else if (numeroDocumento == "" && (tipoDocumento != "" && tipoDocumento != undefined)) {
+      } else if (!numeroDocumento && tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
+      } else if (vByProduct && !vProduct) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -151,7 +151,20 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   changeProduct(e: any): void {
-
+    let form = this;
+    if (e) {
+      this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
+        if (res.Result.Success) {
+          if (res.Result.Data.length > 0) {
+            form.listByProducts = res.Result.Data.filter(x => x.Val1 == e.Codigo);
+          } else {
+            form.listByProducts = [];
+          }
+        }
+      });
+    } else {
+      form.listByProducts = [];
+    }
   }
 
   updateLimit(limit) {
@@ -167,8 +180,50 @@ export class IngresoAlmacenComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  singleSelectCheck(row: any) {
-    return this.selected.indexOf(row) === -1;
+  // singleSelectCheck(row: any) {
+  //   return this.selected.indexOf(row) === -1;
+  // }
+
+  onSelect(event): void {
+    this.selected = event.selected;
+    // if (event && event.selected.length > 0) {
+    //   let obj: any = {};
+    //   for (let i = 0; i < event.selected.length; i++) {
+    //     obj = event.selected[i];
+    //     if (obj.EstadoId == "01" && obj.AlmacenId) {
+    //       this.selected.push(obj);
+    //     }
+    //   }
+    //   if (event.selected.length > 1 && this.selected.length <= 0) {
+    //     this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y se encuentra en estado INGRESADO.");
+    //   }
+    // }
+  }
+
+  onActive(event): void {
+    // if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
+    //   if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
+    //     let obj: any = {};
+    //     for (let i = 0; i < this.selected.length; i++) {
+    //       obj = this.selected[i];
+    //       if (obj.GuiaRecepcionMateriaPrimaId == event.row.GuiaRecepcionMateriaPrimaId
+    //         && obj.TipoProvedorId == event.row.TipoProvedorId
+    //         && obj.ProveedorId == event.row.ProveedorId
+    //         && obj.TipoDocumentoId == event.row.TipoDocumentoId
+    //         && obj.SubProductoId == event.row.SubProductoId
+    //         && obj.EstadoId == event.row.EstadoId
+    //         && obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
+    //         this.selected.splice(i, 1);
+    //         this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN o su estado no es INGRESADO.");
+    //         break;
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   if (this.selected.length <= 0) {
+    //     this.selected = [];
+    //   }
+    // }
   }
 
   Buscar(exportExcel?: boolean): void {
@@ -176,6 +231,7 @@ export class IngresoAlmacenComponent implements OnInit {
       this.submitted = true;
       return;
     } else {
+      this.selected = [];
       this.submitted = false;
       let request = new ReqIngresoAlmacenConsultar(this.ingresoAlmacenForm.value.nroGuiaRecepcion,
         this.ingresoAlmacenForm.value.nombreRazonSocial,
@@ -202,12 +258,10 @@ export class IngresoAlmacenComponent implements OnInit {
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
+            if (!res.Result.ErrCode) {
               if (!exportExcel) {
-                let vFecha: Date;
                 res.Result.Data.forEach((obj: any) => {
-                  vFecha = new Date(obj.FechaRegistro);
-                  obj.FechaRegistroCadena = vFecha.getUTCDate() + "/" + vFecha.getUTCMonth() + 1 + "/" + vFecha.getUTCFullYear();
+                  obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
                 });
                 this.tempData = res.Result.Data;
                 this.rows = [...this.tempData];
@@ -242,7 +296,7 @@ export class IngresoAlmacenComponent implements OnInit {
                 }
                 this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosIngresoAlmacen');
               }
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            } else if (res.Result.Message && res.Result.ErrCode) {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
@@ -262,6 +316,148 @@ export class IngresoAlmacenComponent implements OnInit {
 
   Exportar(): void {
     this.Buscar(true);
+  }
+
+  GenerarLote(): void {
+    if (this.selected.length > 0) {
+      let form = this;
+      swal.fire({
+        title: 'Confirmación',
+        text: `Solo se procesarán las filas que se encuentren en estado INGRESADO y cuenten con ALMACÉN asignado.¿Estás seguro de continuar?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.ProcesarGenerarLote();
+        }
+      });
+    }
+  }
+
+  ProcesarGenerarLote(): void {
+    this.spinner.show();
+    let request = this.DevolverRequestGenerarLotes();
+    if (request && request.length > 0) {
+      for (let i = 0; i < request.length; i++) {
+        this.loteService.Generar(request[i])
+          .subscribe(res => {
+            this.spinner.hide();
+            if (!res.Result.Success) {
+              if (res.Result.Message && res.Result.ErrCode) {
+                this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              } else {
+                this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              }
+            }
+          }, err => {
+            console.log(err);
+            this.spinner.hide();
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          });
+      }
+    } else {
+      this.alertUtil.alertError("Advertencia",
+        "Niguna de las filas seleccionadas se encuentran en estado INGRESADO y tienen asignado un ALMACEN.");
+    }
+    this.spinner.hide();
+  }
+
+  Anular(): void {
+    if (this.selected.length > 0) {
+      if (this.selected.length == 1) {
+        let vIngresados = this.DevolverSoloIngresados();
+        if (vIngresados.length <= 0) {
+          this.alertUtil.alertError("Advertencia",
+            "Ninguna de las filas selccionadas se encuentran en estado INGRESADO.");
+          return;
+        }
+        this.spinner.show();
+        let obj: any = {};
+        for (let i = 0; i < vIngresados.length; i++) {
+          obj = this.selected[i];
+          this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, "mruizb")
+            .subscribe(res => {
+              if (!res.Result.Success) {
+                if (res.Result.Message && res.Result.ErrCode) {
+                  this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+                } else {
+                  this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+                }
+              }
+            }, err => {
+              console.log(err);
+              this.spinner.hide();
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            });
+        }
+        this.Buscar();
+        this.alertUtil.alertOk("Confirmación",
+          "Se han anulado las filas seleccionadas correctamente.");
+      } else {
+        this.alertUtil.alertError("Advertencia",
+          "Por favor para ANULAR solo seleccionar de UNO en UNO.");
+      }
+    } else {
+      this.alertUtil.alertError("Advertencia",
+        "No existen filas seleccionadas para anular.");
+    }
+  }
+
+  DevolverSoloIngresados(): any[] {
+    let result: any[] = [];
+    let obj: any = {};
+    for (let i = 0; i < this.selected.length; i++) {
+      obj = this.selected[i];
+      if (obj.EstadoId && obj.EstadoId == "01") {
+        result.push(obj);
+      }
+    }
+    return result;
+  }
+
+  DevolverFilasValidas(): any[] {
+    let result: any[] = [];
+    let obj: any = {};
+    for (let i = 0; i < this.selected.length; i++) {
+      obj = this.selected[i];
+      if (obj.EstadoId && obj.EstadoId == "01" && obj.AlmacenId) {
+        result.push(obj);
+      }
+    }
+    return result;
+  }
+
+  DevolverRequestGenerarLotes(): any[] {
+    let result: any[] = [], vObjRequest: any = {};
+    let vFilas = this.DevolverFilasValidas();
+    if (vFilas && vFilas.length > 0) {
+      let vArrAlmacenes: number[] = vFilas.map(x => x.AlmacenId);
+      if (vArrAlmacenes) {
+        let vArrIdsNotaIngreso: any[] = [];
+        vArrAlmacenes.forEach((cv, index, arr) => {
+          vFilas.filter(x => x.AlmacenId == cv).forEach(x => {
+            vArrIdsNotaIngreso.push({ Id: x.NotaIngresoAlmacenId })
+          });
+
+          vObjRequest = {
+            Usuario: "mruizb",
+            EmpresaId: 1,
+            AlmacenId: cv
+          };
+          vObjRequest.NotasIngresoAlmacenId.push(vArrIdsNotaIngreso);
+          result.push(vObjRequest);
+        });
+      }
+    }
+    return result;
   }
 
 }

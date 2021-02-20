@@ -28,4 +28,13 @@ export class NotaIngresoAlmacenService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  Anular(notaIngresoAlmacenId: number, usuario: string): Observable<any> {
+    const url = `${this.url}/Anular`;
+    let request = {
+      NotaIngresoAlmacenId: notaIngresoAlmacenId,
+      Usuario: usuario
+    }
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
 }
