@@ -29,6 +29,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
+import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { LotesComponent } from './operaciones/lotes/lotes.component';
     PesadoCafeComponent,
     ControlCalidadComponent,
     IngresoAlmacenComponent,
-    LotesComponent
+    LotesComponent,
+    NotaSalidaComponent
   ],
   exports: [
     PesadoCafeComponent,
