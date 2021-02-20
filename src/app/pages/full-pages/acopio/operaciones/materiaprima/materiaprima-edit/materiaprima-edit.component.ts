@@ -14,7 +14,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 @Component({
   selector: 'app-materiaprima-list',
   templateUrl: './materiaprima-edit.component.html',
-  styleUrls: ['./materiaprima-edit.component.scss', '/assets/sass/pages/page-users.scss', '/assets/sass/libs/select.scss'],
+  styleUrls: ['./materiaprima-edit.component.scss',  "/assets/sass/libs/datatables.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class MateriaPrimaEditComponent implements OnInit {
@@ -88,7 +88,6 @@ export class MateriaPrimaEditComponent implements OnInit {
 }*/
   openModal(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
-    
     this.cargarProveedor();
     this.clear();
     
@@ -96,11 +95,10 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   clear() {
     this.consultaProveedor.controls['numeroDocumento'].reset;
-    this.consultaProveedor.controls['tipoDocumento'].reset;
-    this.consultaProveedor.controls['numeroDocumento'].reset;
     this.consultaProveedor.controls['socio'].reset;
     this.consultaProveedor.controls['rzsocial'].reset;
     this.selectTipoProveedor = [];
+    this.selectedTipoDocumento = [];
     this.rows = [];
   }
 
@@ -195,18 +193,18 @@ export class MateriaPrimaEditComponent implements OnInit {
       const numeroDocumento = group.controls['numeroDocumento'];
       const socio = group.controls['socio'];
       const rzsocial = group.controls['rzsocial'];
-      if ((tipoproveedor.value == "" || tipoproveedor.value == undefined) && numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
+      if ((tipoproveedor.value != "" && tipoproveedor.value != undefined) && numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
 
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
-      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
+      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
 
-      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
+      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
 

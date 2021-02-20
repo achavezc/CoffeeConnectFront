@@ -1,4 +1,4 @@
-<section class="users-edit" id="tooltip-validation">
+<section id="tooltip-validation">
   <div class="row">
     <div class="col-12">
       <div class="card">
@@ -82,7 +82,7 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" disabled>
                 <label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
                 <ng-select [items]="listTipoSocio" [(ngModel)]="selectTipoSocio" formControlName="provTipoSocio"
-                  bindLabel="Label" bindValue="Codigo" >
+                  bindLabel="Label" bindValue="Codigo">
                 </ng-select>
 
                 <label for="basicInput" style="font-size: 0.7rem;">Codigo</label>
@@ -91,6 +91,7 @@
               <div class="col-12 col-md-2" style="padding-left: 0cm;">
                 <ng-template #customContent let-c="close" let-d="dismiss">
                   <div class="modal-header" style="text-align: center;">
+
                     <h4 class="modal-title" style="font-size: 1rem;">Buscador de Proveedor Aprobados (LPA)</h4>
                     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                       <span aria-hidden="true">&times;</span>
@@ -99,8 +100,8 @@
                   <div class="modal-body">
                     <form [formGroup]="consultaProveedor" class="needs-validation"
                       style="padding-left: 0.3rem; padding-right: 0.3rem;">
-                      <div class="row" style="text-align: center; margin-top: 1rem; background-color: #F7F7F8;">
-                        <div class="card-subtitle-form card-text">Criterios de Busqueda</div>
+                      <div class="row"style="text-align: center; margin-top: 1rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                        <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
                       </div>
                       <div class="row">
                         <div class="col-12 col-md-5">
@@ -112,11 +113,13 @@
                                 bindValue="Codigo" placeholder="Seleccionar"
                                 [ngClass]="{ 'is-invalid': submitted && f.tipoproveedor.invalid, 'is-valid': submitted && !f.tipoproveedor.invalid }">
                               </ng-select>
-                              <small class="form-text text-muted danger" *ngIf="f.tipoproveedor.errors?.required">Ingrese el Tipo de Socio</small>
+                              <small class="form-text text-muted danger"
+                                *ngIf="f.tipoproveedor.errors?.required">Ingrese el Tipo de Socio</small>
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label for="validationTooltip01" class="col-md-3 col-form-label card-text2">Tipo Doc.</label>
+                            <label for="validationTooltip01" class="col-md-3 col-form-label card-text2">Tipo
+                              Doc.</label>
                             <div class="col-md-9">
                               <ng-select [items]="listaTipoDocumento" formControlName="tipoDocumento" bindLabel="Label"
                                 bindValue="Codigo" id="validationTooltip01" placeholder="Seleccionar"
@@ -125,20 +128,21 @@
                               </ng-select>
                             </div>
                           </div>
-                          <div class="form-group row" >
+                          <div class="form-group row">
                             <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Numero
                               Doc.</label>
                             <div class="col-md-9">
                               <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
                                 class="form-control" id="validationTooltip08" placeholder="Numero Documento"
                                 [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
-                                <small class="form-text text-muted danger" *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
-                              letras</small>
-                            <small class="form-text text-muted danger"
-                              *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
-                              letras</small>
+                              <small class="form-text text-muted danger"
+                                *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
+                                letras</small>
+                              <small class="form-text text-muted danger"
+                                *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
+                                letras</small>
                             </div>
-                            
+
                           </div>
 
 
@@ -163,9 +167,9 @@
                             </div>
                           </div>
                         </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-12">
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
                           <div class="form-group row">
                             <div class="col-md-10">
                               <small class="form-text text-muted danger"
@@ -176,15 +180,15 @@
                             </div>
                           </div>
                         </div>
-                        </div>
-                      
+                      </div>
+
                       <div class="d-flex justify-content-between align-items-center">
                         <ngx-spinner></ngx-spinner>
                       </div>
-                      <div class="row" style="text-align: center; background-color: #F7F7F8;">
+                      <div class="row" style="text-align: center;">
                         <div class="card-subtitle-form card-text">Resultado de la Busqueda</div>
                       </div>
-
+                      
                       <div class="row" style="margin-top: 0.5rem;">
                         <div class="col-12">
                           <fieldset class="form-group">
@@ -204,22 +208,22 @@
                                 (keyup)="filterUpdate($event)" />
                             </label>
                           </fieldset>
-                          <ngx-datatable #tableProveedor class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
-                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selected"
-                            [selectionType]="'single'" (select)="seleccionarProveedor(selected)">
+                          <ngx-datatable class="bootstrap core-bootstrap" #tableProveedor
+                            [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                            [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
+                            [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'"
+                            (dblclick)="seleccionarProveedor(selected)">
                             <ngx-datatable-column name="Cod. Socio" prop="CodigoSocio" width="30">
                               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
 
                                 <div class="d-flex align-items-center">
                                   <div class="cell-line-height">
-                                    <a>{{ name }}</a>
+                                    {{ name }}
                                   </div>
                                 </div>
 
                               </ng-template>
                             </ngx-datatable-column>
-
                             <ngx-datatable-column name="Tipo Doc." prop="TipoDocumento" width="20">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Documento" prop="NumeroDocumento" width="40">
@@ -236,9 +240,6 @@
                       </div>
 
                     </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
                   </div>
                 </ng-template>
                 <button type="button" (click)="openModal(customContent)" class="btn btn-default"
@@ -323,15 +324,15 @@
                   <span class="d-none d-sm-block">Pesado del Cafe</span>
                 </a>
                 <ng-template ngbNavContent>
-                <app-pesadoCafe></app-pesadoCafe>
-              </ng-template>
+                  <app-pesadoCafe></app-pesadoCafe>
+                </ng-template>
               </li>
               <li [ngbNavItem]="2">
                 <a ngbNavLink class="nav-link d-flex align-items-center">
                   <span class="d-none d-sm-block">Control de Calidad</span>
                 </a>
                 <ng-template ngbNavContent>
-                 <app-controlCalidad></app-controlCalidad>
+                  <app-controlCalidad></app-controlCalidad>
                 </ng-template>
               </li>
               <li [ngbNavItem]="3">

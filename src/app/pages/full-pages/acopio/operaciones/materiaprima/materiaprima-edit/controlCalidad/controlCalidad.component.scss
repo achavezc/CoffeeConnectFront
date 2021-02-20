@@ -1,0 +1,37 @@
+.table-calidad{
+    tbody{
+      tr{
+        td,th{
+          padding: 0.3rem 0.3rem !important;
+        }
+        border-top: 1px solid #E0E0E0 !important;
+      }
+    }
+    thead
+    {
+        background-color: #F7F7F8;
+        tr
+        {
+            border-top: 1px solid #E0E0E0 !important;
+        }
+    }
+  }
+
+  .font-calidad
+  {
+      font-size: 0.9rem;
+  }
+  .control-calidad{
+
+        position: relative;
+        // display: block;
+        margin: 0.5rem;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        border: 1px solid #E0E0E0
+      
+  }
+
+  .td-total
+  {
+    background-color: #F7F7F8;
+  }

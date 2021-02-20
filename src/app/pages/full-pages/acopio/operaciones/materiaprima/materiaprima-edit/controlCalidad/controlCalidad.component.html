@@ -1,115 +1,245 @@
-<div class="mt-2" id="account">
-    <form>
+<div id="account">
+  
         <div class="row">
-            <div class="col-12 col-md-4">
-                <ul class="list-group" id="multiple-list-group-a">
-                    <li class="list-group-item draggable">
-                        <div class="media">
-                            <div class="media-body">
-                                <h5 class="mt-0" style="text-align: center;">Analisis Fisico
-                                </h5>
-                                <div class="form-group row"
-                                    style="background-color: #F7F7F8; text-align: center;margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">Detalle</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">Gramos</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">%</label>
-                                </div>
-                                <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text"
-                                        for="horizontal-form-1">Exportable</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control square" id="horizontal-form-1"
-                                            name="first-name">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control square" id="horizontal-form-1"
-                                            name="first-name">
-                                    </div>
-                                </div>
-                                <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label"
-                                        for="horizontal-form-1 card-text">Descarte</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control square" id="horizontal-form-1"
-                                            name="first-name">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control square" id="horizontal-form-1"
-                                            name="first-name">
-                                    </div>
-                                </div>
-                                <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label card-text"
-                                        for="horizontal-form-1">Cascarilla</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control square" id="horizontal-form-1"
-                                            name="first-name">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control square" id="horizontal-form-1"
-                                            name="first-name">
-                                    </div>
-                                </div>
-                                <div class="form-group row"
-                                    style="background-color: #F7F7F8; text-align: center;margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">Total</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">0.00</label>
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">0%</label>
-                                </div>
-                                <div class="form-group row"
-                                    style="background-color: #F7F7F8; text-align: center;margin-left: 1rem; margin-right: 1rem;">
-                                    <label class="col-md-4 col-form-label" for="horizontal-form-1">%Humedad</label>
-                                    <label class="col-md-8 col-form-label" for="horizontal-form-1">11.50%</label>
-                                </div>
+           <form style="display: flex;">
+            <div class="col-12 col-md-5">
+              
+                <div class="form row font-calidad control-calidad">
+                    <div class="col-12">
+                        <div class="row">
+                        <h5 class="mt-0" style="text-align: center;">Rendimiento Exportable</h5>
+                            <div class="table-responsive">
+                              <table class="table-calidad font-calidad">
+                                <thead>
+                                  <tr>
+                                    <th>DETALLE</th>
+                                    <th>GRAMOS</th>
+                                    <th>%</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>Exportable</td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Descarte</td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Cascarilla</td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                  </tr>
+                                  <tr class="td-total">
+                                    <td>Total</td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" style="border: 0; height: 1rem;" class="form-control square" id="basicInput"></td>
+                                    <td  style="border-left: 1px solid #E0E0E0;"><input type="text" style="border: 0; height: 1rem;" class="form-control square" id="basicInput"></td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-12 col-md-6">
+                                <table class="table-calidad font-calidad">
+                                    <thead>
+                                      <tr>
+                                        <th>Olor</th>
+                                        <th>Seleccion</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr  *ngFor="let item of listaOlor">
+                                        <td> {{ item.Label }}</td>
+                                        <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <table class="table-calidad font-calidad">
+                                    <thead>
+                                      <tr>
+                                        <th>Olor</th>
+                                        <th>Seleccion</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr  *ngFor="let item of listaColor">
+                                        <td> {{ item.Label }}</td>
+                                        <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                          </div>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-12 col-md-8">
-                <div class="row">
-                    <div class="table-responsive col-12">
-                      <table class="table mt-3">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Item &amp; Description</th>
-                            <th class="text-right">Rate</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>
-                              <p>Create PSD for mobile APP</p>
-                            </td>
-                            <td class="text-right">$20.00/hr</td>
+                        </div>
+                        <div class="row font-calidad control-calidad">
+                         <div class="col-12">
+                             <div class="row">
+                            <h5 class="mt-0" style="text-align: center;">Registro de Tostado</h5>
+                                <div class="form-group row" style="padding: 0.5rem 0.5rem;">
+                                  
+                                        <table class="table-calidad font-calidad">
+                                            <thead>
+                                              <tr>
+                                                <th>Indicador</th>
+                                                <th>Valor</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr  *ngFor="let item of listaIndicadorTostado">
+                                                <td> {{ item.Label }}</td>
+                                                <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                   
+                                   
+                                </div>
+                             </div>
+                             <div class="row">
+                                <label class="col-md-3 label-control card-text"
+                                for="bordered-form-6">Observaciones</label>
+                              <div class="col-md-9">
+                                <div class="position-relative has-icon-left">
+                                  <textarea id="bordered-form-6" rows="4" class="form-control"
+                                    name="notes"></textarea>
+                                  <div class="form-control-position">
+                                    <i class="ft-file"></i>
+                                  </div>
+                                </div>
+                              </div>
+                             </div>
                             
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>
-                              <p>iOS Application Development</p>
-                              
-                            </td>
-                            <td class="text-right">$25.00/hr</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td>
-                              <p>WordPress Template Development</p>
-                              
-                            </td>
-                            <td class="text-right">$20.00/hr</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
+                         </div>
+                </div>
             </div>
-        </div>
-       
 
-    </form>
+
+
+
+
+
+
+
+            <div class="col-12 col-md-7">                                
+                                <div class="row font-calidad control-calidad">
+                                <h5 class="mt-0" style="text-align: center;">Equivalencias de Defectos (SCA)</h5>
+                                <div class="col-12 col-md-6">
+                                        <div class="table-responsive">
+                                          <table class="table-calidad font-calidad">
+                                           <thead>
+                                              <tr>
+                                                <th colspan="3">Defectos Primarios</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of listaDefectosPrimarios">
+                                                   <td> {{ item.Label }}</td>
+                                                   <td> {{ item.Val1 }}</td>
+                                                   <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">SubTotal</td>
+                                                    <td>0</td>
+                                                </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                        <div class="table-responsive">
+                                          <table class="table-calidad font-calidad">
+                                            <thead>
+                                              <tr>
+                                                <th colspan="3">Defectos Secundarios</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                    <tr *ngFor="let item of listaDefectosSecundarios">
+                                                       <td> {{ item.Label }}</td>
+                                                       <td> {{ item.Val1 }}</td>
+                                                       <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">SubTotal</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                            </tbody>
+                                          </table>
+                                       
+                                      </div>
+                                </div>
+                                </div>
+                            
+                                <div class="row font-calidad control-calidad">
+                                    <h5 class="mt-0" style="text-align: center;">Equivalencias de Defectos (SCA)</h5>
+                                    <div class="col-12 col-md-7">
+                                            <div class="table-responsive">
+                                              <table class="table-calidad font-calidad">
+                                               <thead>
+                                                 <tr>
+                                                    <th rowspan="2">Atributos</th>
+                                                     <th colspan="2">Clasificacion</th>
+                                                </tr>
+                                                 <tr>
+                                                     <th>Valor</th>
+                                                     <th>Ranking</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of listaSensorialAtributos">
+                                                        <td> {{ item.Label }}</td>
+                                                        <td  style="border-left: 1px solid #E0E0E0;"><input type="text" class="form-control square" id="basicInput"></td>
+                                                        <td> Muy Bueno </td>
+                                                     </tr>
+                                                     <tr>
+                                                        <td> Puntaje Final </td>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                     </tr>
+                                                </tbody>
+                                              </table>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <div class="row">
+                                        <ul class="list-unstyled mb-0" *ngFor="let item of listaSensorialDefectos">
+                                            <li class="d-inline-block mr-2 mb-2">
+                                              <div class="checkbox">
+                                                <input type="checkbox" id="checkbox1" >
+                                                <label for="checkbox1"><span>{{ item.Label }}</span></label>
+                                              </div>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                          <div class="row">
+                                            <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
+                                            <div class="position-relative has-icon-left">
+                                                <textarea id="bordered-form-6" rows="4" class="form-control"
+                                                  name="notes"></textarea>
+                                                <div class="form-control-position">
+                                                  <i class="ft-file"></i>
+                                                </div>
+                                              </div>
+                                          </div>
+                                </div>
+                                    </div>
+                        
+            </div>
+        </form>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary mr-1 mb-1" type="submit" >Guardar</button>
+            <button class="btn btn-primary mr-1 mb-1" type="submit">Cancelar</button>
+        </div>
+   
 </div>
