@@ -11,7 +11,7 @@ import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import swal from 'sweetalert2';
-
+import {Router} from "@angular/router"
 
 @Component({
   selector: "app-materiaprima-list",
@@ -50,6 +50,7 @@ export class MateriaPrimaListComponent implements OnInit {
   // private
   private tempData = [];
   constructor(
+    private router: Router,
     private maestroUtil: MaestroUtil,
     private alertUtil: AlertUtil,
     private dateUtil: DateUtil,
@@ -243,7 +244,7 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   nuevo() {
-
+    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit'])
   }
 
   anular() {
