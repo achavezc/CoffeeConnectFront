@@ -28,8 +28,8 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="destinatario">Destinatario</label>
                                     <ng-select [items]="listDestinatarios" formControlName="destinatario"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="destinatario"
-                                        placeholder="Destinatario"
+                                        class="form-control" bindLabel="RazonSocial" bindValue="EmpresaId"
+                                        id="destinatario" placeholder="Destinatario"
                                         [ngClass]="{ 'is-invalid': submitted && f.destinatario.invalid, 'is-valid': submitted && !f.destinatario.invalid }"
                                         [(ngModel)]="selectedDestinatario">
                                     </ng-select>
@@ -37,8 +37,8 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="transportista">Transportista</label>
                                     <ng-select [items]="listTransportistas" formControlName="transportista"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="transportista"
-                                        placeholder="Transportista"
+                                        class="form-control" bindLabel="RazonSocial" bindValue="EmpresaTransporteId"
+                                        id="transportista" placeholder="Transportista"
                                         [ngClass]="{ 'is-invalid': submitted && f.transportista.invalid, 'is-valid': submitted && !f.transportista.invalid }"
                                         [(ngModel)]="selectedTransportista">
                                     </ng-select>

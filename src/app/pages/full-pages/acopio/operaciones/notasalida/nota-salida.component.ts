@@ -8,6 +8,8 @@ import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { NotaSalidaAlmacenService } from '../../../../../services/nota-salida-almacen.service';
+import { EmpresaService } from '../../../../../services/empresa.service';
+import { EmpresaTransporteService } from '../../../../../services/empresa-transporte.service';
 
 @Component({
   selector: 'app-nota-salida',
@@ -22,7 +24,9 @@ export class NotaSalidaComponent implements OnInit {
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
     private notaSalidaService: NotaSalidaAlmacenService,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private empresaService: EmpresaService,
+    private empTransporteService: EmpresaTransporteService) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -83,16 +87,16 @@ export class NotaSalidaComponent implements OnInit {
 
   LoadCombos(): void {
     let form = this;
-    this.maestroUtil.obtenerMaestros("Empresa", function (res) {
+    this.empresaService.Consultar({ EmpresaId: 1 }).subscribe(res => {
       if (res.Result.Success) {
         form.listDestinatarios = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("EmpresaTransporte", function (res) {
+    this.empTransporteService.Consultar({ EmpresaId: 1 }).subscribe(res => {
       if (res.Result.Success) {
         form.listTransportistas = res.Result.Data;
       }
-    });
+    })
     this.maestroUtil.obtenerMaestros("Almacen", function (res) {
       if (res.Result.Success) {
         form.listAlmacenes = res.Result.Data;
