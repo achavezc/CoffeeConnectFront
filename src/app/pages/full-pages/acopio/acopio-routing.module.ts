@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
 import { MateriaPrimaEditComponent } from './operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component';
-import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list/notacompra-list.component';
+import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';

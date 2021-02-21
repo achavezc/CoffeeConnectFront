@@ -5,13 +5,13 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 
-import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import { DateUtil } from '../../../../../../services/util/date-util';
-import { NotaCompraService } from '../../../../../../services/nota-compra.service';
-import { ReqNotaCompraConsultar } from '../../../../../../services/models/req-notacompra-consulta.model';
-import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
-import { ExcelService } from '../../../../../../shared/util/excel.service';
+import { MaestroUtil } from '../../../../../services/util/maestro-util';
+import { DateUtil } from '../../../../../services/util/date-util';
+import { NotaCompraService } from '../../../../../services/nota-compra.service';
+import { ReqNotaCompraConsultar } from '../../../../../services/models/req-notacompra-consulta.model';
+import { AlertUtil } from '../../../../../services/util/alert-util';
+import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-notacompra-list',
