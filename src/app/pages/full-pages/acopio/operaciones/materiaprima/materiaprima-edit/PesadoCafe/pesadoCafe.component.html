@@ -1,7 +1,7 @@
     
        
         <div class="mt-2" id="account">
-          <form>
+          <form [formGroup]="consultaMateriaPrimaFormEdit">
             <div class="row">
               <div class="col-12 col-md-6">
                 <ul class="list-group" id="multiple-list-group-a">
@@ -16,27 +16,32 @@
 
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                          <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Unidad
+                          <label class="col-md-4 col-form-label card-text" for="validationTooltip08">Unidad
                             Medida</label>
                           <div class="col-md-8">
-                            <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              <ng-select [items]="listaUnidadMedida" formControlName="unidadMedida" class="form-control"
+                              bindLabel="Label" bindValue="Codigo" id="validationTooltip05" placeholder="Unidad Medida"
+                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.unidadMedida.invalid, 'is-valid': submittedEdit && !fedit.unidadMedida.invalid }"
+                              [(ngModel)]="selectedUnidadMedida">
+                            </ng-select>
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                           <label class="col-md-4 col-form-label card-text"
                             for="horizontal-form-1">Cantidad</label>
                           <div class="col-md-8">
-                            <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                            <input type="text" minlength="8" maxlength="20" formControlName="cantidad" class="form-control"
+                              id="validationTooltip08" placeholder="Cantidad"
+                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidad.invalid, 'is-valid': submittedEdit && !fedit.cantidad.invalid }">
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                           <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Kilos
                             Brutos</label>
                           <div class="col-md-8">
-                            <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                            <input type="text" minlength="8" maxlength="20" formControlName="kilosBruto" class="form-control"
+                              id="validationTooltip08" placeholder="Kilos Brutos"
+                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.kilosBruto.invalid, 'is-valid': submittedEdit && !fedit.kilosBruto.invalid }">
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -85,11 +90,11 @@
                             for="horizontal-form-1">Exportable</label>
                           <div class="col-md-4">
                             <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              name="first-name" disabled>
                           </div>
                           <div class="col-md-4">
                             <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              name="first-name" disabled>
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -97,11 +102,11 @@
                             for="horizontal-form-1 card-text">Descarte</label>
                           <div class="col-md-4">
                             <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              name="first-name" disabled>
                           </div>
                           <div class="col-md-4">
                             <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              name="first-name" disabled>
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -109,11 +114,11 @@
                             for="horizontal-form-1">Cascarilla</label>
                           <div class="col-md-4">
                             <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              name="first-name" disabled>
                           </div>
                           <div class="col-md-4">
                             <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              name="first-name" disabled>
                           </div>
                         </div>
                         <div class="form-group row"
@@ -128,7 +133,7 @@
                           <div class="col-md-9">
                             <div class="position-relative has-icon-left">
                               <textarea id="bordered-form-6" rows="4" class="form-control"
-                                name="notes"></textarea>
+                                name="notes" disabled></textarea>
                               <div class="form-control-position">
                                 <i class="ft-file"></i>
                               </div>
@@ -142,16 +147,17 @@
               </div>
             </div>
             <div class="row" style="margin-top: 2rem;">
-              <div class="col-12 d-flex flex-sm-row flex-column">
+              <div class="col-8 d-flex flex-sm-row flex-column">
 
-                <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                <div class="col-md-5">
-                  <input type="text" class="form-control square" id="horizontal-form-1" name="first-name"
-                    value="Soto Torres, Luis">
-                </div>
-                <!-- <div class="col-md-4 justify-content-end !important">
-                  <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
-                </div> -->
+                <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">Soto Torres, Luis</label>
+
+              </div>
+              <div class="col-8 d-flex flex-sm-row flex-column">
+
+                <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
+                <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">21/02/2021</label>
+
               </div>
 
             </div>

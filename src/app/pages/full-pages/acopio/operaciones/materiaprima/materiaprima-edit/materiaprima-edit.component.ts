@@ -72,15 +72,19 @@ export class MateriaPrimaEditComponent implements OnInit {
         numReferencia: new FormControl('', []),
         producto: new FormControl('', [Validators.required]),
         subproducto: new FormControl('', [Validators.required]),
-        provNombre: new FormControl('', []),
-        provDocumento: new FormControl('', []),
-        provTipoSocio: new FormControl({disabled: true}, []),
-        provCodigo: new FormControl('', []),
-        provDepartamento: new FormControl('', []),
-        provProvincia: new FormControl('', []),
-        provDistrito: new FormControl('', []),
-        provZona: new FormControl('', []),
-        fechaPesado: new FormControl('', [Validators.required])
+        provNombre: new FormControl('', [Validators.required]),
+        provDocumento: new FormControl('', [Validators.required]),
+        provTipoSocio: new FormControl({value: '', disabled: true},[Validators.required]),
+        provCodigo: new FormControl('', [Validators.required]),
+        provDepartamento: new FormControl('', [Validators.required]),
+        provProvincia: new FormControl('', [Validators.required]),
+        provDistrito: new FormControl('', [Validators.required]),
+        provZona: new FormControl('', [Validators.required]),
+        fechaCosecha: new FormControl('', [Validators.required]),
+        unidadMedida: new FormControl('', [Validators.required]),
+        cantidad: new FormControl('', [Validators.required]),
+        kilosBruto: new FormControl('', [Validators.required]),
+        guiaReferencia: new FormControl('', [Validators.required])
       });
   }
   /*open(content) {
