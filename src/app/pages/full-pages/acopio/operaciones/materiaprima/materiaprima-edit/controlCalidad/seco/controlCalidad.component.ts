@@ -1,18 +1,9 @@
 import { Component, OnInit} from '@angular/core';
-import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
+import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 import { Observable } from 'rxjs';
-//import {Maestro} from '../../../../../../../services/models/maestro';
-interface Maestro  {
-  Codigo: string;
-  CodigoTabla: string;
-  Label: string;
-  Descripcion: string;
-  Mnemonico: string;
-  Val1: string;
-  Val2: string;
-}
+
 @Component({
-  selector: 'app-controlCalidad',
+  selector: 'app-controlCalidadSeco',
   templateUrl: './controlCalidad.component.html',
   styleUrls: ['./controlCalidad.component.scss']
 })

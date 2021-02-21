@@ -1,0 +1,84 @@
+.table-calidad{
+    tbody{
+      tr{
+        td,th{
+          padding: 0.3rem 0.3rem !important;
+        }
+        border-top: 1px solid #E0E0E0 !important;
+        text-align: start !important;
+      }
+      .td-total
+      {
+        background-color: #F7F7F8;
+      }
+    }
+    thead
+    {
+        background-color: #F7F7F8;
+        tr
+        {
+            border-top: 1px solid #E0E0E0 !important;
+            text-align: center;
+        }
+    }
+  }
+  .table-2
+  {
+      margin-top: 2rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+  }
+  .font-calidad
+  {
+      font-size: 0.8rem;
+      
+  }
+  .group-control-calidad{
+
+        //position: relative;
+        // display: block;
+        //margin: 0.5rem;
+        //padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        //border: 1px solid #E0E0E0;
+        border-radius: 0.35rem;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+        padding-left: 0;
+
+
+      
+  }
+  .item-control-calidad
+  {
+    border-radius: 0.35rem;
+      position: relative;
+      display: block;
+      padding:0.75rem 1.25rem;
+      background-color: #fff;
+      border: 1px solid #E0E0E0;
+      margin-top: 1rem;
+  }
+
+
+  .td-total
+  {
+    background-color: #F7F7F8;
+  }
+
+  .textarea
+  {
+      width: 22rem;
+  }
+  .textarea2
+  {
+      width: 32rem;
+  }
+
+  .label-checkbox 
+  {
+    font-size: 0.8rem !important;
+    text-transform: none !important;
+    font-weight: normal;
+
+  }

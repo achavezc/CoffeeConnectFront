@@ -353,5 +353,17 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
   }
 
+  changeSubTipoProducto(e) {
+    let filterSubTipo = e.Codigo;
+    if (filterSubTipo == "02")
+    {
+      //selectSubProducto ==
+    }
+    else
+    {
+
+    }
+  }
+
 }
 

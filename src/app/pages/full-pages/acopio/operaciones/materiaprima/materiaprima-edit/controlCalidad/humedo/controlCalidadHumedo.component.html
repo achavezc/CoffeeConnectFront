@@ -1,0 +1,77 @@
+<div id="controlCalidadHumedo">
+    <form style="display: flex">
+        <div class="row">
+
+            <div class="font-calidad group-control-calidad">
+                <div class="item-control-calidad">
+                    <div class="col-12">
+                      
+                                <h5 class="mt-0" style="text-align: center;">Análisis Físico</h5>
+                                
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group row" style="margin-top: 1rem;">
+                                            <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">% Humedad</label>
+                                            <div class="col-md-8">
+                                              <input type="text" class="form-control square" id="horizontal-form-1"
+                                                name="first-name">
+                                            </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 table-2">
+                                        <table class="table-calidad font-calidad">
+                                            <thead>
+                                                <tr>
+                                                    <th>OLOR</th>
+                                                    <th>SELECCION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of listaOlor">
+                                                    <td style="width: 7rem;"> {{ item.Label }}</td>
+                                                    <td style="border-left: 1px solid #E0E0E0;"><input type="text"
+                                                            class="form-control square" id="basicInput"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-12 col-md-6 table-2">
+                                        <table class="table-calidad font-calidad">
+                                            <thead>
+                                                <tr>
+                                                    <th>COLOR</th>
+                                                    <th>SELECCION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of listaColor">
+                                                    <td style="width: 9rem;"> {{ item.Label }}</td>
+                                                    <td style="border-left: 1px solid #E0E0E0;"><input type="text"
+                                                            class="form-control square" id="basicInput"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="cold-12" style="display: flex; margin-top: 1rem;">
+                                    <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
+                                    <div class="position-relative has-icon-left textarea">
+                                        <textarea id="bordered-form-6" rows="4" class="form-control" name="notes"></textarea>
+                                        <div class="form-control-position">
+                                            <i class="ft-file"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </form>
+</div>

@@ -284,7 +284,8 @@
                     <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
                       formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
                       placeholder="Seleccionar Tipo Producto" 
-                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }">
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }"
+                      >
                     </ng-select>
                   </div>
 
@@ -326,6 +327,7 @@
                   <span class="d-none d-sm-block">Pesado del Cafe</span>
                 </a>
                 <ng-template ngbNavContent>
+                  
                   <app-pesadoCafe></app-pesadoCafe>
                 </ng-template>
               </li>
@@ -334,7 +336,7 @@
                   <span class="d-none d-sm-block">Control de Calidad</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <app-controlCalidad></app-controlCalidad>
+                  <app-controlCalidadHumedo></app-controlCalidadHumedo>
                 </ng-template>
               </li>
               <li [ngbNavItem]="3">
