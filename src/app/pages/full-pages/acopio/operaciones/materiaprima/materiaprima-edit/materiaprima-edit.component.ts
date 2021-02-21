@@ -10,11 +10,12 @@ import { host } from '../../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { AlertUtil } from '../../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-materiaprima-list',
   templateUrl: './materiaprima-edit.component.html',
-  styleUrls: ['./materiaprima-edit.component.scss', '/assets/sass/pages/page-users.scss', '/assets/sass/libs/select.scss'],
+  styleUrls: ['./materiaprima-edit.component.scss',  "/assets/sass/libs/datatables.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class MateriaPrimaEditComponent implements OnInit {
@@ -22,6 +23,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
   submitted = false;
+  submittedEdit = false;
   closeResult: string;
   consultaMateriaPrimaFormEdit: FormGroup;
   consultaProveedor: FormGroup;
@@ -50,6 +52,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
+    private alertUtil: AlertUtil,
     private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -67,8 +70,8 @@ export class MateriaPrimaEditComponent implements OnInit {
       {
         numGuia: new FormControl('', []),
         numReferencia: new FormControl('', []),
-        producto: new FormControl('', []),
-        subproducto: new FormControl('', []),
+        producto: new FormControl('', [Validators.required]),
+        subproducto: new FormControl('', [Validators.required]),
         provNombre: new FormControl('', []),
         provDocumento: new FormControl('', []),
         provTipoSocio: new FormControl({disabled: true}, []),
@@ -76,7 +79,8 @@ export class MateriaPrimaEditComponent implements OnInit {
         provDepartamento: new FormControl('', []),
         provProvincia: new FormControl('', []),
         provDistrito: new FormControl('', []),
-        provZona: new FormControl('', [])
+        provZona: new FormControl('', []),
+        fechaPesado: new FormControl('', [Validators.required])
       });
   }
   /*open(content) {
@@ -88,7 +92,6 @@ export class MateriaPrimaEditComponent implements OnInit {
 }*/
   openModal(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
-    
     this.cargarProveedor();
     this.clear();
     
@@ -96,11 +99,10 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   clear() {
     this.consultaProveedor.controls['numeroDocumento'].reset;
-    this.consultaProveedor.controls['tipoDocumento'].reset;
-    this.consultaProveedor.controls['numeroDocumento'].reset;
     this.consultaProveedor.controls['socio'].reset;
     this.consultaProveedor.controls['rzsocial'].reset;
     this.selectTipoProveedor = [];
+    this.selectedTipoDocumento = [];
     this.rows = [];
   }
 
@@ -189,6 +191,9 @@ export class MateriaPrimaEditComponent implements OnInit {
   get f() {
     return this.consultaProveedor.controls;
   }
+  get fedit() {
+    return this.consultaMateriaPrimaFormEdit.controls;
+  }
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       const tipoproveedor = group.controls['tipoproveedor'];
@@ -196,18 +201,18 @@ export class MateriaPrimaEditComponent implements OnInit {
       const numeroDocumento = group.controls['numeroDocumento'];
       const socio = group.controls['socio'];
       const rzsocial = group.controls['rzsocial'];
-      if ((tipoproveedor.value == "" || tipoproveedor.value == undefined) && numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
+      if ((tipoproveedor.value != "" && tipoproveedor.value != undefined) && numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
 
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
-      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
+      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
 
-      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
+      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
 
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
 
@@ -293,7 +298,59 @@ export class MateriaPrimaEditComponent implements OnInit {
     link.remove();
   }
   guardar(){
-    alert("guardado");
+    if (this.consultaMateriaPrimaFormEdit.invalid) {
+      this.submittedEdit = true;
+      return;
+    } else {
+
+      this.submittedEdit = false;
+      /* this.consultaMateriaPrimaFormEdit.Numero = this.consultaMateriaPrimaFormEdit.controls['numeroGuia'].value;
+      this.consultaMateriaPrimaFormEdit.NombreRazonSocial = this.consultaMateriaPrimaFormEdit.controls['nombre'].value;
+      this.consultaMateriaPrimaFormEdit.TipoDocumentoId = this.consultaMateriaPrimaFormEdit.controls['tipoDocumento'].value;
+      this.consultaMateriaPrimaFormEdit.NumeroDocumento = this.consultaMateriaPrimaFormEdit.controls['numeroDocumento'].value;
+      this.consultaMateriaPrimaFormEdit.ProductoId = this.consultaMateriaPrimaFormEdit.controls['producto'].value;
+      this.consultaMateriaPrimaFormEdit.CodigoSocio = this.consultaMateriaPrimaFormEdit.controls['codigoSocio'].value;
+      this.consultaMateriaPrimaFormEdit.EstadoId = this.consultaMateriaPrimaFormEdit.controls['estado'].value;
+      this.consultaMateriaPrimaFormEdit.FechaInicio = this.consultaMateriaPrimaFormEdit.controls['fechaInicio'].value;
+      this.consultaMateriaPrimaFormEdit.FechaFin = this.consultaMateriaPrimaFormEdit.controls['fechaFin'].value;
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+      this.acopioService.consultarMateriaPrima(this.consultaMateriaPrimaFormEdit)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              res.Result.Data.forEach(obj => {
+
+                var fecha = new Date(obj.FechaRegistro);
+                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" + fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
+
+              });
+              this.tempData = res.Result.Data;
+              this.rows = [...this.tempData];
+              this.selected = [];
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        ); */
+    }
   }
 
 }

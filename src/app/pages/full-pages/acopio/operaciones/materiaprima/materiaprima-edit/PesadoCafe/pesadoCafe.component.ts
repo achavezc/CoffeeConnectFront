@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { AlertUtil } from '../../../../../../../services/util/alert-util';
+
 
 @Component({
   selector: 'app-pesadoCafe',
@@ -13,9 +13,6 @@ export class PesadoCafeComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    guardar(){
-      new AlertUtil().alertOk("Correcto","Se ha guardado correctamente")
-      
-    }
+ 
 
 }
