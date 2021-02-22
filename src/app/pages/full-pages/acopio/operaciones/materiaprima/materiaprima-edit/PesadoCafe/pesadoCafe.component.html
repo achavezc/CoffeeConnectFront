@@ -1,7 +1,6 @@
     
        
-        <div class="mt-2" id="account">
-          <form [formGroup]="consultaMateriaPrimaFormEdit">
+        <div class="mt-2" id="account" [formGroup]="pesadoFormGroup" >
             <div class="row">
               <div class="col-12 col-md-6">
                 <ul class="list-group" id="multiple-list-group-a">
@@ -15,41 +14,48 @@
                           <label class="col-md-6 col-form-label" for="striped-form">VALORES</label>
 
                         </div>
-                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;" >
                           <label class="col-md-4 col-form-label card-text" for="validationTooltip08">Unidad
                             Medida</label>
                           <div class="col-md-8">
                               <ng-select [items]="listaUnidadMedida" formControlName="unidadMedida" class="form-control"
                               bindLabel="Label" bindValue="Codigo" id="validationTooltip05" placeholder="Unidad Medida"
-                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.unidadMedida.invalid, 'is-valid': submittedEdit && !fedit.unidadMedida.invalid }"
-                              [(ngModel)]="selectedUnidadMedida">
+                             [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.unidadMedida.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.unidadMedida.invalid }"
+                              [(ngModel)]="selectedUnidadMedida" (change)="changeUnidadMedida($event)">
                             </ng-select>
+                         
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                           <label class="col-md-4 col-form-label card-text"
                             for="horizontal-form-1">Cantidad</label>
                           <div class="col-md-8">
-                            <input type="text" minlength="8" maxlength="20" formControlName="cantidad" class="form-control"
-                              id="validationTooltip08" placeholder="Cantidad"
-                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidad.invalid, 'is-valid': submittedEdit && !fedit.cantidad.invalid }">
+                            <input type="text"  maxlength="10" formControlName="cantidad" class="form-control"
+                              id="validationTooltip08" placeholder="Cantidad" (change)="changeCantidad()"
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }"
+                              >
+                             <small class="form-text text-muted danger" *ngIf="pesadoFormGroup.controls.cantidad.errors?.pattern">Solo números</small>
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                           <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Kilos
                             Brutos</label>
                           <div class="col-md-8">
-                            <input type="text" minlength="8" maxlength="20" formControlName="kilosBruto" class="form-control"
+                            <input type="text"  maxlength="10" formControlName="kilosBruto" class="form-control"
                               id="validationTooltip08" placeholder="Kilos Brutos"
-                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.kilosBruto.invalid, 'is-valid': submittedEdit && !fedit.kilosBruto.invalid }">
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.kilosBruto.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBruto.invalid }"
+                              >
+                             <small class="form-text text-muted danger" *ngIf="pesadoFormGroup.controls.kilosBruto.errors?.pattern">Solo números</small> 
                           </div>
                         </div>
                         <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                           <label class="col-md-4 col-form-label card-text"
                             for="horizontal-form-1">Tara</label>
                           <div class="col-md-8">
-                            <input type="text" class="form-control square" id="horizontal-form-1"
-                              name="first-name">
+                              <input type="text"  maxlength="10" formControlName="tara" class="form-control"
+                              id="validationTooltip08" placeholder="Tara" 
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.tara.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tara.invalid }"
+                              disabled>
                           </div>
                         </div>
                         <div class="form-group row last mb-3">
@@ -57,8 +63,9 @@
                             for="bordered-form-6">Observaciones</label>
                           <div class="col-md-9">
                             <div class="position-relative has-icon-left">
-                              <textarea id="bordered-form-6" rows="4" class="form-control"
-                                name="notes"></textarea>
+                              <textarea id="bordered-form-6" rows="4" class="form-control"  formControlName="observacionPesado" name="notes"
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.observacionPesado.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.observacionPesado.invalid }"
+                              ></textarea>
                               <div class="form-control-position">
                                 <i class="ft-file"></i>
                               </div>
@@ -146,22 +153,5 @@
                 </ul>
               </div>
             </div>
-            <div class="row" style="margin-top: 2rem;">
-              <div class="col-8 d-flex flex-sm-row flex-column">
-
-                <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">Soto Torres, Luis</label>
-
-              </div>
-              <div class="col-8 d-flex flex-sm-row flex-column">
-
-                <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
-                <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">21/02/2021</label>
-
-              </div>
-
-            </div>
-
-          </form>
         </div>
        

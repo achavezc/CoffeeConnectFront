@@ -3,7 +3,7 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
 import { AcopioService, FiltrosProveedor } from '../../../../../../services/acopio.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { host } from '../../../../../../shared/hosts/main.host';
@@ -11,6 +11,8 @@ import { ILogin } from '../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { ReqRegistrarPesado } from '../../../../../../services/models/req-registrar-pesado';
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-materiaprima-list',
@@ -22,6 +24,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
+  esEdit = false;
   submitted = false;
   submittedEdit = false;
   closeResult: string;
@@ -48,12 +51,18 @@ export class MateriaPrimaEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   listTipoSocio: any[];
   listaTipoDocumento: any[];
+  tipoSocio = "01";
+  tipoTercero = "02";
+  tipoIntermediario = "03";
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
     private alertUtil: AlertUtil,
-    private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,) {
+    private router: Router,
+    private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,
+    private fb: FormBuilder
+    ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
   singleSelectCheck(row: any) {
@@ -66,26 +75,35 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
   cargarForm() {
-    this.consultaMateriaPrimaFormEdit = new FormGroup(
-      {
-        numGuia: new FormControl('', []),
-        numReferencia: new FormControl('', []),
-        producto: new FormControl('', [Validators.required]),
-        subproducto: new FormControl('', [Validators.required]),
-        provNombre: new FormControl('', [Validators.required]),
-        provDocumento: new FormControl('', [Validators.required]),
-        provTipoSocio: new FormControl({value: '', disabled: true},[Validators.required]),
-        provCodigo: new FormControl('', [Validators.required]),
-        provDepartamento: new FormControl('', [Validators.required]),
-        provProvincia: new FormControl('', [Validators.required]),
-        provDistrito: new FormControl('', [Validators.required]),
-        provZona: new FormControl('', [Validators.required]),
-        fechaCosecha: new FormControl('', [Validators.required]),
-        unidadMedida: new FormControl('', [Validators.required]),
-        cantidad: new FormControl('', [Validators.required]),
-        kilosBruto: new FormControl('', [Validators.required]),
-        guiaReferencia: new FormControl('', [Validators.required])
-      });
+      this.consultaMateriaPrimaFormEdit =this.fb.group(
+        {
+          tipoProveedorId: ['', ],
+          socioId:  ['', ],
+          terceroId:  ['', ],
+          intermediarioId:  ['', ],
+          numGuia:  ['', ],
+          numReferencia:  ['', ],
+          producto:  ['', Validators.required],
+          subproducto:['', Validators.required],
+          provNombre: ['', Validators.required],
+          provDocumento: ['', Validators.required],
+          provTipoSocio: new FormControl({value: '', disabled: true},[Validators.required]),
+          provCodigo: ['', Validators.required],
+          provDepartamento: ['', Validators.required],
+          provProvincia: ['', Validators.required],
+          provDistrito: ['', Validators.required],
+          provZona: ['', Validators.required],
+          fechaCosecha: ['', Validators.required],
+          guiaReferencia:  ['', ],
+          fechaPesado:  ['', ],
+          pesado: this.fb.group({
+            unidadMedida: new FormControl('', [Validators.required]),
+            cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+            kilosBruto: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+            tara: new FormControl('', []),
+            observacionPesado: new FormControl('', [])
+          })
+        });
   }
   /*open(content) {
     this.modalService.open(content).result.then((result) => {
@@ -235,6 +253,20 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('provProvincia').setValue(e[0].Provincia);
     this.consultaMateriaPrimaFormEdit.get('provDistrito').setValue(e[0].Distrito);
     this.consultaMateriaPrimaFormEdit.get('provZona').setValue(e[0].Zona);
+
+    this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(e[0].TipoProveedorId);
+    this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(null);
+    this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(null);
+    this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
+    if(e[0].TipoProveedorId == this.tipoSocio){
+      this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(e[0].ProveedorId);
+    }else if(e[0].TipoProveedorId == this.tipoTercero){
+      this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(e[0].ProveedorId);
+    }else if(e[0].TipoProveedorId == this.tipoIntermediario){
+      this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(e[0].ProveedorId);
+    }
+    
+
     this.modalService.dismissAll();
   }
   buscar() {
@@ -245,7 +277,11 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.submitted = false;
       this.filtrosProveedor.TipoProveedorId = this.consultaProveedor.controls['tipoproveedor'].value;
       this.filtrosProveedor.NombreRazonSocial = this.consultaProveedor.controls['rzsocial'].value;
-      this.filtrosProveedor.TipoDocumentoId = this.consultaProveedor.controls['tipoDocumento'].value;
+      if(this.consultaProveedor.controls['tipoDocumento'].value.length == 0){
+        this.filtrosProveedor.TipoDocumentoId = "";
+      }else{
+        this.filtrosProveedor.TipoDocumentoId = this.consultaProveedor.controls['tipoDocumento'].value;
+      }
       this.filtrosProveedor.NumeroDocumento = this.consultaProveedor.controls['numeroDocumento'].value;
       this.filtrosProveedor.CodigoSocio = this.consultaProveedor.controls['socio'].value;
       this.spinner.show(undefined,
@@ -276,7 +312,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           err => {
             this.spinner.hide();
             console.error(err);
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
@@ -306,18 +342,25 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.submittedEdit = true;
       return;
     } else {
-
-      this.submittedEdit = false;
-      /* this.consultaMateriaPrimaFormEdit.Numero = this.consultaMateriaPrimaFormEdit.controls['numeroGuia'].value;
-      this.consultaMateriaPrimaFormEdit.NombreRazonSocial = this.consultaMateriaPrimaFormEdit.controls['nombre'].value;
-      this.consultaMateriaPrimaFormEdit.TipoDocumentoId = this.consultaMateriaPrimaFormEdit.controls['tipoDocumento'].value;
-      this.consultaMateriaPrimaFormEdit.NumeroDocumento = this.consultaMateriaPrimaFormEdit.controls['numeroDocumento'].value;
-      this.consultaMateriaPrimaFormEdit.ProductoId = this.consultaMateriaPrimaFormEdit.controls['producto'].value;
-      this.consultaMateriaPrimaFormEdit.CodigoSocio = this.consultaMateriaPrimaFormEdit.controls['codigoSocio'].value;
-      this.consultaMateriaPrimaFormEdit.EstadoId = this.consultaMateriaPrimaFormEdit.controls['estado'].value;
-      this.consultaMateriaPrimaFormEdit.FechaInicio = this.consultaMateriaPrimaFormEdit.controls['fechaInicio'].value;
-      this.consultaMateriaPrimaFormEdit.FechaFin = this.consultaMateriaPrimaFormEdit.controls['fechaFin'].value;
-      this.spinner.show(undefined,
+      let request = new ReqRegistrarPesado(
+        0,
+        1,
+        this.consultaMateriaPrimaFormEdit.controls["tipoProveedorId"].value,
+        this.consultaMateriaPrimaFormEdit.controls["socioId"].value,
+        this.consultaMateriaPrimaFormEdit.controls["terceroId"].value,
+        this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value,
+        this.consultaMateriaPrimaFormEdit.controls["producto"].value,
+        this.consultaMateriaPrimaFormEdit.controls["subproducto"].value,
+        this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].value,
+        this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].value,
+        "mruizb",
+        this.consultaMateriaPrimaFormEdit.get('pesado').get("unidadMedida").value,
+        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").value),
+        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value),
+        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").value),
+        this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").value
+      );
+       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
           size: 'medium',
@@ -325,20 +368,13 @@ export class MateriaPrimaEditComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
-      this.acopioService.consultarMateriaPrima(this.consultaMateriaPrimaFormEdit)
+      this.acopioService.registrarPesado(request)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
-              res.Result.Data.forEach(obj => {
-
-                var fecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" + fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
-
-              });
-              this.tempData = res.Result.Data;
-              this.rows = [...this.tempData];
-              this.selected = [];
+              this.alertUtil.alertOk('Registrado!', 'Guia Registrada.');
+              this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
@@ -353,7 +389,7 @@ export class MateriaPrimaEditComponent implements OnInit {
             console.log(err);
             this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
           }
-        ); */
+        );  
     }
   }
 
