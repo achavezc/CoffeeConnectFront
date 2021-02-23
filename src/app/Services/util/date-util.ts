@@ -11,6 +11,8 @@ export class DateUtil {
     return currentDate.toISOString().substring(0, 10);
   }
 
+  
+
   currentMonthAgo() {
     let now = new Date();
     let monthAgo = new Date();

@@ -1,5 +1,5 @@
 <div id="account">
-    <form style="display: flex;">
+    <form style="display: flex;" [formGroup]="tableRendExport">
         <div class="row">
             <div class="col-12 col-md-5">
                 <div class="row">
@@ -23,26 +23,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            <ng-container >
                                                 <tr>
                                                     <td>Exportable</td>
                                                     <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
-                                                    <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                            class="form-control square"  id="basicInput" formControlName="exportGramos">
+                                                           <small class="form-text text-muted danger"  *ngIf="frendExport.exportGramos.errors?.pattern">Ingresar solo Digitos</small>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #E0E0E0;" ><input type="text"
+                                                            class="form-control square" id="basicInput" formControlName="exportPorc">
+                                                            <small class="form-text text-muted danger"  *ngIf="frendExport.exportPorc.errors?.pattern">Ingresar Digitos</small>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Descarte</td>
                                                     <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                            class="form-control square" id="basicInput" formControlName="descarteGramos">
+                                                            <small class="form-text text-muted danger"  *ngIf="frendExport.descarteGramos.errors?.pattern">Ingresar Digitos</small></td>
                                                     <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                            class="form-control square" id="basicInput" formControlName="descartePorc">
+                                                            <small class="form-text text-muted danger"  *ngIf="frendExport.descartePorc.errors?.pattern">Ingresar Digitos</small>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Cascarilla</td>
                                                     <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                            class="form-control square" id="basicInput" formControlName="cascarillaGramos">
+                                                            <small class="form-text text-muted danger"  *ngIf="frendExport.cascarillaGramos.errors?.pattern">Ingresar Digitos</small>
+                                                    </td>
                                                     <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                            class="form-control square" id="basicInput" formControlName="cascarillaPorc">
+                                                            <small class="form-text text-muted danger"  *ngIf="frendExport.cascarillaPorc.errors?.pattern">Ingresar Digitos</small>
+                                                        </td>
                                                 </tr>
                                                 <tr class="td-total">
                                                     <td>Total</td>
@@ -51,8 +63,10 @@
                                                             id="basicInput"></td>
                                                     <td style="border-left: 1px solid #E0E0E0;"><input type="text"
                                                             style="border: 0; height: 1rem;" class="form-control square"
-                                                            id="basicInput"></td>
+                                                            id="basicInput">
+                                                    </td>
                                                 </tr>
+                                            </ng-container>
                                             </tbody>
                                         </table>
                                     </div>
@@ -63,8 +77,9 @@
                                         <div class="form-group row" style="margin-top: 1rem;">
                                             <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">% Humedad</label>
                                             <div class="col-md-8">
-                                              <input type="text" class="form-control square" id="horizontal-form-1"
+                                              <input type="text" class="form-control square" id="horizontal-form-1" formControlName="humedad"
                                                 name="first-name">
+                                                <small class="form-text text-muted danger" *ngIf="frendExport.humedad.errors?.pattern">Ingresar Digitos</small>
                                             </div>
                                     </div>
                                 </div>
@@ -72,23 +87,40 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 table-2">
-                                        <table class="table-calidad font-calidad">
+                                        <form  [formGroup]="tableOlor">
+                                        <table class="table-calidad font-calidad" >
                                             <thead>
                                                 <tr>
                                                     <th>OLOR</th>
-                                                    <th>SELECCION</th>
+                                                   <!-- <th>SELECCION</th>-->
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let item of listaOlor">
-                                                    <td style="width: 7rem;"> {{ item.Label }}</td>
-                                                    <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                <ng-container  formArrayName="tableRows" *ngFor="let item of getFormControls.controls ; let i=index"> <!--*ngFor="let item of listaOlor; let i=index" -->
+                                               
+                                                <tr [formGroupName]="i">
+                                                    
+                                                    <!--<td style="width: 7rem;"> <label [id]="item.Label"  [formControlName]="item.Label" class="label-checkbox">{{ item.Label }}</label></td>-->
+                                                    <td style="width: 7rem;"> <label  [formControlName]="label" class="label-checkbox"> {{item.get('label').value}}</label></td>
+                                                    <td style="border-left: 1px solid #E0E0E0;" >
+                                                    <!--<div class="checkbox">
+                                                        <input type="checkbox"  [id]="i" [formControlName]="checkoutOlor">
+                                                        <label [for]="i" class="label-checkbox"></label>
+
+                                                    </div>-->
+                                                    <input type="text" class="form-control square" id="horizontal-form-1" [formControlName]="checkoutOlor"
+                                                    name="first-name">
+                                                </td>
+                                            
                                                 </tr>
+                                               
+                                            </ng-container>
                                             </tbody>
                                         </table>
+                                    </form>
                                     </div>
                                     <div class="col-12 col-md-6 table-2">
+                                        <form [formGroup]="tableColor">
                                         <table class="table-calidad font-calidad">
                                             <thead>
                                                 <tr>
@@ -98,12 +130,17 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of listaColor">
-                                                    <td style="width: 9rem;"> {{ item.Label }}</td>
-                                                    <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                    <td style="width: 9rem;"> <label  [id]="'labelColor'+item.Label">{{ item.Label }}</label></td>
+                                                    <td style="border-left: 1px solid #E0E0E0;">
+                                                        <div class="checkbox" id="checkboxColor">
+                                                            <input type="checkbox" [id]="'checkboxColor'+item.Codigo" >
+                                                            <label [for]="'checkboxColor'+item.Codigo" class="label-checkbox"></label>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </form>
                                     </div>
 
                                 </div>
@@ -129,6 +166,7 @@
                             <div class="item-control-calidad">
                                 <h5 class="mt-0" style="text-align: center;">Registro de Tostado</h5>
                                 <div class="row">
+                                   
                                         <table class="table-calidad font-calidad">
                                             <thead>
                                                 <tr>
@@ -144,7 +182,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-
+                                    
 
                                   
                                 </div>
@@ -319,8 +357,24 @@
                 </div>
 
             </div>
-            <button class="btn btn-primary mr-1 mb-1" type="submit">Guardar</button>
+            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="guardar()">Guardar</button>
             <button class="btn btn-primary mr-1 mb-1" type="submit">Cancelar</button>
         </div>
     </form>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
