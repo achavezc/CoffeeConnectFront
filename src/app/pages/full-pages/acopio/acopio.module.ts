@@ -31,6 +31,7 @@ import { NotacompraListComponent } from './operaciones/notacompra/notacompra-lis
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
+import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.compon
     ControlCalidadComponentHumedo,
     IngresoAlmacenComponent,
     LotesComponent,
-    NotaSalidaComponent
+    NotaSalidaComponent,
+    OrdenServicioComponent
   ],
   exports: [
     PesadoCafeComponent,

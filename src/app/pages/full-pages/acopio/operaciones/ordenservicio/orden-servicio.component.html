@@ -1,0 +1,190 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">BANDEJA DE ORDENES DE SERVICIO PARA CONTROL DE CALIDAD EXTERNA</div>
+    </div>
+</div>
+
+<section id="tooltip-validation">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="ordenServConCalExtForm">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nroOrdenServicio">Número Orden de Servicio</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="nroOrdenServicio"
+                                        class="form-control" id="nroOrdenServicio"
+                                        placeholder="Número de nota de salida"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nroOrdenServicio.invalid, 'is-valid': submitted &&  !f.nroOrdenServicio.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroOrdenServicio.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroOrdenServicio.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroOrdenServicio.errors?.pattern">Solo
+                                        letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="razonSocial">Razón Social</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="razonSocial"
+                                        class="form-control" id="razonSocial" placeholder="Número de nota de salida"
+                                        [ngClass]="{ 'is-invalid': submitted && f.razonSocial.invalid, 'is-valid': submitted &&  !f.razonSocial.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.razonSocial.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.razonSocial.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.razonSocial.errors?.pattern">Solo
+                                        letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="ruc">RUC</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="ruc"
+                                        class="form-control" id="ruc" placeholder="Número de nota de salida"
+                                        [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted &&  !f.ruc.invalid }">
+                                    <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.minlength">Ingrese 5
+                                        a 50 letras</small>
+                                    <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.maxlength">Ingrese 5
+                                        a 50 letras</small>
+                                    <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.pattern">Solo
+                                        letras y números</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                        id="fechaInicio" name="fechaInicio" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaFin">Fecha Fin</label>
+                                    <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
+                                        name="fechaFin" placeholder="Seleccionar Fecha Fín" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar Estado"
+                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="producto">Producto</label>
+                                    <ng-select [items]="listProductos" formControlName="producto" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="producto"
+                                        placeholder="Seleccionar Producto"
+                                        [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }"
+                                        [(ngModel)]="selectedProducto" (change)="changeProduct($event)">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="subProducto">Sub Producto</label>
+                                    <ng-select [items]="listSubProductos" formControlName="subProducto"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="subProducto"
+                                        placeholder="Seleccionar Sub Producto"
+                                        [ngClass]="{ 'is-invalid': submitted && f.subProducto.invalid, 'is-valid': submitted && !f.subProducto.invalid }"
+                                        [(ngModel)]="selectedSubProducto">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <small class="form-text text-muted danger"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit"
+                                [disabled]="!ordenServConCalExtForm.valid" (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="!ordenServConCalExtForm.valid">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
+                                [disabled]="!rows.length || !selected.length">Anular</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'single'">
+                            <ngx-datatable-column name="N° Ord. Servicio" prop="Numero" width="130">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="RUC" prop="Ruc" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Proveedor" prop="RazonSocial" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Provincia" prop="Provincia" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Distrito" prop="Distrito" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Dirección" prop="Direccion" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Unidad de Medida" prop="UnidadMedida" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha" prop="FechaRegistroString" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge" [ngClass]="{
+                          'bg-light-success': status == 'Pesado',
+                          'bg-light-danger': status == 'Anulado',
+                          'bg-light-warning': status == 'Analizado'
+                        }">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
