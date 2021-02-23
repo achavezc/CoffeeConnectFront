@@ -7,6 +7,7 @@ import { NotacompraListComponent } from './operaciones/notacompra/notacompra-lis
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
+import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,13 @@ const routes: Routes = [
         component: NotaSalidaComponent,
         data: {
           title: 'Nota de salida'
+        }
+      },
+      {
+        path: 'orderservicio-controlcalidadexterna-list',
+        component: OrdenServicioComponent,
+        data: {
+          title: 'Ordenes de Servicio - Control de Calidad Externa'
         }
       }
     ]

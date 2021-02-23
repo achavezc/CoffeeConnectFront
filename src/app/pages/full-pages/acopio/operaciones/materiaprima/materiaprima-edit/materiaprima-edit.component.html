@@ -15,7 +15,7 @@
               </div>
               <div class="col-12 col-md-4">
 
-                <div class="form-row"  >
+                <div class="form-row"  *ngIf="esEdit" >
                   <div class="col-md-6 form-group">
                     <label class="card-forms" for="users-edit-username">N° DE GUIA</label>
                   </div>
@@ -32,9 +32,7 @@
                   </div>
                   
                   <div class="col-md-6 form-group">
-                   <!--  <input type="text" class="form-control" id="basicInput" formControlName="guiaReferencia" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.guiaReferencia.invalid, 'is-valid': submittedEdit && !fedit.guiaReferencia.invalid }">
- -->
+        
                     <div class="form-group" style="margin-bottom: 0.5rem !important;">
                       <div class="controls">
                         <input type="text" style="height:20px" id="users-edit-username" formControlName="guiaReferencia"  class="form-control" aria-invalid="false"
@@ -44,7 +42,7 @@
 
                   </div>
                 </div>
-                <div class="form-row" >
+                <div class="form-row"  *ngIf="esEdit"  >
                   
                   <div class="col-md-6 form-group">
                     <label class="card-forms" for="users-edit-email">FECHA</label>
@@ -55,7 +53,7 @@
                   </div>
                 </div>
 
-                <div class="form-row" >
+                <div class="form-row"  *ngIf="esEdit"  >
                   
                   <div class="col-md-6 form-group">
                     <label class="card-forms" for="users-edit-email"  >ESTADO</label>
@@ -339,7 +337,22 @@
                   <span class="d-none d-sm-block">Pesado del Cafe</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <app-pesadoCafe [parentForm]="consultaMateriaPrimaFormEdit" [submittedEdit]="submittedEdit"></app-pesadoCafe>
+                  <app-pesadoCafe formGroupName="pesado" [submittedEdit]="submittedEdit"></app-pesadoCafe>
+                  <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                    <div class="col-8 d-flex flex-sm-row flex-column">
+      
+                      <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">Soto Torres, Luis</label>
+      
+                    </div>
+                    <div class="col-8 d-flex flex-sm-row flex-column">
+      
+                      <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
+                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">21/02/2021</label>
+      
+                    </div>
+      
+                  </div>
                   <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
                   </div>

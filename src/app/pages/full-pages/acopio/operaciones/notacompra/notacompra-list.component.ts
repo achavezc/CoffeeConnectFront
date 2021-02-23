@@ -16,8 +16,7 @@ import { ExcelService } from '../../../../../shared/util/excel.service';
 @Component({
   selector: 'app-notacompra-list',
   templateUrl: './notacompra-list.component.html',
-  styleUrls: ['./notacompra-list.component.scss',
-    "/assets/sass/libs/datatables.scss"],
+  styleUrls: ['./notacompra-list.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class NotacompraListComponent implements OnInit {

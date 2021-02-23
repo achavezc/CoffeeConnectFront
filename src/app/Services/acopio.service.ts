@@ -24,6 +24,7 @@ export class FiltrosProveedor
   TipoDocumentoId: string;
   NumeroDocumento: string;
   CodigoSocio: string;
+  EmpresaId: number;
 }
 @Injectable()
 export class AcopioService {
@@ -38,6 +39,7 @@ export class AcopioService {
 
   consultarProveedor (filtros: FiltrosProveedor): Observable<any> {
     const url = `${this.urlProveedor}/Consultar`;
+    filtros.EmpresaId = 1;
     return this.http.post<any>(url, filtros).catch(this.errorHandling.handleError);
   }
 
