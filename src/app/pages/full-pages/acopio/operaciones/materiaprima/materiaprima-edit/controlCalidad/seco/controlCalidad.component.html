@@ -129,7 +129,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of listaColor">
-                                                    <td style="width: 9rem;"> <label [formControlName]="item.Label">{{ item.Label }}</label></td>
+                                                    <td style="width: 9rem;"> {{ item.Label }}</td>
                                                     <td style="border-left: 1px solid #E0E0E0;">
                                                         <div class="checkbox" id="checkboxColor">
                                                             <input type="checkbox" [id]="'checkboxColor'+item.Codigo" [formControlName]="item.Codigo" >
@@ -173,16 +173,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <ng-container [formGroup]="tableRegistroTostado">
                                                 <tr *ngFor="let item of listaIndicadorTostado">
                                                     <td style="width: 14rem;"> {{ item.Label }}</td>
                                                     <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                            class="form-control square" id="basicInput"></td>
+                                                            class="form-control square" id="basicInput" [formControlName]="'tostado$'+item.Codigo">
+                                                            <small class="form-text text-muted danger" [id]="item.Codigo" *ngIf="fRegistroTostado.tostado$01.errors?.pattern" >Ingresar solo Digitos</small>
+                                                       </td>
                                                 </tr>
+                                             </ng-container>
                                             </tbody>
-                                        </table>
-
-
-                                  
+                                        </table> 
                                 </div>
                                 <div class="row">
                                     <div class="cold-12">
@@ -240,16 +241,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <ng-container [formGroup] = "tableDefectosPrimarios">
                                             <tr *ngFor="let item of listaDefectosPrimarios">
                                                 <td style="width: 6rem;"> {{ item.Label }}</td>
                                                 <td style="border-left: 1px solid #E0E0E0; width: 3rem;"> {{ item.Val1 }}</td>
                                                 <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                        class="form-control square" id="basicInput"></td>
+                                                        class="form-control square" id="basicInput" [formControlName] = "item.Codigo">
+                                                       <!-- <small class="form-text text-muted danger" [id]="item.Codigo"  *ngIf="fSensorialDefectos.errors?.pattern">Ingresar Digitos</small>-->
+                                                    </td>
                                             </tr>
                                             <tr class="td-total">
                                                 <td colspan="2" >SubTotal</td>
                                                 <td>0</td>
                                             </tr>
+                                        </ng-container>
                                         </tbody>
                                     </table>
                                 </div>
@@ -263,16 +268,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                            <ng-container [formGroup] = "tableDefectosSecundarios">
                                             <tr *ngFor="let item of listaDefectosSecundarios">
                                                 <td style="width: 6rem;"> {{ item.Label }}</td>
                                                 <td style="border-left: 1px solid #E0E0E0; width: 3rem;"> {{ item.Val1 }}</td>
-                                                <td style="border-left: 1px solid #E0E0E0;"><input type="text"class="form-control square" id="basicInput"></td>
+                                                <td style="border-left: 1px solid #E0E0E0;"><input type="text"class="form-control square" id="basicInput"
+                                                    [formControlName]='item.Codigo'></td>
                                             </tr>
                                             <tr class="td-total">
                                                 <td colspan="2">SubTotal</td>
                                                 <td>0</td>
                                             </tr>
+                                            </ng-container>
                                         </tbody>
                                     </table>
 
@@ -305,17 +312,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let item of listaSensorialAtributos">
+                                            <ng-container [formGroup] = "tableSensorialRanking">
+                                            <tr *ngFor="let item of listaSensorialAtributos; let i=index">
                                                 <td style="width: 12rem;"> {{ item.Label }}</td>
-                                                <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                        class="form-control square" id="basicInput"></td>
-                                                <td style="width: 4rem;"> Muy Bueno </td>
+                                                <td style="border-left: 1px solid #E0E0E0;width: 6rem;"><input type="text"
+                                                        class="form-control square" [id]="item.Codigo" (keydown.enter)="enterAtributo($event.target.id,$event.target.value)"></td>
+                                                <td style="width: 12rem;"> <input type="text" class="form-control square" [formControlName]='item.Codigo' disabled> </td>
                                             </tr>
                                             <tr class="td-total">
                                                 <td> Puntaje Final </td>
                                                 <td> </td>
                                                 <td> </td>
                                             </tr>
+                                        </ng-container>
                                         </tbody>
                                     </table>
 
@@ -327,11 +336,12 @@
                                 <div class="col-12">
                                     <h5 class="mt-0" style="text-align: start; font-size: 0.9rem;">Defectos Graves</h5>
                                     <div class="row">
-                                        <ul class="list-unstyled mb-0" *ngFor="let item of listaSensorialDefectos">
+    
+                                        <ul class="list-unstyled mb-0" *ngFor="let item of listaSensorialDefectos" [formGroup]='tableSensorialDefectos'>
                                             <li class="d-inline-block mr-2 mb-2" style="width: 8rem;">
                                                 <div class="checkbox">
-                                                    <input type="checkbox" id="checkbox1">
-                                                    <label for="checkbox1" class="label-checkbox"><span>{{ item.Label }}</span></label>
+                                                    <input type="checkbox" [id]="'checkboxSenDefectos'+item.Codigo" [formControlName]="item.Codigo">
+                                                    <label [for]="'checkboxSenDefectos'+item.Codigo" class="label-checkbox"><span>{{ item.Label }}</span></label>
                                                 </div>
                                             </li>
                                         </ul>
@@ -355,7 +365,7 @@
                 </div>
 
             </div>
-            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="guardar()">Guardar</button>
+            <button class="btn btn-primary mr-1 mb-1" (click)="guardar($event)">Guardar</button>
             <button class="btn btn-primary mr-1 mb-1" type="submit">Cancelar</button>
         </div>
     </form>

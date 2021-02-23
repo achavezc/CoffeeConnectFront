@@ -22,5 +22,8 @@ export class OrdenservicioControlcalidadService {
     const url = `${this.url}/Anular`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
-
+  Actualizar(request: any): Observable<any> {
+    const url = `${this.url}/ActualizarAnalisisCalidad`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }
