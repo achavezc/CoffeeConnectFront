@@ -26,19 +26,11 @@ export class ControlCalidadComponent implements OnInit {
    listaSensorialRanking: Observable<any[]>;
    listaSensorialDefectos: Observable<any[]>;
    listaIndicadorTostado : Observable<any[]>;
-   touchedRows: any;
-   tableRows: FormArray;
    
   
     constructor(private maestroUtil: MaestroUtil, private fb: FormBuilder, private numeroUtil: NumeroUtil){
     } 
-    ngOnInit(): void {
-      
-    this.touchedRows = [];
-    this.tableOlor = this.fb.group({
-      tableRows: this.fb.array([])
-    });
-      
+    ngOnInit(): void { 
     
     this.cargarForm();
     this.cargarCombos();
@@ -59,21 +51,12 @@ export class ControlCalidadComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("Olor", function (res) {
      
       if (res.Result.Success) {
-        form.listaOlor = res.Result.Data;
-        const control = form.tableOlor.get('tableRows') as FormArray;
-        for (let i = 0; i < res.Result.Data.length; i++)
-         {
-          //let ranking_i = new FormControl(res.Result.Data[i]);
-          //form.tableRows.push(ranking_i);
-
-          control.push(form.initiateForm(res.Result.Data[i].Label));
-         
-        }
-       /*let group={}    
+      form.listaOlor = res.Result.Data;
+      let group={}    
         form.listaOlor.forEach(input_template=>{
           group[input_template.Codigo]=new FormControl('',[]);  
         })
-        form.tableOlor = new FormGroup(group);*/
+        form.tableOlor = new FormGroup(group);
       }
       
     });
@@ -83,10 +66,10 @@ export class ControlCalidadComponent implements OnInit {
         form.listaColor = res.Result.Data;
         let group={}    
         form.listaColor.forEach(input_template=>{
-          group['checkboxColor'+input_template.Codigo]=new FormControl('',[]);  
+          group[input_template.Codigo]=new FormControl({valu2:input_template.Label},[]);  
         })
         form.listaColor.forEach(input_template=>{
-          group['labelColor'+input_template.Label]=new FormControl('',[]);  
+          group[input_template.Label]=new FormControl('',[]);  
         })
         form.tableColor = new FormGroup(group);
       }
@@ -113,16 +96,6 @@ export class ControlCalidadComponent implements OnInit {
     });
   }
   
-  initiateForm(label2: string): FormGroup {
-    return this.fb.group({
-      label: [{value: label2, disabled: true}],
-      checkoutOlor: [''],
-    });
-  }
-  get getFormControls() {
-    const control = this.tableOlor.get('tableRows') as FormArray;
-    return control;
-  }
   cargarForm() {
     
     this.tableRendExport = new FormGroup(
@@ -143,10 +116,8 @@ export class ControlCalidadComponent implements OnInit {
   guardar ()
   {
     const controlRendExport = this.tableRendExport.controls;
-    this.guardarCambiosTableOlor(this.tableOlor);
+    this.guardarCambiosTableOlor(this.tableOlor);    
     const controlColor = this.tableColor.controls;
-    const controlOlor = this.tableOlor.get('tableRows') as FormArray;
-    
   }
 
   guardarCambiosTableOlor(controltableOlor)

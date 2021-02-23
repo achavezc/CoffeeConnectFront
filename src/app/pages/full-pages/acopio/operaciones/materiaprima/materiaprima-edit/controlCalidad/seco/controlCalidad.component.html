@@ -92,24 +92,23 @@
                                             <thead>
                                                 <tr>
                                                     <th>OLOR</th>
-                                                   <!-- <th>SELECCION</th>-->
+                                                   <th>SELECCION</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <ng-container  formArrayName="tableRows" *ngFor="let item of getFormControls.controls ; let i=index"> <!--*ngFor="let item of listaOlor; let i=index" -->
+                                                <ng-container *ngFor="let item of listaOlor ; let i=index"> <!--*ngFor="let item of listaOlor; let i=index" -->
                                                
-                                                <tr [formGroupName]="i">
+                                                <tr>
                                                     
-                                                    <!--<td style="width: 7rem;"> <label [id]="item.Label"  [formControlName]="item.Label" class="label-checkbox">{{ item.Label }}</label></td>-->
-                                                    <td style="width: 7rem;"> <label  [formControlName]="label" class="label-checkbox"> {{item.get('label').value}}</label></td>
+                                                    <td style="width: 7rem;"> <label [id]="item.Label"  [formControlName]="item.Label" class="label-checkbox">{{ item.Label }}</label></td>
                                                     <td style="border-left: 1px solid #E0E0E0;" >
-                                                    <!--<div class="checkbox">
-                                                        <input type="checkbox"  [id]="i" [formControlName]="checkoutOlor">
-                                                        <label [for]="i" class="label-checkbox"></label>
+                                                    <div class="checkbox">
+                                                        <input type="checkbox"  [id]="item.Codigo" [formControlName]="item.Codigo">
+                                                        <label [for]="item.Codigo" class="label-checkbox"></label>
 
-                                                    </div>-->
-                                                    <input type="text" class="form-control square" id="horizontal-form-1" [formControlName]="checkoutOlor"
-                                                    name="first-name">
+                                                    </div>
+                                                    <!--<input type="text" class="form-control square" id="horizontal-form-1" [formControlName]="item.Codigo"
+                                                    name="first-name" [value]="item.Val1">-->
                                                 </td>
                                             
                                                 </tr>
@@ -130,10 +129,10 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let item of listaColor">
-                                                    <td style="width: 9rem;"> <label  [id]="'labelColor'+item.Label">{{ item.Label }}</label></td>
+                                                    <td style="width: 9rem;"> <label [formControlName]="item.Label">{{ item.Label }}</label></td>
                                                     <td style="border-left: 1px solid #E0E0E0;">
                                                         <div class="checkbox" id="checkboxColor">
-                                                            <input type="checkbox" [id]="'checkboxColor'+item.Codigo" >
+                                                            <input type="checkbox" [id]="'checkboxColor'+item.Codigo" [formControlName]="item.Codigo" >
                                                             <label [for]="'checkboxColor'+item.Codigo" class="label-checkbox"></label>
                                                         </div>
                                                     </td>
@@ -166,7 +165,6 @@
                             <div class="item-control-calidad">
                                 <h5 class="mt-0" style="text-align: center;">Registro de Tostado</h5>
                                 <div class="row">
-                                   
                                         <table class="table-calidad font-calidad">
                                             <thead>
                                                 <tr>
@@ -182,7 +180,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    
+
 
                                   
                                 </div>
@@ -362,19 +360,3 @@
         </div>
     </form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
