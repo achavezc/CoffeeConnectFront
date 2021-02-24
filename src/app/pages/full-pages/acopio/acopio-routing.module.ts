@@ -8,6 +8,7 @@ import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-al
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
+import { ProductorComponent } from './operaciones/productor/productor.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,13 @@ const routes: Routes = [
         component: OrdenServicioComponent,
         data: {
           title: 'Ordenes de Servicio - Control de Calidad Externa'
+        }
+      },
+      {
+        path: 'productor-list',
+        component: ProductorComponent,
+        data: {
+          title: 'Productores'
         }
       }
     ]

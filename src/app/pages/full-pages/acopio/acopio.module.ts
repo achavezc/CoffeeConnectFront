@@ -32,6 +32,7 @@ import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-al
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
+import { ProductorComponent } from './operaciones/productor/productor.component';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servic
     IngresoAlmacenComponent,
     LotesComponent,
     NotaSalidaComponent,
-    OrdenServicioComponent
+    OrdenServicioComponent,
+    ProductorComponent
   ],
   exports: [
     PesadoCafeComponent,

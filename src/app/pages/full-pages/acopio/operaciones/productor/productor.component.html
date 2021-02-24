@@ -1,0 +1,177 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">BANDEJA DE MAESTRO DE PRODUCTORES</div>
+    </div>
+</div>
+
+<section id="tooltip-validation">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="productorForm">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="codProductor">Código Productor</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="codProductor"
+                                        class="form-control" id="codProductor" placeholder="Código del productor"
+                                        [ngClass]="{ 'is-invalid': submitted && f.codProductor.invalid, 'is-valid': submitted &&  !f.codProductor.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.codProductor.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.codProductor.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.codProductor.errors?.pattern">Solo
+                                        letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="tipoDocumento">Tipo de documento</label>
+                                    <ng-select [items]="listTiposDocumentos" formControlName="tipoDocumento"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                                        placeholder="Seleccionar el tipo de documento"
+                                        [ngClass]="{ 'is-invalid': submitted && f.tipoDocumento.invalid, 'is-valid': submitted && !f.tipoDocumento.invalid }"
+                                        [(ngModel)]="selectedTipoDocumento">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nroDocumento">Número de documento</label>
+                                    <input type="text" minlength="5" maxlength="25" formControlName="nroDocumento"
+                                        class="form-control" id="nroDocumento" placeholder="Número de documento"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nroDocumento.invalid, 'is-valid': submitted &&  !f.nroDocumento.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroDocumento.errors?.minlength">Ingrese 5
+                                        a 25 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroDocumento.errors?.maxlength">Ingrese 5
+                                        a 25 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroDocumento.errors?.pattern">Solo números</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nombRazonSocial">Nombre/Razón Social</label>
+                                    <input type="text" minlength="5" maxlength="100" formControlName="nombRazonSocial"
+                                        class="form-control" id="nombRazonSocial" placeholder="Nombre o Razón Social"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nombRazonSocial.invalid, 'is-valid': submitted &&  !f.nombRazonSocial.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nombRazonSocial.errors?.minlength || f.nombRazonSocial.errors?.maxlength">Ingrese
+                                        5 a 100 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nombRazonSocial.errors?.pattern">Solo letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                        id="fechaInicio" name="fechaInicio" placeholder="Seleccionar fecha inicio" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaFin">Fecha Fin</label>
+                                    <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
+                                        name="fechaFin" placeholder="Seleccionar Fecha Fín" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar estado"
+                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <small class="form-text text-muted danger mb-1"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!productorForm.valid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button">Fincas</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button">Documentos</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button">Proyectos</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'single'">
+                            <ngx-datatable-column name="Código" prop="Numero" width="90">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Provincia" prop="Provincia" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Distrito" prop="Distrito" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Zona" prop="Zona" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="FechaRegistro" prop="FechaRegistroString" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="70">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge" [ngClass]="{
+                          'bg-light-success': status == 'Activo',
+                          'bg-light-warning': status == 'Inactivo'
+                        }">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
