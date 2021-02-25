@@ -338,6 +338,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     link.remove();
   }
   guardar(){
+    
     if (this.consultaMateriaPrimaFormEdit.invalid) {
       this.submittedEdit = true;
       return;
@@ -393,6 +394,9 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
   }
 
+  cancelar(){
+    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+  }
   changeSubTipoProducto(e) {
     let filterSubTipo = e.Codigo;
     if (filterSubTipo == "02")
