@@ -15,24 +15,21 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import { TagInputModule } from 'ngx-chips';
 import { QuillModule } from 'ngx-quill'
 import { MatchHeightModule } from "../../../shared/directives/match-height.directive";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
 import { MateriaPrimaEditComponent } from "./operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component";
 import { PesadoCafeComponent } from "./operaciones/materiaprima/materiaprima-edit/pesadoCafe/pesadoCafe.component";
 import { ControlCalidadComponent } from "./operaciones/materiaprima/materiaprima-edit/controlCalidad/seco/controlCalidad.component";
 import { ControlCalidadComponentHumedo } from "./operaciones/materiaprima/materiaprima-edit/controlCalidad/humedo/controlCalidadHumedo.component";
-
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-
-import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
-import { ProductorComponent } from './operaciones/productor/productor.component';
 
 @NgModule({
   imports: [
@@ -65,8 +62,7 @@ import { ProductorComponent } from './operaciones/productor/productor.component'
     IngresoAlmacenComponent,
     LotesComponent,
     NotaSalidaComponent,
-    OrdenServicioComponent,
-    ProductorComponent
+    OrdenServicioComponent
   ],
   exports: [
     PesadoCafeComponent,

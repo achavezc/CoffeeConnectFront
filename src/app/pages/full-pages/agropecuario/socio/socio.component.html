@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">BANDEJA DE MAESTRO DE SOCIOS</div>
+    </div>
+</div>
+
+<section>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="socioListForm" novalidate>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="codSocio" class="form-label">Código Socio</label>
+                                    <input type="text" minlength="5" maxlength="25" formControlName="codSocio"
+                                        class="form-control" id="codSocio" placeholder="Código del socio"
+                                        [ngClass]="{ 'is-invalid': f.codSocio.invalid, 'is-valid': !f.codSocio.invalid }">
+                                    <small class="invalid-tooltip"
+                                        *ngIf="f.codSocio.errors?.minlength || f.codSocio.errors?.maxlength">
+                                        Ingrese 5 a 25 caracteres.
+                                    </small>
+                                    <small class="invalid-tooltip" *ngIf="f.codSocio.errors?.pattern">
+                                        Solo letras y números.
+                                    </small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="tipoDocumento" class="form-label">Tipo de documento</label>
+                                    <ng-select [items]="listTiposDocumentos" formControlName="tipoDocumento"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                                        placeholder="Seleccionar el tipo de documento"
+                                        [ngClass]="{ 'is-invalid': f.tipoDocumento.errors?.isError || f.tipoDocumento.invalid, 'is-valid': !f.tipoDocumento.errors?.isError || !f.tipoDocumento.invalid }"
+                                        [(ngModel)]="selectedTipoDocumento">
+                                    </ng-select>
+                                    <small class="invalid-tooltip" *ngIf="f.tipoDocumento.errors?.isError">
+                                        {{f.tipoDocumento.errors?.message}}
+                                    </small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nroDocumento" class="form-label">Número de documento</label>
+                                    <input type="text" minlength="5" maxlength="25" formControlName="nroDocumento"
+                                        class="form-control" id="nroDocumento" placeholder="Número de documento"
+                                        [ngClass]="{ 'is-invalid': f.nroDocumento.errors?.isError || f.nroDocumento.invalid, 'is-valid': !f.nroDocumento.errors?.isError || !f.nroDocumento.invalid }">
+                                    <small class="invalid-tooltip"
+                                        *ngIf="f.nroDocumento.errors?.minlength || f.nroDocumento.errors?.maxlength">Ingrese
+                                        5 a 25 letras</small>
+                                    <small class="invalid-tooltip" *ngIf="f.nroDocumento.errors?.pattern">Solo
+                                        números</small>
+                                    <small class="invalid-tooltip"
+                                        *ngIf="f.nroDocumento.errors?.isError">{{f.nroDocumento.errors?.message}}</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nombRazonSocial" class="form-label">Nombre/Razón Social</label>
+                                    <input type="text" minlength="5" maxlength="100" formControlName="nombRazonSocial"
+                                        class="form-control" id="nombRazonSocial" placeholder="Nombre o Razón Social"
+                                        [ngClass]="{ 'is-invalid': f.nombRazonSocial.invalid, 'is-valid': !f.nombRazonSocial.invalid }"
+                                        required>
+                                    <small class="invalid-tooltip" *ngIf="f.nombRazonSocial.errors?.required">Por favor
+                                        ingresar una razón social.</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                        id="fechaInicio" name="fechaInicio" placeholder="Seleccionar fecha inicio" date
+                                        [ngClass]="{ 'is-invalid': f.fechaInicio.invalid, 'is-valid': !f.fechaInicio.invalid }"
+                                        (blur)="compareTwoDates()" required />
+                                    <small class="invalid-tooltip"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaFin" class="form-label">Fecha Fin</label>
+                                    <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
+                                        name="fechaFin" placeholder="Seleccionar Fecha Fín" date
+                                        [ngClass]="{ 'is-invalid': f.fechaFin.invalid, 'is-valid': !f.fechaFin.invalid }"
+                                        (blur)="compareTwoDates()" required />
+                                    <small class="invalid-tooltip" *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                                        placeholder="Seleccionar estado" [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <!-- <small class="form-text text-muted danger mb-1"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small> -->
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!socioListForm.valid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button">Documentos</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button">Fincas</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'single'">
+                            <ngx-datatable-column name="Código" prop="Codigo" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Cod. Productor" prop="NumeroProductor" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo Doc." prop="TipoDocumento" width="50">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="FechaRegistro" prop="FechaRegistroString" width="50">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="40">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Activo','bg-light-warning': status == 'Inactivo'}">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

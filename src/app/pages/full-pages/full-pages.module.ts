@@ -10,7 +10,10 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { InvoicePageComponent } from "./invoice/invoice-page.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import {AcopioModule } from "./acopio/acopio.module";
+import { AcopioModule } from "./acopio/acopio.module";
+import { ProductorModule } from './productor/productor.module';
+import { AgropecuarioModule } from './agropecuario/agropecuario.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,10 +26,12 @@ import {AcopioModule } from "./acopio/acopio.module";
     NgbModule,
     SwiperModule,
     NgxDatatableModule,
-    AcopioModule
+    AcopioModule,
+    ProductorModule,
+    AgropecuarioModule
   ],
   declarations: [
     InvoicePageComponent
   ],
 })
-export class FullPagesModule {}
+export class FullPagesModule { }
