@@ -13,6 +13,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ReqRegistrarPesado } from '../../../../../../services/models/req-registrar-pesado';
 import {Router} from "@angular/router"
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-materiaprima-list',
@@ -54,6 +55,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   tipoSocio = "01";
   tipoTercero = "02";
   tipoIntermediario = "03";
+  id: "";
+  
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
@@ -61,7 +64,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     private alertUtil: AlertUtil,
     private router: Router,
     private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
     ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -72,6 +76,15 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.cargarForm();
     this.cargarcombos();
     this.login = JSON.parse(localStorage.getItem("user"));
+    this.route.queryParams
+    .subscribe(params => {
+      this.id = params.id;
+      if(this.id){
+        this.esEdit = true;
+        this.obtenerDetalle();
+      }
+    }
+  );
   }
 
   cargarForm() {
@@ -409,5 +422,35 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
   }
 
+  obtenerDetalle(){
+    this.acopioService.obtenerDetalle(Number(this.id))
+    .subscribe(res => {
+      
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          
+          this.cargarDataFormulario(res.Result.Data);
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );  
+  }
+
+  cargarDataFormulario(data: any){
+
+    this.consultaMateriaPrimaFormEdit.controls["producto"].setValue("01");
+    
+    this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue("01");
+  }
 }
 

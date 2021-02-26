@@ -65,11 +65,20 @@ export class AcopioService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  
   actualizarPesado(request:ReqActualizarPesado): Observable<any> {
     const url = `${this.url}/RegistrarPesado`;
     request.EmpresaId = 1;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  obtenerDetalle(id:number): Observable<any> {
+    const url = `${this.url}/ConsultarPorId`;
+     
+    const body: any = {
+      GuiaRecepcionMateriaPrimaId: id
+    };
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
 
 }

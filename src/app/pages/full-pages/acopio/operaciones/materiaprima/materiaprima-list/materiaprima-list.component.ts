@@ -244,7 +244,7 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit'])
+    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit']);
   }
 
   anular() {
@@ -448,6 +448,7 @@ export class MateriaPrimaListComponent implements OnInit {
       alert('Ha ocurrio un error en la descarga delExcel.');
     }
   }
+
 
 }
 
