@@ -347,10 +347,10 @@
                                     </div>
                                 </div>
                                 <div class="row td-total">
-                                    <div class="cold-6">
+                                    <div class="col-6">
                                         <label class="label-ToTal"> Total (Defectos Primarios + Secundarios) </label>
                                     </div>
-                                    <div class="cold-6">
+                                    <div class="col-6">
                                         <input type="text" class="form-control" id="basicInput"
                                             style="border: 0; text-align: end;" formControlName="ToTalEquiDefectos"
                                             disabled>
@@ -371,8 +371,9 @@
 
                                     <div class="col-12">
                                         <div class="row">
+                                            
                                         <div class="table-responsive">
-                                            <table class="table-calidad font-calidad">
+                                            <table class="table-calidad font-calidad" style="width: 100%;">
                                                 <thead>
                                                     <tr>
                                                         <th rowspan="2">ATRIBUTOS</th>
@@ -386,14 +387,14 @@
                                                 <tbody>
                                                     <ng-container [formGroup]="tableSensorialRanking">
                                                         <tr *ngFor="let item of listaSensorialAtributos; let i=index">
-                                                            <td style="width: 12rem;"> {{ item.Label }}</td>
-                                                            <td style="border-left: 1px solid #E0E0E0;width: 6rem;">
+                                                            <td style="width: 40%;"> {{ item.Label }}</td>
+                                                            <td style="border-left: 1px solid #E0E0E0;width: 20%;">
                                                                 <input type="number" class="form-control square"
                                                                     [id]="item.Codigo"
                                                                     (input)="evaluarRanking($event.target.id,$event.target.value)"
                                                                     [formControlName]="'sensorialAtrib%'+item.Codigo">
                                                             </td>
-                                                            <td style="width: 12rem;"> <input type="text"
+                                                            <td style="width: 40%;"> <input type="text"
                                                                     class="form-control square"
                                                                     [formControlName]="'sensorialAtribRanking%'+item.Codigo" disabled> </td>
                                                         </tr>
@@ -402,15 +403,17 @@
                                             </table>
 
                                         </div>
+                                   
                                         </div>
                                         <div class="row td-total">
+                                            
                                             <div class="col-6"><label class="label-ToTal"> Puntaje Final </label></div>
                                             <div class="col-6"><input type="text" class="form-control" id="basicInput"
                                                     style="border: 0; text-align: end;"
                                                     formControlName="PuntajeFinal" disabled></div>
+                                                </div>
 
-
-                                        </div>
+                                       
                                     </div>
 
                                 </div>
