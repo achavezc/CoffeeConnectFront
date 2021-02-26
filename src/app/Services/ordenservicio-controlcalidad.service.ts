@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorHandling } from '../shared/util/error-handling';
 
+
 @Injectable({ providedIn: 'root' })
 export class OrdenservicioControlcalidadService {
 
@@ -22,8 +23,5 @@ export class OrdenservicioControlcalidadService {
     const url = `${this.url}/Anular`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
-  Actualizar(request: any): Observable<any> {
-    const url = `${this.url}/ActualizarAnalisisCalidad`;
-    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
-  }
+  
 }

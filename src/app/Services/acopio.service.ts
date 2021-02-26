@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {ErrorHandling} from '../shared/util/error-handling';
 import { ReqRegistrarPesado } from './models/req-registrar-pesado';
 import { ReqActualizarPesado } from './models/req-actualizar-pesado';
+import {ReqControlCalidad} from '../services/models/req-controlcalidad-actualizar'
 
 export class FiltrosMateriaPrima {
   Numero: string;
@@ -71,5 +72,9 @@ export class AcopioService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  Actualizar(request: ReqControlCalidad): Observable<any> {
+    const url = `${this.url}/ActualizarAnalisisCalidad`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 
 }
