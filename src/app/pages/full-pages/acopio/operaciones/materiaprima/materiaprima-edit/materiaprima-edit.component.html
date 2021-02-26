@@ -37,6 +37,13 @@
                       <div class="controls">
                         <input type="text" style="height:20px" id="users-edit-username" formControlName="guiaReferencia"  class="form-control" aria-invalid="false"
                           [ngClass]="{ 'is-invalid': submittedEdit && fedit.guiaReferencia.invalid, 'is-valid': submittedEdit && !fedit.guiaReferencia.invalid }" >
+
+                          <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.minlength">Ingrese 5 a 20
+                            letras</small>
+                          <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.maxlength">Ingrese 5 a 20
+                            letras</small>
+                          <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.pattern">Solo letras y
+                            números</small>
                       </div>
                     </div>
 
@@ -188,9 +195,7 @@
                         </div>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center">
-                        <ngx-spinner></ngx-spinner>
-                      </div>
+ 
                       <div class="row" style="text-align: center;">
                         <div class="card-subtitle-form card-text">Resultado de la Busqueda</div>
                       </div>
@@ -400,5 +405,8 @@
     </div>
   </div>
 </section>
+<div class="d-flex justify-content-between align-items-center">
+  <ngx-spinner></ngx-spinner>
+</div>
 
 </form>

@@ -32,7 +32,7 @@ export class DateUtil {
   formatDate(date: Date, separator?: string): string {
     let result: string;
     let d: number = date.getDate();
-    let m: number = (date.getMonth() + 1);
+    let m: string = '0' + (date.getMonth() + 1).toString().slice(-2);
     let y: number = date.getFullYear();
 
     if (separator != undefined && separator != null && separator !== "") {

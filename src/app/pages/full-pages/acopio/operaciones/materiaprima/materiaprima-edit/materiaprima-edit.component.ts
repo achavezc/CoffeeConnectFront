@@ -94,7 +94,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           provDistrito: ['', Validators.required],
           provZona: ['', Validators.required],
           fechaCosecha: ['', Validators.required],
-          guiaReferencia:  ['', ],
+          guiaReferencia:   new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
           fechaPesado:  ['', ],
           pesado: this.fb.group({
             unidadMedida: new FormControl('', [Validators.required]),
