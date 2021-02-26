@@ -13,9 +13,9 @@
                         <form class="needs-validation" [formGroup]="banLoteForm">
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroLote">Número Lote</label>
+                                    <label for="nroLote" class="form-label">Número Lote</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="nroLote"
-                                        class="form-control" id="nroLote" placeholder="Número de guia de recepción"
+                                        class="form-control" id="nroLote" placeholder="Número de lote"
                                         [ngClass]="{ 'is-invalid': submitted && f.nroLote.invalid, 'is-valid': submitted &&  !f.nroLote.invalid }">
                                     <small class="form-text text-muted danger"
                                         *ngIf="f.nroLote.errors?.minlength">Ingrese 5 a 50 letras</small>
@@ -25,7 +25,7 @@
                                         letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="tipoDocumento">Tipo Documento</label>
+                                    <label for="tipoDocumento" class="form-label">Tipo Documento</label>
                                     <ng-select [items]="listTypeDocuments" formControlName="tipoDocumento"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
                                         placeholder="Tipo Documento"
@@ -34,7 +34,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroDoc">Número Documento</label>
+                                    <label for="nroDoc" class="form-label">Número Documento</label>
                                     <input type="text" minlength="8" maxlength="20" formControlName="nroDoc"
                                         class="form-control" id="nroDoc" placeholder="Número Documento"
                                         [ngClass]="{ 'is-invalid': submitted && f.nroDoc.invalid, 'is-valid': submitted && !f.nroDoc.invalid }">
@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
@@ -55,7 +55,7 @@
                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaFin">Fecha Fin</label>
+                                    <label for="fechaFin" class="form-label">Fecha Fin</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
                                         name="fechaFin" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
@@ -64,7 +64,7 @@
                                         *ngIf="error.isError">{{error.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="codSocio">Código Socio</label>
+                                    <label for="codSocio" class="form-label">Código Socio</label>
                                     <input type="text" minlength="5" maxlength="20" formControlName="codSocio"
                                         class="form-control" id="codSocio" placeholder="Codigo Socio"
                                         [ngClass]="{ 'is-invalid': submitted && f.codSocio.invalid, 'is-valid': submitted && !f.codSocio.invalid }">
@@ -78,7 +78,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado">Estado</label>
+                                    <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listStates" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
                                         [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
@@ -86,7 +86,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nombreRazonSocial">Nombre/Razón Social</label>
+                                    <label for="nombreRazonSocial" class="form-label">Nombre/Razón Social</label>
                                     <input type="text" minlength="5" maxlength="100" formControlName="nombreRazonSocial"
                                         class="form-control" id="nombreRazonSocial" placeholder="Nombre / Razón Social"
                                         [ngClass]="{ 'is-invalid': submitted && f.nombreRazonSocial.invalid, 'is-valid': submitted && !f.nombreRazonSocial.invalid }">
@@ -98,7 +98,7 @@
                                         letras</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="almacen">Almacén</label>
+                                    <label for="almacen" class="form-label">Almacén</label>
                                     <ng-select [items]="listAlmacen" formControlName="almacen" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="almacen" placeholder="Almacén"
                                         [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }"
@@ -108,7 +108,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="producto">Producto</label>
+                                    <label for="producto" class="form-label">Producto</label>
                                     <ng-select [items]="listProducts" formControlName="producto" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="producto" placeholder="Producto"
                                         [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }"
@@ -116,7 +116,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="subProducto">Sub Producto</label>
+                                    <label for="subProducto" class="form-label">Sub Producto</label>
                                     <ng-select [items]="listByProducts" formControlName="subProducto"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="subProducto"
                                         placeholder="Sub Producto"

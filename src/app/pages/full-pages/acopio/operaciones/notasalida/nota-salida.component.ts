@@ -75,12 +75,14 @@ export class NotaSalidaComponent implements OnInit {
   comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       let nroLote = group.controls['nroNotaSalida'].value.trim();
+      let destinatario = group.controls['destinatario'].value;
+      let transportista = group.controls['transportista'].value;
 
-      // if (!nroLote) {
-      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      // } else {
-      this.errorGeneral = { isError: false, errorMessage: '' };
-      // }
+      if (!nroLote && !destinatario && !transportista) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      } else {
+        this.errorGeneral = { isError: false, errorMessage: '' };
+      }
       return;
     };
   }
@@ -186,12 +188,12 @@ export class NotaSalidaComponent implements OnInit {
   }
 
   Anular(): void {
-    if (this.selected.length <= 0) {
+    if (this.selected.length > 0) {
       if (this.selected.length == 1) {
         let form = this;
         swal.fire({
-          title: 'Confirmación',
-          text: `Solo se anularán las filas que se encuentren en estado INGRESADO.¿Está seguro de continuar?`,
+          title: '¿Estad seguro?',
+          text: `¿Está seguro de ANULAR la nota de salida "${this.selected[0].Numero}"?`,
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#2F8BE6',
@@ -204,7 +206,7 @@ export class NotaSalidaComponent implements OnInit {
           buttonsStyling: false,
         }).then(function (result) {
           if (result.value) {
-            form.AnularFila();
+            form.AnularFila(form);
           }
         });
       } else {
@@ -215,16 +217,31 @@ export class NotaSalidaComponent implements OnInit {
     }
   }
 
-  AnularFila(): void {
+  AnularFila(form: any): void {
+    form.spinner.show();
     this.notaSalidaService.Anular({
       NotaSalidaAlmacenId: this.selected[0].NotaSalidaAlmacenId,
       Usuario: "mruizb"
-    })
-      .subscribe(res => {
-
-      }, err => {
-        console.log(err);
-      });
+    }).subscribe((res: any) => {
+      if (res.Result.Success) {
+        if (!res.Result.ErrCode) {
+          form.spinner.hide();
+          form.alertUtil.alertOk("Confirmación",
+            `La nota de salida ${form.selected[0].Numero} fue ANULADO correctamente.`);
+          form.Buscar();
+        } else if (res.Result.Message && res.Result.ErrCode) {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    }, (err: any) => {
+      console.log(err);
+      form.spinner.hide();
+      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    });
   }
 
 }

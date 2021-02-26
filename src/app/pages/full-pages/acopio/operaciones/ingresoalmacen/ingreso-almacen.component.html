@@ -10,23 +10,21 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="needs-validation" [formGroup]="ingresoAlmacenForm">
+                        <form class="needs-validation" [formGroup]="ingresoAlmacenForm" novalidate>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroGuiaRecepcion">Número Guia Recepción</label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="nroGuiaRecepcion"
-                                        class="form-control" id="nroGuiaRecepcion"
-                                        placeholder="Número de guia de recepción"
-                                        [ngClass]="{ 'is-invalid': submitted && f.nroGuiaRecepcion.invalid, 'is-valid': submitted &&  !f.nroGuiaRecepcion.invalid }">
-                                    <small class="form-text text-muted danger"
-                                        *ngIf="f.nroGuiaRecepcion.errors?.minlength">Ingrese 5 a 50 letras</small>
-                                    <small class="form-text text-muted danger"
-                                        *ngIf="f.nroGuiaRecepcion.errors?.maxlength">Ingrese 5 a 50 letras</small>
-                                    <small class="form-text text-muted danger"
-                                        *ngIf="f.nroGuiaRecepcion.errors?.pattern">Solo letras y números</small>
+                                    <label for="nroIngreso" class="form-label">Número de Ingreso</label>
+                                    <input type="text" minlength="5" maxlength="25" formControlName="nroIngreso"
+                                        class="form-control" id="nroIngreso" placeholder="Número de nota de ingreso"
+                                        [ngClass]="{ 'is-invalid': f.nroIngreso.invalid, 'is-valid': !f.nroIngreso.invalid }">
+                                    <small class="invalid-tooltip"
+                                        *ngIf="f.nroIngreso.errors?.minlength || f.nroIngreso.errors?.maxlength">Ingrese
+                                        de 5 a 25 letras</small>
+                                    <small class="invalid-tooltip" *ngIf="f.nroIngreso.errors?.pattern">Solo
+                                        letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="tipoDocumento">Tipo Documento</label>
+                                    <label for="tipoDocumento" class="form-label">Tipo Documento</label>
                                     <ng-select [items]="listTypeDocuments" formControlName="tipoDocumento"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
                                         placeholder="Tipo Documento"
@@ -35,7 +33,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="numeroDocumento">Número Documento</label>
+                                    <label for="numeroDocumento" class="form-label">Número Documento</label>
                                     <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
                                         class="form-control" id="numeroDocumento" placeholder="Número Documento"
                                         [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
@@ -49,7 +47,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
@@ -58,7 +56,7 @@
                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaFin">Fecha Fin</label>
+                                    <label for="fechaFin" class="form-label">Fecha Fin</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
                                         name="fechaFin" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
@@ -67,7 +65,7 @@
                                         *ngIf="error.isError">{{error.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="codigoSocio">Código Socio</label>
+                                    <label for="codigoSocio" class="form-label">Código Socio</label>
                                     <input type="text" minlength="5" maxlength="20" formControlName="codigoSocio"
                                         class="form-control" id="codigoSocio" placeholder="Codigo Socio"
                                         [ngClass]="{ 'is-invalid': submitted && f.codigoSocio.invalid, 'is-valid': submitted && !f.codigoSocio.invalid }">
@@ -81,7 +79,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado">Estado</label>
+                                    <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listStates" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
                                         [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
@@ -89,7 +87,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nombreRazonSocial">Nombre/Razón Social</label>
+                                    <label for="nombreRazonSocial" class="form-label">Nombre/Razón Social</label>
                                     <input type="text" minlength="5" maxlength="100" formControlName="nombreRazonSocial"
                                         class="form-control" id="nombreRazonSocial" placeholder="Nombre / Razón Social"
                                         [ngClass]="{ 'is-invalid': submitted && f.nombreRazonSocial.invalid, 'is-valid': submitted && !f.nombreRazonSocial.invalid }">
@@ -101,7 +99,7 @@
                                         letras</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="almacen">Almacén</label>
+                                    <label for="almacen" class="form-label">Almacén</label>
                                     <ng-select [items]="listAlmacen" formControlName="almacen" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="almacen" placeholder="Almacén"
                                         [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }"
@@ -111,7 +109,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="producto">Producto</label>
+                                    <label for="producto" class="form-label">Producto</label>
                                     <ng-select [items]="listProducts" formControlName="producto" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="producto" placeholder="Producto"
                                         [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }"
@@ -119,7 +117,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="subProducto">Sub Producto</label>
+                                    <label for="subProducto" class="form-label">Sub Producto</label>
                                     <ng-select [items]="listByProducts" formControlName="subProducto"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="subProducto"
                                         placeholder="Sub Producto"

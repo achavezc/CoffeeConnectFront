@@ -54,17 +54,19 @@ export class IngresoAlmacenComponent implements OnInit {
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
+  userSession: any = {};
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.ingresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ingresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.userSession = JSON.parse(localStorage.getItem('user'));
   }
 
   LoadForm(): void {
     this.ingresoAlmacenForm = this.fb.group({
-      nroGuiaRecepcion: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      nroIngreso: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       tipoDocumento: [],
       numeroDocumento: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       fechaInicio: [, [Validators.required]],
@@ -109,7 +111,7 @@ export class IngresoAlmacenComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let numeroGuia = group.controls['nroGuiaRecepcion'].value.trim();
+      let numeroGuia = group.controls['nroIngreso'].value.trim();
       let numeroDocumento = group.controls['numeroDocumento'].value.trim();
       let tipoDocumento = group.controls['tipoDocumento'].value;
       let codigoSocio = group.controls['codigoSocio'].value.trim();
@@ -233,7 +235,7 @@ export class IngresoAlmacenComponent implements OnInit {
     } else {
       this.selected = [];
       this.submitted = false;
-      let request = new ReqIngresoAlmacenConsultar(this.ingresoAlmacenForm.value.nroGuiaRecepcion,
+      let request = new ReqIngresoAlmacenConsultar(this.ingresoAlmacenForm.value.nroIngreso,
         this.ingresoAlmacenForm.value.nombreRazonSocial,
         this.ingresoAlmacenForm.value.tipoDocumento,
         this.ingresoAlmacenForm.value.producto,
@@ -315,15 +317,34 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   Exportar(): void {
-    this.Buscar(true);
+    let form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `¿Está seguro de exportar la información visualizada?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        form.Buscar(true);
+      }
+    });
   }
 
   GenerarLote(): void {
-    if (this.selected.length > 0) {
+    let request = this.DevolverRequestGenerarLotes();
+    if (request && request.length > 0) {
       let form = this;
       swal.fire({
         title: 'Confirmación',
-        text: `Solo se procesarán las filas que se encuentren en estado INGRESADO y cuenten con ALMACÉN asignado.¿Estás seguro de continuar?`,
+        text: `¿Está seguro de continuar con la generación de lotes?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#2F8BE6',
@@ -336,78 +357,99 @@ export class IngresoAlmacenComponent implements OnInit {
         buttonsStyling: false,
       }).then(function (result) {
         if (result.value) {
-          form.ProcesarGenerarLote();
+          form.ProcesarGenerarLote(request);
         }
       });
+    } else {
+      this.alertUtil.alertError("Advertencia",
+        "Niguna de las filas seleccionadas se encuentran en estado INGRESADO y/o tienen asignado un ALMACEN.");
     }
   }
 
-  ProcesarGenerarLote(): void {
-    this.spinner.show();
-    let request = this.DevolverRequestGenerarLotes();
-    if (request && request.length > 0) {
-      for (let i = 0; i < request.length; i++) {
-        this.loteService.Generar(request[i])
-          .subscribe(res => {
-            this.spinner.hide();
-            if (!res.Result.Success) {
-              if (res.Result.Message && res.Result.ErrCode) {
-                this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-              } else {
-                this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-              }
+  ProcesarGenerarLote(request: any[]): void {
+    let form = this;
+    for (let i = 0; i < request.length; i++) {
+      form.spinner.show();
+      this.loteService.Generar(request[i])
+        .subscribe((res: any) => {
+          if (!res.Result.Success) {
+            if (res.Result.Message && res.Result.ErrCode) {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
-          }, err => {
-            console.log(err);
-            this.spinner.hide();
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          });
-      }
-    } else {
-      this.alertUtil.alertError("Advertencia",
-        "Niguna de las filas seleccionadas se encuentran en estado INGRESADO y tienen asignado un ALMACEN.");
+          } else {
+            form.Buscar();
+            form.spinner.hide();
+          }
+        }, (err: any) => {
+          console.log(err);
+          form.spinner.hide();
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        });
     }
-    this.spinner.hide();
   }
 
   Anular(): void {
     if (this.selected.length > 0) {
       if (this.selected.length == 1) {
         let vIngresados = this.DevolverSoloIngresados();
-        if (vIngresados.length <= 0) {
+        if (vIngresados.length > 0) {
+          let form = this;
+          swal.fire({
+            title: 'Confirmación',
+            text: `¿Está seguro de ANULAR la nota de ingreso ${this.selected[0].Numero}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then(function (result) {
+            if (result.value) {
+              form.ProcesarAnulacion(vIngresados);
+            }
+          });
+        } else {
           this.alertUtil.alertError("Advertencia",
             "Ninguna de las filas selccionadas se encuentran en estado INGRESADO.");
-          return;
         }
-        this.spinner.show();
-        let obj: any = {};
-        for (let i = 0; i < vIngresados.length; i++) {
-          obj = this.selected[i];
-          this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, "mruizb")
-            .subscribe(res => {
-              if (!res.Result.Success) {
-                if (res.Result.Message && res.Result.ErrCode) {
-                  this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-                } else {
-                  this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-                }
-              }
-            }, err => {
-              console.log(err);
-              this.spinner.hide();
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-            });
-        }
-        this.Buscar();
-        this.alertUtil.alertOk("Confirmación",
-          "Se han anulado las filas seleccionadas correctamente.");
       } else {
-        this.alertUtil.alertError("Advertencia",
-          "Por favor para ANULAR solo seleccionar de UNO en UNO.");
+        this.alertUtil.alertError("Advertencia", "Por favor para ANULAR solo seleccionar de UNO en UNO.");
       }
     } else {
-      this.alertUtil.alertError("Advertencia",
-        "No existen filas seleccionadas para anular.");
+      this.alertUtil.alertError("Advertencia", "No existen filas seleccionadas para anular.");
+    }
+  }
+
+  ProcesarAnulacion(pIngresados: any[]): void {
+    let form = this;
+    this.spinner.show();
+    let obj: any = {};
+    for (let i = 0; i < pIngresados.length; i++) {
+      obj = pIngresados[i];
+      this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, "mruizb")
+        .subscribe(res => {
+          if (!res.Result.Success) {
+            if (res.Result.Message && res.Result.ErrCode) {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            form.Buscar();
+            form.spinner.hide();
+            this.alertUtil.alertOk("Confirmación", "Se han anulado las filas seleccionadas correctamente.");
+          }
+        }, err => {
+          console.log(err);
+          this.spinner.hide();
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        });
     }
   }
 
@@ -441,7 +483,7 @@ export class IngresoAlmacenComponent implements OnInit {
     if (vFilas && vFilas.length > 0) {
       let vArrAlmacenes: number[] = vFilas.map(x => x.AlmacenId);
       if (vArrAlmacenes) {
-        let vArrIdsNotaIngreso: any[] = [];
+        let vArrIdsNotaIngreso: any[] = [], user = this.userSession.Result;
         vArrAlmacenes.forEach((cv, index, arr) => {
           vFilas.filter(x => x.AlmacenId == cv).forEach(x => {
             vArrIdsNotaIngreso.push({ Id: x.NotaIngresoAlmacenId })
@@ -449,10 +491,10 @@ export class IngresoAlmacenComponent implements OnInit {
 
           vObjRequest = {
             Usuario: "mruizb",
-            EmpresaId: 1,
-            AlmacenId: cv
+            EmpresaId: user.Data.EmpresaId,
+            AlmacenId: cv.toString()
           };
-          vObjRequest.NotasIngresoAlmacenId.push(vArrIdsNotaIngreso);
+          vObjRequest.NotasIngresoAlmacenId = vArrIdsNotaIngreso;
           result.push(vObjRequest);
         });
       }
