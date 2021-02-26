@@ -256,25 +256,30 @@ export class LotesComponent implements OnInit {
   Anular(): void {
     if (this.selected.length > 0) {
       if (this.selected.length == 1) {
-        let form = this;
-        swal.fire({
-          title: 'Confirmación',
-          text: `Solo se anularán las filas que se encuentren en estado INGRESADO.¿Está seguro de continuar?`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.AnularFila();
-          }
-        });
+        if (this.selected[0].EstadoId == "01") {
+          let form = this;
+          swal.fire({
+            title: '¿Estas Seguro?',
+            text: `¿Está seguro de anular el lote "${this.selected[0].Numero}"?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then(function (result) {
+            if (result.value) {
+              form.AnularFila();
+            }
+          });
+        } else {
+          this.alertUtil.alertError("Advertencia",
+            "La fila seleccionada se encuentra en un estado diferente a INGRESADO.");
+        }
       } else {
         this.alertUtil.alertError("Advertencia", "Por favor seleccionar de UNO en UNO.");
       }
@@ -284,33 +289,29 @@ export class LotesComponent implements OnInit {
   }
 
   AnularFila(): void {
+    let form = this;
     this.spinner.show();
-    if (this.selected[0].EstadoId == "01") {
-      this.loteService.Anular({ LoteId: this.selected[0].LoteId, Usuario: "mruizb" })
-        .subscribe(res => {
-          this.spinner.hide();
-          if (res.Result.Success) {
-            if (!res.Result.ErrCode) {
-              this.Buscar();
-              this.alertUtil.alertError("Confirmación",
-                `El lote ${this.selected[0].Numero} fue anulado correctamente.`);
-            } else if (res.Result.Message && res.Result.ErrCode) {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-            } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-            }
+    this.loteService.Anular({ LoteId: this.selected[0].LoteId, Usuario: "mruizb" })
+      .subscribe(res => {
+        if (res.Result.Success) {
+          if (!res.Result.ErrCode) {
+            form.alertUtil.alertOk("Confirmación",
+              `El lote ${form.selected[0].Numero} fue anulado correctamente.`);
+            form.Buscar();
+            form.spinner.hide();
+          } else if (res.Result.Message && res.Result.ErrCode) {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        }, err => {
-          this.spinner.hide();
-          console.error(err);
+        } else {
           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        });
-    } else {
-      this.alertUtil.alertError("Advertencia",
-        "La fila seleccionada se encuentra en un estado diferente a INGRESADO.");
-    }
+        }
+      }, err => {
+        form.spinner.hide();
+        console.error(err);
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      });
   }
 
   Exportar(): void {

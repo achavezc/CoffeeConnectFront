@@ -160,7 +160,7 @@ export class MateriaPrimaListComponent implements OnInit {
               res.Result.Data.forEach(obj => {
 
                 var fecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistroCadena = fecha.getUTCDate() + "/" + fecha.getUTCMonth() + 1 + "/" + fecha.getUTCFullYear();
+                obj.FechaRegistroCadena = this.dateUtil.formatDate(fecha,"/");
 
               });
               this.tempData = res.Result.Data;
@@ -244,7 +244,7 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit'])
+    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit']);
   }
 
   anular() {
@@ -448,6 +448,7 @@ export class MateriaPrimaListComponent implements OnInit {
       alert('Ha ocurrio un error en la descarga delExcel.');
     }
   }
+
 
 }
 

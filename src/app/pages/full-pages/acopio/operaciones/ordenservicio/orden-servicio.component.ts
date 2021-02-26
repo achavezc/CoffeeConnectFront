@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
-import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
@@ -40,7 +39,6 @@ export class OrdenServicioComponent implements OnInit {
   limitRef = 10;
   rows = [];
   tempData = [];
-  ColumnMode = ColumnMode;
   selected = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";

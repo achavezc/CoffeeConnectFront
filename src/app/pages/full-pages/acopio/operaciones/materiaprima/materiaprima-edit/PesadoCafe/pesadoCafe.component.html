@@ -30,7 +30,7 @@
                           <label class="col-md-4 col-form-label card-text"
                             for="horizontal-form-1">Cantidad</label>
                           <div class="col-md-8">
-                            <input type="text"  maxlength="10" formControlName="cantidad" class="form-control"
+                            <input type="number"  maxlength="10" formControlName="cantidad" class="form-control"
                               id="validationTooltip08" placeholder="Cantidad" (change)="changeCantidad()"
                               [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }"
                               >
@@ -41,7 +41,7 @@
                           <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Kilos
                             Brutos</label>
                           <div class="col-md-8">
-                            <input type="text"  maxlength="10" formControlName="kilosBruto" class="form-control"
+                            <input type="number"  maxlength="10" formControlName="kilosBruto" class="form-control"
                               id="validationTooltip08" placeholder="Kilos Brutos"
                               [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.kilosBruto.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBruto.invalid }"
                               >
@@ -52,7 +52,7 @@
                           <label class="col-md-4 col-form-label card-text"
                             for="horizontal-form-1">Tara</label>
                           <div class="col-md-8">
-                              <input type="text"  maxlength="10" formControlName="tara" class="form-control"
+                              <input type="number"  maxlength="10" formControlName="tara" class="form-control"
                               id="validationTooltip08" placeholder="Tara" 
                               [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.tara.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tara.invalid }"
                               disabled>
