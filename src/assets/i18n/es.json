@@ -243,5 +243,25 @@
 	"Transporte":
 	{
 		"Label":"Transporte"
+	},
+	"Agropecuario":
+	{
+		"Label":"Agropecuario",
+		"Operaciones":
+		{
+			"Label":"Operaciones",
+			"Socio":
+				{
+				  "Label":"Socio"
+				}
+		},
+		"Administracion":
+		{
+			"Label":"Administracion",
+			"MaestrosGenerales":
+				{
+				  "Label":"Maestros Generales"
+				}	
+		}
 	}
 }
