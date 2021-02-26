@@ -185,6 +185,18 @@
 			"IngresoAlmacen":
 				{
 					"Label":"Ingreso Almacén"
+				},
+			"Lotes":
+				{
+					"Label":"Lotes"
+				},
+			"SalidaAlmacen":
+				{
+					"Label":"Salida Almacén"
+				},
+			"ControlCalidadExterna":
+				{
+					"Label":"Control Calidad Externa"
 				}
 		},
 		"Administracion":

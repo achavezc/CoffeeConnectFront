@@ -184,6 +184,18 @@
 			"IngresoAlmacen":
 				{
 					"Label":"Warehouse Entry"
+				},
+			"Lotes":
+				{
+					"Label":"Lots"
+				},
+			"SalidaAlmacen":
+				{
+					"Label":"Warehouse exit"
+				},
+			"ControlCalidadExterna":
+				{
+					"Label":"External Quality Control"
 				}
 		},
 		"Administracion":
