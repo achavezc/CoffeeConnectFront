@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { SocioComponent } from './socio/socio.component';
+import { SocioComponent } from './operaciones/socio/socio.component';
 
 const routes: Routes = [
     {
-        path: 'agropecuario',
+        path: 'operaciones',
         children: [
             {
                 path: 'socio-list',

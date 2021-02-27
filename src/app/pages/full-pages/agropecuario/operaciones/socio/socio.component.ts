@@ -4,10 +4,10 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 
-import { MaestroUtil } from '../../../../services/util/maestro-util';
-import { DateUtil } from '../../../../services/util/date-util';
-import { AlertUtil } from '../../../../services/util/alert-util';
-import { SocioService } from '../../../../services/socio.service';
+import { MaestroUtil } from '../../../../../services/util/maestro-util';
+import { DateUtil } from '../../../../../services/util/date-util';
+import { AlertUtil } from '../../../../../services/util/alert-util';
+import { SocioService } from '../../../../../services/socio.service';
 
 @Component({
   selector: 'app-socio',

@@ -19,7 +19,7 @@ import { PipeModule } from "../../../shared/pipes/pipe.module";
 import { MatchHeightModule } from "../../../shared/directives/match-height.directive";
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 
-import { SocioComponent } from './socio/socio.component';
+import { SocioComponent } from './operaciones/socio/socio.component';
 
 @NgModule({
   declarations: [SocioComponent],
