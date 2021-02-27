@@ -67,8 +67,8 @@ export class AcopioService {
   }
 
   
-  actualizarPesado(request:ReqActualizarPesado): Observable<any> {
-    const url = `${this.url}/RegistrarPesado`;
+  actualizarPesado(request:ReqRegistrarPesado): Observable<any> {
+    const url = `${this.url}/ActualizarPesado`;
     request.EmpresaId = 1;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
