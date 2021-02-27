@@ -175,6 +175,10 @@ export class LotesComponent implements OnInit {
     this.table.offset = 0;
   }
 
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
+  }
+
   Buscar(exportExcel?: boolean): void {
     if (this.banLoteForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;

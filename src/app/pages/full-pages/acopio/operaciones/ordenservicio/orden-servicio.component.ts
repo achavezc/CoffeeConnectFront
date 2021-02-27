@@ -85,12 +85,14 @@ export class OrdenServicioComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
+      let nroOrdenServicio = group.value.nroOrdenServicio;
       let razonSocial = group.controls['razonSocial'].value.trim();
+      let ruc = group.value.ruc;
       let producto = group.controls['producto'].value;
       let subProducto = group.controls['subProducto'].value;
 
-      if (!razonSocial) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar una razón social.' };
+      if (!razonSocial && !nroOrdenServicio && !ruc) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
       } else if (subProducto && !producto) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
       } else {
@@ -147,6 +149,10 @@ export class OrdenServicioComponent implements OnInit {
     });
     this.rows = temp;
     this.table.offset = 0;
+  }
+
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
   }
 
   Buscar(): void {

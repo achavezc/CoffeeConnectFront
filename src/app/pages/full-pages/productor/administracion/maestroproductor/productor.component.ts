@@ -81,12 +81,13 @@ export class ProductorComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nombRazonSocial = group.controls['nombRazonSocial'].value.trim();
-      let tipoDocumento = group.controls['tipoDocumento'].value;
-      let nroDocumento = group.controls['nroDocumento'].value;
+      let codProductor = group.value.codProductor.trim();
+      let nombRazonSocial = group.value.nombRazonSocial.trim();
+      let tipoDocumento = group.value.tipoDocumento;
+      let nroDocumento = group.value.nroDocumento.trim();
 
-      if (!nombRazonSocial) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar una razón social.' };
+      if (!codProductor && !nombRazonSocial) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
       } else if (nroDocumento && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
       } else if (!nroDocumento && tipoDocumento) {
@@ -130,6 +131,10 @@ export class ProductorComponent implements OnInit {
     this.table.offset = 0;
   }
 
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
+  }
+  
   Buscar(): void {
     if (this.productorForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;

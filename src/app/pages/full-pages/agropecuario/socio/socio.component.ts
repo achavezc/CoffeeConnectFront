@@ -53,7 +53,7 @@ export class SocioComponent implements OnInit {
       codSocio: ['', [Validators.minLength(5), Validators.maxLength(25), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       tipoDocumento: [],
       nroDocumento: ['', [Validators.maxLength(25), Validators.pattern('^[0-9]+$')]],
-      nombRazonSocial: ['', [Validators.required]],
+      nombRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
       estado: []
@@ -81,21 +81,18 @@ export class SocioComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nombRazonSocial = group.controls['nombRazonSocial'].value.trim();
-      let tipoDocumento = group.controls['tipoDocumento'].value;
-      let nroDocumento = group.controls['nroDocumento'].value;
 
-      if (!nombRazonSocial) {
-        // this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar una razón social.' };
+      if (!group.value.codSocio && !group.value.nombRazonSocial) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
         // group.controls['nombRazonSocial'].setErrors({ isError: true, message: 'Por favor ingresar una razón social.' });
-      } else if (nroDocumento && !tipoDocumento) {
-        // this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
-        group.controls['tipoDocumento'].setErrors({ isError: true, message: 'Por favor seleccionar un tipo de documento.' });
-      } else if (!nroDocumento && tipoDocumento) {
-        // this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un número de documento.' };
-        group.controls['nroDocumento'].setErrors({ isError: true, message: 'Por favor ingresar un número de documento.' });
+      } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
+        // group.controls['tipoDocumento'].setErrors({ isError: true, message: 'Por favor seleccionar un tipo de documento.' });
+      } else if (!group.value.nroDocumento && group.value.tipoDocumento) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un número de documento.' };
+        // group.controls['nroDocumento'].setErrors({ isError: true, message: 'Por favor ingresar un número de documento.' });
       } else {
-        // this.errorGeneral = { isError: false, errorMessage: '' };
+        this.errorGeneral = { isError: false, errorMessage: '' };
       }
       return;
     };
@@ -131,6 +128,10 @@ export class SocioComponent implements OnInit {
     });
     this.rows = temp;
     this.table.offset = 0;
+  }
+
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
   }
 
   Buscar(): void {

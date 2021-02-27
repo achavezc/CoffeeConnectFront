@@ -28,7 +28,7 @@ export class NotacompraListComponent implements OnInit {
     private notaCompraService: NotaCompraService,
     private alertUtil: AlertUtil,
     private excelService: ExcelService) {
-    this.singleSelectCheck = this.singleSelectCheck.bind(this);
+    // this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
   consultaNotaCompraForm: FormGroup;
@@ -150,7 +150,7 @@ export class NotacompraListComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  singleSelectCheck(row: any) {
+  onSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
 
@@ -265,7 +265,7 @@ export class NotacompraListComponent implements OnInit {
           }
         });
       } else {
-        this.alertUtil.alertError("Error", "Solo se puede anular notas de compra con estado pesado.")
+        this.alertUtil.alertError("Error", "Solo se puede anular notas de compra con estado LIQUIDADO.")
       }
     }
   }
