@@ -13,7 +13,7 @@
                         <form class="needs-validation" [formGroup]="productorForm">
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="codProductor">Código Productor</label>
+                                    <label for="codProductor" class="form-label">Código Productor</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="codProductor"
                                         class="form-control" id="codProductor" placeholder="Código del productor"
                                         [ngClass]="{ 'is-invalid': submitted && f.codProductor.invalid, 'is-valid': submitted &&  !f.codProductor.invalid }">
@@ -26,7 +26,7 @@
                                         letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="tipoDocumento">Tipo de documento</label>
+                                    <label for="tipoDocumento" class="form-label">Tipo de documento</label>
                                     <ng-select [items]="listTiposDocumentos" formControlName="tipoDocumento"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
                                         placeholder="Seleccionar el tipo de documento"
@@ -35,7 +35,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroDocumento">Número de documento</label>
+                                    <label for="nroDocumento" class="form-label">Número de documento</label>
                                     <input type="text" minlength="5" maxlength="25" formControlName="nroDocumento"
                                         class="form-control" id="nroDocumento" placeholder="Número de documento"
                                         [ngClass]="{ 'is-invalid': submitted && f.nroDocumento.invalid, 'is-valid': submitted &&  !f.nroDocumento.invalid }">
@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nombRazonSocial">Nombre/Razón Social</label>
+                                    <label for="nombRazonSocial" class="form-label">Nombre/Razón Social</label>
                                     <input type="text" minlength="5" maxlength="100" formControlName="nombRazonSocial"
                                         class="form-control" id="nombRazonSocial" placeholder="Nombre o Razón Social"
                                         [ngClass]="{ 'is-invalid': submitted && f.nombRazonSocial.invalid, 'is-valid': submitted &&  !f.nombRazonSocial.invalid }">
@@ -62,7 +62,7 @@
                                         *ngIf="f.nombRazonSocial.errors?.pattern">Solo letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="Seleccionar fecha inicio" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
@@ -71,7 +71,7 @@
                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaFin">Fecha Fin</label>
+                                    <label for="fechaFin" class="form-label">Fecha Fin</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
                                         name="fechaFin" placeholder="Seleccionar Fecha Fín" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
@@ -82,7 +82,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado">Estado</label>
+                                    <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listEstados" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado"
                                         placeholder="Seleccionar estado"
@@ -96,7 +96,7 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!productorForm.valid"
                                 (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Fincas</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Documentos</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Proyectos</button>
@@ -139,7 +139,7 @@
                         </fieldset>
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
-                            [selected]="selected" [selectionType]="'single'">
+                            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
                             <ngx-datatable-column name="Código" prop="Numero" width="90">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">

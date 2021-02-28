@@ -1,34 +1,34 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {StorageService} from './storage-service';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { StorageService } from './storage-service';
 import 'rxjs/add/operator/catch';
 //import {DeviceDetectorService} from 'ngx-device-detector';
 import swal from 'sweetalert2';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class HttpInterceptorImpl implements HttpInterceptor {
-  
+
 
   constructor(private http: HttpClient,
-              //private storage: StorageService,
-              //private router: Router,
-              //public deviceService: DeviceDetectorService
-              ) {
+    //private storage: StorageService,
+    //private router: Router,
+    //public deviceService: DeviceDetectorService
+  ) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token ="";// this.storage.getToken();
+    const token = "";// this.storage.getToken();
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Allowed', 'true');
-      //.append('Authorization', `bearer ${token}`);
+    //.append('Authorization', `bearer ${token}`);
     const reqCloned = req.clone({
       headers: headers
     });
-      
+
     return next.handle(reqCloned).catch((err) => {
       console.error('Error Ocurred', err);
       return Observable.throw(err);

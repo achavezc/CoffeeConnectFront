@@ -13,7 +13,7 @@
                         <form class="needs-validation" [formGroup]="notaSalidaForm">
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroNotaSalida">Número Nota Salida</label>
+                                    <label for="nroNotaSalida" class="form-label">Número Nota Salida</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="nroNotaSalida"
                                         class="form-control" id="nroNotaSalida" placeholder="Número de nota de salida"
                                         [ngClass]="{ 'is-invalid': submitted && f.nroNotaSalida.invalid, 'is-valid': submitted &&  !f.nroNotaSalida.invalid }">
@@ -26,7 +26,7 @@
                                         letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="destinatario">Destinatario</label>
+                                    <label for="destinatario" class="form-label">Destinatario</label>
                                     <ng-select [items]="listDestinatarios" formControlName="destinatario"
                                         class="form-control" bindLabel="RazonSocial" bindValue="EmpresaId"
                                         id="destinatario" placeholder="Destinatario"
@@ -35,7 +35,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="transportista">Transportista</label>
+                                    <label for="transportista" class="form-label">Transportista</label>
                                     <ng-select [items]="listTransportistas" formControlName="transportista"
                                         class="form-control" bindLabel="RazonSocial" bindValue="EmpresaTransporteId"
                                         id="transportista" placeholder="Transportista"
@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
@@ -55,7 +55,7 @@
                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaFin">Fecha Fin</label>
+                                    <label for="fechaFin" class="form-label">Fecha Fin</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
                                         name="fechaFin" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
@@ -64,7 +64,7 @@
                                         *ngIf="error.isError">{{error.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="almacen">Almacén</label>
+                                    <label for="almacen" class="form-label">Almacén</label>
                                     <ng-select [items]="listAlmacenes" formControlName="almacen" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="almacen" placeholder="Almacén"
                                         [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }"
@@ -74,16 +74,24 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="motivo">Motivo</label>
+                                    <label for="motivo" class="form-label">Motivo</label>
                                     <ng-select [items]="listMotivos" formControlName="motivo" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="motivo" placeholder="Motivo"
                                         [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
                                         [(ngModel)]="selectedMotivo">
                                     </ng-select>
                                 </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
+                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
                             </div>
 
-                            <small class="form-text text-muted danger"
+                            <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!notaSalidaForm.valid"
                                 (click)="Buscar()">Buscar</button>
@@ -128,7 +136,7 @@
                         </fieldset>
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
-                            [selected]="selected" [selectionType]="'single'">
+                            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
                             <ngx-datatable-column name="Nota Salida" prop="Numero" width="130">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Almacén" prop="Almacen" width="100">
@@ -142,6 +150,14 @@
                             <ngx-datatable-column name="Cant. Lotes" prop="CantidadLotes" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Total Peso Neto KGS" prop="PesoNeto" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Ingresado', 'bg-light-danger': status == 'Anulado'}">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>

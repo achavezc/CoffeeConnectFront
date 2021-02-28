@@ -33,10 +33,12 @@ export class NotaSalidaComponent implements OnInit {
   listTransportistas: [] = [];
   listAlmacenes: [] = [];
   listMotivos: [] = [];
+  listEstados: [] = [];
   selectedDestinatario: any;
   selectedTransportista: any;
   selectedAlmacen: any;
   selectedMotivo: any;
+  selectedEstado: any;
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
@@ -67,7 +69,8 @@ export class NotaSalidaComponent implements OnInit {
       fechaInicio: [, [Validators.required]],
       fechaFin: [, [Validators.required]],
       almacen: [''],
-      motivo: ['']
+      motivo: [''],
+      estado: ['']
     });
     this.notaSalidaForm.setValidators(this.comparisonValidator());
   }
@@ -109,6 +112,11 @@ export class NotaSalidaComponent implements OnInit {
         form.listMotivos = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros("EstadoNotaSalidaAlmacen", function (res) {
+      if (res.Result.Success) {
+        form.listEstados = res.Result.Data;
+      }
+    });
   }
 
   compareTwoDates(): void {
@@ -140,6 +148,10 @@ export class NotaSalidaComponent implements OnInit {
     });
     this.rows = temp;
     this.table.offset = 0;
+  }
+
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
   }
 
   Buscar(): void {
@@ -190,25 +202,29 @@ export class NotaSalidaComponent implements OnInit {
   Anular(): void {
     if (this.selected.length > 0) {
       if (this.selected.length == 1) {
-        let form = this;
-        swal.fire({
-          title: '¿Estad seguro?',
-          text: `¿Está seguro de ANULAR la nota de salida "${this.selected[0].Numero}"?`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.AnularFila(form);
-          }
-        });
+        if (this.selected[0].EstadoId === "01") {
+          let form = this;
+          swal.fire({
+            title: '¿Estas seguro?',
+            text: `¿Está seguro de ANULAR la nota de salida "${this.selected[0].Numero}"?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then(function (result) {
+            if (result.value) {
+              form.AnularFila(form);
+            }
+          });
+        } else {
+          this.alertUtil.alertError("Validación", "Solo se puede anular los INGRESADOS.");
+        }
       } else {
         this.alertUtil.alertError("Validación", "Solo se puede anular de UNO en UNO.");
       }

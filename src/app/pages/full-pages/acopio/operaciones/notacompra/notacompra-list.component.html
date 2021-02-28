@@ -13,7 +13,7 @@
                         <form class="needs-validation" [formGroup]="consultaNotaCompraForm">
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroGuiaRecepcion">Nro Guia Recepción</label>
+                                    <label for="nroGuiaRecepcion" class="form-label">Nro Guia Recepción</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="nroGuiaRecepcion"
                                         class="form-control" id="nroGuiaRecepcion"
                                         placeholder="Número de guia de recepción"
@@ -26,7 +26,7 @@
                                         *ngIf="f.nroGuiaRecepcion.errors?.pattern">Solo letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="tipoDocumento">Tipo Documento</label>
+                                    <label for="tipoDocumento" class="form-label">Tipo Documento</label>
                                     <ng-select [items]="listTypeDocuments" formControlName="tipoDocumento"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
                                         placeholder="Tipo Documento"
@@ -35,7 +35,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="numeroDocumento">Número Documento</label>
+                                    <label for="numeroDocumento" class="form-label">Número Documento</label>
                                     <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
                                         class="form-control" id="numeroDocumento" placeholder="Número Documento"
                                         [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
@@ -49,7 +49,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroNotaCompra">Nro Nota Compra</label>
+                                    <label for="nroNotaCompra" class="form-label">Nro Nota Compra</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="nroNotaCompra"
                                         class="form-control" id="nroNotaCompra"
                                         placeholder="Número de guia de recepción"
@@ -62,7 +62,7 @@
                                         *ngIf="f.nroNotaCompra.errors?.pattern">Solo letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaInicio">Fecha Inicio</label>
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
@@ -71,7 +71,7 @@
                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaFin">Fecha Fin</label>
+                                    <label for="fechaFin" class="form-label">Fecha Fin</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
                                         name="fechaFin" placeholder="date" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
@@ -82,7 +82,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado">Estado</label>
+                                    <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listStates" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
                                         [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
@@ -90,7 +90,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nombreRazonSocial">Nombre/Razón Social</label>
+                                    <label for="nombreRazonSocial" class="form-label">Nombre/Razón Social</label>
                                     <input type="text" minlength="5" maxlength="100" formControlName="nombreRazonSocial"
                                         class="form-control" id="nombreRazonSocial" placeholder="Nombre / Razón Social"
                                         [ngClass]="{ 'is-invalid': submitted && f.nombreRazonSocial.invalid, 'is-valid': submitted && !f.nombreRazonSocial.invalid }">
@@ -102,7 +102,7 @@
                                         letras</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="codigoSocio">Código Socio</label>
+                                    <label for="codigoSocio" class="form-label">Código Socio</label>
                                     <input type="text" minlength="5" maxlength="20" formControlName="codigoSocio"
                                         class="form-control" id="codigoSocio" placeholder="Codigo Socio"
                                         [ngClass]="{ 'is-invalid': submitted && f.codigoSocio.invalid, 'is-valid': submitted && !f.codigoSocio.invalid }">
@@ -116,7 +116,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="tipo">Tipo</label>
+                                    <label for="tipo" class="form-label">Tipo</label>
                                     <ng-select [items]="listTypes" formControlName="tipo" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="tipo" placeholder="Tipo"
                                         [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }"
@@ -124,7 +124,7 @@
                                     </ng-select>
                                 </div>
                             </div>
-                            <small class="form-text text-muted danger"
+                            <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="!consultaNotaCompraForm.valid" (click)="Buscar()">Buscar</button>
@@ -169,9 +169,9 @@
                                     (keyup)="filterUpdate($event)" />
                             </label>
                         </fieldset>
-                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'"
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            [scrollbarH]="true" [selectCheck]="singleSelectCheck" [selected]="selected"
+                            [scrollbarH]="true" [selectCheck]="onSelectCheck" [selected]="selected"
                             [selectionType]="'single'">
                             <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="130">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
@@ -208,6 +208,8 @@
                             <ngx-datatable-column name="Tipo" prop="Tipo" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="KG. Neto a Pagar" prop="KilosNetosPagar" width="80">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Moneda" prop="Moneda" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Importe" prop="Importe" width="80">
                             </ngx-datatable-column>

@@ -8,6 +8,7 @@ export interface ILogin {
     Message: string;
     Meta: meta;
     Data: data;
+    ProductoPreciosDia: ProductoPreciosDia;
     
   }
   interface data
@@ -36,4 +37,10 @@ export interface ILogin {
   {
     Total: number;
     Identificador: string;
+  }
+  interface ProductoPreciosDia
+  {
+    TotaProductoIdl: string;
+    SubProductoId: string;
+    PrecioDia: number;
   }

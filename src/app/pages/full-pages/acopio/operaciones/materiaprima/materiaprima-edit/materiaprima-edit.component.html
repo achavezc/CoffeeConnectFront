@@ -21,7 +21,7 @@
                   </div>
 
                   <div class="col-md-6 form-group">
-                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">JS0111111</label>
+                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numeroGuia}}</label>
                   </div>
                 
                 </div> 
@@ -56,18 +56,18 @@
                   </div>
 
                   <div class="col-md-4 form-group">
-                    <label class="card-forms" for="users-edit-username"  style="font-weight: bold;" >21/10/2021</label>
+                    <label class="card-forms" for="users-edit-username"  style="font-weight: bold;" >{{fechaRegistro}}</label>
                   </div>
                 </div>
 
                 <div class="form-row"  *ngIf="esEdit"  >
                   
                   <div class="col-md-6 form-group">
-                    <label class="card-forms" for="users-edit-email"  >ESTADO</label>
+                    <label class="card-forms" for="users-edit-email">ESTADO</label>
                   </div>
 
                   <div class="col-md-4 form-group">
-                    <label class="card-forms" for="users-edit-username"  style="font-weight: bold;">Pesado</label>
+                    <label class="card-forms" for="users-edit-username"  style="font-weight: bold;">{{estado}}</label>
                   </div>
                 </div>
 
@@ -344,13 +344,13 @@
                     <div class="col-8 d-flex flex-sm-row flex-column">
       
                       <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">Soto Torres, Luis</label>
+                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
       
                     </div>
                     <div class="col-8 d-flex flex-sm-row flex-column">
       
                       <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
-                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">21/02/2021</label>
+                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaPesado}}</label>
       
                     </div>
       

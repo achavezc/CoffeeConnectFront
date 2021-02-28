@@ -14,6 +14,8 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ReqRegistrarPesado } from '../../../../../../services/models/req-registrar-pesado';
 import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
+import { DateUtil } from '../../../../../../services/util/date-util';
+import { formatDate } from '@angular/common';
 
 export class table 
   {
@@ -58,11 +60,14 @@ export class MateriaPrimaEditComponent implements OnInit {
   listaTipoDocumento: any[];
   tipoSocio = "01";
   tipoTercero = "02";
-  tipoIntermediario = "03";
-  id: "";
-  visible = false;
-  
-  
+  tipoIntermediario = "03"; 
+  id: Number = 0;
+  estado = "";
+  numeroGuia: "";
+  fechaRegistro: any;
+  fechaPesado: any;
+  responsable: "";
+
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
@@ -71,7 +76,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dateUtil: DateUtil
     ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -84,7 +90,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
     .subscribe(params => {
-      this.id = params.id;
+      this.id = Number(params.id);
       if(this.id){
         this.esEdit = true;
         this.obtenerDetalle();
@@ -117,11 +123,14 @@ export class MateriaPrimaEditComponent implements OnInit {
           fechaPesado:  ['', ],
           pesado: this.fb.group({
             unidadMedida: new FormControl('', [Validators.required]),
-            cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
-            kilosBruto: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+            //cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+            //kilosBruto: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+            cantidad: new FormControl('', []),
+            kilosBruto: new FormControl('', []),
             tara: new FormControl('', []),
             observacionPesado: new FormControl('', [])
-          })
+          }),
+          estado:  ['', ],
         });
   }
   /*open(content) {
@@ -172,19 +181,22 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
-
-    this.maestroService.obtenerMaestros("SubProducto")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaSubProducto = res.Result.Data.filter(obj => obj.Val1 == filterProducto);
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
+    this.cargarSubProducto(filterProducto);
+   
   }
 
+  cargarSubProducto(codigo:any){
+    this.maestroService.obtenerMaestros("SubProducto")
+    .subscribe(res => {
+      if (res.Result.Success) {
+        this.listaSubProducto = res.Result.Data.filter(obj => obj.Val1 == codigo);
+      }
+    },
+      err => {
+        console.error(err);
+      }
+    );
+  }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {
@@ -218,10 +230,15 @@ export class MateriaPrimaEditComponent implements OnInit {
           console.error(err);
         }
       );
+      this.cargarTipoProveedor();
+
+  }
+  cargarTipoProveedor(){
     this.maestroService.obtenerMaestros("TipoProveedor")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaTipoProveedor = res.Result.Data;
+          this.listTipoSocio = this.listaTipoProveedor;
         }
       },
         err => {
@@ -373,13 +390,25 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.submittedEdit = true;
       return;
     } else {
+      var socioId= null;
+      if(Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value) !=0){
+        socioId = Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value)
+      }
+      var terceroId= null;
+      if(Number(this.consultaMateriaPrimaFormEdit.controls["terceroId"].value) !=0){
+        terceroId = Number(this.consultaMateriaPrimaFormEdit.controls["terceroId"].value)
+      }
+      var intermediarioId= null;
+      if(Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value) !=0){
+        intermediarioId = Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value)
+      }
       let request = new ReqRegistrarPesado(
-        0,
+        Number(this.id),
         1,
         this.consultaMateriaPrimaFormEdit.controls["tipoProveedorId"].value,
-        this.consultaMateriaPrimaFormEdit.controls["socioId"].value,
-        this.consultaMateriaPrimaFormEdit.controls["terceroId"].value,
-        this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value,
+        socioId,
+        terceroId,
+        intermediarioId,
         this.consultaMateriaPrimaFormEdit.controls["producto"].value,
         this.consultaMateriaPrimaFormEdit.controls["subproducto"].value,
         this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].value,
@@ -399,30 +428,66 @@ export class MateriaPrimaEditComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
-      this.acopioService.registrarPesado(request)
-        .subscribe(res => {
-          this.spinner.hide();
-          if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
-              this.alertUtil.alertOk('Registrado!', 'Guia Registrada.');
-              this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-            } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-            }
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        },
-          err => {
-            this.spinner.hide();
-            console.log(err);
-            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-          }
-        );  
+        if(this.esEdit && this.id!=0){
+          this.actualizarService(request);
+        }else{
+          this.guardarService(request);
+        }
+        
+     
     }
   }
+  
+  guardarService(request:ReqRegistrarPesado){
+    this.acopioService.registrarPesado(request)
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.alertUtil.alertOk('Registrado!', 'Guia Registrada.');
+          this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );  
+  }
+
+  actualizarService(request:ReqRegistrarPesado){
+    this.acopioService.actualizarPesado(request)
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.alertUtil.alertOk('Actualizado!', 'Guia Actualizada.');
+          this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );  
+  }
+
 
   cancelar(){
     this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
@@ -465,9 +530,42 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   cargarDataFormulario(data: any){
 
-    this.consultaMateriaPrimaFormEdit.controls["producto"].setValue("01");
-    
-    this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue("01");
+    this.consultaMateriaPrimaFormEdit.controls["producto"].setValue(data.ProductoId);
+    this.cargarSubProducto(data.ProductoId);
+    this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue(data.SubProductoId);
+    this.estado = data.Estado
+    this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
+    this.numeroGuia = data.Numero;
+    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
+
+    this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
+    this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-"+ data.NumeroDocumento);
+    this.cargarTipoProveedor();
+ 
+
+    this.consultaMateriaPrimaFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
+    this.consultaMateriaPrimaFormEdit.controls["provCodigo"].setValue(data.TerceroId);
+    this.consultaMateriaPrimaFormEdit.controls["provDepartamento"].setValue(data.Departamento);
+    this.consultaMateriaPrimaFormEdit.controls["provProvincia"].setValue(data.Provincia);
+    this.consultaMateriaPrimaFormEdit.controls["provDistrito"].setValue(data.Distrito);
+    this.consultaMateriaPrimaFormEdit.controls["provZona"].setValue(data.Zona);
+
+    //this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(this.dateUtil.formatDate(new Date(data.FechaPesado),"/"));
+    this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaPesado, 'yyyy-MM-dd', 'en'));
+
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("unidadMedida").setValue(data.UnidadMedidaIdPesado);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").setValue(data.CantidadPesado);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").setValue(data.TaraPesado);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
+    this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado),"/");
+    this.responsable = data.UsuarioPesado;
+
+    this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(data.TipoProvedorId);
+   
   }
+
 }
+
+
 

@@ -2,11 +2,10 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
-import { AlertUtil } from '../../../../../services/util/alert-util';
 import { ProductorService } from '../../../../../services/productor.service';
 
 @Component({
@@ -21,8 +20,8 @@ export class ProductorComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil,
-    private productorService: ProductorService) {
+    private productorService: ProductorService,
+    private router: Router) {
   }
 
   productorForm: FormGroup;
@@ -81,15 +80,12 @@ export class ProductorComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nombRazonSocial = group.controls['nombRazonSocial'].value.trim();
-      let tipoDocumento = group.controls['tipoDocumento'].value;
-      let nroDocumento = group.controls['nroDocumento'].value;
 
-      if (!nombRazonSocial) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar una razón social.' };
-      } else if (nroDocumento && !tipoDocumento) {
+      if (!group.value.codProductor && !group.value.nombRazonSocial) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
+      } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
-      } else if (!nroDocumento && tipoDocumento) {
+      } else if (!group.value.nroDocumento && group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un número de documento.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -128,6 +124,10 @@ export class ProductorComponent implements OnInit {
     });
     this.rows = temp;
     this.table.offset = 0;
+  }
+
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
   }
 
   Buscar(): void {
@@ -174,6 +174,10 @@ export class ProductorComponent implements OnInit {
           }
         );
     }
+  }
+
+  New(): void {
+    this.router.navigate(['/productor/administracion/productor/create']);
   }
 
 }
