@@ -20,9 +20,10 @@ import { MatchHeightModule } from "../../../shared/directives/match-height.direc
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 
 import { SocioComponent } from './operaciones/socio/socio.component';
+import { SocioEditComponent } from './operaciones/socio/socio-edit/socio-edit.component';
 
 @NgModule({
-  declarations: [SocioComponent],
+  declarations: [SocioComponent, SocioEditComponent],
   imports: [
     CommonModule,
     FormsModule,

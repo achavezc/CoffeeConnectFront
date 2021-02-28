@@ -1,0 +1,237 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">NUEVO PRODUCTOR</div>
+    </div>
+</div>
+<form class="needs-validation" novalidate [formGroup]="productorEditForm">
+    <div class="card border-dark mb-3">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col">
+                    <label for="codProductor" class="form-label">Código Productor</label>
+                    <input type="text" name="codProductor" id="codProductor" class="form-control"
+                        placeholder="Ingresar código de productor" disabled>
+                </div>
+                <div class="col">
+                    <label for="fecRegistro" class="form-label" disabled>Fecha de Registro</label>
+                    <input type="date" name="fecRegistro" id="fecRegistro" class="form-control" date
+                        placeholder="Seleccionar fecha de registro" disabled>
+                </div>
+                <div class="col">
+                    <label for="estado" class="form-label mr-1">Estado</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline1" name="customRadioInline"
+                            class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline1">Activo</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline2" name="customRadioInline"
+                            class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline2">Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="card border-dark mb-3">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col">
+                    <label for="tipoDocumento" class="form-label">Tipo de documento</label>
+                    <ng-select [items]="listTiposDocs" formControlName="tipoDocumento" class="form-select"
+                        bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDoc">
+                    </ng-select>
+                </div>
+                <div class="col">
+                    <label for="nroDocumento" class="form-label">N° de documento</label>
+                    <input type="text" name="nroDocumento" id="nroDocumento" class="form-control"
+                        placeholder="Ingresar número de documento">
+                </div>
+                <div class="col">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" name="direccion" id="direccion" class="form-control"
+                        placeholder="Ingresar dirección">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-8">
+                    <label for="nombreCompleto" class="form-label">Nombres y Apellidos</label>
+                    <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control"
+                        placeholder="Ingresar nombres y apellidos">
+                </div>
+                <div class="col">
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <ng-select [items]="listDepartamentos" formControlName="departamento" class="form-select"
+                        bindLabel="Descripcion" bindValue="Codigo" id="departamento"
+                        placeholder="Seleccionar un departamento" [(ngModel)]="selectedDepartamento"
+                        (change)="onChangeDepartament($event)">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-8">
+                    <label for="razonSocial" class="form-label">Razón Social</label>
+                    <input type="text" name="razonSocial" id="razonSocial" class="form-control"
+                        placeholder="Ingresar razón social">
+                </div>
+                <div class="col">
+                    <label for="provincia" class="form-label">Provincia</label>
+                    <ng-select [items]="listProvincias" formControlName="provincia" class="form-select"
+                        bindLabel="Descripcion" bindValue="Codigo" id="provincia"
+                        placeholder="Seleccionar una provincia" [(ngModel)]="selectedProvincia"
+                        (change)="onChangeProvince($event)">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="telefonoFijo" class="form-label">Telefono Fijo</label>
+                    <input type="text" name="telefonoFijo" id="telefonoFijo" class="form-control"
+                        placeholder="Ingresar telefono fijo">
+                </div>
+                <div class="col">
+                    <label for="fecNacimiento" class="form-label">Fec. de nacimiento</label>
+                    <input type="date" name="fecNacimiento" id="fecNacimiento" class="form-control" date
+                        placeholder="Seleccionar fecha de nacimiento">
+                </div>
+                <div class="col">
+                    <label for="distrito" class="form-label">Distrito</label>
+                    <ng-select [items]="listDistritos" formControlName="distrito" class="form-select"
+                        bindLabel="Descripcion" bindValue="Codigo" id="distrito" placeholder="Seleccionar una distrito"
+                        [(ngModel)]="selectedDistrito">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="telefCelular" class="form-label">Telefono Celular</label>
+                    <input type="number" name="telefCelular" id="telefCelular" class="form-control"
+                        placeholder="Ingresar telefono celular">
+                </div>
+                <div class="col">
+                    <label for="lugarNacimiento" class="form-label">Lugar de nacimiento</label>
+                    <input type="text" name="lugarNacimiento" id="lugarNacimiento" class="form-control"
+                        placeholder="Ingresar lugar de nacimiento">
+                </div>
+                <div class="col">
+                    <label for="zona" class="form-label">Zona</label>
+                    <ng-select [items]="listZonas" formControlName="zona" class="form-select" bindLabel="Label"
+                        bindValue="Codigo" id="zona" placeholder="Seleccionar una zona" [(ngModel)]="selectedZona">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="estadoCivil" class="form-label">Estado Civil</label>
+                    <ng-select [items]="listEstadoCivil" formControlName="estadoCivil" class="form-select"
+                        bindLabel="Label" bindValue="Codigo" id="estadoCivil" placeholder="Seleccionar estado civil"
+                        [(ngModel)]="selectedEstadoCivil">
+                    </ng-select>
+                </div>
+                <div class="col">
+                    <label for="religion" class="form-label">Religión</label>
+                    <ng-select [items]="listReligion" formControlName="religion" class="form-select" bindLabel="Label"
+                        bindValue="Codigo" id="religion" placeholder="Seleccionar religión"
+                        [(ngModel)]="selectedReligion">
+                    </ng-select>
+                </div>
+                <div class="col">
+                    <label for="anioIngresoZona" class="form-label">Año de ingreso a la zona</label>
+                    <input type="number" name="anioIngresoZona" id="anioIngresoZona" class="form-control"
+                        placeholder="Ingresar año de ingreso a la zona">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="genero" class="form-label">Genero</label>
+                    <ng-select [items]="listGeneros" formControlName="genero" class="form-select" bindLabel="Label"
+                        bindValue="Codigo" id="genero" placeholder="Seleccionar genero" [(ngModel)]="selectedGenero">
+                    </ng-select>
+                </div>
+                <div class="col">
+                    <label for="gradoEstudio" class="form-label">Grado de Estudios</label>
+                    <ng-select [items]="listGradoEstudios" formControlName="gradoEstudio" class="form-select"
+                        bindLabel="Label" bindValue="Codigo" id="gradoEstudio"
+                        placeholder="Seleccionar grado de estudio" [(ngModel)]="selectedGradoEstudio">
+                    </ng-select>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="nroHijos" class="form-label">N° de hijos</label>
+                    <input type="number" name="nroHijos" id="nroHijos" class="form-control"
+                        placeholder="Ingresar número de hijos">
+                </div>
+                <div class="col">
+                    <label for="idioma" class="form-label">Idioma</label>
+                </div>
+                <div class="col">
+                    <label for="dialecto" class="form-label">Dialecto</label>
+                    <textarea class="form-control" id="dialecto" rows="3" placeholder="Ingresar dialecto"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card border-dark mb-3">
+        <h6 class="card-header">DATOS DEL CONYUGUE</h6>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col">
+                    <label for="tipoDocumentoCyg" class="form-label">Tipo de documento</label>
+                    <ng-select [items]="listTiposDocsCyg" formControlName="tipoDocumentoCyg" class="form-select"
+                        bindLabel="Label" bindValue="Codigo" id="tipoDocumentoCyg"
+                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDocCyg">
+                    </ng-select>
+                </div>
+                <div class="col">
+                    <label for="nroDocumento" class="form-label">N° de documento</label>
+                    <input type="number" name="nroDocumento" id="nroDocumento" class="form-control"
+                        placeholder="Ingresar número de documento">
+                </div>
+                <div class="col">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-8">
+                    <label for="nombreCompletoCyg" class="form-label">Nombres y Apellidos</label>
+                    <input type="text" name="nombreCompletoCyg" id="nombreCompletoCyg" class="form-control"
+                        placeholder="Ingresar nombres y apellidos">
+                </div>
+                <div class="col">
+                    <label for="lugarNacimientoCyg" class="form-label">Lugar de nacimiento</label>
+                    <ng-select [items]="listLugarNacimCyg" formControlName="lugarNacimientoCyg" class="form-select"
+                        bindLabel="Label" bindValue="Codigo" id="lugarNacimientoCyg"
+                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedLugarNacimCyg">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="gradoEstudioCyg" class="form-label">Grado de Estudios</label>
+                    <ng-select [items]="listGradosEstudioCyg" formControlName="gradoEstudioCyg" class="form-select"
+                        bindLabel="Label" bindValue="Codigo" id="gradoEstudioCyg"
+                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedGradoEstudioCyg">
+                    </ng-select>
+                </div>
+                <div class="col">
+                    <label for="nroCelularCyg" class="form-label">Número Celular</label>
+                    <input type="number" name="nroCelularCyg" id="nroCelularCyg" class="form-control"
+                        placeholder="Ingresar número de celular">
+                </div>
+                <div class="col">
+                    <label for="fecNacimientoCyg" class="form-label">Fec. de Nacimiento</label>
+                    <input type="date" name="fecNacimientoCyg" id="fecNacimientoCyg" date class="form-control"
+                        placeholder="Seleccionar fecha de nacimiento">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <button class="btn btn-sm btn-primary">Guardar</button>
+        <button class="btn btn-sm btn-danger">Cancelar</button>
+    </div>
+</form>

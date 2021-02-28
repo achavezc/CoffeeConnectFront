@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
+import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
@@ -22,7 +23,8 @@ export class SocioComponent implements OnInit {
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private socioService: SocioService) {
+    private socioService: SocioService,
+    private router: Router) {
   }
 
   socioListForm: FormGroup;
@@ -178,6 +180,10 @@ export class SocioComponent implements OnInit {
           }
         );
     }
+  }
+
+  AddSocio(): void {
+    this.router.navigate(['/operaciones/socio/create']);
   }
 
 }

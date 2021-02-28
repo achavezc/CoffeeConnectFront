@@ -2,11 +2,9 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
-import { AlertUtil } from '../../../../../services/util/alert-util';
 import { ProductorService } from '../../../../../services/productor.service';
 
 @Component({
@@ -21,7 +19,6 @@ export class ProductorComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil,
     private productorService: ProductorService) {
   }
 
@@ -81,16 +78,12 @@ export class ProductorComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let codProductor = group.value.codProductor.trim();
-      let nombRazonSocial = group.value.nombRazonSocial.trim();
-      let tipoDocumento = group.value.tipoDocumento;
-      let nroDocumento = group.value.nroDocumento.trim();
 
-      if (!codProductor && !nombRazonSocial) {
+      if (!group.value.codProductor && !group.value.nombRazonSocial) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
-      } else if (nroDocumento && !tipoDocumento) {
+      } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
-      } else if (!nroDocumento && tipoDocumento) {
+      } else if (!group.value.nroDocumento && group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un número de documento.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -134,7 +127,7 @@ export class ProductorComponent implements OnInit {
   onSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
-  
+
   Buscar(): void {
     if (this.productorForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;

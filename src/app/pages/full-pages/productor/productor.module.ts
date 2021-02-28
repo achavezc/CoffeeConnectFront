@@ -20,9 +20,10 @@ import { MatchHeightModule } from "../../../shared/directives/match-height.direc
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 
 import { ProductorComponent } from './administracion/maestroproductor/productor.component';
+import { ProductorEditComponent } from './administracion/maestroproductor/productor-edit/productor-edit.component';
 
 @NgModule({
-  declarations: [ProductorComponent],
+  declarations: [ProductorComponent, ProductorEditComponent],
   imports: [
     CommonModule,
     FormsModule,

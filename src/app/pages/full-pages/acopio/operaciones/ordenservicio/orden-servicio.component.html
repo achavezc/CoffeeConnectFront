@@ -102,7 +102,7 @@
                                 </div>
                             </div>
 
-                            <small class="form-text text-muted danger"
+                            <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="!ordenServConCalExtForm.valid" (click)="Buscar()">Buscar</button>
