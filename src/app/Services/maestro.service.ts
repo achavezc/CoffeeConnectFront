@@ -36,4 +36,9 @@ export class MaestroService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  ConsultarZona(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarZona`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
 }

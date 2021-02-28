@@ -42,4 +42,12 @@ export class MaestroUtil {
       .subscribe((res: any) => callback(res), (err: any) => console.log(err))
   }
 
+  GetZonas(pCodigoDistrito: string, callback?: Function): void {
+    const request = {
+      CodigoDistrito: pCodigoDistrito
+    }
+    this.maestroService.ConsultarZona(request)
+      .subscribe((res: any) => callback(res), (err: any) => console.log(err))
+  }
+
 }
