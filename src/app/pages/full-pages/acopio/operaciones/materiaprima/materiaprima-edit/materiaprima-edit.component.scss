@@ -6,3 +6,23 @@
       height: 100vh;
     }
   }
+
+  .modal-dialog{
+                            
+      max-width: 1140px;
+    
+  }
+
+  .ngx-datatable .datatable-body .datatable-body-row>div
+  {
+    display: flex;
+    cursor: pointer;
+  }
+
+
+  .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell:last-child {
+    display: none;
+  }
+  .ngx-datatable.bootstrap.core-bootstrap .datatable-body-row .datatable-body-cell:last-child {
+    display: none;
+  }

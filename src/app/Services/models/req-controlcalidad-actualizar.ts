@@ -130,3 +130,4 @@ export class AnalisisSensorialAtributoDetalleList
     AtributoDetalleDescripcion: string;
     Valor: number;
 }
+

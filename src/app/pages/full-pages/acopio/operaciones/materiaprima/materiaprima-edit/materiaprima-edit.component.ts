@@ -15,6 +15,10 @@ import { ReqRegistrarPesado } from '../../../../../../services/models/req-regist
 import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 
+export class table 
+  {
+    
+  }
 @Component({
   selector: 'app-materiaprima-list',
   templateUrl: './materiaprima-edit.component.html',
@@ -56,6 +60,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   tipoTercero = "02";
   tipoIntermediario = "03";
   id: "";
+  visible = false;
+  
   
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
@@ -260,7 +266,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.listTipoSocio = this.listaTipoProveedor;
     this.consultaMateriaPrimaFormEdit.get('provNombre').setValue(e[0].NombreRazonSocial);
     this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].TipoDocumento+ "-" + e[0].NumeroDocumento);
-    this.consultaMateriaPrimaFormEdit.get('provTipoSocio').setValue(this.consultaProveedor.controls["tipoproveedor"].value );
+    this.consultaMateriaPrimaFormEdit.get('provTipoSocio').setValue(e[0].TipoProveedorId);
     this.consultaMateriaPrimaFormEdit.get('provCodigo').setValue(e[0].CodigoSocio);
     this.consultaMateriaPrimaFormEdit.get('provDepartamento').setValue(e[0].Departamento);
     this.consultaMateriaPrimaFormEdit.get('provProvincia').setValue(e[0].Provincia);
@@ -282,7 +288,9 @@ export class MateriaPrimaEditComponent implements OnInit {
 
     this.modalService.dismissAll();
   }
+  
   buscar() {
+    let columns =[];
     if (this.consultaProveedor.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -300,7 +308,7 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
-          size: 'medium',
+          size: 'large',
           bdColor: 'rgba(0, 0, 0, 0.8)',
           color: '#fff',
           fullScreen: true
@@ -311,6 +319,15 @@ export class MateriaPrimaEditComponent implements OnInit {
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
 
+              //data
+              /*let array = [];
+              
+              for(let key in res.Result.Data)
+              {
+              res.Result.Data[key].visible = false;
+
+              }*/
+              //
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {

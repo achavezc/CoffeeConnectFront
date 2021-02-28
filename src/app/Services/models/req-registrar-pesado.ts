@@ -50,3 +50,8 @@ export class ReqRegistrarPesado {
     TaraPesado?: number;
     ObservacionPesado?: string;
 }
+
+export class tableAnalisisSensorial
+{
+    
+}

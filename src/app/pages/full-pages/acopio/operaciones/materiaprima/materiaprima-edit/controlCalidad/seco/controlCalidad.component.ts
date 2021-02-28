@@ -20,9 +20,9 @@ import {Router} from "@angular/router"
 export class ControlCalidadComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
-  submittedRendExport = false;
+   submitted = false;
    controlCalidadSeco: FormGroup;
-   tableRendExport: FormGroup;
+   formControlCalidad: FormGroup;
    tableOlor: FormGroup;
    tableColor: FormGroup;
    tableAnalisisSensorial: FormGroup;
@@ -40,6 +40,8 @@ export class ControlCalidadComponent implements OnInit {
    listaSensorialDefectos: any[];
    listaIndicadorTostado : any[];
    reqControlCalidad: ReqControlCalidad;
+   minSensorial: number;
+   maxSensorial: number;
    errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
 
@@ -97,20 +99,21 @@ export class ControlCalidadComponent implements OnInit {
         form.tableColor = new FormGroup(group);
       }
     });
+    this.maestroUtil.obtenerMaestros("SensorialRanking", function (res) {
+      if (res.Result.Success) {
+        form.listaSensorialRanking = res.Result.Data;
+        form.valorMinMax();
+      }
+    });
     this.maestroUtil.obtenerMaestros("SensorialAtributos", function (res) {
       if (res.Result.Success) {
         form.listaSensorialAtributos = res.Result.Data;
         let group={}    
         form.listaSensorialAtributos.forEach(input_template=>{
-          group['sensorialAtrib%'+input_template.Codigo]=new FormControl('',[]);  
+          group['sensorialAtrib%'+input_template.Codigo]=new FormControl('',[Validators.max(form.maxSensorial),Validators.min(form.minSensorial)]);  
           group['sensorialAtribRanking%'+input_template.Codigo]=new FormControl('',[]);  
         })
         form.tableSensorialRanking = new FormGroup(group);
-      }
-    });
-    this.maestroUtil.obtenerMaestros("SensorialRanking", function (res) {
-      if (res.Result.Success) {
-        form.listaSensorialRanking = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros("SensorialDefectos", function (res) {
@@ -128,23 +131,22 @@ export class ControlCalidadComponent implements OnInit {
         form.listaIndicadorTostado= res.Result.Data;
         let group={}    
         form.listaIndicadorTostado.forEach(input_template=>{
-          group['tostado%'+input_template.Codigo]=new FormControl('',[Validators.pattern(form.numeroUtil.numerosDecimales())]);  
+          group['tostado%'+input_template.Codigo]=new FormControl('',[]);  
         })
         form.tableRegistroTostado = new FormGroup(group);
       }
     });
     }
     cargarForm() {
-    
-    this.tableRendExport = new FormGroup(
+    this.formControlCalidad = new FormGroup(
       {
-        exportGramos: new FormControl('',[Validators.required,Validators.pattern(this.numeroUtil.numerosDecimales())]),
-        exportPorcentaje: new FormControl('',[Validators.pattern(this.numeroUtil.numerosDecimales())]),
-        descarteGramos: new FormControl('',[Validators.pattern(this.numeroUtil.numerosDecimales())]),
-        descartePorcentaje: new FormControl('',[Validators.pattern(this.numeroUtil.numerosDecimales())]),
-        cascarillaGramos: new FormControl('',[Validators.pattern(this.numeroUtil.numerosDecimales())]),
-        cascarillaPorcentaje: new FormControl('',[Validators.pattern(this.numeroUtil.numerosDecimales())]),
-        humedad: new FormControl('',[Validators.pattern(this.numeroUtil.numerosDecimales())]),
+        exportGramos: new FormControl('',[Validators.required]),
+        exportPorcentaje: new FormControl('',[]),
+        descarteGramos: new FormControl('',[Validators.required]),
+        descartePorcentaje: new FormControl('',[]),
+        cascarillaGramos: new FormControl('',[Validators.required]),
+        cascarillaPorcentaje: new FormControl('',[]),
+        humedad: new FormControl('',[Validators.required]),
         totalGramos: new FormControl('',[]),
         totalPorcentaje: new FormControl('',[]),
         SubTotalDefSecundario: new FormControl('',[]),
@@ -157,11 +159,23 @@ export class ControlCalidadComponent implements OnInit {
         
       });
     }
-  get frendExport() {
-    return this.tableRendExport.controls;
+  valorMinMax()
+  {
+    let max =[];
+    let min = [];
+    for(let item in this.listaSensorialRanking)
+    {
+      max.push(Number(this.listaSensorialRanking[item].Val2));
+      min.push(Number(this.listaSensorialRanking[item].Val1));
+    }
+    this.minSensorial = Math.min(...min);
+    this.maxSensorial = Math.max(...max);
   }
-  get fRegistroTostado() {
-    return this.tableRegistroTostado.controls;
+  get frendExport() {
+    return this.formControlCalidad.controls;
+  }
+  get fSensorialRanking() {
+    return this.tableSensorialRanking.controls;
   }
 
   evaluarRanking(i,value)
@@ -185,9 +199,9 @@ export class ControlCalidadComponent implements OnInit {
   { 
     totalDefPrimarios = Number(this.tableDefectosPrimarios.controls['DefPrimario%'+this.listaDefectosPrimarios[i].Codigo].value) +  totalDefPrimarios;
   }
-    this.tableRendExport.controls["SubTotalDefPrimario"].setValue(totalDefPrimarios);
-    totalDefSecundario  = Number(this.tableRendExport.controls["SubTotalDefSecundario"].value);
-    this.tableRendExport.controls["ToTalEquiDefectos"].setValue(totalDefPrimarios + totalDefSecundario);
+    this.formControlCalidad.controls["SubTotalDefPrimario"].setValue(totalDefPrimarios);
+    totalDefSecundario  = Number(this.formControlCalidad.controls["SubTotalDefSecundario"].value);
+    this.formControlCalidad.controls["ToTalEquiDefectos"].setValue(totalDefPrimarios + totalDefSecundario);
 
     
  }
@@ -199,13 +213,20 @@ export class ControlCalidadComponent implements OnInit {
   { 
     totalDefSecundario = Number(this.tableDefectosSecundarios.controls['DefSecundarios%'+this.listaDefectosSecundarios[i].Codigo].value) +  totalDefSecundario;
   }
-   this.tableRendExport.controls['SubTotalDefSecundario'].setValue(totalDefSecundario);
-   totalDefPrimarios  = Number(this.tableRendExport.controls["SubTotalDefPrimario"].value);
-   this.tableRendExport.controls["ToTalEquiDefectos"].setValue(totalDefPrimarios + totalDefSecundario);
+   this.formControlCalidad.controls['SubTotalDefSecundario'].setValue(totalDefSecundario);
+   totalDefPrimarios  = Number(this.formControlCalidad.controls["SubTotalDefPrimario"].value);
+   this.formControlCalidad.controls["ToTalEquiDefectos"].setValue(totalDefPrimarios + totalDefSecundario);
  }
   test: any[];
   actualizarAnalisisControlCalidad (e)
   {
+
+    if (this.formControlCalidad.invalid || this.errorGeneral.isError) {
+      this.submitted = true;
+      return;
+    }
+    else
+    {
     let listaDetalleOlor = Array<AnalisisFisicoOlorDetalleList>();
     let listaDetalleColor = Array<AnalisisFisicoColorDetalleList>();
     let listaDefectosPrimarios = Array<AnalisisFisicoDefectoPrimarioDetalleList>();
@@ -213,7 +234,7 @@ export class ControlCalidadComponent implements OnInit {
     let listaRegistroTostado = Array<RegistroTostadoIndicadorDetalleList>();
     let listaAnalisisSensorialDefectos= Array<AnalisisSensorialDefectoDetalleList>();
     let listaAnalisisSensorialAtrib = Array<AnalisisSensorialAtributoDetalleList>(); 
-    var controlRendExport = this.tableRendExport.controls;
+    var controlRendExport = this.formControlCalidad.controls;
     listaDetalleOlor = this.obtenerDetalleAnalisisFisicoOlor(this.tableOlor);
     listaDetalleColor = this.obtenerDetalleAnalisisFisicoColor(this.tableColor);    
     listaDefectosPrimarios = this.obtenerDetalleDefectosPrimarios(this.tableDefectosPrimarios)
@@ -275,26 +296,22 @@ export class ControlCalidadComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );  
+    }
   }
 
   obtenerDetalleAnalisisFisicoOlor(tableOlor)
   {
     let result: any[];
     let listDetalleOlor = new  Array<AnalisisFisicoOlorDetalleList>();
-    result = this.obtenerValues(tableOlor, false);
+    result = this.obtenerValues(tableOlor);
     var list = this.mergeById (this.listaOlor, result) 
-    let item;
-    for (item in list)
+    for (let item in list)
     {
-      if (list[Number(item)].valor)
-      {
         var detalleOlor = new AnalisisFisicoOlorDetalleList();
-        detalleOlor.Valor = list[Number(item)].valor;
+        detalleOlor.Valor = list[Number(item)].valor? list[Number(item)].valor: false;
         detalleOlor.OlorDetalleId = list[Number(item)].Codigo;
         detalleOlor.OlorDetalleDescripcion = list[Number(item)].Label;
         listDetalleOlor.push(detalleOlor);
-      }
-
     }
     return listDetalleOlor;
   }
@@ -303,20 +320,16 @@ export class ControlCalidadComponent implements OnInit {
   {
     let result: any[];
     let listDetalleColor = new  Array<AnalisisFisicoColorDetalleList>();
-    result = this.obtenerValues(tableColor, false);
+    result = this.obtenerValues(tableColor);
     var list = this.mergeById (this.listaColor, result) 
-    let item;
-    for (item in list)
+    for (let item in list)
     {
-      if (list[Number(item)].valor)
-      {
+      
         var detalleColor = new AnalisisFisicoColorDetalleList();
-        detalleColor.Valor = list[Number(item)].valor;
+        detalleColor.Valor = list[Number(item)].valor? list[Number(item)].valor: false;
         detalleColor.ColorDetalleId = list[Number(item)].Codigo;
         detalleColor.ColorDetalleDescripcion = list[Number(item)].Label;
         listDetalleColor.push(detalleColor);
-      }
-
     }
     return listDetalleColor;
   }
@@ -324,14 +337,12 @@ export class ControlCalidadComponent implements OnInit {
   {
     let result: any[];
     let listDetalleDefectosPrimarios = new  Array<AnalisisFisicoDefectoPrimarioDetalleList>();
-    
-    result = this.obtenerValues(tableDefectosPrimarios, "");
+    result = this.obtenerValues(tableDefectosPrimarios);
     var list = this.mergeById (this.listaDefectosPrimarios, result) 
-    let item;
-    for (item in list)
+    for (let item in list)
     {
         var detalleDefectoPrimario = new AnalisisFisicoDefectoPrimarioDetalleList();
-        detalleDefectoPrimario.Valor = Number(list[Number(item)].valor);
+        detalleDefectoPrimario.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleDefectoPrimario.DefectoDetalleDescripcion = list[Number(item)].Label;
         detalleDefectoPrimario.DefectoDetalleEquivalente = list[Number(item)].Val1;
         detalleDefectoPrimario.DefectoDetalleId = list[Number(item)].Codigo;
@@ -346,13 +357,12 @@ export class ControlCalidadComponent implements OnInit {
     let result: any[];
     let listDetalleDefectosSecundarios= new  Array<AnalisisFisicoDefectoSecundarioDetalleList>();
     
-    result = this.obtenerValues(tableDefectosSecundarios, "");
+    result = this.obtenerValues(tableDefectosSecundarios);
     var list = this.mergeById (this.listaDefectosSecundarios, result) 
-    let item;
-    for (item in list)
+    for (let item in list)
     {
         var detalleDefectoSecundario = new AnalisisFisicoDefectoSecundarioDetalleList();
-        detalleDefectoSecundario.Valor = Number(list[Number(item)].valor);
+        detalleDefectoSecundario.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleDefectoSecundario.DefectoDetalleDescripcion = list[Number(item)].Label;
         detalleDefectoSecundario.DefectoDetalleEquivalente = list[Number(item)].Val1;
         detalleDefectoSecundario.DefectoDetalleId = list[Number(item)].Codigo;
@@ -366,13 +376,12 @@ export class ControlCalidadComponent implements OnInit {
   {
     let result: any[];
     let listAnalisisAtributos= new  Array<AnalisisSensorialAtributoDetalleList>();
-    result = this.obtenerValuesAtrib(tableSensorialRanking, "");
+    result = this.obtenerValuesAtrib(tableSensorialRanking);
     var list = this.mergeById (this.listaSensorialAtributos, result) 
-    let item;
-    for (item in list)
+    for (let item in list)
     {
         var detalleAtributo= new AnalisisSensorialAtributoDetalleList();
-        detalleAtributo.Valor = Number(list[Number(item)].valor);
+        detalleAtributo.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleAtributo.AtributoDetalleDescripcion = list[Number(item)].Label;
         detalleAtributo.AtributoDetalleId = list[Number(item)].Codigo;
         listAnalisisAtributos.push(detalleAtributo);
@@ -385,20 +394,15 @@ export class ControlCalidadComponent implements OnInit {
     let result: any[];
     let listAnalisisDefectos= new  Array<AnalisisSensorialDefectoDetalleList>();
     
-    result = this.obtenerValues(tableSensorialDefectos, false);
+    result = this.obtenerValues(tableSensorialDefectos);
     var list = this.mergeById (this.listaSensorialDefectos, result) 
-    let item;
-    for (item in list)
+    for (let item in list)
     {
-      if (list[Number(item)].valor)
-      {
         var detalleDefectos= new AnalisisSensorialDefectoDetalleList();
-        detalleDefectos.Valor = list[Number(item)].valor;
+        detalleDefectos.Valor = list[Number(item)].valor?list[Number(item)].valor: false;
         detalleDefectos.DefectoDetalleDescripcion = list[Number(item)].Label;
         detalleDefectos.DefectoDetalleId = list[Number(item)].Codigo;
         listAnalisisDefectos.push(detalleDefectos);
-      }
-
     }
     return listAnalisisDefectos;
   }
@@ -408,13 +412,12 @@ export class ControlCalidadComponent implements OnInit {
     let result: any[];
     let listRegistroTostado= new  Array<RegistroTostadoIndicadorDetalleList>();
     
-    result = this.obtenerValues(tableRegistroTostado, "");
+    result = this.obtenerValues(tableRegistroTostado);
     var list = this.mergeById (this.listaIndicadorTostado, result) 
-    let item;
-    for (item in list)
+    for (let item in list)
     {
         var detalleRegistroTostado= new RegistroTostadoIndicadorDetalleList();
-        detalleRegistroTostado.Valor = Number(list[Number(item)].valor);
+        detalleRegistroTostado.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleRegistroTostado.IndicadorDetalleDescripcion = list[Number(item)].Label;
         detalleRegistroTostado.IndicadorDetalleId = list[Number(item)].Codigo;
         listRegistroTostado.push(detalleRegistroTostado);
@@ -424,30 +427,30 @@ export class ControlCalidadComponent implements OnInit {
   }
   calcularTotalesRendExportable()
   {
-    if(this.tableRendExport.controls["exportGramos"].value == "" && this.tableRendExport.controls["descarteGramos"].value == "" &&
-    this.tableRendExport.controls["cascarillaGramos"].value == "")
+    if(this.formControlCalidad.controls["exportGramos"].value == "" && this.formControlCalidad.controls["descarteGramos"].value == "" &&
+    this.formControlCalidad.controls["cascarillaGramos"].value == "")
     {
-      this.tableRendExport.controls['totalPorcentaje'].setValue(0+"%");
-      this.tableRendExport.controls['totalGramos'].setValue(0);
-      this.tableRendExport.controls['cascarillaPorcentaje'].setValue(0+"%");
-      this.tableRendExport.controls['exportPorcentaje'].setValue(0+"%");
-      this.tableRendExport.controls['descartePorcentaje'].setValue(0+ "%");
+      this.formControlCalidad.controls['totalPorcentaje'].setValue(0+"%");
+      this.formControlCalidad.controls['totalGramos'].setValue(0);
+      this.formControlCalidad.controls['cascarillaPorcentaje'].setValue(0+"%");
+      this.formControlCalidad.controls['exportPorcentaje'].setValue(0+"%");
+      this.formControlCalidad.controls['descartePorcentaje'].setValue(0+ "%");
     }
     else
     {
-    const exportGramos= Number(this.tableRendExport.controls["exportGramos"].value);
-    const descarteGramos = Number(this.tableRendExport.controls["descarteGramos"].value)
-    const cascarillaGramos = Number(this.tableRendExport.controls["cascarillaGramos"].value);
+    const exportGramos= Number(this.formControlCalidad.controls["exportGramos"].value);
+    const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value)
+    const cascarillaGramos = Number(this.formControlCalidad.controls["cascarillaGramos"].value);
     const totalRendExportable = exportGramos + descarteGramos  + cascarillaGramos;
-    this.tableRendExport.controls['totalGramos'].setValue(totalRendExportable);
-    this.tableRendExport.controls['cascarillaPorcentaje'].setValue((Number(cascarillaGramos/totalRendExportable)*100).toFixed(2)+"%");
-    this.tableRendExport.controls['exportPorcentaje'].setValue((Number(exportGramos / totalRendExportable)*100).toFixed(2) + "%");
-    this.tableRendExport.controls['descartePorcentaje'].setValue((Number(descarteGramos / totalRendExportable)*100).toFixed(2) + "%");
-    const cascarillaPorcentaje = this.tableRendExport.controls["cascarillaPorcentaje"].value;
-    const exportPorcentaje = this.tableRendExport.controls["exportPorcentaje"].value;
-    const descartePorcentaje = this.tableRendExport.controls["descartePorcentaje"].value;
+    this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
+    this.formControlCalidad.controls['cascarillaPorcentaje'].setValue((Number(cascarillaGramos/totalRendExportable)*100).toFixed(2)+"%");
+    this.formControlCalidad.controls['exportPorcentaje'].setValue((Number(exportGramos / totalRendExportable)*100).toFixed(2) + "%");
+    this.formControlCalidad.controls['descartePorcentaje'].setValue((Number(descarteGramos / totalRendExportable)*100).toFixed(2) + "%");
+    const cascarillaPorcentaje = this.formControlCalidad.controls["cascarillaPorcentaje"].value;
+    const exportPorcentaje = this.formControlCalidad.controls["exportPorcentaje"].value;
+    const descartePorcentaje = this.formControlCalidad.controls["descartePorcentaje"].value;
     const totalPorcentaje = Number(cascarillaPorcentaje.slice(0,cascarillaPorcentaje.length-1)) + Number(exportPorcentaje.slice(0,exportPorcentaje.length-1)) + Number(descartePorcentaje.slice(0,descartePorcentaje.length-1));
-    this.tableRendExport.controls['totalPorcentaje'].setValue( totalPorcentaje+ "%");
+    this.formControlCalidad.controls['totalPorcentaje'].setValue( totalPorcentaje+ "%");
     }
   }
 
@@ -459,27 +462,23 @@ export class ControlCalidadComponent implements OnInit {
     }));
   }
 
- obtenerValues(table, value)
+ obtenerValues(table)
  {
-  let result: any[], key;
+  let result: any[];
   result = [];
-  for (key in  table.value) {
-      if ( table.value[key] != value) {
+  for (let key in  table.value) {
         result.push({Codigo:key.split("%")[1], valor:table.value[key]})
-      }
   }
   return result;
  }
- obtenerValuesAtrib(table, value)
+ obtenerValuesAtrib(table)
  {
   let result: any[], key;
   result = [];
   for (key in  table.value) {
      if (key.split("%")[0] != "sensorialAtribRanking")
      {
-      if ( table.value[key] != value) {
         result.push({Codigo:key.split("%")[1], valor:table.value[key]})
-      }
     }
   }
   return result;

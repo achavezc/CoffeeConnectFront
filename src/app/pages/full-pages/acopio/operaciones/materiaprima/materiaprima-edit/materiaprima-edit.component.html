@@ -82,21 +82,21 @@
 
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-5">
-                <label for="basicInput" style="font-size: 0.7rem;">Nombre</label>
+                <label for="basicInput">Nombre</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provNombre" 
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provNombre.invalid, 'is-valid': submittedEdit && !fedit.provNombre.invalid }"
                 disabled>
-                <label for="basicInput" style="font-size: 0.7rem;">Doc. Identidad</label>
+                <label for="basicInput">Doc. Identidad</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provDocumento.invalid, 'is-valid': submittedEdit && !fedit.provDocumento.invalid }"
                 disabled>
-                <label for="basicInput" style="font-size: 0.7rem;">Tipo</label>
+                <label for="basicInput">Tipo</label>
                 <ng-select [items]="listTipoSocio" [(ngModel)]="selectTipoSocio" formControlName="provTipoSocio"
                   bindLabel="Label" bindValue="Codigo"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.provTipoSocio.invalid, 'is-valid': submittedEdit && !fedit.provTipoSocio.invalid }" >
                 </ng-select>
 
-                <label for="basicInput" style="font-size: 0.7rem;">Codigo</label>
+                <label for="basicInput">Codigo</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provCodigo"
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provCodigo.invalid, 'is-valid': submittedEdit && !fedit.provCodigo.invalid }"
                 disabled>
@@ -113,7 +113,8 @@
                   <div class="modal-body">
                     <form [formGroup]="consultaProveedor" class="needs-validation"
                       style="padding-left: 0.3rem; padding-right: 0.3rem;">
-                      <div class="row"style="text-align: center; margin-top: 1rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                      <ngx-spinner></ngx-spinner>
+                      <div class="row"style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                         <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
                       </div>
                       <div class="row">
@@ -127,7 +128,7 @@
                                 [ngClass]="{ 'is-invalid': submitted && f.tipoproveedor.invalid, 'is-valid': submitted && !f.tipoproveedor.invalid }">
                               </ng-select>
                               <small class="form-text text-muted danger"
-                                *ngIf="f.tipoproveedor.errors?.required">Ingrese el Tipo de Socio</small>
+                                *ngIf="f.tipoproveedor.errors?.required">Ingrese Tipo de Proveedor</small>
                             </div>
                           </div>
                           <div class="form-group row">
@@ -183,7 +184,7 @@
                       </div>
                       <div class="row">
                         <div class="col-12">
-                          <div class="form-group row">
+                          <div class="row">
                             <div class="col-md-10">
                               <small class="form-text text-muted danger"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
@@ -194,13 +195,8 @@
                           </div>
                         </div>
                       </div>
-
- 
-                      <div class="row" style="text-align: center;">
-                        <div class="card-subtitle-form card-text">Resultado de la Busqueda</div>
-                      </div>
                       
-                      <div class="row" style="margin-top: 0.5rem;">
+                      <div class="row">
                         <div class="col-12">
                           <fieldset class="form-group">
                             <label style="font-size: 0.6rem;">Show
@@ -224,7 +220,7 @@
                             [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
                             [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'"
                             (dblclick)="seleccionarProveedor(selected)">
-                            <ngx-datatable-column name="Cod. Socio" prop="CodigoSocio" width="30">
+                            <ngx-datatable-column name="Cod. Socio" prop="CodigoSocio" width="30"  >
                               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
 
                                 <div class="d-flex align-items-center">
@@ -246,6 +242,7 @@
                             <ngx-datatable-column name="Provincia" prop="Provincia" width="25"></ngx-datatable-column>
                             <ngx-datatable-column name="Distrito" prop="Distrito" width="25"></ngx-datatable-column>
                             <ngx-datatable-column name="Zona" prop="Zona" width="25"></ngx-datatable-column>
+                            <ngx-datatable-column name="TipoProveedorId"  prop="TipoProveedorId"  ></ngx-datatable-column>
                           </ngx-datatable>
                         </div>
                       </div>
@@ -259,19 +256,19 @@
                 </button>
               </div>
               <div class="col-12 col-md-5">
-                <label for="basicInput" style="font-size: 0.7rem;">Departamento</label>
+                <label for="basicInput">Departamento</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provDepartamento"
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provDepartamento.invalid, 'is-valid': submittedEdit && !fedit.provDepartamento.invalid }"
                 disabled>
-                <label for="basicInput" style="font-size: 0.7rem;">Provincia</label>
+                <label for="basicInput">Provincia</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provProvincia" 
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provProvincia.invalid, 'is-valid': submittedEdit && !fedit.provProvincia.invalid }"
                 disabled>
-                <label for="basicInput" style="font-size: 0.7rem;">Distrito</label>
+                <label for="basicInput">Distrito</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provDistrito"
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provDistrito.invalid, 'is-valid': submittedEdit && !fedit.provDistrito.invalid }"
                 disabled>
-                <label for="basicInput" style="font-size: 0.7rem;">Zona</label>
+                <label for="basicInput">Zona</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="provZona"
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provZona.invalid, 'is-valid': submittedEdit && !fedit.provZona.invalid }"
                 disabled>
@@ -285,7 +282,7 @@
             
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-5">
-                <label for="basicInput" style="font-size: 0.7rem;">TIPO</label>
+                <label for="basicInput">TIPO</label>
                 <div class="form-group">
                   <div class="controls">
                     <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
@@ -295,7 +292,7 @@
                     </ng-select>
                   </div>
                 </div>
-                <label for="basicInput" style="font-size: 0.7rem;">SUB TIPO</label>
+                <label for="basicInput">SUB TIPO</label>
                 <div class="form-group" style="margin-bottom: 0.5rem !important;">
                   <div class="controls">
                     <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
