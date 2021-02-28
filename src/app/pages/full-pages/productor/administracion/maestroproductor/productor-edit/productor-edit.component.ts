@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 
 @Component({
@@ -8,7 +10,8 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 })
 export class ProductorEditComponent implements OnInit {
 
-  constructor(private maestroUtil: MaestroUtil) { }
+  constructor(private maestroUtil: MaestroUtil,
+    private router: Router) { }
 
   productorEditForm: any;
   listDepartamentos: [] = [];
@@ -93,6 +96,10 @@ export class ProductorEditComponent implements OnInit {
         form.listDistritos = res.Result.Data;
       }
     });
+  }
+
+  Cancel(): void {
+    this.router.navigate(['/productor/administracion/productor/list']);
   }
 
 }

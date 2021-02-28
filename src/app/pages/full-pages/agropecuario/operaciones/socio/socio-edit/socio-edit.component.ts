@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
@@ -15,7 +15,8 @@ export class SocioEditComponent implements OnInit {
   constructor(private maestroUtil: MaestroUtil,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private socioService: SocioService) { }
+    private socioService: SocioService,
+    private router: Router) { }
 
   socioEditForm: any;
   listTiposDocs: [] = [];
@@ -134,4 +135,7 @@ export class SocioEditComponent implements OnInit {
 
   }
 
+  Cancel(): void {
+    this.router.navigate(['/agropecuario/operaciones/socio/list']);
+  }
 }

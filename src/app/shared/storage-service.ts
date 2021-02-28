@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as SecureLS from 'secure-ls';
 import * as moment from 'moment';
 import {
@@ -24,8 +24,8 @@ import {
   TELEFONO,
   TIPO_DOCUMENTO
 } from './constants/storage-keys';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StorageService {
@@ -33,7 +33,7 @@ export class StorageService {
   private nombreSubject = new Subject<string>();
 
   constructor() {
-    this.ls = new SecureLS({encodingType: 'Base64', isCompression: false});
+    this.ls = new SecureLS({ encodingType: 'Base64', isCompression: false });
   }
 
   clear() {

@@ -96,7 +96,7 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!productorForm.valid"
                                 (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Fincas</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Documentos</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Proyectos</button>

@@ -10,14 +10,14 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'socio-list',
+                redirectTo: 'socio/list',
                 pathMatch: 'full',
                 data: {
                     title: 'Maestro de Socios'
                 }
             },
             {
-                path: 'socio-list',
+                path: 'socio/list',
                 component: SocioComponent,
                 data: {
                     title: 'Maestro de Socios'

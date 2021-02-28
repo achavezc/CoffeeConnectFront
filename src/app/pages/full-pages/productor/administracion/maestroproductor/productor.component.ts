@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
+import { Router } from '@angular/router';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
@@ -19,7 +20,8 @@ export class ProductorComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
-    private productorService: ProductorService) {
+    private productorService: ProductorService,
+    private router: Router) {
   }
 
   productorForm: FormGroup;
@@ -172,6 +174,10 @@ export class ProductorComponent implements OnInit {
           }
         );
     }
+  }
+
+  New(): void {
+    this.router.navigate(['/productor/administracion/productor/create']);
   }
 
 }

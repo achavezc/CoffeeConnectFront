@@ -182,8 +182,8 @@ export class SocioComponent implements OnInit {
     }
   }
 
-  AddSocio(): void {
-    this.router.navigate(['/operaciones/socio/create']);
+  New(): void {
+    this.router.navigate(['/agropecuario/operaciones/socio/create']);
   }
 
 }

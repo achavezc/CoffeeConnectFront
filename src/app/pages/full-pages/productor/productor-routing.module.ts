@@ -10,24 +10,31 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'productor-list',
+        redirectTo: 'productor/list',
         pathMatch: 'full',
         data: {
           title: 'Maestro de Productores'
         }
       },
       {
-        path: 'productor-list',
+        path: 'productor/list',
         component: ProductorComponent,
         data: {
           title: 'Maestro de Productores'
         }
       },
       {
-        path: 'productor-new',
+        path: 'productor/create',
         component: ProductorEditComponent,
         data: {
           title: 'Nuevo productor'
+        }
+      },
+      {
+        path: 'productor/update/:id',
+        component: ProductorEditComponent,
+        data: {
+          title: 'Actualizar productor'
         }
       }
     ]
