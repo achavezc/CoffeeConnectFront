@@ -215,7 +215,7 @@
                                 (keyup)="filterUpdate($event)" />
                             </label>
                           </fieldset>
-                          <ngx-datatable class="bootstrap core-bootstrap" #tableProveedor
+                          <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableProveedor
                             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                             [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
                             [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'"
@@ -363,7 +363,7 @@
                
               </li>
               <li [ngbNavItem]="2">
-                <a ngbNavLink class="nav-link d-flex align-items-center">
+                <a ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'">
                   <span class="d-none d-sm-block">Control de Calidad</span>
                 </a>
                 <ng-template ngbNavContent>
@@ -371,7 +371,7 @@
                 </ng-template>
               </li>
               <li [ngbNavItem]="3">
-                <a ngbNavLink class="nav-link d-flex align-items-center">
+                <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
                   <span class="d-none d-sm-block">Nota de Compra</span>
                 </a>
                 <ng-template ngbNavContent>
