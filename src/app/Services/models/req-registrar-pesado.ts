@@ -15,7 +15,11 @@ export class ReqRegistrarPesado {
         CantidadPesado: number,
         KilosBrutosPesado: number,
         TaraPesado?: number,
-        ObservacionPesado?: string) {
+        ObservacionPesado?: string,
+        SocioFincaId?: number,
+        TerceroFincaId?: number,
+        IntermediarioFinca?: string
+        ) {
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId;
         this.EmpresaId = EmpresaId;
         this.TipoProvedorId = TipoProvedorId;
@@ -32,6 +36,9 @@ export class ReqRegistrarPesado {
         this.KilosBrutosPesado = KilosBrutosPesado;
         this.TaraPesado = TaraPesado;
         this.ObservacionPesado = ObservacionPesado;
+        this.SocioFincaId = SocioFincaId;
+        this.TerceroFincaId = TerceroFincaId;
+        this.IntermediarioFinca = IntermediarioFinca;
     }
     GuiaRecepcionMateriaPrimaId: number;
     EmpresaId: number;
@@ -49,6 +56,9 @@ export class ReqRegistrarPesado {
     KilosBrutosPesado: number;
     TaraPesado?: number;
     ObservacionPesado?: string;
+    SocioFincaId?: number;
+    TerceroFincaId?: number;
+    IntermediarioFinca?: string;
 }
 
 export class tableAnalisisSensorial
