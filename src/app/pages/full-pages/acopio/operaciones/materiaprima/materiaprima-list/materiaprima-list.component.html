@@ -154,7 +154,7 @@
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                   <div class="d-flex align-items-center">
                     <div class="cell-line-height">
-                      <a class="line-height-1 mb-0" routerLink="/operaciones/guiarecepcionmateriaprima-edit" [queryParams]="{ id: row.GuiaRecepcionMateriaPrimaId}" >{{ name }}</a>
+                      <a class="line-height-1 mb-0" routerLink="/operaciones/guiarecepcionmateriaprima-edit" [queryParams]="{ id: row.GuiaRecepcionMateriaPrimaId, status: row.EstadoId}" >{{ name }}</a>
                     </div>
                   </div>
                 </ng-template>

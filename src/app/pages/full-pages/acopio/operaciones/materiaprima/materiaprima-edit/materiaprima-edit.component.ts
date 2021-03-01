@@ -62,11 +62,14 @@ export class MateriaPrimaEditComponent implements OnInit {
   tipoTercero = "02";
   tipoIntermediario = "03"; 
   id: Number = 0;
+  status: string = "";
   estado = "";
   numeroGuia: "";
   fechaRegistro: any;
   fechaPesado: any;
   responsable: "";
+  disabledControl: string = '';
+  disabledNota: string = '';
 
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
@@ -90,11 +93,19 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
     .subscribe(params => {
-      
-      if(Number(params.id)){
-        this.id = Number(params.id);
+      this.status = params.status;
+      if( Number(params.id)){
+        this.id =Number(params.id);
         this.esEdit = true;
         this.obtenerDetalle();
+        if (this.status== "01")
+        {
+        this.disabledNota= 'disabled';
+        }
+      }
+      else{
+        this.disabledNota= 'disabled';
+        this.disabledControl= 'disabled';
       }
     }
   );
