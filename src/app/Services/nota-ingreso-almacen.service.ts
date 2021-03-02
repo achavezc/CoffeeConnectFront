@@ -3,7 +3,6 @@ import { host } from '../shared/hosts/main.host';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorHandling } from '../shared/util/error-handling';
-import { ReqIngresoAlmacenConsultar } from './models/req-ingresoalmacen-consultar.model';
 
 @Injectable()
 export class NotaIngresoAlmacenService {
@@ -23,7 +22,7 @@ export class NotaIngresoAlmacenService {
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
 
-  Consultar(request: ReqIngresoAlmacenConsultar): Observable<any> {
+  Consultar(request: any): Observable<any> {
     const url = `${this.url}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
