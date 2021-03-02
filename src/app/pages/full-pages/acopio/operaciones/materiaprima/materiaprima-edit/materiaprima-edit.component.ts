@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
 import { AcopioService, FiltrosProveedor } from '../../../../../../services/acopio.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { host } from '../../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ReqRegistrarPesado } from '../../../../../../services/models/req-registrar-pesado';
 import {Router} from "@angular/router"
