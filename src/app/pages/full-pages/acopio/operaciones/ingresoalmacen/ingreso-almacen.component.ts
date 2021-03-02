@@ -128,6 +128,8 @@ export class IngresoAlmacenComponent implements OnInit {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
       } else if (vByProduct && !vProduct) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
+      } else if ((group.value.rendimientoInicio && !group.value.rendimientoFin) || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores del rendimiento.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
