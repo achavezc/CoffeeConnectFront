@@ -9,7 +9,6 @@ import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
-import { ReqIngresoAlmacenConsultar } from '../../../../../services/models/req-ingresoalmacen-consultar.model';
 import { NotaIngresoAlmacenService } from '../../../../../services/nota-ingreso-almacen.service';
 import { LoteService } from '../../../../../services/lote.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
@@ -76,7 +75,9 @@ export class IngresoAlmacenComponent implements OnInit {
       nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       almacen: [],
       producto: [],
-      subProducto: []
+      subProducto: [],
+      rendimientoInicio: [],
+      rendimientoFin: []
     });
     this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
   }
@@ -127,6 +128,8 @@ export class IngresoAlmacenComponent implements OnInit {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
       } else if (vByProduct && !vProduct) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
+      } else if ((group.value.rendimientoInicio && !group.value.rendimientoFin) || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores del rendimiento.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -235,17 +238,22 @@ export class IngresoAlmacenComponent implements OnInit {
     } else {
       this.selected = [];
       this.submitted = false;
-      let request = new ReqIngresoAlmacenConsultar(this.ingresoAlmacenForm.value.nroIngreso,
-        this.ingresoAlmacenForm.value.nombreRazonSocial,
-        this.ingresoAlmacenForm.value.tipoDocumento,
-        this.ingresoAlmacenForm.value.producto,
-        this.ingresoAlmacenForm.value.subProducto,
-        this.ingresoAlmacenForm.value.numeroDocumento,
-        this.ingresoAlmacenForm.value.codigoSocio,
-        this.ingresoAlmacenForm.value.estado,
-        new Date(this.ingresoAlmacenForm.value.fechaInicio),
-        new Date(this.ingresoAlmacenForm.value.fechaFin), 1,
-        this.ingresoAlmacenForm.value.almacen);
+      const request = {
+        Numero: this.ingresoAlmacenForm.value.nroIngreso,
+        NombreRazonSocial: this.ingresoAlmacenForm.value.nombreRazonSocial,
+        TipoDocumentoId: this.ingresoAlmacenForm.value.tipoDocumento,
+        ProductoId: this.ingresoAlmacenForm.value.producto,
+        SubProductoId: this.ingresoAlmacenForm.value.subProducto,
+        NumeroDocumento: this.ingresoAlmacenForm.value.numeroDocumento,
+        CodigoSocio: this.ingresoAlmacenForm.value.codigoSocio,
+        EstadoId: this.ingresoAlmacenForm.value.estado,
+        FechaInicio: new Date(this.ingresoAlmacenForm.value.fechaInicio),
+        FechaFin: new Date(this.ingresoAlmacenForm.value.fechaFin),
+        EmpresaId: this.userSession.Result.Data.EmpresaId,
+        AlmacenId: this.ingresoAlmacenForm.value.almacen,
+        RendimientoPorcentajeInicio: this.ingresoAlmacenForm.value.rendimientoInicio ?? null,
+        RendimientoPorcentajeFin: this.ingresoAlmacenForm.value.rendimientoFin ?? null
+      };
 
       this.spinner.show(undefined,
         {

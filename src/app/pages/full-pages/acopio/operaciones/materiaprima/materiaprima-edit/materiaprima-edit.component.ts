@@ -91,9 +91,9 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
     .subscribe(params => {
-      this.id = Number(params.id);
       this.status = params.status;
-      if(this.id){
+      if( Number(params.id)){
+        this.id =Number(params.id);
         this.esEdit = true;
         this.obtenerDetalle();
         if (this.status== "01")
@@ -123,11 +123,12 @@ export class MateriaPrimaEditComponent implements OnInit {
           provNombre: ['', Validators.required],
           provDocumento: ['', Validators.required],
           provTipoSocio: new FormControl({value: '', disabled: true},[Validators.required]),
-          provCodigo: ['', Validators.required],
+          provCodigo: ['', ],
           provDepartamento: ['', Validators.required],
           provProvincia: ['', Validators.required],
           provDistrito: ['', Validators.required],
           provZona: ['', Validators.required],
+          provFinca: ['',],
           fechaCosecha: ['', Validators.required],
           guiaReferencia:   new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
           fechaPesado:  ['', ],
@@ -141,6 +142,9 @@ export class MateriaPrimaEditComponent implements OnInit {
             observacionPesado: new FormControl('', [])
           }),
           estado:  ['', ],
+          socioFincaId:  ['', ],
+          terceroFincaId:  ['', ],
+          intermediarioFincaId:  ['', ]
         });
   }
   /*open(content) {
@@ -299,17 +303,27 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('provProvincia').setValue(e[0].Provincia);
     this.consultaMateriaPrimaFormEdit.get('provDistrito').setValue(e[0].Distrito);
     this.consultaMateriaPrimaFormEdit.get('provZona').setValue(e[0].Zona);
+    this.consultaMateriaPrimaFormEdit.get('provFinca').setValue(e[0].Finca);
 
     this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(e[0].TipoProveedorId);
     this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
+
+    this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(null);
+    this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(null);
+    this.consultaMateriaPrimaFormEdit.controls['intermediarioFincaId'].setValue(null);
+
     if(e[0].TipoProveedorId == this.tipoSocio){
       this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(e[0].ProveedorId);
+      this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(e[0].FincaId);
+
     }else if(e[0].TipoProveedorId == this.tipoTercero){
       this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(e[0].ProveedorId);
+      this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(e[0].FincaId);
     }else if(e[0].TipoProveedorId == this.tipoIntermediario){
       this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(e[0].ProveedorId);
+      this.consultaMateriaPrimaFormEdit.controls['intermediarioFincaId'].setValue(e[0].FincaId);
     }
     
 
@@ -402,16 +416,30 @@ export class MateriaPrimaEditComponent implements OnInit {
     } else {
       var socioId= null;
       if(Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value) !=0){
-        socioId = Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value)
+        socioId = Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value);
       }
       var terceroId= null;
       if(Number(this.consultaMateriaPrimaFormEdit.controls["terceroId"].value) !=0){
-        terceroId = Number(this.consultaMateriaPrimaFormEdit.controls["terceroId"].value)
+        terceroId = Number(this.consultaMateriaPrimaFormEdit.controls["terceroId"].value);
       }
       var intermediarioId= null;
       if(Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value) !=0){
-        intermediarioId = Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value)
+        intermediarioId = Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value);
       }
+
+      var socioFincaId= null;
+      if(Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value) !=0){
+        socioFincaId = Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value);
+      }
+      var terceroFincaId= null;
+      if(Number(this.consultaMateriaPrimaFormEdit.controls["terceroFincaId"].value) !=0){
+        terceroFincaId = Number(this.consultaMateriaPrimaFormEdit.controls["terceroFincaId"].value);
+      }
+      var intermediarioFinca= null;
+      if(Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioFincaId"].value) !=0){
+        intermediarioFinca = this.consultaMateriaPrimaFormEdit.controls["intermediarioFincaId"].value;
+      }
+
       let request = new ReqRegistrarPesado(
         Number(this.id),
         1,
@@ -428,7 +456,10 @@ export class MateriaPrimaEditComponent implements OnInit {
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").value),
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value),
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").value),
-        this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").value
+        this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").value,
+        socioFincaId,
+        terceroFincaId,
+        intermediarioFinca,
       );
        this.spinner.show(undefined,
         {

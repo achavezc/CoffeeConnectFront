@@ -125,6 +125,23 @@
                                         [(ngModel)]="selectedByProduct">
                                     </ng-select>
                                 </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="rendimiento" class="form-label">% Rendimiento</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="number" formControlName="rendimientoInicio"
+                                                class="form-control" id="rendimientoInicio" name="rendimiento"
+                                                placeholder="¨Porcentaje inicio"
+                                                [ngClass]="{ 'is-invalid': submitted && f.rendimientoInicio.invalid, 'is-valid': submitted && !f.rendimientoInicio.invalid }">
+                                        </div>
+                                        <div class="col">
+                                            <input type="number" formControlName="rendimientoFin" class="form-control"
+                                                id="rendimientoFin" name="rendimiento" placeholder="Porcentaje fin"
+                                                [ngClass]="{ 'is-invalid': submitted && f.rendimientoFin.invalid, 'is-valid': submitted && !f.rendimientoFin.invalid }">
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
@@ -191,6 +208,8 @@
                             <ngx-datatable-column name="Producto" prop="Producto" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje" width="70">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Almacén" prop="Almacen" width="150">
                             </ngx-datatable-column>
