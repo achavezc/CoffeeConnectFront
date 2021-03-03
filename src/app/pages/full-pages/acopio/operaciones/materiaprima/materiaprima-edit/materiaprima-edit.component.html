@@ -321,9 +321,24 @@
               </div>
               <div class="col-12 col-md-5">
                 <label for="validationTooltip10">Fecha Cosecha</label>
-                <input type="date" class="form-control" formControlName="fechaCosecha" id="validationTooltip10"
-                  name="fechaCosecha" placeholder="date" date
-                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaCosecha.invalid, 'is-valid': submittedEdit && !fedit.fechaCosecha.invalid }" />
+                <div class="form-group">
+                  <div class="controls">
+                      <input type="date" class="form-control" formControlName="fechaCosecha" id="validationTooltip10"
+                      name="fechaCosecha" placeholder="date" date
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaCosecha.invalid, 'is-valid': submittedEdit && !fedit.fechaCosecha.invalid }" />
+                  </div>
+                </div>
+                <label for="basicInput">Tipo Producción</label>
+                <div class="form-group" style="margin-bottom: 0.5rem !important;">
+                  <div class="controls">
+                    <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
+                      formControlName="tipoProduccion" bindLabel="Label" bindValue="Codigo" class="form-control"
+                      placeholder="Seleccionar Tipo Producción" 
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }"
+                      >
+                    </ng-select>
+                  </div>
+                </div>
 
               </div>
             </div>
