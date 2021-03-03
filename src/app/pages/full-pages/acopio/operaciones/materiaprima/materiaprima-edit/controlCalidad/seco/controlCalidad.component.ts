@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit,Input, ViewChild} from '@angular/core';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn , FormArray, FormBuilder} from '@angular/forms';
@@ -9,7 +9,8 @@ import {ReqControlCalidad, AnalisisFisicoColorDetalleList, AnalisisFisicoOlorDet
   AnalisisSensorialAtributoDetalleList} from '../../../../../../../../services/models/req-controlcalidad-actualizar'
 import { NgxSpinnerService } from "ngx-spinner";
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
-import {Router} from "@angular/router"
+import {Router} from "@angular/router";
+import { ILogin } from '../../../../../../../../services/models/login';
 
 
 @Component({
@@ -20,6 +21,7 @@ import {Router} from "@angular/router"
 export class ControlCalidadComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
+  @Input() id;
    submitted = false;
    controlCalidadSeco: FormGroup;
    formControlCalidad: FormGroup;
@@ -42,13 +44,16 @@ export class ControlCalidadComponent implements OnInit {
    reqControlCalidad: ReqControlCalidad;
    minSensorial: number;
    maxSensorial: number;
+   login: ILogin;
    errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
+  
 
   constructor(private maestroUtil: MaestroUtil, private fb: FormBuilder, private numeroUtil: NumeroUtil,
     private acopioService : AcopioService,  private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil, private router: Router){
   } 
+  
     ngOnInit(): void 
     { 
       this.cargarCombos();
@@ -189,6 +194,16 @@ export class ControlCalidadComponent implements OnInit {
     {
       this.tableSensorialRanking.controls['sensorialAtribRanking%'+i].setValue("");
     }
+    this.calcularPuntajeFinal();
+  }
+  calcularPuntajeFinal()
+  {
+    let totalPuntajeFinal = 0;
+    for (let i =0; i < this.listaSensorialAtributos.length; i++ )
+  { 
+    totalPuntajeFinal = Number(this.tableSensorialRanking.controls['sensorialAtrib%'+this.listaSensorialAtributos[i].Codigo].value) +  totalPuntajeFinal;
+  }
+  this.formControlCalidad.controls["PuntajeFinal"].setValue(totalPuntajeFinal);
   }
  calcularTotalDefPrimario()
  {
@@ -217,11 +232,11 @@ export class ControlCalidadComponent implements OnInit {
    totalDefPrimarios  = Number(this.formControlCalidad.controls["SubTotalDefPrimario"].value);
    this.formControlCalidad.controls["ToTalEquiDefectos"].setValue(totalDefPrimarios + totalDefSecundario);
  }
-  test: any[];
   actualizarAnalisisControlCalidad (e)
   {
-
-    if (this.formControlCalidad.invalid || this.errorGeneral.isError) {
+    this.login = JSON.parse(localStorage.getItem("user"));
+    if (this.formControlCalidad.invalid || this.errorGeneral.isError) 
+    {
       this.submitted = true;
       return;
     }
@@ -243,7 +258,8 @@ export class ControlCalidadComponent implements OnInit {
     listaAnalisisSensorialDefectos = this.obtenerAnalisisSensorialDefectos(this.tableSensorialDefectos)
     listaAnalisisSensorialAtrib= this.obtenerAnalisisSensorialAtributos(this.tableSensorialRanking);
     this.reqControlCalidad = new ReqControlCalidad(
-    26,
+    this.login.Result.Data.EmpresaId,
+    Number(this.id),
     Number(controlRendExport["exportGramos"].value),
     Number((controlRendExport["exportPorcentaje"].value).split("%")[0]),
     Number(controlRendExport["descarteGramos"].value),
@@ -254,7 +270,7 @@ export class ControlCalidadComponent implements OnInit {
     Number((controlRendExport["totalPorcentaje"].value).split("%")[0]),
     Number(controlRendExport["humedad"].value),
     controlRendExport["ObservacionAnalisisFisico"].value,
-    "mruiz",
+    this.login.Result.Data.NombreUsuario,
     controlRendExport["ObservacionRegTostado"].value,
     controlRendExport["ObservacionAnalisisSensorial"].value,
     listaDetalleOlor,
@@ -280,7 +296,7 @@ export class ControlCalidadComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.alertUtil.alertOk('Registrado!', 'Analisis Control Calidad');
-            this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit'])
+            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit'])
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
