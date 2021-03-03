@@ -38,8 +38,10 @@ export class MateriaPrimaEditComponent implements OnInit {
   listaProducto: any[];
   listaSubProducto: any[];
   listaTipoProveedor: any[];
-  selectTipoProveedor: any;
+  listaTipoProduccion: any[];
   selectTipoSocio: any;
+  selectTipoProveedor: any;
+  selectTipoProduccion: any;
   selectedEstado: any;
   selectProducto: any;
   selectSubProducto: any;
@@ -123,6 +125,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           numReferencia:  ['', ],
           producto:  ['', Validators.required],
           subproducto:['', Validators.required],
+          tipoProduccion:['', ],
           provNombre: ['', Validators.required],
           provDocumento: ['', Validators.required],
           provTipoSocio: new FormControl({value: '', disabled: true},[Validators.required]),
@@ -139,14 +142,28 @@ export class MateriaPrimaEditComponent implements OnInit {
             unidadMedida: new FormControl('', [Validators.required]),
             //cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
             //kilosBruto: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
-            cantidad: new FormControl('', []),
-            kilosBruto: new FormControl('', []),
+            cantidad: new FormControl('', [Validators.required]),
+            kilosBruto: new FormControl('', [Validators.required]),
             tara: new FormControl('', []),
-            observacionPesado: new FormControl('', [])
+            observacionPesado: new FormControl('', []),
+
+            exportGramos: new FormControl('', []),
+            exportPorcentaje: new FormControl('', []),
+            descarteGramos: new FormControl('', []),
+            descartePorcentaje: new FormControl('', []),
+            cascarillaGramos: new FormControl('', []),
+            cascarillaPorcentaje: new FormControl('', []),
+            totalGramos: new FormControl('', []),
+            totalPorcentaje: new FormControl('', []),
+            humedad: new FormControl('', []),
+            ObservacionAnalisisFisico: new FormControl('', []),
+            ObservacionRegTostado: new FormControl('', []),
+            ObservacionAnalisisSensorial: new FormControl('', [])
           }),
           estado:  ['', ],
           socioFincaId:  ['', ],
           terceroFincaId:  ['', ]
+
         });
   }
   /*open(content) {
@@ -183,16 +200,17 @@ export class MateriaPrimaEditComponent implements OnInit {
   }*/
 
   cargarcombos() {
-    this.maestroService.obtenerMaestros("Producto")
-      .subscribe(res => {
+      var form = this;
+      this.maestroUtil.obtenerMaestros("Producto", function (res) {
         if (res.Result.Success) {
-          this.listaProducto = res.Result.Data;
+          form.listaProducto = res.Result.Data;
         }
-      },
-        err => {
-          console.error(err);
+      });
+      this.maestroUtil.obtenerMaestros("TipoProduccion", function (res) {
+        if (res.Result.Success) {
+          form.listaTipoProduccion = res.Result.Data;
         }
-      );
+      });
 
   }
   changeSubProducto(e) {
@@ -207,6 +225,7 @@ export class MateriaPrimaEditComponent implements OnInit {
      if (data.Result.Success) {
       this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
+
   }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
@@ -305,7 +324,6 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(null);
-    this.consultaMateriaPrimaFormEdit.controls['intermediarioFincaId'].setValue(null);
 
     if(e[0].TipoProveedorId == this.tipoSocio){
       this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(e[0].ProveedorId);
@@ -605,10 +623,25 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(data.SocioFincaId);
     this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(data.TerceroFincaId);
 
+    this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(data.SocioId);
+    this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(data.TerceroId);
+    this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(data.IntermediarioId);
+
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("exportGramos").setValue(data.ExportableGramosAnalisisFisico);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("exportPorcentaje").setValue(data.ExportablePorcentajeAnalisisFisico + "%");
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("descarteGramos").setValue(data.DescarteGramosAnalisisFisico);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("descartePorcentaje").setValue(data.DescartePorcentajeAnalisisFisico + "%");
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("cascarillaGramos").setValue(data.CascarillaGramosAnalisisFisico);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("cascarillaPorcentaje").setValue(data.CascarillaPorcentajeAnalisisFisico + "%");
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalGramos").setValue(data.TotalGramosAnalisisFisico);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalPorcentaje").setValue(data.TotalPorcentajeAnalisisFisico + "%");
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
+
    
   }
 
 }
+
 
 
 
