@@ -475,8 +475,13 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.spinner.hide();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          this.alertUtil.alertOk('Registrado!', 'Guia Registrada.');
-          this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+          var form = this;
+          this.alertUtil.alertOkCallback('Registrado!', 'Guia Registrada.',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+            }
+          }
+          );
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
         } else {
@@ -500,8 +505,14 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.spinner.hide();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          this.alertUtil.alertOk('Actualizado!', 'Guia Actualizada.');
-          this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+          var form = this;
+          this.alertUtil.alertOkCallback('Actualizado!', 'Guia Actualizada.',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+            }
+          }
+          );
+
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
         } else {
@@ -521,7 +532,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
 
   cancelar(){
-    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+      this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
   }
   changeSubTipoProducto(e) {
     let filterSubTipo = e.Codigo;
