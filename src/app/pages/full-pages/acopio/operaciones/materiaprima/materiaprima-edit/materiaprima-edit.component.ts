@@ -68,6 +68,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   responsable: "";
   disabledControl: string = '';
   disabledNota: string = '';
+  viewTagSeco: boolean;
+  detalleMateriaPrima: any;
 
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
@@ -110,6 +112,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
   cargarForm() {
+    let x = this.selectSubProducto;
       this.consultaMateriaPrimaFormEdit =this.fb.group(
         {
           tipoProveedorId: ['', ],
@@ -552,7 +555,7 @@ export class MateriaPrimaEditComponent implements OnInit {
       
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          
+          this.detalleMateriaPrima = res.Result.Data;
           this.cargarDataFormulario(res.Result.Data);
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -569,22 +572,19 @@ export class MateriaPrimaEditComponent implements OnInit {
       }
     );  
   }
-
   async cargarDataFormulario(data: any){
-
     this.consultaMateriaPrimaFormEdit.controls["producto"].setValue(data.ProductoId);
     await this.cargarSubProducto(data.ProductoId);
     this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue(data.SubProductoId);
+    this.viewTagSeco = data.SubProductoId != "02"? false: true;
     this.estado = data.Estado
     this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
     this.numeroGuia = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
-
     this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
     this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-"+ data.NumeroDocumento);
+    this.cargarTipoProveedor();
     await this.cargarTipoProveedor();
- 
-
     this.consultaMateriaPrimaFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
     this.consultaMateriaPrimaFormEdit.controls["provCodigo"].setValue(data.CodigoSocio);
     this.consultaMateriaPrimaFormEdit.controls["provDepartamento"].setValue(data.Departamento);
@@ -592,11 +592,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls["provDistrito"].setValue(data.Distrito);
     this.consultaMateriaPrimaFormEdit.controls["provZona"].setValue(data.Zona);
     this.consultaMateriaPrimaFormEdit.controls["provFinca"].setValue(data.Finca);
-
-
     //this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(this.dateUtil.formatDate(new Date(data.FechaPesado),"/"));
     this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaPesado, 'yyyy-MM-dd', 'en'));
-
     this.consultaMateriaPrimaFormEdit.get('pesado').get("unidadMedida").setValue(data.UnidadMedidaIdPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").setValue(data.CantidadPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
@@ -604,7 +601,6 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado),"/");
     this.responsable = data.UsuarioPesado;
-
     this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(data.TipoProvedorId);
     this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(data.SocioFincaId);
     this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(data.TerceroFincaId);
