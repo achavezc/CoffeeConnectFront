@@ -15,18 +15,23 @@ export class ProductorService {
 
   private url = `${host}Productor`;
 
-  Consultar(request: any): Observable<any> {
+  Search(request: any): Observable<any> {
     const url = `${this.url}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Registrar(request: any): Observable<any> {
+  Create(request: any): Observable<any> {
     const url = `${this.url}/Registrar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Actualizar(request: any): Observable<any> {
+  Update(request: any): Observable<any> {
     const url = `${this.url}/Actualizar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  SearchById(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarPorId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 }
