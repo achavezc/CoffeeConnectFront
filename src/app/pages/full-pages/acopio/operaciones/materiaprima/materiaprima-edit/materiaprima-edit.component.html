@@ -351,16 +351,12 @@
                   <app-pesadoCafe formGroupName="pesado" [submittedEdit]="submittedEdit"></app-pesadoCafe>
                   <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                     <div class="col-8 d-flex flex-sm-row flex-column">
-      
                       <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
                       <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
-      
                     </div>
                     <div class="col-8 d-flex flex-sm-row flex-column">
-      
                       <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
                       <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaPesado}}</label>
-      
                     </div>
       
                   </div>
@@ -376,7 +372,12 @@
                   <span class="d-none d-sm-block">Control de Calidad</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <app-controlCalidadSeco [id]="id"></app-controlCalidadSeco>
+                 <!-- <div *ngIf="viewTagSeco; else humedo" >-->
+                  <app-controlCalidadSeco *ngIf = "detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima" ></app-controlCalidadSeco>
+                <!--  </div>-->
+                <!--<div #humedo>
+                  <app-controlCalidadHumedo></app-controlCalidadHumedo>
+                </div>-->
                 </ng-template>
               </li>
               <li [ngbNavItem]="3">

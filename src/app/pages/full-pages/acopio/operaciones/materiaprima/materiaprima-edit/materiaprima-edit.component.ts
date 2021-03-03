@@ -68,6 +68,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   responsable: "";
   disabledControl: string = '';
   disabledNota: string = '';
+  viewTagSeco: boolean;
+  detalleMateriaPrima: any;
 
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
@@ -110,6 +112,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
   cargarForm() {
+    let x = this.selectSubProducto;
       this.consultaMateriaPrimaFormEdit =this.fb.group(
         {
           tipoProveedorId: ['', ],
@@ -143,8 +146,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           }),
           estado:  ['', ],
           socioFincaId:  ['', ],
-          terceroFincaId:  ['', ],
-          intermediarioFincaId:  ['', ]
+          terceroFincaId:  ['', ]
         });
   }
   /*open(content) {
@@ -199,17 +201,12 @@ export class MateriaPrimaEditComponent implements OnInit {
    
   }
 
-  cargarSubProducto(codigo:any){
-    this.maestroService.obtenerMaestros("SubProducto")
-    .subscribe(res => {
-      if (res.Result.Success) {
-        this.listaSubProducto = res.Result.Data.filter(obj => obj.Val1 == codigo);
-      }
-    },
-      err => {
-        console.error(err);
-      }
-    );
+  async cargarSubProducto(codigo:any){
+    
+     var data = await this.maestroService.obtenerMaestros("SubProducto").toPromise();
+     if (data.Result.Success) {
+      this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
+    }
   }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
@@ -247,19 +244,16 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.cargarTipoProveedor();
 
   }
-  cargarTipoProveedor(){
-    this.maestroService.obtenerMaestros("TipoProveedor")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaTipoProveedor = res.Result.Data;
-          this.listTipoSocio = this.listaTipoProveedor;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-  }
+  
+  async cargarTipoProveedor(){
+    
+    var data = await  this.maestroService.obtenerMaestros("TipoProveedor").toPromise();
+    if (data.Result.Success) {
+      this.listaTipoProveedor = data.Result.Data;
+      this.listTipoSocio = this.listaTipoProveedor;
+   }
+ }
+
   get f() {
     return this.consultaProveedor.controls;
   }
@@ -294,6 +288,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
   seleccionarProveedor(e) {
+    this.consultaMateriaPrimaFormEdit.controls['provFinca'].disable();
     this.listTipoSocio = this.listaTipoProveedor;
     this.consultaMateriaPrimaFormEdit.get('provNombre').setValue(e[0].NombreRazonSocial);
     this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].TipoDocumento+ "-" + e[0].NumeroDocumento);
@@ -309,8 +304,6 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
-
-    this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['intermediarioFincaId'].setValue(null);
 
@@ -322,8 +315,8 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(e[0].ProveedorId);
       this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(e[0].FincaId);
     }else if(e[0].TipoProveedorId == this.tipoIntermediario){
+      this.consultaMateriaPrimaFormEdit.controls['provFinca'].enable();
       this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(e[0].ProveedorId);
-      this.consultaMateriaPrimaFormEdit.controls['intermediarioFincaId'].setValue(e[0].FincaId);
     }
     
 
@@ -436,8 +429,8 @@ export class MateriaPrimaEditComponent implements OnInit {
         terceroFincaId = Number(this.consultaMateriaPrimaFormEdit.controls["terceroFincaId"].value);
       }
       var intermediarioFinca= null;
-      if(Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioFincaId"].value) !=0){
-        intermediarioFinca = this.consultaMateriaPrimaFormEdit.controls["intermediarioFincaId"].value;
+      if(Number(this.consultaMateriaPrimaFormEdit.controls["provFinca"].value) !=0){
+        intermediarioFinca = this.consultaMateriaPrimaFormEdit.controls["provFinca"].value;
       }
 
       let request = new ReqRegistrarPesado(
@@ -485,8 +478,13 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.spinner.hide();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          this.alertUtil.alertOk('Registrado!', 'Guia Registrada.');
-          this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+          var form = this;
+          this.alertUtil.alertOkCallback('Registrado!', 'Guia Registrada.',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+            }
+          }
+          );
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
         } else {
@@ -510,8 +508,14 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.spinner.hide();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          this.alertUtil.alertOk('Actualizado!', 'Guia Actualizada.');
-          this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+          var form = this;
+          this.alertUtil.alertOkCallback('Actualizado!', 'Guia Actualizada.',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+            }
+          }
+          );
+
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
         } else {
@@ -531,7 +535,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
 
   cancelar(){
-    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+      this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
   }
   changeSubTipoProducto(e) {
     let filterSubTipo = e.Codigo;
@@ -551,7 +555,7 @@ export class MateriaPrimaEditComponent implements OnInit {
       
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          
+          this.detalleMateriaPrima = res.Result.Data;
           this.cargarDataFormulario(res.Result.Data);
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -568,32 +572,28 @@ export class MateriaPrimaEditComponent implements OnInit {
       }
     );  
   }
-
-  cargarDataFormulario(data: any){
-
+  async cargarDataFormulario(data: any){
     this.consultaMateriaPrimaFormEdit.controls["producto"].setValue(data.ProductoId);
-    this.cargarSubProducto(data.ProductoId);
+    await this.cargarSubProducto(data.ProductoId);
     this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue(data.SubProductoId);
+    this.viewTagSeco = data.SubProductoId != "02"? false: true;
     this.estado = data.Estado
     this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
     this.numeroGuia = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
-
     this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
     this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-"+ data.NumeroDocumento);
     this.cargarTipoProveedor();
- 
-
+    await this.cargarTipoProveedor();
     this.consultaMateriaPrimaFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
-    this.consultaMateriaPrimaFormEdit.controls["provCodigo"].setValue(data.TerceroId);
+    this.consultaMateriaPrimaFormEdit.controls["provCodigo"].setValue(data.CodigoSocio);
     this.consultaMateriaPrimaFormEdit.controls["provDepartamento"].setValue(data.Departamento);
     this.consultaMateriaPrimaFormEdit.controls["provProvincia"].setValue(data.Provincia);
     this.consultaMateriaPrimaFormEdit.controls["provDistrito"].setValue(data.Distrito);
     this.consultaMateriaPrimaFormEdit.controls["provZona"].setValue(data.Zona);
-
+    this.consultaMateriaPrimaFormEdit.controls["provFinca"].setValue(data.Finca);
     //this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(this.dateUtil.formatDate(new Date(data.FechaPesado),"/"));
     this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaPesado, 'yyyy-MM-dd', 'en'));
-
     this.consultaMateriaPrimaFormEdit.get('pesado').get("unidadMedida").setValue(data.UnidadMedidaIdPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").setValue(data.CantidadPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
@@ -601,8 +601,10 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado),"/");
     this.responsable = data.UsuarioPesado;
-
     this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(data.TipoProvedorId);
+    this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(data.SocioFincaId);
+    this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(data.TerceroFincaId);
+
    
   }
 

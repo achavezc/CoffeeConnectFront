@@ -28,4 +28,22 @@ export class AlertUtil {
       },
     })
   }
+
+  alertOkCallback(title:String, mensaje:any, callback){
+    swal.fire({
+      icon: "success",
+      title: title,
+      text: mensaje,
+      customClass: {
+        confirmButton: 'btn btn-success'
+      },
+    }).then((result)=> {
+    
+     callback(result); // this should execute now
+    
+    })
+  }
+
+ 
+
 }
