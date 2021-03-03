@@ -125,7 +125,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           numReferencia:  ['', ],
           producto:  ['', Validators.required],
           subproducto:['', Validators.required],
-          tipoProduccion:['', Validators.required],
+          tipoProduccion:['', ],
           provNombre: ['', Validators.required],
           provDocumento: ['', Validators.required],
           provTipoSocio: new FormControl({value: '', disabled: true},[Validators.required]),
