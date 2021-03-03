@@ -21,7 +21,8 @@ import { ILogin } from '../../../../../../../../services/models/login';
 export class ControlCalidadComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
-  @Input() id;
+  @Input() detalleMateriaPrima : any;
+  
    submitted = false;
    controlCalidadSeco: FormGroup;
    formControlCalidad: FormGroup;
@@ -46,7 +47,7 @@ export class ControlCalidadComponent implements OnInit {
    maxSensorial: number;
    login: ILogin;
    errorGeneral: any = { isError: false, errorMessage: '' };
-  mensajeErrorGenerico = "Ocurrio un error interno.";
+   mensajeErrorGenerico = "Ocurrio un error interno.";
   
 
   constructor(private maestroUtil: MaestroUtil, private fb: FormBuilder, private numeroUtil: NumeroUtil,
@@ -58,6 +59,8 @@ export class ControlCalidadComponent implements OnInit {
     { 
       this.cargarCombos();
       this.cargarForm();
+      this.obtenerDetalle();
+     
     }
     cargarCombos()
     {
@@ -249,7 +252,7 @@ export class ControlCalidadComponent implements OnInit {
     let listaRegistroTostado = Array<RegistroTostadoIndicadorDetalleList>();
     let listaAnalisisSensorialDefectos= Array<AnalisisSensorialDefectoDetalleList>();
     let listaAnalisisSensorialAtrib = Array<AnalisisSensorialAtributoDetalleList>(); 
-    var controlRendExport = this.formControlCalidad.controls;
+    var controlFormControlCalidad = this.formControlCalidad.controls;
     listaDetalleOlor = this.obtenerDetalleAnalisisFisicoOlor(this.tableOlor);
     listaDetalleColor = this.obtenerDetalleAnalisisFisicoColor(this.tableColor);    
     listaDefectosPrimarios = this.obtenerDetalleDefectosPrimarios(this.tableDefectosPrimarios)
@@ -259,20 +262,20 @@ export class ControlCalidadComponent implements OnInit {
     listaAnalisisSensorialAtrib= this.obtenerAnalisisSensorialAtributos(this.tableSensorialRanking);
     this.reqControlCalidad = new ReqControlCalidad(
     this.login.Result.Data.EmpresaId,
-    Number(this.id),
-    Number(controlRendExport["exportGramos"].value),
-    Number((controlRendExport["exportPorcentaje"].value).split("%")[0]),
-    Number(controlRendExport["descarteGramos"].value),
-    Number((controlRendExport["descartePorcentaje"].value).split("%")[0]),
-    Number(controlRendExport["cascarillaGramos"].value),
-    Number((controlRendExport["cascarillaPorcentaje"].value).split("%")[0]),
-    Number(controlRendExport["totalGramos"].value),
-    Number((controlRendExport["totalPorcentaje"].value).split("%")[0]),
-    Number(controlRendExport["humedad"].value),
-    controlRendExport["ObservacionAnalisisFisico"].value,
+    Number(this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId),
+    Number(controlFormControlCalidad["exportGramos"].value),
+    Number((controlFormControlCalidad["exportPorcentaje"].value).split("%")[0]),
+    Number(controlFormControlCalidad["descarteGramos"].value),
+    Number((controlFormControlCalidad["descartePorcentaje"].value).split("%")[0]),
+    Number(controlFormControlCalidad["cascarillaGramos"].value),
+    Number((controlFormControlCalidad["cascarillaPorcentaje"].value).split("%")[0]),
+    Number(controlFormControlCalidad["totalGramos"].value),
+    Number((controlFormControlCalidad["totalPorcentaje"].value).split("%")[0]),
+    Number(controlFormControlCalidad["humedad"].value),
+    controlFormControlCalidad["ObservacionAnalisisFisico"].value,
     this.login.Result.Data.NombreUsuario,
-    controlRendExport["ObservacionRegTostado"].value,
-    controlRendExport["ObservacionAnalisisSensorial"].value,
+    controlFormControlCalidad["ObservacionRegTostado"].value,
+    controlFormControlCalidad["ObservacionAnalisisSensorial"].value,
     listaDetalleOlor,
     listaDetalleColor,
     listaDefectosPrimarios,
@@ -500,5 +503,22 @@ export class ControlCalidadComponent implements OnInit {
   return result;
  }
 
+ obtenerDetalle()
+ {
+  
+  var controlFormControlCalidad = this.formControlCalidad.controls;
+  controlFormControlCalidad["exportGramos"].setValue(this.detalleMateriaPrima.ExportableGramosAnalisisFisico);
+  controlFormControlCalidad["exportPorcentaje"].setValue(this.detalleMateriaPrima.ExportablePorcentajeAnalisisFisico + "%");
+  controlFormControlCalidad["descarteGramos"].setValue(this.detalleMateriaPrima.DescarteGramosAnalisisFisico);
+  controlFormControlCalidad["descartePorcentaje"].setValue(this.detalleMateriaPrima.DescartePorcentajeAnalisisFisico + "%");
+  controlFormControlCalidad["cascarillaGramos"].setValue(this.detalleMateriaPrima.CascarillaGramosAnalisisFisico);
+  controlFormControlCalidad["cascarillaPorcentaje"].setValue(this.detalleMateriaPrima.CascarillaPorcentajeAnalisisFisico + "%");
+  controlFormControlCalidad["totalGramos"].setValue(this.detalleMateriaPrima.TotalGramosAnalisisFisico);
+  controlFormControlCalidad["totalPorcentaje"].setValue(this.detalleMateriaPrima.TotalPorcentajeAnalisisFisico + "%");
+  controlFormControlCalidad["humedad"].setValue(this.detalleMateriaPrima.HumedadPorcentajeAnalisisFisico);
+  controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalleMateriaPrima.ObservacionAnalisisFisico);
+  controlFormControlCalidad["ObservacionRegTostado"].setValue(this.detalleMateriaPrima.ObservacionRegistroTostado);
+  controlFormControlCalidad["ObservacionAnalisisSensorial"].setValue(this.detalleMateriaPrima.ObservacionAnalisisSensorial);
+ }
   
 }
