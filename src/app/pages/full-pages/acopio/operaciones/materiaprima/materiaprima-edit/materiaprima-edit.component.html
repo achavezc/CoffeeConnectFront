@@ -368,12 +368,12 @@
                
               </li>
               <li [ngbNavItem]="2">
-                <a ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'">
+                <a (click)="emitEventToChild()"  ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'" >
                   <span class="d-none d-sm-block">Control de Calidad</span>
                 </a>
                 <ng-template ngbNavContent>
                  <!-- <div *ngIf="viewTagSeco; else humedo" >-->
-                  <app-controlCalidadSeco *ngIf = "detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima" ></app-controlCalidadSeco>
+                  <app-controlCalidadSeco  [events]="eventsSubject.asObservable()" *ngIf = "detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima" ></app-controlCalidadSeco>
                 <!--  </div>-->
                 <!--<div #humedo>
                   <app-controlCalidadHumedo></app-controlCalidadHumedo>

@@ -1,4 +1,4 @@
-<div id="account">
+<div id="account" >
     <form style="display: flex;" [formGroup]="formControlCalidad">
         <div class="row">
             <div class="col-12 col-md-5">
@@ -234,8 +234,8 @@
 
                                 <label class="col-md-6 col-form-label card-text"
                                     for="horizontal-form-1">Responsable</label>
-                                <label class="col-md-6 col-form-label card-text" style="font-weight: bold;"
-                                    for="horizontal-form-1">Soto Torres, Luis</label>
+                                    <label class="col-md-6 col-form-label card-text" style="font-weight: bold;"
+                                    for="horizontal-form-1"> {{responsable}}</label>
 
                             </div>
                         </div>
@@ -244,7 +244,7 @@
                                 <label class="col-md-6 col-form-label card-text" for="horizontal-form-1">Fecha
                                     Pesado</label>
                                 <label class="col-md-6 col-form-label card-text" style="font-weight: bold;"
-                                    for="horizontal-form-1">21/02/2021</label>
+                                    for="horizontal-form-1">{{fechaCalidad}}</label>
                             </div>
 
 
