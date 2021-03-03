@@ -148,7 +148,7 @@ export class ProductorComponent implements OnInit {
 
       this.spinner.show();
 
-      this.productorService.Consultar(request)
+      this.productorService.Search(request)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {

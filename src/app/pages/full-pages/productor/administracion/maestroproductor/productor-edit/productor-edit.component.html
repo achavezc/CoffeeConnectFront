@@ -3,28 +3,34 @@
         <div class="content-header">{{!vId ? 'NUEVO' : 'MODIFICAR' }} PRODUCTOR</div>
     </div>
 </div>
-<form class="needs-validation" novalidate [formGroup]="productorEditForm">
+<form class="needs-validation" [formGroup]="productorEditForm" novalidate>
     <div class="card border-dark mb-3">
         <div class="card-body">
             <div class="form-row">
                 <div class="col">
                     <label for="codProductor" class="form-label">Código Productor</label>
                     <input type="text" name="codProductor" id="codProductor" formControlName="codProductor"
-                        class="form-control" placeholder="Ingresar código de productor" readonly maxlength="50">
-                    <!-- [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }" -->
-                    <!-- <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small> -->
+                        class="form-control" placeholder="Ingresar código de productor"
+                        [ngClass]="{ 'is-invalid': f.codProductor.invalid, 'is-valid': !f.codProductor.invalid }"
+                        readonly maxlength="50">
+                    <small class="invalid-tooltip" *ngIf="!f.codProductor.requerid">Es obligatorio!</small>
+                    <small class="invalid-tooltip" *ngIf="!f.codProductor.maxLength">Maximo 50 caracteres!</small>
                 </div>
                 <div class="col">
                     <label for="fecRegistro" class="form-label">Fecha de Registro</label>
                     <input type="date" name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
-                        class="form-control" date placeholder="Seleccionar fecha de registro" readonly required>
+                        class="form-control" date placeholder="Seleccionar fecha de registro"
+                        [ngClass]="{ 'is-invalid': f.fecRegistro.invalid, 'is-valid': !f.fecRegistro.invalid }" readonly
+                        required>
+                    <small class="invalid-tooltip" *ngIf="!f.fecRegistro.requerid">Es obligatorio!</small>
                 </div>
                 <div class="col">
-                    <label for="estado" class="form-label mr-1">Estado</label>
-                    <ng-select [items]="listEstados" formControlName="estado" class="form-select" bindLabel="Label"
+                    <label for="estado" class="form-label">Estado</label>
+                    <ng-select [items]="listEstados" formControlName="estado" class="form-control" bindLabel="Label"
                         bindValue="Codigo" id="estado" placeholder="Seleccionar estado" [(ngModel)]="selectedEstado"
-                        requerid>
+                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }" required>
                     </ng-select>
+                    <small class="invalid-tooltip" *ngIf="!f.estado.requerid">Es obligatorio!</small>
                 </div>
             </div>
         </div>
@@ -35,40 +41,56 @@
             <div class="form-row">
                 <div class="col">
                     <label for="tipoDocumento" class="form-label">Tipo de documento</label>
-                    <ng-select [items]="listTiposDocs" formControlName="tipoDocumento" class="form-select"
+                    <ng-select [items]="listTiposDocs" formControlName="tipoDocumento" class="form-control"
                         bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
-                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDoc" requerid>
+                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDoc"
+                        [ngClass]="{ 'is-invalid': f.tipoDocumento.invalid, 'is-valid': !f.tipoDocumento.invalid }"
+                        requerid>
                     </ng-select>
+                    <small class="invalid-tooltip" *ngIf="!f.tipoDocumento.requerid">Es obligatorio!</small>
                 </div>
                 <div class="col">
                     <label for="nroDocumento" class="form-label">N° de documento</label>
                     <input type="text" name="nroDocumento" id="nroDocumento" formControlName="nroDocumento"
-                        class="form-control" placeholder="Ingresar número de documento" maxlength="20" requerid>
+                        class="form-control" placeholder="Ingresar número de documento" maxlength="20"
+                        [ngClass]="{ 'is-invalid': f.nroDocumento.invalid, 'is-valid': !f.nroDocumento.invalid}"
+                        requerid>
+                    <small class="invalid-tooltip" *ngIf="!f.nroDocumento.requerid">Es obligatorio!</small>
+
                 </div>
                 <div class="col">
                     <label for="direccion" class="form-label">Dirección</label>
                     <input type="text" name="direccion" id="direccion" formControlName="direccion" class="form-control"
-                        placeholder="Ingresar dirección" maxlength="200" requerid>
+                        placeholder="Ingresar dirección" maxlength="200"
+                        [ngClass]="{ 'is-invalid': f.direccion.invalid, 'is-valid': !f.direccion.invalid }" requerid>
+                    <small class="invalid-tooltip" *ngIf="!f.direccion.requerid">Es obligatorio!</small>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="nombres" class="form-label">Nombres</label>
                     <input type="text" name="nombres" id="nombres" formControlName="nombres" class="form-control"
-                        placeholder="Ingresar nombres" maxlength="50" [readonly]="f.tipoDocumento.value != '01'">
+                        placeholder="Ingresar nombres" maxlength="50" [readonly]="f.tipoDocumento.value != '01'"
+                        [ngClass]="{ 'is-invalid': f.nombres.invalid, 'is-valid': !f.nombres.invalid}">
+                    <small class="invalid-tooltip" *ngIf="!f.nombres.requerid">Es obligatorio!</small>
                 </div>
                 <div class="col">
                     <label for="apellidos" class="form-label">Apellidos</label>
                     <input type="text" name="apellidos" id="apellidos" formControlName="apellidos" class="form-control"
-                        placeholder="Ingresar apellidos" maxlength="50" [readonly]="f.tipoDocumento.value != '01'">
+                        placeholder="Ingresar apellidos" maxlength="50" [readonly]="f.tipoDocumento.value != '01'"
+                        [ngClass]="{ 'is-invalid': f.apellidos.invalid, 'is-valid': !f.apellidos.invalid}">
+                    <small class="invalid-tooltip" *ngIf="!f.apellidos.requerid">Es obligatorio!</small>
                 </div>
                 <div class="col">
                     <label for="departamento" class="form-label">Departamento</label>
-                    <ng-select [items]="listDepartamentos" formControlName="departamento" class="form-select"
+                    <ng-select [items]="listDepartamentos" formControlName="departamento" class="form-control"
                         bindLabel="Descripcion" bindValue="Codigo" id="departamento"
                         placeholder="Seleccionar un departamento" [(ngModel)]="selectedDepartamento"
-                        (change)="onChangeDepartament($event)" requerid>
+                        (change)="onChangeDepartament($event)"
+                        [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }"
+                        requerid>
                     </ng-select>
+                    <small class="invalid-tooltip" *ngIf="!f.departamento.requerid">Es obligatorio!</small>
                 </div>
             </div>
             <div class="form-row">
@@ -76,88 +98,111 @@
                     <label for="razonSocial" class="form-label">Razón Social</label>
                     <input type="text" name="razonSocial" id="razonSocial" formControlName="razonSocial"
                         class="form-control" placeholder="Ingresar razón social" maxlength="200"
-                        [readonly]="f.tipoDocumento.value != '02'">
+                        [readonly]="f.tipoDocumento.value != '02'"
+                        [ngClass]="{ 'is-invalid': f.razonSocial.invalid, 'is-valid': !f.razonSocial.invalid }">
+                    <small class="invalid-tooltip" *ngIf="!f.razonSocial.requerid">Es obligatorio!</small>
                 </div>
                 <div class="col">
                     <label for="provincia" class="form-label">Provincia</label>
-                    <ng-select [items]="listProvincias" formControlName="provincia" class="form-select"
+                    <ng-select [items]="listProvincias" formControlName="provincia" class="form-control"
                         bindLabel="Descripcion" bindValue="Codigo" id="provincia"
                         placeholder="Seleccionar una provincia" [(ngModel)]="selectedProvincia"
-                        (change)="onChangeProvince($event)" requerid>
+                        (change)="onChangeProvince($event)" [readonly]="!f.departamento.value"
+                        [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }" requerid>
                     </ng-select>
+                    <small class="invalid-tooltip" *ngIf="!f.provincia.requerid">Es obligatorio!</small>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="telefonoFijo" class="form-label">Telefono Fijo</label>
                     <input type="text" name="telefonoFijo" id="telefonoFijo" formControlName="telefonoFijo"
-                        class="form-control" placeholder="Ingresar telefono fijo" maxlength="12">
+                        class="form-control" placeholder="Ingresar telefono fijo"
+                        [ngClass]="{ 'is-invalid': f.telefonoFijo.invalid, 'is-valid': !f.telefonoFijo.invalid }"
+                        maxlength="12">
                 </div>
                 <div class="col">
                     <label for="fecNacimiento" class="form-label">Fec. de nacimiento</label>
                     <input type="date" name="fecNacimiento" id="fecNacimiento" formControlName="fecNacimiento"
-                        class="form-control" date placeholder="Seleccionar fecha de nacimiento">
+                        class="form-control" date placeholder="Seleccionar fecha de nacimiento"
+                        [ngClass]="{ 'is-invalid': f.fecNacimiento.invalid, 'is-valid': !f.fecNacimiento.invalid }">
                 </div>
                 <div class="col">
                     <label for="distrito" class="form-label">Distrito</label>
-                    <ng-select [items]="listDistritos" formControlName="distrito" class="form-select"
+                    <ng-select [items]="listDistritos" formControlName="distrito" class="form-control"
                         bindLabel="Descripcion" bindValue="Codigo" id="distrito" placeholder="Seleccionar una distrito"
-                        [(ngModel)]="selectedDistrito" (change)="onChangeDistrict($event)" requerid>
+                        [(ngModel)]="selectedDistrito" (change)="onChangeDistrict($event)"
+                        [readonly]="!f.provincia.value"
+                        [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }" requerid>
                     </ng-select>
+                    <small class="invalid-tooltip" *ngIf="!f.distrito.requerid">Es obligatorio!</small>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="telefCelular" class="form-label">Telefono Celular</label>
                     <input type="number" name="telefCelular" id="telefCelular" formControlName="telefCelular"
-                        class="form-control" placeholder="Ingresar telefono celular" maxlength="12">
+                        class="form-control" placeholder="Ingresar telefono celular"
+                        [ngClass]="{ 'is-invalid': f.telefCelular.invalid, 'is-valid': !f.telefCelular.invalid }"
+                        maxlength="12">
                 </div>
                 <div class="col">
                     <label for="lugarNacimiento" class="form-label">Lugar de nacimiento</label>
                     <input type="text" name="lugarNacimiento" id="lugarNacimiento" formControlName="lugarNacimiento"
-                        class="form-control" placeholder="Ingresar lugar de nacimiento" maxlength="50">
+                        class="form-control" placeholder="Ingresar lugar de nacimiento"
+                        [ngClass]="{ 'is-invalid': f.lugarNacimiento.invalid, 'is-valid': !f.lugarNacimiento.invalid }"
+                        maxlength="50">
                 </div>
                 <div class="col">
                     <label for="zona" class="form-label">Zona</label>
-                    <ng-select [items]="listZonas" formControlName="zona" class="form-select" bindLabel="Label"
-                        bindValue="Codigo" id="zona" placeholder="Seleccionar una zona" [(ngModel)]="selectedZona"
-                        requerid>
+                    <ng-select [items]="listZonas" formControlName="zona" class="form-control" bindLabel="Nombre"
+                        bindValue="ZonaId" id="zona" placeholder="Seleccionar una zona" [(ngModel)]="selectedZona"
+                        [readonly]="!f.distrito.value"
+                        [ngClass]="{ 'is-invalid': f.zona.invalid, 'is-valid': !f.zona.invalid }" requerid>
                     </ng-select>
+                    <small class="invalid-tooltip" *ngIf="!f.zona.requerid">Es obligatorio!</small>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="estadoCivil" class="form-label">Estado Civil</label>
-                    <ng-select [items]="listEstadoCivil" formControlName="estadoCivil" class="form-select"
+                    <ng-select [items]="listEstadoCivil" formControlName="estadoCivil" class="form-control"
                         bindLabel="Label" bindValue="Codigo" id="estadoCivil" placeholder="Seleccionar estado civil"
-                        [(ngModel)]="selectedEstadoCivil">
+                        [(ngModel)]="selectedEstadoCivil"
+                        [ngClass]="{ 'is-invalid': f.estadoCivil.invalid, 'is-valid': !f.estadoCivil.invalid }">
                     </ng-select>
                 </div>
                 <div class="col">
                     <label for="religion" class="form-label">Religión</label>
-                    <ng-select [items]="listReligion" formControlName="religion" class="form-select" bindLabel="Label"
+                    <ng-select [items]="listReligion" formControlName="religion" class="form-control" bindLabel="Label"
                         bindValue="Codigo" id="religion" placeholder="Seleccionar religión"
+                        [ngClass]="{ 'is-invalid': f.religion.invalid, 'is-valid': !f.religion.invalid }"
                         [(ngModel)]="selectedReligion">
                     </ng-select>
                 </div>
                 <div class="col">
                     <label for="anioIngresoZona" class="form-label">Año de ingreso a la zona</label>
                     <input type="number" name="anioIngresoZona" id="anioIngresoZona" formControlName="anioIngresoZona"
-                        class="form-control" placeholder="Ingresar año de ingreso a la zona">
+                        class="form-control" placeholder="Ingresar año de ingreso a la zona"
+                        [ngClass]="{ 'is-invalid': f.anioIngresoZona.invalid, 'is-valid': !f.anioIngresoZona.invalid }">
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="genero" class="form-label">Genero</label>
-                    <ng-select [items]="listGeneros" formControlName="genero" class="form-select" bindLabel="Label"
-                        bindValue="Codigo" id="genero" placeholder="Seleccionar genero" [(ngModel)]="selectedGenero">
+                    <ng-select [items]="listGeneros" formControlName="genero" class="form-control" bindLabel="Label"
+                        bindValue="Codigo" id="genero" placeholder="Seleccionar genero"
+                        [ngClass]="{ 'is-invalid': f.genero.invalid, 'is-valid': !f.genero.invalid }"
+                        [(ngModel)]="selectedGenero">
                     </ng-select>
                 </div>
                 <div class="col">
                     <label for="gradoEstudio" class="form-label">Grado de Estudios</label>
-                    <ng-select [items]="listGradoEstudios" formControlName="gradoEstudio" class="form-select"
+                    <ng-select [items]="listGradoEstudios" formControlName="gradoEstudio" class="form-control"
                         bindLabel="Label" bindValue="Codigo" id="gradoEstudio"
-                        placeholder="Seleccionar grado de estudio" [(ngModel)]="selectedGradoEstudio">
+                        placeholder="Seleccionar grado de estudio"
+                        [ngClass]="{ 'is-invalid': f.gradoEstudio.invalid, 'is-valid': !f.gradoEstudio.invalid }"
+                        [(ngModel)]="selectedGradoEstudio">
                     </ng-select>
                 </div>
                 <div class="col">
@@ -167,21 +212,22 @@
                 <div class="col">
                     <label for="nroHijos" class="form-label">N° de hijos</label>
                     <input type="number" name="nroHijos" id="nroHijos" formControlName="nroHijos" class="form-control"
-                        placeholder="Ingresar número de hijos">
+                        placeholder="Ingresar número de hijos"
+                        [ngClass]="{ 'is-invalid': f.nroHijos.invalid, 'is-valid': !f.nroHijos.invalid }">
                 </div>
                 <div class="col">
                     <label for="idioma" class="form-label">Idioma</label>
-                    <div *ngFor="let i of listIdiomas">
-                        <label class="form-label">
-                            <input type="checkbox" [value]="i.Codigo" (change)="onChangeIdioma($event)">
-                            {{i.Label}}
-                        </label>
-                    </div>
+                    <ng-select [items]="listIdiomas" formControlName="idioma" class="form-control" bindLabel="Label"
+                        bindValue="Codigo" id="idioma" placeholder="Seleccionar idioma" [multiple]="true"
+                        [ngClass]="{ 'is-invalid': f.idioma.invalid, 'is-valid': !f.idioma.invalid }"
+                        [(ngModel)]="selectedIdioma">
+                    </ng-select>
                 </div>
                 <div class="col">
                     <label for="dialecto" class="form-label">Dialecto</label>
                     <textarea class="form-control" id="dialecto" formControlName="dialecto" rows="3"
-                        placeholder="Ingresar dialecto" maxlength="50"></textarea>
+                        placeholder="Ingresar dialecto" maxlength="50"
+                        [ngClass]="{ 'is-invalid': f.dialecto.invalid, 'is-valid': !f.dialecto.invalid }"></textarea>
                 </div>
             </div>
         </div>
@@ -192,15 +238,19 @@
             <div class="form-row">
                 <div class="col">
                     <label for="tipoDocumentoCyg" class="form-label">Tipo de documento</label>
-                    <ng-select [items]="listTiposDocsCyg" formControlName="tipoDocumentoCyg" class="form-select"
+                    <ng-select [items]="listTiposDocsCyg" formControlName="tipoDocumentoCyg" class="form-control"
                         bindLabel="Label" bindValue="Codigo" id="tipoDocumentoCyg"
-                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDocCyg">
+                        placeholder="Seleccionar tipo de documento"
+                        [ngClass]="{ 'is-invalid': f.tipoDocumentoCyg.invalid, 'is-valid': !f.tipoDocumentoCyg.invalid }"
+                        [(ngModel)]="selectedTipoDocCyg">
                     </ng-select>
                 </div>
                 <div class="col">
                     <label for="nroDocumentoCyg" class="form-label">N° de documento</label>
                     <input type="number" name="nroDocumentoCyg" id="nroDocumentoCyg" formControlName="nroDocumentoCyg"
-                        class="form-control" placeholder="Ingresar número de documento" maxlength="20">
+                        class="form-control" placeholder="Ingresar número de documento"
+                        [ngClass]="{ 'is-invalid': f.nroDocumentoCyg.invalid, 'is-valid': !f.nroDocumentoCyg.invalid }"
+                        maxlength="20">
                 </div>
                 <div class="col">
                 </div>
@@ -209,36 +259,44 @@
                 <div class="col">
                     <label for="nombresCyg" class="form-label">Nombres</label>
                     <input type="text" name="nombresCyg" id="nombresCyg" formControlName="nombresCyg"
-                        class="form-control" placeholder="Ingresar nombres y apellidos" maxlength="50">
+                        class="form-control" placeholder="Ingresar nombres y apellidos"
+                        [ngClass]="{ 'is-invalid': f.nombresCyg.invalid, 'is-valid': !f.nombresCyg.invalid }"
+                        maxlength="50">
                 </div>
                 <div class="col">
                     <label for="apellidosCyg" class="form-label">Apellidos</label>
                     <input type="text" name="apellidosCyg" id="apellidosCyg" formControlName="apellidosCyg"
-                        class="form-control" placeholder="Ingresar nombres y apellidos" maxlength="50">
+                        class="form-control" placeholder="Ingresar nombres y apellidos"
+                        [ngClass]="{ 'is-invalid': f.apellidosCyg.invalid, 'is-valid': !f.apellidosCyg.invalid }"
+                        maxlength="50">
                 </div>
                 <div class="col">
                     <label for="lugarNacimientoCyg" class="form-label">Lugar de nacimiento</label>
                     <input type="text" name="lugarNacimientoCyg" id="lugarNacimientoCyg"
                         formControlName="lugarNacimientoCyg" class="form-control"
+                        [ngClass]="{ 'is-invalid': f.lugarNacimientoCyg.invalid, 'is-valid': !f.lugarNacimientoCyg.invalid }"
                         placeholder="Ingresar lugar de nacimiento" maxlength="50">
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <label for="gradoEstudioCyg" class="form-label">Grado de Estudios</label>
-                    <ng-select [items]="listGradosEstudioCyg" formControlName="gradoEstudioCyg" class="form-select"
+                    <ng-select [items]="listGradosEstudioCyg" formControlName="gradoEstudioCyg" class="form-control"
                         bindLabel="Label" bindValue="Codigo" id="gradoEstudioCyg"
+                        [ngClass]="{ 'is-invalid': f.gradoEstudioCyg.invalid, 'is-valid': !f.gradoEstudioCyg.invalid }"
                         placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedGradoEstudioCyg">
                     </ng-select>
                 </div>
                 <div class="col">
                     <label for="nroCelularCyg" class="form-label">Número Celular</label>
                     <input type="number" name="nroCelularCyg" id="nroCelularCyg" formControlName="nroCelularCyg"
+                        [ngClass]="{ 'is-invalid': f.nroCelularCyg.invalid, 'is-valid': !f.nroCelularCyg.invalid }"
                         class="form-control" placeholder="Ingresar número de celular">
                 </div>
                 <div class="col">
                     <label for="fecNacimientoCyg" class="form-label">Fec. de Nacimiento</label>
                     <input type="date" name="fecNacimientoCyg" id="fecNacimientoCyg" formControlName="fecNacimientoCyg"
+                        [ngClass]="{ 'is-invalid': f.fecNacimientoCyg.invalid, 'is-valid': !f.fecNacimientoCyg.invalid }"
                         date class="form-control" placeholder="Seleccionar fecha de nacimiento">
                 </div>
             </div>
