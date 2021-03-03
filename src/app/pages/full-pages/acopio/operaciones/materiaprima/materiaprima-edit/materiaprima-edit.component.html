@@ -241,9 +241,10 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Provincia" prop="Provincia" width="25"></ngx-datatable-column>
                             <ngx-datatable-column name="Distrito" prop="Distrito" width="25"></ngx-datatable-column>
-                            <ngx-datatable-column name="Zona" prop="Zona" width="25"></ngx-datatable-column>
-                            <ngx-datatable-column name="TipoProveedorId"  prop="TipoProveedorId"  ></ngx-datatable-column>
+                            <ngx-datatable-column name="Zona" prop="Zona" width="25"></ngx-datatable-column> 
                             <ngx-datatable-column name="Finca"  prop="Finca"  ></ngx-datatable-column>
+                            <!-- <ngx-datatable-column name="TipoProveedorId"  prop="TipoProveedorId"  ></ngx-datatable-column>
+                             -->
                           </ngx-datatable>
                         </div>
                       </div>
@@ -375,7 +376,7 @@
                   <span class="d-none d-sm-block">Control de Calidad</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <app-controlCalidadSeco></app-controlCalidadSeco>
+                  <app-controlCalidadSeco [id]="id"></app-controlCalidadSeco>
                 </ng-template>
               </li>
               <li [ngbNavItem]="3">

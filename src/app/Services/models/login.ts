@@ -14,6 +14,7 @@ export interface ILogin {
   interface data
   {
     IdUsuario: string;
+    EmpresaId: number;
     NombreUsuario: string;
     NombreCompletoUsuario: string;
     RazonSocialEmpresa: string;

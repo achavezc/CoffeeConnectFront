@@ -1,5 +1,6 @@
 export class ReqControlCalidad {
     constructor(
+    EmpresaId: number,
     GuiaRecepcionMateriaPrimaId: number,
     ExportableGramosAnalisisFisico: number,
     ExportablePorcentajeAnalisisFisico: number,
@@ -22,6 +23,7 @@ export class ReqControlCalidad {
     AnalisisSensorialDefectoDetalleList: AnalisisSensorialDefectoDetalleList[],
     AnalisisSensorialAtributoDetalleList: AnalisisSensorialAtributoDetalleList[])
     {
+        this.EmpresaId = EmpresaId,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
         this.ExportableGramosAnalisisFisico= ExportableGramosAnalisisFisico,
         this.ExportablePorcentajeAnalisisFisico = ExportablePorcentajeAnalisisFisico,
@@ -46,6 +48,7 @@ export class ReqControlCalidad {
         
 
     }
+    EmpresaId: number;
     GuiaRecepcionMateriaPrimaId: number;
     ExportableGramosAnalisisFisico: number;
     ExportablePorcentajeAnalisisFisico: number;
