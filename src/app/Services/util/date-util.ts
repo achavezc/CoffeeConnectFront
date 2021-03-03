@@ -33,7 +33,7 @@ export class DateUtil {
     let m: string = '0' + (date.getMonth() + 1).toString().slice(-2);
     let y: number = date.getFullYear();
 
-    if (separator != undefined && separator != null && separator !== "") {
+    if (separator) {
       result = `${d}${separator}${m}${separator}${y}`;
     } else {
       result = `${d}/${m}/${y}`;
