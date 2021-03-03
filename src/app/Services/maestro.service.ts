@@ -26,7 +26,17 @@ export class MaestroService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  ConsultarDepartamentoAsync(request: any) {
+    const url = `${this.url}/ConsultarDepartamento`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
   ConsultarProvincia(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarProvincia`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  ConsultarProvinciaAsync(request: any) {
     const url = `${this.url}/ConsultarProvincia`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
@@ -36,7 +46,17 @@ export class MaestroService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  ConsultarDistritoAsync(request: any) {
+    const url = `${this.url}/ConsultarDistrito`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
   ConsultarZona(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarZona`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  ConsultarZonaAsync(request: any) {
     const url = `${this.url}/ConsultarZona`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }

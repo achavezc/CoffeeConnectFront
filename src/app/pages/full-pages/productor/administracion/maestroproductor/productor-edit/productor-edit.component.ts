@@ -8,6 +8,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { ProductorService } from '../../../../../../services/productor.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { MaestroService } from '../../../../../../services/maestro.service';
 
 @Component({
   selector: 'app-productor-edit',
@@ -22,7 +23,8 @@ export class ProductorEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private productorService: ProductorService,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private maestroService: MaestroService) { }
 
   productorEditForm: any;
   listEstados: Observable<any>;
@@ -132,14 +134,7 @@ export class ProductorEditComponent implements OnInit {
 
   LoadCombos(): void {
     let form = this;
-    this.maestroUtil.obtenerMaestros("EstadoMaestro", function (res: any) {
-      if (res.Result.Success) {
-        form.listEstados = res.Result.Data;
-        if (!form.vId) {
-          form.selectedEstado = res.Result.Data[0].Codigo;
-        }
-      }
-    });
+    this.LoadArrayEstados();
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res: any) {
       if (res.Result.Success) {
         form.listTiposDocs = res.Result.Data;
@@ -179,8 +174,37 @@ export class ProductorEditComponent implements OnInit {
     });
   }
 
+  async LoadArrayEstados() {
+    const res = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
+    if (res.Result.Success) {
+      this.listEstados = res.Result.Data;
+      this.selectedEstado = res.Result.Data[0].Codigo;
+    }
+  }
+
+  async LoadArrayProvinces() {
+    const res = await this.maestroUtil.GetProvincesAsync(this.selectedDepartamento, 'PE');
+    if (res.Result.Success) {
+      this.listProvincias = res.Result.Data;
+    }
+  }
+
+  async LoadArrayDistricts() {
+    const res = await this.maestroUtil.GetDistrictsAsync(this.selectedDepartamento, this.selectedProvincia, 'PE');
+    if (res.Result.Success) {
+      this.listDistritos = res.Result.Data;
+    }
+  }
+
+  async LoadArrayZones() {
+    const res = await this.maestroUtil.GetZonasAsync(this.selectedDistrito);
+    if (res.Result.Success) {
+      this.listZonas = res.Result.Data;
+    }
+  }
+
   LoadDataInitial(): void {
-    this.vId = this.route.snapshot.queryParams.id ? parseInt(this.route.snapshot.queryParams.id) : null;
+    this.vId = this.route.snapshot.params.id ? parseInt(this.route.snapshot.params.id) : null;
     // this.productorEditForm.controls.fecNacimiento.setValue(this.dateUtil.currentDate());
     // this.productorEditForm.controls.fecNacimientoCyg.setValue(this.dateUtil.currentDate());
     if (!this.vId) {
@@ -315,11 +339,14 @@ export class ProductorEditComponent implements OnInit {
           this.productorEditForm.controls.nombres.setValue(res.Result.Data.Nombres);
           this.productorEditForm.controls.apellidos.setValue(res.Result.Data.Apellidos);
           this.productorEditForm.controls.departamento.setValue(res.Result.Data.DepartamentoId);
+          this.LoadArrayProvinces();
           this.productorEditForm.controls.razonSocial.setValue(res.Result.Data.RazonSocial);
           this.productorEditForm.controls.provincia.setValue(res.Result.Data.ProvinciaId);
+          this.LoadArrayDistricts();
           this.productorEditForm.controls.telefonoFijo.setValue(res.Result.Data.NumeroTelefonoFijo);
           this.productorEditForm.controls.fecNacimiento.setValue(res.Result.Data.FechaNacimiento.substring(0, 10));
           this.productorEditForm.controls.distrito.setValue(res.Result.Data.DistritoId);
+          this.LoadArrayZones();
           this.productorEditForm.controls.telefCelular.setValue(res.Result.Data.NumeroTelefonoCelular);
           this.productorEditForm.controls.lugarNacimiento.setValue(res.Result.Data.LugarNacimiento);
           this.productorEditForm.controls.zona.setValue(res.Result.Data.ZonaId);
