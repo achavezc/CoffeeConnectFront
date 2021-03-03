@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input,Output,EventEmitter , ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -14,6 +14,7 @@ import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
+import { Subject } from 'rxjs';
 
 export class table 
   {
@@ -74,6 +75,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   detalleMateriaPrima: any;
 
 
+  eventsSubject: Subject<void> = new Subject<void>();
+
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
@@ -112,7 +115,10 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
   );
   }
-
+  emitEventToChild() {
+    this.eventsSubject.next();
+  }
+  
   cargarForm() {
     let x = this.selectSubProducto;
       this.consultaMateriaPrimaFormEdit =this.fb.group(
