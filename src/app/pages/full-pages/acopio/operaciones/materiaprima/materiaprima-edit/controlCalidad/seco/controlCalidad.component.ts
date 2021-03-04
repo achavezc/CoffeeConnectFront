@@ -30,7 +30,7 @@ export class ControlCalidadComponent implements OnInit {
    formControlCalidad: FormGroup;
    tableOlor: FormGroup;
    tableColor: FormGroup;
-   tableAnalisisSensorial: FormGroup;
+   //tableAnalisisSensorial: FormGroup;
    tableDefectosPrimarios: FormGroup;
    tableDefectosSecundarios: FormGroup;
    tableSensorialDefectos: FormGroup;
@@ -173,6 +173,7 @@ export class ControlCalidadComponent implements OnInit {
         PuntajeFinal:  new FormControl('',[])
         
       });
+      this.formControlCalidad.setValidators(this.comparisonValidator())
     }
     
   valorMinMax()
@@ -197,7 +198,15 @@ export class ControlCalidadComponent implements OnInit {
   evaluar(value)
   {
     const item = this.listaSensorialRanking.filter(obj => Number(value) >= Number(obj.Val1) && Number(value) <= Number(obj.Val2));
-    return item[0].Label;
+    if (item.length>0)
+    {
+      return item[0].Label;
+    }
+    else
+    {
+      return "";
+    }
+    
   }
   evaluarRanking(i,value)
   {
@@ -248,10 +257,26 @@ export class ControlCalidadComponent implements OnInit {
    totalDefPrimarios  = Number(this.formControlCalidad.controls["SubTotalDefPrimario"].value);
    this.formControlCalidad.controls["ToTalEquiDefectos"].setValue(totalDefPrimarios + totalDefSecundario);
  }
+
+ public comparisonValidator(): ValidatorFn {
+  return (group: FormGroup): ValidationErrors => {
+    const totalPorcentaje = Number((group.controls["totalPorcentaje"].value).split("%")[0]);
+    if ((totalPorcentaje> 100 || totalPorcentaje < 100))
+    {
+
+      this.errorGeneral = { isError: true, errorMessage: 'Total de Porcentaje debe ser 100%' };
+
+    } 
+    else {
+      this.errorGeneral = { isError: false, errorMessage: '' };
+    }
+    return;
+  };
+}
   actualizarAnalisisControlCalidad (e)
   {
     this.login = JSON.parse(localStorage.getItem("user"));
-    if (this.formControlCalidad.invalid || this.errorGeneral.isError) 
+    if (this.formControlCalidad.invalid || this.errorGeneral.isError || this.tableSensorialRanking.invalid) 
     {
       this.submitted = true;
       return;
@@ -311,8 +336,14 @@ export class ControlCalidadComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Registrado!', 'Analisis Control Calidad');
-            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-edit'])
+            var form = this;
+          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+            }
+          }
+          );
+            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
@@ -374,7 +405,7 @@ export class ControlCalidadComponent implements OnInit {
     for (let item in list)
     {
         var detalleDefectoPrimario = new AnalisisFisicoDefectoPrimarioDetalleList();
-        detalleDefectoPrimario.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
+        detalleDefectoPrimario.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
         detalleDefectoPrimario.DefectoDetalleDescripcion = list[Number(item)].Label;
         detalleDefectoPrimario.DefectoDetalleEquivalente = list[Number(item)].Val1;
         detalleDefectoPrimario.DefectoDetalleId = list[Number(item)].Codigo;
@@ -394,7 +425,7 @@ export class ControlCalidadComponent implements OnInit {
     for (let item in list)
     {
         var detalleDefectoSecundario = new AnalisisFisicoDefectoSecundarioDetalleList();
-        detalleDefectoSecundario.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
+        detalleDefectoSecundario.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
         detalleDefectoSecundario.DefectoDetalleDescripcion = list[Number(item)].Label;
         detalleDefectoSecundario.DefectoDetalleEquivalente = list[Number(item)].Val1;
         detalleDefectoSecundario.DefectoDetalleId = list[Number(item)].Codigo;
@@ -413,7 +444,7 @@ export class ControlCalidadComponent implements OnInit {
     for (let item in list)
     {
         var detalleAtributo= new AnalisisSensorialAtributoDetalleList();
-        detalleAtributo.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
+        detalleAtributo.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
         detalleAtributo.AtributoDetalleDescripcion = list[Number(item)].Label;
         detalleAtributo.AtributoDetalleId = list[Number(item)].Codigo;
         listAnalisisAtributos.push(detalleAtributo);
@@ -449,7 +480,7 @@ export class ControlCalidadComponent implements OnInit {
     for (let item in list)
     {
         var detalleRegistroTostado= new RegistroTostadoIndicadorDetalleList();
-        detalleRegistroTostado.Valor = list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
+        detalleRegistroTostado.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
         detalleRegistroTostado.IndicadorDetalleDescripcion = list[Number(item)].Label;
         detalleRegistroTostado.IndicadorDetalleId = list[Number(item)].Codigo;
         listRegistroTostado.push(detalleRegistroTostado);
@@ -572,6 +603,11 @@ export class ControlCalidadComponent implements OnInit {
     form.tableRegistroTostado.controls["tostado%"+ value.IndicadorDetalleId].setValue(value.Valor);  
     
   });
+ }
+
+ cancelar()
+ {
+  this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
  }
  
 }

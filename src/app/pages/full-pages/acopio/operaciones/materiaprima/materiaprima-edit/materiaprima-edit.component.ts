@@ -71,7 +71,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   responsable: "";
   disabledControl: string = '';
   disabledNota: string = '';
-  viewTagSeco: boolean;
+  viewTagSeco: boolean = false;
   detalleMateriaPrima: any;
 
 
@@ -223,6 +223,18 @@ export class MateriaPrimaEditComponent implements OnInit {
     let filterProducto = e.Codigo;
     this.cargarSubProducto(filterProducto);
    
+  }
+
+  changeSubTipoProducto(e) {
+    let filterSubTipo = e.Codigo;
+    if (filterSubTipo == "02")
+    {
+        this.viewTagSeco = true;
+    }
+    else
+    {
+      this.viewTagSeco = false;
+    }
   }
 
   async cargarSubProducto(codigo:any){
@@ -560,17 +572,6 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   cancelar(){
       this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
-  }
-  changeSubTipoProducto(e) {
-    let filterSubTipo = e.Codigo;
-    if (filterSubTipo == "02")
-    {
-      //selectSubProducto ==
-    }
-    else
-    {
-
-    }
   }
 
   obtenerDetalle(){
