@@ -56,6 +56,8 @@ export class ProductorEditComponent implements OnInit {
   selectedGradoEstudioCyg: any;
   selectedIdioma: string[] = [];
   vId: number;
+  errGeneral = { isError: false, message: '' };
+  msgErrorGenerico = 'Ha ocurrido un error. Por favor comunicarse con el área de sistemas.';
 
   get f() {
     return this.productorEditForm.controls;
@@ -110,26 +112,35 @@ export class ProductorEditComponent implements OnInit {
     const nombres = this.productorEditForm.controls.nombres;
     const apellidos = this.productorEditForm.controls.apellidos;
     const razonSocial = this.productorEditForm.controls.razonSocial;
+    const codProductor = this.productorEditForm.controls.codProductor;
 
-    this.productorEditForm.controls.tipoDocumento.valueChanges
-      .subscribe((td: any) => {
-        if (td === '01') {
-          nombres.setValidators(Validators.required);
-          apellidos.setValidators(Validators.required);
-          razonSocial.clearValidators();
-        } else if (td === '02') {
-          nombres.clearValidators();
-          apellidos.clearValidators();
-          razonSocial.setValidators(Validators.required);
-        } else {
-          nombres.clearValidators();
-          apellidos.clearValidators();
-          razonSocial.clearValidators();
-        }
-        nombres.updateValueAndValidity();
-        apellidos.updateValueAndValidity();
-        razonSocial.updateValueAndValidity();
-      });
+    this.productorEditForm.controls.tipoDocumento.valueChanges.subscribe((td: any) => {
+      if (td === '01') {
+        nombres.setValidators(Validators.required);
+        apellidos.setValidators(Validators.required);
+        razonSocial.clearValidators();
+      } else if (td === '02') {
+        nombres.clearValidators();
+        apellidos.clearValidators();
+        razonSocial.setValidators(Validators.required);
+      } else {
+        nombres.clearValidators();
+        apellidos.clearValidators();
+        razonSocial.clearValidators();
+      }
+      nombres.updateValueAndValidity();
+      apellidos.updateValueAndValidity();
+      razonSocial.updateValueAndValidity();
+    });
+
+    this.productorEditForm.controls.codProductor.valueChanges.subscribe((cp: any) => {
+      if (this.vId) {
+        codProductor.setValidators(Validators.required);
+      } else {
+        codProductor.clearValidators();
+      }
+    });
+    codProductor.updateValueAndValidity();
   }
 
   LoadCombos(): void {
@@ -178,7 +189,7 @@ export class ProductorEditComponent implements OnInit {
     const res = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
     if (res.Result.Success) {
       this.listEstados = res.Result.Data;
-      this.selectedEstado = res.Result.Data[0].Codigo;
+      this.productorEditForm.controls.estado.setValue(res.Result.Data[0].Codigo);
     }
   }
 
@@ -264,7 +275,24 @@ export class ProductorEditComponent implements OnInit {
           }
         });
       } else if (this.vId > 0) {
-        this.Update();
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de actualizar el productor ${this.productorEditForm.value.codProductor}?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.Update();
+          }
+        });
       }
     }
   }
@@ -318,8 +346,10 @@ export class ProductorEditComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.Result.Success && !res.Result.ErrCode) {
           this.productorEditForm.reset();
-          this.alertUtil.alertOk("Confirmación", "Registro completo!");
-          this.Cancel();
+          this.alertUtil.alertOkCallback("Confirmación", "Registro completo!",
+            () => {
+              this.Cancel();
+            });
         }
       }, (err: any) => {
         console.log(err);
@@ -330,48 +360,53 @@ export class ProductorEditComponent implements OnInit {
     this.productorService.SearchById({ ProductorId: this.vId })
       .subscribe((res: any) => {
         if (res.Result.Success && !res.Result.ErrCode) {
-          this.productorEditForm.controls.codProductor.setValue(res.Result.Data.Numero);
-          this.productorEditForm.controls.fecRegistro.setValue(res.Result.Data.FechaRegistro.substring(0, 10));
-          this.productorEditForm.controls.estado.setValue(res.Result.Data.EstadoId);
-          this.productorEditForm.controls.tipoDocumento.setValue(res.Result.Data.TipoDocumentoId);
-          this.productorEditForm.controls.nroDocumento.setValue(res.Result.Data.NumeroDocumento);
-          this.productorEditForm.controls.direccion.setValue(res.Result.Data.Direccion);
-          this.productorEditForm.controls.nombres.setValue(res.Result.Data.Nombres);
-          this.productorEditForm.controls.apellidos.setValue(res.Result.Data.Apellidos);
-          this.productorEditForm.controls.departamento.setValue(res.Result.Data.DepartamentoId);
-          this.LoadArrayProvinces();
-          this.productorEditForm.controls.razonSocial.setValue(res.Result.Data.RazonSocial);
-          this.productorEditForm.controls.provincia.setValue(res.Result.Data.ProvinciaId);
-          this.LoadArrayDistricts();
-          this.productorEditForm.controls.telefonoFijo.setValue(res.Result.Data.NumeroTelefonoFijo);
-          this.productorEditForm.controls.fecNacimiento.setValue(res.Result.Data.FechaNacimiento.substring(0, 10));
-          this.productorEditForm.controls.distrito.setValue(res.Result.Data.DistritoId);
-          this.LoadArrayZones();
-          this.productorEditForm.controls.telefCelular.setValue(res.Result.Data.NumeroTelefonoCelular);
-          this.productorEditForm.controls.lugarNacimiento.setValue(res.Result.Data.LugarNacimiento);
-          this.productorEditForm.controls.zona.setValue(res.Result.Data.ZonaId);
-          this.productorEditForm.controls.estadoCivil.setValue(res.Result.Data.EstadoCivilId);
-          this.productorEditForm.controls.religion.setValue(res.Result.Data.ReligionId);
-          this.productorEditForm.controls.anioIngresoZona.setValue(res.Result.Data.AnioIngresoZona);
-          this.productorEditForm.controls.genero.setValue(res.Result.Data.GeneroId);
-          this.productorEditForm.controls.gradoEstudio.setValue(res.Result.Data.GradoEstudiosId);
-          this.productorEditForm.controls.nroHijos.setValue(res.Result.Data.CantidadHijos);
-          this.productorEditForm.controls.dialecto.setValue(res.Result.Data.Dialecto);
-          this.productorEditForm.controls.tipoDocumentoCyg.setValue(res.Result.Data.TipoDocumentoIdConyuge);
-          this.productorEditForm.controls.nroDocumentoCyg.setValue(res.Result.Data.NumeroDocumentoConyuge);
-          this.productorEditForm.controls.nombresCyg.setValue(res.Result.Data.NombresConyuge);
-          this.productorEditForm.controls.apellidosCyg.setValue(res.Result.Data.ApellidosConyuge);
-          this.productorEditForm.controls.lugarNacimientoCyg.setValue(res.Result.Data.LugarNacimientoConyuge);
-          this.productorEditForm.controls.gradoEstudioCyg.setValue(res.Result.Data.GradoEstudiosIdConyuge);
-          this.productorEditForm.controls.nroCelularCyg.setValue(res.Result.Data.NumeroTelefonoCelularConyuge);
-          this.productorEditForm.controls.fecNacimientoCyg.setValue(res.Result.Data.FechaNacimientoConyuge.substring(0, 10));
-          this.productorEditForm.controls.idioma.setValue(res.Result.Data.Idiomas.split('|').map(String));
+          this.MapDataForm(res.Result.Data);
         } else {
-
+          this.errGeneral = { isError: true, message: res.Result.Message };
         }
       }, (err: any) => {
         console.log(err);
+        this.errGeneral = { isError: true, message: this.msgErrorGenerico };
       });
+  }
+
+  async MapDataForm(data: any) {
+    this.productorEditForm.controls.codProductor.setValue(data.Numero);
+    this.productorEditForm.controls.fecRegistro.setValue(data.FechaRegistro.substring(0, 10));
+    this.productorEditForm.controls.estado.setValue(data.EstadoId);
+    this.productorEditForm.controls.tipoDocumento.setValue(data.TipoDocumentoId);
+    this.productorEditForm.controls.nroDocumento.setValue(data.NumeroDocumento);
+    this.productorEditForm.controls.direccion.setValue(data.Direccion);
+    this.productorEditForm.controls.nombres.setValue(data.Nombres);
+    this.productorEditForm.controls.apellidos.setValue(data.Apellidos);
+    this.productorEditForm.controls.departamento.setValue(data.DepartamentoId);
+    await this.LoadArrayProvinces();
+    this.productorEditForm.controls.razonSocial.setValue(data.RazonSocial);
+    this.productorEditForm.controls.provincia.setValue(data.ProvinciaId);
+    await this.LoadArrayDistricts();
+    this.productorEditForm.controls.telefonoFijo.setValue(data.NumeroTelefonoFijo);
+    this.productorEditForm.controls.fecNacimiento.setValue(data.FechaNacimiento.substring(0, 10));
+    this.productorEditForm.controls.distrito.setValue(data.DistritoId);
+    await this.LoadArrayZones();
+    this.productorEditForm.controls.telefCelular.setValue(data.NumeroTelefonoCelular);
+    this.productorEditForm.controls.lugarNacimiento.setValue(data.LugarNacimiento);
+    this.productorEditForm.controls.zona.setValue(data.ZonaId);
+    this.productorEditForm.controls.estadoCivil.setValue(data.EstadoCivilId);
+    this.productorEditForm.controls.religion.setValue(data.ReligionId);
+    this.productorEditForm.controls.anioIngresoZona.setValue(data.AnioIngresoZona);
+    this.productorEditForm.controls.genero.setValue(data.GeneroId);
+    this.productorEditForm.controls.gradoEstudio.setValue(data.GradoEstudiosId);
+    this.productorEditForm.controls.nroHijos.setValue(data.CantidadHijos);
+    this.productorEditForm.controls.dialecto.setValue(data.Dialecto);
+    this.productorEditForm.controls.tipoDocumentoCyg.setValue(data.TipoDocumentoIdConyuge);
+    this.productorEditForm.controls.nroDocumentoCyg.setValue(data.NumeroDocumentoConyuge);
+    this.productorEditForm.controls.nombresCyg.setValue(data.NombresConyuge);
+    this.productorEditForm.controls.apellidosCyg.setValue(data.ApellidosConyuge);
+    this.productorEditForm.controls.lugarNacimientoCyg.setValue(data.LugarNacimientoConyuge);
+    this.productorEditForm.controls.gradoEstudioCyg.setValue(data.GradoEstudiosIdConyuge);
+    this.productorEditForm.controls.nroCelularCyg.setValue(data.NumeroTelefonoCelularConyuge);
+    this.productorEditForm.controls.fecNacimientoCyg.setValue(data.FechaNacimientoConyuge.substring(0, 10));
+    this.productorEditForm.controls.idioma.setValue(data.Idiomas.split('|').map(String));
   }
 
   Update(): void {
@@ -380,11 +415,15 @@ export class ProductorEditComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.Result.Success && !res.Result.ErrCode) {
           this.productorEditForm.reset();
-          this.alertUtil.alertOk("Confirmación", "Registro completo!");
-          this.Cancel();
+          this.alertUtil.alertOkCallback("Confirmación", "Actualización completa!", () => {
+            this.Cancel();
+          });
+        } else {
+          this.errGeneral = { isError: true, message: res.Result.Message };
         }
       }, (err: any) => {
         console.log(err);
+        this.errGeneral = { isError: true, message: this.msgErrorGenerico };
       });
   }
 
