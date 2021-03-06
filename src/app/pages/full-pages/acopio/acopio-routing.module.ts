@@ -8,6 +8,7 @@ import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-al
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
+import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,13 @@ const routes: Routes = [
         component: NotacompraListComponent,
         data: {
           title: 'Liquidación de compra'
+        }
+      },
+      {
+        path: 'notacompra/update/:id',
+        component: NotaCompraEditComponent,
+        data: {
+          title: 'Actualizar Liquidación de compra'
         }
       },
       {
