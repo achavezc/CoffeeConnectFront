@@ -128,8 +128,11 @@ export class IngresoAlmacenComponent implements OnInit {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
       } else if (vByProduct && !vProduct) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
-      } else if ((group.value.rendimientoInicio && !group.value.rendimientoFin) || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
+      } else if ((group.value.rendimientoInicio && !group.value.rendimientoFin)
+        || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores del rendimiento.' };
+      } else if (group.value.rendimientoInicio && group.value.rendimientoFin && group.value.rendimientoInicio <= group.value.rendimientoFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -189,46 +192,41 @@ export class IngresoAlmacenComponent implements OnInit {
   //   return this.selected.indexOf(row) === -1;
   // }
 
-  onSelect(event): void {
-    this.selected = event.selected;
-    // if (event && event.selected.length > 0) {
-    //   let obj: any = {};
-    //   for (let i = 0; i < event.selected.length; i++) {
-    //     obj = event.selected[i];
-    //     if (obj.EstadoId == "01" && obj.AlmacenId) {
-    //       this.selected.push(obj);
-    //     }
-    //   }
-    //   if (event.selected.length > 1 && this.selected.length <= 0) {
-    //     this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y se encuentra en estado INGRESADO.");
-    //   }
-    // }
+  onSelect(event: any): void {
+    // this.selected = event.selected;
+    if (event && event.selected.length > 0) {
+      let obj: any = {};
+      for (let i = 0; i < event.selected.length; i++) {
+        obj = event.selected[i];
+        if (obj.EstadoId == "01" && obj.AlmacenId) {
+          this.selected.push(obj);
+        }
+      }
+      if (event.selected.length > 1 && this.selected.length <= 0) {
+        this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y/o se encuentra en estado INGRESADO.");
+        this.selected = [];
+      }
+    }
   }
 
   onActive(event): void {
-    // if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
-    //   if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
-    //     let obj: any = {};
-    //     for (let i = 0; i < this.selected.length; i++) {
-    //       obj = this.selected[i];
-    //       if (obj.GuiaRecepcionMateriaPrimaId == event.row.GuiaRecepcionMateriaPrimaId
-    //         && obj.TipoProvedorId == event.row.TipoProvedorId
-    //         && obj.ProveedorId == event.row.ProveedorId
-    //         && obj.TipoDocumentoId == event.row.TipoDocumentoId
-    //         && obj.SubProductoId == event.row.SubProductoId
-    //         && obj.EstadoId == event.row.EstadoId
-    //         && obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
-    //         this.selected.splice(i, 1);
-    //         this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN o su estado no es INGRESADO.");
-    //         break;
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   if (this.selected.length <= 0) {
-    //     this.selected = [];
-    //   }
-    // }
+    if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
+      if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
+        let obj: any = {};
+        for (let i = 0; i < this.selected.length; i++) {
+          obj = this.selected[i];
+          if (obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
+            this.selected.splice(i, 1);
+            this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN y/o su estado no es INGRESADO.");
+            break;
+          }
+        }
+      }
+    } else {
+      if (this.selected.length <= 0) {
+        this.selected = [];
+      }
+    }
   }
 
   Buscar(exportExcel?: boolean): void {
@@ -490,6 +488,7 @@ export class IngresoAlmacenComponent implements OnInit {
     let vFilas = this.DevolverFilasValidas();
     if (vFilas && vFilas.length > 0) {
       let vArrAlmacenes: number[] = vFilas.map(x => x.AlmacenId);
+      vArrAlmacenes = [...new Set(vArrAlmacenes)];
       if (vArrAlmacenes) {
         let vArrIdsNotaIngreso: any[] = [], user = this.userSession.Result;
         vArrAlmacenes.forEach((cv, index, arr) => {

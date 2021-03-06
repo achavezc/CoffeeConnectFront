@@ -81,7 +81,7 @@ export class ProductorComponent implements OnInit {
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
 
-      if (!group.value.codProductor && !group.value.nombRazonSocial) {
+      if (!group.value.codProductor && !group.value.nombRazonSocial && !group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
       } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };

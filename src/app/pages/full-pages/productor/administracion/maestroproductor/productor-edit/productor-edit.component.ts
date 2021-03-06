@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import swal from 'sweetalert2';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -24,7 +25,8 @@ export class ProductorEditComponent implements OnInit {
     private dateUtil: DateUtil,
     private productorService: ProductorService,
     private alertUtil: AlertUtil,
-    private maestroService: MaestroService) { }
+    private maestroService: MaestroService,
+    private spinner: NgxSpinnerService) { }
 
   productorEditForm: any;
   listEstados: Observable<any>;
@@ -341,9 +343,11 @@ export class ProductorEditComponent implements OnInit {
   }
 
   Create(): void {
+    this.spinner.show();
     const request = this.getRequestForm();
     this.productorService.Create(request)
       .subscribe((res: any) => {
+        this.spinner.hide();
         if (res.Result.Success && !res.Result.ErrCode) {
           this.productorEditForm.reset();
           this.alertUtil.alertOkCallback("Confirmación", "Registro completo!",
@@ -352,13 +356,16 @@ export class ProductorEditComponent implements OnInit {
             });
         }
       }, (err: any) => {
+        this.spinner.hide();
         console.log(err);
       });
   }
 
   SearchById(): void {
+    this.spinner.show();
     this.productorService.SearchById({ ProductorId: this.vId })
       .subscribe((res: any) => {
+        this.spinner.hide();
         if (res.Result.Success && !res.Result.ErrCode) {
           this.MapDataForm(res.Result.Data);
         } else {
@@ -366,15 +373,20 @@ export class ProductorEditComponent implements OnInit {
         }
       }, (err: any) => {
         console.log(err);
+        this.spinner.hide();
         this.errGeneral = { isError: true, message: this.msgErrorGenerico };
       });
   }
 
   async MapDataForm(data: any) {
-    this.productorEditForm.controls.codProductor.setValue(data.Numero);
+    if (data.Numero) {
+      this.productorEditForm.controls.codProductor.setValue(data.Numero);
+    }
     this.productorEditForm.controls.fecRegistro.setValue(data.FechaRegistro.substring(0, 10));
     this.productorEditForm.controls.estado.setValue(data.EstadoId);
-    this.productorEditForm.controls.tipoDocumento.setValue(data.TipoDocumentoId);
+    if (data.TipoDocumentoId) {
+      this.productorEditForm.controls.tipoDocumento.setValue(data.TipoDocumentoId);
+    }
     this.productorEditForm.controls.nroDocumento.setValue(data.NumeroDocumento);
     this.productorEditForm.controls.direccion.setValue(data.Direccion);
     this.productorEditForm.controls.nombres.setValue(data.Nombres);
@@ -385,35 +397,55 @@ export class ProductorEditComponent implements OnInit {
     this.productorEditForm.controls.provincia.setValue(data.ProvinciaId);
     await this.LoadArrayDistricts();
     this.productorEditForm.controls.telefonoFijo.setValue(data.NumeroTelefonoFijo);
-    this.productorEditForm.controls.fecNacimiento.setValue(data.FechaNacimiento.substring(0, 10));
+    if (data.FechaNacimiento && data.FechaNacimiento.substring(0, 10) != "0001-01-01") {
+      this.productorEditForm.controls.fecNacimiento.setValue(data.FechaNacimiento.substring(0, 10));
+    }
     this.productorEditForm.controls.distrito.setValue(data.DistritoId);
     await this.LoadArrayZones();
     this.productorEditForm.controls.telefCelular.setValue(data.NumeroTelefonoCelular);
     this.productorEditForm.controls.lugarNacimiento.setValue(data.LugarNacimiento);
     this.productorEditForm.controls.zona.setValue(data.ZonaId);
-    this.productorEditForm.controls.estadoCivil.setValue(data.EstadoCivilId);
-    this.productorEditForm.controls.religion.setValue(data.ReligionId);
+    if (data.EstadoCivilId) {
+      this.productorEditForm.controls.estadoCivil.setValue(data.EstadoCivilId);
+    }
+    if (data.ReligionId) {
+      this.productorEditForm.controls.religion.setValue(data.ReligionId);
+    }
     this.productorEditForm.controls.anioIngresoZona.setValue(data.AnioIngresoZona);
-    this.productorEditForm.controls.genero.setValue(data.GeneroId);
-    this.productorEditForm.controls.gradoEstudio.setValue(data.GradoEstudiosId);
+    if (data.GeneroId) {
+      this.productorEditForm.controls.genero.setValue(data.GeneroId);
+    }
+    if (data.GradoEstudiosId) {
+      this.productorEditForm.controls.gradoEstudio.setValue(data.GradoEstudiosId);
+    }
     this.productorEditForm.controls.nroHijos.setValue(data.CantidadHijos);
     this.productorEditForm.controls.dialecto.setValue(data.Dialecto);
-    this.productorEditForm.controls.tipoDocumentoCyg.setValue(data.TipoDocumentoIdConyuge);
+    if (data.TipoDocumentoIdConyuge) {
+      this.productorEditForm.controls.tipoDocumentoCyg.setValue(data.TipoDocumentoIdConyuge);
+    }
     this.productorEditForm.controls.nroDocumentoCyg.setValue(data.NumeroDocumentoConyuge);
     this.productorEditForm.controls.nombresCyg.setValue(data.NombresConyuge);
     this.productorEditForm.controls.apellidosCyg.setValue(data.ApellidosConyuge);
     this.productorEditForm.controls.lugarNacimientoCyg.setValue(data.LugarNacimientoConyuge);
-    this.productorEditForm.controls.gradoEstudioCyg.setValue(data.GradoEstudiosIdConyuge);
+    if (data.GradoEstudiosIdConyuge) {
+      this.productorEditForm.controls.gradoEstudioCyg.setValue(data.GradoEstudiosIdConyuge);
+    }
     this.productorEditForm.controls.nroCelularCyg.setValue(data.NumeroTelefonoCelularConyuge);
-    this.productorEditForm.controls.fecNacimientoCyg.setValue(data.FechaNacimientoConyuge.substring(0, 10));
-    this.productorEditForm.controls.idioma.setValue(data.Idiomas.split('|').map(String));
+    if (data.FechaNacimientoConyuge && data.FechaNacimientoConyuge.substring(0, 10) == "0001-01-01") {
+      this.productorEditForm.controls.fecNacimientoCyg.setValue(data.FechaNacimientoConyuge.substring(0, 10));
+    }
+    if (data.Idiomas) {
+      this.productorEditForm.controls.idioma.setValue(data.Idiomas.split('|').map(String));
+    }
   }
 
   Update(): void {
+    this.spinner.show();
     const request = this.getRequestForm();
     this.productorService.Update(request)
       .subscribe((res: any) => {
-        if (res.Result.Success && !res.Result.ErrCode) {
+        this.spinner.hide();
+        if (res.Result.Success) {
           this.productorEditForm.reset();
           this.alertUtil.alertOkCallback("Confirmación", "Actualización completa!", () => {
             this.Cancel();
@@ -422,6 +454,7 @@ export class ProductorEditComponent implements OnInit {
           this.errGeneral = { isError: true, message: res.Result.Message };
         }
       }, (err: any) => {
+        this.spinner.hide();
         console.log(err);
         this.errGeneral = { isError: true, message: this.msgErrorGenerico };
       });
