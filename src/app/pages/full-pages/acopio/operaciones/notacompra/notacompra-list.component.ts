@@ -299,8 +299,4 @@ export class NotacompraListComponent implements OnInit {
     this.Buscar(true);
   }
 
-  New(): void {
-    this.router.navigate(['/acopio/operaciones/notacompra/create']);
-  }
-
 }

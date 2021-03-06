@@ -1,457 +1,494 @@
-<form class="needs-validation" novalidate [formGroup]="notaCompraEditForm">
-    <div class="table-responsive">
-        <table class="table table-sm table-borderless">
-            <tbody>
-                <tr class="form-row">
-                    <td colspan="2" class="col-9">
-                        <input type="text" name="nombre" id="nombre" formControlName="nombre"
-                            class="form-control form-control-sm" placeholder="Ingresar nombre ó razón social" readonly
-                            required>
-                    </td>
-                    <td class="col-3">
-                        <div class="form-group row">
-                            <label for="nroNotaCompra" class="col-sm-6 col-form-label">N° NOTA DE COMPRA</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="nroNotaCompra" id="nroNotaCompra"
-                                    formControlName="nroNotaCompra" class="form-control form-control-sm"
-                                    placeholder="Ingresar número nota de compra" readonly required>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="form-row">
-                    <td colspan="2" class="col-9">
-                        <input type="text" name="direccion" id="direccion" formControlName="direccion"
-                            class="form-control form-control-sm" placeholder="Ingresar nombre ó razón social" readonly
-                            required>
-                    </td>
-                    <td class="col-3">
-                        <div class="form-group row">
-                            <label for="fecha" class="col-sm-6 col-form-label">FECHA</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="fecha" id="fecha" formControlName="fecha"
-                                    class="form-control form-control-sm" placeholder="Seleccionar fecha" readonly
-                                    required>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="form-row">
-                    <td colspan="2" class="col-9">
-                        <div class="form-group row">
-                            <label for="ruc" class="col-sm-1 col-form-label">RUC</label>
-                            <div class="col-sm-11">
-                                <input type="text" name="ruc" id="ruc" formControlName="ruc"
-                                    class="form-control form-control-sm" placeholder="Seleccionar RUC" readonly
-                                    required>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-3">
-                        <div class="form-group row">
-                            <label for="estado" class="col-sm-6 col-form-label">ESTADO</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="estado" id="estado" formControlName="estado"
-                                    class="form-control form-control-sm" placeholder="Seleccionar estado" readonly
-                                    required>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="form-row mb-3"></tr>
-                <tr class="form-row">
-                    <td class="col-1"></td>
-                    <td class="col-10">
-                        <table class="table table-sm table-striped" border="1">
-                            <thead>
-                                <tr class="form-row">
-                                    <th colspan="5">DATOS DEL PROVEEDOR</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="form-row">
-                                    <td class="col-2">
-                                        <label for="nombreProveedor" class="form-label text-right">NOMBRE</label>
-                                    </td>
-                                    <td class="col-4">
-                                        <input type="text" name="nombreProveedor" id="nombreProveedor"
-                                            formControlName="nombreProveedor" class="form-control form-control-sm"
-                                            placeholder="Ingresar nombre" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="departamento" class="form-label text-right">DEPARTAMENTO</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="departamento" id="departamento"
-                                            formControlName="departamento" class="form-control form-control-sm"
-                                            placeholder="Seleccionar departamento" readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-2">
-                                        <label for="docIdentidad" class="form-label text-left">DOC. IDENTIDAD</label>
-                                    </td>
-                                    <td class="col-4">
-                                        <input type="text" name="docIdentidad" id="docIdentidad"
-                                            formControlName="docIdentidad" class="form-control form-control-sm"
-                                            placeholder="Seleccionar documento de identidad" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="provincia" class="form-label">PROVINCIA</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="provincia" id="provincia" formControlName="provincia"
-                                            class="form-control form-control-sm" placeholder="Seleccionar provincia"
+<div class="card">
+    <div class="card-body">
+        <form class="needs-validation" novalidate [formGroup]="notaCompraEditForm">
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless">
+                    <tbody>
+                        <tr class="form-row col table-primary">
+                            <td colspan="2" class="col-9">
+                                <input type="text" name="nombre" id="nombre" formControlName="nombre"
+                                    class="form-control form-control-sm font-weight-bold"
+                                    placeholder="Ingresar nombre ó razón social" readonly required>
+                            </td>
+                            <td class="col-3">
+                                <div class="form-group row m-0">
+                                    <label for="nroNotaCompra"
+                                        class="col-sm-6 col-form-label text-right pr-0 pl-0 font-weight-bold">
+                                        N° NOTA DE COMPRA</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="nroNotaCompra" id="nroNotaCompra"
+                                            formControlName="nroNotaCompra"
+                                            class="form-control form-control-sm font-weight-bold"
+                                            placeholder="Ingresar número nota de compra" readonly required>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="form-row col table-primary">
+                            <td colspan="2" class="col-9">
+                                <input type="text" name="direccion" id="direccion" formControlName="direccion"
+                                    class="form-control form-control-sm" placeholder="Ingresar nombre ó razón social"
+                                    readonly required>
+                            </td>
+                            <td class="col-3">
+                                <div class="form-group row m-0">
+                                    <label for="fecha"
+                                        class="col-sm-6 col-form-label text-right pr-0 font-weight-bold">FECHA</label>
+                                    <div class="col-sm-6">
+                                        <input type="date" date name="fecha" id="fecha" formControlName="fecha"
+                                            class="form-control form-control-sm" placeholder="Seleccionar fecha"
                                             readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-2">
-                                        <label for="tipo" class="form-label text-left">TIPO</label>
-                                    </td>
-                                    <td class="col-4">
-                                        <input type="text" name="tipo" id="tipo"
-                                            formControlName="tipo" class="form-control form-control-sm"
-                                            placeholder="Seleccionar documento de identidad" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="distrito" class="form-label">DISTRITO</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="distrito" id="distrito" formControlName="distrito"
-                                            class="form-control form-control-sm" placeholder="Seleccionar distrito"
-                                            readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-2">
-                                        <label for="codigo" class="form-label">CÓDIGO</label>
-                                    </td>
-                                    <td class="col-4">
-                                        <input type="text" name="codigo" id="codigo" formControlName="codigo"
-                                            class="form-control form-control-sm" placeholder="Ingresar código" readonly
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="form-row col table-primary">
+                            <td colspan="2" class="col-9">
+                                <div class="form-group row m-0">
+                                    <label for="ruc" class="col-sm-1 col-form-label pl-0 pr-0">RUC</label>
+                                    <div class="col-sm-11 p-0">
+                                        <input type="text" name="ruc" id="ruc" formControlName="ruc"
+                                            class="form-control form-control-sm" placeholder="Seleccionar RUC" readonly
                                             required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="zona" class="form-label">ZONA</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="zona" id="zona" formControlName="zona"
-                                            class="form-control form-control-sm" placeholder="Seleccionar zona" readonly
-                                            required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col" colspan="7"></td>
-                                    <td class="col-2">
-                                        <label for="finca" class="form-label">FINCA</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="finca" id="finca" formControlName="finca"
-                                            class="form-control form-control-sm" placeholder="Seleccionar finca"
-                                            readonly required>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td class="col-1"></td>
-                </tr>
-                <tr class="form-row">
-                    <td class="col-1"></td>
-                    <td class="col-10">
-                        <table class="table table-sm table-striped" border="1">
-                            <thead>
-                                <tr class="form-row">
-                                    <th colspan="5">DATOS DEL PRODUCTO</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="form-row">
-                                    <td class="col-2">
-                                        <label for="tipoDP" class="form-label">TIPO</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="tipoDP" id="tipoDP" formControlName="tipoDP"
-                                            class="form-control form-control-sm" placeholder="Seleccionar tipo" readonly
-                                            required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="fechaCosecha" class="form-label">FECHA DE COSECHA</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="fechaCosecha" id="fechaCosecha"
-                                            formControlName="fechaCosecha" class="form-control form-control-sm"
-                                            placeholder="Seleccionar fecha cosecha" readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-2">
-                                        <label for="subTipo" class="form-label">SUB TIPO</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="subTipo" id="subTipo" formControlName="subTipo"
-                                            class="form-control form-control-sm" placeholder="Seleccionar sub tipo"
-                                            readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="tipoProduccion" class="form-label">TIPO PRODUCCIÓN</label>
-                                    </td>
-                                    <td class="col-3">
-                                        <input type="text" name="tipoProduccion" id="tipoProduccion"
-                                            formControlName="tipoProduccion" class="form-control form-control-sm"
-                                            placeholder="Seleccionar tipo de producción" readonly required>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td class="col-1"></td>
-                </tr>
-                <hr>
-                <tr class="form-row">
-                    <td class="col-2"></td>
-                    <td class="col-8">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr class="form-row">
-                                    <th class="col-1"></th>
-                                    <th colspan="2" class="col-4">PESADO DEL CAFÉ</th>
-                                    <th class="col-2"></th>
-                                    <th colspan="2" class="col-4">ANALISIS TECNICO</th>
-                                    <th class="col-1"></th>
-                                </tr>
-                                <tr class="form-row">
-                                    <th class="col-1"></th>
-                                    <th class="col-2">DETALLE</th>
-                                    <th class="col-2">VALORES</th>
-                                    <th class="col-2"></th>
-                                    <th class="col-2">DETALLE</th>
-                                    <th class="col-2">GRAMOS</th>
-                                    <th class="col-1"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="unidadMedida" class="form-label">Unidad Medida</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="unidadMedida" id="unidadMedida"
-                                            formControlName="unidadMedida" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-2">
-                                        <label for="exportableAT" class="form-label">Exportable</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="exportableAT" id="exportableAT"
-                                            formControlName="exportableAT" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="cantidadPC" class="form-label">Cantidad</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="cantidadPC" id="cantidadPC"
-                                            formControlName="cantidadPC" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-2">
-                                        <label for="descarteAT" class="form-label">Descarte</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="descarteAT" id="descarteAT"
-                                            formControlName="descarteAT" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="kilosBrutosPC" class="form-label">Kilos Brutos</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="kilosBrutosPC" id="kilosBrutosPC"
-                                            formControlName="kilosBrutosPC" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-2">
-                                        <label for="cascarillaAT" class="form-label">Cascarilla</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="cascarillaAT" id="cascarillaAT"
-                                            formControlName="cascarillaAT" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="taraPC" class="form-label">Tara</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="taraPC" id="taraPC" formControlName="taraPC"
-                                            class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-2">
-                                        <label for="totalAT" class="form-label">Total</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="totalAT" id="totalAT" formControlName="totalAT"
-                                            class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="kilosNetosPC" class="form-label">Kilos Netos</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="kilosNetosPC" id="kilosNetosPC"
-                                            formControlName="kilosNetosPC" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col" colspan="7"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="dsctoHumedadPC" class="form-label">Dscto. Por Humedad</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="dsctoHumedadPC" id="dsctoHumedadPC"
-                                            formControlName="dsctoHumedadPC" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-2">
-                                        <label for="humedadAT" class="form-label">% Humedad</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="humedadAT" id="humedadAT" formControlName="humedadAT"
-                                            class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="kilosNetosDescontarPC" class="form-label">Kilos netos a
-                                            descontar</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="kilosNetosDescontarPC" id="kilosNetosDescontarPC"
-                                            formControlName="kilosNetosDescontarPC" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col" colspan="7"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="kiloNetoPagarPC" class="form-label">Kilo Neto a Pagar</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="kiloNetoPagarPC" id="kiloNetoPagarPC"
-                                            formControlName="kiloNetoPagarPC" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-2">
-                                        <label for="monedaAT" class="form-label">Moneda</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="monedaAT" id="monedaAT" formControlName="monedaAT"
-                                            class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-1"></td>
-                                    <td class="col-2">
-                                        <label for="qqKgPC" class="form-label">QQ55,2/Kg</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="qqKgPC" id="qqKgPC" formControlName="qqKgPC"
-                                            class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-2">
-                                        <label for="precioDiaAT" class="form-label">Precio del día</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="precioDiaAT" id="precioDiaAT"
-                                            formControlName="precioDiaAT" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col" colspan="7"></td>
-                                    <td class="col-2">
-                                        <label for="precioGuardadoAT" class="form-label">Precio guardado</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="precioGuardadoAT" id="precioGuardadoAT"
-                                            formControlName="precioGuardadoAT" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col" colspan="7"></td>
-                                    <td class="col-2">
-                                        <label for="precioPagadoAT" class="form-label">Precio pagado</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="precioPagadoAT" id="precioPagadoAT"
-                                            formControlName="precioPagadoAT" class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col" colspan="7"></td>
-                                    <td class="col-2">
-                                        <label for="importeAT" class="form-label">Importe</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="importeAT" id="importeAT" formControlName="importeAT"
-                                            class="form-control form-control-sm"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
-                                    </td>
-                                    <td class="col-1"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td class="col-2"></td>
-                </tr>
-            </tbody>
-        </table>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-3 table-primary">
+                                <div class="form-group row m-0">
+                                    <label for="estado"
+                                        class="col-sm-6 col-form-label text-right pr-0 font-weight-bold">ESTADO</label>
+                                    <div class="col-sm-6">
+                                        <ng-select [items]="listEstados" formControlName="estado"
+                                            class="custom-select custom-select-sm" bindLabel="Label" bindValue="Codigo"
+                                            id="estado" placeholder="Seleccionar estado" [(ngModel)]="selectedEstado"
+                                            [readonly]="true">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="form-row mb-3 col"></tr>
+                        <tr class="form-row col">
+                            <td class="col-1"></td>
+                            <td class="col-10">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr class="form-row table-primary">
+                                            <th colspan="5">DATOS DEL PROVEEDOR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="form-row">
+                                            <td class="col-2">
+                                                <label for="nombreProveedor"
+                                                    class="form-label text-right">NOMBRE</label>
+                                            </td>
+                                            <td class="col-4">
+                                                <input type="text" name="nombreProveedor" id="nombreProveedor"
+                                                    formControlName="nombreProveedor"
+                                                    class="form-control form-control-sm" placeholder="Ingresar nombre"
+                                                    readonly required>
+                                            </td>
+                                            <td class="col-1"></td>
+                                            <td class="col-2">
+                                                <label for="departamento"
+                                                    class="form-label text-right">DEPARTAMENTO</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <input type="text" name="departamento" id="departamento"
+                                                    formControlName="departamento" class="form-control form-control-sm"
+                                                    placeholder="Seleccionar departamento" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-2">
+                                                <label for="docIdentidad" class="form-label text-left">DOC.
+                                                    IDENTIDAD</label>
+                                            </td>
+                                            <td class="col-4">
+                                                <input type="text" name="docIdentidad" id="docIdentidad"
+                                                    formControlName="docIdentidad" class="form-control form-control-sm"
+                                                    placeholder="Seleccionar documento de identidad" readonly required>
+                                            </td>
+                                            <td class="col-1"></td>
+                                            <td class="col-2">
+                                                <label for="provincia" class="form-label">PROVINCIA</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <input type="text" name="provincia" id="provincia"
+                                                    formControlName="provincia" class="form-control form-control-sm"
+                                                    placeholder="Seleccionar provincia" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-2">
+                                                <label for="tipo" class="form-label text-left">TIPO</label>
+                                            </td>
+                                            <td class="col-4">
+                                                <ng-select [items]="listTipos" formControlName="tipo"
+                                                    class="form-control form-control-sm" bindLabel="Label"
+                                                    bindValue="Codigo" id="tipo" placeholder="Seleccionar tipo"
+                                                    [(ngModel)]="selectedTipo" [readonly]="true">
+                                                </ng-select>
+                                            </td>
+                                            <td class="col-1"></td>
+                                            <td class="col-2">
+                                                <label for="distrito" class="form-label">DISTRITO</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <input type="text" name="distrito" id="distrito"
+                                                    formControlName="distrito" class="form-control form-control-sm"
+                                                    placeholder="Seleccionar distrito" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-2">
+                                                <label for="codigo" class="form-label">CÓDIGO</label>
+                                            </td>
+                                            <td class="col-4">
+                                                <input type="text" name="codigo" id="codigo" formControlName="codigo"
+                                                    class="form-control form-control-sm" placeholder="Ingresar código"
+                                                    readonly required>
+                                            </td>
+                                            <td class="col-1"></td>
+                                            <td class="col-2">
+                                                <label for="zona" class="form-label">ZONA</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <input type="text" name="zona" id="zona" formControlName="zona"
+                                                    class="form-control form-control-sm" placeholder="Seleccionar zona"
+                                                    readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col" colspan="7"></td>
+                                            <td class="col-2">
+                                                <label for="finca" class="form-label">FINCA</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <input type="text" name="finca" id="finca" formControlName="finca"
+                                                    class="form-control form-control-sm" placeholder="Seleccionar finca"
+                                                    readonly required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="col-1"></td>
+                        </tr>
+                        <ngx-spinner></ngx-spinner>
+                        <tr class="form-row col">
+                            <td class="col-1"></td>
+                            <td class="col-10">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr class="form-row table-primary">
+                                            <th colspan="5">DATOS DEL PRODUCTO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="form-row">
+                                            <td class="col-2">
+                                                <label for="tipoDP" class="form-label">TIPO</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <ng-select [items]="listProductos" formControlName="tipoDP"
+                                                    class="form-control form-control-sm" bindLabel="Label"
+                                                    bindValue="Codigo" id="tipoDP" placeholder="Seleccionar producto"
+                                                    [(ngModel)]="selectedProducto" [readonly]="true">
+                                                </ng-select>
+                                            </td>
+                                            <td class="col-1"></td>
+                                            <td class="col-2">
+                                                <label for="fechaCosecha" class="form-label">FECHA DE COSECHA</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <input type="date" date name="fechaCosecha" id="fechaCosecha"
+                                                    formControlName="fechaCosecha" class="form-control form-control-sm"
+                                                    placeholder="Seleccionar fecha cosecha" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-2">
+                                                <label for="subTipo" class="form-label">SUB TIPO</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <ng-select [items]="listSubTipos" formControlName="subTipo"
+                                                    class="form-control form-control-sm" bindLabel="Label"
+                                                    bindValue="Codigo" id="subTipo"
+                                                    placeholder="Seleccionar sub producto" [(ngModel)]="selectedSubTipo"
+                                                    [readonly]="true">
+                                                </ng-select>
+                                            </td>
+                                            <td class="col-1"></td>
+                                            <td class="col-2">
+                                                <label for="tipoProduccion" class="form-label">TIPO PRODUCCIÓN</label>
+                                            </td>
+                                            <td class="col-3">
+                                                <input type="text" name="tipoProduccion" id="tipoProduccion"
+                                                    formControlName="tipoProduccion"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Seleccionar tipo de producción" readonly required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="col-1"></td>
+                        </tr>
+                        <hr>
+                        <tr class="form-row col">
+                            <td class="col-2"></td>
+                            <td class="col-8">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr class="form-row table-primary">
+                                            <th colspan="2" class="col-5 text-center">PESADO DEL CAFÉ</th>
+                                            <th class="col-2"></th>
+                                            <th colspan="2" class="col-5 text-center">ANÁLISIS TÉCNICO</th>
+                                        </tr>
+                                        <tr class="form-row table-secondary">
+                                            <th class="col-3 text-center">DETALLE</th>
+                                            <th class="col-2 text-center">VALORES</th>
+                                            <th class="col-2"></th>
+                                            <th class="col-3 text-center">DETALLE</th>
+                                            <th class="col-2 text-center">GRAMOS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="unidadMedida" class="form-label">Unidad Medida</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <ng-select [items]="listUnidadMedida" formControlName="unidadMedida"
+                                                    class="form-control form-control-sm" bindLabel="Label"
+                                                    bindValue="Codigo" id="unidadMedida"
+                                                    placeholder="Seleccionar unidad de medida"
+                                                    [(ngModel)]="selectedUnidadMedida" [readonly]="true">
+                                                </ng-select>
+                                            </td>
+                                            <td class="col-2"></td>
+                                            <td class="col-3">
+                                                <label for="exportableAT" class="form-label">Exportable</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="exportableAT" id="exportableAT"
+                                                    formControlName="exportableAT"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="cantidadPC" class="form-label">Cantidad</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="cantidadPC" id="cantidadPC"
+                                                    formControlName="cantidadPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col-2"></td>
+                                            <td class="col-3">
+                                                <label for="descarteAT" class="form-label">Descarte</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="descarteAT" id="descarteAT"
+                                                    formControlName="descarteAT"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="kilosBrutosPC" class="form-label">Kilos Brutos</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="kilosBrutosPC" id="kilosBrutosPC"
+                                                    formControlName="kilosBrutosPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col-2"></td>
+                                            <td class="col-3">
+                                                <label for="cascarillaAT" class="form-label">Cascarilla</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="cascarillaAT" id="cascarillaAT"
+                                                    formControlName="cascarillaAT"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="taraPC" class="form-label">Tara</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="taraPC" id="taraPC" formControlName="taraPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col-2"></td>
+                                            <td class="col-3">
+                                                <label for="totalAT" class="form-label font-weight-bold">Total</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="totalAT" id="totalAT"
+                                                    formControlName="totalAT"
+                                                    class="form-control form-control-sm text-right font-weight-bold"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="kilosNetosPC" class="form-label">Kilos Netos</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="kilosNetosPC" id="kilosNetosPC"
+                                                    formControlName="kilosNetosPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col" colspan="7"></td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="dsctoHumedadPC" class="form-label">Dscto. Por
+                                                    Humedad</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="dsctoHumedadPC" id="dsctoHumedadPC"
+                                                    formControlName="dsctoHumedadPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col-2"></td>
+                                            <td class="col-3">
+                                                <label for="humedadAT" class="form-label font-weight-bold">%
+                                                    Humedad</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="text" name="humedadAT" id="humedadAT"
+                                                    formControlName="humedadAT"
+                                                    class="form-control form-control-sm text-center font-weight-bold"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="kilosNetosDescontarPC" class="form-label">Kilos netos a
+                                                    descontar</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="kilosNetosDescontarPC"
+                                                    id="kilosNetosDescontarPC" formControlName="kilosNetosDescontarPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col" colspan="7"></td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="kiloNetoPagarPC" class="form-label">Kilo Neto a
+                                                    Pagar</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="kiloNetoPagarPC" id="kiloNetoPagarPC"
+                                                    formControlName="kiloNetoPagarPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col-2"></td>
+                                            <td class="col-3">
+                                                <label for="monedaAT" class="form-label font-weight-bold">Moneda</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <ng-select [items]="listMonedas" formControlName="monedaAT"
+                                                    class="form-control form-control-sm" bindLabel="Label"
+                                                    bindValue="Codigo" id="monedaAT"
+                                                    placeholder="Seleccionar unidad de medida"
+                                                    [(ngModel)]="selectedMoneda" [readonly]="true">
+                                                </ng-select>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col-3">
+                                                <label for="qqKgPC" class="form-label">QQ55,2/Kg</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="qqKgPC" id="qqKgPC" formControlName="qqKgPC"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                            <td class="col-2"></td>
+                                            <td class="col-3">
+                                                <label for="precioDiaAT" class="form-label font-weight-bold">Precio del
+                                                    día</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="precioDiaAT" id="precioDiaAT"
+                                                    formControlName="precioDiaAT"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" [readonly]="true"
+                                                    required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col" colspan="7"></td>
+                                            <td class="col-3">
+                                                <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
+                                                    guardado</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="precioGuardadoAT" id="precioGuardadoAT"
+                                                    formControlName="precioGuardadoAT"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida"
+                                                    [readonly]="selectedEstado != '01'" required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col" colspan="7"></td>
+                                            <td class="col-3">
+                                                <label for="precioPagadoAT" class="form-label font-weight-bold">Precio
+                                                    pagado</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="precioPagadoAT" id="precioPagadoAT"
+                                                    formControlName="precioPagadoAT"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-row">
+                                            <td class="col" colspan="7"></td>
+                                            <td class="col-3">
+                                                <label for="importeAT"
+                                                    class="form-label font-weight-bold">Importe</label>
+                                            </td>
+                                            <td class="col-2">
+                                                <input type="number" name="importeAT" id="importeAT"
+                                                    formControlName="importeAT"
+                                                    class="form-control form-control-sm text-right"
+                                                    placeholder="Seleccionar unidad de medida" readonly required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="col-2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
-</form>
+    <div class="card-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-primary" (click)="Liquidar()">Liquidar</button>
+            <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
+        </div>
+    </div>
+</div>
