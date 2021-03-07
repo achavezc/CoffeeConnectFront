@@ -83,7 +83,6 @@ export class SocioEditComponent implements OnInit {
 
   onChangeDepartament(event: any): void {
     const form = this;
-    this.selectedDepartamento = event;
     this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, function (res: any) {
       if (res.Result.Success) {
         form.listProvincias = res.Result.Data;
@@ -93,8 +92,7 @@ export class SocioEditComponent implements OnInit {
 
   onChangeProvince(event: any): void {
     const form = this;
-    this.selectedProvincia = event;
-    this.maestroUtil.GetDistricts(this.selectedDepartamento.Codigo, event.Codigo, event.CodigoPais, function (res: any) {
+    this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais, function (res: any) {
       if (res.Result.Success) {
         form.listDistritos = res.Result.Data;
       }
