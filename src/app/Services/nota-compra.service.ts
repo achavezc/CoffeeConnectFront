@@ -26,4 +26,14 @@ export class NotaCompraService {
     }
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+
+  SearchById(request: any): Observable<any> {
+    let url = `${this.url}/ConsultarPorId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
+
+  Liquidar(request: any): Observable<any> {
+    let url = `${this.url}/Liquidar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
 }

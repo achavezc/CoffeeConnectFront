@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
@@ -27,7 +28,8 @@ export class NotacompraListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private notaCompraService: NotaCompraService,
     private alertUtil: AlertUtil,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private router: Router) {
     // this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 

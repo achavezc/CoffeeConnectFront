@@ -29,7 +29,7 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="razonSocial" class="form-label">Razón Social</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="razonSocial"
-                                        class="form-control" id="razonSocial" placeholder="Número de nota de salida"
+                                        class="form-control" id="razonSocial" placeholder="Ingresar razón social"
                                         [ngClass]="{ 'is-invalid': submitted && f.razonSocial.invalid, 'is-valid': submitted &&  !f.razonSocial.invalid }">
                                     <small class="form-text text-muted danger"
                                         *ngIf="f.razonSocial.errors?.minlength">Ingrese 5 a 50 letras</small>
@@ -42,7 +42,7 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="ruc" class="form-label">RUC</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="ruc"
-                                        class="form-control" id="ruc" placeholder="Número de nota de salida"
+                                        class="form-control" id="ruc" placeholder="Ingresar RUC"
                                         [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted &&  !f.ruc.invalid }">
                                     <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.minlength">Ingrese 5
                                         a 50 letras</small>

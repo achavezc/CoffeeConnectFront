@@ -84,7 +84,7 @@ export class SocioComponent implements OnInit {
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
 
-      if (!group.value.codSocio && !group.value.nombRazonSocial) {
+      if (!group.value.codSocio && !group.value.nombRazonSocial && !group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
         // group.controls['nombRazonSocial'].setErrors({ isError: true, message: 'Por favor ingresar una razón social.' });
       } else if (group.value.nroDocumento && !group.value.tipoDocumento) {

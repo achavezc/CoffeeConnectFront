@@ -169,15 +169,16 @@
                                     (keyup)="filterUpdate($event)" />
                             </label>
                         </fieldset>
-                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'"
-                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            [scrollbarH]="true" [selectCheck]="onSelectCheck" [selected]="selected"
-                            [selectionType]="'single'">
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selectCheck]="onSelectCheck" [selected]="selected" [selectionType]="'single'">
                             <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="130">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0" routerLink="/pages/users-view">{{ name }}</a>
+                                            <a class="line-height-1 mb-0"
+                                                [routerLink]="['/acopio/operaciones/notacompra/update', row.NotaCompraId]">{{
+                                                name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
@@ -196,11 +197,8 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="100">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
-                                    <div class="badge" [ngClass]="{
-                          'bg-light-success': status == 'Pesado',
-                          'bg-light-danger': status == 'Anulado',
-                          'bg-light-warning': status == 'Analizado'
-                        }">
+                                    <div class="badge" [ngClass]="{'bg-light-success': status == 'Pesado',
+                          'bg-light-danger': status == 'Anulado','bg-light-warning': status == 'Analizado'}">
                                         {{ status }}
                                     </div>
                                 </ng-template>

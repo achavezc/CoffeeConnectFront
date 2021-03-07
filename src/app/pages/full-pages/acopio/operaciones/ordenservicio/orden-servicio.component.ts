@@ -226,7 +226,7 @@ export class OrdenServicioComponent implements OnInit {
           }
         });
       } else {
-        this.alertUtil.alertError("ADVERTENCIA", "Solo se puede anular notas de compra con estado INGRESADO.")
+        this.alertUtil.alertError("ADVERTENCIA", "Solo se puede anular ordenes de servicio con estado INGRESADO.")
       }
     }
   }
