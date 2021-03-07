@@ -4,6 +4,7 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { SocioService } from '../../../../../../services/socio.service';
+import { DateUtil } from '../../../../../../services/util/date-util';
 
 @Component({
   selector: 'app-socio-edit',
@@ -16,7 +17,8 @@ export class SocioEditComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private socioService: SocioService,
-    private router: Router) { }
+    private router: Router,
+    private dateUtil: DateUtil) { }
 
   socioEditForm: any;
   listTiposDocs: [] = [];
@@ -29,20 +31,17 @@ export class SocioEditComponent implements OnInit {
   selectedProvincia: any;
   selectedDistrito: any;
   selectedZona: any;
-  id: number;
-  vTitle: string;
-  isNew: boolean = true;
+  vId: number;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    this.id = this.route.snapshot.params['id'];
-    if (!this.id) {
-      this.vTitle = 'NUEVO';
-      this.isNew = true;
+    this.vId = this.route.snapshot.params['id'];
+    if (!this.vId) {
+      this.socioEditForm.controls.estado.setValue('01');
+      this.socioEditForm.controls.fecRegistro.setValue(this.dateUtil.currentDate());
     } else {
-      this.vTitle = 'MODIFICAR';
-      this.isNew = false;
+      this.vId = parseInt(this.route.snapshot.params['id']);
     }
   }
 
@@ -104,7 +103,7 @@ export class SocioEditComponent implements OnInit {
   }
 
   Save(): void {
-    if (this.isNew) {
+    if (!this.vId) {
       this.CreateSocio();
     } else {
       this.UpdateSocio();
