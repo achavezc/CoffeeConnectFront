@@ -59,8 +59,13 @@
                             <input type="text" name="productor" id="productor" class="form-control"
                                 formControlName="productor" placeholder="Seleccionar productor" readonly>
                         </div>
+
                         <div class="col-md-1">
-                            <button class="btn btn-primary" (click)="SearchProductor()">...</button>
+
+
+                            <button class="btn btn-primary" (click)="SearchProductor()" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -199,3 +204,88 @@
         </div>
     </div>
 </form>
+<div class="d-flex justify-content-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<!-- <div class="col-12 col-md-2" style="padding-left: 0cm;"> -->
+<!-- let-c="close" let-d="dismiss" -->
+<ng-template #modalBusqProductores let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Buscador de Productores</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="needs-validation" [formGroup]="modalProductorForm" novalidate>
+                <div class="form-row">
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mCodProductor" class="form-label">Código
+                            Productor</label>
+                        <input type="text" minlength="5" maxlength="50" formControlName="mCodProductor"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': mf.mCodProductor.invalid, 'is-valid': !mf.mCodProductor.invalid }"
+                            id="mCodProductor" placeholder="Código del productor">
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mTipoDocumento" class="form-label">Tipo de
+                            documento</label>
+                        <ng-select [items]="listTiposDocumentos" formControlName="mTipoDocumento" class="form-control"
+                            bindLabel="Label" bindValue="Codigo" id="mTipoDocumento"
+                            [ngClass]="{ 'is-invalid': mf.mTipoDocumento.invalid, 'is-valid': !mf.mTipoDocumento.invalid }"
+                            placeholder="Seleccionar el tipo de documento" [(ngModel)]="selectedTipoDocumento">
+                        </ng-select>
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mNroDocumento" class="form-label">Número de
+                            documento</label>
+                        <input type="number" minlength="5" maxlength="25" formControlName="mNroDocumento"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': mf.mNroDocumento.invalid, 'is-valid': !mf.mNroDocumento.invalid }"
+                            id="mNroDocumento" placeholder="Número de documento">
+                        <small class="invalid-tooltip" *ngIf="!f.mNroDocumento.requerid">Es
+                            obligatorio!</small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mNombRazonSocial" class="form-label">Nombre/Razón
+                            Social</label>
+                        <input type="text" minlength="5" maxlength="100" formControlName="mNombRazonSocial"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': mf.mNombRazonSocial.invalid, 'is-valid': !mf.mNombRazonSocial.invalid }"
+                            id="mNombRazonSocial" placeholder="Nombre o Razón Social">
+
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mFechaInicio" class="form-label">Fecha Inicio</label>
+                        <input type="date" class="form-control" formControlName="mFechaInicio" id="mFechaInicio"
+                            [ngClass]="{ 'is-invalid': mf.mFechaInicio.invalid, 'is-valid': !mf.mFechaInicio.invalid }"
+                            name="mFechaInicio" placeholder="Seleccionar fecha inicio" date
+                            (blur)="compareTwoDates()" />
+                        <small class="invalid-tooltip" *ngIf="!f.mFechaInicio.requerid">Es
+                            obligatorio!</small>
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mFechaFin" class="form-label">Fecha Fin</label>
+                        <input type="date" class="form-control" formControlName="mFechaFin" id="mFechaFin"
+                            name="mFechaFin"
+                            [ngClass]="{ 'is-invalid': mf.mFechaFin.invalid, 'is-valid': !mf.mFechaFin.invalid }"
+                            placeholder="Seleccionar Fecha Fín" date (blur)="compareTwoDates()" />
+                        <small class="invalid-tooltip" *ngIf="!f.mFechaFin.requerid">Es
+                            obligatorio!</small>
+                    </div>
+                </div>
+
+                <!-- <small class="form-text text-muted danger mb-1"
+                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small> -->
+                <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!modalProductorForm.valid"
+                    (click)="BuscarProductores()">Buscar</button>
+            </form>
+
+        </div>
+    </div>
+</ng-template>
+<!-- </div> -->
