@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { SocioService } from '../../../../../../services/socio.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
+import { MConsultarProductorComponent } from '../../../../modals/consultarproductor/m-consultar-productor.component';
 
 @Component({
   selector: 'app-socio-edit',
@@ -18,7 +20,8 @@ export class SocioEditComponent implements OnInit {
     private fb: FormBuilder,
     private socioService: SocioService,
     private router: Router,
-    private dateUtil: DateUtil) { }
+    private dateUtil: DateUtil,
+    private modalService: NgbModal) { }
 
   socioEditForm: any;
   listTiposDocs: [] = [];
@@ -99,7 +102,28 @@ export class SocioEditComponent implements OnInit {
   }
 
   SearchProductor(): void {
-    // const response = this.modalService.open(ProductorComponent);
+    const modalRef = this.modalService.open(MConsultarProductorComponent, {
+      scrollable: true,
+      windowClass: 'dark-modal',
+      size: 'xl',
+      centered: true
+    });
+    // windowClass: 'myCustomModalClass',
+    // keyboard: false,
+      // backdrop: 'static'
+      
+    let data = {
+      prop1: 'Some Data',
+      prop2: 'From Parent Component',
+      prop3: 'This Can be anything'
+    }
+
+    modalRef.componentInstance.fromParent = data;
+    modalRef.result.then((result) => {
+      console.log(result);
+    }, (reason) => {
+      console.log(reason);
+    });
   }
 
   Save(): void {
