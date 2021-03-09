@@ -295,7 +295,7 @@
                 <div class="form-group">
                   <div class="controls">
                     <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
-                      placeholder="Seleccionar Tipo" formControlName="producto" (change)="changeSubProducto($event)"
+                      placeholder="Seleccionar Tipo" formControlName="producto" (change)="changeSubProducto($event)" 
                       bindLabel="Label" bindValue="Codigo"
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.producto.invalid, 'is-valid': submittedEdit && !fedit.producto.invalid }">
                     </ng-select>
@@ -306,7 +306,7 @@
                   <div class="controls">
                     <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto" 
                       formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
-                      placeholder="Seleccionar Tipo Producto" 
+                      placeholder="Seleccionar Tipo Producto" (change)="changeView($event)" 
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }"
                       >
                     </ng-select>
@@ -393,15 +393,10 @@
                   </ng-template>
 
                  <ng-template ngbNavContent *ngIf="!viewTagSeco" >
-                    <app-controlCalidadHumedo></app-controlCalidadHumedo>
+                    <app-controlCalidadHumedo  [events]="eventosSubject.asObservable()" *ngIf="detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima" ></app-controlCalidadHumedo>
                     </ng-template>
                     
-                        
-                  
-                 
-                  
-                
-                
+
               </li>
               <li [ngbNavItem]="3">
                 <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">

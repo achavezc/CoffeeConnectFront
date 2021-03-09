@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
+import {ControlCalidadComponent} from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
 
 export class table 
   {
@@ -76,8 +77,10 @@ export class MateriaPrimaEditComponent implements OnInit {
 
 
   eventsSubject: Subject<void> = new Subject<void>();
+  eventosSubject: Subject<void> = new Subject<void>();
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
+  //@ViewChild(ControlCalidadComponent) hijo: ControlCalidadComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
     private alertUtil: AlertUtil,
@@ -92,6 +95,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   singleSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
+ 
   ngOnInit(): void {
     this.cargarForm();
     this.cargarcombos();
@@ -117,7 +121,9 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
   emitEventToChild() {
     this.eventsSubject.next();
+    this.eventosSubject.next();
   }
+ 
   
   cargarForm() {
     let x = this.selectSubProducto;
@@ -225,15 +231,22 @@ export class MateriaPrimaEditComponent implements OnInit {
    
   }
 
-  changeSubTipoProducto(e) {
+  changeView(e) {
     let filterSubTipo = e.Codigo;
+    
+   
     if (filterSubTipo == "02")
     {
         this.viewTagSeco = true;
+        this.emitEventToChild();
+        //this.eventsSubject.next();
+        //form.hijo.obtenerDetalle();
     }
     else
     {
       this.viewTagSeco = false;
+      this.emitEventToChild();
+     // this.eventosSubject.next();
     }
   }
 
