@@ -243,49 +243,49 @@ export class SocioEditComponent implements OnInit {
   }
 
   BuscarProductores(): void {
-    if (this.productorForm.invalid || this.errorGeneral.isError) {
-      this.submitted = true;
-      return;
-    } else {
-      this.submitted = false;
-      let request = {
-        Numero: this.productorForm.value.codProductor,
-        NombreRazonSocial: this.productorForm.value.nombRazonSocial,
-        TipoDocumentoId: this.productorForm.value.tipoDocumento ?? '',
-        NumeroDocumento: this.productorForm.value.nroDocumento,
-        EstadoId: this.productorForm.value.estado ?? '',
-        FechaInicio: new Date(this.productorForm.value.fechaInicio),
-        FechaFin: new Date(this.productorForm.value.fechaFin)
-      };
+    // if (this.productorForm.invalid || this.errorGeneral.isError) {
+    //   this.submitted = true;
+    //   return;
+    // } else {
+    //   this.submitted = false;
+    //   let request = {
+    //     Numero: this.productorForm.value.codProductor,
+    //     NombreRazonSocial: this.productorForm.value.nombRazonSocial,
+    //     TipoDocumentoId: this.productorForm.value.tipoDocumento ?? '',
+    //     NumeroDocumento: this.productorForm.value.nroDocumento,
+    //     EstadoId: this.productorForm.value.estado ?? '',
+    //     FechaInicio: new Date(this.productorForm.value.fechaInicio),
+    //     FechaFin: new Date(this.productorForm.value.fechaFin)
+    //   };
 
-      this.spinner.show();
+    //   this.spinner.show();
 
-      this.productorService.Search(request)
-        .subscribe(res => {
-          this.spinner.hide();
-          if (res.Result.Success) {
-            if (!res.Result.ErrCode) {
-              res.Result.Data.forEach((obj: any) => {
-                obj.FechaRegistroString = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
-              });
-              this.tempData = res.Result.Data;
-              this.rows = [...this.tempData];
-            } else if (res.Result.Message && res.Result.ErrCode) {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-            } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-            }
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        },
-          err => {
-            this.spinner.hide();
-            console.error(err);
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        );
-    }
+    //   this.productorService.Search(request)
+    //     .subscribe(res => {
+    //       this.spinner.hide();
+    //       if (res.Result.Success) {
+    //         if (!res.Result.ErrCode) {
+    //           res.Result.Data.forEach((obj: any) => {
+    //             obj.FechaRegistroString = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
+    //           });
+    //           this.tempData = res.Result.Data;
+    //           this.rows = [...this.tempData];
+    //         } else if (res.Result.Message && res.Result.ErrCode) {
+    //           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+    //         } else {
+    //           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    //         }
+    //       } else {
+    //         this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    //       }
+    //     },
+    //       err => {
+    //         this.spinner.hide();
+    //         console.error(err);
+    //         this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    //       }
+    //     );
+    // }
 
   }
 
