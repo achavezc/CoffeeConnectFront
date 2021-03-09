@@ -1,33 +1,48 @@
 <div class="row">
     <div class="col-12">
-        <div class="content-header">{{vTitle}} SOCIO</div>
+        <div class="content-header">{{!vId ? 'NUEVO' : 'MODIFICAR'}} SOCIO</div>
     </div>
 </div>
 <form class="needs-validation" novalidate [formGroup]="socioEditForm">
     <div class="card border-dark mb-3">
         <div class="card-body">
             <div class="form-row">
-                <div class="col">
-                    <label for="codSocio" class="form-label">Código Socio</label>
-                    <input type="text" name="codSocio" id="codSocio" formControlName="codSocio" class="form-control"
-                        placeholder="Ingresar código de socio" readonly>
-                </div>
-                <div class="col">
-                    <label for="fecRegistro" class="form-label" readonly>Fecha de Registro</label>
-                    <input type="text" name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
-                        class="form-control" placeholder="Seleccionar fecha de registro" readonly>
-                </div>
-                <div class="col">
-                    <label for="estado" class="form-label mr-1">Estado</label>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="estadoActivo" name="estado" formControlName="estado"
-                            class="custom-control-input" readonly checked>
-                        <label class="custom-control-label" for="estadoActivo">Activo</label>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row m-0">
+                        <label for="codSocio" class="col-4 col-form-label pr-0">Código Socio</label>
+                        <div class="col-8 pl-0">
+                            <input type="text" name="codSocio" id="codSocio" formControlName="codSocio"
+                                class="form-control" placeholder="Ingresar código de socio" readonly>
+                        </div>
                     </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="estadoInactivo" name="estado" formControlName="estado"
-                            class="custom-control-input" readonly>
-                        <label class="custom-control-label" for="estadoInactivo">Inactivo</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row m-0">
+                        <label for="fecRegistro" class="col-4 col-form-label pr-0" readonly>Fecha de
+                            Registro</label>
+                        <div class="col-8 pl-0">
+                            <input type="date" date name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
+                                class="form-control" placeholder="Seleccionar fecha de registro" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row m-0">
+                        <label for="estado" class="col-2 col-form-label pr-0">Estado</label>
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="estado" id="activo"
+                                    formControlName="estado" value="01" [disabled]="vId == undefined">
+                                <label class="form-check-label" for="activo">Activo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="estado" id="inactivo"
+                                    formControlName="estado" value="00" [disabled]="vId == undefined">
+                                <label class="form-check-label" for="inactivo">Inactivo</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,95 +52,240 @@
     <div class="card border-dark mb-3">
         <div class="card-body">
             <div class="form-row">
-                <div class="col-4">
-                    <label for="productor" class="form-label">Productor</label>
-                    <input type="text" name="productor" id="productor" class="form-control" formControlName="productor"
-                        placeholder="Seleccionar productor" readonly>
-                    <button class="btn btn-primary" (click)="SearchProductor()">...</button>
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="form-group row">
+                        <label for="productor" class="col-md-2 col-form-label">Productor</label>
+                        <div class="col-md-6 pr-0">
+                            <input type="text" name="productor" id="productor" class="form-control"
+                                formControlName="productor" placeholder="Seleccionar productor" readonly>
+                        </div>
+
+                        <div class="col-md-1">
+
+
+                            <button class="btn btn-primary" (click)="SearchProductor()" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col">
-                    <label for="tipoDocumento" class="form-label">Tipo de documento</label>
-                    <ng-select [items]="listTiposDocs" formControlName="tipoDocumento" class="form-select"
-                        bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
-                        placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDoc">
-                    </ng-select>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="tipoDocumento" class="col-md-4 col-form-label pr-0">Tipo de documento</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listTiposDocs" formControlName="tipoDocumento" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                                placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDoc">
+                            </ng-select>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="nroDocumento" class="form-label">N° de documento</label>
-                    <input type="text" name="nroDocumento" id="nroDocumento" class="form-control"
-                        formControlName="nroDocumento" placeholder="Ingresar número de documento">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="nroDocumento" class="col-md-4 col-form-label pr-0">N° de documento</label>
+                        <div class="col-md-8">
+                            <input type="number" name="nroDocumento" id="nroDocumento" class="form-control"
+                                formControlName="nroDocumento" placeholder="Ingresar número de documento">
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="direccion" class="form-label">Dirección</label>
-                    <input type="text" name="direccion" id="direccion" class="form-control" formControlName="direccion"
-                        placeholder="Ingresar dirección">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-8">
-                    <label for="nombreCompleto" class="form-label">Nombres y Apellidos</label>
-                    <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control"
-                        formControlName="nombreCompleto" placeholder="Ingresar nombres y apellidos">
-                </div>
-                <div class="col">
-                    <label for="departamento" class="form-label">Departamento</label>
-                    <ng-select [items]="listDepartamentos" formControlName="departamento" class="form-select"
-                        bindLabel="Descripcion" bindValue="Codigo" id="departamento"
-                        placeholder="Seleccionar un departamento" [(ngModel)]="selectedDepartamento"
-                        (change)="onChangeDepartament($event)">
-                    </ng-select>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="direccion" class="col-md-3 col-form-label pr-0">Dirección</label>
+                        <div class="col-md-9">
+                            <input type="text" name="direccion" id="direccion" class="form-control"
+                                formControlName="direccion" placeholder="Ingresar dirección">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-8">
-                    <label for="razonSocial" class="form-label">Razón Social</label>
-                    <input type="text" name="razonSocial" id="razonSocial" class="form-control"
-                        formControlName="razonSocial" placeholder="Ingresar razón social">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="form-group row">
+                        <label for="nombreCompleto" class="col-md-2 col-form-label pr-0">Nombres y Apellidos</label>
+                        <div class="col-md-5">
+                            <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control"
+                                formControlName="nombreCompleto" placeholder="Ingresar nombres">
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control"
+                                formControlName="nombreCompleto" placeholder="Ingresar apellidos">
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="provincia" class="form-label">Provincia</label>
-                    <ng-select [items]="listProvincias" formControlName="provincia" class="form-select"
-                        bindLabel="Descripcion" bindValue="Codigo" id="provincia"
-                        placeholder="Seleccionar una provincia" [(ngModel)]="selectedProvincia"
-                        (change)="onChangeProvince($event)">
-                    </ng-select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col">
-                    <label for="telefonoFijo" class="form-label">Telefono Fijo</label>
-                    <input type="text" name="telefonoFijo" id="telefonoFijo" class="form-control"
-                        formControlName="telefonoFijo" placeholder="Ingresar telefono fijo">
-                </div>
-                <div class="col"></div>
-                <div class="col">
-                    <label for="distrito" class="form-label">Distrito</label>
-                    <ng-select [items]="listDistritos" formControlName="distrito" class="form-select"
-                        bindLabel="Descripcion" bindValue="Codigo" id="distrito" placeholder="Seleccionar una distrito"
-                        [(ngModel)]="selectedDistrito">
-                    </ng-select>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="departamento" class="col-md-3 col-form-label pr-0">Departamento</label>
+                        <div class="col-md-9">
+                            <ng-select [items]="listDepartamentos" formControlName="departamento" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="departamento"
+                                placeholder="Seleccionar un departamento" [(ngModel)]="selectedDepartamento"
+                                (change)="onChangeDepartament($event)">
+                            </ng-select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col">
-                    <label for="telefCelular" class="form-label">Telefono Celular</label>
-                    <input type="number" name="telefCelular" id="telefCelular" class="form-control"
-                        formControlName="telefCelular" placeholder="Ingresar telefono celular">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="form-group row">
+                        <label for="razonSocial" class="col-md-2 col-form-label pr-0">Razón Social</label>
+                        <div class="col-md-10">
+                            <input type="text" name="razonSocial" id="razonSocial" class="form-control"
+                                formControlName="razonSocial" placeholder="Ingresar razón social">
+                        </div>
+                    </div>
                 </div>
-                <div class="col"></div>
-                <div class="col">
-                    <label for="zona" class="form-label">Zona</label>
-                    <ng-select [items]="listZonas" formControlName="zona" class="form-select" bindLabel="Label"
-                        bindValue="Codigo" id="zona" placeholder="Seleccionar una zona" [(ngModel)]="selectedZona">
-                    </ng-select>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="provincia" class="col-md-3 col-form-label pr-0">Provincia</label>
+                        <div class="col-md-9">
+                            <ng-select [items]="listProvincias" formControlName="provincia" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="provincia"
+                                placeholder="Seleccionar una provincia" [(ngModel)]="selectedProvincia"
+                                (change)="onChangeProvince($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="telefonoFijo" class="col-md-4 col-form-label pr-0">Telefono Fijo</label>
+                        <div class="col-md-8">
+                            <input type="number" name="telefonoFijo" id="telefonoFijo" class="form-control"
+                                formControlName="telefonoFijo" placeholder="Ingresar telefono fijo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="distrito" class="col-md-3 col-form-label pr-0">Distrito</label>
+                        <div class="col-md-9">
+                            <ng-select [items]="listDistritos" formControlName="distrito" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="distrito"
+                                placeholder="Seleccionar una distrito" [(ngModel)]="selectedDistrito">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="telefCelular" class="col-md-4 col-form-label pr-0">Telefono Celular</label>
+                        <div class="col-md-8">
+                            <input type="number" name="telefCelular" id="telefCelular" class="form-control"
+                                formControlName="telefCelular" placeholder="Ingresar telefono celular">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="zona" class="col-md-3 col-form-label pr-0">Zona</label>
+                        <div class="col-md-9">
+                            <ng-select [items]="listZonas" formControlName="zona" class="form-control" bindLabel="Label"
+                                bindValue="Codigo" id="zona" placeholder="Seleccionar una zona"
+                                [(ngModel)]="selectedZona">
+                            </ng-select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="form-row">
-        <button class="btn btn-sm btn-primary">Guardar</button>
-        <button class="btn btn-sm btn-danger" (click)="Cancel()">Cancelar</button>
+        <div class="card-footer text-right">
+            <button class="btn btn-primary">Guardar</button>
+            <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
+        </div>
     </div>
 </form>
+<div class="d-flex justify-content-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<!-- <div class="col-12 col-md-2" style="padding-left: 0cm;"> -->
+<!-- let-c="close" let-d="dismiss" -->
+<ng-template #modalBusqProductores let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Buscador de Productores</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="needs-validation" [formGroup]="modalProductorForm" novalidate>
+                <div class="form-row">
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mCodProductor" class="form-label">Código
+                            Productor</label>
+                        <input type="text" minlength="5" maxlength="50" formControlName="mCodProductor"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': mf.mCodProductor.invalid, 'is-valid': !mf.mCodProductor.invalid }"
+                            id="mCodProductor" placeholder="Código del productor">
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mTipoDocumento" class="form-label">Tipo de
+                            documento</label>
+                        <ng-select [items]="listTiposDocumentos" formControlName="mTipoDocumento" class="form-control"
+                            bindLabel="Label" bindValue="Codigo" id="mTipoDocumento"
+                            [ngClass]="{ 'is-invalid': mf.mTipoDocumento.invalid, 'is-valid': !mf.mTipoDocumento.invalid }"
+                            placeholder="Seleccionar el tipo de documento" [(ngModel)]="selectedTipoDocumento">
+                        </ng-select>
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mNroDocumento" class="form-label">Número de
+                            documento</label>
+                        <input type="number" minlength="5" maxlength="25" formControlName="mNroDocumento"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': mf.mNroDocumento.invalid, 'is-valid': !mf.mNroDocumento.invalid }"
+                            id="mNroDocumento" placeholder="Número de documento">
+                        <small class="invalid-tooltip" *ngIf="!f.mNroDocumento.requerid">Es
+                            obligatorio!</small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mNombRazonSocial" class="form-label">Nombre/Razón
+                            Social</label>
+                        <input type="text" minlength="5" maxlength="100" formControlName="mNombRazonSocial"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': mf.mNombRazonSocial.invalid, 'is-valid': !mf.mNombRazonSocial.invalid }"
+                            id="mNombRazonSocial" placeholder="Nombre o Razón Social">
+
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mFechaInicio" class="form-label">Fecha Inicio</label>
+                        <input type="date" class="form-control" formControlName="mFechaInicio" id="mFechaInicio"
+                            [ngClass]="{ 'is-invalid': mf.mFechaInicio.invalid, 'is-valid': !mf.mFechaInicio.invalid }"
+                            name="mFechaInicio" placeholder="Seleccionar fecha inicio" date
+                            (blur)="compareTwoDates()" />
+                        <small class="invalid-tooltip" *ngIf="!f.mFechaInicio.requerid">Es
+                            obligatorio!</small>
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                        <label for="mFechaFin" class="form-label">Fecha Fin</label>
+                        <input type="date" class="form-control" formControlName="mFechaFin" id="mFechaFin"
+                            name="mFechaFin"
+                            [ngClass]="{ 'is-invalid': mf.mFechaFin.invalid, 'is-valid': !mf.mFechaFin.invalid }"
+                            placeholder="Seleccionar Fecha Fín" date (blur)="compareTwoDates()" />
+                        <small class="invalid-tooltip" *ngIf="!f.mFechaFin.requerid">Es
+                            obligatorio!</small>
+                    </div>
+                </div>
+
+                <!-- <small class="form-text text-muted danger mb-1"
+                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small> -->
+                <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!modalProductorForm.valid"
+                    (click)="BuscarProductores()">Buscar</button>
+            </form>
+
+        </div>
+    </div>
+</ng-template>
+<!-- </div> -->

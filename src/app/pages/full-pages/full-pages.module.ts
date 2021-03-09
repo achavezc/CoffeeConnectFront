@@ -13,6 +13,8 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { AcopioModule } from "./acopio/acopio.module";
 import { ProductorModule } from './productor/productor.module';
 import { AgropecuarioModule } from './agropecuario/agropecuario.module';
+import { MConsultarProductorComponent } from './modals/consultarproductor/m-consultar-productor.component';
+import { ListFilterPipe } from '../../shared/pipes/listFilter.pipe';
 
 @NgModule({
   imports: [
@@ -31,7 +33,12 @@ import { AgropecuarioModule } from './agropecuario/agropecuario.module';
     AgropecuarioModule
   ],
   declarations: [
-    InvoicePageComponent
+    InvoicePageComponent,
+    MConsultarProductorComponent,
+    ListFilterPipe
   ],
+  // entryComponents: [
+  //   MConsultarProductorComponent
+  // ]
 })
 export class FullPagesModule { }

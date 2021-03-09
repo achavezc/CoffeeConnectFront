@@ -1,0 +1,103 @@
+<div class="modal-header">
+    <h5 class="modal-title">Modal title</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form class="needs-validation" [formGroup]="modalProductorForm" novalidate>
+        <div class="form-row">
+            <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="codProductor" class="form-label">Código Productor</label>
+                <input type="text" minlength="5" maxlength="50" formControlName="codProductor" class="form-control"
+                    [ngClass]="{ 'is-invalid': f.codProductor.invalid, 'is-valid': !f.codProductor.invalid }"
+                    id="codProductor" placeholder="Código del productor">
+            </div>
+            <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="tipoDocumento" class="form-label">Tipo de documento</label>
+                <ng-select [items]="listTiposDocumentos" formControlName="tipoDocumento" class="form-control"
+                    bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                    [ngClass]="{ 'is-invalid': f.tipoDocumento.invalid, 'is-valid': !f.tipoDocumento.invalid }"
+                    placeholder="Seleccionar el tipo de documento" [(ngModel)]="selectedTipoDocumento">
+                </ng-select>
+            </div>
+            <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="nroDocumento" class="form-label">Número de documento</label>
+                <input type="number" minlength="5" maxlength="25" formControlName="nroDocumento" class="form-control"
+                    [ngClass]="{ 'is-invalid': f.nroDocumento.invalid, 'is-valid': !f.nroDocumento.invalid }"
+                    id="nroDocumento" placeholder="Número de documento">
+                <small class="invalid-tooltip" *ngIf="!f.nroDocumento.requerid">Es obligatorio!</small>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="nombRazonSocial" class="form-label">Nombre/Razón Social</label>
+                <input type="text" minlength="5" maxlength="100" formControlName="nombRazonSocial" class="form-control"
+                    [ngClass]="{ 'is-invalid': f.nombRazonSocial.invalid, 'is-valid': !f.nombRazonSocial.invalid }"
+                    id="nombRazonSocial" placeholder="Nombre o Razón Social">
+
+            </div>
+            <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                <input type="date" class="form-control" formControlName="fechaInicio" id="fechaInicio"
+                    [ngClass]="{ 'is-invalid': f.fechaInicio.invalid, 'is-valid': !f.fechaInicio.invalid }"
+                    name="fechaInicio" placeholder="Seleccionar fecha inicio" date (blur)="compareTwoDates()" />
+                <small class="invalid-tooltip" *ngIf="!f.fechaInicio.requerid">Es obligatorio!</small>
+            </div>
+            <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="fechaFin" class="form-label">Fecha Fin</label>
+                <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin" name="fechaFin"
+                    [ngClass]="{ 'is-invalid': f.fechaFin.invalid, 'is-valid': !f.fechaFin.invalid }"
+                    placeholder="Seleccionar Fecha Fín" date (blur)="compareTwoDates()" />
+                <small class="invalid-tooltip" *ngIf="!f.fechaFin.requerid">Es obligatorio!</small>
+            </div>
+        </div>
+
+        <small class="form-text text-muted danger mb-1"
+            *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+        <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!modalProductorForm.valid"
+            (click)="Buscar()">Buscar</button>
+
+        
+    </form>
+
+    <form>
+        <div class="form-group form-inline">
+            Search country by name:
+            <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm"
+                (input)="search($event.target.value)" />
+        </div>
+    </form>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col" sortable="Numero">Número</th>
+                <th scope="col" sortable="TipoDoc">Tipo de Documento</th>
+                <th scope="col" sortable="NroDoc">Nro Documento</th>
+                <th scope="col" sortable="NombRazSocial">Nombre o Razón Social</th>
+                <th scope="col" sortable="Departamento">Departamento</th>
+                <th scope="col" sortable="Provincia">Provincia</th>
+                <th scope="col" sortable="Distrito">Distrito</th>
+                <th scope="col" sortable="Zona">Zona</th>
+                <th scope="col" sortable="FecRegistro">Fecha Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let r of productores">
+                <td>{{ r.Numero | string }}</td>
+                <td>{{ r.TipoDocumento | string }}</td>
+                <td>{{ r.NumeroDocumento | string }}</td>
+                <td>{{ r.NombreRazonSocial | string }}</td>
+                <td>{{ r.Departamento | string }}</td>
+                <td>{{ r.Provincia | string }}</td>
+                <td>{{ r.Distrito | string }}</td>
+                <td>{{ r.Zona | string }}</td>
+                <td>{{ r.FechaRegistroString | string }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"
+        [pageSize]="pageSize" class="d-flex justify-content-center"></ngb-pagination>
+
+</div>
