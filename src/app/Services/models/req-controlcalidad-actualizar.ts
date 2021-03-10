@@ -2,75 +2,125 @@ export class ReqControlCalidad {
     constructor(
     EmpresaId: number,
     GuiaRecepcionMateriaPrimaId: number,
-    ExportableGramosAnalisisFisico: number,
-    ExportablePorcentajeAnalisisFisico: number,
-    DescarteGramosAnalisisFisico: number,
-    DescartePorcentajeAnalisisFisico: number,
-    CascarillaGramosAnalisisFisico: number,
-    CascarillaPorcentajeAnalisisFisico: number,
-    TotalGramosAnalisisFisico: number,
-    TotalPorcentajeAnalisisFisico: number,
     HumedadPorcentajeAnalisisFisico: number,
     ObservacionAnalisisFisico: string,
     UsuarioCalidad: string,
-    ObservacionRegistroTostado: string,
-    ObservacionAnalisisSensorial: string,
-    AnalisisFisicoOlorDetalleList: AnalisisFisicoOlorDetalleList[],
-    AnalisisFisicoColorDetalleList: AnalisisFisicoColorDetalleList[],
-    AnalisisFisicoDefectoPrimarioDetalleList: AnalisisFisicoDefectoPrimarioDetalleList[],
-    AnalisisFisicoDefectoSecundarioDetalleList: AnalisisFisicoDefectoSecundarioDetalleList[],
-    RegistroTostadoIndicadorDetalleList: RegistroTostadoIndicadorDetalleList[],
-    AnalisisSensorialDefectoDetalleList: AnalisisSensorialDefectoDetalleList[],
-    AnalisisSensorialAtributoDetalleList: AnalisisSensorialAtributoDetalleList[])
+    AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[],
+    AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[],
+    ExportableGramosAnalisisFisico?: number,
+    ExportablePorcentajeAnalisisFisico?: number,
+    DescarteGramosAnalisisFisico?: number,
+    DescartePorcentajeAnalisisFisico?: number,
+    CascarillaGramosAnalisisFisico?: number,
+    CascarillaPorcentajeAnalisisFisico?: number,
+    TotalGramosAnalisisFisico?: number,
+    TotalPorcentajeAnalisisFisico?: number,
+    ObservacionRegistroTostado?: string,
+    ObservacionAnalisisSensorial?: string,
+    AnalisisFisicoDefectoPrimarioDetalleList?: AnalisisFisicoDefectoPrimarioDetalleList[],
+    AnalisisFisicoDefectoSecundarioDetalleList?: AnalisisFisicoDefectoSecundarioDetalleList[],
+    RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[],
+    AnalisisSensorialDefectoDetalleList?: AnalisisSensorialDefectoDetalleList[],
+    AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[])
     {
+        if(ObservacionRegistroTostado)
+        {
+        this.ObservacionRegistroTostado = ObservacionRegistroTostado
+        }
+        if (ObservacionAnalisisSensorial)
+        {
+            this.ObservacionAnalisisSensorial = ObservacionAnalisisSensorial
+        }
+        if (AnalisisFisicoOlorDetalleList)
+        {
+            this.AnalisisFisicoOlorDetalleList = AnalisisFisicoOlorDetalleList
+        }
+        if (AnalisisFisicoColorDetalleList)
+        {
+            this.AnalisisFisicoColorDetalleList = AnalisisFisicoColorDetalleList
+        }
+        if (AnalisisFisicoDefectoPrimarioDetalleList)
+        {
+            this.AnalisisFisicoDefectoPrimarioDetalleList = AnalisisFisicoDefectoPrimarioDetalleList
+        }
+        if (AnalisisFisicoDefectoSecundarioDetalleList)
+        {
+            this.AnalisisFisicoDefectoSecundarioDetalleList = AnalisisFisicoDefectoSecundarioDetalleList
+        }
+        if (RegistroTostadoIndicadorDetalleList)
+        {
+            this.RegistroTostadoIndicadorDetalleList = RegistroTostadoIndicadorDetalleList
+        }
+        if (AnalisisSensorialDefectoDetalleList)
+        {
+            this.AnalisisSensorialDefectoDetalleList = AnalisisSensorialDefectoDetalleList
+        }
+        if (AnalisisSensorialAtributoDetalleList)
+        {
+            this.AnalisisSensorialAtributoDetalleList = AnalisisSensorialAtributoDetalleList
+        }
+        if (ExportableGramosAnalisisFisico)
+        {
+        this.ExportableGramosAnalisisFisico= ExportableGramosAnalisisFisico
+        }
+
+        if (ExportablePorcentajeAnalisisFisico)
+        {
+        this.ExportablePorcentajeAnalisisFisico = ExportablePorcentajeAnalisisFisico
+        }
+        if (DescarteGramosAnalisisFisico)
+        {
+        this.DescarteGramosAnalisisFisico= DescarteGramosAnalisisFisico
+        }
+        if (DescartePorcentajeAnalisisFisico)
+        {
+        this.DescartePorcentajeAnalisisFisico= DescartePorcentajeAnalisisFisico
+        }
+        if (CascarillaGramosAnalisisFisico)
+        {
+        this.CascarillaGramosAnalisisFisico = CascarillaGramosAnalisisFisico
+        }
+        if (CascarillaPorcentajeAnalisisFisico)
+        {
+        this.CascarillaPorcentajeAnalisisFisico = CascarillaPorcentajeAnalisisFisico
+        }
+        if (TotalGramosAnalisisFisico)
+        {
+        this.TotalGramosAnalisisFisico = TotalGramosAnalisisFisico
+        }
+        if (TotalPorcentajeAnalisisFisico)
+        {
+        this.TotalPorcentajeAnalisisFisico = TotalPorcentajeAnalisisFisico
+        }
+
         this.EmpresaId = EmpresaId,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
-        this.ExportableGramosAnalisisFisico= ExportableGramosAnalisisFisico,
-        this.ExportablePorcentajeAnalisisFisico = ExportablePorcentajeAnalisisFisico,
-        this.DescarteGramosAnalisisFisico= DescarteGramosAnalisisFisico,
-        this.DescartePorcentajeAnalisisFisico= DescartePorcentajeAnalisisFisico
-        this.CascarillaGramosAnalisisFisico = CascarillaGramosAnalisisFisico
-        this.CascarillaPorcentajeAnalisisFisico = CascarillaPorcentajeAnalisisFisico,
-        this.TotalGramosAnalisisFisico = TotalGramosAnalisisFisico,
-        this.TotalPorcentajeAnalisisFisico = TotalPorcentajeAnalisisFisico,
-        this.HumedadPorcentajeAnalisisFisico = HumedadPorcentajeAnalisisFisico
-        this.ObservacionAnalisisFisico = ObservacionAnalisisFisico
-        this.UsuarioCalidad = UsuarioCalidad,
-        this.ObservacionRegistroTostado = ObservacionRegistroTostado,
-        this.ObservacionAnalisisSensorial = ObservacionAnalisisSensorial,
-        this.AnalisisFisicoOlorDetalleList = AnalisisFisicoOlorDetalleList,
-        this.AnalisisFisicoColorDetalleList = AnalisisFisicoColorDetalleList,
-        this.AnalisisFisicoDefectoPrimarioDetalleList = AnalisisFisicoDefectoPrimarioDetalleList,
-        this.AnalisisFisicoDefectoSecundarioDetalleList = AnalisisFisicoDefectoSecundarioDetalleList,
-        this.RegistroTostadoIndicadorDetalleList = RegistroTostadoIndicadorDetalleList,
-        this.AnalisisSensorialDefectoDetalleList = AnalisisSensorialDefectoDetalleList,
-        this.AnalisisSensorialAtributoDetalleList = AnalisisSensorialAtributoDetalleList
-        
-
+        this.HumedadPorcentajeAnalisisFisico = HumedadPorcentajeAnalisisFisico,
+        this.ObservacionAnalisisFisico = ObservacionAnalisisFisico,
+        this.UsuarioCalidad = UsuarioCalidad    
     }
     EmpresaId: number;
     GuiaRecepcionMateriaPrimaId: number;
-    ExportableGramosAnalisisFisico: number;
-    ExportablePorcentajeAnalisisFisico: number;
-    DescarteGramosAnalisisFisico: number;
-    DescartePorcentajeAnalisisFisico: number;
-    CascarillaGramosAnalisisFisico: number;
-    CascarillaPorcentajeAnalisisFisico: number;
-    TotalGramosAnalisisFisico: number;
-    TotalPorcentajeAnalisisFisico: number;
-    HumedadPorcentajeAnalisisFisico: number;
-    ObservacionAnalisisFisico: string;
-    UsuarioCalidad: string;
-    ObservacionRegistroTostado: string;
-    ObservacionAnalisisSensorial: string;
-    AnalisisFisicoOlorDetalleList: AnalisisFisicoOlorDetalleList[];
-    AnalisisFisicoColorDetalleList: AnalisisFisicoColorDetalleList[];
-    AnalisisFisicoDefectoPrimarioDetalleList: AnalisisFisicoDefectoPrimarioDetalleList[];
-    AnalisisFisicoDefectoSecundarioDetalleList: AnalisisFisicoDefectoSecundarioDetalleList[];
-    RegistroTostadoIndicadorDetalleList: RegistroTostadoIndicadorDetalleList[];
-    AnalisisSensorialDefectoDetalleList: AnalisisSensorialDefectoDetalleList[];
-    AnalisisSensorialAtributoDetalleList: AnalisisSensorialAtributoDetalleList[]
-   
+    ExportableGramosAnalisisFisico?: number;
+    ExportablePorcentajeAnalisisFisico?: number;
+    DescarteGramosAnalisisFisico?: number;
+    DescartePorcentajeAnalisisFisico?: number;
+    CascarillaGramosAnalisisFisico?: number;
+    CascarillaPorcentajeAnalisisFisico?: number;
+    TotalGramosAnalisisFisico?: number;
+    TotalPorcentajeAnalisisFisico?: number;
+    HumedadPorcentajeAnalisisFisico?: number;
+    ObservacionAnalisisFisico?: string;
+    UsuarioCalidad?: string;
+    ObservacionRegistroTostado?: string;
+    ObservacionAnalisisSensorial?: string;
+    AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[];
+    AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[];
+    AnalisisFisicoDefectoPrimarioDetalleList?: AnalisisFisicoDefectoPrimarioDetalleList[];
+    AnalisisFisicoDefectoSecundarioDetalleList?: AnalisisFisicoDefectoSecundarioDetalleList[];
+    RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[];
+    AnalisisSensorialDefectoDetalleList?: AnalisisSensorialDefectoDetalleList[];
+    AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[]
 }
 
  export class DefectosPrimarios

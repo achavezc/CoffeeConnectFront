@@ -7,6 +7,7 @@ import swal from 'sweetalert2';
 import { NotaCompraService } from '../../../../../../services/nota-compra.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { host } from '../../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-nota-compra-edit',
@@ -30,12 +31,14 @@ export class NotaCompraEditComponent implements OnInit {
   listSubTipos: [];
   listUnidadMedida: [];
   listMonedas: [];
+  listTipoProduccion: [];
   selectedEstado: any;
   selectedTipo: any;
   selectedProducto: any;
   selectedSubTipo: any;
   selectedUnidadMedida: any;
   selectedMoneda: any;
+  selectedProduccion: any;
   vId: number;
   vUserSession: any;
   vMensajeGenerico = "Ha ocurrido un error interno.";
@@ -99,7 +102,7 @@ export class NotaCompraEditComponent implements OnInit {
     let res: any;
     res = await this.maestroService.obtenerMaestros('EstadoNotaCompra').toPromise();
     if (res.Result.Success) {
-
+      this.listEstados = res.Result.Data;
     }
     res = await this.maestroService.obtenerMaestros('TipoProveedor').toPromise();
     if (res.Result.Success) {
@@ -115,7 +118,7 @@ export class NotaCompraEditComponent implements OnInit {
     }
     res = await this.maestroService.obtenerMaestros('TipoNotaCompra').toPromise();
     if (res.Result.Success) {
-      this.listEstados = res.Result.Data;
+
     }
     res = await this.maestroService.obtenerMaestros('UnidadMedida').toPromise();
     if (res.Result.Success) {
@@ -124,6 +127,10 @@ export class NotaCompraEditComponent implements OnInit {
     res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
       this.listMonedas = res.Result.Data;
+    }
+    res = await this.maestroService.obtenerMaestros('TipoProduccion').toPromise();
+    if (res.Result.Success) {
+      this.listTipoProduccion = res.Result.Data;
     }
   }
 
@@ -151,8 +158,8 @@ export class NotaCompraEditComponent implements OnInit {
       this.notaCompraEditForm.controls.fecha.setValue(data.FechaRegistro.substring(0, 10));
     }
     this.notaCompraEditForm.controls.ruc.setValue(data.Ruc);
-    if (data.TipoId) {
-      this.notaCompraEditForm.controls.estado.setValue(data.TipoId);
+    if (data.EstadoId) {
+      this.notaCompraEditForm.controls.estado.setValue(data.EstadoId);
     }
     this.notaCompraEditForm.controls.nombreProveedor.setValue(data.NombreRazonSocial);
     this.notaCompraEditForm.controls.departamento.setValue(data.Departamento);
@@ -172,7 +179,9 @@ export class NotaCompraEditComponent implements OnInit {
       this.notaCompraEditForm.controls.fechaCosecha.setValue(data.FechaCosecha.substring(0, 10));
     }
     this.notaCompraEditForm.controls.subTipo.setValue(data.SubProductoId);
-    // this.notaCompraEditForm.controls.tipoProduccion.setValue(data.);
+    if (data.TipoProduccionId) {
+      this.notaCompraEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
+    }
     this.notaCompraEditForm.controls.unidadMedida.setValue(data.UnidadMedidaIdPesado);
     this.notaCompraEditForm.controls.exportableAT.setValue(data.ExportableGramosAnalisisFisico);
     this.notaCompraEditForm.controls.cantidadPC.setValue(data.CantidadPesado);
@@ -195,7 +204,7 @@ export class NotaCompraEditComponent implements OnInit {
     if (this.vUserSession && this.vUserSession.Result && this.vUserSession.Result.Data
       && this.vUserSession.Result.Data.ProductoPreciosDia && this.vUserSession.Result.Data.ProductoPreciosDia.length > 0) {
       const precioDia = this.vUserSession.Result.Data.ProductoPreciosDia
-        .find(x => x.ProductoId == data.ProductoId && x.SubProductoId == data.SubProductoId);
+        .find((x: any) => x.ProductoId == data.ProductoId && x.SubProductoId == data.SubProductoId);
       if (precioDia) {
         this.notaCompraEditForm.controls.precioDiaAT.setValue(precioDia.PrecioDia);
         if (precioDia.PrecioDia > data.PrecioGuardado) {
@@ -207,25 +216,27 @@ export class NotaCompraEditComponent implements OnInit {
   }
 
   Liquidar(): void {
-    const form = this;
-    swal.fire({
-      title: 'Confirmación',
-      text: `¿Estas seguro de liquidar la nota de compra?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2F8BE6',
-      cancelButtonColor: '#F55252',
-      confirmButtonText: 'Si',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        form.ProcesarLiquidacion();
-      }
-    });
+    if (this.selectedEstado == '01') {
+      const form = this;
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Estas seguro de liquidar la nota de compra?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.ProcesarLiquidacion();
+        }
+      });
+    }
   }
 
   ProcesarLiquidacion(): void {
@@ -242,7 +253,9 @@ export class NotaCompraEditComponent implements OnInit {
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
-          this.alertUtil.alertOk("Correcto!", "Se ha liquidado de manera correcta!");
+          this.alertUtil.alertOkCallback("Correcto!", "Se ha liquidado de manera correcta!", () => {
+            this.Cancel();
+          });
         } else {
           this.alertUtil.alertError("Error!", res.Result.Message);
         }
@@ -251,6 +264,18 @@ export class NotaCompraEditComponent implements OnInit {
         this.spinner.hide();
         this.alertUtil.alertError("Error!", this.vMensajeGenerico);
       });
+  }
+
+  Print(): void {
+    if (this.selectedEstado == '02') {
+      let link = document.createElement('a');
+      document.body.appendChild(link);
+      link.href = `${host}NotaCompra/GenerarPDF?id=${this.vId}`;
+      link.download = "NotaCompra.pdf"
+      link.target = "_blank";
+      link.click();
+      link.remove();
+    }
   }
 
   Cancel(): void {

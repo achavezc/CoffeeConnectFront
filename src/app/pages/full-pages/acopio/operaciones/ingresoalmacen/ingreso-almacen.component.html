@@ -140,7 +140,24 @@
                                                 [ngClass]="{ 'is-invalid': submitted && f.rendimientoFin.invalid, 'is-valid': submitted && !f.rendimientoFin.invalid }">
                                         </div>
                                     </div>
-
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="puntajeFinal" class="form-label">Puntaje Final (Analisis
+                                        Sensorial)</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="number" formControlName="puntajeFinalIni" class="form-control"
+                                                id="puntajeFinalIni" name="puntajeFinal" placeholder="¨Puntaje final"
+                                                [ngClass]="{ 'is-invalid': submitted && f.puntajeFinalIni.invalid, 'is-valid': submitted && !f.puntajeFinalIni.invalid }">
+                                        </div>
+                                        <div class="col">
+                                            <input type="number" formControlName="puntajeFinalFin" class="form-control"
+                                                id="puntajeFinalFin" name="puntajeFinal" placeholder="Puntaje final"
+                                                [ngClass]="{ 'is-invalid': submitted && f.puntajeFinalFin.invalid, 'is-valid': submitted && !f.puntajeFinalFin.invalid }">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <small class="form-text text-muted danger mb-1"
@@ -210,6 +227,11 @@
                             <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje" width="70">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Puntaje Final (Analisis)" prop="TotalAnalisisSensorial"
+                                width="130">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Desc. Defectos" prop="DefectosAnalisisSensorial" width="130">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Almacén" prop="Almacen" width="150">
                             </ngx-datatable-column>

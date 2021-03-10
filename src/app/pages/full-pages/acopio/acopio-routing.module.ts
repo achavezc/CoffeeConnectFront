@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
 import { MateriaPrimaEditComponent } from './operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component';
+import { NotaSalidaEditComponent } from "./operaciones/notasalida/notasalida-edit/notaSalida-edit.component";
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
@@ -24,6 +25,13 @@ const routes: Routes = [
       {
         path: 'guiarecepcionmateriaprima-edit',
         component: MateriaPrimaEditComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+      {
+        path: 'notasalida-edit',
+        component: NotaSalidaEditComponent,
         data: {
           title: 'Edit'
         }

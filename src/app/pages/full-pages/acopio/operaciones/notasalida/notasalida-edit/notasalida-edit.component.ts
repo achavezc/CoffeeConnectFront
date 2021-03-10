@@ -21,12 +21,12 @@ export class table
     
   }
 @Component({
-  selector: 'app-materiaprima-list',
-  templateUrl: './materiaprima-edit.component.html',
-  styleUrls: ['./materiaprima-edit.component.scss',  "/assets/sass/libs/datatables.scss"],
+  selector: 'app-notasalidad-edit',
+  templateUrl: './notasalida-edit.component.html',
+  styleUrls: ['./notasalida-edit.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MateriaPrimaEditComponent implements OnInit {
+export class NotaSalidaEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
@@ -176,7 +176,13 @@ export class MateriaPrimaEditComponent implements OnInit {
 
         });
   }
-
+  /*open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+}*/
   openModal(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarProveedor();
@@ -192,6 +198,17 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.selectedTipoDocumento = [];
     this.rows = [];
   }
+
+  /*private getDismissReason(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a backdrop';
+      } else {
+          return `with: ${reason}`;
+      }
+  }*/
+
   cargarcombos() {
       var form = this;
       this.maestroUtil.obtenerMaestros("Producto", function (res) {
@@ -209,17 +226,25 @@ export class MateriaPrimaEditComponent implements OnInit {
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
     this.cargarSubProducto(filterProducto);
+   
   }
 
   changeView(e) {
     let filterSubTipo = e.Codigo;
+    
+   
     if (filterSubTipo == "02")
     {
         this.viewTagSeco = true;
+        this.eventsSubject.next();
+        //this.eventsSubject.next();
+        //form.hijo.obtenerDetalle();
     }
     else
     {
       this.viewTagSeco = false;
+      this.emitEventToChild();
+     // this.eventosSubject.next();
     }
   }
 
