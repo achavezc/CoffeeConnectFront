@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row m-0">
-                        <label for="fecRegistro" class="col-4 col-form-label pr-0" readonly>Fecha de
+                        <label for="fecRegistro" class="col-4 col-form-label pr-0">Fecha de
                             Registro</label>
                         <div class="col-8 pl-0">
                             <input type="date" date name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
@@ -29,19 +29,12 @@
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row m-0">
                         <label for="estado" class="col-2 col-form-label pr-0">Estado</label>
-                        <div class="col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="activo"
-                                    formControlName="estado" value="01" [disabled]="vId == undefined">
-                                <label class="form-check-label" for="activo">Activo</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="inactivo"
-                                    formControlName="estado" value="00" [disabled]="vId == undefined">
-                                <label class="form-check-label" for="inactivo">Inactivo</label>
-                            </div>
+                        <div class="col-md-5">
+                            <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="estado"
+                                [readonly]="vId == null || vId == undefined || vId == 0"
+                                placeholder="Seleccionar estado" [(ngModel)]="selectedEstado">
+                            </ng-select>
                         </div>
                     </div>
                 </div>
@@ -76,7 +69,7 @@
                         <label for="tipoDocumento" class="col-md-4 col-form-label pr-0">Tipo de documento</label>
                         <div class="col-md-8">
                             <ng-select [items]="listTiposDocs" formControlName="tipoDocumento" class="form-control"
-                                bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                                bindLabel="Label" bindValue="Codigo" id="tipoDocumento" [readonly]="true"
                                 placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedTipoDoc">
                             </ng-select>
                         </div>
@@ -87,7 +80,8 @@
                         <label for="nroDocumento" class="col-md-4 col-form-label pr-0">N° de documento</label>
                         <div class="col-md-8">
                             <input type="number" name="nroDocumento" id="nroDocumento" class="form-control"
-                                formControlName="nroDocumento" placeholder="Ingresar número de documento">
+                                formControlName="nroDocumento" placeholder="Ingresar número de documento"
+                                [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -96,7 +90,7 @@
                         <label for="direccion" class="col-md-3 col-form-label pr-0">Dirección</label>
                         <div class="col-md-9">
                             <input type="text" name="direccion" id="direccion" class="form-control"
-                                formControlName="direccion" placeholder="Ingresar dirección">
+                                formControlName="direccion" placeholder="Ingresar dirección" [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -105,13 +99,9 @@
                 <div class="col-lg-8 col-md-8 col-sm-8">
                     <div class="form-group row">
                         <label for="nombreCompleto" class="col-md-2 col-form-label pr-0">Nombres y Apellidos</label>
-                        <div class="col-md-5">
+                        <div class="col-md-10">
                             <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control"
-                                formControlName="nombreCompleto" placeholder="Ingresar nombres">
-                        </div>
-                        <div class="col-md-5">
-                            <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control"
-                                formControlName="nombreCompleto" placeholder="Ingresar apellidos">
+                                formControlName="nombreCompleto" placeholder="Ingresar nombres" [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -120,7 +110,7 @@
                         <label for="departamento" class="col-md-3 col-form-label pr-0">Departamento</label>
                         <div class="col-md-9">
                             <ng-select [items]="listDepartamentos" formControlName="departamento" class="form-control"
-                                bindLabel="Descripcion" bindValue="Codigo" id="departamento"
+                                bindLabel="Descripcion" bindValue="Codigo" id="departamento" [readonly]="true"
                                 placeholder="Seleccionar un departamento" [(ngModel)]="selectedDepartamento"
                                 (change)="onChangeDepartament($event)">
                             </ng-select>
@@ -134,7 +124,7 @@
                         <label for="razonSocial" class="col-md-2 col-form-label pr-0">Razón Social</label>
                         <div class="col-md-10">
                             <input type="text" name="razonSocial" id="razonSocial" class="form-control"
-                                formControlName="razonSocial" placeholder="Ingresar razón social">
+                                formControlName="razonSocial" placeholder="Ingresar razón social" [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -143,7 +133,7 @@
                         <label for="provincia" class="col-md-3 col-form-label pr-0">Provincia</label>
                         <div class="col-md-9">
                             <ng-select [items]="listProvincias" formControlName="provincia" class="form-control"
-                                bindLabel="Descripcion" bindValue="Codigo" id="provincia"
+                                bindLabel="Descripcion" bindValue="Codigo" id="provincia" [readonly]="true"
                                 placeholder="Seleccionar una provincia" [(ngModel)]="selectedProvincia"
                                 (change)="onChangeProvince($event)">
                             </ng-select>
@@ -157,7 +147,7 @@
                         <label for="telefonoFijo" class="col-md-4 col-form-label pr-0">Telefono Fijo</label>
                         <div class="col-md-8">
                             <input type="number" name="telefonoFijo" id="telefonoFijo" class="form-control"
-                                formControlName="telefonoFijo" placeholder="Ingresar telefono fijo">
+                                formControlName="telefonoFijo" placeholder="Ingresar telefono fijo" [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -167,8 +157,9 @@
                         <label for="distrito" class="col-md-3 col-form-label pr-0">Distrito</label>
                         <div class="col-md-9">
                             <ng-select [items]="listDistritos" formControlName="distrito" class="form-control"
-                                bindLabel="Descripcion" bindValue="Codigo" id="distrito"
-                                placeholder="Seleccionar una distrito" [(ngModel)]="selectedDistrito">
+                                bindLabel="Descripcion" bindValue="Codigo" id="distrito" [readonly]="true"
+                                placeholder="Seleccionar una distrito" [(ngModel)]="selectedDistrito"
+                                (change)="onChangeDistrito($event)">
                             </ng-select>
                         </div>
                     </div>
@@ -180,7 +171,8 @@
                         <label for="telefCelular" class="col-md-4 col-form-label pr-0">Telefono Celular</label>
                         <div class="col-md-8">
                             <input type="number" name="telefCelular" id="telefCelular" class="form-control"
-                                formControlName="telefCelular" placeholder="Ingresar telefono celular">
+                                formControlName="telefCelular" placeholder="Ingresar telefono celular"
+                                [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -190,7 +182,7 @@
                         <label for="zona" class="col-md-3 col-form-label pr-0">Zona</label>
                         <div class="col-md-9">
                             <ng-select [items]="listZonas" formControlName="zona" class="form-control" bindLabel="Label"
-                                bindValue="Codigo" id="zona" placeholder="Seleccionar una zona"
+                                bindValue="Codigo" id="zona" placeholder="Seleccionar una zona" [readonly]="true"
                                 [(ngModel)]="selectedZona">
                             </ng-select>
                         </div>
@@ -199,7 +191,7 @@
             </div>
         </div>
         <div class="card-footer text-right">
-            <button class="btn btn-primary">Guardar</button>
+            <button class="btn btn-primary" (click)="Save()">Guardar</button>
             <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
         </div>
     </div>
@@ -208,8 +200,6 @@
     <ngx-spinner></ngx-spinner>
 </div>
 
-<!-- <div class="col-12 col-md-2" style="padding-left: 0cm;"> -->
-<!-- let-c="close" let-d="dismiss" -->
 <ng-template #modalBusqProductores let-modal>
     <div class="modal-content">
         <div class="modal-header">
@@ -245,8 +235,6 @@
                             class="form-control"
                             [ngClass]="{ 'is-invalid': mf.mNroDocumento.invalid, 'is-valid': !mf.mNroDocumento.invalid }"
                             id="mNroDocumento" placeholder="Número de documento">
-                        <small class="invalid-tooltip" *ngIf="!f.mNroDocumento.requerid">Es
-                            obligatorio!</small>
                     </div>
                 </div>
                 <div class="form-row">
@@ -257,7 +245,6 @@
                             class="form-control"
                             [ngClass]="{ 'is-invalid': mf.mNombRazonSocial.invalid, 'is-valid': !mf.mNombRazonSocial.invalid }"
                             id="mNombRazonSocial" placeholder="Nombre o Razón Social">
-
                     </div>
                     <div class="col-md-4 mb-4 form-group mb-2">
                         <label for="mFechaInicio" class="form-label">Fecha Inicio</label>
@@ -265,8 +252,6 @@
                             [ngClass]="{ 'is-invalid': mf.mFechaInicio.invalid, 'is-valid': !mf.mFechaInicio.invalid }"
                             name="mFechaInicio" placeholder="Seleccionar fecha inicio" date
                             (blur)="compareTwoDates()" />
-                        <small class="invalid-tooltip" *ngIf="!f.mFechaInicio.requerid">Es
-                            obligatorio!</small>
                     </div>
                     <div class="col-md-4 mb-4 form-group mb-2">
                         <label for="mFechaFin" class="form-label">Fecha Fin</label>
@@ -274,18 +259,57 @@
                             name="mFechaFin"
                             [ngClass]="{ 'is-invalid': mf.mFechaFin.invalid, 'is-valid': !mf.mFechaFin.invalid }"
                             placeholder="Seleccionar Fecha Fín" date (blur)="compareTwoDates()" />
-                        <small class="invalid-tooltip" *ngIf="!f.mFechaFin.requerid">Es
-                            obligatorio!</small>
                     </div>
                 </div>
-
-                <!-- <small class="form-text text-muted danger mb-1"
-                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small> -->
-                <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!modalProductorForm.valid"
+                <button class="btn btn-primary" type="submit" [disabled]="!modalProductorForm.valid"
                     (click)="BuscarProductores()">Buscar</button>
+                <hr>
+                <ngx-spinner></ngx-spinner>
+                <div class="row">
+                    <div class="col-12">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="ModalUpdateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="ModalFilterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" #mTblProductores [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="mLimitRef"
+                            [rows]="mRowsProductores" [scrollbarH]="true" [selectionType]="'single'"
+                            [selected]="mSelected" (dblclick)="seleccionarProductor()">
+                            <ngx-datatable-column name="Código" prop="Numero" width="90">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Provincia" prop="Provincia" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Distrito" prop="Distrito" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Zona" prop="Zona" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="FechaRegistro" prop="FechaRegistroString" width="100">
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
             </form>
-
         </div>
     </div>
 </ng-template>
-<!-- </div> -->
