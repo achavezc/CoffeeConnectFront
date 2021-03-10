@@ -77,7 +77,9 @@ export class IngresoAlmacenComponent implements OnInit {
       producto: [],
       subProducto: [],
       rendimientoInicio: [],
-      rendimientoFin: []
+      rendimientoFin: [],
+      puntajeFinalIni: [],
+      puntajeFinalFin: []
     });
     this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
   }
@@ -132,6 +134,11 @@ export class IngresoAlmacenComponent implements OnInit {
         || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores del rendimiento.' };
       } else if (group.value.rendimientoInicio && group.value.rendimientoFin && group.value.rendimientoInicio <= group.value.rendimientoFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido.' };
+      } else if ((group.value.puntajeFinalIni && !group.value.puntajeFinalFin)
+        || (!group.value.puntajeFinalIni && group.value.puntajeFinalFin)) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores del rendimiento.' };
+      } else if (group.value.puntajeFinalIni && group.value.puntajeFinalFin && group.value.puntajeFinalIni <= group.value.puntajeFinalFin) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -250,7 +257,9 @@ export class IngresoAlmacenComponent implements OnInit {
         EmpresaId: this.userSession.Result.Data.EmpresaId,
         AlmacenId: this.ingresoAlmacenForm.value.almacen,
         RendimientoPorcentajeInicio: this.ingresoAlmacenForm.value.rendimientoInicio ?? null,
-        RendimientoPorcentajeFin: this.ingresoAlmacenForm.value.rendimientoFin ?? null
+        RendimientoPorcentajeFin: this.ingresoAlmacenForm.value.rendimientoFin ?? null,
+        PuntajeAnalisisSensorialInicio: this.ingresoAlmacenForm.value.puntajeFinalIni ?? null,
+        PuntajeAnalisisSensorialFin: this.ingresoAlmacenForm.value.puntajeFinalFin ?? null
       };
 
       this.spinner.show(undefined,
