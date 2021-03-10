@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
-
+import {Router} from "@angular/router"
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
@@ -26,7 +26,8 @@ export class NotaSalidaComponent implements OnInit {
     private notaSalidaService: NotaSalidaAlmacenService,
     private alertUtil: AlertUtil,
     private empresaService: EmpresaService,
-    private empTransporteService: EmpresaTransporteService) { }
+    private empTransporteService: EmpresaTransporteService,
+    private router: Router) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -258,6 +259,10 @@ export class NotaSalidaComponent implements OnInit {
       form.spinner.hide();
       this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
     });
+  }
+
+  nuevo() {
+    this.router.navigate(['/operaciones/notasalida-edit']);
   }
 
 }

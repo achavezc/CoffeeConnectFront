@@ -22,6 +22,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
 import { MateriaPrimaEditComponent } from "./operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component";
+import { NotaSalidaEditComponent } from "./operaciones/notasalida/notasalida-edit/notaSalida-edit.component";
 import { PesadoCafeComponent } from "./operaciones/materiaprima/materiaprima-edit/pesadoCafe/pesadoCafe.component";
 import { ControlCalidadComponent } from "./operaciones/materiaprima/materiaprima-edit/controlCalidad/seco/controlCalidad.component";
 import { ControlCalidadComponentHumedo } from "./operaciones/materiaprima/materiaprima-edit/controlCalidad/humedo/controlCalidadHumedo.component";
@@ -56,6 +57,7 @@ import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edi
   declarations: [
     MateriaPrimaListComponent,
     MateriaPrimaEditComponent,
+    NotaSalidaEditComponent,
     NotacompraListComponent,
     PesadoCafeComponent,
     ControlCalidadComponent,
