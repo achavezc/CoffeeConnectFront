@@ -135,7 +135,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           numReferencia:  ['', ],
           producto:  ['', Validators.required],
           subproducto:['', Validators.required],
-          tipoProduccion:['', ],
+          tipoProduccion:['', Validators.required],
           provNombre: ['', Validators.required],
           provDocumento: ['', Validators.required],
           provTipoSocio: new FormControl({value: '', disabled: true},[Validators.required]),
@@ -276,6 +276,13 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.listTipoSocio = this.listaTipoProveedor;
    }
  }
+ async cargarTipoProduccion(){
+      
+      var data = await  this.maestroService.obtenerMaestros("TipoProduccion").toPromise();
+      if (data.Result.Success) {
+        this.listaTipoProduccion = data.Result.Data;
+    }
+  }
 
   get f() {
     return this.consultaProveedor.controls;
@@ -475,6 +482,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         socioFincaId,
         terceroFincaId,
         intermediarioFinca,
+        this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].value,
       );
        this.spinner.show(undefined,
         {
@@ -502,9 +510,9 @@ export class MateriaPrimaEditComponent implements OnInit {
         if (res.Result.ErrCode == "") {
           var form = this;
           this.alertUtil.alertOkCallback('Registrado!', 'Guia Registrada.',function(result){
-            if(result.isConfirmed){
+            //if(result.isConfirmed){
               form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
-            }
+            //}
           }
           );
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -532,9 +540,9 @@ export class MateriaPrimaEditComponent implements OnInit {
         if (res.Result.ErrCode == "") {
           var form = this;
           this.alertUtil.alertOkCallback('Actualizado!', 'Guia Actualizada.',function(result){
-            if(result.isConfirmed){
+            //if(result.isConfirmed){
               form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
-            }
+            //}
           }
           );
 
@@ -561,9 +569,10 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
   obtenerDetalle(){
+    this.spinner.show();
     this.acopioService.obtenerDetalle(Number(this.id))
     .subscribe(res => {
-      
+      this.spinner.hide();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
           this.detalleMateriaPrima = res.Result.Data;
@@ -578,12 +587,14 @@ export class MateriaPrimaEditComponent implements OnInit {
       }
     },
       err => {
+        this.spinner.hide();
         console.log(err);
         this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
       }
     );  
   }
   async cargarDataFormulario(data: any){
+    await this.cargarTipoProduccion();
     this.consultaMateriaPrimaFormEdit.controls["producto"].setValue(data.ProductoId);
     await this.cargarSubProducto(data.ProductoId);
     this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue(data.SubProductoId);
@@ -594,6 +605,9 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
     this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
     this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-"+ data.NumeroDocumento);
+
+    
+    this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
     this.cargarTipoProveedor();
     await this.cargarTipoProveedor();
     this.consultaMateriaPrimaFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
@@ -621,13 +635,21 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(data.IntermediarioId);
 
     this.consultaMateriaPrimaFormEdit.get('pesado').get("exportGramos").setValue(data.ExportableGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("exportPorcentaje").setValue(data.ExportablePorcentajeAnalisisFisico + "%");
+    if(data.ExportablePorcentajeAnalisisFisico != null){
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("exportPorcentaje").setValue(data.ExportablePorcentajeAnalisisFisico + "%");
+    }
     this.consultaMateriaPrimaFormEdit.get('pesado').get("descarteGramos").setValue(data.DescarteGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("descartePorcentaje").setValue(data.DescartePorcentajeAnalisisFisico + "%");
+    if(data.DescartePorcentajeAnalisisFisico != null){
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("descartePorcentaje").setValue(data.DescartePorcentajeAnalisisFisico + "%");
+    }
     this.consultaMateriaPrimaFormEdit.get('pesado').get("cascarillaGramos").setValue(data.CascarillaGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("cascarillaPorcentaje").setValue(data.CascarillaPorcentajeAnalisisFisico + "%");
+    if(data.CascarillaPorcentajeAnalisisFisico != null){
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("cascarillaPorcentaje").setValue(data.CascarillaPorcentajeAnalisisFisico + "%");
+    }
     this.consultaMateriaPrimaFormEdit.get('pesado').get("totalGramos").setValue(data.TotalGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalPorcentaje").setValue(data.TotalPorcentajeAnalisisFisico + "%");
+    if(data.TotalPorcentajeAnalisisFisico != null){
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("totalPorcentaje").setValue(data.TotalPorcentajeAnalisisFisico + "%");
+    }
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
    
