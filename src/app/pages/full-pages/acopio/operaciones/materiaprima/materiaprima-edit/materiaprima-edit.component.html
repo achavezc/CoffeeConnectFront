@@ -399,24 +399,11 @@
 
               </li>
               <li [ngbNavItem]="3">
-                <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
+                <a (click)="emitEventToChild()" ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
                   <span class="d-none d-sm-block">Nota de Compra</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <ngb-alert [dismissible]="false" class="d-block mt-3" type="success">
-                    This tab content DOM will always stay in DOM
-                  </ngb-alert>
-
-                  <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-                    farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip
-                    jean shorts
-                    ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.
-                    Keytar
-                    helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum
-                    wes anderson
-                    8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party
-                    scenester
-                    stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+                  <app-notacompra [events]="eventsSubject.asObservable()" *ngIf = "detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima"></app-notacompra>
                 </ng-template>
               </li>
             </ul>

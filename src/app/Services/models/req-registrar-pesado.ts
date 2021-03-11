@@ -18,7 +18,9 @@ export class ReqRegistrarPesado {
         ObservacionPesado?: string,
         SocioFincaId?: number,
         TerceroFincaId?: number,
-        IntermediarioFinca?: string
+        IntermediarioFinca?: string,
+        TipoProduccionId?: string
+
         ) {
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId;
         this.EmpresaId = EmpresaId;
@@ -39,6 +41,7 @@ export class ReqRegistrarPesado {
         this.SocioFincaId = SocioFincaId;
         this.TerceroFincaId = TerceroFincaId;
         this.IntermediarioFinca = IntermediarioFinca;
+        this.TipoProduccionId = TipoProduccionId;
     }
     GuiaRecepcionMateriaPrimaId: number;
     EmpresaId: number;
@@ -59,6 +62,7 @@ export class ReqRegistrarPesado {
     SocioFincaId?: number;
     TerceroFincaId?: number;
     IntermediarioFinca?: string;
+    TipoProduccionId?: string;
 }
 
 export class tableAnalisisSensorial
