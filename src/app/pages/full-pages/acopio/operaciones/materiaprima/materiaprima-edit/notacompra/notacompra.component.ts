@@ -7,6 +7,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import {Router} from "@angular/router";
 import { ILogin } from '../../../../../../../services/models/login';
+import { host } from '../../../../../../../shared/hosts/main.host';
 
 @Component({
   selector:'app-notacompra',
@@ -313,6 +314,18 @@ changeDescuentoHumedad(){
   this.notaCompraForm.controls['kiloNetoPagarPC'].setValue(valorkilosNetosPagar);
   this.notaCompraForm.controls['qqKgPC'].setValue(valorqq60);
   this.notaCompraForm.controls['importeAT'].setValue(valorImporte);
+}
+
+Print(): void {
+  if (this.detalleMateriaPrima.NotaCompra != null) {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}NotaCompra/GenerarPDF?id=${this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId}`;
+    link.download = "NotaCompra.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
 }
 
 }

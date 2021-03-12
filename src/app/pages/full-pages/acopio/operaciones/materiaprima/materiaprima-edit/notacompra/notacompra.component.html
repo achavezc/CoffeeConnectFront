@@ -264,6 +264,10 @@
 
             <ngx-spinner></ngx-spinner>
             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="guardar()">Guardar</button>
+
+            <button type="button" class="btn btn-primary mr-1 mb-1" (click)="Print()"
+                *ngIf="detalleMateriaPrima.NotaCompra != null">Imprimir</button>
+
             <button class="btn btn-primary mr-1 mb-1" type="submit"  (click)="cancelar()">Cancelar</button>
         </div>
        
