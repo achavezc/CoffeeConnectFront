@@ -73,6 +73,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   disabledNota: string = '';
   viewTagSeco: boolean = false;
   detalleMateriaPrima: any;
+  unidadMedidaPesado:any;
 
 
   eventsSubject: Subject<void> = new Subject<void>();
@@ -572,7 +573,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.spinner.show();
     this.acopioService.obtenerDetalle(Number(this.id))
     .subscribe(res => {
-      this.spinner.hide();
+     
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
           this.detalleMateriaPrima = res.Result.Data;
@@ -651,6 +652,9 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.consultaMateriaPrimaFormEdit.get('pesado').get("totalPorcentaje").setValue(data.TotalPorcentajeAnalisisFisico + "%");
     }
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
+
+    this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
+    this.spinner.hide();
 
    
   }

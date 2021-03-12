@@ -24,6 +24,8 @@ export interface ILogin {
     DireccionEmpresa: string;
     LogoEmpresa: string;
     Opciones: Opciones[];
+    MonedaId: string;
+    ProductoPreciosDia: Precios[];
   }
   interface Opciones
   {
@@ -35,6 +37,12 @@ export interface ILogin {
     BadgeClass: string;
     IsExternalLink: boolean;
     Submenu: string[];
+  }
+  interface Precios
+  {
+    PrecioDia: number;
+    ProductoId: string;
+    SubProductoId: string;
   }
   interface meta
   {
