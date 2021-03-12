@@ -82,7 +82,10 @@ export class ControlCalidadComponentHumedo implements OnInit {
   controlFormControlCalidad["humedad"].setValue(this.detalleMateriaPrima.HumedadPorcentajeAnalisisFisico);
   controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalleMateriaPrima.ObservacionAnalisisFisico);
   form.responsable = this.detalleMateriaPrima.UsuarioCalidad;
+  if(this.detalleMateriaPrima.FechaCalidad)
+  {
   form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalleMateriaPrima.FechaCalidad),"/");
+  }
   
   if (this.detalleMateriaPrima.AnalisisFisicoColorDetalle!= null)
   {
