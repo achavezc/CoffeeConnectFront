@@ -11,7 +11,7 @@ export class PesadoCafeComponent implements OnInit {
   public pesadoFormGroup: FormGroup;
   listaUnidadMedida: any[];
   selectedUnidadMedida: any;
-
+  @Input() unidadMedidaPesado;
   @Input() submittedEdit;
   
   sacos = "01";
@@ -36,6 +36,7 @@ export class PesadoCafeComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("UnidadMedida", function (res) {
       if (res.Result.Success) {
         form.listaUnidadMedida = res.Result.Data;
+        form.pesadoFormGroup.controls['unidadMedida'].setValue(form.unidadMedidaPesado);  
       }
     });
   }

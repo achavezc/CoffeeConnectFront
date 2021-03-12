@@ -5,7 +5,9 @@ import { NotaCompraService } from '../../../../../../../services/nota-compra.ser
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
-import {Router} from "@angular/router"
+import {Router} from "@angular/router";
+import { ILogin } from '../../../../../../../services/models/login';
+
 @Component({
   selector:'app-notacompra',
   templateUrl: './notacompra.component.html',
@@ -17,11 +19,16 @@ export class NotaCompraComponent implements OnInit {
   notaCompraForm: FormGroup;
   listUnidadMedida: [];
   listMonedas: [];
+  listTipo: [];
+  selectedTipo: any;
   selectedUnidadMedida: any;
   selectedMoneda: any;
   selectedEstado: any;
   mensajeErrorGenerico = "Ocurrio un error interno.";
   errorGeneral: any = { isError: false, errorMessage: '' };
+  login: ILogin;
+  id = 0;
+
   @Input() events: Observable<void>;
   constructor(
     private maestroService: MaestroService,
@@ -64,7 +71,9 @@ export class NotaCompraComponent implements OnInit {
           precioDiaAT:  ['', ],
           precioGuardadoAT:  ['', ],
           precioPagadoAT:  ['', ],
-          importeAT:  ['', ]
+          importeAT:  ['', ],
+          tipo:  ['', Validators.required],
+          numero:  ['', ],
           
         });
   }
@@ -80,35 +89,87 @@ export class NotaCompraComponent implements OnInit {
     if (res.Result.Success) {
       this.listMonedas = res.Result.Data;
     }
+    res = await this.maestroService.obtenerMaestros('TipoNotaCompra').toPromise();
+    if (res.Result.Success) {
+      this.listTipo = res.Result.Data;
+    }
   }
+
+
 
  async obtenerDetalle()
  {
   await this.LoadCombos();
-   var data = this.detalleMateriaPrima;
-  this.notaCompraForm.controls['unidadMedida'].setValue(data.UnidadMedidaIdPesado);
-  this.notaCompraForm.controls['cantidadPC'].setValue(data.CantidadPesado);
-  this.notaCompraForm.controls['kilosBrutosPC'].setValue(data.KilosBrutosPesado);
-  this.notaCompraForm.controls['taraPC'].setValue(data.TaraPesado);
+  var data = this.detalleMateriaPrima;
+  this.login = JSON.parse(localStorage.getItem("user"));
+  if(data == null){
+      
+      this.notaCompraForm.controls['unidadMedida'].setValue(data.UnidadMedidaIdPesado);
+      this.notaCompraForm.controls['cantidadPC'].setValue(data.CantidadPesado);
+      this.notaCompraForm.controls['kilosBrutosPC'].setValue(data.KilosBrutosPesado);
+      this.notaCompraForm.controls['taraPC'].setValue(data.TaraPesado);
+      
+      var kilosNetos = Number(data.KilosBrutosPesado - data.TaraPesado)
+      var valorkilosNetos = Math.round((kilosNetos + Number.EPSILON) * 100) / 100
+
+      this.notaCompraForm.controls['kilosNetosPC'].setValue(valorkilosNetos);
+      this.notaCompraForm.controls['dsctoHumedadPC'].setValue(0);
+      this.notaCompraForm.controls['humedadAT'].setValue(data.HumedadPorcentajeAnalisisFisico);
+      this.notaCompraForm.controls['kilosNetosDescontarPC'].setValue(0);
+      this.notaCompraForm.controls['kiloNetoPagarPC'].setValue(0);
+      this.notaCompraForm.controls['qqKgPC'].setValue(0);
+      
+      var result = this.login.Result.Data.ProductoPreciosDia.filter(s => s.ProductoId == data.ProductoId && s.SubProductoId == data.SubProductoId);
+
+      if(result.length>0){
+        this.notaCompraForm.controls['precioDiaAT'].setValue(result[0].PrecioDia);
+      }
+      this.notaCompraForm.controls['precioGuardadoAT'].setValue(0);
+      this.notaCompraForm.controls['precioPagadoAT'].setValue(0);
+      this.notaCompraForm.controls['importeAT'].setValue(0);
+      this.notaCompraForm.controls['monedaAT'].setValue(this.login.Result.Data.MonedaId);
 
 
-  this.notaCompraForm.controls['kilosNetosPC'].setValue(0);
-  this.notaCompraForm.controls['dsctoHumedadPC'].setValue(0);
-  this.notaCompraForm.controls['humedadAT'].setValue(0);
-  this.notaCompraForm.controls['kilosNetosDescontarPC'].setValue(0);
-  this.notaCompraForm.controls['kiloNetoPagarPC'].setValue(0);
-  this.notaCompraForm.controls['qqKgPC'].setValue(0);
-  this.notaCompraForm.controls['precioDiaAT'].setValue(0);
-  this.notaCompraForm.controls['precioGuardadoAT'].setValue(0);
-  this.notaCompraForm.controls['precioPagadoAT'].setValue(0);
-  this.notaCompraForm.controls['importeAT'].setValue(0);
-  this.notaCompraForm.controls['monedaAT'].setValue("01");
+      this.notaCompraForm.controls['exportableAT'].setValue(data.ExportableGramosAnalisisFisico);
+      this.notaCompraForm.controls['descarteAT'].setValue(data.DescarteGramosAnalisisFisico);
+      this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
+      this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
+  }else{
+    this.id = data.NotaCompra.NotaCompraId
+    this.notaCompraForm.controls['numero'].setValue(data.NotaCompra.Numero);
+    this.notaCompraForm.controls['tipo'].setValue(data.NotaCompra.TipoId);
+    this.notaCompraForm.controls['unidadMedida'].setValue(data.NotaCompra.UnidadMedidaIdPesado);
+    this.notaCompraForm.controls['cantidadPC'].setValue(data.NotaCompra.CantidadPesado);
+    this.notaCompraForm.controls['kilosBrutosPC'].setValue(data.NotaCompra.KilosBrutosPesado);
+    this.notaCompraForm.controls['taraPC'].setValue(data.NotaCompra.TaraPesado);
+
+    this.notaCompraForm.controls['kilosNetosPC'].setValue(data.NotaCompra.KilosNetosPesado);
+    this.notaCompraForm.controls['dsctoHumedadPC'].setValue(data.NotaCompra.DescuentoPorHumedad);
+
+    //duda
+    this.notaCompraForm.controls['humedadAT'].setValue(data.HumedadPorcentajeAnalisisFisico);
+    
+    this.notaCompraForm.controls['kilosNetosDescontarPC'].setValue(data.NotaCompra.KilosNetosDescontar);
+    this.notaCompraForm.controls['kiloNetoPagarPC'].setValue(data.NotaCompra.KilosNetosPagar);
+    this.notaCompraForm.controls['qqKgPC'].setValue(data.NotaCompra.QQ55);
+
+    var result = this.login.Result.Data.ProductoPreciosDia.filter(s => s.ProductoId == data.ProductoId && s.SubProductoId == data.SubProductoId);
+
+    if(result.length>0){
+      this.notaCompraForm.controls['precioDiaAT'].setValue(result[0].PrecioDia);
+    }
+
+    this.notaCompraForm.controls['precioGuardadoAT'].setValue(data.NotaCompra.PrecioGuardado);
+    this.notaCompraForm.controls['precioPagadoAT'].setValue(data.NotaCompra.PrecioPagado);
+    this.notaCompraForm.controls['importeAT'].setValue(data.NotaCompra.Importe);
+    this.notaCompraForm.controls['monedaAT'].setValue(data.NotaCompra.MonedaId);
 
 
-  this.notaCompraForm.controls['exportableAT'].setValue(data.ExportableGramosAnalisisFisico);
-  this.notaCompraForm.controls['descarteAT'].setValue(data.DescarteGramosAnalisisFisico);
-  this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
-  this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
+    this.notaCompraForm.controls['exportableAT'].setValue(data.ExportableGramosAnalisisFisico);
+    this.notaCompraForm.controls['descarteAT'].setValue(data.DescarteGramosAnalisisFisico);
+    this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
+    this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
+  }
  }
 
 
@@ -134,10 +195,10 @@ export class NotaCompraComponent implements OnInit {
         this.guardarService(request);
       } */
       var request = {
-        NotaCompraId: 0,
+        NotaCompraId: this.id,
         GuiaRecepcionMateriaPrimaId: this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId,
-        EmpresaId: 1,
-        Numero:"1",
+        EmpresaId: this.login.Result.Data.EmpresaId,
+        Numero:this.notaCompraForm.controls['numero'].value,
         UnidadMedidaIdPesado: this.notaCompraForm.controls['unidadMedida'].value,
         CantidadPesado: this.notaCompraForm.controls['cantidadPC'].value,
         KilosBrutosPesado: this.notaCompraForm.controls['kilosBrutosPC'].value,
@@ -152,16 +213,20 @@ export class NotaCompraComponent implements OnInit {
         CascarillaGramosAnalisisFisico: this.notaCompraForm.controls['cascarillaAT'].value,
         TotalGramosAnalisisFisico: this.notaCompraForm.controls['totalAT'].value,
         HumedadPorcentajeAnalisisFisico: this.notaCompraForm.controls['humedadAT'].value,
-        TipoId : "01",
+        TipoId : this.notaCompraForm.controls['tipo'].value,
         MonedaId: this.notaCompraForm.controls['monedaAT'].value,
-        PrecioGuardado: 0,
-        PrecioPagado: 0,
-        Importe: 0,
+        PrecioGuardado: this.notaCompraForm.controls['precioGuardadoAT'].value,
+        PrecioPagado: this.notaCompraForm.controls['precioPagadoAT'].value,
+        Importe: this.notaCompraForm.controls['importeAT'].value,
         UsuarioNotaCompra: this.detalleMateriaPrima.UsuarioPesado
       };
       
-
-      this.guardarService(request);
+      if(this.id != 0){
+        this.actualizarService(request);
+      }else{
+        this.guardarService(request);
+      }
+      
    
   }
  }
@@ -194,6 +259,60 @@ export class NotaCompraComponent implements OnInit {
       this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
     }
   );  
+}
+
+actualizarService(request: any){
+  this.notaCompraService.Actualizar(request)
+  .subscribe(res => {
+    this.spinner.hide();
+    if (res.Result.Success) {
+      if (res.Result.ErrCode == "") {
+        var form = this;
+        this.alertUtil.alertOkCallback('Actualizado!', 'Nota Compra Actualizado.',function(result){
+          if(result.isConfirmed){
+            form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+          }
+        }
+        );
+      } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    } else {
+      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    }
+  },
+    err => {
+      this.spinner.hide();
+      console.log(err);
+      this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+    }
+  );  
+}
+
+cancelar(){
+  this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+}
+
+changeDescuentoHumedad(){
+  var kilosNetos = this.notaCompraForm.controls['kilosNetosPC'].value;
+  var descuentoHumedad = this.notaCompraForm.controls['dsctoHumedadPC'].value;
+  var precioDia = this.notaCompraForm.controls['precioDiaAT'].value;
+  var kilosNetosDescontar = Number((kilosNetos * descuentoHumedad)/100);
+  var kilosNetosPagar = Number(kilosNetos - kilosNetosDescontar);
+  var qq60 = Number(kilosNetosPagar / 55.2);
+  var importe = Number(kilosNetosPagar * precioDia);
+
+  var valorkilosNetosDescontar = Math.round((kilosNetosDescontar + Number.EPSILON) * 100) / 100
+  var valorkilosNetosPagar = Math.round((kilosNetosPagar + Number.EPSILON) * 100) / 100
+  var valorqq60 = Math.round((qq60 + Number.EPSILON) * 100) / 100
+  var valorImporte = Math.round((importe + Number.EPSILON) * 100) / 100
+
+  this.notaCompraForm.controls['kilosNetosDescontarPC'].setValue(valorkilosNetosDescontar);
+  this.notaCompraForm.controls['kiloNetoPagarPC'].setValue(valorkilosNetosPagar);
+  this.notaCompraForm.controls['qqKgPC'].setValue(valorqq60);
+  this.notaCompraForm.controls['importeAT'].setValue(valorImporte);
 }
 
 }
