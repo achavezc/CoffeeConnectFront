@@ -3,8 +3,9 @@ export class ReqControlCalidad {
     EmpresaId: number,
     GuiaRecepcionMateriaPrimaId: number,
     HumedadPorcentajeAnalisisFisico: number,
-    ObservacionAnalisisFisico: string,
+    
     UsuarioCalidad: string,
+    ObservacionAnalisisFisico?: string,
     AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[],
     AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[],
     ExportableGramosAnalisisFisico?: number,
@@ -39,7 +40,7 @@ export class ReqControlCalidad {
         {
             this.AnalisisFisicoColorDetalleList = AnalisisFisicoColorDetalleList
         }
-        if (AnalisisFisicoDefectoPrimarioDetalleList)
+        if (AnalisisFisicoDefectoPrimarioDetalleList && AnalisisFisicoDefectoPrimarioDetalleList.length>0)
         {
             this.AnalisisFisicoDefectoPrimarioDetalleList = AnalisisFisicoDefectoPrimarioDetalleList
         }
@@ -92,11 +93,14 @@ export class ReqControlCalidad {
         {
         this.TotalPorcentajeAnalisisFisico = TotalPorcentajeAnalisisFisico
         }
+        if(ObservacionAnalisisFisico)
+        {
+        this.ObservacionAnalisisFisico = ObservacionAnalisisFisico
+        }
 
         this.EmpresaId = EmpresaId,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
-        this.HumedadPorcentajeAnalisisFisico = HumedadPorcentajeAnalisisFisico,
-        this.ObservacionAnalisisFisico = ObservacionAnalisisFisico,
+        this.HumedadPorcentajeAnalisisFisico = HumedadPorcentajeAnalisisFisico,       
         this.UsuarioCalidad = UsuarioCalidad    
     }
     EmpresaId: number;

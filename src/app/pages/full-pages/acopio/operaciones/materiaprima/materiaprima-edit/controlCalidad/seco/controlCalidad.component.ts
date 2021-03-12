@@ -301,8 +301,9 @@ export class ControlCalidadComponent implements OnInit {
       this.login.Result.Data.EmpresaId,
       Number(this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId),
       Number(controlFormControlCalidad["humedad"].value),
-      controlFormControlCalidad["ObservacionAnalisisFisico"].value,
+      
       this.login.Result.Data.NombreCompletoUsuario,
+      controlFormControlCalidad["ObservacionAnalisisFisico"].value,
       listaDetalleOlor,
       listaDetalleColor,
       Number(controlFormControlCalidad["exportGramos"].value),
@@ -371,7 +372,7 @@ export class ControlCalidadComponent implements OnInit {
     {
         var detalleOlor = new AnalisisFisicoOlorDetalleList();
         
-          detalleOlor.Valor = list[Number(item)].valor;
+          detalleOlor.Valor = list[Number(item)].valor? list[Number(item)].valor: false;
           detalleOlor.OlorDetalleId = list[Number(item)].Codigo;
           detalleOlor.OlorDetalleDescripcion = list[Number(item)].Label;
           listDetalleOlor.push(detalleOlor);
@@ -408,11 +409,12 @@ export class ControlCalidadComponent implements OnInit {
     {
      
         var detalleDefectoPrimario = new AnalisisFisicoDefectoPrimarioDetalleList();
-        detalleDefectoPrimario.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
+        detalleDefectoPrimario.Valor = list[Number(item)].valor != null && list[Number(item)].valor != "" ? Number(list[Number(item)].valor): null;
         detalleDefectoPrimario.DefectoDetalleDescripcion = list[Number(item)].Label;
         detalleDefectoPrimario.DefectoDetalleEquivalente = list[Number(item)].Val1;
         detalleDefectoPrimario.DefectoDetalleId = list[Number(item)].Codigo;
         listDetalleDefectosPrimarios.push(detalleDefectoPrimario);
+      
      
 
     }
@@ -430,7 +432,7 @@ export class ControlCalidadComponent implements OnInit {
     {
      
         var detalleDefectoSecundario = new AnalisisFisicoDefectoSecundarioDetalleList();
-        detalleDefectoSecundario.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
+        detalleDefectoSecundario.Valor = list[Number(item)].valor != null && list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleDefectoSecundario.DefectoDetalleDescripcion = list[Number(item)].Label;
         detalleDefectoSecundario.DefectoDetalleEquivalente = list[Number(item)].Val1;
         detalleDefectoSecundario.DefectoDetalleId = list[Number(item)].Codigo;
@@ -451,7 +453,7 @@ export class ControlCalidadComponent implements OnInit {
     {
      
         var detalleAtributo= new AnalisisSensorialAtributoDetalleList();
-        detalleAtributo.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
+        detalleAtributo.Valor = list[Number(item)].valor != null && list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleAtributo.AtributoDetalleDescripcion = list[Number(item)].Label;
         detalleAtributo.AtributoDetalleId = list[Number(item)].Codigo;
         listAnalisisAtributos.push(detalleAtributo);
@@ -491,7 +493,7 @@ export class ControlCalidadComponent implements OnInit {
     {
       
         var detalleRegistroTostado= new RegistroTostadoIndicadorDetalleList();
-        detalleRegistroTostado.Valor = list[Number(item)].valor != null? Number(list[Number(item)].valor): null;
+        detalleRegistroTostado.Valor = list[Number(item)].valor != null && list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleRegistroTostado.IndicadorDetalleDescripcion = list[Number(item)].Label;
         detalleRegistroTostado.IndicadorDetalleId = list[Number(item)].Codigo;
         listRegistroTostado.push(detalleRegistroTostado);
