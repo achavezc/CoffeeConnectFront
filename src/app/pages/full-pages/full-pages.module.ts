@@ -9,6 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { InvoicePageComponent } from "./invoice/invoice-page.component";
+import { HomeComponent } from "./home/home.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { AcopioModule } from "./acopio/acopio.module";
 import { ProductorModule } from './productor/productor.module';
@@ -34,9 +35,10 @@ import { ListFilterPipe } from '../../shared/pipes/listFilter.pipe';
   ],
   declarations: [
     InvoicePageComponent,
+    HomeComponent,
     MConsultarProductorComponent,
     ListFilterPipe
-  ],
+  ]
   // entryComponents: [
   //   MConsultarProductorComponent
   // ]
