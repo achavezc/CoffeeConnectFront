@@ -57,6 +57,7 @@ export class NotaCompraEditComponent implements OnInit {
 
   LoadForm(): void {
     this.notaCompraEditForm = this.fb.group({
+      idGuiaRecepcion: [],
       nombre: [],
       nroNotaCompra: [],
       direccion: [],
@@ -151,6 +152,7 @@ export class NotaCompraEditComponent implements OnInit {
 
   async AutocompleteForm(data: any) {
     await this.LoadCombos();
+    this.notaCompraEditForm.controls.idGuiaRecepcion.setValue(data.GuiaRecepcionMateriaPrimaId);
     this.notaCompraEditForm.controls.nombre.setValue(data.RazonSocial);
     this.notaCompraEditForm.controls.nroNotaCompra.setValue(data.Numero);
     this.notaCompraEditForm.controls.direccion.setValue(data.Direccion);
@@ -169,7 +171,7 @@ export class NotaCompraEditComponent implements OnInit {
     this.notaCompraEditForm.controls.provincia.setValue(data.Provincia);
     this.notaCompraEditForm.controls.tipo.setValue(data.TipoId);
     this.notaCompraEditForm.controls.distrito.setValue(data.Distrito);
-    // this.notaCompraEditForm.controls.codigo.setValue(data.);
+    this.notaCompraEditForm.controls.codigo.setValue(data.CodigoSocio);
     this.notaCompraEditForm.controls.zona.setValue(data.Zona);
     if (data.Finca) {
       this.notaCompraEditForm.controls.finca.setValue(data.Finca);
@@ -270,7 +272,7 @@ export class NotaCompraEditComponent implements OnInit {
     if (this.selectedEstado == '02') {
       let link = document.createElement('a');
       document.body.appendChild(link);
-      link.href = `${host}NotaCompra/GenerarPDF?id=${this.vId}`;
+      link.href = `${host}NotaCompra/GenerarPDF?id=${this.notaCompraEditForm.value.idGuiaRecepcion}`;
       link.download = "NotaCompra.pdf"
       link.target = "_blank";
       link.click();
