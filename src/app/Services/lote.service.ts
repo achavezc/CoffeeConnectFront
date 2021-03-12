@@ -27,4 +27,14 @@ export class LoteService {
     let url = `${this.url}/Anular`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+
+  SearchDetailsById(request: any): Observable<any> {
+    let url = `${this.url}/ConsultarDetallePorId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
+
+  Update(request: any) {
+    let url = `${this.url}/Actualizar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
 }

@@ -174,6 +174,15 @@
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
                             <ngx-datatable-column name="Número Lote" prop="Numero" width="130">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0"
+                                                [routerLink]="['/acopio/operaciones/lote/update', row.LoteId]">{{
+                                                name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Almacén" prop="Almacen" width="70">
                             </ngx-datatable-column>

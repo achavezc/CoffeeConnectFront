@@ -1,0 +1,171 @@
+<div class="card">
+    <div class="card-body">
+        <form class="needs-validation" [formGroup]="loteEditForm">
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <input type="text" minlength="5" maxlength="200" formControlName="razonSocial" class="form-control"
+                        id="razonSocial" placeholder="Razón social" [readonly]="true">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="nroLote" class="col-4 col-form-label">N° DE LOTE</label>
+                        <div class="col-8">
+                            <input type="text" name="nroLote" id="nroLote" formControlName="nroLote"
+                                class="form-control" placeholder="Número de lote" [readonly]="true">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <input type="text" minlength="5" maxlength="200" formControlName="direccion" class="form-control"
+                        id="direccion" placeholder="Dirección" [readonly]="true">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="fecha" class="col-4 col-form-label">FECHA</label>
+                        <div class="col-8">
+                            <input type="date" date name="fecha" id="fecha" formControlName="fecha" class="form-control"
+                                placeholder="Fecha" [readonly]="true">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="form-group row">
+                        <label for="ruc" class="col-1 col-form-label">RUC</label>
+                        <div class="col-11">
+                            <input type="text" name="ruc" id="ruc" formControlName="ruc" class="form-control"
+                                placeholder="R.U.C" [readonly]="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="almacen" class="col-4 col-form-label">ALMACEN</label>
+                        <div class="col-8">
+                            <ng-select [items]="listAlmacenes" formControlName="almacen" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="almacen" placeholder="Almacen"
+                                [ngClass]="{ 'is-invalid': f.almacen.invalid, 'is-valid': !f.almacen.invalid }"
+                                [(ngModel)]="selectedAlmacen">
+                            </ng-select>
+                            <small class="invalid-tooltip" *ngIf="!f.almacen.requerid">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <label for="">DETALLE DE LOTES</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <label for="">ALMACEN</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <fieldset class="form-group">
+                        <label>Show
+                            <select name="users-list-select"
+                                class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                (click)="updateLimit($event)">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            entries</label>
+                        <label for="ngx-filter-ref" class="float-right">Search:
+                            <input id="ngx-filter-ref"
+                                class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                (keyup)="filterUpdate($event)" />
+                        </label>
+                    </fieldset>
+                    <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true">
+                        <ngx-datatable-column name="N° DE GUIA" prop="NumeroGuia" width="100">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacenString" width="100">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="CÓDIGO PROVEEDOR" prop="CodigoSocio" width="100">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="CÓDIGO SOCIO" prop="CodigoSocio" width="100">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="PROVEEDOR" prop="CodigoSocio" width="200">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="TIPO DE PROVEEDOR" prop="TipoProvedor" width="100">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="UNIDAD DE MEDIDA" prop="UnidadMedida" width="80">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="CANTIDAD" prop="CantidadPesado" width="80">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="PESO NETO (KG)" prop="KilosNetosPesado" width="80">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="RENDIMIENTO" prop="RendimientoPorcentaje" width="100">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="% HUMEDAD" prop="HumedadPorcentaje" width="100">
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <td>TOTAL PESO NETO (KG)</td>
+                                <td>
+                                    <input type="number" name="totalPesoNeto" id="totalPesoNeto"
+                                        formControlName="totalPesoNeto" class="form-control form-control-sm text-right"
+                                        placeholder="Total peso neto (kg)" [readonly]="true">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PROMEDIO RENDIMIENTO</td>
+                                <td>
+                                    <input type="text" name="promedioRendimiento" id="promedioRendimiento"
+                                        formControlName="promedioRendimiento"
+                                        class="form-control form-control-sm text-center"
+                                        placeholder="Promedio rendimiento" [readonly]="true">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PROMEDIO HUMEDAD (%)</td>
+                                <td>
+                                    <input type="text" name="promedioHumedad" id="promedioHumedad"
+                                        formControlName="promedioHumedad"
+                                        class="form-control form-control-sm text-center" placeholder="Promedio humedad"
+                                        [readonly]="true">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8"></div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <button class="btn btn-primary" (click)="Save()">Guardar</button>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
