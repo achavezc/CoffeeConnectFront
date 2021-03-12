@@ -320,7 +320,8 @@ export class ControlCalidadComponent implements OnInit {
       listaDefectosSecundarios,
       listaRegistroTostado,
       listaAnalisisSensorialDefectos,
-      listaAnalisisSensorialAtrib
+      listaAnalisisSensorialAtrib,
+      controlFormControlCalidad["PuntajeFinal"].value
       );
     let json = JSON.stringify(this.reqControlCalidad);
     this.spinner.show(undefined,
@@ -491,21 +492,18 @@ export class ControlCalidadComponent implements OnInit {
     var list = this.mergeById (this.listaIndicadorTostado, result) 
     for (let item in list)
     {
-      
         var detalleRegistroTostado= new RegistroTostadoIndicadorDetalleList();
         detalleRegistroTostado.Valor = list[Number(item)].valor != null && list[Number(item)].valor != ""? Number(list[Number(item)].valor): null;
         detalleRegistroTostado.IndicadorDetalleDescripcion = list[Number(item)].Label;
         detalleRegistroTostado.IndicadorDetalleId = list[Number(item)].Codigo;
         listRegistroTostado.push(detalleRegistroTostado);
-      
-
     }
     return listRegistroTostado;
   }
   calcularTotalesRendExportable()
   {
-    if(this.formControlCalidad.controls["exportGramos"].value == "" && this.formControlCalidad.controls["descarteGramos"].value == "" &&
-    this.formControlCalidad.controls["cascarillaGramos"].value == "")
+    if(this.formControlCalidad.controls["exportGramos"].value == null && this.formControlCalidad.controls["descarteGramos"].value == null &&
+    this.formControlCalidad.controls["cascarillaGramos"].value == null)
     {
       this.formControlCalidad.controls['totalPorcentaje'].setValue(0+"%");
       this.formControlCalidad.controls['totalGramos'].setValue(0);
@@ -520,14 +518,14 @@ export class ControlCalidadComponent implements OnInit {
     const cascarillaGramos = Number(this.formControlCalidad.controls["cascarillaGramos"].value);
     const totalRendExportable = exportGramos + descarteGramos  + cascarillaGramos;
     this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
-    this.formControlCalidad.controls['cascarillaPorcentaje'].setValue((Number(cascarillaGramos/totalRendExportable)*100).toFixed(2)+"%");
-    this.formControlCalidad.controls['exportPorcentaje'].setValue((Number(exportGramos / totalRendExportable)*100).toFixed(2) + "%");
-    this.formControlCalidad.controls['descartePorcentaje'].setValue((Number(descarteGramos / totalRendExportable)*100).toFixed(2) + "%");
+    this.formControlCalidad.controls['cascarillaPorcentaje'].setValue(cascarillaGramos == 0 ? "0%": (Number(cascarillaGramos/totalRendExportable)*100).toFixed(2)+"%" );
+    this.formControlCalidad.controls['exportPorcentaje'].setValue(exportGramos == 0 ? "0%": (Number(exportGramos / totalRendExportable)*100).toFixed(2) + "%");
+    this.formControlCalidad.controls['descartePorcentaje'].setValue( descarteGramos==0? "0%": (Number(descarteGramos / totalRendExportable)*100).toFixed(2) + "%");
     const cascarillaPorcentaje = this.formControlCalidad.controls["cascarillaPorcentaje"].value;
     const exportPorcentaje = this.formControlCalidad.controls["exportPorcentaje"].value;
     const descartePorcentaje = this.formControlCalidad.controls["descartePorcentaje"].value;
     const totalPorcentaje = Number(cascarillaPorcentaje.slice(0,cascarillaPorcentaje.length-1)) + Number(exportPorcentaje.slice(0,exportPorcentaje.length-1)) + Number(descartePorcentaje.slice(0,descartePorcentaje.length-1));
-    this.formControlCalidad.controls['totalPorcentaje'].setValue( totalPorcentaje+ "%");
+    this.formControlCalidad.controls['totalPorcentaje'].setValue( totalPorcentaje.toFixed(2)+ "%");
     }
   }
 
@@ -565,6 +563,7 @@ export class ControlCalidadComponent implements OnInit {
  obtenerDetalle()
  {
   var form = this;
+  let puntajeFinal: number = 0;
   var controlFormControlCalidad = this.formControlCalidad.controls;
   controlFormControlCalidad["exportGramos"].setValue(this.detalleMateriaPrima.ExportableGramosAnalisisFisico);
   controlFormControlCalidad["exportPorcentaje"].setValue(this.detalleMateriaPrima.ExportablePorcentajeAnalisisFisico==null?"": this.detalleMateriaPrima.ExportablePorcentajeAnalisisFisico +"%");
@@ -579,7 +578,10 @@ export class ControlCalidadComponent implements OnInit {
   controlFormControlCalidad["ObservacionRegTostado"].setValue(this.detalleMateriaPrima.ObservacionRegistroTostado);
   controlFormControlCalidad["ObservacionAnalisisSensorial"].setValue(this.detalleMateriaPrima.ObservacionAnalisisSensorial);
   form.responsable = this.detalleMateriaPrima.UsuarioCalidad;
+  if (this.detalleMateriaPrima.FechaCalidad)
+  {
   form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalleMateriaPrima.FechaCalidad),"/");
+  }
   
   if (this.detalleMateriaPrima.AnalisisFisicoColorDetalle!= null)
   {
@@ -617,6 +619,7 @@ export class ControlCalidadComponent implements OnInit {
   {
   let analisisSensorialAtributoDetalleList: AnalisisSensorialAtributoDetalleList[] = this.detalleMateriaPrima.AnalisisSensorialAtributoDetalle;
   analisisSensorialAtributoDetalleList.forEach(function (value) {
+    puntajeFinal = puntajeFinal + value.Valor;
     form.tableSensorialRanking.controls["sensorialAtrib%"+ value.AtributoDetalleId].setValue(value.Valor); 
     form.tableSensorialRanking.controls["sensorialAtribRanking%"+ value.AtributoDetalleId].setValue(form.evaluar(value.Valor));
   });
@@ -638,6 +641,7 @@ export class ControlCalidadComponent implements OnInit {
     
   });
   }
+  controlFormControlCalidad["PuntajeFinal"].setValue(puntajeFinal);
  }
 
  cancelar()

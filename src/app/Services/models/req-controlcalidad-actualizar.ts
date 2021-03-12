@@ -22,8 +22,13 @@ export class ReqControlCalidad {
     AnalisisFisicoDefectoSecundarioDetalleList?: AnalisisFisicoDefectoSecundarioDetalleList[],
     RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[],
     AnalisisSensorialDefectoDetalleList?: AnalisisSensorialDefectoDetalleList[],
-    AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[])
+    AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[],
+    TotalAnalisisSensorial?: string)
     {
+        if(TotalAnalisisSensorial)
+        {
+            this.TotalAnalisisSensorial = TotalAnalisisSensorial
+        }
         if(ObservacionRegistroTostado)
         {
         this.ObservacionRegistroTostado = ObservacionRegistroTostado
@@ -124,7 +129,8 @@ export class ReqControlCalidad {
     AnalisisFisicoDefectoSecundarioDetalleList?: AnalisisFisicoDefectoSecundarioDetalleList[];
     RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[];
     AnalisisSensorialDefectoDetalleList?: AnalisisSensorialDefectoDetalleList[];
-    AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[]
+    AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[];
+    TotalAnalisisSensorial?: string;
 }
 
  export class DefectosPrimarios
