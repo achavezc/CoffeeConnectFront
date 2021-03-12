@@ -125,7 +125,7 @@
                                     </td>
                                     <td class="col-2">
                                         <input type="number" name="dsctoHumedadPC" id="dsctoHumedadPC"
-                                            formControlName="dsctoHumedadPC"
+                                            formControlName="dsctoHumedadPC" (change)="changeDescuentoHumedad()"
                                             class="form-control form-control-sm text-right"
                                             placeholder="Seleccionar unidad de medida" required>
                                     </td>
@@ -152,8 +152,21 @@
                                             class="form-control form-control-sm text-right"
                                             placeholder="Seleccionar unidad de medida" readonly required>
                                     </td>
-                                    <td class="col" colspan="7"></td>
+                                    <td class="col-2"></td>
+                                    <td class="col-3">
+                                        <label for="tipo" class="form-label font-weight-bold">Tipo </label>
+                                    </td>
+                                    <td class="col-2">
+                                        <ng-select [items]="listTipo" formControlName="tipo"
+                                            class="form-control form-control-sm" bindLabel="Label"
+                                            bindValue="Codigo" id="tipo"
+                                            placeholder="Seleccionar unidad de medida"
+                                            [(ngModel)]="selectedTipo" >
+                                        </ng-select>
+                                    </td>
                                 </tr>
+                              
+
                                 <tr class="form-row">
                                     <td class="col-3">
                                         <label for="kiloNetoPagarPC" class="form-label">Kilo Neto a
@@ -200,7 +213,7 @@
                                             required>
                                     </td>
                                 </tr>
-                                <tr class="form-row">
+                                <!-- <tr class="form-row">
                                     <td class="col" colspan="7"></td>
                                     <td class="col-3">
                                         <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
@@ -213,8 +226,8 @@
                                             placeholder="Seleccionar unidad de medida"
                                             [readonly]="selectedEstado != '01'" required>
                                     </td>
-                                </tr>
-                                <tr class="form-row">
+                                </tr> -->
+                               <!--  <tr class="form-row">
                                     <td class="col" colspan="7"></td>
                                     <td class="col-3">
                                         <label for="precioPagadoAT" class="form-label font-weight-bold">Precio
@@ -226,7 +239,7 @@
                                             class="form-control form-control-sm text-right"
                                             placeholder="Seleccionar unidad de medida" readonly required>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr class="form-row">
                                     <td class="col" colspan="7"></td>
                                     <td class="col-3">
@@ -251,6 +264,6 @@
 
             <ngx-spinner></ngx-spinner>
             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="guardar()">Guardar</button>
-            <button class="btn btn-primary mr-1 mb-1" type="submit">Cancelar</button>
+            <button class="btn btn-primary mr-1 mb-1" type="submit"  (click)="cancelar()">Cancelar</button>
         </div>
        
