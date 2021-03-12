@@ -102,7 +102,7 @@ export class NotaCompraComponent implements OnInit {
   await this.LoadCombos();
   var data = this.detalleMateriaPrima;
   this.login = JSON.parse(localStorage.getItem("user"));
-  if(data == null){
+  if(data.NotaCompra == null){
       
       this.notaCompraForm.controls['unidadMedida'].setValue(data.UnidadMedidaIdPesado);
       this.notaCompraForm.controls['cantidadPC'].setValue(data.CantidadPesado);
