@@ -57,7 +57,7 @@ export class LoginPageComponent {
         {
         this.spinner.hide();
         localStorage.setItem("user", JSON.stringify(this.loginModel));
-        this.router.navigate(['/acopio/operaciones/guiarecepcionmateriaprima-list']);
+        this.router.navigate(['/home']);
         }
       },
       err => {

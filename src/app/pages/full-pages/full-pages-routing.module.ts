@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InvoicePageComponent } from "./invoice/invoice-page.component";
+import { HomeComponent } from "./home/home.component";
 
 const routes: Routes = [
   {
@@ -23,6 +24,13 @@ const routes: Routes = [
         component: InvoicePageComponent,
         data: {
           title: 'Invoice Page'
+        }
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+        data: {
+          title: 'Home Page'
         }
       }
     ]
