@@ -181,9 +181,9 @@
                     <div class="form-group row">
                         <label for="zona" class="col-md-3 col-form-label pr-0">Zona</label>
                         <div class="col-md-9">
-                            <ng-select [items]="listZonas" formControlName="zona" class="form-control" bindLabel="Label"
-                                bindValue="Codigo" id="zona" placeholder="Seleccionar una zona" [readonly]="true"
-                                [(ngModel)]="selectedZona">
+                            <ng-select [items]="listZonas" formControlName="zona" class="form-control"
+                                bindLabel="Nombre" bindValue="ZonaId" id="zona" placeholder="Seleccionar una zona"
+                                [readonly]="true" [(ngModel)]="selectedZona">
                             </ng-select>
                         </div>
                     </div>
@@ -261,11 +261,13 @@
                             placeholder="Seleccionar Fecha Fín" date (blur)="compareTwoDates()" />
                     </div>
                 </div>
+                <small class="form-text text-muted danger mb-1"
+                    *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                 <button class="btn btn-primary" type="submit" [disabled]="!modalProductorForm.valid"
                     (click)="BuscarProductores()">Buscar</button>
                 <hr>
                 <ngx-spinner></ngx-spinner>
-                <div class="row">
+                <div class="form-row">
                     <div class="col-12">
                         <fieldset class="form-group">
                             <label>Show
@@ -290,13 +292,13 @@
                             [selected]="mSelected" (dblclick)="seleccionarProductor()">
                             <ngx-datatable-column name="Código" prop="Numero" width="90">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">
+                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="110">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="100">
+                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="110">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="150">
+                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="200">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Departamento" prop="Departamento" width="120">
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="140">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Provincia" prop="Provincia" width="120">
                             </ngx-datatable-column>
@@ -304,7 +306,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Zona" prop="Zona" width="120">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="FechaRegistro" prop="FechaRegistroString" width="100">
+                            <ngx-datatable-column name="FechaRegistro" prop="FechaRegistroString" width="80">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
