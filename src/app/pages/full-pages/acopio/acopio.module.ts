@@ -34,6 +34,7 @@ import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servic
 import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { NotaCompraComponent } from "./operaciones/materiaprima/materiaprima-edit/notacompra/notacompra.component";
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
+import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingresoalmacen-edit/ingresoalmacen-edit.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.compo
     OrdenServicioComponent,
     NotaCompraEditComponent,
     NotaCompraComponent,
-    LoteEditComponent
+    LoteEditComponent,
+    IngresoAlmacenEditComponent
   ],
   exports: [
     PesadoCafeComponent,
