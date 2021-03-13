@@ -277,7 +277,7 @@ export class SocioEditComponent implements OnInit {
         SocioId: this.vId,
         ProductorId: this.socioEditForm.value.idProductor,
         Usuario: 'mruizb',
-        EstadoId: this.socioEditForm.value.EstadoId
+        EstadoId: this.socioEditForm.value.estado
       }
 
       this.socioService.Update(request)
@@ -311,7 +311,8 @@ export class SocioEditComponent implements OnInit {
       mFechaInicio: ['', [Validators.required]],
       mFechaFin: ['', [Validators.required]]
     });
-
+    this.mRowsProductores = [];
+    this.modalProductorForm.reset();
     this.modalProductorForm.controls.mFechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.modalProductorForm.controls.mFechaFin.setValue(this.dateUtil.currentDate());
 
@@ -370,11 +371,11 @@ export class SocioEditComponent implements OnInit {
       return;
     } else {
       this.spinner.show();
-      let request = {
+      const request = {
         Numero: this.modalProductorForm.value.mCodProductor,
         NombreRazonSocial: this.modalProductorForm.value.mNombRazonSocial,
         TipoDocumentoId: this.modalProductorForm.value.mTipoDocumento ?? '',
-        NumeroDocumento: this.modalProductorForm.value.mNroDocumento,
+        NumeroDocumento: this.modalProductorForm.value.mNroDocumento.toString(),
         EstadoId: '01',
         FechaInicio: new Date(this.modalProductorForm.value.mFechaInicio),
         FechaFin: new Date(this.modalProductorForm.value.mFechaFin)
@@ -494,8 +495,8 @@ export class SocioEditComponent implements OnInit {
         this.socioEditForm.controls.idProductor.setValue(row.ProductorId);
       }
       this.socioEditForm.controls.codSocio.setValue(row.Codigo);
-      if (row.FechaRegistro) {
-        this.socioEditForm.controls.fecRegistro.setValue(row.FechaRegistro);
+      if (row.FechaRegistro && row.FechaRegistro.substring(0, 10) != "0001-01-01") {
+        this.socioEditForm.controls.fecRegistro.setValue(row.FechaRegistro.substring(0, 10));
       }
       await this.GetEstados();
       this.socioEditForm.controls.estado.setValue(row.EstadoId);

@@ -132,14 +132,14 @@ export class IngresoAlmacenComponent implements OnInit {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
       } else if ((group.value.rendimientoInicio && !group.value.rendimientoFin)
         || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores del rendimiento.' };
-      } else if (group.value.rendimientoInicio && group.value.rendimientoFin && group.value.rendimientoInicio <= group.value.rendimientoFin) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido.' };
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores de rendimiento.' };
+      } else if (group.value.rendimientoInicio && group.value.rendimientoFin && group.value.rendimientoFin <= group.value.rendimientoInicio) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido para rendimiento.' };
       } else if ((group.value.puntajeFinalIni && !group.value.puntajeFinalFin)
         || (!group.value.puntajeFinalIni && group.value.puntajeFinalFin)) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores del rendimiento.' };
-      } else if (group.value.puntajeFinalIni && group.value.puntajeFinalFin && group.value.puntajeFinalIni <= group.value.puntajeFinalFin) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido.' };
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores de puntaje final.' };
+      } else if (group.value.puntajeFinalIni && group.value.puntajeFinalFin && group.value.puntajeFinalFin <= group.value.puntajeFinalIni) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido para puntaje final.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -206,7 +206,13 @@ export class IngresoAlmacenComponent implements OnInit {
       for (let i = 0; i < event.selected.length; i++) {
         obj = event.selected[i];
         if (obj.EstadoId == "01" && obj.AlmacenId) {
-          this.selected.push(obj);
+          if (this.selected && this.selected.length > 0) {
+            if (!this.selected.find(x => x.NotaIngresoAlmacenId == obj.NotaIngresoAlmacenId)) {
+              this.selected.push(obj);
+            }
+          } else {
+            this.selected.push(obj);
+          }
         }
       }
       if (event.selected.length > 1 && this.selected.length <= 0) {
@@ -394,8 +400,10 @@ export class IngresoAlmacenComponent implements OnInit {
               this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           } else {
-            form.Buscar();
             form.spinner.hide();
+            this.alertUtil.alertOkCallback("GENERADO!", "Se genero el lote de manera correcta.", () => {
+              form.Buscar();
+            });
           }
         }, (err: any) => {
           console.log(err);
