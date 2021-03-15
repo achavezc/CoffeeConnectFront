@@ -1,0 +1,297 @@
+<div class="card">
+    <div class="card-header text-center">
+        REGISTRO DE DATOS DE LA FINCA
+    </div>
+    <div class="card-body">
+        <form class="needs-validation" novalidate [formGroup]="fincaEditForm">
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="nombreFinca" class="col-4 col-form-label pr-0">Nombre de la finca</label>
+                        <div class="col-8">
+                            <input type="text" name="nombreFinca" id="nombreFinca" formControlName="nombreFinca"
+                                [ngClass]="{ 'is-invalid': f.nombreFinca.invalid, 'is-valid': !f.nombreFinca.invalid }"
+                                class="form-control" placeholder="Ingresar nombre de la finca">
+                            <small class="invalid-tooltip" *ngIf="!f.nombreFinca.required">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="latitud" class="col-4 col-form-label pr-0">Latitud</label>
+                        <div class="col-8">
+                            <input type="number" name="latitud" id="latitud" formControlName="latitud"
+                                [ngClass]="{ 'is-invalid': f.latitud.invalid, 'is-valid': !f.latitud.invalid }"
+                                class="form-control" placeholder="Ingresar latitud">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="direccion" class="col-4 col-form-label pr-0">Dirección</label>
+                        <div class="col-8">
+                            <input type="text" name="direccion" id="direccion" formControlName="direccion"
+                                [ngClass]="{ 'is-invalid': f.direccion.invalid, 'is-valid': !f.direccion.invalid }"
+                                class="form-control" placeholder="Ingresar dirección">
+                            <small class="invalid-tooltip" *ngIf="!f.direccion.required">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="longitud" class="col-4 col-form-label pr-0">Longitud</label>
+                        <div class="col-8">
+                            <input type="number" name="longitud" id="longitud" formControlName="longitud"
+                                [ngClass]="{ 'is-invalid': f.longitud.invalid, 'is-valid': !f.longitud.invalid }"
+                                class="form-control" placeholder="Ingresar longitud">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="departamento" class="col-4 col-form-label pr-0">Departamento</label>
+                        <div class="col-8">
+                            <ng-select [items]="listDepartamentos" formControlName="departamento" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="departamento"
+                                placeholder="Seleccionar departamento" [(ngModel)]="selectedDepartamento"
+                                [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }"
+                                (change)="onChangeDepartament($event)">
+                            </ng-select>
+                            <small class="invalid-tooltip" *ngIf="!f.departamento.required">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="altitud" class="col-4 col-form-label pr-0">Altitud</label>
+                        <div class="col-8">
+                            <input type="number" name="altitud" id="altitud" formControlName="altitud"
+                                [ngClass]="{ 'is-invalid': f.altitud.invalid, 'is-valid': !f.altitud.invalid }"
+                                class="form-control" placeholder="Ingresar altitud">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="provincia" class="col-4 col-form-label pr-0">Provincia</label>
+                        <div class="col-8">
+                            <ng-select [items]="listProvincias" formControlName="provincia" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="provincia"
+                                placeholder="Seleccionar provincia" [(ngModel)]="selectedProvincia"
+                                [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }"
+                                (change)="onChangeProvince($event)">
+                            </ng-select>
+                            <small class="invalid-tooltip" *ngIf="!f.provincia.required">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="fuenteEnergia" class="col-4 col-form-label pr-0">Fuente de Energía</label>
+                        <div class="col-8">
+                            <ng-select [items]="listFuentesEnergia" formControlName="fuenteEnergia" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="fuenteEnergia"
+                                [ngClass]="{ 'is-invalid': f.fuenteEnergia.invalid, 'is-valid': !f.fuenteEnergia.invalid }"
+                                placeholder="Seleccionar fuente de energía" [(ngModel)]="selectedFuenteEnergia">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="distrito" class="col-4 col-form-label pr-0">Distrito</label>
+                        <div class="col-8">
+                            <ng-select [items]="listDistritos" formControlName="distrito" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="distrito"
+                                placeholder="Seleccionar distrito" [(ngModel)]="selectedDistrito"
+                                [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }"
+                                (change)="onChangeDistrito($event)">
+                            </ng-select>
+                            <small class="invalid-tooltip" *ngIf="!f.distrito.required">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="fuenteAgua" class="col-4 col-form-label pr-0">Fuente de Agua</label>
+                        <div class="col-8">
+                            <ng-select [items]="listFuentesAgua" formControlName="fuenteAgua" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="fuenteAgua"
+                                [ngClass]="{ 'is-invalid': f.fuenteAgua.invalid, 'is-valid': !f.fuenteAgua.invalid }"
+                                placeholder="Seleccionar fuente de agua" [(ngModel)]="selectedFuenteAgua">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="zona" class="col-4 col-form-label pr-0">Zona</label>
+                        <div class="col-8">
+                            <ng-select [items]="listZonas" formControlName="zona" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="zona" placeholder="Seleccionar zona"
+                                [ngClass]="{ 'is-invalid': f.zona.invalid, 'is-valid': !f.zona.invalid }"
+                                [(ngModel)]="selectedZona">
+                            </ng-select>
+                            <small class="invalid-tooltip" *ngIf="!f.nombreFinca.required">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="nroAnimalesMenores" class="col-4 col-form-label pr-0">N° Animales menores</label>
+                        <div class="col-8">
+                            <input type="number" name="nroAnimalesMenores" id="nroAnimalesMenores"
+                                formControlName="nroAnimalesMenores" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.nroAnimalesMenores.invalid, 'is-valid': !f.nroAnimalesMenores.invalid }"
+                                placeholder="Ingresar número de animales menores">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="materialVivienda" class="col-4 col-form-label pr-0">Material de vivienda</label>
+                        <div class="col-8">
+                            <input type="number" name="materialVivienda" id="materialVivienda"
+                                formControlName="materialVivienda" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.materialVivienda.invalid, 'is-valid': !f.materialVivienda.invalid }"
+                                placeholder="Ingresar material de vivienda">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="fInternet" class="col-4 col-form-label pr-0">Internet</label>
+                        <div class="col-3">
+                            <ng-select [items]="listInternet" formControlName="fInternet" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="fInternet" placeholder="Seleccionar internet"
+                                [ngClass]="{ 'is-invalid': f.fInternet.invalid, 'is-valid': !f.fInternet.invalid }"
+                                [(ngModel)]="selectedInternet">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="suelo" class="col-4 col-form-label pr-0">Suelo</label>
+                        <div class="col-8">
+                            <input type="text" name="suelo" id="suelo" formControlName="suelo" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.suelo.invalid, 'is-valid': !f.suelo.invalid }"
+                                placeholder="Ingresar suelo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="senialTelefonica" class="col-4 col-form-label pr-0">Señal telefónica</label>
+                        <div class="col-4">
+                            <ng-select [items]="listSenialTelefonica" formControlName="senialTelefonica"
+                                class="form-control" bindLabel="Label" bindValue="Codigo" id="senialTelefonica"
+                                [ngClass]="{ 'is-invalid': f.senialTelefonica.invalid, 'is-valid': !f.senialTelefonica.invalid }"
+                                placeholder="Seleccionar señal telefonica" [(ngModel)]="selectedSenialTelefonica">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="establecimientoSalud" class="col-4 col-form-label pr-0">Establecimiento de
+                            Salud</label>
+                        <div class="col-2">
+                            <ng-select [items]="listEstableSalud" formControlName="establecimientoSalud"
+                                class="form-control" bindLabel="Label" bindValue="Codigo" id="establecimientoSalud"
+                                [ngClass]="{ 'is-invalid': f.establecimientoSalud.invalid, 'is-valid': !f.establecimientoSalud.invalid }"
+                                placeholder="Seleccionar establecimiento de salud" [(ngModel)]="selectedEstableSalud">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="tiempoUnidadCentroSalud" class="col-4 col-form-label pr-0">Tiempo de la unidad al
+                            centro de Salud</label>
+                        <div class="col-8">
+                            <input type="text" name="tiempoUnidadCentroSalud" id="tiempoUnidadCentroSalud"
+                                formControlName="tiempoUnidadCentroSalud" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.tiempoUnidadCentroSalud.invalid, 'is-valid': !f.tiempoUnidadCentroSalud.invalid }"
+                                placeholder="Ingresar tiempo de la unidad al centro de salud">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="form-group row">
+                        <label for="centroEducativo" class="col-4 col-form-label pr-0">Centro Educativo</label>
+                        <div class="col-2">
+                            <ng-select [items]="listFlagsCentroEducativo" formControlName="fCentroEducativo"
+                                class="form-control" bindLabel="Label" bindValue="Codigo" id="fCentroEducativo"
+                                [ngClass]="{ 'is-invalid': f.fCentroEducativo.invalid, 'is-valid': !f.fCentroEducativo.invalid }"
+                                placeholder="Seleccionar centro educativo" [(ngModel)]="selectedFlagCentroEdu">
+                            </ng-select>
+                        </div>
+                        <div class="col-6">
+                            <ng-select [items]="listCentrosEducativos" formControlName="centroEducativo"
+                                class="form-control" bindLabel="Label" bindValue="Codigo" id="centroEducativo"
+                                [ngClass]="{ 'is-invalid': f.centroEducativo.invalid, 'is-valid': !f.centroEducativo.invalid }"
+                                placeholder="Seleccionar centro educativo" [(ngModel)]="selectedCentroEdu" multiple>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="estado" class="col-4 col-form-label pr-0">Estado</label>
+                        <div class="col-3">
+                            <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar estado"
+                                [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                                [readonly]="!vId || vId <= 0" [(ngModel)]="selectedEstado">
+                            </ng-select>
+                            <small class="invalid-tooltip" *ngIf="!f.estado.required">Es obligatorio!</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label for="">Mapa de la finca</label>
+                            <button class="btn btn-sm btn-primary text-right">...</button>
+                        </div>
+                        <div class="col-4">
+                            <label for="">Foto georeferenciadas</label>
+                            <button class="btn btn-sm btn-primary">...</button>
+                        </div>
+                        <div class="col-4">
+                            <label for="">Documentos adjuntos</label>
+                            <button class="btn btn-sm btn-primary">...</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer text-right">
+        <button class="btn btn-primary" (click)="Save()">Guardar</button>
+        <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
+    </div>
+</div>

@@ -6,6 +6,7 @@ import { MateriaPrimaEditComponent } from './operaciones/materiaprima/materiapri
 import { NotaSalidaEditComponent } from "./operaciones/notasalida/notasalida-edit/notaSalida-edit.component";
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
+import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingresoalmacen-edit/ingresoalmacen-edit.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
@@ -56,6 +57,13 @@ const routes: Routes = [
         component: IngresoAlmacenComponent,
         data: {
           title: 'Ingreso a almacen'
+        }
+      },
+      {
+        path: 'ingresoalmacen-edit',
+        component: IngresoAlmacenEditComponent,
+        data: {
+          title: 'Edit'
         }
       },
       {

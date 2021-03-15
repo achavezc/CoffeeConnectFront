@@ -213,7 +213,16 @@
                             [selected]="selected" [selectionType]="'checkbox'" (activate)="onActive($event)"
                             (select)="onSelect($event)">
                             <ngx-datatable-column name="N° Nota Ingreso" prop="Numero" width="130">
-                            </ngx-datatable-column>
+
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                  <div class="d-flex align-items-center">
+                                    <div class="cell-line-height">
+                                      <a class="line-height-1 mb-0" routerLink="/operaciones/ingresoalmacen-edit" [queryParams]="{ id: row.NotaIngresoAlmacenId}" >{{ name }}</a>
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </ngx-datatable-column>
+
                             <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="70">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">
