@@ -180,4 +180,10 @@ export class ProductorComponent implements OnInit {
     this.router.navigate(['/productor/administracion/productor/create']);
   }
 
+  GoFormListFinca(): void {
+    if (this.selected && this.selected.length > 0) {
+      this.router.navigate([`/productor/administracion/productor/finca/${this.selected[0].ProductorId}`]);
+    }
+  }
+
 }

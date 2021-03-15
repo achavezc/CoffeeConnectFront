@@ -21,9 +21,11 @@ import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustom
 
 import { ProductorComponent } from './administracion/maestroproductor/productor.component';
 import { ProductorEditComponent } from './administracion/maestroproductor/productor-edit/productor-edit.component';
+import { FincaComponent } from './administracion/maestroproductor/finca/finca.component';
+import { FincaEditComponent } from './administracion/maestroproductor/finca/fincaedit/finca-edit.component';
 
 @NgModule({
-  declarations: [ProductorComponent, ProductorEditComponent],
+  declarations: [ProductorComponent, ProductorEditComponent, FincaComponent, FincaEditComponent],
   imports: [
     CommonModule,
     FormsModule,
