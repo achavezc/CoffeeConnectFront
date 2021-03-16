@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
+import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../../services/maestro.service';
+import { ProductorFincaService } from '../../../../../../../services/productor-finca.service';
+import { AlertUtil } from '../../../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-finca-edit',
@@ -15,7 +19,11 @@ export class FincaEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
     private maestroUtil: MaestroUtil,
-    private maestroService: MaestroService) { }
+    private maestroService: MaestroService,
+    private productorFincaService: ProductorFincaService,
+    private spinner: NgxSpinnerService,
+    private alertUtil: AlertUtil,
+    private router: Router) { }
 
   fincaEditForm: any;
   listDepartamentos: any[];
@@ -48,15 +56,17 @@ export class FincaEditComponent implements OnInit {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
     this.LoadForm();
     this.LoadCombos();
+    this.AddValidations();
     if (this.vId > 0) {
-
+      this.SearchProducerFincaById();
     } else {
-      this.fincaEditForm.controls.estado.setValue('01');
     }
   }
 
   LoadForm(): void {
     this.fincaEditForm = this.fb.group({
+      idProductorFinca: [],
+      idProductor: [],
       nombreFinca: ['', [Validators.required]],
       latitud: [],
       direccion: ['', [Validators.required]],
@@ -109,10 +119,18 @@ export class FincaEditComponent implements OnInit {
     }
   }
 
+  async GetZonas() {
+    this.listZonas = [];
+    const res: any = await this.maestroUtil.GetZonasAsync(this.selectedDistrito);
+    if (res.Result.Success) {
+      this.listZonas = res.Result.Data;
+    }
+  }
+
   async LoadCombos() {
     let res: any = {};
     this.GetDepartments();
-    res = await this.maestroService.obtenerMaestros('CentroEducativoNivel').toPromise();
+    res = await this.maestroService.obtenerMaestros('NivelEducativo').toPromise();
     if (res.Result.Success) {
       this.listCentrosEducativos = res.Result.Data;
     }
@@ -120,6 +138,31 @@ export class FincaEditComponent implements OnInit {
     res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
       this.listEstados = res.Result.Data;
+      if (this.vId <= 0) {
+        this.fincaEditForm.controls.estado.setValue('01');
+      }
+    }
+
+    res = await this.maestroService.obtenerMaestros('FuenteEnergia').toPromise();
+    if (res.Result.Success) {
+      this.listFuentesEnergia = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('FuenteAgua').toPromise();
+    if (res.Result.Success) {
+      this.listFuentesAgua = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('SiNo').toPromise();
+    if (res.Result.Success) {
+      this.listInternet = res.Result.Data;
+      this.listEstableSalud = res.Result.Data;
+      this.listFlagsCentroEducativo = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('ProveedorTelefonia').toPromise();
+    if (res.Result.Success) {
+      this.listSenialTelefonica = res.Result.Data;
     }
   }
 
@@ -156,12 +199,198 @@ export class FincaEditComponent implements OnInit {
     });
   }
 
-  Save(): void {
+  AddValidations(): void {
+    const centrosEducativos = this.fincaEditForm.controls.centroEducativo;
+    this.fincaEditForm.controls.fCentroEducativo.valueChanges
+      .subscribe((res: any) => {
+        if (res) {
+          centrosEducativos.setValidators(Validators.required);
+        } else {
+          centrosEducativos.clearValidators();
+        }
+        centrosEducativos.updateValueAndValidity();
+      });
+  }
 
+  SearchProducerFincaById(): void {
+    this.spinner.show();
+    this.productorFincaService.SearcById({ ProductorFincaId: this.vId })
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          this.AutocompleteForm(res.Result.Data);
+        }
+      }, (err: any) => {
+        console.log(err);
+      });
+  }
+
+  async AutocompleteForm(data: any) {
+    this.fincaEditForm.controls.idProductorFinca.setValue(data.ProductorFincaId);
+    this.fincaEditForm.controls.idProductor.setValue(data.ProductorId);
+    this.fincaEditForm.controls.nombreFinca.setValue(data.Nombre);
+    if (data.Latitud) {
+      this.fincaEditForm.controls.latitud.setValue(data.Latitud);
+    }
+    this.fincaEditForm.controls.direccion.setValue(data.Direccion);
+    if (data.Longuitud) {
+      this.fincaEditForm.controls.longitud.setValue(data.Longuitud);
+    }
+    await this.GetDepartments();
+    this.fincaEditForm.controls.departamento.setValue(data.DepartamentoId);
+    if (data.Altitud) {
+      this.fincaEditForm.controls.altitud.setValue(data.Altitud);
+    }
+    await this.GetProvincias();
+    this.fincaEditForm.controls.provincia.setValue(data.ProvinciaId);
+    if (data.FuenteEnergiaId)
+      this.fincaEditForm.controls.fuenteEnergia.setValue(data.FuenteEnergiaId);
+    await this.GetDistritos();
+    this.fincaEditForm.controls.distrito.setValue(data.DistritoId);
+    if (data.FuenteAguaId)
+      this.fincaEditForm.controls.fuenteAgua.setValue(data.FuenteAguaId);
+    if (data.ZonaId) {
+      await this.GetZonas();
+      if (this.listZonas.length > 0) {
+        this.fincaEditForm.controls.zona.setValue(data.ZonaId);
+      }
+    }
+    if (data.CantidadAnimalesMenores)
+      this.fincaEditForm.controls.nroAnimalesMenores.setValue(data.CantidadAnimalesMenores);
+    if (data.MaterialVivienda)
+      this.fincaEditForm.controls.materialVivienda.setValue(data.MaterialVivienda);
+    if (data.InternetId)
+      this.fincaEditForm.controls.fInternet.setValue(data.InternetId);
+    if (data.Suelo)
+      this.fincaEditForm.controls.suelo.setValue(data.Suelo);
+    if (data.SenialTelefonicaId)
+      this.fincaEditForm.controls.senialTelefonica.setValue(data.SenialTelefonicaId);
+    if (data.EstablecimientoSaludId)
+      this.fincaEditForm.controls.establecimientoSalud.setValue(data.EstablecimientoSaludId);
+    if (data.TiempoTotalEstablecimientoSalud)
+      this.fincaEditForm.controls.tiempoUnidadCentroSalud.setValue(data.TiempoTotalEstablecimientoSalud);
+    if (data.CentroEducativoId)
+      this.fincaEditForm.controls.fCentroEducativo.setValue(data.CentroEducativoId);
+    if (data.CentroEducativoNivel)
+      this.fincaEditForm.controls.centroEducativo.setValue(data.CentroEducativoNivel.split('|').map(String));
+    if (data.EstadoId) {
+      this.fincaEditForm.controls.estado.setValue(data.EstadoId);
+    }
+    this.spinner.hide();
+  }
+
+  GetRequest(): any {
+    const result = {
+      ProductorFincaId: this.fincaEditForm.value.idProductorFinca ?? 0,
+      ProductorId: this.fincaEditForm.value.idProductor ?? 0,
+      Nombre: this.fincaEditForm.value.nombreFinca ?? '',
+      Direccion: this.fincaEditForm.value.direccion ?? '',
+      DepartamentoId: this.fincaEditForm.value.departamento ?? '',
+      ProvinciaId: this.fincaEditForm.value.provincia ?? '',
+      DistritoId: this.fincaEditForm.value.distrito ?? '',
+      ZonaId: this.fincaEditForm.value.zona ? this.fincaEditForm.value.zona.toString() : '',
+      Latitud: this.fincaEditForm.value.latitud ?? 0,
+      Longuitud: this.fincaEditForm.value.longitud ?? 0,
+      Altitud: this.fincaEditForm.value.altitud ?? 0,
+      FuenteEnergiaId: this.fincaEditForm.value.fuenteEnergia ?? '',
+      FuenteAguaId: this.fincaEditForm.value.fuenteAgua ?? '',
+      InternetId: this.fincaEditForm.value.fInternet ?? '',
+      SenialTelefonicaId: this.fincaEditForm.value.senialTelefonica ?? '',
+      EstablecimientoSaludId: this.fincaEditForm.value.establecimientoSalud ?? '',
+      CentroEducativoId: this.fincaEditForm.value.fCentroEducativo ?? '',
+      CentroEducativoNivel: this.fincaEditForm.value.centroEducativo ? this.fincaEditForm.value.centroEducativo.join('|') : '',
+      TiempoTotalEstablecimientoSalud: this.fincaEditForm.value.tiempoUnidadCentroSalud ?? 0,
+      CantidadAnimalesMenores: this.fincaEditForm.value.nroAnimalesMenores ?? 0,
+      MaterialVivienda: this.fincaEditForm.value.materialVivienda ?? '',
+      Suelo: this.fincaEditForm.value.suelo ?? '',
+      Usuario: 'mruizb',
+      EstadoId: this.fincaEditForm.value.estado ?? ''
+    };
+    return result;
+  }
+
+  Save(): void {
+    if (!this.fincaEditForm.invalid) {
+      const form = this;
+      if (this.vId > 0) {
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con la actualización del productor finca?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.Update();
+          }
+        });
+      } else {
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con la creación del productor finca?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.Create();
+          }
+        });
+      }
+    } else {
+      this.alertUtil.alertError("Advertencia!", "Por favor completar los campos OBLIGATORIOS.");
+    }
+  }
+
+  Create(): void {
+    this.spinner.show();
+    const request = this.GetRequest();
+    this.productorFincaService.Create(request)
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('CORRECTO!', 'Productor finca creado correctamente!', () => {
+            this.Cancel();
+          });
+        }
+      }, (err: any) => {
+        this.spinner.hide();
+        console.log(err);
+      });
+  }
+
+  Update(): void {
+    this.spinner.show();
+    const request = this.GetRequest();
+    this.productorFincaService.Update(request)
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('CORRECTO!', 'Productor finca actualizado correctamente!', () => {
+            this.Cancel();
+          });
+        }
+      }, (err: any) => {
+        this.spinner.hide();
+        console.log(err);
+      });
   }
 
   Cancel(): void {
-
+    this.router.navigate([`/productor/administracion/productor/fincas/${this.fincaEditForm.value.idProductor}`]);
   }
 
 }
