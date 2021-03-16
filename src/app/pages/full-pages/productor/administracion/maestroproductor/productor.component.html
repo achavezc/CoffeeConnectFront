@@ -97,7 +97,8 @@
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!productorForm.valid"
                                 (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoFormListFinca()">Fincas</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoFormListFinca()"
+                                [disabled]="!selected || selected.length <= 0">Fincas</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Documentos</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Proyectos</button>
                         </form>
@@ -151,28 +152,26 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="100">
+                            <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="130">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="100">
+                            <ngx-datatable-column name="N° Documento" prop="NumeroDocumento" width="120">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="150">
+                            <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="250">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Departamento" prop="Departamento" width="120">
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="140">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Provincia" prop="Provincia" width="120">
+                            <ngx-datatable-column name="Provincia" prop="Provincia" width="140">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Distrito" prop="Distrito" width="100">
+                            <ngx-datatable-column name="Distrito" prop="Distrito" width="200">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Zona" prop="Zona" width="120">
+                            <ngx-datatable-column name="Zona" prop="Zona" width="240">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="FechaRegistro" prop="FechaRegistroString" width="100">
+                            <ngx-datatable-column name="FechaRegistro" prop="FechaRegistroString" width="120">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
-                                    <div class="badge" [ngClass]="{
-                          'bg-light-success': status == 'Activo',
-                          'bg-light-warning': status == 'Inactivo'
-                        }">
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Activo', 'bg-light-warning': status == 'Inactivo' }">
                                         {{ status }}
                                     </div>
                                 </ng-template>
