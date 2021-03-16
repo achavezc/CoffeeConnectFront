@@ -127,7 +127,9 @@
                                         <input type="number" name="dsctoHumedadPC" id="dsctoHumedadPC"
                                             formControlName="dsctoHumedadPC" (change)="changeDescuentoHumedad()"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" required>
+                                            placeholder="Seleccionar unidad de medida" 
+                                            [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.dsctoHumedadPC.invalid, 'is-valid': subedit && !notaCompraForm.controls.dsctoHumedadPC.invalid }" 
+                                            required>
                                     </td>
                                     <td class="col-2"></td>
                                     <td class="col-3">
@@ -213,7 +215,7 @@
                                             required>
                                     </td>
                                 </tr>
-                                <!-- <tr class="form-row">
+                             <tr class="form-row">
                                     <td class="col" colspan="7"></td>
                                     <td class="col-3">
                                         <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
@@ -226,8 +228,8 @@
                                             placeholder="Seleccionar unidad de medida"
                                             [readonly]="selectedEstado != '01'" required>
                                     </td>
-                                </tr> -->
-                               <!--  <tr class="form-row">
+                                </tr> 
+                                <tr class="form-row">
                                     <td class="col" colspan="7"></td>
                                     <td class="col-3">
                                         <label for="precioPagadoAT" class="form-label font-weight-bold">Precio
@@ -239,7 +241,7 @@
                                             class="form-control form-control-sm text-right"
                                             placeholder="Seleccionar unidad de medida" readonly required>
                                     </td>
-                                </tr> -->
+                                </tr> 
                                 <tr class="form-row">
                                     <td class="col" colspan="7"></td>
                                     <td class="col-3">
