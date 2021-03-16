@@ -10,6 +10,9 @@ import { formatDate } from '@angular/common';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import {Router} from "@angular/router"
+
+import { AnalisisSensorialDefectoDetalleList} from '../../../../../../services/models/req-controlcalidad-actualizar'
+
 @Component({
     selector: 'app-ingresoalmacen-edit',
     templateUrl: './ingresoalmacen-edit.component.html',
@@ -239,17 +242,16 @@ import {Router} from "@angular/router"
         this.consultaMateriaPrimaFormEdit.controls["puntajeFinal"].setValue(data.TotalAnalisisSensorial);
         this.consultaMateriaPrimaFormEdit.controls["almacen"].setValue(data.AlmacenId);
         
-      /*
-        if (this.detalleMateriaPrima.AnalisisSensorialDefectoDetalle!= null)
+      
+        var form = this;
+        if (data.AnalisisSensorialDefectoDetalle!= null)
           {
-          let analisisSensorialDefectoDetalleList: AnalisisSensorialDefectoDetalleList[] = this.detalleMateriaPrima.AnalisisSensorialDefectoDetalle;
+          let analisisSensorialDefectoDetalleList: AnalisisSensorialDefectoDetalleList[] = data.AnalisisSensorialDefectoDetalle;
           analisisSensorialDefectoDetalleList.forEach(function (value) {
             form.tableSensorialDefectos.controls["checkboxSenDefectos%"+ value.DefectoDetalleId].setValue(value.Valor);  
           });
           }
-          */
-         this.tableSensorialDefectos.controls["checkboxSenDefectos%"+ "01"].setValue(1);  
-
+       
         this.spinner.hide();
     
        

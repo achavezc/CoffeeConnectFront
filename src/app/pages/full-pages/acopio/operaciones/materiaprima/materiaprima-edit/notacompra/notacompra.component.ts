@@ -29,6 +29,7 @@ export class NotaCompraComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   login: ILogin;
   id = 0;
+  subedit = false;
 
   @Input() events: Observable<void>;
   constructor(
@@ -63,7 +64,7 @@ export class NotaCompraComponent implements OnInit {
           taraPC:  ['', ],
           totalAT:  ['', ],
           kilosNetosPC:  ['', ],
-          dsctoHumedadPC:  ['', ],
+          dsctoHumedadPC:  ['', Validators.required ],
           humedadAT:  ['', ],
           kilosNetosDescontarPC:  ['', ],
           kiloNetoPagarPC:  ['', ],
@@ -114,7 +115,7 @@ export class NotaCompraComponent implements OnInit {
       var valorkilosNetos = Math.round((kilosNetos + Number.EPSILON) * 100) / 100
 
       this.notaCompraForm.controls['kilosNetosPC'].setValue(valorkilosNetos);
-      this.notaCompraForm.controls['dsctoHumedadPC'].setValue(0);
+      //this.notaCompraForm.controls['dsctoHumedadPC'].setValue(0);
       this.notaCompraForm.controls['humedadAT'].setValue(data.HumedadPorcentajeAnalisisFisico);
       this.notaCompraForm.controls['kilosNetosDescontarPC'].setValue(0);
       this.notaCompraForm.controls['kiloNetoPagarPC'].setValue(0);
@@ -125,8 +126,10 @@ export class NotaCompraComponent implements OnInit {
       if(result.length>0){
         this.notaCompraForm.controls['precioDiaAT'].setValue(result[0].PrecioDia);
       }
-      this.notaCompraForm.controls['precioGuardadoAT'].setValue(0);
-      this.notaCompraForm.controls['precioPagadoAT'].setValue(0);
+      this.notaCompraForm.controls['precioGuardadoAT'].setValue(result[0].PrecioDia);
+
+      this.notaCompraForm.controls['precioPagadoAT'].setValue(result[0].PrecioDia);
+
       this.notaCompraForm.controls['importeAT'].setValue(0);
       this.notaCompraForm.controls['monedaAT'].setValue(this.login.Result.Data.MonedaId);
 
@@ -159,9 +162,16 @@ export class NotaCompraComponent implements OnInit {
     if(result.length>0){
       this.notaCompraForm.controls['precioDiaAT'].setValue(result[0].PrecioDia);
     }
-
     this.notaCompraForm.controls['precioGuardadoAT'].setValue(data.NotaCompra.PrecioGuardado);
-    this.notaCompraForm.controls['precioPagadoAT'].setValue(data.NotaCompra.PrecioPagado);
+
+    if(data.NotaCompra.PrecioGuardado >result[0].PrecioDia){
+      this.notaCompraForm.controls['precioPagadoAT'].setValue(data.NotaCompra.PrecioGuardado);
+    }else{
+      this.notaCompraForm.controls['precioPagadoAT'].setValue(result[0].PrecioDia);
+    }
+
+    
+
     this.notaCompraForm.controls['importeAT'].setValue(data.NotaCompra.Importe);
     this.notaCompraForm.controls['monedaAT'].setValue(data.NotaCompra.MonedaId);
 
@@ -178,7 +188,7 @@ export class NotaCompraComponent implements OnInit {
  guardar(){
     
   if (this.notaCompraForm.invalid) {
-    //this.submittedEdit = true;
+    this.subedit = true;
     return;
   } else {
    
@@ -190,11 +200,6 @@ export class NotaCompraComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-      /* if(this.esEdit && this.id!=0){
-        this.actualizarService(request);
-      }else{
-        this.guardarService(request);
-      } */
       var request = {
         NotaCompraId: this.id,
         GuiaRecepcionMateriaPrimaId: this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId,
