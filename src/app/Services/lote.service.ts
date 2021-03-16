@@ -7,6 +7,8 @@ import { ErrorHandling } from '../shared/util/error-handling';
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class LoteService {
 
   constructor(private http: HttpClient, private errorHandling: ErrorHandling) { }

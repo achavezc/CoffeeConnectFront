@@ -34,6 +34,7 @@ import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servic
 import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { NotaCompraComponent } from "./operaciones/materiaprima/materiaprima-edit/notacompra/notacompra.component";
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
+import {TagNotaSalidaEditComponent} from './operaciones/notasalida/notasalida-edit/notasalida/tag-notasalida.component';
 
 @NgModule({
   imports: [
@@ -70,12 +71,14 @@ import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.compo
     OrdenServicioComponent,
     NotaCompraEditComponent,
     NotaCompraComponent,
-    LoteEditComponent
+    LoteEditComponent,
+    TagNotaSalidaEditComponent
   ],
   exports: [
     PesadoCafeComponent,
     ControlCalidadComponent,
-    ControlCalidadComponentHumedo
+    ControlCalidadComponentHumedo,
+    TagNotaSalidaEditComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

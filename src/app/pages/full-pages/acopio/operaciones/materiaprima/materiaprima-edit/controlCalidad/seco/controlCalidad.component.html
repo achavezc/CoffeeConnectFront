@@ -1,474 +1,13 @@
 <div id="account">
-    <form [formGroup]="formControlCalidad">
-       <!-- <div class="row">
-            <div class="col-12 col-md-5">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="font-calidad group-control-calidad">
-                            <div class="item-control-calidad">
-                                <h5 class="mt-0" style="text-align: center;">Análisis Físico</h5>
-                                <div class="row">
-
-                                    <div class="table-responsive">
-                                        <table class="table-calidad font-calidad" style="width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="3">RENDIMIENTO EXPORTABLE</th>
-
-                                                </tr>
-                                                <tr>
-                                                    <th style="width: 35%;">DETALLE</th>
-                                                    <th style="width: 35%;">GRAMOS</th>
-                                                    <th style="width: 30%;">%</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <ng-container>
-                                                    <tr>
-                                                        <td>Exportable</td>
-                                                        <td style="border-left: 1px solid #E0E0E0;"><input type="number"
-                                                                class="form-control square" id="basicInput"
-                                                                formControlName="exportGramos"
-                                                                (input)="calcularTotalesRendExportable()">
-                                                            <small class="form-text text-muted danger"
-                                                                *ngIf="frendExport.exportGramos.errors?.required">*Requerido</small>
-                                                        </td>
-                                                        <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                                class="form-control square" id="basicInput"
-                                                                formControlName="exportPorcentaje" disabled>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Descarte</td>
-                                                        <td style="border-left: 1px solid #E0E0E0;">
-                                                            <input type="number" class="form-control square"
-                                                                id="basicInput" formControlName="descarteGramos"
-                                                                (input)="calcularTotalesRendExportable()">
-                                                            <small class="form-text text-muted danger"
-                                                                *ngIf="frendExport.descarteGramos.errors?.required">*Requerido</small>
-                                                        </td>
-                                                        <td style="border-left: 1px solid #E0E0E0;">
-                                                            <input type="text" class="form-control square"
-                                                                id="basicInput" formControlName="descartePorcentaje"
-                                                                disabled>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cascarilla</td>
-                                                        <td style="border-left: 1px solid #E0E0E0;"><input type="number"
-                                                                class="form-control square" id="basicInput"
-                                                                formControlName="cascarillaGramos"
-                                                                (input)=" calcularTotalesRendExportable()">
-                                                            <small class="form-text text-muted danger"
-                                                                *ngIf="frendExport.cascarillaGramos.errors?.required">*Requerido</small>
-                                                        </td>
-                                                        <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                                class="form-control square" id="basicInput"
-                                                                formControlName="cascarillaPorcentaje" disabled>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="td-total">
-                                                        <td>Total</td>
-                                                        <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                                formControlName="totalGramos"
-                                                                style="border: 0; height: 1rem;"
-                                                                class="form-control square" id="basicInput" disabled>
-                                                        </td>
-                                                        <td style="border-left: 1px solid #E0E0E0;"><input type="text"
-                                                                formControlName="totalPorcentaje"
-                                                                style="border: 0; height: 1rem;"
-                                                                class="form-control square" id="basicInput" disabled>
-                                                        </td>
-                                                    </tr>
-                                                </ng-container>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group row" style="margin-top: 1rem;">
-                                            <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">%
-                                                Humedad</label>
-                                            <div class="col-md-8">
-                                                <input type="number" class="form-control square" id="horizontal-form-1"
-                                                    formControlName="humedad" name="first-name">
-                                                <small class="form-text text-muted danger"
-                                                    *ngIf="frendExport.humedad.errors?.required">*Requerido</small>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-md-6 table-2">
-                                        <div class="row">
-                                            <table class="table-calidad font-calidad table-responsive"
-                                                [formGroup]="tableOlor" style="width: 100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>OLOR</th>
-                                                        <th>SELECCION</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <ng-container *ngFor="let item of listaOlor ; let i=index">
-                                                        <tr>
-
-                                                            <td style="width: 70%;"> <label class="label-checkbox">{{
-                                                                    item.Label }}</label></td>
-                                                            <td style="border-left: 1px solid #E0E0E0; width: 30%;">
-                                                                <div class="checkbox">
-                                                                    <input type="checkbox"
-                                                                        [id]="'CheckboxOlor%'+item.Codigo"
-                                                                        [formControlName]="'CheckboxOlor%'+item.Codigo">
-                                                                    <label [for]="'CheckboxOlor%'+item.Codigo"
-                                                                        class="label-checkbox"></label>
-
-                                                                </div>
-                                                            </td>
-
-                                                        </tr>
-
-                                                    </ng-container>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 table-2">
-                                        <div class="row">
-                                            <table class="table-calidad font-calidad table-responsive"
-                                                [formGroup]="tableColor" style="width: 100%;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>COLOR</th>
-                                                        <th>SELECCION</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let item of listaColor">
-                                                        <td style="width: 70%;"> {{ item.Label }}</td>
-                                                        <td style="border-left: 1px solid #E0E0E0; width: 30%;">
-                                                            <div class="checkbox">
-                                                                <input type="checkbox"
-                                                                    [id]="'CheckboxColor%'+item.Codigo"
-                                                                    [formControlName]="'CheckboxColor%'+item.Codigo">
-                                                                <label [for]="'CheckboxColor%'+item.Codigo"
-                                                                    class="label-checkbox"></label>
-
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
-                                        <div class="position-relative has-icon-left">
-                                            <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="100"
-                                                name="notes" formControlName="ObservacionAnalisisFisico"></textarea>
-                                            <div class="form-control-position">
-                                                <i class="ft-file"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-12">
-                        <div class="font-calidad group-control-calidad">
-                            <div class="item-control-calidad">
-                                <h5 class="mt-0" style="text-align: center;">Registro de Tostado</h5>
-                                <div class="row">
-                                    <table class="table-calidad font-calidad" style="width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>INDICADOR</th>
-                                                <th>VALOR</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <ng-container [formGroup]="tableRegistroTostado">
-                                                <tr *ngFor="let item of listaIndicadorTostado">
-                                                    <td style="width: 60%;"> {{ item.Label }}</td>
-                                                    <td style="border-left: 1px solid #E0E0E0; width: 40%;"><input
-                                                            type="number" class="form-control square" id="basicInput"
-                                                            [formControlName]="'tostado%'+item.Codigo">
-                                                    </td>
-                                                </tr>
-                                            </ng-container>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
-                                        <div class="position-relative has-icon-left">
-                                            <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="100"
-                                                name="notes" formControlName="ObservacionRegTostado">
-                                            </textarea>
-                                            <div class="form-control-position">
-                                                <i class="ft-file"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 2rem;">
-                            <div class="col-12 d-flex flex-sm-row flex-column">
-
-                                <label class="col-md-6 col-form-label card-text"
-                                    for="horizontal-form-1">Responsable</label>
-                                <label class="col-md-6 col-form-label card-text" style="font-weight: bold;"
-                                    for="horizontal-form-1"> {{responsable}}</label>
-
-                            </div>
-                        </div>
-                        <div class="row" style="margin-bottom: 2rem;">
-                            <div class="col-12 d-flex flex-sm-row flex-column">
-                                <label class="col-md-6 col-form-label card-text" for="horizontal-form-1">Fecha
-                                    Calidad</label>
-                                <label class="col-md-6 col-form-label card-text" style="font-weight: bold;"
-                                    for="horizontal-form-1">{{fechaCalidad}}</label>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-7">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="font-calidad group-control-calidad">
-                            <div class="item-control-calidad">
-                                <h5 class="mt-0" style="text-align: center;">Equivalencias de Defectos (SCA)</h5>
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <div class="row">
-                                            <div class="table-responsive">
-                                                <table class="table-calidad font-calidad"
-                                                    [formGroup]="tableDefectosPrimarios" style="width: 100%;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th colspan="3">DEFECTOS PRIMARIOS</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                        <tr *ngFor="let item of listaDefectosPrimarios">
-                                                            <td style="width: 45%;"> {{ item.Label }}</td>
-                                                            <td style="border-left: 1px solid #E0E0E0; width: 25%;"> {{
-                                                                item.Val1 }}</td>
-                                                            <td style="border-left: 1px solid #E0E0E0; width: 30%;">
-                                                                <input type="number" class="form-control square"
-                                                                    id="basicInput"
-                                                                    [formControlName]="'DefPrimario%'+item.Codigo"
-                                                                    (input)="calcularTotalDefPrimario()">
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row td-total">
-                                            <div class="col-6"><label class="label-ToTal"> SubTotal</label></div>
-                                            <div class="col-6"><input type="text" class="form-control" id="basicInput"
-                                                    style="border: 0; text-align: end;"
-                                                    formControlName="SubTotalDefPrimario" disabled></div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <div class="row">
-                                            <div class="table-responsive">
-                                                <table class="table-calidad font-calidad" style="width: 100%;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th colspan="3">DEFECTOS SECUNDARIOS</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <ng-container [formGroup]="tableDefectosSecundarios">
-                                                            <tr *ngFor="let item of listaDefectosSecundarios">
-                                                                <td style="width: 45%;"> {{ item.Label }}</td>
-                                                                <td style="border-left: 1px solid #E0E0E0; width: 25%;">
-                                                                    {{ item.Val1 }}</td>
-                                                                <td style="border-left: 1px solid #E0E0E0; width: 30%;">
-                                                                    <input type="number" class="form-control square"
-                                                                        id="basicInput"
-                                                                        [formControlName]="'DefSecundarios%'+item.Codigo"
-                                                                        (input)="calcularTotalDefSecundario()"></td>
-                                                            </tr>
-                                                        </ng-container>
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                        </div>
-                                        <div class="row td-total">
-                                            <div class="col-6"><label class="label-ToTal"> SubTotal</label></div>
-                                            <div class="col-6"><input type="text" class="form-control" id="basicInput"
-                                                    style="border: 0; text-align: end;"
-                                                    formControlName="SubTotalDefSecundario" disabled></div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="row td-total">
-                                    <div class="col-6">
-                                        <label class="label-ToTal"> Total (Defectos Primarios + Secundarios) </label>
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" class="form-control" id="basicInput"
-                                            style="border: 0; text-align: end;" formControlName="ToTalEquiDefectos"
-                                            disabled>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="font-calidad group-control-calidad">
-                            <div class="item-control-calidad">
-                                <h5 class="mt-0" style="text-align: center;">Análisis Sensorial</h5>
-                                <div class="row">
-
-                                    <div class="col-12">
-                                        <div class="row">
-
-                                            <div class="table-responsive">
-                                                <table class="table-calidad font-calidad" style="width: 100%;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th rowspan="2">ATRIBUTOS</th>
-                                                            <th colspan="2">CLASIFICACION</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>VALOR</th>
-                                                            <th>RANKING</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <ng-container [formGroup]="tableSensorialRanking">
-                                                            <tr
-                                                                *ngFor="let item of listaSensorialAtributos; let i=index">
-                                                                <td style="width: 40%;"> {{ item.Label }}</td>
-                                                                <td style="border-left: 1px solid #E0E0E0;width: 20%;">
-                                                                    <input type="number" class="form-control square"
-                                                                        [id]="item.Codigo" [max]="maxSensorial"
-                                                                        [min]="minSensorial"
-                                                                        (input)="evaluarRanking($event.target.id,$event.target.value)"
-                                                                        [formControlName]="'sensorialAtrib%'+item.Codigo">
-                                                                    <small class="form-text text-muted danger"
-                                                                        *ngIf="fSensorialRanking['sensorialAtrib%'+item.Codigo].errors?.max || fSensorialRanking['sensorialAtrib%'+item.Codigo].errors?.min">Rango
-                                                                        Permitido [{{minSensorial}} -
-                                                                        {{maxSensorial}}]</small>
-
-                                                                </td>
-                                                                <td style="width: 40%;"> <input type="text"
-                                                                        class="form-control square"
-                                                                        [formControlName]="'sensorialAtribRanking%'+item.Codigo"
-                                                                        disabled> </td>
-                                                            </tr>
-                                                        </ng-container>
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="row td-total">
-
-                                            <div class="col-4"><label class="label-ToTal"> Puntaje Final </label></div>
-
-                                            <div class="col-3"><input type="text" class="form-control" id="basicInput"
-                                                    style="border: 0; text-align: end;" formControlName="PuntajeFinal"
-                                                    disabled></div>
-                                            <div class="col-5"></div>
-                                        </div>
-
-
-                                    </div>
-
-                                </div>
-                                <div class="row" style="margin-top: 1rem;">
-                                    <div class="col-12">
-                                        <h5 class="mt-0" style="text-align: start; font-size: 0.9rem;">Defectos Graves
-                                        </h5>
-                                        <div class="row">
-
-                                            <ul class="list-unstyled mb-0 ul-Checkbox"
-                                                [formGroup]='tableSensorialDefectos'>
-                                                <li class="d-block mb-2" *ngFor="let item of listaSensorialDefectos">
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" [id]="'checkboxSenDefectos%'+item.Codigo"
-                                                            [formControlName]="'checkboxSenDefectos%'+item.Codigo">
-                                                        <label [for]="'checkboxSenDefectos%'+item.Codigo"
-                                                            class="label-checkbox"><span>{{ item.Label }}</span></label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
-                                                <div class="position-relative has-icon-left">
-                                                    <textarea id="bordered-form-6" rows="3" class="form-control"
-                                                        maxlength="100" name="notes"
-                                                        formControlName="ObservacionAnalisisSensorial"></textarea>
-                                                    <div class="form-control-position">
-                                                        <i class="ft-file"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-           
-
-        </div>-->
-
-      
+    <form [formGroup]="formControlCalidad">      
         <ngx-spinner></ngx-spinner>
        
             <div class="row text-left">
                 <div class="col-md-12 col-12">
-                  <div class="card">
-                    <div class="card-body">
                       <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
                         <ngb-panel >
-                            <ng-template ngbPanelTitle style="border: 1px solid #E0E0E0;">
-                                <span><b>Análisis Físico </b> </span>
+                            <ng-template ngbPanelTitle class="card-calidad">
+                                <span style="font-size: 1.2rem;"><b>Análisis Físico </b> </span>
                               </ng-template>
                           <ng-template ngbPanelContent>
                             
@@ -558,7 +97,8 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                    
+                                                        <small class="form-text text-muted danger" style="font-size: 1rem;"
+                                                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12">
@@ -603,8 +143,6 @@
                                                                                             class="label-checkbox"></label>
                     
                                                                                     </div>
-                                                                                    <!--<input type="text" class="form-control square" id="horizontal-form-1" [formControlName]="item.Codigo"
-                                                                        name="first-name" [value]="item.Val1">-->
                                                                                 </td>
                     
                                                                             </tr>
@@ -766,12 +304,11 @@
                     
                             </div>
 
-
                           </ng-template>
                         </ngb-panel>
                         <ngb-panel>
                             <ng-template ngbPanelTitle>
-                                <span><b>Análisis Sensorial </b></span>
+                                <span style="font-size: 1.2rem;"><b>Análisis Sensorial </b></span>
                               </ng-template>
                             <ng-template ngbPanelContent>
                                 <div class="row">
@@ -822,26 +359,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row" style="margin-top: 2rem;">
-                                                    <div class="col-12 d-flex flex-sm-row flex-column">
-                        
-                                                        <label class="col-md-6 col-form-label card-text"
-                                                            for="horizontal-form-1">Responsable</label>
-                                                        <label class="col-md-6 col-form-label card-text" style="font-weight: bold;"
-                                                            for="horizontal-form-1"> {{responsable}}</label>
-                        
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="margin-bottom: 2rem;">
-                                                    <div class="col-12 d-flex flex-sm-row flex-column">
-                                                        <label class="col-md-6 col-form-label card-text" for="horizontal-form-1">Fecha
-                                                            Calidad</label>
-                                                        <label class="col-md-6 col-form-label card-text" style="font-weight: bold;"
-                                                            for="horizontal-form-1">{{fechaCalidad}}</label>
-                                                    </div>
-                        
-                        
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -959,27 +477,39 @@
                                 </div>
                             </ng-template>
                           </ngb-panel>
-                      </ngb-accordion>
-                    </div>
-                  </div>                  
+                      </ngb-accordion>          
                 </div>
              
         </div>
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-12 d-flex flex-sm-row flex-column">
+
+                <label class="col-md-2 col-form-label card-text"
+                    for="horizontal-form-1">Responsable</label>
+                <label class="col-md-2 col-form-label card-text" style="font-weight: bold;"
+                    for="horizontal-form-1"> {{responsable}}</label>
+
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 2rem;">
+            <div class="col-12 d-flex flex-sm-row flex-column">
+                <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha
+                    Calidad</label>
+                <label class="col-md-2 col-form-label card-text" style="font-weight: bold;"
+                    for="horizontal-form-1">{{fechaCalidad}}</label>
+            </div>
+
+
+        </div>
         <div class="row">
             <div class="col-12">
-                <div class="row">
-                    <div class="col-md-12">
-                        <small class="form-text text-muted danger"
-                            *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                    </div>
-                </div>
-                <div class="row">
+               
                     <div class="col-md-2">
                         <button class="btn btn-primary mr-1 mb-1" type="submit"
                             (click)="actualizarAnalisisControlCalidad($event)">Guardar</button>
                         <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="cancelar()">Cancelar</button>
                     </div>
-                </div>
+                
             </div>
         </div>
     </form>
