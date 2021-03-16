@@ -104,12 +104,12 @@ export class NotaSalidaEditComponent implements OnInit {
         });
   }
  
- /* openModal(modalLotes) {
+openModal(modalLotes) {
     this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarLotes();
     this.clear();
     
-  }*/
+  }
 
   clear() {
 
@@ -128,7 +128,7 @@ export class NotaSalidaEditComponent implements OnInit {
   }
 
  
-  /*cargarLotes() {
+  cargarLotes() {
     this.consultaLotes = new FormGroup(
       {
         almacen: new FormControl('', []),
@@ -143,7 +143,7 @@ export class NotaSalidaEditComponent implements OnInit {
         rzsocial: new FormControl('', []),
         estado: new FormControl('', [])
       });
-    this.consultaLotes.setValidators(this.comparisonValidator())
+  
 
     this.maestroService.obtenerMaestros("TipoDocumento")
       .subscribe(res => {
@@ -199,7 +199,7 @@ export class NotaSalidaEditComponent implements OnInit {
       this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
 
-  }*/
+  }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {
@@ -212,9 +212,9 @@ export class NotaSalidaEditComponent implements OnInit {
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
- /* get f() {
+  get f() {
     return this.consultaLotes.controls;
-  }*/
+  }
   get fedit() {
     return this.notaSalidaFormEdit.controls;
   }

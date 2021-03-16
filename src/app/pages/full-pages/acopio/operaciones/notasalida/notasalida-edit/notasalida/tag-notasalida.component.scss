@@ -1,0 +1,24 @@
+.table-calidad{
+    tbody{
+      tr{
+        td,th{
+          padding: 0.3rem 0.3rem !important;
+        }
+        border-top: 1px solid #E0E0E0 !important;
+        text-align: start !important;
+      }
+      .td-total
+      {
+        background-color: #F7F7F8;
+      }
+    }
+    thead
+    {
+        background-color: #F7F7F8;
+        tr
+        {
+            border-top: 1px solid #E0E0E0 !important;
+            text-align: center;
+        }
+    }
+  }
