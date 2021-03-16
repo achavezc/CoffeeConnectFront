@@ -200,46 +200,46 @@ export class IngresoAlmacenComponent implements OnInit {
   // }
 
   onSelect(event: any): void {
-    // this.selected = event.selected;
-    if (event && event.selected.length > 0) {
-      let obj: any = {};
-      for (let i = 0; i < event.selected.length; i++) {
-        obj = event.selected[i];
-        if (obj.EstadoId == "01" && obj.AlmacenId) {
-          if (this.selected && this.selected.length > 0) {
-            if (!this.selected.find(x => x.NotaIngresoAlmacenId == obj.NotaIngresoAlmacenId)) {
-              this.selected.push(obj);
-            }
-          } else {
-            this.selected.push(obj);
-          }
-        }
-      }
-      if (event.selected.length > 1 && this.selected.length <= 0) {
-        this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y/o se encuentra en estado INGRESADO.");
-        this.selected = [];
-      }
-    }
+    this.selected = event.selected;
+    // if (event && event.selected.length > 0) {
+    //   let obj: any = {};
+    //   for (let i = 0; i < event.selected.length; i++) {
+    //     obj = event.selected[i];
+    //     if (obj.EstadoId == "01" && obj.AlmacenId) {
+    //       if (this.selected && this.selected.length > 0) {
+    //         if (!this.selected.find(x => x.NotaIngresoAlmacenId == obj.NotaIngresoAlmacenId)) {
+    //           this.selected.push(obj);
+    //         }
+    //       } else {
+    //         this.selected.push(obj);
+    //       }
+    //     }
+    //   }
+    //   if (event.selected.length > 1 && this.selected.length <= 0) {
+    //     this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y/o se encuentra en estado INGRESADO.");
+    //     this.selected = [];
+    //   }
+    // }
   }
 
   onActive(event): void {
-    if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
-      if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
-        let obj: any = {};
-        for (let i = 0; i < this.selected.length; i++) {
-          obj = this.selected[i];
-          if (obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
-            this.selected.splice(i, 1);
-            this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN y/o su estado no es INGRESADO.");
-            break;
-          }
-        }
-      }
-    } else {
-      if (this.selected.length <= 0) {
-        this.selected = [];
-      }
-    }
+    // if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
+    //   if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
+    //     let obj: any = {};
+    //     for (let i = 0; i < this.selected.length; i++) {
+    //       obj = this.selected[i];
+    //       if (obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
+    //         this.selected.splice(i, 1);
+    //         this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN y/o su estado no es INGRESADO.");
+    //         break;
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   if (this.selected.length <= 0) {
+    //     this.selected = [];
+    //   }
+    // }
   }
 
   Buscar(exportExcel?: boolean): void {
@@ -383,7 +383,7 @@ export class IngresoAlmacenComponent implements OnInit {
       });
     } else {
       this.alertUtil.alertError("Advertencia",
-        "Niguna de las filas seleccionadas se encuentran en estado INGRESADO y/o tienen asignado un ALMACEN.");
+        "Por favor solo seleccionar filas que se encuentren en estado INGRESADO y tengan asignado un ALMACEN.");
     }
   }
 
@@ -495,6 +495,9 @@ export class IngresoAlmacenComponent implements OnInit {
       obj = this.selected[i];
       if (obj.EstadoId && obj.EstadoId == "01" && obj.AlmacenId) {
         result.push(obj);
+      } else {
+        result = [];
+        break;
       }
     }
     return result;

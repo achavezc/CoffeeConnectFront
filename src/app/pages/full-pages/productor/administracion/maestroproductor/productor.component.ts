@@ -113,11 +113,11 @@ export class ProductorComponent implements OnInit {
     }
   }
 
-  updateLimit(limit) {
+  updateLimit(limit: any) {
     this.limitRef = limit.target.value;
   }
 
-  filterUpdate(event) {
+  filterUpdate(event: any) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
@@ -178,6 +178,12 @@ export class ProductorComponent implements OnInit {
 
   New(): void {
     this.router.navigate(['/productor/administracion/productor/create']);
+  }
+
+  GoFormListFinca(): void {
+    if (this.selected && this.selected.length > 0) {
+      this.router.navigate([`/productor/administracion/productor/fincas/${this.selected[0].ProductorId}`]);
+    }
   }
 
 }

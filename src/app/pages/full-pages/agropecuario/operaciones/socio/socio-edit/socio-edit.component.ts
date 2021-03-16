@@ -312,10 +312,7 @@ export class SocioEditComponent implements OnInit {
       mFechaFin: ['', [Validators.required]]
     });
     this.mRowsProductores = [];
-    this.modalProductorForm.reset();
-    this.modalProductorForm.controls.mFechaInicio.setValue(this.dateUtil.currentMonthAgo());
-    this.modalProductorForm.controls.mFechaFin.setValue(this.dateUtil.currentDate());
-
+    this.clearFiltersPopup();
     this.modalProductorForm.setValidators(this.comparisonValidator());
     this.addValidations();
 
@@ -326,7 +323,15 @@ export class SocioEditComponent implements OnInit {
     });
   }
 
-  public comparisonValidator(): ValidatorFn {
+  clearFiltersPopup(): void {
+    this.modalProductorForm.reset();
+    this.listTiposDocumentos = [];
+    this.selectedTipoDocumento = null;
+    this.modalProductorForm.controls.mFechaInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.modalProductorForm.controls.mFechaFin.setValue(this.dateUtil.currentDate());
+  }
+
+  comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
 
       if (!group.value.mCodProductor && !group.value.mNombRazonSocial && !group.value.mTipoDocumento) {
@@ -366,7 +371,7 @@ export class SocioEditComponent implements OnInit {
   }
 
   BuscarProductores(): void {
-    if (this.modalProductorForm.invalid) {
+    if (this.modalProductorForm.invalid || this.errorGeneral.isError) {
       // this.submitted = true;
       return;
     } else {
@@ -375,7 +380,7 @@ export class SocioEditComponent implements OnInit {
         Numero: this.modalProductorForm.value.mCodProductor,
         NombreRazonSocial: this.modalProductorForm.value.mNombRazonSocial,
         TipoDocumentoId: this.modalProductorForm.value.mTipoDocumento ?? '',
-        NumeroDocumento: this.modalProductorForm.value.mNroDocumento.toString(),
+        NumeroDocumento: this.modalProductorForm.value.mNroDocumento ? this.modalProductorForm.value.mNroDocumento.toString() : '',
         EstadoId: '01',
         FechaInicio: new Date(this.modalProductorForm.value.mFechaInicio),
         FechaFin: new Date(this.modalProductorForm.value.mFechaFin)
@@ -385,6 +390,7 @@ export class SocioEditComponent implements OnInit {
         .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
+            this.errorGeneral = { isError: false, errorMessage: '' };
             res.Result.Data.forEach((obj: any) => {
               obj.FechaRegistroString = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
             });
