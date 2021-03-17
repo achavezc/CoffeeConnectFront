@@ -5,15 +5,14 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <form class="needs-validation" [formGroup]="fincaForm" novalidate>
+        <form class="needs-validation" [formGroup]="fincaSocioForm" novalidate>
             <!-- <div class="form-row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group row">
-                        <label for="codProductor" class="col-md-4 col-form-label">Código Productor</label>
+                        <label for="codSocio" class="col-md-4 col-form-label">Código Socio</label>
                         <div class="col-md-8">
-                            <input type="text" name="codProductor" id="codProductor" class="form-control"
-                                formControlName="codProductor" placeholder="Ingresar código productor"
-                                [readonly]="true">
+                            <input type="text" name="codSocio" id="codSocio" class="form-control"
+                                formControlName="codSocio" placeholder="Ingresar código socio" [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -30,6 +29,10 @@
             </div> -->
             <div class="form-row">
                 <button class="btn btn-primary mr-1" type="button" (click)="New()">Nuevo</button>
+                <button class="btn btn-primary mr-1" type="button" (click)="Delete()">Eliminar</button>
+                <button class="btn btn-primary mr-1" type="button" (click)="Certifications()">Certificaciones</button>
+                <button class="btn btn-primary mr-1" type="button" (click)="Inspections()">Inspección</button>
+                <button class="btn btn-primary mr-1" type="button" (click)="Diagnosis()">Diagnostico</button>
                 <button class="btn btn-danger" type="button" (click)="Cancel()">Cancelar</button>
             </div>
         </form>
@@ -63,7 +66,7 @@
                     <div class="d-flex align-items-center">
                         <div class="cell-line-height">
                             <a class="line-height-1 mb-0"
-                                [routerLink]="['/productor/administracion/productor/finca/update', row.ProductorFincaId]">{{
+                                [routerLink]="['/productor/administracion/socio/finca/update', row.SocioFincaId]">{{
                                 name }}</a>
                         </div>
                     </div>
@@ -75,7 +78,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="DISTRITO" prop="Distrito" width="90">
             </ngx-datatable-column>
-            <ngx-datatable-column name="ZONA" prop="Zona" width="90">
+            <ngx-datatable-column name="ZONA" prop="Zona" width="170">
             </ngx-datatable-column>
             <ngx-datatable-column name="ESTADO" prop="Estado" width="70">
                 <ng-template let-status="value" ngx-datatable-cell-template>

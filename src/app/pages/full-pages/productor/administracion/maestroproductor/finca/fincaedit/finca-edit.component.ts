@@ -390,7 +390,7 @@ export class FincaEditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate([`/productor/administracion/productor/fincas/${this.fincaEditForm.value.idProductor}`]);
+    this.router.navigate([`/productor/administracion/productor/list`]);
   }
 
 }

@@ -1,0 +1,493 @@
+<form class="needs-validation">
+  <section id="tooltip-validation">
+    <ng-template #modalLotes let-c="close" let-d="dismiss">
+      <div class="modal-header" style="text-align: center;">
+
+        <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Lotes</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="consultaLotes" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;">
+          <ngx-spinner></ngx-spinner>
+          <div class="row"
+            style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+            <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-5">
+              <div class="form-group row">
+                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">N° de
+                  Lote</label>
+                <div class="col-md-9">
+                  <input type="text" minlength="5" maxlength="20" formControlName="numeroLote" class="form-control"
+                    id="validationTooltip08" placeholder="Numero de Lote"
+                    [ngClass]="{ 'is-invalid': submitted && f.numeroLote.invalid, 'is-valid': submitted && !f.numeroLote.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="f.numeroLote.errors?.minlength">Ingrese 5 a 50
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="f.numeroLote.errors?.maxlength">Ingrese 5 a 50
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="f.numeroLote.errors?.pattern">Solo
+                    letras y números</small>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Fecha de
+                  Inicio</label>
+                <div class="col-md-9">
+                  <input type="date" class="form-control" formControlName="fechaInicio" id="validationTooltip07"
+                    name="fechaInicio" (blur)="compareTwoDates()" placeholder="date" date [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 
+                  'is-valid': submitted && !f.fechaInicio.invalid }" />
+                  <small class="form-text text-muted danger"
+                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                </div>
+
+              </div>
+              <div class="form-group row">
+                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Fecha
+                  Final</label>
+                <div class="col-md-9">
+                  <input type="date" class="form-control" formControlName="fechaFinal" id="validationTooltip07"
+                    name="fechaFinal" (blur)="compareTwoDates()" placeholder="date" date [ngClass]="{ 'is-invalid': submitted && f.fechaFinal.invalid, 
+                  'is-valid': submitted && !f.fechaFinal.invalid }" />
+                  <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                </div>
+
+              </div>
+              <div class="form-group row" style="margin-top: 1rem">
+                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">ESTADO</label>
+                <div class="col-md-9">
+                  <ng-select [items]="listaEstado" bindLabel="name" [(ngModel)]="selectEstado" class="form-control"
+                    placeholder="Seleccionar Estado" formControlName="estado" bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.estado.invalid, 'is-valid': submittedEdit && !f.estado.invalid }">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row" style="margin-top: 1rem">
+                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">TIPO</label>
+                <div class="col-md-9">
+                  <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
+                    placeholder="Seleccionar Tipo" formControlName="producto" (change)="changeSubProducto($event)"
+                    bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.producto.invalid, 'is-valid': submittedEdit && !f.producto.invalid }">
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="form-group row" style="margin-top: 1rem">
+                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">SUB TIPO</label>
+                <div class="col-md-9">
+
+                  <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
+                    formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
+                    placeholder="Seleccionar Sub Tipo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.subproducto.invalid, 'is-valid': submittedEdit && !f.subproducto.invalid }">
+                  </ng-select>
+
+
+                </div>
+              </div>
+
+
+
+            </div>
+            <div class="col-12 col-md-7">
+              <div class="form-group row">
+                <label for="validationTooltip01" class="col-md-3 col-form-label card-text2">Tipo
+                  Doc.</label>
+                <div class="col-md-9">
+                  <ng-select [items]="listaTipoDocumento" formControlName="tipoDocumento" bindLabel="Label"
+                    bindValue="Codigo" id="validationTooltip01" placeholder="Seleccionar Tipo Doc."
+                    [ngClass]="{ 'is-invalid': submitted && f.tipoDocumento.invalid, 'is-valid': submitted && !f.tipoDocumento.invalid }"
+                    [(ngModel)]="selectedTipoDocumento">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Numero
+                  Doc.</label>
+                <div class="col-md-9">
+                  <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento" class="form-control"
+                    id="validationTooltip08" placeholder="Numero Documento"
+                    [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
+                    letras</small>
+                </div>
+
+              </div>
+              <div class="form-group row" style="margin-top: 1rem;">
+                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Socio</label>
+                <div class="col-md-9">
+                  <input id="validationTooltip08" type="text" class="form-control" formControlName="socio"
+                    name="first-name" placeholder="Codigo de Socio"
+                    [ngClass]="{ 'is-invalid': submitted && f.socio.invalid, 'is-valid': submitted && !f.socio.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="f.socio.errors?.minlength">Ingrese 5 a 20
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="f.socio.errors?.maxlength">Ingrese 5 a 20
+                    letras</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label card-text" for="validationTooltip09">Nombre/Rz.
+                  Social</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" id="validationTooltip09" formControlName="rzsocial"
+                    placeholder="Nombre o Rz. Social"
+                    [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }"
+                    name="first-name">
+                  <small class="form-text text-muted danger" *ngIf="f.rzsocial.errors?.minlength">Ingrese 5 a 20
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="f.rzsocial.errors?.maxlength">Ingrese 5 a 20
+                    letras</small>
+                </div>
+              </div>
+              <div class="form-group row" style="margin-top: 1rem">
+                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">Almacen</label>
+                <div class="col-md-9">
+                  <ng-select #ngSelectComponent id="validationTooltip05" [items]="listaAlmacen"
+                    [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
+                    placeholder="Seleccionar Almacen"
+                    [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }">
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-10">
+                  <small class="form-text text-muted danger"
+                    *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <fieldset class="form-group">
+                <label style="font-size: 0.6rem;">Show
+                  <select name="users-list-select" style="font-size: 0.8rem;"
+                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                    (click)="updateLimit($event)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries</label>
+                <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
+                  <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                    type="text" (keyup)="filterUpdate($event)" />
+                </label>
+              </fieldset>
+
+              <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotes
+                [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
+                [selected]="selected" [selectionType]="'single'" >
+                <ngx-datatable-column name="N° Lote" prop="Numero" width="30">
+                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+
+                    <div class="d-flex align-items-center">
+                      <div class="cell-line-height">
+                        {{ name }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Almacen" prop="Almacen" width="20">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Peso Neto" prop="TotalKilosNetosPesado" width="40">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="% Rendimiento Promedio" prop="PromedioRendimientoPorcentaje" width="60">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Estado" prop="Estado" width="25">
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+               
+                    <div class="col-md-4">
+                        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="agregar(selected)"> Agregar </button>
+                        <button class="btn btn-primary mr-1 mb-1" type="submit"> Cancelar</button>
+                    </div>
+                
+            </div>
+        </div>
+
+        </form>
+      </div>
+    </ng-template>
+    <ng-template #modalTransportista let-c="close" let-d="dismiss">
+      <div class="modal-header" style="text-align: center;">
+
+        <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Transportista</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="consultaTransportistas" class="needs-validation"
+          style="padding-left: 0.3rem; padding-right: 0.3rem;">
+          <ngx-spinner></ngx-spinner>
+          <div class="row"
+            style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+            <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-5">
+              <div class="form-group row">
+                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Razón Social</label>
+                <div class="col-md-9">
+                  <input type="text" minlength="5" maxlength="20" formControlName="rzsocial" class="form-control"
+                    id="validationTooltip08" placeholder="Razon Social">
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-12 col-md-7">
+
+              <div class="form-group row">
+                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2"> RUC </label>
+                <div class="col-md-9">
+                  <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
+                    id="validationTooltip08" placeholder="Ruc">
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-10">
+                  <small class="form-text text-muted danger"
+                    *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary mr-1 mb-1" type="submit"
+                    (click)="buscarTransportista()">Buscar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <fieldset class="form-group">
+                <label style="font-size: 0.6rem;">Show
+                  <select name="users-list-select" style="font-size: 0.8rem;"
+                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                    (click)="updateLimitT($event)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries</label>
+                <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
+                  <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                    type="text" (keyup)="filterUpdateT($event)" />
+                </label>
+              </fieldset>
+
+              <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableTranspotistas
+                [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                [limit]="limitRefT" [rows]="rowsT" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
+                [selected]="selectedT" [selectionType]="'single'">
+                <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20">
+
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="N° Constancia MTC" prop="NumeroConstanciaMTC" width="40">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Licencia" prop="Licencia" width="60">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Marca Tractor" prop="MarcaTractor" width="25">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Placa Tractor" prop="PlacaTractor" width="25">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Peso Bruto" prop="PesoBruto" width="25">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Peso Neto" prop="PesoNeto" width="25">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Carga Util" prop="CargaUtil" width="25">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Longitud" prop="Longitud" width="25">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Altura" prop="Altura" width="25">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Ancho" prop="Ancho" width="25">
+                </ngx-datatable-column>
+
+              </ngx-datatable>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </ng-template>
+    <div class="row">
+      <div class="col-md-4" style="margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModal(modalLotes)">Agregar
+          Lotes</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+          [rows]="rowsLotesDetalle">
+          <ngx-datatable-column name="Numero" prop="Numero" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Producto" prop="Producto" width="20">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Unidad Medida" prop="UnidadMedida" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje" width="10" >
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Peso Neto Kg" prop="KilosNetosPesado" width="10">
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesTotal
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+          [rows]="rowsLotesTotal" >
+          <ngx-datatable-column name="TOTAL LOTES" prop="Total" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="PROMEDIO % RENDIMIENTO" prop="PorcentRendimiento" width="20">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="CANTIDAD TOTAL" prop="CantidadTotal" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="TOTAL KILOS BRUTOS" prop="TotalKilos" width="10">
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
+      <div class="col-12">
+          <h5 class="mt-0" style="text-align: start; font-size: 0.9rem;">Motivos del Traslado
+          </h5>
+          <div class="row" >
+
+              <ul class="list-unstyled mb-0 ul-Checkbox">
+                  <li class="d-block mb-2" >
+                      <div class="checkbox">
+                          <input type="checkbox" [id]="1"
+                              [formControlName]="1">
+                          <label [for]="1"
+                              class="label-checkbox"><span>1</span></label>
+                      </div>
+                  </li>
+              </ul>
+
+
+          </div>
+          
+      </div>
+  </div>
+    <div class="row" style="margin-top: 2rem;">
+      <div class="col-md-4" >
+        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
+          (click)="openModalTransportista(modalTransportista)">Agregar Transportista</button>
+      </div>
+    </div>
+    <div class="row"
+    style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+    <div class="card-subtitle-form">DATOS DEL TRANSPORTISTA</div>
+  </div>
+
+  <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+    <div class="col-12 col-md-6">
+      <label for="basicInput">PROPIETARIO</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provNombre" 
+      disabled>
+      <label for="basicInput">DOMICILIADO</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>
+      <label for="basicInput">RUC</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>
+
+      <label for="basicInput">CONDUCTOR</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>
+      <label for="basicInput">BREVETE</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>
+    </div>
+   
+    <div class="col-12 col-md-6">
+      <label for="basicInput">COD. VEHICULAR</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>
+      <label for="basicInput">MARCA</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>    
+    <label for="basicInput">PLACA</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>
+      <label for="basicInput">N° CONSTANCIA MTC</label>
+      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+      disabled>
+  </div>
+  </div>
+  <div class="row"  style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
+    <div class="col-12">
+        <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
+        <div class="position-relative has-icon-left">
+            <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="100"
+                name="notes" formControlName="ObservacionAnalisisFisico"></textarea>
+            <div class="form-control-position">
+                <i class="ft-file"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
+  <div class="col-12 d-flex flex-sm-row flex-column">
+
+      <label class="col-md-2 col-form-label card-text"
+          for="horizontal-form-1">Responsable</label>
+      <label class="col-md-2 col-form-label card-text" style="font-weight: bold;"
+          for="horizontal-form-1"></label>
+
+  </div>
+</div>
+<div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
+  <div class="col-12 d-flex flex-sm-row flex-column">
+      <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha
+          Calidad</label>
+      <label class="col-md-2 col-form-label card-text" style="font-weight: bold;"
+          for="horizontal-form-1"></label>
+  </div>
+
+
+</div>
+  </section>
+  <div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+  </div>
+
+</form>

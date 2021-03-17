@@ -359,7 +359,7 @@
             <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
               <li [ngbNavItem]="1" [destroyOnHide]="true">
                 <a ngbNavLink class="nav-link d-flex align-items-center">
-                  <span class="d-none d-sm-block">Pesado del Cafe</span>
+                  <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
                 </a>
                 <ng-template ngbNavContent>
                   <app-pesadoCafe formGroupName="pesado" [submittedEdit]="submittedEdit" [unidadMedidaPesado]="unidadMedidaPesado"></app-pesadoCafe>
@@ -383,7 +383,7 @@
               </li>
               <li [ngbNavItem]="2"  >
                 <a (click)="emitEventToChild()"  ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'" >
-                  <span class="d-none d-sm-block">Control de Calidad</span>
+                  <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
                 </a>
                 
                
@@ -399,7 +399,7 @@
               </li>
               <li [ngbNavItem]="3">
                 <a (click)="emitEventToChild()" ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
-                  <span class="d-none d-sm-block">Nota de Compra</span>
+                  <span class="d-none d-sm-block" style="font-size: 1.1rem;">Nota de Compra</span>
                 </a>
                 <ng-template ngbNavContent>
                   <app-notacompra [events]="eventsSubject.asObservable()" *ngIf = "detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima"></app-notacompra>
@@ -410,12 +410,25 @@
               <div [ngbNavOutlet]="nav"></div>
             </div>
 
+
+
+
+
+
+            
+
+
+
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </section>
+
+
+
 <div class="d-flex justify-content-between align-items-center">
   <ngx-spinner></ngx-spinner>
 </div>

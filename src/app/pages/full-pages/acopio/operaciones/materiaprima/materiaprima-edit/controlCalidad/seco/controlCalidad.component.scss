@@ -84,3 +84,18 @@
     list-style: none;
    
   }
+
+ 
+
+
+
+  .card-calidad{
+    margin: 0;
+    background-color: transparent !important;
+
+    &:last-of-type {
+      .card-header button {
+        padding-bottom: 1.5rem !important;
+      }
+    }
+  }

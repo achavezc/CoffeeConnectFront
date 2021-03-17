@@ -1,7 +1,9 @@
 <div>
-    <form style="display: flex" [formGroup]="formControlCalidadHumedo">
+    <form [formGroup]="formControlCalidadHumedo">
         <div class="row">
-
+          
+            
+            <div class="col-md-6 offset-md-3">
             <div class="font-calidad group-control-calidad">
                 <div class="item-control-calidad">
                     <div class="col-12">
@@ -81,7 +83,7 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="cold-12" style="display: flex; margin-top: 1rem;">
+                                    <div class="cold-12" style="margin-top: 1rem;">
                                     <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
                                     <div class="position-relative has-icon-left textarea">
                                         <textarea id="bordered-form-6" rows="4" class="form-control" formControlName="ObservacionAnalisisFisico" name="notes"></textarea>
@@ -94,29 +96,34 @@
                                 <div class="row" style="margin-top: 2rem;">
                                     <div class="col-12 d-flex flex-sm-row flex-column">
                       
-                                      <label class="col-md-6 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                                      <label class="col-md-6 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
+                                      <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                                      <label class="col-md-3 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
                       
                                     </div>
                                 </div>
                                 <div class="row" style="margin-bottom: 2rem;">
                                        <div class="col-12 d-flex flex-sm-row flex-column">
-                                      <label class="col-md-6 col-form-label card-text" for="horizontal-form-1">Fecha Calidad</label>
-                                      <label class="col-md-6 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaCalidad}}</label>
+                                      <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Fecha Calidad</label>
+                                      <label class="col-md-3 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaCalidad}}</label>
                                     </div>
                                     
                       
                                   </div>
-                                  <div class="row">
-                                    <div class="col-md-2">
-                                        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="actualizarAnalisisControlCalidad($event)">Guardar</button>
-                                        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="cancelar()">Cancelar</button>
-                                    </div>
-                                  </div>
+                                 
                             </div>
                         </div>
-                    </div>
-                
+             </div>
             </div>
+           
+        
+            </div>
+            <div class="row" style="margin-top: 2rem;">
+                <div class="col-12">
+                <div class="col-md-2">
+                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="actualizarAnalisisControlCalidad($event)">Guardar</button>
+                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="cancelar()">Cancelar</button>
+                    </div>
+                </div>
+              </div>
         </form>
 </div>
