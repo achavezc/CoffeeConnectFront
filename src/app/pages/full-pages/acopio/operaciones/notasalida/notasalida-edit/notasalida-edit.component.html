@@ -74,13 +74,13 @@
                <ng-template #modalLotes let-c="close" let-d="dismiss">
                   <div class="modal-header" style="text-align: center;">
 
-                    <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Lotes</h4>
+                    <h4 class="modal-title" style="font-size: 1rem;">Busqueda de Empresas</h4>
                     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form [formGroup]="consultaLotes" class="needs-validation"
+                    <form [formGroup]="consultaEmpresas" class="needs-validation"
                       style="padding-left: 0.3rem; padding-right: 0.3rem;">
                       <ngx-spinner></ngx-spinner>
                       <div class="row"
@@ -90,126 +90,29 @@
                       <div class="row">
                         <div class="col-12 col-md-5">
                           <div class="form-group row">
-                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">N° de
-                              Lote</label>
+                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">RUC</label>
                             <div class="col-md-9">
-                              <input type="text" minlength="8" maxlength="20" formControlName="numeroLote"
-                                class="form-control" id="validationTooltip08" placeholder="Numero de Lote"
-                                [ngClass]="{ 'is-invalid': submitted && f.numeroLote.invalid, 'is-valid': submitted && !f.numeroLote.invalid }">
+                              <input type="text" minlength="8" maxlength="20" formControlName="ruc"
+                                class="form-control" id="validationTooltip08" placeholder="RUC"
+                                [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
                             </div>
-                          </div>
-
-                          <div class="form-group row">
-                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Fecha de
-                              Inicio</label>
-                            <div class="col-md-9">
-                              <input type="date" class="form-control" formControlName="fechaInicio" id="validationTooltip07"
-                              name="fechaInicio" placeholder="date" date [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 
-                              'is-valid': submitted && !f.fechaInicio.invalid }"/>
-                            </div>
-
                           </div>
                           <div class="form-group row">
-                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Fecha
-                              Final</label>
+                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">RAZON SOCIAL</label>
                             <div class="col-md-9">
-                              <input type="date" class="form-control" formControlName="fechaFinal" id="validationTooltip07"
-                              name="fechaFinal" placeholder="date" date [ngClass]="{ 'is-invalid': submitted && f.fechaFinal.invalid, 
-                              'is-valid': submitted && !f.fechaFinal.invalid }"/>
+                              <input type="text" minlength="8" maxlength="20" formControlName="rzsocial"
+                                class="form-control" id="validationTooltip08" placeholder="RUC de Lote"
+                                [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }">
                             </div>
-
                           </div>
+
                           <div class="form-group row" style="margin-top: 1rem">
-                            <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">ESTADO</label>
+                            <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">CLASIFICACION</label>
                             <div class="col-md-9">
-                              <ng-select [items]="listaEstado" bindLabel="name" [(ngModel)]="selectEstado"
-                                class="form-control" placeholder="Seleccionar Estado" formControlName="estado"
+                              <ng-select [items]="listaClasificacion" bindLabel="name" [(ngModel)]="selectClasificacion"
+                                class="form-control" placeholder="Seleccionar Estado" formControlName="clasificacion"
                                  bindLabel="Label" bindValue="Codigo"
                                 [ngClass]="{ 'is-invalid': submittedEdit && f.estado.invalid, 'is-valid': submittedEdit && !f.estado.invalid }">
-                              </ng-select>
-                            </div>
-                          </div>
-                          <div class="form-group row" style="margin-top: 1rem">
-                            <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">TIPO</label>
-                            <div class="col-md-9">
-                              <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto"
-                                class="form-control" placeholder="Seleccionar Tipo" formControlName="producto"
-                                (change)="changeSubProducto($event)" bindLabel="Label" bindValue="Codigo"
-                                [ngClass]="{ 'is-invalid': submittedEdit && f.producto.invalid, 'is-valid': submittedEdit && !f.producto.invalid }">
-                              </ng-select>
-                            </div>
-                          </div>
-
-                          <div class="form-group row" style="margin-top: 1rem">
-                            <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">SUB TIPO</label>
-                            <div class="col-md-9">
-
-                              <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
-                                formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
-                                placeholder="Seleccionar Sub Tipo"
-                                [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }">
-                              </ng-select>
-
-
-                            </div>
-                          </div>
-
-
-
-                        </div>
-                        <div class="col-12 col-md-7">
-                          <div class="form-group row">
-                            <label for="validationTooltip01" class="col-md-3 col-form-label card-text2">Tipo
-                              Doc.</label>
-                            <div class="col-md-9">
-                              <ng-select [items]="listaTipoDocumento" formControlName="tipoDocumento" bindLabel="Label"
-                                bindValue="Codigo" id="validationTooltip01" placeholder="Seleccionar Tipo Doc."
-                                [ngClass]="{ 'is-invalid': submitted && f.tipoDocumento.invalid, 'is-valid': submitted && !f.tipoDocumento.invalid }"
-                                [(ngModel)]="selectedTipoDocumento">
-                              </ng-select>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Numero
-                              Doc.</label>
-                            <div class="col-md-9">
-                              <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
-                                class="form-control" id="validationTooltip08" placeholder="Numero Documento"
-                                [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
-                              <small class="form-text text-muted danger"
-                                *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
-                                letras</small>
-                              <small class="form-text text-muted danger"
-                                *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
-                                letras</small>
-                            </div>
-
-                          </div>
-                          <div class="form-group row" style="margin-top: 1rem;">
-                            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Socio</label>
-                            <div class="col-md-9">
-                              <input id="validationTooltip08" type="text" class="form-control" formControlName="socio"
-                                name="first-name" placeholder="Codigo de Socio"
-                                [ngClass]="{ 'is-invalid': submitted && f.socio.invalid, 'is-valid': submitted && !f.socio.invalid }">
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label class="col-md-3 col-form-label card-text" for="validationTooltip09">Nombre/Rz.
-                              Social</label>
-                            <div class="col-md-9">
-                              <input type="text" class="form-control" id="validationTooltip09"
-                                formControlName="rzsocial" placeholder="Nombre o Rz. Social"
-                                [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }"
-                                name="first-name">
-                            </div>
-                          </div>
-                          <div class="form-group row" style="margin-top: 1rem">
-                            <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">Almacen</label>
-                            <div class="col-md-9">
-                              <ng-select #ngSelectComponent id="validationTooltip05" [items]="listaAlmacen"
-                                [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label"
-                                bindValue="Codigo" placeholder="Seleccionar Almacen"
-                                [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }">
                               </ng-select>
                             </div>
                           </div>
@@ -249,7 +152,7 @@
                             </label>
                           </fieldset>
                           
-                       <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotes
+                       <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableClasificacion
                             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                             [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
                             [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'" >

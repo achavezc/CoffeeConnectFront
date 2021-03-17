@@ -193,7 +193,7 @@
               <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotes
                 [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                 [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
-                [selected]="selected" [selectionType]="'single'">
+                [selected]="selected" [selectionType]="'single'" >
                 <ngx-datatable-column name="N° Lote" prop="Numero" width="30">
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
 
@@ -202,7 +202,6 @@
                         {{ name }}
                       </div>
                     </div>
-
                   </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Almacen" prop="Almacen" width="20">
@@ -213,10 +212,19 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Estado" prop="Estado" width="25">
                 </ngx-datatable-column>
-
               </ngx-datatable>
             </div>
           </div>
+          <div class="row">
+            <div class="col-12">
+               
+                    <div class="col-md-4">
+                        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="agregar(selected)"> Agregar </button>
+                        <button class="btn btn-primary mr-1 mb-1" type="submit"> Cancelar</button>
+                    </div>
+                
+            </div>
+        </div>
 
         </form>
       </div>
@@ -339,74 +347,44 @@
           Lotes</button>
       </div>
     </div>
-    <div class="row"  style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
-
-      <table class="table-calidad font-calidad table-responsive" style="width: 100% " >
-        <thead>
-          <tr>
-            <th>N°</th>
-            <th>N° LOTE</th>
-            <th>TIPO DE PRODUCTO</th>
-            <th>UNIDAD DE MEDIDA</th>
-            <th>CANTIDAD</th>
-            <th> % RENDIMIENTO</th>
-            <th> PESO NETO KG</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container>
-            <tr>
-              <td  style="width: 10%;"> <label class="label-checkbox"></label></td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+    <div class="row">
+      <div class="col-12">
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+          [rows]="rowsLotesDetalle">
+          <ngx-datatable-column name="Numero" prop="Numero" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Producto" prop="Producto" width="20">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Unidad Medida" prop="UnidadMedida" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje" width="10" >
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Peso Neto Kg" prop="KilosNetosPesado" width="10">
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
     </div>
 
-    <div class="row"  style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
-
-      <table class="table-calidad font-calidad table-responsive" style="width: 100%">
-        <thead>
-          <tr>
-            <th>Total Lotes</th>
-            <th>% Rend. Promedio </th>
-            <th>Total Kilos </th>
-            <th>Moneda</th>
-            <th>Precio del Dia</th>
-            <th>Total Pagado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container>
-            <tr>
-              <td  style="width: 10%;"> <label class="label-checkbox"></label></td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-              <td style="border-left: 1px solid #E0E0E0; width: 15%;">
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+    <div class="row">
+      <div class="col-12">
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesTotal
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+          [rows]="rowsLotesTotal" >
+          <ngx-datatable-column name="TOTAL LOTES" prop="Total" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="PROMEDIO % RENDIMIENTO" prop="PorcentRendimiento" width="20">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="CANTIDAD TOTAL" prop="CantidadTotal" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="TOTAL KILOS BRUTOS" prop="TotalKilos" width="10">
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
     </div>
+
     <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
       <div class="col-12">
           <h5 class="mt-0" style="text-align: start; font-size: 0.9rem;">Motivos del Traslado

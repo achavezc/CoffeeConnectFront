@@ -17,12 +17,10 @@ import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { LoteService } from '../../../../../../../services/lote.service';
 import {TransportistaService } from '../../../../../../../services/transportista.service';
+import { forEach } from 'core-js/core/array';
 
 
-export class table 
-  {
-    
-  }
+
 @Component({
   selector: 'app-tagNotasalida',
   templateUrl: './tag-notasalida.component.html',
@@ -60,8 +58,11 @@ export class TagNotaSalidaEditComponent implements OnInit {
   popupModel;
   login: ILogin;
   private tempData = [];
+  private tempDataLoteDetalle = [];
+  private tempDataLoteTotal = [];
   public rows = [];
-  
+  public rowsLotesTotal = [];
+  public rowsLotesDetalle = []
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   public limitRefT = 10;
@@ -69,12 +70,18 @@ export class TagNotaSalidaEditComponent implements OnInit {
   eventsSubject: Subject<void> = new Subject<void>();
   eventosSubject: Subject<void> = new Subject<void>();
   filtrosLotes: any = {};
+  filtrosLotesID: any = {};
   filtrosTransportista: any = {};
+  listaLotesDetalleId = [];
+  
 
   esEdit = false; //
 
   @ViewChild(DatatableComponent) tableLotes: DatatableComponent;
   @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
+  @ViewChild(DatatableComponent) tableLotesDetalle: DatatableComponent;
+  @ViewChild(DatatableComponent) tableLotesTotal: DatatableComponent;
+  
  
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
     private alertUtil: AlertUtil,
@@ -378,8 +385,82 @@ export class TagNotaSalidaEditComponent implements OnInit {
         );
     }
   }
-  
 
+  agregar (e)
+  {
+    this.filtrosLotesID.LoteId = Number(e[0].LoteId);
+    
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'large',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.loteService.ConsultarDetallePorLoteId(this.filtrosLotesID)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+
+            if (res.Result.Data)
+            {
+              res.Result.Data.forEach(x=>{
+                let object : any = {};                
+                object.Producto = x.Producto
+                object.UnidadMedida = x.UnidadMedida
+                object.CantidadPesado = x.CantidadPesado
+                object.RendimientoPorcentaje = x.RendimientoPorcentaje
+                object.KilosNetosPesado = x.KilosNetosPesado
+                object.Numero = e[0].Numero
+                this.listaLotesDetalleId.push(object);
+              })
+              
+            this.tempDataLoteDetalle = this.listaLotesDetalleId;
+            this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+            this.calcularTotales();
+            }
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.error(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+  }
+  
+  calcularTotales()
+  {
+    let Total = 0;
+    let RendimientoPorcentaje = 0;
+    let CantidadPesado = 0;
+    let KilosNetosPesado = 0;
+    this.rowsLotesDetalle.forEach(x=>{
+      Total += 1;
+      RendimientoPorcentaje += x.RendimientoPorcentaje;
+      CantidadPesado += x.CantidadPesado;
+      KilosNetosPesado += x.KilosNetosPesado;
+      
+    });
+    let totales:any = {};
+    totales.Total = Total;
+    totales.PorcentRendimiento = RendimientoPorcentaje/Total;
+    totales.CantidadTotal =CantidadPesado;
+    totales.TotalKilos = KilosNetosPesado;
+    let array : any[] = [];
+    array.push(totales);
+    this.tempDataLoteTotal = array;
+    this.rowsLotesTotal = [...array];
+  }
 }
 
 

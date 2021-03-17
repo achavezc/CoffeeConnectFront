@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
-import { LoteService } from '../../../../../../services/lote.service';
+import { EmpresaService } from '../../../../../../services/empresa.service';
 
 
 export class table 
@@ -33,17 +33,10 @@ export class NotaSalidaEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
 
-  listaAlmacen: any[];
-  listaEstado: any[];
-  selectAlmacen: any;
-  consultaLotes: FormGroup;
-  selectEstado: any[];
-  listaProducto: any[];
-  listaSubProducto: any[];
-  selectProducto: any;
-  selectSubProducto: any;
-  selectedTipoDocumento: any;
-  listaTipoDocumento: any[];
+  
+  selectClasificacion: any;
+  consultaEmpresas: FormGroup;
+  
   submitted = false;
   submittedEdit = false;
   closeResult: string;
@@ -60,11 +53,14 @@ export class NotaSalidaEditComponent implements OnInit {
   detalleMateriaPrima: any;
   eventsSubject: Subject<void> = new Subject<void>();
   eventosSubject: Subject<void> = new Subject<void>();
-  filtrosLotes: any;
+  filtrosEmpresaProv: any;
+  listaClasificacion = [];
 
   esEdit = false; //
 
   //@ViewChild(DatatableComponent) tableLotes: DatatableComponent;
+  
+  @ViewChild(DatatableComponent) tableClasificacion: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
     private alertUtil: AlertUtil,
@@ -73,7 +69,7 @@ export class NotaSalidaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private loteService: LoteService
+    private empresaService: EmpresaService
    
     ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
@@ -106,100 +102,42 @@ export class NotaSalidaEditComponent implements OnInit {
  
 openModal(modalLotes) {
     this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });
-    this.cargarLotes();
+    this.cargarEmpresas();
     this.clear();
     
   }
 
   clear() {
 
-    this.selectAlmacen = [];
-    this.consultaLotes.controls['numeroLote'].reset;
-    this.consultaLotes.controls['fechaInicio'].reset;
-    this.consultaLotes.controls['fechaFinal'].reset;
-    this.selectProducto = [];
-    this.selectSubProducto = [];
-    this.selectedTipoDocumento = [];
-    this.consultaLotes.controls['numeroDocumento'].reset;
-    this.consultaLotes.controls['socio'].reset;
-    this.consultaLotes.controls['rzsocial'].reset;
-    this.selectEstado = [];   
+    this.selectClasificacion = [];
+    this.consultaEmpresas.controls['ruc'].reset;
+    this.consultaEmpresas.controls['rzsocial'].reset;  
     this.rows = [];
   }
 
  
-  cargarLotes() {
-    this.consultaLotes = new FormGroup(
+  cargarEmpresas() {
+    this.consultaEmpresas = new FormGroup(
       {
-        almacen: new FormControl('', []),
-        numeroLote: new FormControl('', []),
-        fechaInicio: new FormControl('', []),
-        fechaFinal:new FormControl('', []),
-        producto: new FormControl('', []),
-        subproducto: new FormControl('', []),
-        tipoDocumento: new FormControl('', []),
-        numeroDocumento: new FormControl('', []),
-        socio: new FormControl('', []),
+        ruc: new FormControl('', []),
         rzsocial: new FormControl('', []),
-        estado: new FormControl('', [])
+        claseficacion: new FormControl('', [])
       });
   
 
-    this.maestroService.obtenerMaestros("TipoDocumento")
+    this.maestroService.obtenerMaestros("ClasificacionEmpresaProveedoraAcreedora")
       .subscribe(res => {
         if (res.Result.Success) {
-          this.listaTipoDocumento = res.Result.Data;
+          this.listaClasificacion = res.Result.Data;
         }
       },
         err => {
           console.error(err);
         }
       );
-      this.maestroService.obtenerMaestros("Almacen")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaAlmacen = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-      this.maestroService.obtenerMaestros("EstadoLote")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaEstado = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-      this.maestroService.obtenerMaestros("Producto")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaProducto = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-  }
-  changeSubProducto(e) {
-    let filterProducto = e.Codigo;
-    this.cargarSubProducto(filterProducto);
-   
+     
   }
 
-  async cargarSubProducto(codigo:any){
-    
-     var data = await this.maestroService.obtenerMaestros("SubProducto").toPromise();
-     if (data.Result.Success) {
-      this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
-    }
-
-  }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {
@@ -213,7 +151,7 @@ openModal(modalLotes) {
     this.limitRef = limit.target.value;
   }
   get f() {
-    return this.consultaLotes.controls;
+    return this.consultaEmpresas.controls;
   }
   get fedit() {
     return this.notaSalidaFormEdit.controls;
@@ -279,25 +217,18 @@ openModal(modalLotes) {
     this.modalService.dismissAll();
   }*/
   
- /*buscar() {
+ buscar() {
     let columns =[];
-    if (this.consultaLotes.invalid || this.errorGeneral.isError) {
+    if (this.consultaEmpresas.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
     } else {
       this.submitted = false;
-      this.filtrosLotes.AlmacenId = this.consultaLotes.controls['almacen'].value;
-      this.filtrosLotes.NombreRazonSocial = this.consultaLotes.controls['rzsocial'].value;
-      this.filtrosLotes.TipoDocumentoId = this.consultaLotes.controls['tipoDocumento'].value;
-      this.filtrosLotes.NumeroDocumento = this.consultaLotes.controls['numeroDocumento'].value;
-      this.filtrosLotes.Numero = this.consultaLotes.controls['numeroLote'].value;
-      this.filtrosLotes.FechaInicio = this.consultaLotes.controls['fechaInicio'].value;
-      this.filtrosLotes.FechaFin = this.consultaLotes.controls['fechaFinal'].value;
-      this.filtrosLotes.EstadoId = this.consultaLotes.controls['estado'].value;
-      this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value;
-      this.filtrosLotes.SubProductoId = this.consultaLotes.controls['subproducto'].value;
-      this.filtrosLotes.CodigoSocio = this.consultaLotes.controls['socio'].value;
-      this.filtrosLotes.EmpresaId = this.consultaLotes.controls['socio'].value;
+      this.filtrosEmpresaProv.RazonSocial = this.consultaEmpresas.controls['rzsocial'].value;
+      this.filtrosEmpresaProv.Ruc = this.consultaEmpresas.controls['ruc'].value;
+      this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value;
+      this.filtrosEmpresaProv.EmpresaId = 1;
+      this.filtrosEmpresaProv.EstadoId = 1;
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
@@ -306,7 +237,7 @@ openModal(modalLotes) {
           color: '#fff',
           fullScreen: true
         });
-      this.loteService.Consultar(this.filtrosLotes)
+      this.empresaService.ConsultarEmpresaProv(this.filtrosEmpresaProv)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -329,7 +260,7 @@ openModal(modalLotes) {
           }
         );
     }
-  }*/
+  }
  /* guardar(){
     
     if (this.consultaMateriaPrimaFormEdit.invalid) {

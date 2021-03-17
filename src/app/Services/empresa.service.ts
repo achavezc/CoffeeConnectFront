@@ -14,9 +14,14 @@ export class EmpresaService {
   }
 
   private url = `${host}Empresa`;
+  private urlProv = `${host}EmpresaProveedoraAcreedora`;
 
   Consultar(request: any): Observable<any> {
     const url = `${this.url}/Consultar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+  ConsultarEmpresaProv(request: any): Observable<any> {
+    const url = `${this.urlProv}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 }
