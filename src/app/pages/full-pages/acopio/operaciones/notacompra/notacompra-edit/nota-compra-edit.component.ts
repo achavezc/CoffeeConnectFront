@@ -211,6 +211,8 @@ export class NotaCompraEditComponent implements OnInit {
         this.notaCompraEditForm.controls.precioDiaAT.setValue(precioDia.PrecioDia);
         if (precioDia.PrecioDia > data.PrecioGuardado) {
           this.notaCompraEditForm.controls.precioPagadoAT.setValue(precioDia.PrecioDia);
+        }else{
+          this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
         }
       }
     }

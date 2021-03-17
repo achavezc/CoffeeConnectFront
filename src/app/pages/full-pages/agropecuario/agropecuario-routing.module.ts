@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SocioComponent } from './operaciones/socio/socio.component';
 import { SocioEditComponent } from './operaciones/socio/socio-edit/socio-edit.component';
+import { FincaComponent } from './operaciones/socio/finca/finca.component';
+import { FincaEditComponent } from './operaciones/socio/finca/fincaedit/finca-edit.component';
 
 const routes: Routes = [
     {
@@ -33,6 +35,27 @@ const routes: Routes = [
             {
                 path: 'socio/update/:id',
                 component: SocioEditComponent,
+                data: {
+                    title: 'Socio'
+                }
+            },
+            {
+                path: 'socio/finca/list/:id',
+                component: FincaComponent,
+                data: {
+                    title: 'Socio'
+                }
+            },
+            {
+                path: 'socio/finca/create',
+                component: FincaEditComponent,
+                data: {
+                    title: 'Socio'
+                }
+            },
+            {
+                path: 'socio/finca/update/:id',
+                component: FincaEditComponent,
                 data: {
                     title: 'Socio'
                 }
