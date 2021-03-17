@@ -80,4 +80,7 @@ export class FincaComponent implements OnInit {
     this.router.navigate(['/productor/administracion/productor/finca/create']);
   }
 
+  Cancel(): void {
+    this.router.navigate(['/productor/administracion/productor/list']);
+  }
 }

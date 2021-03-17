@@ -21,9 +21,11 @@ import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustom
 
 import { SocioComponent } from './operaciones/socio/socio.component';
 import { SocioEditComponent } from './operaciones/socio/socio-edit/socio-edit.component';
+import { FincaComponent } from './operaciones/socio/finca/finca.component';
+import { FincaEditComponent } from './operaciones/socio/finca/fincaedit/finca-edit.component';
 
 @NgModule({
-  declarations: [SocioComponent, SocioEditComponent],
+  declarations: [SocioComponent, SocioEditComponent, FincaComponent, FincaEditComponent],
   imports: [
     CommonModule,
     FormsModule,

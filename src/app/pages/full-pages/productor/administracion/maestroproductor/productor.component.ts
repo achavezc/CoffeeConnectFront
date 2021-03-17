@@ -185,5 +185,4 @@ export class ProductorComponent implements OnInit {
       this.router.navigate([`/productor/administracion/productor/fincas/${this.selected[0].ProductorId}`]);
     }
   }
-
 }
