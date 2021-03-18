@@ -1,4 +1,4 @@
-<form class="needs-validation">
+<form class="needs-validation" [formGroup]="tagNotadeSalida">
   <section id="tooltip-validation">
     <ng-template #modalLotes let-c="close" let-d="dismiss">
       <div class="modal-header" style="text-align: center;">
@@ -193,7 +193,7 @@
               <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotes
                 [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                 [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
-                [selected]="selected" [selectionType]="'single'" >
+                [selected]="selected" [selectionType]="'single'">
                 <ngx-datatable-column name="N° Lote" prop="Numero" width="30">
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
 
@@ -217,14 +217,14 @@
           </div>
           <div class="row">
             <div class="col-12">
-               
-                    <div class="col-md-4">
-                        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="agregar(selected)"> Agregar </button>
-                        <button class="btn btn-primary mr-1 mb-1" type="submit"> Cancelar</button>
-                    </div>
-                
+
+              <div class="col-md-4">
+                <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="agregar(selected)"> Agregar </button>
+                <button class="btn btn-primary mr-1 mb-1" type="submit"> Cancelar</button>
+              </div>
+
             </div>
-        </div>
+          </div>
 
         </form>
       </div>
@@ -307,7 +307,7 @@
               <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableTranspotistas
                 [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                 [limit]="limitRefT" [rows]="rowsT" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
-                [selected]="selectedT" [selectionType]="'single'">
+                [selected]="selectedT" [selectionType]="'single'" (dblclick)="seleccionarTransportista(selectedT)">
                 <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20">
 
                 </ngx-datatable-column>
@@ -347,7 +347,7 @@
           Lotes</button>
       </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
       <div class="col-12">
         <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
@@ -360,7 +360,7 @@
           </ngx-datatable-column>
           <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="10">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje" width="10" >
+          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje" width="10">
           </ngx-datatable-column>
           <ngx-datatable-column name="Peso Neto Kg" prop="KilosNetosPesado" width="10">
           </ngx-datatable-column>
@@ -368,11 +368,11 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
       <div class="col-12">
         <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesTotal
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-          [rows]="rowsLotesTotal" >
+          [rows]="rowsLotesTotal">
           <ngx-datatable-column name="TOTAL LOTES" prop="Total" width="10">
           </ngx-datatable-column>
           <ngx-datatable-column name="PROMEDIO % RENDIMIENTO" prop="PorcentRendimiento" width="20">
@@ -385,106 +385,91 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
-      <div class="col-12">
-          <h5 class="mt-0" style="text-align: start; font-size: 0.9rem;">Motivos del Traslado
-          </h5>
-          <div class="row" >
+    <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+      <div class="col-12 col-md-6">
+        <label for="basicInput">Motivo de Translado</label>
 
-              <ul class="list-unstyled mb-0 ul-Checkbox">
-                  <li class="d-block mb-2" >
-                      <div class="checkbox">
-                          <input type="checkbox" [id]="1"
-                              [formControlName]="1">
-                          <label [for]="1"
-                              class="label-checkbox"><span>1</span></label>
-                      </div>
-                  </li>
-              </ul>
-
-
-          </div>
-          
+        <ng-select [items]="listaMotivoTranslado" formControlName="motivotranslado" bindLabel="Label" bindValue="Codigo"
+          id="validationTooltip01" placeholder="Seleccionar Motivo Translado"
+          [ngClass]="{ 'is-invalid': submitted && fedit.motivotranslado.invalid, 'is-valid': submitted && !fedit.motivotranslado.invalid }"
+          [(ngModel)]="selectedMotivoTranslado">
+        </ng-select>
       </div>
-  </div>
+
+      <div class="col-12 col-md-6">
+        <label for="basicInput"> Numero de Referencia </label>
+
+        <input type="text" formControlName="numreferencia" class="form-control" id="validationTooltip08"
+          placeholder="Numero de Referencia">
+      </div>
+    </div>
+
     <div class="row" style="margin-top: 2rem;">
-      <div class="col-md-4" >
+      <div class="col-md-4">
         <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
           (click)="openModalTransportista(modalTransportista)">Agregar Transportista</button>
       </div>
     </div>
     <div class="row"
-    style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-    <div class="card-subtitle-form">DATOS DEL TRANSPORTISTA</div>
-  </div>
-
-  <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-    <div class="col-12 col-md-6">
-      <label for="basicInput">PROPIETARIO</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provNombre" 
-      disabled>
-      <label for="basicInput">DOMICILIADO</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>
-      <label for="basicInput">RUC</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>
-
-      <label for="basicInput">CONDUCTOR</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>
-      <label for="basicInput">BREVETE</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>
+      style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+      <div class="card-subtitle-form">DATOS DEL TRANSPORTISTA</div>
     </div>
-   
-    <div class="col-12 col-md-6">
-      <label for="basicInput">COD. VEHICULAR</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>
-      <label for="basicInput">MARCA</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>    
-    <label for="basicInput">PLACA</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>
-      <label for="basicInput">N° CONSTANCIA MTC</label>
-      <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
-      disabled>
-  </div>
-  </div>
-  <div class="row"  style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
-    <div class="col-12">
+
+    <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+      <div class="col-12 col-md-6">
+        <label for="basicInput">PROPIETARIO</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="propietario" disabled>
+        <label for="basicInput">DOMICILIADO</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="domiciliado" disabled>
+        <label for="basicInput">RUC</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
+
+        <label for="basicInput">CONDUCTOR</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="conductor" disabled>
+        <label for="basicInput">BREVETE</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="brevete" disabled>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="basicInput">COD. VEHICULAR</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="codvehicular" disabled>
+        <label for="basicInput">MARCA</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="marca" disabled>
+        <label for="basicInput">PLACA</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="placa" disabled>
+        <label for="basicInput">N° CONSTANCIA MTC</label>
+        <input type="text" class="form-control" id="basicInput" formControlName="numconstanciamtc" disabled>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
+      <div class="col-12">
         <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
         <div class="position-relative has-icon-left">
-            <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="100"
-                name="notes" formControlName="ObservacionAnalisisFisico"></textarea>
-            <div class="form-control-position">
-                <i class="ft-file"></i>
-            </div>
+          <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="100" name="notes"
+            formControlName="ObservacionAnalisisFisico"></textarea>
+          <div class="form-control-position">
+            <i class="ft-file"></i>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
-  <div class="col-12 d-flex flex-sm-row flex-column">
+    <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
+      <div class="col-12 d-flex flex-sm-row flex-column">
 
-      <label class="col-md-2 col-form-label card-text"
-          for="horizontal-form-1">Responsable</label>
-      <label class="col-md-2 col-form-label card-text" style="font-weight: bold;"
-          for="horizontal-form-1"></label>
+        <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+        <label class="col-md-2 col-form-label card-text" style="font-weight: bold;" for="horizontal-form-1"></label>
 
-  </div>
-</div>
-<div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
-  <div class="col-12 d-flex flex-sm-row flex-column">
-      <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha
+      </div>
+    </div>
+    <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
+      <div class="col-12 d-flex flex-sm-row flex-column">
+        <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha
           Calidad</label>
-      <label class="col-md-2 col-form-label card-text" style="font-weight: bold;"
-          for="horizontal-form-1"></label>
-  </div>
+        <label class="col-md-2 col-form-label card-text" style="font-weight: bold;" for="horizontal-form-1"></label>
+      </div>
 
 
-</div>
+    </div>
   </section>
   <div class="d-flex justify-content-between align-items-center">
     <ngx-spinner></ngx-spinner>
