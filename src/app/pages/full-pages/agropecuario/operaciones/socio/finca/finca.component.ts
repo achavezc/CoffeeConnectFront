@@ -32,22 +32,28 @@ export class FincaComponent implements OnInit {
   fincaSocioForm: FormGroup;
   limitRef = 10;
   rows = [];
-  tempRows = [];
   vId: number;
+  tempRows = [];
+  objParams: any;
+  vMsgErrGenerico = "Ha ocurrido un error interno.";
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
-    this.LoadForm();
-    if (this.vId > 0) {
-      this.SearchSocioById();
-    } else {
-
-    }
+    this.route.queryParams.subscribe((params) => {
+      if (params) {
+        this.LoadForm();
+        if (this.vId > 0) {
+          this.objParams = params;
+          this.SearchSocioById();
+        }
+      }
+    });
   }
 
   LoadForm(): void {
     this.fincaSocioForm = this.fb.group({
+      idProductorFinca: [],
       codSocio: [],
       nombreRazonSocial: []
     });
@@ -69,19 +75,18 @@ export class FincaComponent implements OnInit {
         if (res.Result.Success) {
           this.tempRows = res.Result.Data;
           this.rows = this.tempRows;
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
         }
       }, (err: any) => {
         console.log(err);
         this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
       });
   }
 
   New(): void {
-    this.router.navigate(['/agropecuario/operaciones/socio/finca/create']);
-  }
-
-  Delete(): void {
-
+    this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.objParams.idProductor, idSocio: this.vId } });
   }
 
   Certifications(): void {

@@ -43,10 +43,12 @@ export class TagNotaSalidaEditComponent implements OnInit {
   selectSubProducto: any;
   selectedTipoDocumento: any;
   listaTipoDocumento: any[];
+  listaMotivoTranslado: any[];
+  selectedMotivoTranslado: any;
   submitted = false;
   submittedEdit = false;
   closeResult: string;
-  notaSalidaFormEdit: FormGroup;
+  tagNotadeSalida: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
@@ -100,7 +102,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
  
   ngOnInit(): void {
   
-  
+  this.cargarformTagNotaSalida();
   }
 
 
@@ -145,6 +147,36 @@ export class TagNotaSalidaEditComponent implements OnInit {
     );
   }
  
+  cargarformTagNotaSalida()
+  {
+    this.tagNotadeSalida = new FormGroup(
+      {
+        propietario: new FormControl('', []),
+        domiciliado: new FormControl('', []),
+        ruc: new FormControl('', []),
+        conductor: new FormControl('', []),
+        brevete: new FormControl('', []),
+        codvehicular: new FormControl('', []),
+        marca: new FormControl('', []),
+        placa: new FormControl('', []),
+        numconstanciamtc: new FormControl('', []),
+        motivotranslado: new FormControl('', []),
+        numreferencia: new FormControl('', [])
+
+      }
+    );
+    this.maestroService.obtenerMaestros("MotivoSalida")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listaMotivoTranslado = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
+  }
+  
   cargarLotes() {
     this.consultaLotes = new FormGroup(
       {
@@ -262,7 +294,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
     return this.consultaLotes.controls;
   }
   get fedit() {
-    return this.notaSalidaFormEdit.controls;
+    return this.tagNotadeSalida.controls;
   }
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
@@ -333,6 +365,21 @@ export class TagNotaSalidaEditComponent implements OnInit {
     }
   
   };
+  seleccionarTransportista(e)
+  {
+  
+    this.tagNotadeSalida.get('propietario').setValue(e[0].RazonSocial);    
+    this.tagNotadeSalida.get('domiciliado').setValue(e[0].Direccion);
+    this.tagNotadeSalida.get('ruc').setValue(e[0].Ruc);
+    this.tagNotadeSalida.get('conductor').setValue(e[0].Conductor);
+    this.tagNotadeSalida.get('brevete').setValue(e[0].Licencia );
+    this.tagNotadeSalida.get('codvehicular').setValue(e[0].ConfiguracionVehicular );
+    this.tagNotadeSalida.get('marca').setValue(e[0].MarcaTractor );
+    this.tagNotadeSalida.get('placa').setValue(e[0].PlacaTractor );
+    this.tagNotadeSalida.get('numconstanciamtc').setValue(e[0].NumeroConstanciaMTC );
+
+    this.modalService.dismissAll();
+  }
   buscar() {
     let columns =[];
     if (this.consultaLotes.invalid || this.errorGeneral.isError) {
@@ -348,9 +395,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
       this.filtrosLotes.Numero = this.consultaLotes.controls['numeroLote'].value;
       this.filtrosLotes.FechaInicio = this.consultaLotes.controls['fechaInicio'].value;
       this.filtrosLotes.FechaFin = this.consultaLotes.controls['fechaFinal'].value;
-      this.filtrosLotes.EstadoId = this.consultaLotes.controls['estado'].value.length == 0 ? "" : this.consultaLotes.controls['estado'].value ;
-      this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value.length ==  0 ? "" : this.consultaLotes.controls['producto'].value ;
-      this.filtrosLotes.SubProductoId = this.consultaLotes.controls['subproducto'].value.length == 0 ? "":  this.consultaLotes.controls['subproducto'].value ;
+      this.filtrosLotes.EstadoId = this.consultaLotes.controls['estado'].value == null || this.consultaLotes.controls['estado'].value.length == 0 ? "" : this.consultaLotes.controls['estado'].value ;
+      this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value == null || this.consultaLotes.controls['producto'].value.length ==  0 ? "" : this.consultaLotes.controls['producto'].value ;
+      this.filtrosLotes.SubProductoId =  this.consultaLotes.controls['subproducto'].value == null || this.consultaLotes.controls['subproducto'].value.length == 0 ? "":  this.consultaLotes.controls['subproducto'].value ;
       this.filtrosLotes.CodigoSocio = this.consultaLotes.controls['socio'].value;
       this.filtrosLotes.EmpresaId = 1;
       this.spinner.show(undefined,

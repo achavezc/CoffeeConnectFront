@@ -43,7 +43,7 @@ export class NotaSalidaEditComponent implements OnInit {
   notaSalidaFormEdit: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  selected = [];
+  selectedE = [];
   popupModel;
   login: ILogin;
   private tempData = [];
@@ -53,14 +53,14 @@ export class NotaSalidaEditComponent implements OnInit {
   detalleMateriaPrima: any;
   eventsSubject: Subject<void> = new Subject<void>();
   eventosSubject: Subject<void> = new Subject<void>();
-  filtrosEmpresaProv: any;
+  filtrosEmpresaProv: any= {};
   listaClasificacion = [];
 
   esEdit = false; //
 
   //@ViewChild(DatatableComponent) tableLotes: DatatableComponent;
   
-  @ViewChild(DatatableComponent) tableClasificacion: DatatableComponent;
+  @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
     private alertUtil: AlertUtil,
@@ -75,7 +75,7 @@ export class NotaSalidaEditComponent implements OnInit {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
   singleSelectCheck(row: any) {
-    return this.selected.indexOf(row) === -1;
+    return this.selectedE.indexOf(row) === -1;
   }
  
   ngOnInit(): void {
@@ -100,8 +100,8 @@ export class NotaSalidaEditComponent implements OnInit {
         });
   }
  
-openModal(modalLotes) {
-    this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });
+openModal(modalEmpresa) {
+    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarEmpresas();
     this.clear();
     
@@ -121,7 +121,7 @@ openModal(modalLotes) {
       {
         ruc: new FormControl('', []),
         rzsocial: new FormControl('', []),
-        claseficacion: new FormControl('', [])
+        clasificacion: new FormControl('', [])
       });
   
 
@@ -144,14 +144,14 @@ openModal(modalLotes) {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows = temp;
-   // this.tableLotes.offset = 0;
+   this.tableEmpresa.offset = 0;
   }
   
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
   get f() {
-    return this.consultaEmpresas.controls;
+    return this.consultaEmpresas.controls
   }
   get fedit() {
     return this.notaSalidaFormEdit.controls;
@@ -182,43 +182,18 @@ openModal(modalLotes) {
     };
   }*/
 
-  /*seleccionarProveedor(e) {
-    this.consultaMateriaPrimaFormEdit.controls['provFinca'].disable();
-    
-    this.consultaMateriaPrimaFormEdit.get('provNombre').setValue(e[0].NombreRazonSocial);
-    this.consultaMateriaPrimaFormEdit.get('provDocumento').setValue(e[0].TipoDocumento+ "-" + e[0].NumeroDocumento);
-    this.consultaMateriaPrimaFormEdit.get('provTipoSocio').setValue(e[0].TipoProveedorId);
-    this.consultaMateriaPrimaFormEdit.get('provCodigo').setValue(e[0].CodigoSocio);
-    this.consultaMateriaPrimaFormEdit.get('provDepartamento').setValue(e[0].Departamento);
-    this.consultaMateriaPrimaFormEdit.get('provProvincia').setValue(e[0].Provincia);
-    this.consultaMateriaPrimaFormEdit.get('provDistrito').setValue(e[0].Distrito);
-    this.consultaMateriaPrimaFormEdit.get('provZona').setValue(e[0].Zona);
-    this.consultaMateriaPrimaFormEdit.get('provFinca').setValue(e[0].Finca);
-
-    this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(e[0].TipoProveedorId);
-    this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(null);
-    this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(null);
-    this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
-    this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(null);
-
-    if(e[0].TipoProveedorId == this.tipoSocio){
-      this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(e[0].ProveedorId);
-      this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(e[0].FincaId);
-
-    }else if(e[0].TipoProveedorId == this.tipoTercero){
-      this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(e[0].ProveedorId);
-      this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(e[0].FincaId);
-    }else if(e[0].TipoProveedorId == this.tipoIntermediario){
-      this.consultaMateriaPrimaFormEdit.controls['provFinca'].enable();
-      this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(e[0].ProveedorId);
-    }
-    
+  seleccionarEmpresa(e) {
+       
+    this.notaSalidaFormEdit.get('destinatario').setValue(e[0].RazonSocial);
+    this.notaSalidaFormEdit.get('ruc').setValue(e[0].Ruc);
+    this.notaSalidaFormEdit.get('dirPartida').setValue("");
+    this.notaSalidaFormEdit.get('dirDestino').setValue(e[0].Direccion + " - " + e[0].Distrito + " - " + e[0].Provincia +" - "+ e[0].Departamento);
 
     this.modalService.dismissAll();
-  }*/
+  }
   
  buscar() {
-    let columns =[];
+    
     if (this.consultaEmpresas.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -228,7 +203,7 @@ openModal(modalLotes) {
       this.filtrosEmpresaProv.Ruc = this.consultaEmpresas.controls['ruc'].value;
       this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value;
       this.filtrosEmpresaProv.EmpresaId = 1;
-      this.filtrosEmpresaProv.EstadoId = 1;
+      this.filtrosEmpresaProv.EstadoId = "01";
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
