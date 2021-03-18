@@ -53,7 +53,7 @@ export class NotaSalidaEditComponent implements OnInit {
   detalleMateriaPrima: any;
   eventsSubject: Subject<void> = new Subject<void>();
   eventosSubject: Subject<void> = new Subject<void>();
-  filtrosEmpresaProv: any;
+  filtrosEmpresaProv: any= {};
   listaClasificacion = [];
 
   esEdit = false; //
@@ -121,7 +121,7 @@ openModal(modalLotes) {
       {
         ruc: new FormControl('', []),
         rzsocial: new FormControl('', []),
-        claseficacion: new FormControl('', [])
+        clasificacion: new FormControl('', [])
       });
   
 
@@ -218,7 +218,7 @@ openModal(modalLotes) {
   }*/
   
  buscar() {
-    let columns =[];
+    
     if (this.consultaEmpresas.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -228,7 +228,7 @@ openModal(modalLotes) {
       this.filtrosEmpresaProv.Ruc = this.consultaEmpresas.controls['ruc'].value;
       this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value;
       this.filtrosEmpresaProv.EmpresaId = 1;
-      this.filtrosEmpresaProv.EstadoId = 1;
+      this.filtrosEmpresaProv.EstadoId = "01";
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',

@@ -110,9 +110,9 @@
                             <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">CLASIFICACION</label>
                             <div class="col-md-9">
                               <ng-select [items]="listaClasificacion" bindLabel="name" [(ngModel)]="selectClasificacion"
-                                class="form-control" placeholder="Seleccionar Estado" formControlName="clasificacion"
+                                class="form-control" placeholder="Seleccionar Clasificacion" formControlName="clasificacion"
                                  bindLabel="Label" bindValue="Codigo"
-                                [ngClass]="{ 'is-invalid': submittedEdit && f.estado.invalid, 'is-valid': submittedEdit && !f.estado.invalid }">
+                                [ngClass]="{ 'is-invalid': submittedEdit && f.clasificacion.invalid, 'is-valid': submittedEdit && !f.clasificacion.invalid }">
                               </ng-select>
                             </div>
                           </div>
@@ -156,24 +156,17 @@
                             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                             [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
                             [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'" >
-                            <ngx-datatable-column name="N° Lote" prop="Numero" width="30">
-                             <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-
-                                <div class="d-flex align-items-center">
-                                  <div class="cell-line-height">
-                                    {{ name }}
-                                  </div>
-                                </div>
-
-                            </ng-template>
+                            <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Almacen" prop="Almacen" width="20">
+                            <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="40">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Peso Neto" prop="TotalKilosNetosPesado" width="40">
+                            <ngx-datatable-column name="Direccion" prop="Direccion" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="% Rendimiento Promedio" prop="PromedioRendimientoPorcentaje" width="60">
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="25">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="25">
+                            <ngx-datatable-column name="Provincia" prop="Provincia" width="25">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Distrito" prop="Distrito" width="25">
                             </ngx-datatable-column>
                            
                           </ngx-datatable>
