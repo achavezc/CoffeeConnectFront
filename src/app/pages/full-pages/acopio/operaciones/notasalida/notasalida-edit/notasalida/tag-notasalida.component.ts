@@ -395,9 +395,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
       this.filtrosLotes.Numero = this.consultaLotes.controls['numeroLote'].value;
       this.filtrosLotes.FechaInicio = this.consultaLotes.controls['fechaInicio'].value;
       this.filtrosLotes.FechaFin = this.consultaLotes.controls['fechaFinal'].value;
-      this.filtrosLotes.EstadoId = this.consultaLotes.controls['estado'].value.length == 0 ? "" : this.consultaLotes.controls['estado'].value ;
-      this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value.length ==  0 ? "" : this.consultaLotes.controls['producto'].value ;
-      this.filtrosLotes.SubProductoId = this.consultaLotes.controls['subproducto'].value.length == 0 ? "":  this.consultaLotes.controls['subproducto'].value ;
+      this.filtrosLotes.EstadoId = this.consultaLotes.controls['estado'].value == null || this.consultaLotes.controls['estado'].value.length == 0 ? "" : this.consultaLotes.controls['estado'].value ;
+      this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value == null || this.consultaLotes.controls['producto'].value.length ==  0 ? "" : this.consultaLotes.controls['producto'].value ;
+      this.filtrosLotes.SubProductoId =  this.consultaLotes.controls['subproducto'].value == null || this.consultaLotes.controls['subproducto'].value.length == 0 ? "":  this.consultaLotes.controls['subproducto'].value ;
       this.filtrosLotes.CodigoSocio = this.consultaLotes.controls['socio'].value;
       this.filtrosLotes.EmpresaId = 1;
       this.spinner.show(undefined,

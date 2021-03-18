@@ -34,20 +34,30 @@ export class FincaEditComponent implements OnInit {
   selectedFinca: any;
   selectedEstado: any;
   vId: number;
+  objParams: any;
+  vMsgErrGenerico = "Ha ocurrido un error interno.";
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
-    this.LoadForm();
-    this.LoadCombos();
-    if (this.vId > 0) {
-      this.SearchById();
-    } else {
-
-    }
+    this.route.queryParams.subscribe((params) => {
+      this.objParams = params;
+      this.LoadForm();
+      if (params) {
+        this.GetEstados();
+        if (this.vId > 0) {
+          this.SearchById();
+        } else {
+          this.GetFincas(params.idProductor);
+        }
+      }
+    });
   }
 
   LoadForm(): void {
     this.socioFincaEditForm = this.fb.group({
+      idSocio: [],
+      idProductor: [],
+      idSocioFinca: [],
       finca: [, [Validators.required]],
       viasAcceso: [''],
       distanciaKM: [],
@@ -64,11 +74,13 @@ export class FincaEditComponent implements OnInit {
     return this.socioFincaEditForm.controls;
   }
 
-  LoadCombos(): void {
-    this.GetEstados();
-  }
+  // LoadCombos(): void {
+  //   this.GetEstados();
+  //   this.GetFincas();
+  // }
 
   async GetEstados() {
+    this.listEstados = [];
     const res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
       this.listEstados = res.Result.Data;
@@ -78,19 +90,35 @@ export class FincaEditComponent implements OnInit {
     }
   }
 
+  async GetFincas(id: number) {
+    this.listFincas = [];
+    const res = await this.productorFincaService.SearchProducerById({ ProductorId: id }).toPromise();
+    if (res.Result.Success) {
+      this.listFincas = res.Result.Data;
+    }
+  }
+
   SearchById(): void {
     this.spinner.show();
     this.socioFincaService.SearchById({ SocioFincaId: this.vId })
       .subscribe((res: any) => {
-        this.AutocompleteDataForm(res.Result.Data);
+        if (res.Result.Success) {
+          this.AutocompleteDataForm(res.Result.Data);
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
       }, (err: any) => {
         console.log(err);
         this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
       });
   }
 
   async AutocompleteDataForm(data: any) {
-    // this.socioFincaEditForm.controls.finca.setValue(data.);
+    this.socioFincaEditForm.controls.idSocio.setValue(data.SocioId);
+    this.socioFincaEditForm.controls.idProductor.setValue(data.ProductorId);
+    await this.GetFincas(data.ProductorId);
+    this.socioFincaEditForm.controls.finca.setValue(data.ProductorFincaId);
     if (data.ViasAccesoCentroAcopio) {
       this.socioFincaEditForm.controls.viasAcceso.setValue(data.ViasAccesoCentroAcopio);
     }
@@ -112,14 +140,16 @@ export class FincaEditComponent implements OnInit {
     if (data.CantidadPersonalCosecha) {
       this.socioFincaEditForm.controls.nroPersonalCosecha.setValue(data.CantidadPersonalCosecha);
     }
+    await this.GetEstados();
     this.socioFincaEditForm.controls.estado.setValue(data.EstadoId);
+    this.spinner.hide();
   }
 
   GetRequest(): any {
     return {
-      SocioFincaId: 0,
-      SocioId: 0,
-      ProductorFincaId: 0,
+      SocioFincaId: this.vId ?? 0,
+      SocioId: this.objParams.idSocio ? parseInt(this.objParams.idSocio) : this.socioFincaEditForm.value.idSocio ? parseInt(this.socioFincaEditForm.value.idSocio) : 0,
+      ProductorFincaId: this.socioFincaEditForm.value.finca,
       ViasAccesoCentroAcopio: this.socioFincaEditForm.value.viasAcceso,
       DistanciaKilometrosCentroAcopio: this.socioFincaEditForm.value.distanciaKM ?? null,
       TiempoTotalFincaCentroAcopio: this.socioFincaEditForm.value.tiempoTotal ?? null,
@@ -189,10 +219,13 @@ export class FincaEditComponent implements OnInit {
             () => {
               this.Cancel();
             });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
         }
       }, (err: any) => {
         console.log(err);
         this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
       });
   }
 
@@ -208,14 +241,23 @@ export class FincaEditComponent implements OnInit {
             () => {
               this.Cancel();
             });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
         }
       }, (err: any) => {
         console.log(err);
         this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
       });
   }
 
   Cancel(): void {
-    this.router.navigate(['/agropecuario/operaciones/socio/list']);
+    if (this.objParams.idSocio) {
+      this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.objParams.idSocio}`],
+        { queryParams: { idProductor: this.objParams.idProductor } });
+    } else {
+      this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.socioFincaEditForm.value.idSocio}`],
+        { queryParams: { idProductor: this.socioFincaEditForm.value.idProductor } });
+    }
   }
 }
