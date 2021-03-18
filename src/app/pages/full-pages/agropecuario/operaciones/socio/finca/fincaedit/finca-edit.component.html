@@ -10,7 +10,7 @@
                         <label for="finca" class="col-4 col-form-label pr-0">Finca</label>
                         <div class="col-8">
                             <ng-select [items]="listFincas" formControlName="finca" class="form-control"
-                                bindLabel="Descripcion" bindValue="Codigo" id="finca" placeholder="Seleccionar finca"
+                                bindLabel="Nombre" bindValue="ProductorFincaId" id="finca" placeholder="Seleccionar finca"
                                 [(ngModel)]="selectedFinca"
                                 [ngClass]="{ 'is-invalid': f.finca.invalid, 'is-valid': !f.finca.invalid }">
                             </ng-select>

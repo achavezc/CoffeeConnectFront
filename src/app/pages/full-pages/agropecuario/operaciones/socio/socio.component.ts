@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
@@ -188,7 +188,10 @@ export class SocioComponent implements OnInit {
 
   GoFinca(): void {
     if (this.selected && this.selected.length > 0) {
-      this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.selected[0].SocioId}`]);
+      const navigationExtras: NavigationExtras = {
+        queryParams: { idProductor: this.selected[0].ProductorId }
+      }
+      this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.selected[0].SocioId}`], navigationExtras);
     }
   }
 }

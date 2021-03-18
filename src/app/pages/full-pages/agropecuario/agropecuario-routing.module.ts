@@ -43,21 +43,21 @@ const routes: Routes = [
                 path: 'socio/finca/list/:id',
                 component: FincaComponent,
                 data: {
-                    title: 'Socio'
+                    title: 'Listar Socio - Finca'
                 }
             },
             {
                 path: 'socio/finca/create',
                 component: FincaEditComponent,
                 data: {
-                    title: 'Socio'
+                    title: 'Crear Socio - Finca'
                 }
             },
             {
                 path: 'socio/finca/update/:id',
                 component: FincaEditComponent,
                 data: {
-                    title: 'Socio'
+                    title: 'Actualizar Socio - Finca'
                 }
             }
         ]
