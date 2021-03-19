@@ -46,7 +46,6 @@ export class NotaSalidaEditComponent implements OnInit {
   public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
-  detalleMateriaPrima: any;
   eventsSubject: Subject<any> = new Subject<any>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
@@ -60,6 +59,8 @@ export class NotaSalidaEditComponent implements OnInit {
   almacen: "";
   fechaPesado: any;
   responsable: "";
+  form: string = "notasalida";
+  detalle: any;
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
@@ -101,7 +102,7 @@ export class NotaSalidaEditComponent implements OnInit {
      
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          this.detalleMateriaPrima = res.Result.Data;
+          this.detalle = res.Result.Data;
           this.cargarDataFormulario(res.Result.Data);
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -254,7 +255,11 @@ openModal(modalEmpresa) {
     return (group: FormGroup): ValidationErrors => {
 
       const motivotranslado = group.get('tagcalidad').get("motivotranslado").value;
-      if ( this.selectedE.length == 0 ) {
+      const destinatario = group.get('destinatario').value;
+      const dirPartida = group.get('dirPartida').value;
+      const dirDestino = group.get('dirDestino').value;
+      const ruc = group.get('ruc').value;
+      if ( destinatario == "" || dirPartida == "" || dirDestino == "" || ruc == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Empresa Destino' };
 
@@ -374,7 +379,6 @@ this.child.listaLotesDetalleId.forEach( x=>
         list,
         this.child.totales.Total
       );
-      
        this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',

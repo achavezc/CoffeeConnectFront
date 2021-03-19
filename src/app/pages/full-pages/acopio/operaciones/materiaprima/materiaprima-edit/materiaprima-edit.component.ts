@@ -16,10 +16,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 
-export class table 
-  {
-    
-  }
+
 @Component({
   selector: 'app-materiaprima-list',
   templateUrl: './materiaprima-edit.component.html',
@@ -72,8 +69,9 @@ export class MateriaPrimaEditComponent implements OnInit {
   disabledControl: string = '';
   disabledNota: string = '';
   viewTagSeco: boolean = false;
-  detalleMateriaPrima: any;
+  detalle: any;
   unidadMedidaPesado:any;
+  form: string = "materiaprima"
 
 
   eventsSubject: Subject<void> = new Subject<void>();
@@ -576,7 +574,7 @@ export class MateriaPrimaEditComponent implements OnInit {
      
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          this.detalleMateriaPrima = res.Result.Data;
+          this.detalle = res.Result.Data;
           this.cargarDataFormulario(res.Result.Data);
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };

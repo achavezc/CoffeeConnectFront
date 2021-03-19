@@ -388,11 +388,11 @@
                 
                
                   <ng-template ngbNavContent *ngIf="viewTagSeco">
-                  <app-controlCalidadSeco [events]="eventsSubject.asObservable()" *ngIf="detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima" ></app-controlCalidadSeco>
+                  <app-controlCalidadSeco [events]="eventsSubject.asObservable()" *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadSeco>
                   </ng-template>
 
                  <ng-template ngbNavContent *ngIf="!viewTagSeco" >
-                    <app-controlCalidadHumedo  [events]="eventosSubject.asObservable()" *ngIf="detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima" ></app-controlCalidadHumedo>
+                    <app-controlCalidadHumedo  [events]="eventosSubject.asObservable()" *ngIf="detalle" [detalle]="detalle" ></app-controlCalidadHumedo>
                     </ng-template>
                     
 
