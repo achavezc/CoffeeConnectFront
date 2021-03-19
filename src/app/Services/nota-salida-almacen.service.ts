@@ -33,4 +33,14 @@ export class NotaSalidaAlmacenService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+
+  obtenerDetalle(id:number): Observable<any> {
+    const url = `${this.url}/ConsultarPorId`;
+     
+    const body: any = {
+      NotaSalidaAlmacenId: id
+    };
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
+
 }
