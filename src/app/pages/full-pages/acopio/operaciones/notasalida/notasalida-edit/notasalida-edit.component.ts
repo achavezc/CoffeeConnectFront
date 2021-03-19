@@ -20,7 +20,6 @@ import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida
 import { TagNotaSalidaEditComponent } from '../notasalida-edit/notasalida/tag-notasalida.component'
 
 
-
 @Component({
   selector: 'app-notasalidad-edit',
   templateUrl: './notasalida-edit.component.html',
@@ -48,8 +47,7 @@ export class NotaSalidaEditComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   detalleMateriaPrima: any;
-  eventsSubject: Subject<void> = new Subject<void>();
-  eventosSubject: Subject<void> = new Subject<void>();
+  eventsSubject: Subject<any> = new Subject<any>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
   listaAlmacen=[];
@@ -62,7 +60,6 @@ export class NotaSalidaEditComponent implements OnInit {
   almacen: "";
   fechaPesado: any;
   responsable: "";
-
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
@@ -148,13 +145,12 @@ export class NotaSalidaEditComponent implements OnInit {
     this.almacen = data.Almacen;
   
     this.responsable = data.UsuarioRegistro;
-
+    this.eventsSubject.next(data.DetalleLotes);
     this.spinner.hide();
   }
 
   emitEventToChild() {
     this.eventsSubject.next();
-    this.eventosSubject.next();
   }
  
   get fns() {

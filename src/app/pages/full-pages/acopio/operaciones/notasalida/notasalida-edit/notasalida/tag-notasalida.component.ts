@@ -18,7 +18,7 @@ import { Subject } from 'rxjs';
 import { LoteService } from '../../../../../../../services/lote.service';
 import {TransportistaService } from '../../../../../../../services/transportista.service';
 import { forEach } from 'core-js/core/array';
-
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -78,10 +78,8 @@ export class TagNotaSalidaEditComponent implements OnInit {
   listaLotesDetalleId = [];
   valueMotivoSalidaTransf = '02';
   totales:any = {};
-
-  
-
   esEdit = false; //
+  @Input() events: Observable<any>;
 
   @ViewChild(DatatableComponent) tableLotes: DatatableComponent;
   @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
@@ -108,12 +106,24 @@ export class TagNotaSalidaEditComponent implements OnInit {
   ngOnInit(): void {
     this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
     this.cargarformTagNotaSalida();
-    this.tempDataLoteDetalle = this.detalleMateriaPrima.DetalleLotes;
-    this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+   
+   /*  this.events.subscribe(
+      () => this.cargarDatos()); */
+
+      this.events.subscribe({
+        next: (data) => this.cargarDatos(data)
+        
+      });
+
   }
+
 
   get ftns() {
     return this.tagNotadeSalida.controls;
+  }
+  cargarDatos(detalleLotes:any){
+    this.tempDataLoteDetalle = detalleLotes;
+    this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
   }
 
   changeMotivo(e)
