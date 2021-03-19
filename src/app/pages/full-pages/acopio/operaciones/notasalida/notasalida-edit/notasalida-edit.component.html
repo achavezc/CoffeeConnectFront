@@ -15,41 +15,43 @@
               </div>
               <div class="col-12 col-md-4">
 
-                <div class="form-row">
+                <div class="form-row" *ngIf="esEdit">
 
                   <div class="col-md-6 form-group">
                     <label class="card-forms" for="users-edit-name">N° NOTA DE SALIDA</label>
                   </div>
 
                   <div class="col-md-6 form-group">
-
-                    <div class="form-group" style="margin-bottom: 0.5rem !important;">
+                   
+                      <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
+                   
+<!--                     <div class="form-group" style="margin-bottom: 0.5rem !important;">
                       <div class="controls">
                         <input type="text" id="users-edit-username" formControlName="numNotaSalida"
                           class="form-control" aria-invalid="false"
                           [ngClass]="{ 'is-invalid': submittedEdit && fedit.numNotaSalida.invalid, 'is-valid': submittedEdit && !fedit.numNotaSalida.invalid }">
 
                       </div>
-                    </div>
+                    </div> -->
 
                   </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row" *ngIf="esEdit">
 
                   <div class="col-md-6 form-group">
                     <label class="card-forms" for="users-edit-email">FECHA</label>
                   </div>
                   <div class="col-md-4 form-group">
-                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;"></label>
+                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{fechaRegistro}}</label>
                   </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row" *ngIf="esEdit">
 
                   <div class="col-md-6 form-group">
                     <label class="card-forms" for="users-edit-email">ALMACEN</label>
                   </div>
                   <div class="col-md-4 form-group">
-                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;"></label>
+                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{almacen}}</label>
                   </div>
                 </div>
               
@@ -209,15 +211,15 @@
                     <span class="d-none d-sm-block">Nota de Salida</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-tagNotasalida formGroupName="tagcalidad"></app-tagNotasalida>
+                    <app-tagNotasalida formGroupName="tagcalidad" detalleMateriaPrima="detalleMateriaPrima"></app-tagNotasalida>
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                       <div class="col-8 d-flex flex-sm-row flex-column">
                         <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1"></label>
+                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
                       </div>
                       <div class="col-8 d-flex flex-sm-row flex-column">
                         <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
-                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1"></label>
+                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaRegistro}}</label>
                       </div>
         
                     </div>

@@ -69,7 +69,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   public limitRefT = 10;
-  detalleMateriaPrima: any;
+  @Input() detalleMateriaPrima;
   eventsSubject: Subject<void> = new Subject<void>();
   eventosSubject: Subject<void> = new Subject<void>();
   filtrosLotes: any = {};
@@ -77,6 +77,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   filtrosTransportista: any = {};
   listaLotesDetalleId = [];
   valueMotivoSalidaTransf = '02';
+
   
 
   esEdit = false; //
@@ -106,7 +107,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
   ngOnInit(): void {
   
     this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
-  this.cargarformTagNotaSalida();
+    this.cargarformTagNotaSalida();
+    this.tempDataLoteDetalle = this.detalleMateriaPrima.DetalleLotes;
+    this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
   }
 
 

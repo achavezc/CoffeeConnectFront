@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ReqNotaSalida } from '../../../../../../services/models/req-salidaalmacen-actualizar';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
+import { runInThisContext } from 'vm';
 
 
 @Component({
@@ -53,10 +54,14 @@ export class NotaSalidaEditComponent implements OnInit {
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
   ReqNotaSalida
-
+  id: Number = 0;
   esEdit = false; //
+  numero = "";
+  fechaRegistro: any;
+  almacen: "";
+  fechaPesado: any;
+  responsable: "";
 
-  
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
@@ -79,6 +84,73 @@ export class NotaSalidaEditComponent implements OnInit {
   ngOnInit(): void {
     this.cargarForm();
     this.login = JSON.parse(localStorage.getItem("user"));
+    this.route.queryParams
+    .subscribe(params => {
+      if( Number(params.id)){
+        this.id =Number(params.id);
+        this.esEdit = true;
+        this.obtenerDetalle();
+        
+      }
+    }
+  );
+  }
+
+  obtenerDetalle(){
+    this.spinner.show();
+    this.notaSalidaAlmacenService.obtenerDetalle(Number(this.id))
+    .subscribe(res => {
+     
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.detalleMateriaPrima = res.Result.Data;
+          this.cargarDataFormulario(res.Result.Data);
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );  
+  }
+
+  cargarDataFormulario(data: any){
+   
+    this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
+    this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
+    this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
+    this.notaSalidaFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
+    this.notaSalidaFormEdit.get('tagcalidad').get("propietario").setValue(data.Transportista);
+    this.notaSalidaFormEdit.get('tagcalidad').get("domiciliado").setValue(data.DireccionTransportista);
+    this.notaSalidaFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
+    this.notaSalidaFormEdit.get('tagcalidad').get("conductor").setValue(data.Conductor);
+    this.notaSalidaFormEdit.get('tagcalidad').get("brevete").setValue(data.LicenciaConductor);
+    this.notaSalidaFormEdit.get('tagcalidad').get("codvehicular").setValue(data.TaraPesado);
+    this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaCarreta);
+    this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaCarreta);
+    this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
+    this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoTrasladoId);
+    //this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.Observacion);
+    this.notaSalidaFormEdit.get('tagcalidad').get("ObservacionAnalisisFisico").setValue(data.Observacion);
+   
+    this.numero = data.Numero; 
+    
+    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
+    this.almacen = data.Almacen;
+  
+    this.responsable = data.UsuarioRegistro;
+
+    this.spinner.hide();
+
+   
   }
 
   emitEventToChild() {
@@ -106,7 +178,9 @@ export class NotaSalidaEditComponent implements OnInit {
             placa: new FormControl('', []),
             numconstanciamtc: new FormControl('', []),
             motivotranslado: new FormControl('', []),
-            numreferencia: new FormControl('', [])
+            numreferencia: new FormControl('', []),
+            ObservacionAnalisisFisico: new FormControl('', [])
+            
           }),
         });
 
