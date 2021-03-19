@@ -8,6 +8,7 @@ export class ReqNotaSalida
         AlmacenId: string,
         Numero: string,
         MotivoTrasladoId: string,
+        MotivoTrasladoReferencia: string,
         EmpresaIdDestino: number,
         EmpresaTransporteId: number,
         TransporteId: number,
@@ -24,13 +25,15 @@ export class ReqNotaSalida
         PromedioPorcentajeRendimiento: number,
         EstadoId: string,
         UsuarioNotaSalidaAlmacen: string,
-        ListNotaSalidaAlmacenDetalle: NotaSalidaAlmacenDetalleDTO[])
+        ListNotaSalidaAlmacenDetalle: NotaSalidaAlmacenDetalleDTO[],
+        CantidadTotal: number)
         {
             this.NotaSalidaAlmacenId = NotaSalidaAlmacenId,
             this.EmpresaId = EmpresaId,
             this.AlmacenId = AlmacenId,
             this.Numero = Numero,
             this.MotivoTrasladoId = MotivoTrasladoId,
+            this.MotivoTrasladoReferencia = MotivoTrasladoReferencia,
             this.EmpresaIdDestino = EmpresaIdDestino,
             this.EmpresaTransporteId = EmpresaTransporteId,
             this.TransporteId = TransporteId,
@@ -47,7 +50,9 @@ export class ReqNotaSalida
             this.PromedioPorcentajeRendimiento = PromedioPorcentajeRendimiento,
             this.EstadoId = EstadoId,
             this.UsuarioNotaSalidaAlmacen = UsuarioNotaSalidaAlmacen,
-            this.ListNotaSalidaAlmacenDetalle = ListNotaSalidaAlmacenDetalle
+            this.ListNotaSalidaAlmacenDetalle = ListNotaSalidaAlmacenDetalle,
+            this.CantidadTotal = CantidadTotal
+
 
     }
 
@@ -56,6 +61,7 @@ export class ReqNotaSalida
     AlmacenId: string;
     Numero: string;
     MotivoTrasladoId: string;
+    MotivoTrasladoReferencia: string;
     EmpresaIdDestino: number;
     EmpresaTransporteId: number;
     TransporteId: number;
@@ -73,6 +79,7 @@ export class ReqNotaSalida
     EstadoId: string;
     UsuarioNotaSalidaAlmacen: string;
     ListNotaSalidaAlmacenDetalle: NotaSalidaAlmacenDetalleDTO[];
+    CantidadTotal: number;
 }
 
  export class  NotaSalidaAlmacenDetalleDTO{

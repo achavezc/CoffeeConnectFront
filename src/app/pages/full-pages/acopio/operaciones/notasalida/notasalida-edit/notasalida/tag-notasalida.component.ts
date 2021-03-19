@@ -24,13 +24,14 @@ import { forEach } from 'core-js/core/array';
 @Component({
   selector: 'app-tagNotasalida',
   templateUrl: './tag-notasalida.component.html',
-  styleUrls: ['./tag-notasalida.component.scss'],
+  styleUrls: ['./tag-notasalida.component.scss',  "/assets/sass/libs/datatables.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class TagNotaSalidaEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
+  @Input() submittedEdit;
   listaAlmacen: any[];
   listaEstado: any[];
   selectAlmacen: any;
@@ -47,7 +48,6 @@ export class TagNotaSalidaEditComponent implements OnInit {
   selectedMotivoTranslado: any = {};
   visibleNumReferencia = false;
   submitted = false;
-  submittedEdit = false;
   closeResult: string;
   tagNotadeSalida: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -77,6 +77,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   filtrosTransportista: any = {};
   listaLotesDetalleId = [];
   valueMotivoSalidaTransf = '02';
+  totales:any = {};
   
 
   esEdit = false; //
@@ -105,10 +106,13 @@ export class TagNotaSalidaEditComponent implements OnInit {
  
   ngOnInit(): void {
   
-    this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
+  this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
   this.cargarformTagNotaSalida();
   }
 
+  get ftns() {
+    return this.tagNotadeSalida.controls;
+  }
 
   changeMotivo(e)
   {
@@ -476,6 +480,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
                 object.RendimientoPorcentaje = x.RendimientoPorcentaje
                 object.KilosNetosPesado = x.KilosNetosPesado
                 object.Numero = e[0].Numero
+                object.LoteId = x.LoteId
+                object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
+                object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
                 this.listaLotesDetalleId.push(object);
               })
               
@@ -513,13 +520,13 @@ export class TagNotaSalidaEditComponent implements OnInit {
       KilosNetosPesado += x.KilosNetosPesado;
       
     });
-    let totales:any = {};
-    totales.Total = Total;
-    totales.PorcentRendimiento = RendimientoPorcentaje/Total;
-    totales.CantidadTotal =CantidadPesado;
-    totales.TotalKilos = KilosNetosPesado;
+    
+    this.totales.Total = Total;
+    this.totales.PorcentRendimiento = RendimientoPorcentaje/Total;
+    this.totales.CantidadTotal =CantidadPesado;
+    this.totales.TotalKilos = KilosNetosPesado;
     let array : any[] = [];
-    array.push(totales);
+    array.push(this.totales);
     this.tempDataLoteTotal = array;
     this.rowsLotesTotal = [...array];
   }
