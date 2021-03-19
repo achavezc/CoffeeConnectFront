@@ -126,6 +126,7 @@ export class NotaSalidaEditComponent implements OnInit {
     this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
     this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
     this.notaSalidaFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
+    this.notaSalidaFormEdit.controls["almacen"].setValue(data.AlmacenId);
     this.notaSalidaFormEdit.get('tagcalidad').get("propietario").setValue(data.Transportista);
     this.notaSalidaFormEdit.get('tagcalidad').get("domiciliado").setValue(data.DireccionTransportista);
     this.notaSalidaFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
@@ -137,8 +138,7 @@ export class NotaSalidaEditComponent implements OnInit {
     this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
     this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoTrasladoId);
     //this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.Observacion);
-    this.notaSalidaFormEdit.get('tagcalidad').get("ObservacionAnalisisFisico").setValue(data.Observacion);
-   
+    this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
     this.numero = data.Numero; 
     
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
