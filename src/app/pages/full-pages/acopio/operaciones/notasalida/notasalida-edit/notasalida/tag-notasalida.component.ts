@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input,Output,EventEmitter , ViewC
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../../services/maestro.service';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder, ControlContainer } from '@angular/forms';
 import { AcopioService } from '../../../../../../../services/acopio.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { host } from '../../../../../../../shared/hosts/main.host';
@@ -44,7 +44,8 @@ export class TagNotaSalidaEditComponent implements OnInit {
   selectedTipoDocumento: any;
   listaTipoDocumento: any[];
   listaMotivoTranslado: any[];
-  selectedMotivoTranslado: any;
+  selectedMotivoTranslado: any = {};
+  visibleNumReferencia = false;
   submitted = false;
   submittedEdit = false;
   closeResult: string;
@@ -75,6 +76,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   filtrosLotesID: any = {};
   filtrosTransportista: any = {};
   listaLotesDetalleId = [];
+  valueMotivoSalidaTransf = '02';
   
 
   esEdit = false; //
@@ -93,7 +95,8 @@ export class TagNotaSalidaEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private loteService: LoteService,
-    private transportistaService:TransportistaService
+    private transportistaService:TransportistaService,
+    private controlContainer: ControlContainer
    
     ) {
   
@@ -102,10 +105,22 @@ export class TagNotaSalidaEditComponent implements OnInit {
  
   ngOnInit(): void {
   
+    this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
   this.cargarformTagNotaSalida();
   }
 
 
+  changeMotivo(e)
+  {
+    if ( e.Codigo == this.valueMotivoSalidaTransf)
+    {
+      this.visibleNumReferencia = true;
+    }
+    else
+    {
+      this.visibleNumReferencia = false;
+    }
+  }
   openModal(modalLotes) {
     this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarLotes();
@@ -149,7 +164,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
  
   cargarformTagNotaSalida()
   {
-    this.tagNotadeSalida = new FormGroup(
+   /* this.tagNotadeSalida = new FormGroup(
       {
         propietario: new FormControl('', []),
         domiciliado: new FormControl('', []),
@@ -164,7 +179,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
         numreferencia: new FormControl('', [])
 
       }
-    );
+    );*/
     this.maestroService.obtenerMaestros("MotivoSalida")
       .subscribe(res => {
         if (res.Result.Success) {

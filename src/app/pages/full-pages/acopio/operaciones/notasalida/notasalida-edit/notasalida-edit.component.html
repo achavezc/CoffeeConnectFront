@@ -209,7 +209,22 @@
                     <span class="d-none d-sm-block">Nota de Salida</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-tagNotasalida></app-tagNotasalida>
+                    <app-tagNotasalida formGroupName="tagcalidad"></app-tagNotasalida>
+                    <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                      <div class="col-8 d-flex flex-sm-row flex-column">
+                        <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1"></label>
+                      </div>
+                      <div class="col-8 d-flex flex-sm-row flex-column">
+                        <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
+                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1"></label>
+                      </div>
+        
+                    </div>
+                    <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
+                    </div>
                   </ng-template>
                 </li>
                 <li [ngbNavItem]="2">

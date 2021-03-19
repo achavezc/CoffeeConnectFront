@@ -13,15 +13,12 @@ import { ReqRegistrarPesado } from '../../../../../../services/models/req-regist
 import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { EmpresaService } from '../../../../../../services/empresa.service';
+import { ReqNotaSalida } from '../../../../../../services/models/req-salidaalmacen-actualizar';
+import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
 
 
-export class table 
-  {
-    
-  }
 @Component({
   selector: 'app-notasalidad-edit',
   templateUrl: './notasalida-edit.component.html',
@@ -55,10 +52,10 @@ export class NotaSalidaEditComponent implements OnInit {
   eventosSubject: Subject<void> = new Subject<void>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
+  ReqNotaSalida
 
   esEdit = false; //
 
-  //@ViewChild(DatatableComponent) tableLotes: DatatableComponent;
   
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
@@ -69,7 +66,8 @@ export class NotaSalidaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private notaSalidaAlmacenService:NotaSalidaAlmacenService
    
     ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
@@ -96,8 +94,23 @@ export class NotaSalidaEditComponent implements OnInit {
           destinatario: ['', ],
           ruc:  ['', ],
           dirPartida:  ['', ],
-          dirDestino:  ['', ]
+          dirDestino:  ['', ],
+          tagcalidad:this.fb.group({
+            propietario: new FormControl('', []),
+            domiciliado: new FormControl('', []),
+            ruc: new FormControl('', []),
+            conductor: new FormControl('', []),
+            brevete: new FormControl('', []),
+            codvehicular: new FormControl('', []),
+            marca: new FormControl('', []),
+            placa: new FormControl('', []),
+            numconstanciamtc: new FormControl('', []),
+            motivotranslado: new FormControl('', []),
+            numreferencia: new FormControl('', [])
+          }),
         });
+
+        
   }
  
 openModal(modalEmpresa) {
@@ -182,6 +195,10 @@ openModal(modalEmpresa) {
     };
   }*/
 
+
+  cancelar(){
+    this.router.navigate(['/acopio/operaciones/notasalida-list']);
+}
   seleccionarEmpresa(e) {
        
     this.notaSalidaFormEdit.get('destinatario').setValue(e[0].RazonSocial);
@@ -236,12 +253,18 @@ openModal(modalEmpresa) {
         );
     }
   }
- /* guardar(){
+ guardar(){
     
-    if (this.consultaMateriaPrimaFormEdit.invalid) {
+    /*if (this.notaSalidaFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
+
+
+      let request = new ReqRegistrarPesado(
+        this.notaSalidaFormEdit.control[].value,
+      );
+      
       var socioId= null;
       if(Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value) !=0){
         socioId = Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value);
@@ -304,19 +327,49 @@ openModal(modalEmpresa) {
         }
         
      
-    }
+    }*/
   }
   
-  guardarService(request:ReqRegistrarPesado){
-    this.acopioService.registrarPesado(request)
+  registrarNotaSalidaService(request:ReqNotaSalida)
+  {
+    this.notaSalidaAlmacenService.Registrar(request)
     .subscribe(res => {
       this.spinner.hide();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
           var form = this;
-          this.alertUtil.alertOkCallback('Registrado!', 'Guia Registrada.',function(result){
+          this.alertUtil.alertOkCallback('Registrado!', 'Nota Salida',function(result){
             if(result.isConfirmed){
-              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+              form.router.navigate(['/operaciones/notasalida-list']);
+            }
+          }
+          );
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );  
+  }
+  actualizarNotaSalidaService(request:ReqNotaSalida){
+    this.notaSalidaAlmacenService.Actualizar(request)
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          var form = this;
+          this.alertUtil.alertOkCallback('Actualizado!', 'Nota Salida',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/notasalida-list']);
             }
           }
           );
@@ -337,7 +390,7 @@ openModal(modalEmpresa) {
     );  
   }
 
-  actualizarService(request:ReqRegistrarPesado){
+ /* actualizarService(request:ReqRegistrarPesado){
     this.acopioService.actualizarPesado(request)
     .subscribe(res => {
       this.spinner.hide();
@@ -368,11 +421,6 @@ openModal(modalEmpresa) {
     );  
   }
 
-
-  cancelar(){
-      this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
-  }
-
   obtenerDetalle(){
     this.acopioService.obtenerDetalle(Number(this.id))
     .subscribe(res => {
@@ -396,55 +444,7 @@ openModal(modalEmpresa) {
       }
     );  
   }
-  async cargarDataFormulario(data: any){
-    this.consultaMateriaPrimaFormEdit.controls["producto"].setValue(data.ProductoId);
-    await this.cargarSubProducto(data.ProductoId);
-    this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue(data.SubProductoId);
-    this.viewTagSeco = data.SubProductoId != "02"? false: true;
-    this.estado = data.Estado
-    this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
-    this.numeroGuia = data.Numero;
-    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
-    this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
-    this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-"+ data.NumeroDocumento);
-    this.cargarTipoProveedor();
-    await this.cargarTipoProveedor();
-    this.consultaMateriaPrimaFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
-    this.consultaMateriaPrimaFormEdit.controls["provCodigo"].setValue(data.CodigoSocio);
-    this.consultaMateriaPrimaFormEdit.controls["provDepartamento"].setValue(data.Departamento);
-    this.consultaMateriaPrimaFormEdit.controls["provProvincia"].setValue(data.Provincia);
-    this.consultaMateriaPrimaFormEdit.controls["provDistrito"].setValue(data.Distrito);
-    this.consultaMateriaPrimaFormEdit.controls["provZona"].setValue(data.Zona);
-    this.consultaMateriaPrimaFormEdit.controls["provFinca"].setValue(data.Finca);
-    
-    this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaPesado, 'yyyy-MM-dd', 'en'));
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("unidadMedida").setValue(data.UnidadMedidaIdPesado);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").setValue(data.CantidadPesado);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").setValue(data.TaraPesado);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
-    this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado),"/");
-    this.responsable = data.UsuarioPesado;
-    this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(data.TipoProvedorId);
-    this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(data.SocioFincaId);
-    this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(data.TerceroFincaId);
-
-    this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(data.SocioId);
-    this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(data.TerceroId);
-    this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(data.IntermediarioId);
-
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("exportGramos").setValue(data.ExportableGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("exportPorcentaje").setValue(data.ExportablePorcentajeAnalisisFisico + "%");
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("descarteGramos").setValue(data.DescarteGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("descartePorcentaje").setValue(data.DescartePorcentajeAnalisisFisico + "%");
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("cascarillaGramos").setValue(data.CascarillaGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("cascarillaPorcentaje").setValue(data.CascarillaPorcentajeAnalisisFisico + "%");
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalGramos").setValue(data.TotalGramosAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalPorcentaje").setValue(data.TotalPorcentajeAnalisisFisico + "%");
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
-
-   
-  }*/
+ */
 
 }
 
