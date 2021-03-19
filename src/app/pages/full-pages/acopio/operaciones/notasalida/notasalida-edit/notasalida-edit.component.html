@@ -17,7 +17,7 @@
 
                 <div class="form-row">
 
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-6 form-group" *ngIf="esEdit">
                     <label class="card-forms" for="users-edit-name">N° NOTA DE SALIDA</label>
                   </div>
 
@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-row">
 
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-6 form-group" *ngIf="esEdit">
                     <label class="card-forms" for="users-edit-email">FECHA</label>
                   </div>
                   <div class="col-md-6 form-group">
