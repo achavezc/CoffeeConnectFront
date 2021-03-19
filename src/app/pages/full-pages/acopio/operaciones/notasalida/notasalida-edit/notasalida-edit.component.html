@@ -211,7 +211,7 @@
                     <span class="d-none d-sm-block">Nota de Salida</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-tagNotasalida formGroupName="tagcalidad" detalleMateriaPrima="detalleMateriaPrima"></app-tagNotasalida>
+                    <app-tagNotasalida [events]="eventsSubject.asObservable()" formGroupName="tagcalidad" [detalleMateriaPrima]="detalleMateriaPrima"></app-tagNotasalida>
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                       <div class="col-8 d-flex flex-sm-row flex-column">
                         <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>

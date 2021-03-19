@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ReqNotaSalida } from '../../../../../../services/models/req-salidaalmacen-actualizar';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
-import { runInThisContext } from 'vm';
+
 
 
 @Component({
@@ -49,8 +49,7 @@ export class NotaSalidaEditComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   detalleMateriaPrima: any;
-  eventsSubject: Subject<void> = new Subject<void>();
-  eventosSubject: Subject<void> = new Subject<void>();
+  eventsSubject: Subject<any> = new Subject<any>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
   ReqNotaSalida
@@ -61,7 +60,6 @@ export class NotaSalidaEditComponent implements OnInit {
   almacen: "";
   fechaPesado: any;
   responsable: "";
-
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
@@ -147,7 +145,7 @@ export class NotaSalidaEditComponent implements OnInit {
     this.almacen = data.Almacen;
   
     this.responsable = data.UsuarioRegistro;
-
+    this.eventsSubject.next(data.DetalleLotes);
     this.spinner.hide();
 
    
