@@ -26,7 +26,7 @@
                 <input type="number" minlength="5" maxlength="25" formControlName="nroDocumento" class="form-control"
                     [ngClass]="{ 'is-invalid': f.nroDocumento.invalid, 'is-valid': !f.nroDocumento.invalid }"
                     id="nroDocumento" placeholder="Número de documento">
-                <small class="invalid-tooltip" *ngIf="!f.nroDocumento.requerid">Es obligatorio!</small>
+                <!-- <small class="invalid-tooltip" *ngIf="!f.nroDocumento.requerid">Es obligatorio!</small> -->
             </div>
         </div>
         <div class="form-row">
@@ -42,14 +42,14 @@
                 <input type="date" class="form-control" formControlName="fechaInicio" id="fechaInicio"
                     [ngClass]="{ 'is-invalid': f.fechaInicio.invalid, 'is-valid': !f.fechaInicio.invalid }"
                     name="fechaInicio" placeholder="Seleccionar fecha inicio" date (blur)="compareTwoDates()" />
-                <small class="invalid-tooltip" *ngIf="!f.fechaInicio.requerid">Es obligatorio!</small>
+                <!-- <small class="invalid-tooltip" *ngIf="!f.fechaInicio.requerid">Es obligatorio!</small> -->
             </div>
             <div class="col-md-4 mb-4 form-group mb-2">
                 <label for="fechaFin" class="form-label">Fecha Fin</label>
                 <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin" name="fechaFin"
                     [ngClass]="{ 'is-invalid': f.fechaFin.invalid, 'is-valid': !f.fechaFin.invalid }"
                     placeholder="Seleccionar Fecha Fín" date (blur)="compareTwoDates()" />
-                <small class="invalid-tooltip" *ngIf="!f.fechaFin.requerid">Es obligatorio!</small>
+                <!-- <small class="invalid-tooltip" *ngIf="!f.fechaFin.requerid">Es obligatorio!</small> -->
             </div>
         </div>
 

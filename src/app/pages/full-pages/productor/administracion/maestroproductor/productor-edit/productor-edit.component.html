@@ -13,7 +13,7 @@
                         class="form-control" placeholder="Ingresar código de productor"
                         [ngClass]="{ 'is-invalid': f.codProductor.invalid, 'is-valid': !f.codProductor.invalid }"
                         readonly maxlength="50">
-                    <small class="invalid-tooltip" *ngIf="!f.codProductor.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.codProductor.requerid">Es obligatorio!</small> -->
                     <small class="invalid-tooltip" *ngIf="!f.codProductor.maxLength">Maximo 50 caracteres!</small>
                 </div>
                 <div class="col">
@@ -22,7 +22,7 @@
                         class="form-control" date placeholder="Seleccionar fecha de registro"
                         [ngClass]="{ 'is-invalid': f.fecRegistro.invalid, 'is-valid': !f.fecRegistro.invalid }" readonly
                         required>
-                    <small class="invalid-tooltip" *ngIf="!f.fecRegistro.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.fecRegistro.requerid">Es obligatorio!</small> -->
                 </div>
                 <div class="col">
                     <label for="estado" class="form-label">Estado</label>
@@ -31,7 +31,7 @@
                         [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }" [readonly]="!vId"
                         required>
                     </ng-select>
-                    <small class="invalid-tooltip" *ngIf="!f.estado.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.estado.requerid">Es obligatorio!</small> -->
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                         [ngClass]="{ 'is-invalid': f.tipoDocumento.invalid, 'is-valid': !f.tipoDocumento.invalid }"
                         requerid>
                     </ng-select>
-                    <small class="invalid-tooltip" *ngIf="!f.tipoDocumento.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.tipoDocumento.requerid">Es obligatorio!</small> -->
                 </div>
                 <div class="col">
                     <label for="nroDocumento" class="form-label">N° de documento</label>
@@ -56,15 +56,14 @@
                         class="form-control" placeholder="Ingresar número de documento" maxlength="20"
                         [ngClass]="{ 'is-invalid': f.nroDocumento.invalid, 'is-valid': !f.nroDocumento.invalid}"
                         requerid>
-                    <small class="invalid-tooltip" *ngIf="!f.nroDocumento.requerid">Es obligatorio!</small>
-
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.nroDocumento.requerid">Es obligatorio!</small> -->
                 </div>
                 <div class="col">
                     <label for="direccion" class="form-label">Dirección</label>
                     <input type="text" name="direccion" id="direccion" formControlName="direccion" class="form-control"
                         placeholder="Ingresar dirección" maxlength="200"
                         [ngClass]="{ 'is-invalid': f.direccion.invalid, 'is-valid': !f.direccion.invalid }" requerid>
-                    <small class="invalid-tooltip" *ngIf="!f.direccion.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.direccion.requerid">Es obligatorio!</small> -->
                 </div>
             </div>
             <div class="form-row">
@@ -73,14 +72,14 @@
                     <input type="text" name="nombres" id="nombres" formControlName="nombres" class="form-control"
                         placeholder="Ingresar nombres" maxlength="50" [readonly]="f.tipoDocumento.value != '01'"
                         [ngClass]="{ 'is-invalid': f.nombres.invalid, 'is-valid': !f.nombres.invalid}">
-                    <small class="invalid-tooltip" *ngIf="!f.nombres.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.nombres.requerid">Es obligatorio!</small> -->
                 </div>
                 <div class="col">
                     <label for="apellidos" class="form-label">Apellidos</label>
                     <input type="text" name="apellidos" id="apellidos" formControlName="apellidos" class="form-control"
                         placeholder="Ingresar apellidos" maxlength="50" [readonly]="f.tipoDocumento.value != '01'"
                         [ngClass]="{ 'is-invalid': f.apellidos.invalid, 'is-valid': !f.apellidos.invalid}">
-                    <small class="invalid-tooltip" *ngIf="!f.apellidos.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.apellidos.requerid">Es obligatorio!</small> -->
                 </div>
                 <div class="col">
                     <label for="departamento" class="form-label">Departamento</label>
@@ -91,7 +90,7 @@
                         [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }"
                         requerid>
                     </ng-select>
-                    <small class="invalid-tooltip" *ngIf="!f.departamento.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.departamento.requerid">Es obligatorio!</small> -->
                 </div>
             </div>
             <div class="form-row">
@@ -101,7 +100,7 @@
                         class="form-control" placeholder="Ingresar razón social" maxlength="200"
                         [readonly]="f.tipoDocumento.value != '02'"
                         [ngClass]="{ 'is-invalid': f.razonSocial.invalid, 'is-valid': !f.razonSocial.invalid }">
-                    <small class="invalid-tooltip" *ngIf="!f.razonSocial.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.razonSocial.requerid">Es obligatorio!</small> -->
                 </div>
                 <div class="col">
                     <label for="provincia" class="form-label">Provincia</label>
@@ -111,7 +110,7 @@
                         (change)="onChangeProvince($event)" [readonly]="!f.departamento.value"
                         [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }" requerid>
                     </ng-select>
-                    <small class="invalid-tooltip" *ngIf="!f.provincia.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.provincia.requerid">Es obligatorio!</small> -->
                 </div>
             </div>
             <div class="form-row">
@@ -136,7 +135,7 @@
                         [readonly]="!f.provincia.value"
                         [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }" requerid>
                     </ng-select>
-                    <small class="invalid-tooltip" *ngIf="!f.distrito.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.distrito.requerid">Es obligatorio!</small> -->
                 </div>
             </div>
             <div class="form-row">
@@ -161,7 +160,7 @@
                         [readonly]="!f.distrito.value"
                         [ngClass]="{ 'is-invalid': f.zona.invalid, 'is-valid': !f.zona.invalid }" requerid>
                     </ng-select>
-                    <small class="invalid-tooltip" *ngIf="!f.zona.requerid">Es obligatorio!</small>
+                    <!-- <small class="invalid-tooltip" *ngIf="!f.zona.requerid">Es obligatorio!</small> -->
                 </div>
             </div>
             <div class="form-row">

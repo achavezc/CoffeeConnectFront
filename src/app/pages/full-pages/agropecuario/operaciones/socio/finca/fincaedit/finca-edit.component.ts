@@ -47,7 +47,7 @@ export class FincaEditComponent implements OnInit {
         if (this.vId > 0) {
           this.SearchById();
         } else {
-          this.GetFincas(params.idProductor);
+          this.GetFincas(parseInt(params.idProductor));
         }
       }
     });
@@ -92,7 +92,7 @@ export class FincaEditComponent implements OnInit {
 
   async GetFincas(id: number) {
     this.listFincas = [];
-    const res = await this.productorFincaService.SearchProducerById({ ProductorId: id }).toPromise();
+    const res = await this.productorFincaService.SearchProducerById({ ProductorId: id}).toPromise();
     if (res.Result.Success) {
       this.listFincas = res.Result.Data;
     }
