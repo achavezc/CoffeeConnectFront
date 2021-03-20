@@ -3,7 +3,6 @@ export class ReqControlCalidad {
     EmpresaId: number,
     GuiaRecepcionMateriaPrimaId: number,
     HumedadPorcentajeAnalisisFisico: number,
-    
     UsuarioCalidad: string,
     ObservacionAnalisisFisico?: string,
     AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[],

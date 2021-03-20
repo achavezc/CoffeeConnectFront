@@ -17,30 +17,21 @@
 
                 <div class="form-row">
 
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-6 form-group" *ngIf="esEdit">
                     <label class="card-forms" for="users-edit-name">N° NOTA DE SALIDA</label>
                   </div>
 
                   <div class="col-md-6 form-group">
-
-                    <div class="form-group" style="margin-bottom: 0.5rem !important;">
-                      <div class="controls">
-                        <input type="text" id="users-edit-username" formControlName="numNotaSalida"
-                          class="form-control" aria-invalid="false"
-                          [ngClass]="{ 'is-invalid': submittedEdit && fedit.numNotaSalida.invalid, 'is-valid': submittedEdit && !fedit.numNotaSalida.invalid }">
-
-                      </div>
-                    </div>
-
+                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
                   </div>
                 </div>
                 <div class="form-row">
 
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-6 form-group" *ngIf="esEdit">
                     <label class="card-forms" for="users-edit-email">FECHA</label>
                   </div>
-                  <div class="col-md-4 form-group">
-                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;"></label>
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{fechaRegistro}}</label>
                   </div>
                 </div>
                 <div class="form-row">
@@ -48,8 +39,13 @@
                   <div class="col-md-6 form-group">
                     <label class="card-forms" for="users-edit-email">ALMACEN</label>
                   </div>
-                  <div class="col-md-4 form-group">
-                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;"></label>
+                 
+                  <div class="col-md-6 form-group">
+                    <ng-select #ngSelectComponent id="validationTooltip05" [items]="listaAlmacen"
+                      [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
+                      placeholder="Seleccionar Almacen" [ngClass]="{ 'is-invalid': submitted && fns.almacen.invalid, 'is-valid': submitted && !fns.almacen.invalid }">
+                    </ng-select>
+                    <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">*Requerido</small>
                   </div>
                 </div>
               
@@ -121,10 +117,6 @@
                       <div class="row">
                         <div class="col-12">
                           <div class="row">
-                            <div class="col-md-10">
-                              <small class="form-text text-muted danger"
-                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                            </div>
                             <div class="col-md-2">
                               <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
                             </div>
@@ -209,19 +201,23 @@
                     <span class="d-none d-sm-block">Nota de Salida</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-tagNotasalida formGroupName="tagcalidad"></app-tagNotasalida>
+
+                    <app-tagNotasalida formGroupName="tagcalidad" [events]="eventsSubject.asObservable()" [detalleMateriaPrima]="detalleMateriaPrima"></app-tagNotasalida>
+
+                    
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                       <div class="col-8 d-flex flex-sm-row flex-column">
                         <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
                         <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1"></label>
                       </div>
-                      <div class="col-8 d-flex flex-sm-row flex-column">
-                        <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
-                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1"></label>
-                      </div>
         
                     </div>
+                     <div class="col-md-10">
+                              <small class="form-text text-muted danger"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            </div>
                     <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" >Imprmir</button>
                       <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
                       <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
                     </div>
@@ -233,7 +229,7 @@
                     <span class="d-none d-sm-block">Control de Calidad</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-controlCalidadSeco></app-controlCalidadSeco>
+                    <app-controlCalidadSeco [form] = "form" [detalle] = "detalle"></app-controlCalidadSeco>
                   </ng-template>
                 </li>
               </ul>

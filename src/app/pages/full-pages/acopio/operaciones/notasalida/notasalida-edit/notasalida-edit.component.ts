@@ -15,25 +15,24 @@ import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { Subject } from 'rxjs';
 import { EmpresaService } from '../../../../../../services/empresa.service';
-import { ReqNotaSalida } from '../../../../../../services/models/req-salidaalmacen-actualizar';
+import { ReqNotaSalida, NotaSalidaAlmacenDetalleDTO } from '../../../../../../services/models/req-salidaalmacen-actualizar';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
+import { TagNotaSalidaEditComponent } from '../notasalida-edit/notasalida/tag-notasalida.component'
 
 
 @Component({
   selector: 'app-notasalidad-edit',
   templateUrl: './notasalida-edit.component.html',
-  styleUrls: ['./notasalida-edit.component.scss'],
+  styleUrls: ['./notasalida-edit.component.scss',  "/assets/sass/libs/datatables.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class NotaSalidaEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
-
-  
+  @ViewChild(TagNotaSalidaEditComponent) child;
   selectClasificacion: any;
   consultaEmpresas: FormGroup;
-  
   submitted = false;
   submittedEdit = false;
   closeResult: string;
@@ -47,16 +46,21 @@ export class NotaSalidaEditComponent implements OnInit {
   public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
-  detalleMateriaPrima: any;
-  eventsSubject: Subject<void> = new Subject<void>();
-  eventosSubject: Subject<void> = new Subject<void>();
+  eventsSubject: Subject<any> = new Subject<any>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
-  ReqNotaSalida
-
-  esEdit = false; //
-
-  
+  listaAlmacen=[];
+  numero="";
+  esEdit = false; 
+  selectAlmacen: any;
+  ReqNotaSalida;
+  id: Number = 0;
+  fechaRegistro: any;
+  almacen: "";
+  fechaPesado: any;
+  responsable: "";
+  form: string = "notasalida";
+  detalle: any;
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
@@ -77,23 +81,90 @@ export class NotaSalidaEditComponent implements OnInit {
   }
  
   ngOnInit(): void {
-    this.cargarForm();
     this.login = JSON.parse(localStorage.getItem("user"));
+    this.cargarForm();
+    this.route.queryParams
+    .subscribe(params => {
+      if( Number(params.id)){
+        this.id =Number(params.id);
+        this.esEdit = true;
+        this.obtenerDetalle();
+        
+      }
+    }
+  );
+  }
+
+  obtenerDetalle(){
+    this.spinner.show();
+    this.notaSalidaAlmacenService.obtenerDetalle(Number(this.id))
+    .subscribe(res => {
+     
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.detalle = res.Result.Data;
+          this.cargarDataFormulario(res.Result.Data);
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );  
+  }
+
+  cargarDataFormulario(data: any){
+   
+    this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
+    this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
+    this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
+    this.notaSalidaFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
+    this.notaSalidaFormEdit.controls["almacen"].setValue(data.AlmacenId);
+    this.notaSalidaFormEdit.get('tagcalidad').get("propietario").setValue(data.Transportista);
+    this.notaSalidaFormEdit.get('tagcalidad').get("domiciliado").setValue(data.DireccionTransportista);
+    this.notaSalidaFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
+    this.notaSalidaFormEdit.get('tagcalidad').get("conductor").setValue(data.Conductor);
+    this.notaSalidaFormEdit.get('tagcalidad').get("brevete").setValue(data.LicenciaConductor);
+    this.notaSalidaFormEdit.get('tagcalidad').get("codvehicular").setValue(data.TaraPesado);
+    this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaCarreta);
+    this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaCarreta);
+    this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
+    this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoTrasladoId);
+    //this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.Observacion);
+    this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
+    this.numero = data.Numero; 
+    
+    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
+    this.almacen = data.Almacen;
+  
+    this.responsable = data.UsuarioRegistro;
+    this.eventsSubject.next(data.DetalleLotes);
+    this.spinner.hide();
   }
 
   emitEventToChild() {
     this.eventsSubject.next();
-    this.eventosSubject.next();
   }
  
-  
+  get fns() {
+    return this.notaSalidaFormEdit.controls;
+  }
   cargarForm() {
       this.notaSalidaFormEdit =this.fb.group(
         {
           numNotaSalida: ['', ],
+          almacen: new FormControl('', [Validators.required]),
           destinatario: ['', ],
           ruc:  ['', ],
-          dirPartida:  ['', ],
+          dirPartida:  [this.login.Result.Data.DireccionEmpresa, []],
           dirDestino:  ['', ],
           tagcalidad:this.fb.group({
             propietario: new FormControl('', []),
@@ -105,11 +176,22 @@ export class NotaSalidaEditComponent implements OnInit {
             marca: new FormControl('', []),
             placa: new FormControl('', []),
             numconstanciamtc: new FormControl('', []),
-            motivotranslado: new FormControl('', []),
-            numreferencia: new FormControl('', [])
+            motivotranslado: new FormControl('', [Validators.required]),
+            numreferencia: new FormControl('', []),
+            observacion: new FormControl('', []),
           }),
         });
-
+        this.notaSalidaFormEdit.setValidators(this.comparisonValidator())
+        this.maestroService.obtenerMaestros("Almacen")
+        .subscribe(res => {
+          if (res.Result.Success) {
+            this.listaAlmacen = res.Result.Data;
+          }
+        },
+          err => {
+            console.error(err);
+          }
+        );
         
   }
  
@@ -169,31 +251,33 @@ openModal(modalEmpresa) {
   get fedit() {
     return this.notaSalidaFormEdit.controls;
   }
- /* public comparisonValidator(): ValidatorFn {
+  public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      const tipoDocumento = group.controls['tipoDocumento'];
-      const numeroDocumento = group.controls['numeroDocumento'];
-      const socio = group.controls['socio'];
-      const rzsocial = group.controls['rzsocial'];
-      if ( numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
 
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
+      const motivotranslado = group.get('tagcalidad').get("motivotranslado").value;
+      const destinatario = group.get('destinatario').value;
+      const dirPartida = group.get('dirPartida').value;
+      const dirDestino = group.get('dirDestino').value;
+      const ruc = group.get('ruc').value;
+      if ( destinatario == "" || dirPartida == "" || dirDestino == "" || ruc == "") {
 
-      } else {
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Empresa Destino' };
+
+      }
+     /* else if ( this.child.selected == 0) {
+        this.errorGeneral = { isError: true, errorMessage: 'Agregar Lote' };
+
+      }*/
+      else if ( this.child.selectedT == 0) {
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Transportista' };
+      }
+       else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
-      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined) ) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
-
-      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
-
-      }
+      
       return;
     };
-  }*/
+  }
 
 
   cancelar(){
@@ -211,7 +295,7 @@ openModal(modalEmpresa) {
   
  buscar() {
     
-    if (this.consultaEmpresas.invalid || this.errorGeneral.isError) {
+    if (this.consultaEmpresas.invalid) {
       this.submitted = true;
       return;
     } else {
@@ -254,63 +338,46 @@ openModal(modalEmpresa) {
     }
   }
  guardar(){
-    
-    /*if (this.notaSalidaFormEdit.invalid) {
+
+let list : NotaSalidaAlmacenDetalleDTO[] = [] ;
+this.child.listaLotesDetalleId.forEach( x=>
+  {
+    let object: any = {};
+    object.LoteId = x.LoteId
+    object.NotaSalidaAlmacenDetalleId = 0
+    list.push(object)
+  }
+);
+    if (this.notaSalidaFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
-
-
-      let request = new ReqRegistrarPesado(
-        this.notaSalidaFormEdit.control[].value,
-      );
-      
-      var socioId= null;
-      if(Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value) !=0){
-        socioId = Number(this.consultaMateriaPrimaFormEdit.controls["socioId"].value);
-      }
-      var terceroId= null;
-      if(Number(this.consultaMateriaPrimaFormEdit.controls["terceroId"].value) !=0){
-        terceroId = Number(this.consultaMateriaPrimaFormEdit.controls["terceroId"].value);
-      }
-      var intermediarioId= null;
-      if(Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value) !=0){
-        intermediarioId = Number(this.consultaMateriaPrimaFormEdit.controls["intermediarioId"].value);
-      }
-
-      var socioFincaId= null;
-      if(Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value) !=0){
-        socioFincaId = Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value);
-      }
-      var terceroFincaId= null;
-      if(Number(this.consultaMateriaPrimaFormEdit.controls["terceroFincaId"].value) !=0){
-        terceroFincaId = Number(this.consultaMateriaPrimaFormEdit.controls["terceroFincaId"].value);
-      }
-      var intermediarioFinca= null;
-      if(Number(this.consultaMateriaPrimaFormEdit.controls["provFinca"].value) !=0){
-        intermediarioFinca = this.consultaMateriaPrimaFormEdit.controls["provFinca"].value;
-      }
-
-      let request = new ReqRegistrarPesado(
+      this.submittedEdit = false;
+      let request = new ReqNotaSalida(
         Number(this.id),
-        1,
-        this.consultaMateriaPrimaFormEdit.controls["tipoProveedorId"].value,
-        socioId,
-        terceroId,
-        intermediarioId,
-        this.consultaMateriaPrimaFormEdit.controls["producto"].value,
-        this.consultaMateriaPrimaFormEdit.controls["subproducto"].value,
-        this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].value,
-        this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].value,
-        "mruizb",
-        this.consultaMateriaPrimaFormEdit.get('pesado').get("unidadMedida").value,
-        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").value),
-        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value),
-        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").value),
-        this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").value,
-        socioFincaId,
-        terceroFincaId,
-        intermediarioFinca,
+        Number(this.login.Result.Data.EmpresaId),
+        this.notaSalidaFormEdit.get("almacen").value,
+        this.numero,
+        this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").value,
+        this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").value, 
+        Number(this.selectedE[0].EmpresaProveedoraAcreedoraId),
+        Number(this.child.selectedT[0].EmpresaTransporteId),
+        Number(this.child.selectedT[0].TransporteId),  
+        this.child.selectedT[0].NumeroConstanciaMTC ,
+        this.child.selectedT[0].MarcaTractorId,
+        this.child.selectedT[0].PlacaTractor ,
+        this.child.selectedT[0].MarcaCarretaId,
+        this.child.selectedT[0].PlacaCarreta,
+        this.child.selectedT[0].Conductor ,
+        this.child.selectedT[0].Licencia,
+        this.notaSalidaFormEdit.get('tagcalidad').get("observacion").value,
+        5,
+        this.child.totales.TotalKilos ,
+        this.child.totales.PorcentRendimiento ,
+        "",
+        this.login.Result.Data.NombreCompletoUsuario,
+        list,
+        this.child.totales.Total
       );
        this.spinner.show(undefined,
         {
@@ -321,13 +388,13 @@ openModal(modalEmpresa) {
           fullScreen: true
         });
         if(this.esEdit && this.id!=0){
-          this.actualizarService(request);
+          this.actualizarNotaSalidaService(request);
         }else{
-          this.guardarService(request);
+          this.registrarNotaSalidaService(request);
         }
         
      
-    }*/
+    }
   }
   
   registrarNotaSalidaService(request:ReqNotaSalida)

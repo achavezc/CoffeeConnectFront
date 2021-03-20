@@ -17,7 +17,7 @@ import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 export class ControlCalidadComponentHumedo implements OnInit {
 
    
-    @Input() detalleMateriaPrima : any;
+    @Input() detalle : any;
     @Input() events: Observable<void>;
       tableOlor: FormGroup;
       tableColor: FormGroup;
@@ -79,25 +79,25 @@ export class ControlCalidadComponentHumedo implements OnInit {
  {
   var form = this;
   var controlFormControlCalidad = this.formControlCalidadHumedo.controls;
-  controlFormControlCalidad["humedad"].setValue(this.detalleMateriaPrima.HumedadPorcentajeAnalisisFisico);
-  controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalleMateriaPrima.ObservacionAnalisisFisico);
-  form.responsable = this.detalleMateriaPrima.UsuarioCalidad;
-  if(this.detalleMateriaPrima.FechaCalidad)
+  controlFormControlCalidad["humedad"].setValue(this.detalle.HumedadPorcentajeAnalisisFisico);
+  controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalle.ObservacionAnalisisFisico);
+  form.responsable = this.detalle.UsuarioCalidad;
+  if(this.detalle.FechaCalidad)
   {
-  form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalleMateriaPrima.FechaCalidad),"/");
+  form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalle.FechaCalidad),"/");
   }
   
-  if (this.detalleMateriaPrima.AnalisisFisicoColorDetalle!= null)
+  if (this.detalle.AnalisisFisicoColorDetalle!= null)
   {
-  let analisisFisicoColorDetalleList: AnalisisFisicoColorDetalleList[] = this.detalleMateriaPrima.AnalisisFisicoColorDetalle;
+  let analisisFisicoColorDetalleList: AnalisisFisicoColorDetalleList[] = this.detalle.AnalisisFisicoColorDetalle;
   analisisFisicoColorDetalleList.forEach(function (value) {
     form.tableColor.controls["CheckboxColor%"+ value.ColorDetalleId].setValue(value.Valor);  
   });
 }
 
-if (this.detalleMateriaPrima.AnalisisFisicoOlorDetalle!= null)
+if (this.detalle.AnalisisFisicoOlorDetalle!= null)
 {
-  let analisisFisicoOlorDetalleList: AnalisisFisicoOlorDetalleList[] = this.detalleMateriaPrima.AnalisisFisicoOlorDetalle;
+  let analisisFisicoOlorDetalleList: AnalisisFisicoOlorDetalleList[] = this.detalle.AnalisisFisicoOlorDetalle;
   analisisFisicoOlorDetalleList.forEach(function (value) {
     form.tableOlor.controls["CheckboxOlor%"+ value.OlorDetalleId].setValue(value.Valor);  
   });
@@ -122,7 +122,7 @@ if (this.detalleMateriaPrima.AnalisisFisicoOlorDetalle!= null)
    listaDetalleColor = this.obtenerDetalleAnalisisFisicoColor(this.tableColor);
    this.reqControlCalidad = new ReqControlCalidad(
    this.login.Result.Data.EmpresaId,
-   Number(this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId),
+   Number(this.detalle.GuiaRecepcionMateriaPrimaId),
    Number(controlFormControlCalidad["humedad"].value),
    controlFormControlCalidad["ObservacionAnalisisFisico"].value,
    this.login.Result.Data.NombreCompletoUsuario,

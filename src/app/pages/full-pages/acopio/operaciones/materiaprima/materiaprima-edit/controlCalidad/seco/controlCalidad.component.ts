@@ -12,6 +12,7 @@ import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import {Router} from "@angular/router";
 import { ILogin } from '../../../../../../../../services/models/login';
 import { DateUtil } from '../../../../../../../../services/util/date-util';
+import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-salida-almacen.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { DateUtil } from '../../../../../../../../services/util/date-util';
 export class ControlCalidadComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
-  @Input() detalleMateriaPrima : any;
+  @Input() detalle: any;
+  @Input() form;
   
   
    submitted = false;
@@ -57,7 +59,8 @@ export class ControlCalidadComponent implements OnInit {
 
   constructor(private maestroUtil: MaestroUtil, private fb: FormBuilder,
     private acopioService : AcopioService,  private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil, private router: Router, private dateUtil: DateUtil){
+    private alertUtil: AlertUtil, private router: Router, private dateUtil: DateUtil,
+    private notaSalidaAlmacenService: NotaSalidaAlmacenService){
   } 
   
   ngOnInit(): void
@@ -282,6 +285,7 @@ export class ControlCalidadComponent implements OnInit {
     }
     else
     {
+      
     let listaDetalleOlor = Array<AnalisisFisicoOlorDetalleList>();
     let listaDetalleColor = Array<AnalisisFisicoColorDetalleList>();
     let listaDefectosPrimarios = Array<AnalisisFisicoDefectoPrimarioDetalleList>();
@@ -299,7 +303,7 @@ export class ControlCalidadComponent implements OnInit {
     listaAnalisisSensorialAtrib= this.obtenerAnalisisSensorialAtributos(this.tableSensorialRanking);
     this.reqControlCalidad = new ReqControlCalidad(
       this.login.Result.Data.EmpresaId,
-      Number(this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId),
+      Number(this.detalle.GuiaRecepcionMateriaPrimaId),
       Number(controlFormControlCalidad["humedad"].value),
       
       this.login.Result.Data.NombreCompletoUsuario,
@@ -332,6 +336,8 @@ export class ControlCalidadComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
+      if (this.form == "materiaprima")
+      {
       this.acopioService.Actualizar(this.reqControlCalidad)
       .subscribe(res => {
         this.spinner.hide();
@@ -360,6 +366,39 @@ export class ControlCalidadComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );  
+      }
+      else if (this.form == "notasalida")
+      {
+    
+      this.notaSalidaAlmacenService.ActualizarAnalisisCalidad(this.reqControlCalidad)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/notasalida-list']);
+            }
+          }
+          );
+            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );  
+      }
     }
   }
 
@@ -565,59 +604,59 @@ export class ControlCalidadComponent implements OnInit {
   var form = this;
   let puntajeFinal: number = 0;
   var controlFormControlCalidad = this.formControlCalidad.controls;
-  controlFormControlCalidad["exportGramos"].setValue(this.detalleMateriaPrima.ExportableGramosAnalisisFisico);
-  controlFormControlCalidad["exportPorcentaje"].setValue(this.detalleMateriaPrima.ExportablePorcentajeAnalisisFisico==null?"": this.detalleMateriaPrima.ExportablePorcentajeAnalisisFisico +"%");
-  controlFormControlCalidad["descarteGramos"].setValue(this.detalleMateriaPrima.DescarteGramosAnalisisFisico);
-  controlFormControlCalidad["descartePorcentaje"].setValue(this.detalleMateriaPrima.DescartePorcentajeAnalisisFisico==null?"": this.detalleMateriaPrima.DescartePorcentajeAnalisisFisico + "%");
-  controlFormControlCalidad["cascarillaGramos"].setValue(this.detalleMateriaPrima.CascarillaGramosAnalisisFisico);
-  controlFormControlCalidad["cascarillaPorcentaje"].setValue(this.detalleMateriaPrima.CascarillaPorcentajeAnalisisFisico==null?"":this.detalleMateriaPrima.CascarillaPorcentajeAnalisisFisico +"%");
-  controlFormControlCalidad["totalGramos"].setValue(this.detalleMateriaPrima.TotalGramosAnalisisFisico);
-  controlFormControlCalidad["totalPorcentaje"].setValue(this.detalleMateriaPrima.TotalPorcentajeAnalisisFisico==null?"": this.detalleMateriaPrima.TotalPorcentajeAnalisisFisico + "%");
-  controlFormControlCalidad["humedad"].setValue(this.detalleMateriaPrima.HumedadPorcentajeAnalisisFisico);
-  controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalleMateriaPrima.ObservacionAnalisisFisico);
-  controlFormControlCalidad["ObservacionRegTostado"].setValue(this.detalleMateriaPrima.ObservacionRegistroTostado);
-  controlFormControlCalidad["ObservacionAnalisisSensorial"].setValue(this.detalleMateriaPrima.ObservacionAnalisisSensorial);
-  form.responsable = this.detalleMateriaPrima.UsuarioCalidad;
-  if (this.detalleMateriaPrima.FechaCalidad)
+  controlFormControlCalidad["exportGramos"].setValue(this.detalle.ExportableGramosAnalisisFisico);
+  controlFormControlCalidad["exportPorcentaje"].setValue(this.detalle.ExportablePorcentajeAnalisisFisico==null?"": this.detalle.ExportablePorcentajeAnalisisFisico +"%");
+  controlFormControlCalidad["descarteGramos"].setValue(this.detalle.DescarteGramosAnalisisFisico);
+  controlFormControlCalidad["descartePorcentaje"].setValue(this.detalle.DescartePorcentajeAnalisisFisico==null?"": this.detalle.DescartePorcentajeAnalisisFisico + "%");
+  controlFormControlCalidad["cascarillaGramos"].setValue(this.detalle.CascarillaGramosAnalisisFisico);
+  controlFormControlCalidad["cascarillaPorcentaje"].setValue(this.detalle.CascarillaPorcentajeAnalisisFisico==null?"":this.detalle.CascarillaPorcentajeAnalisisFisico +"%");
+  controlFormControlCalidad["totalGramos"].setValue(this.detalle.TotalGramosAnalisisFisico);
+  controlFormControlCalidad["totalPorcentaje"].setValue(this.detalle.TotalPorcentajeAnalisisFisico==null?"": this.detalle.TotalPorcentajeAnalisisFisico + "%");
+  controlFormControlCalidad["humedad"].setValue(this.detalle.HumedadPorcentajeAnalisisFisico);
+  controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalle.ObservacionAnalisisFisico);
+  controlFormControlCalidad["ObservacionRegTostado"].setValue(this.detalle.ObservacionRegistroTostado);
+  controlFormControlCalidad["ObservacionAnalisisSensorial"].setValue(this.detalle.ObservacionAnalisisSensorial);
+  form.responsable = this.detalle.UsuarioCalidad;
+  if (this.detalle.FechaCalidad)
   {
-  form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalleMateriaPrima.FechaCalidad),"/");
+  form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalle.FechaCalidad),"/");
   }
   
-  if (this.detalleMateriaPrima.AnalisisFisicoColorDetalle!= null)
+  if (this.detalle.AnalisisFisicoColorDetalle!= null)
   {
-  let analisisFisicoColorDetalleList: AnalisisFisicoColorDetalleList[] = this.detalleMateriaPrima.AnalisisFisicoColorDetalle;
+  let analisisFisicoColorDetalleList: AnalisisFisicoColorDetalleList[] = this.detalle.AnalisisFisicoColorDetalle;
   analisisFisicoColorDetalleList.forEach(function (value) {
     form.tableColor.controls["CheckboxColor%"+ value.ColorDetalleId].setValue(value.Valor);  
   });
   }
 
-  if (this.detalleMateriaPrima.AnalisisFisicoOlorDetalle!= null)
+  if (this.detalle.AnalisisFisicoOlorDetalle!= null)
   {
-  let analisisFisicoOlorDetalleList: AnalisisFisicoOlorDetalleList[] = this.detalleMateriaPrima.AnalisisFisicoOlorDetalle;
+  let analisisFisicoOlorDetalleList: AnalisisFisicoOlorDetalleList[] = this.detalle.AnalisisFisicoOlorDetalle;
   analisisFisicoOlorDetalleList.forEach(function (value) {
     form.tableOlor.controls["CheckboxOlor%"+ value.OlorDetalleId].setValue(value.Valor);  
   });
   }
 
-  if (this.detalleMateriaPrima.AnalisisFisicoDefectoPrimarioDetalle!= null)
+  if (this.detalle.AnalisisFisicoDefectoPrimarioDetalle!= null)
   {
-  let analisisFisicoDefectoPrimarioDetalleList: AnalisisFisicoDefectoPrimarioDetalleList[] = this.detalleMateriaPrima.AnalisisFisicoDefectoPrimarioDetalle;
+  let analisisFisicoDefectoPrimarioDetalleList: AnalisisFisicoDefectoPrimarioDetalleList[] = this.detalle.AnalisisFisicoDefectoPrimarioDetalle;
   analisisFisicoDefectoPrimarioDetalleList.forEach(function (value) {
     form.tableDefectosPrimarios.controls["DefPrimario%"+ value.DefectoDetalleId].setValue(value.Valor);  
   });
   }
 
-  if (this.detalleMateriaPrima.AnalisisFisicoDefectoSecundarioDetalle!= null)
+  if (this.detalle.AnalisisFisicoDefectoSecundarioDetalle!= null)
   {
-  let analisisFisicoDefectoSecundarioDetalleList: AnalisisFisicoDefectoSecundarioDetalleList[] = this.detalleMateriaPrima.AnalisisFisicoDefectoSecundarioDetalle;
+  let analisisFisicoDefectoSecundarioDetalleList: AnalisisFisicoDefectoSecundarioDetalleList[] = this.detalle.AnalisisFisicoDefectoSecundarioDetalle;
   analisisFisicoDefectoSecundarioDetalleList.forEach(function (value) {
     form.tableDefectosSecundarios.controls["DefSecundarios%"+ value.DefectoDetalleId].setValue(value.Valor);  
   });
   }
 
-  if (this.detalleMateriaPrima.AnalisisSensorialAtributoDetalle!= null)
+  if (this.detalle.AnalisisSensorialAtributoDetalle!= null)
   {
-  let analisisSensorialAtributoDetalleList: AnalisisSensorialAtributoDetalleList[] = this.detalleMateriaPrima.AnalisisSensorialAtributoDetalle;
+  let analisisSensorialAtributoDetalleList: AnalisisSensorialAtributoDetalleList[] = this.detalle.AnalisisSensorialAtributoDetalle;
   analisisSensorialAtributoDetalleList.forEach(function (value) {
     puntajeFinal = puntajeFinal + value.Valor;
     form.tableSensorialRanking.controls["sensorialAtrib%"+ value.AtributoDetalleId].setValue(value.Valor); 
@@ -625,17 +664,17 @@ export class ControlCalidadComponent implements OnInit {
   });
   }
 
-  if (this.detalleMateriaPrima.AnalisisSensorialDefectoDetalle!= null)
+  if (this.detalle.AnalisisSensorialDefectoDetalle!= null)
   {
-  let analisisSensorialDefectoDetalleList: AnalisisSensorialDefectoDetalleList[] = this.detalleMateriaPrima.AnalisisSensorialDefectoDetalle;
+  let analisisSensorialDefectoDetalleList: AnalisisSensorialDefectoDetalleList[] = this.detalle.AnalisisSensorialDefectoDetalle;
   analisisSensorialDefectoDetalleList.forEach(function (value) {
     form.tableSensorialDefectos.controls["checkboxSenDefectos%"+ value.DefectoDetalleId].setValue(value.Valor);  
   });
   }
 
-  if (this.detalleMateriaPrima.RegistroTostadoIndicadorDetalle!= null)
+  if (this.detalle.RegistroTostadoIndicadorDetalle!= null)
   {
-  let registroTostadoIndicadorDetalleList: RegistroTostadoIndicadorDetalleList[] = this.detalleMateriaPrima.RegistroTostadoIndicadorDetalle;
+  let registroTostadoIndicadorDetalleList: RegistroTostadoIndicadorDetalleList[] = this.detalle.RegistroTostadoIndicadorDetalle;
   registroTostadoIndicadorDetalleList.forEach(function (value) {
     form.tableRegistroTostado.controls["tostado%"+ value.IndicadorDetalleId].setValue(value.Valor);  
     
