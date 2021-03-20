@@ -163,7 +163,7 @@
                     <div class="form-group row">
                         <label for="materialVivienda" class="col-4 col-form-label pr-0">Material de vivienda</label>
                         <div class="col-8">
-                            <input type="number" name="materialVivienda" id="materialVivienda"
+                            <input type="text" name="materialVivienda" id="materialVivienda"
                                 formControlName="materialVivienda" class="form-control"
                                 [ngClass]="{ 'is-invalid': f.materialVivienda.invalid, 'is-valid': !f.materialVivienda.invalid }"
                                 placeholder="Ingresar material de vivienda">
@@ -226,7 +226,7 @@
                         <label for="tiempoUnidadCentroSalud" class="col-4 col-form-label pr-0">Tiempo de la unidad al
                             centro de Salud</label>
                         <div class="col-8">
-                            <input type="text" name="tiempoUnidadCentroSalud" id="tiempoUnidadCentroSalud"
+                            <input type="number" name="tiempoUnidadCentroSalud" id="tiempoUnidadCentroSalud"
                                 formControlName="tiempoUnidadCentroSalud" class="form-control"
                                 [ngClass]="{ 'is-invalid': f.tiempoUnidadCentroSalud.invalid, 'is-valid': !f.tiempoUnidadCentroSalud.invalid }"
                                 placeholder="Ingresar tiempo de la unidad al centro de salud">
@@ -290,6 +290,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-row">
+                <small class="form-text danger text-muted" *ngIf="errorGeneral.isError">
+                    {{errorGeneral.msgError}}
+                </small>
             </div>
         </form>
     </div>

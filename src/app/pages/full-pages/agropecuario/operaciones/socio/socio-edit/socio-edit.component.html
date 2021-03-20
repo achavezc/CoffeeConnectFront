@@ -50,6 +50,7 @@
                         <label for="productor" class="col-md-2 col-form-label">Productor</label>
                         <div class="col-md-6 pr-0">
                             <input type="text" name="productor" id="productor" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.productor.invalid, 'is-valid': !f.productor.invalid }"
                                 formControlName="productor" placeholder="Seleccionar productor" readonly>
                         </div>
                         <div class="col-md-1">
@@ -185,6 +186,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-row">
+                <small *ngIf="errorGenerico.isError" class="form-text danger text-muted">
+                    {{errorGenerico.msgError}}
+                </small>
             </div>
         </div>
         <div class="card-footer text-right">

@@ -51,15 +51,21 @@ export class FincaEditComponent implements OnInit {
   selectedCentroEdu: any;
   selectedEstado: any;
   vId: number;
+  vCodProductor: number;
+  errorGeneral = { isError: false, msgError: '' };
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
     this.LoadForm();
     this.LoadCombos();
     this.AddValidations();
+    this.vCodProductor = undefined;
     if (this.vId > 0) {
       this.SearchProducerFincaById();
     } else {
+      this.route.queryParams.subscribe((res: any) => {
+        this.vCodProductor = parseInt(res.codProductor)
+      });
     }
   }
 
@@ -167,34 +173,46 @@ export class FincaEditComponent implements OnInit {
   }
 
   onChangeDepartament(event: any): void {
+    this.spinner.show();
     const form = this;
     this.listProvincias = [];
+    this.listDistritos = [];
+    this.listZonas = [];
+    this.fincaEditForm.controls.distrito.reset();
+    this.fincaEditForm.controls.zona.reset();
     this.fincaEditForm.controls.provincia.reset();
     this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, (res: any) => {
       if (res.Result.Success) {
         form.listProvincias = res.Result.Data;
+        this.spinner.hide();
       }
     });
   }
 
   onChangeProvince(event: any): void {
+    this.spinner.show();
     const form = this;
     this.listDistritos = [];
+    this.listZonas = [];
     this.fincaEditForm.controls.distrito.reset();
+    this.fincaEditForm.controls.zona.reset();
     this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais,
       (res: any) => {
         if (res.Result.Success) {
           form.listDistritos = res.Result.Data;
+          this.spinner.hide();
         }
       });
   }
 
   onChangeDistrito(event: any): void {
+    this.spinner.show();
     this.listZonas = [];
     this.fincaEditForm.controls.zona.reset();
     this.maestroUtil.GetZonas(event.Codigo, (res: any) => {
       if (res.Result.Success) {
         this.listZonas = res.Result.Data;
+        this.spinner.hide();
       }
     });
   }
@@ -281,7 +299,7 @@ export class FincaEditComponent implements OnInit {
   GetRequest(): any {
     const result = {
       ProductorFincaId: this.fincaEditForm.value.idProductorFinca ?? 0,
-      ProductorId: this.fincaEditForm.value.idProductor ?? 0,
+      ProductorId: this.fincaEditForm.value.idProductor ?? this.vCodProductor,
       Nombre: this.fincaEditForm.value.nombreFinca ?? '',
       Direccion: this.fincaEditForm.value.direccion ?? '',
       DepartamentoId: this.fincaEditForm.value.departamento ?? '',
@@ -310,6 +328,7 @@ export class FincaEditComponent implements OnInit {
 
   Save(): void {
     if (!this.fincaEditForm.invalid) {
+      this.errorGeneral = { isError: false, msgError: '' };
       const form = this;
       if (this.vId > 0) {
         swal.fire({
@@ -351,7 +370,10 @@ export class FincaEditComponent implements OnInit {
         });
       }
     } else {
-      this.alertUtil.alertError("Advertencia!", "Por favor completar los campos OBLIGATORIOS.");
+      this.errorGeneral = {
+        isError: true,
+        msgError: 'Por favor completar los campos OBLIGATORIOS.'
+      };
     }
   }
 
@@ -390,7 +412,11 @@ export class FincaEditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate([`/productor/administracion/productor/list`]);
+    if (this.vCodProductor) {
+      this.router.navigate([`/productor/administracion/productor/finca/list/${this.vCodProductor}`]);
+    } else {
+      this.router.navigate([`/productor/administracion/productor/finca/list/${this.fincaEditForm.value.idProductor}`]);
+    }
   }
 
 }

@@ -77,7 +77,8 @@ export class FincaComponent implements OnInit {
   }
 
   New(): void {
-    this.router.navigate(['/productor/administracion/productor/finca/create']);
+    this.router.navigate(['/productor/administracion/productor/finca/create'],
+      { queryParams: { codProductor: this.vId } });
   }
 
   Cancel(): void {

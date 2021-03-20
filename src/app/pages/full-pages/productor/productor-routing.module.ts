@@ -40,7 +40,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'productor/fincas/:id',
+        path: 'productor/finca/list/:id',
         component: FincaComponent,
         data: {
           title: 'Lista de fincas'

@@ -182,7 +182,7 @@ export class ProductorComponent implements OnInit {
 
   GoFormListFinca(): void {
     if (this.selected && this.selected.length > 0) {
-      this.router.navigate([`/productor/administracion/productor/fincas/${this.selected[0].ProductorId}`]);
+      this.router.navigate([`/productor/administracion/productor/finca/list/${this.selected[0].ProductorId}`]);
     }
   }
 }

@@ -146,7 +146,8 @@ export class ProductorEditComponent implements OnInit {
   }
 
   LoadCombos(): void {
-    let form = this;
+    this.spinner.show();
+    const form = this;
     this.LoadArrayEstados();
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res: any) {
       if (res.Result.Success) {
@@ -185,6 +186,7 @@ export class ProductorEditComponent implements OnInit {
         form.listDepartamentos = res.Result.Data;
       }
     });
+    this.spinner.hide();
   }
 
   async LoadArrayEstados() {
@@ -228,30 +230,54 @@ export class ProductorEditComponent implements OnInit {
   }
 
   onChangeDepartament(event: any): void {
+    this.spinner.show();
     const form = this;
-    this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, function (res: any) {
-      if (res.Result.Success) {
-        form.listProvincias = res.Result.Data;
-      }
-    });
+    this.productorEditForm.controls.provincia.reset();
+    this.productorEditForm.controls.distrito.reset();
+    this.productorEditForm.controls.zona.reset();
+    if (event) {
+      this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, function (res: any) {
+        form.spinner.hide();
+        if (res.Result.Success) {
+          form.listProvincias = res.Result.Data;
+        }
+      });
+    } else {
+      this.spinner.hide();
+    }
   }
 
   onChangeProvince(event: any): void {
+    this.spinner.show();
     const form = this;
-    this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais, function (res: any) {
-      if (res.Result.Success) {
-        form.listDistritos = res.Result.Data;
-      }
-    });
+    this.productorEditForm.controls.distrito.reset();
+    this.productorEditForm.controls.zona.reset();
+    if (event) {
+      this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais, function (res: any) {
+        form.spinner.hide();
+        if (res.Result.Success) {
+          form.listDistritos = res.Result.Data;
+        }
+      });
+    } else {
+      this.spinner.hide();
+    }
   }
 
   onChangeDistrict(event: any): void {
+    this.spinner.show();
     const form = this;
-    this.maestroUtil.GetZonas(event.Codigo, function (res: any) {
-      if (res.Result.Success) {
-        form.listZonas = res.Result.Data;
-      }
-    });
+    this.productorEditForm.controls.zona.reset();
+    if (event) {
+      this.maestroUtil.GetZonas(event.Codigo, function (res: any) {
+        form.spinner.hide();
+        if (res.Result.Success) {
+          form.listZonas = res.Result.Data;
+        }
+      });
+    } else {
+      this.spinner.hide();
+    }
   }
 
   Save(): void {
@@ -437,6 +463,7 @@ export class ProductorEditComponent implements OnInit {
     if (data.Idiomas) {
       this.productorEditForm.controls.idioma.setValue(data.Idiomas.split('|').map(String));
     }
+    this.spinner.hide();
   }
 
   Update(): void {

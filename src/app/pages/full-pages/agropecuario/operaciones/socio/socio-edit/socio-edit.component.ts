@@ -49,6 +49,7 @@ export class SocioEditComponent implements OnInit {
   vId: number;
   errorGeneral = { isError: false, errorMessage: '' };
   vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
+  errorGenerico = { isError: false, msgError: '' };
 
   modalProductorForm: FormGroup;
   listTiposDocumentos: [];
@@ -193,12 +194,14 @@ export class SocioEditComponent implements OnInit {
   }
 
   SearchProductor() {
+    this.errorGenerico = { isError: false, msgError: '' };
     this.modalService.open(this.modalBusqProductores, { windowClass: 'dark-modal', size: 'xl', centered: true });
     this.LoadFormBusquedaProductores();
   }
 
   Save(): void {
     if (!this.socioEditForm.invalid) {
+      this.errorGenerico = { isError: false, msgError: '' };
       const form = this;
       if (!this.vId) {
         swal.fire({
@@ -239,6 +242,8 @@ export class SocioEditComponent implements OnInit {
           }
         });
       }
+    } else {
+      this.errorGenerico = { isError: true, msgError: 'Por favor completar todos los campos obligatorios.' };
     }
   }
 
@@ -424,8 +429,6 @@ export class SocioEditComponent implements OnInit {
       if (row.ProductorId) {
         this.socioEditForm.controls.idProductor.setValue(row.ProductorId);
       }
-      // this.socioEditForm.controls.codSocio.setValue(row.);
-      this.socioEditForm.controls.fecRegistro.setValue(row.FechaRegistro);
       this.socioEditForm.controls.estado.setValue(row.EstadoId);
       if (row.Numero) {
         this.socioEditForm.controls.productor.setValue(row.Numero);
@@ -469,16 +472,6 @@ export class SocioEditComponent implements OnInit {
     }
     this.spinner.hide();
   }
-
-  // private getDismissReason(reason: any): string {
-  //   if (reason === ModalDismissReasons.ESC) {
-  //     return 'by pressing ESC';
-  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-  //     return 'by clicking on a backdrop';
-  //   } else {
-  //     return `with: ${reason}`;
-  //   }
-  // }
 
   SearchById(): void {
     this.spinner.show();
