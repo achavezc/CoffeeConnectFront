@@ -16,7 +16,7 @@ import { host } from '../../../../../../../shared/hosts/main.host';
 })
 export class NotaCompraComponent implements OnInit {
   
-  @Input() detalleMateriaPrima : any;
+  @Input() detalle : any;
   notaCompraForm: FormGroup;
   listUnidadMedida: [];
   listMonedas: [];
@@ -102,7 +102,7 @@ export class NotaCompraComponent implements OnInit {
  async obtenerDetalle()
  {
   await this.LoadCombos();
-  var data = this.detalleMateriaPrima;
+  var data = this.detalle;
   this.login = JSON.parse(localStorage.getItem("user"));
   if(data.NotaCompra == null){
       
@@ -202,7 +202,7 @@ export class NotaCompraComponent implements OnInit {
       });
       var request = {
         NotaCompraId: this.id,
-        GuiaRecepcionMateriaPrimaId: this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId,
+        GuiaRecepcionMateriaPrimaId: this.detalle.GuiaRecepcionMateriaPrimaId,
         EmpresaId: this.login.Result.Data.EmpresaId,
         Numero:this.notaCompraForm.controls['numero'].value,
         UnidadMedidaIdPesado: this.notaCompraForm.controls['unidadMedida'].value,
@@ -224,7 +224,7 @@ export class NotaCompraComponent implements OnInit {
         PrecioGuardado: this.notaCompraForm.controls['precioGuardadoAT'].value,
         PrecioPagado: this.notaCompraForm.controls['precioPagadoAT'].value,
         Importe: this.notaCompraForm.controls['importeAT'].value,
-        UsuarioNotaCompra: this.detalleMateriaPrima.UsuarioPesado
+        UsuarioNotaCompra: this.detalle.UsuarioPesado
       };
       
       if(this.id != 0){
@@ -322,10 +322,10 @@ changeDescuentoHumedad(){
 }
 
 Print(): void {
-  if (this.detalleMateriaPrima.NotaCompra != null) {
+  if (this.detalle.NotaCompra != null) {
     let link = document.createElement('a');
     document.body.appendChild(link);
-    link.href = `${host}NotaCompra/GenerarPDF?id=${this.detalleMateriaPrima.GuiaRecepcionMateriaPrimaId}`;
+    link.href = `${host}NotaCompra/GenerarPDF?id=${this.detalle.GuiaRecepcionMateriaPrimaId}`;
     link.download = "NotaCompra.pdf"
     link.target = "_blank";
     link.click();

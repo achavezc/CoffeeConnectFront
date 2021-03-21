@@ -402,7 +402,7 @@
                   <span class="d-none d-sm-block" style="font-size: 1.1rem;">Nota de Compra</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <app-notacompra [events]="eventsSubject.asObservable()" *ngIf = "detalleMateriaPrima" [detalleMateriaPrima]="detalleMateriaPrima"></app-notacompra>
+                  <app-notacompra [events]="eventsSubject.asObservable()" *ngIf = "detalle" [detalle]="detalle"></app-notacompra>
                 </ng-template>
               </li>
             </ul>
