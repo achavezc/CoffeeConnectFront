@@ -197,12 +197,12 @@
               <!-- Nav-tabs -->
               <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
                 <li [ngbNavItem]="1" [destroyOnHide]="true">
-                  <a ngbNavLink class="nav-link d-flex align-items-center">
+                  <a ngbNavLink class="nav-link d-flex align-items-center" (click)="emitEventToChild()">
                     <span class="d-none d-sm-block">Nota de Salida</span>
                   </a>
                   <ng-template ngbNavContent>
 
-                    <app-tagNotasalida formGroupName="tagcalidad" [events]="eventsSubject.asObservable()" [detalleMateriaPrima]="detalleMateriaPrima"></app-tagNotasalida>
+                    <app-tagNotasalida formGroupName="tagcalidad" [events]="eventsNsSubject.asObservable()"></app-tagNotasalida>
 
                     
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
@@ -225,11 +225,11 @@
                 </li>
                 <li [ngbNavItem]="2">
                   <a (click)="emitEventToChild()" ngbNavLink
-                    [class]="'nav-link d-flex align-items-center'">
+                  [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'">
                     <span class="d-none d-sm-block">Control de Calidad</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-controlCalidadSeco [form] = "form" [detalle] = "detalle"></app-controlCalidadSeco>
+                    <app-controlCalidadSeco [form] = "form" [events]="eventsSubject.asObservable()" [detalle] = "detalle" ></app-controlCalidadSeco>
                   </ng-template>
                 </li>
               </ul>

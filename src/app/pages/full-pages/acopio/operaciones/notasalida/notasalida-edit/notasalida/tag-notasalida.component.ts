@@ -69,9 +69,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   public limitRefT = 10;
-  @Input() detalleMateriaPrima;
-  eventsSubject: Subject<void> = new Subject<void>();
-  eventosSubject: Subject<void> = new Subject<void>();
+  //@Input() detalleMateriaPrima;
+ // eventsSubject: Subject<void> = new Subject<void>();
+  //eventosSubject: Subject<void> = new Subject<void>();
   filtrosLotes: any = {};
   filtrosLotesID: any = {};
   filtrosTransportista: any = {};
@@ -79,7 +79,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   valueMotivoSalidaTransf = '02';
   totales:any = {};
   esEdit = false; //
-  @Input() events: Observable<any>;
+  @Input() eventsNs: Observable<any>;
 
   @ViewChild(DatatableComponent) tableLotes: DatatableComponent;
   @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
@@ -110,7 +110,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
    /*  this.events.subscribe(
       () => this.cargarDatos()); */
 
-      this.events.subscribe({
+      this.eventsNs.subscribe({
         next: (data) => this.cargarDatos(data)
         
       });

@@ -1,9 +1,11 @@
 export class ReqControlCalidad {
     constructor(
     EmpresaId: number,
-    GuiaRecepcionMateriaPrimaId: number,
+    
     HumedadPorcentajeAnalisisFisico: number,
     UsuarioCalidad: string,
+    GuiaRecepcionMateriaPrimaId?: number,
+    NotaSalidaAlmacenId?: number,
     ObservacionAnalisisFisico?: string,
     AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[],
     AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[],
@@ -101,6 +103,14 @@ export class ReqControlCalidad {
         {
         this.ObservacionAnalisisFisico = ObservacionAnalisisFisico
         }
+        if(GuiaRecepcionMateriaPrimaId)
+        {
+        this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId
+        }
+        if(NotaSalidaAlmacenId)
+        {
+        this.NotaSalidaAlmacenId = NotaSalidaAlmacenId
+        }
 
         this.EmpresaId = EmpresaId,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
@@ -108,7 +118,8 @@ export class ReqControlCalidad {
         this.UsuarioCalidad = UsuarioCalidad    
     }
     EmpresaId: number;
-    GuiaRecepcionMateriaPrimaId: number;
+    GuiaRecepcionMateriaPrimaId?: number;
+    NotaSalidaAlmacenId?:number;
     ExportableGramosAnalisisFisico?: number;
     ExportablePorcentajeAnalisisFisico?: number;
     DescarteGramosAnalisisFisico?: number;

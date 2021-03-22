@@ -46,7 +46,8 @@ export class NotaSalidaEditComponent implements OnInit {
   public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
-  eventsSubject: Subject<any> = new Subject<any>();
+  eventsNsSubject: Subject<any> = new Subject<any>();
+  eventsSubject: Subject<void> = new Subject<void>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
   listaAlmacen=[];
@@ -61,6 +62,7 @@ export class NotaSalidaEditComponent implements OnInit {
   responsable: "";
   form: string = "notasalida";
   detalle: any;
+  disabledControl: string = '';
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
@@ -89,7 +91,10 @@ export class NotaSalidaEditComponent implements OnInit {
         this.id =Number(params.id);
         this.esEdit = true;
         this.obtenerDetalle();
-        
+      }
+      else 
+      {
+        this.disabledControl= 'disabled';
       }
     }
   );
@@ -146,11 +151,12 @@ export class NotaSalidaEditComponent implements OnInit {
     this.almacen = data.Almacen;
   
     this.responsable = data.UsuarioRegistro;
-    this.eventsSubject.next(data.DetalleLotes);
+    this.eventsNsSubject.next(data.DetalleLotes);
     this.spinner.hide();
   }
 
   emitEventToChild() {
+    this.eventsNsSubject.next();
     this.eventsSubject.next();
   }
  
@@ -179,6 +185,7 @@ export class NotaSalidaEditComponent implements OnInit {
             motivotranslado: new FormControl('', [Validators.required]),
             numreferencia: new FormControl('', []),
             observacion: new FormControl('', []),
+            tableLotes:this.fb.group({})
           }),
         });
         this.notaSalidaFormEdit.setValidators(this.comparisonValidator())
@@ -256,21 +263,36 @@ openModal(modalEmpresa) {
 
       const motivotranslado = group.get('tagcalidad').get("motivotranslado").value;
       const destinatario = group.get('destinatario').value;
-      const dirPartida = group.get('dirPartida').value;
       const dirDestino = group.get('dirDestino').value;
       const ruc = group.get('ruc').value;
-      if ( destinatario == "" || dirPartida == "" || dirDestino == "" || ruc == "") {
+      const propietario = group.get('tagcalidad').get('propietario').value;
+      const calruc = group.get('tagcalidad').get("ruc").value;
+      const conductor = group.get('tagcalidad').get("conductor").value;
+      const brevete =group.get('tagcalidad').get("brevete").value;
+      const codvehicular =group.get('tagcalidad').get("codvehicular").value;
+      const numconstanciamtc =group.get('tagcalidad').get("numconstanciamtc").value;
+
+      
+      if ( destinatario == "" || dirDestino == "" || ruc == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Empresa Destino' };
 
       }
-     /* else if ( this.child.selected == 0) {
-        this.errorGeneral = { isError: true, errorMessage: 'Agregar Lote' };
-
+      /*else if ( this.child.tableLotes.rowCount == 0)
+      {
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' };
       }*/
-      else if ( this.child.selectedT == 0) {
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Transportista' };
+      else if ( motivotranslado == "" ) {
+
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Motivo de Translado' };
+
       }
+     else if ( propietario == "" || calruc == "" || conductor == "" || brevete == "" || codvehicular == "" || numconstanciamtc == "") {
+
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Transportista' };
+
+      }
+     
        else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -287,7 +309,6 @@ openModal(modalEmpresa) {
        
     this.notaSalidaFormEdit.get('destinatario').setValue(e[0].RazonSocial);
     this.notaSalidaFormEdit.get('ruc').setValue(e[0].Ruc);
-    this.notaSalidaFormEdit.get('dirPartida').setValue("");
     this.notaSalidaFormEdit.get('dirDestino').setValue(e[0].Direccion + " - " + e[0].Distrito + " - " + e[0].Provincia +" - "+ e[0].Departamento);
 
     this.modalService.dismissAll();
@@ -339,20 +360,22 @@ openModal(modalEmpresa) {
   }
  guardar(){
 
-let list : NotaSalidaAlmacenDetalleDTO[] = [] ;
-this.child.listaLotesDetalleId.forEach( x=>
-  {
-    let object: any = {};
-    object.LoteId = x.LoteId
-    object.NotaSalidaAlmacenDetalleId = 0
-    list.push(object)
-  }
-);
+
     if (this.notaSalidaFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
       this.submittedEdit = false;
+      let list : NotaSalidaAlmacenDetalleDTO[] = [] ;
+      this.child.listaLotesDetalleId.forEach( x=>
+        {
+          let object = new NotaSalidaAlmacenDetalleDTO (
+           x.LoteId,
+           0
+          );
+          list.push(object)
+        }
+      );
       let request = new ReqNotaSalida(
         Number(this.id),
         Number(this.login.Result.Data.EmpresaId),
@@ -371,14 +394,15 @@ this.child.listaLotesDetalleId.forEach( x=>
         this.child.selectedT[0].Conductor ,
         this.child.selectedT[0].Licencia,
         this.notaSalidaFormEdit.get('tagcalidad').get("observacion").value,
-        5,
+        this.child.totales.Total,
         this.child.totales.TotalKilos ,
         this.child.totales.PorcentRendimiento ,
-        "",
+        null,
         this.login.Result.Data.NombreCompletoUsuario,
         list,
-        this.child.totales.Total
+        this.child.totales.CantidadTotal
       );
+      let json = JSON.stringify(request);
        this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',

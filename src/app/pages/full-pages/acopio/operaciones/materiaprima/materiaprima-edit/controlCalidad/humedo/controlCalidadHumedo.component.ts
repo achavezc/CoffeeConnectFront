@@ -122,10 +122,11 @@ if (this.detalle.AnalisisFisicoOlorDetalle!= null)
    listaDetalleColor = this.obtenerDetalleAnalisisFisicoColor(this.tableColor);
    this.reqControlCalidad = new ReqControlCalidad(
    this.login.Result.Data.EmpresaId,
-   Number(this.detalle.GuiaRecepcionMateriaPrimaId),
    Number(controlFormControlCalidad["humedad"].value),
-   controlFormControlCalidad["ObservacionAnalisisFisico"].value,
    this.login.Result.Data.NombreCompletoUsuario,
+   this.detalle.GuiaRecepcionMateriaPrimaId? Number(this.detalle.GuiaRecepcionMateriaPrimaId):  null,
+      this.detalle.NotaSalidaAlmacenId? Number(this.detalle.NotaSalidaAlmacenId):  null,
+      controlFormControlCalidad["ObservacionAnalisisFisico"].value,
    listaDetalleOlor,
    listaDetalleColor
    );

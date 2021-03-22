@@ -155,7 +155,6 @@ export class MateriaPrimaEditComponent implements OnInit {
             kilosBruto: new FormControl('', [Validators.required]),
             tara: new FormControl('', []),
             observacionPesado: new FormControl('', []),
-
             exportGramos: new FormControl('', []),
             exportPorcentaje: new FormControl('', []),
             descarteGramos: new FormControl('', []),

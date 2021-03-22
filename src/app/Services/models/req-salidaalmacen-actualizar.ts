@@ -28,10 +28,20 @@ export class ReqNotaSalida
         ListNotaSalidaAlmacenDetalle: NotaSalidaAlmacenDetalleDTO[],
         CantidadTotal: number)
         {
-            this.NotaSalidaAlmacenId = NotaSalidaAlmacenId,
+            if(EstadoId)
+            {
+            this.EstadoId = EstadoId
+            }
+            if(NotaSalidaAlmacenId != 0)
+            {
+            this.NotaSalidaAlmacenId = NotaSalidaAlmacenId
+            }
+            if(Numero != "")
+            {
+            this.Numero = Numero
+            }
             this.EmpresaId = EmpresaId,
             this.AlmacenId = AlmacenId,
-            this.Numero = Numero,
             this.MotivoTrasladoId = MotivoTrasladoId,
             this.MotivoTrasladoReferencia = MotivoTrasladoReferencia,
             this.EmpresaIdDestino = EmpresaIdDestino,
@@ -48,7 +58,7 @@ export class ReqNotaSalida
             this.CantidadLotes = CantidadLotes,
             this.PesoKilosBrutos = PesoKilosBrutos,
             this.PromedioPorcentajeRendimiento = PromedioPorcentajeRendimiento,
-            this.EstadoId = EstadoId,
+            
             this.UsuarioNotaSalidaAlmacen = UsuarioNotaSalidaAlmacen,
             this.ListNotaSalidaAlmacenDetalle = ListNotaSalidaAlmacenDetalle,
             this.CantidadTotal = CantidadTotal
@@ -84,6 +94,15 @@ export class ReqNotaSalida
 
  export class  NotaSalidaAlmacenDetalleDTO{
 
+    constructor(LoteId:number,NotaSalidaAlmacenDetalleId?:number )
+    {
+        if (NotaSalidaAlmacenDetalleId)
+        {
+            this.NotaSalidaAlmacenDetalleId = NotaSalidaAlmacenDetalleId
+        }
+        this.LoteId = LoteId
+    }
+
     LoteId: number;
-    NotaSalidaAlmacenDetalleId: number;
+    NotaSalidaAlmacenDetalleId?: number;
 }
