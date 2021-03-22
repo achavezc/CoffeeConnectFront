@@ -65,23 +65,27 @@ export class IngresoAlmacenComponent implements OnInit {
 
   LoadForm(): void {
     this.ingresoAlmacenForm = this.fb.group({
-      nroIngreso: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      //nroIngreso: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      nroIngreso: ['', ],
       tipoDocumento: [],
-      numeroDocumento: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      //numeroDocumento: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      numeroDocumento: ['', ],
       fechaInicio: [, [Validators.required]],
       fechaFin: [, [Validators.required]],
-      codigoSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      estado: [],
-      nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
+      //codigoSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      codigoSocio: ['', ],
+      estado: ['', Validators.required],
+      //nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
+      nombreRazonSocial: ['', ],
       almacen: [],
-      producto: [],
+      producto: ['',Validators.required],
       subProducto: [],
       rendimientoInicio: [],
       rendimientoFin: [],
       puntajeFinalIni: [],
       puntajeFinalFin: []
     });
-    this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
+    //this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
   }
 
   get f() {

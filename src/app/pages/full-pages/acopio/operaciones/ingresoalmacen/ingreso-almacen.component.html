@@ -162,8 +162,8 @@
                             </div>
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit"
-                                [disabled]="!ingresoAlmacenForm.valid" (click)="Buscar()">Buscar</button>
+                            <!-- <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!ingresoAlmacenForm.valid" (click)="Buscar()">Buscar</button> -->
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
                                 data-placement="top" title="Solo INGRESADOS y con ALMACEN." (click)="GenerarLote()"
                                 [disabled]="!rows.length || !selected.length">Generar Lotes</button>
