@@ -30,6 +30,8 @@ export class NotaCompraComponent implements OnInit {
   login: ILogin;
   id = 0;
   subedit = false;
+  numeroNotaCompra = "";
+  estado = "";
 
   @Input() events: Observable<void>;
   constructor(
@@ -139,6 +141,8 @@ export class NotaCompraComponent implements OnInit {
       this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
       this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
   }else{
+    this.numeroNotaCompra = data.NotaCompra.Numero;
+    this.estado = data.NotaCompra.Estado;
     this.id = data.NotaCompra.NotaCompraId
     this.notaCompraForm.controls['numero'].setValue(data.NotaCompra.Numero);
     this.notaCompraForm.controls['tipo'].setValue(data.NotaCompra.TipoId);

@@ -349,7 +349,7 @@
                                                       <li class="d-block mb-2" *ngFor="let item of listaSensorialDefectos">
                                                           <div class="checkbox">
                                                               <input type="checkbox" [id]="'checkboxSenDefectos%'+item.Codigo"
-                                                                  [formControlName]="'checkboxSenDefectos%'+item.Codigo">
+                                                                  [formControlName]="'checkboxSenDefectos%'+item.Codigo" disabled>
                                                               <label [for]="'checkboxSenDefectos%'+item.Codigo"
                                                                   class="label-checkbox"><span>{{ item.Label }}</span></label>
                                                           </div>
