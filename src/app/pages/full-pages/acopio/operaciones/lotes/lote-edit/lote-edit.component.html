@@ -89,25 +89,26 @@
                     </fieldset>
                     <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                         [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true">
-                        <ngx-datatable-column name="N° DE GUIA" prop="NumeroGuia" width="100">
+                        <ngx-datatable-column name="N° DE GUIA" prop="NumeroNotaIngresoAlmacen" width="100">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacenString" width="100">
+                        <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacenString" width="190">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="CÓDIGO PROVEEDOR" prop="CodigoSocio" width="100">
+                        <ngx-datatable-column name="CÓDIGO SOCIO" prop="CodigoSocio" width="130">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="CÓDIGO SOCIO" prop="CodigoSocio" width="100">
+                        <ngx-datatable-column name="PRODUCTO" prop="Producto" width="200">
                         </ngx-datatable-column>
                         <ngx-datatable-column name="PROVEEDOR" prop="CodigoSocio" width="200">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="TIPO DE PROVEEDOR" prop="TipoProvedor" width="100">
+                        <ngx-datatable-column name="UNIDAD DE MEDIDA" prop="UnidadMedida" width="170">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="UNIDAD DE MEDIDA" prop="UnidadMedida" width="80">
+                        <ngx-datatable-column name="CANTIDAD" prop="CantidadPesado" width="100">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="CANTIDAD" prop="CantidadPesado" width="80">
+                        <ngx-datatable-column name="PESO BRUTO (KG)" prop="KilosBrutosPesado" width="150">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="PESO NETO (KG)" prop="KilosNetosPesado" width="80">
+                        <ngx-datatable-column name="PUNTAJE FINAL (ANALISIS SENSORIAL)" prop="TotalAnalisisSensorial"
+                            width="300">
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="RENDIMIENTO" prop="RendimientoPorcentaje" width="100">
+                        <ngx-datatable-column name="RENDIMIENTO" prop="RendimientoPorcentaje" width="120">
                         </ngx-datatable-column>
                         <ngx-datatable-column name="% HUMEDAD" prop="HumedadPorcentaje" width="100">
                         </ngx-datatable-column>
@@ -148,12 +149,25 @@
                                         [readonly]="true">
                                 </td>
                             </tr>
+                            <tr>
+                                <td>PROMEDIO PUNTAJE FINAL</td>
+                                <td>
+                                    <input type="text" name="promedioPuntajeFinal" id="promedioPuntajeFinal"
+                                        formControlName="promedioPuntajeFinal"
+                                        class="form-control form-control-sm text-center"
+                                        placeholder="Promedio puntaje final" [readonly]="true">
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-lg-8 col-md-8 col-sm-8"></div>
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <small class="form-label text-muted danger" *ngIf="errorGeneral.isError">
+                        {{errorGeneral.msgError}}
+                    </small>
+                </div>
                 <div class="col-lg-2 col-md-2 col-sm-2">
                     <button class="btn btn-primary" (click)="Save()">Guardar</button>
                 </div>
@@ -162,8 +176,6 @@
                 </div>
             </div>
         </form>
-
-
     </div>
 </div>
 <div class="d-flex justify-content-between align-items-center">

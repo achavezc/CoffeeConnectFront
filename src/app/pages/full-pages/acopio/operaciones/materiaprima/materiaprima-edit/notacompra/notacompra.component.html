@@ -1,10 +1,47 @@
     
        
        <div class="mt-2" [formGroup]="notaCompraForm">
+
+                
             <div class="row">
               <tr class="form-row col">
                     <td class="col-2"></td>
                     <td class="col-8">
+                    
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-row"  *ngIf="detalle.NotaCompra!=null" >
+                                    <div class="col-md-6 form-group">
+                                    <label class="card-forms" for="users-edit-username">N° NOTA DE COMPRA : </label>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numeroNotaCompra}}</label>
+                                    </div>
+                                
+                                </div> 
+                            </div> 
+
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-row"  *ngIf="detalle.NotaCompra!=null" >
+                                    <div class="col-md-6 form-group">
+                                    <label class="card-forms" for="users-edit-username">ESTADO : </label>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{estado}}</label>
+                                    </div>
+                                
+                                </div> 
+                            </div> 
+
+                        </div>
                         <table class="table table-sm">
                             <thead>
                                 <tr class="form-row table-primary">
@@ -21,6 +58,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                           
                                 <tr class="form-row">
                                     <td class="col-3">
                                         <label for="unidadMedida" class="form-label">Unidad Medida</label>
@@ -41,7 +79,7 @@
                                         <input type="number" name="exportableAT" id="exportableAT"
                                             formControlName="exportableAT"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Exportable" readonly required>
                                     </td>
                                 </tr>
                                 <tr class="form-row">
@@ -52,7 +90,7 @@
                                         <input type="number" name="cantidadPC" id="cantidadPC"
                                             formControlName="cantidadPC"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Cantidad" readonly required>
                                     </td>
                                     <td class="col-2"></td>
                                     <td class="col-3">
@@ -62,7 +100,7 @@
                                         <input type="number" name="descarteAT" id="descarteAT"
                                             formControlName="descarteAT"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Descarte" readonly required>
                                     </td>
                                 </tr>
                                 <tr class="form-row">
@@ -73,7 +111,7 @@
                                         <input type="number" name="kilosBrutosPC" id="kilosBrutosPC"
                                             formControlName="kilosBrutosPC"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Kilos Brutos" readonly required>
                                     </td>
                                     <td class="col-2"></td>
                                     <td class="col-3">
@@ -83,7 +121,7 @@
                                         <input type="number" name="cascarillaAT" id="cascarillaAT"
                                             formControlName="cascarillaAT"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Cascarilla" readonly required>
                                     </td>
                                 </tr>
                                 <tr class="form-row">
@@ -93,7 +131,7 @@
                                     <td class="col-2">
                                         <input type="number" name="taraPC" id="taraPC" formControlName="taraPC"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Tara" readonly required>
                                     </td>
                                     <td class="col-2"></td>
                                     <td class="col-3">
@@ -103,7 +141,7 @@
                                         <input type="number" name="totalAT" id="totalAT"
                                             formControlName="totalAT"
                                             class="form-control form-control-sm text-right font-weight-bold"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Total" readonly required>
                                     </td>
                                 </tr>
                                 <tr class="form-row">
@@ -114,7 +152,7 @@
                                         <input type="number" name="kilosNetosPC" id="kilosNetosPC"
                                             formControlName="kilosNetosPC"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Kilos Netos" readonly required>
                                     </td>
                                     <td class="col" colspan="7"></td>
                                 </tr>
@@ -127,7 +165,7 @@
                                         <input type="number" name="dsctoHumedadPC" id="dsctoHumedadPC"
                                             formControlName="dsctoHumedadPC" (change)="changeDescuentoHumedad()"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" 
+                                            placeholder="Ingrese Dscto. Por Humedad" 
                                             [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.dsctoHumedadPC.invalid, 'is-valid': subedit && !notaCompraForm.controls.dsctoHumedadPC.invalid }" 
                                             required>
                                     </td>
@@ -140,7 +178,7 @@
                                         <input type="text" name="humedadAT" id="humedadAT"
                                             formControlName="humedadAT"
                                             class="form-control form-control-sm text-center font-weight-bold"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese % Humedad" readonly required>
                                     </td>
                                 </tr>
                                 <tr class="form-row">
@@ -152,7 +190,7 @@
                                         <input type="number" name="kilosNetosDescontarPC"
                                             id="kilosNetosDescontarPC" formControlName="kilosNetosDescontarPC"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese kilos netos a descontar" readonly required>
                                     </td>
                                     <td class="col-2"></td>
                                     <td class="col-3">
@@ -162,7 +200,7 @@
                                         <ng-select [items]="listTipo" formControlName="tipo"
                                             class="form-control form-control-sm" bindLabel="Label"
                                             bindValue="Codigo" id="tipo"
-                                            placeholder="Seleccionar unidad de medida"
+                                            placeholder="Seleccione Tipo"
                                             [(ngModel)]="selectedTipo" >
                                         </ng-select>
                                     </td>
@@ -178,7 +216,7 @@
                                         <input type="number" name="kiloNetoPagarPC" id="kiloNetoPagarPC"
                                             formControlName="kiloNetoPagarPC"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Kilo Neto a Pagar" readonly required>
                                     </td>
                                     <td class="col-2"></td>
                                     <td class="col-3">
@@ -188,7 +226,7 @@
                                         <ng-select [items]="listMonedas" formControlName="monedaAT"
                                             class="form-control form-control-sm" bindLabel="Label"
                                             bindValue="Codigo" id="monedaAT"
-                                            placeholder="Seleccionar unidad de medida"
+                                            placeholder="Seleccionar Moneda"
                                             [(ngModel)]="selectedMoneda" [readonly]="true">
                                         </ng-select>
                                     </td>
@@ -200,7 +238,7 @@
                                     <td class="col-2">
                                         <input type="number" name="qqKgPC" id="qqKgPC" formControlName="qqKgPC"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese QQ55,2/Kg" readonly required>
                                     </td>
                                     <td class="col-2"></td>
                                     <td class="col-3">
@@ -211,7 +249,7 @@
                                         <input type="number" name="precioDiaAT" id="precioDiaAT"
                                             formControlName="precioDiaAT"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" [readonly]="true"
+                                            placeholder="Ingrese Precio del Día" [readonly]="true"
                                             required>
                                     </td>
                                 </tr>
@@ -225,7 +263,7 @@
                                         <input type="number" name="precioGuardadoAT" id="precioGuardadoAT"
                                             formControlName="precioGuardadoAT"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida"
+                                            placeholder="Ingrese Precio Guardado"
                                             [readonly]="selectedEstado != '01'" required>
                                     </td>
                                 </tr> 
@@ -239,7 +277,7 @@
                                         <input type="number" name="precioPagadoAT" id="precioPagadoAT"
                                             formControlName="precioPagadoAT"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Precio Pagado" readonly required>
                                     </td>
                                 </tr> 
                                 <tr class="form-row">
@@ -252,7 +290,7 @@
                                         <input type="number" name="importeAT" id="importeAT"
                                             formControlName="importeAT"
                                             class="form-control form-control-sm text-right"
-                                            placeholder="Seleccionar unidad de medida" readonly required>
+                                            placeholder="Ingrese Importe" readonly required>
                                     </td>
                                 </tr>
                             </tbody>

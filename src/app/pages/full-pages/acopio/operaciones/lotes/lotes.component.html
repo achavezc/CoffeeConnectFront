@@ -173,7 +173,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Número Lote" prop="Numero" width="130">
+                            <ngx-datatable-column name="Número Lote" prop="Numero">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -184,23 +184,23 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Almacén" prop="Almacen" width="70">
+                            <ngx-datatable-column name="Almacén" prop="Almacen">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha Lote" prop="FechaRegistroCadena" width="100">
+                            <ngx-datatable-column name="Fecha Lote" prop="FechaRegistroCadena">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Peso Neto" prop="TotalKilosNetosPesado" width="100">
+                            <ngx-datatable-column name="Peso Bruto" prop="TotalKilosNetosPesado">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="% Rend. Promedio" prop="PromedioRendimientoPorcentaje"
-                                width="150">
+                            <ngx-datatable-column name="Peso Final (Analisis Sensorial)"
+                                prop="PromedioTotalAnalisisSensorial">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="% Hum. Promedio" prop="PromedioHumedadPorcentaje" width="150">
+                            <ngx-datatable-column name="% Rend. Promedio" prop="PromedioRendimientoPorcentaje">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
+                            <ngx-datatable-column name="% Hum. Promedio" prop="PromedioHumedadPorcentaje">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge" [ngClass]="{
-                          'bg-light-success': status == 'Ingresado',
-                          'bg-light-danger': status == 'Anulado',
-                          'bg-light-warning': status == 'Generado Nota Salida'
+                          'bg-light-success': status == 'Ingresado', 'bg-light-danger': status == 'Anulado', 'bg-light-warning': status == 'Generado Nota Salida'
                         }">
                                         {{ status }}
                                     </div>
