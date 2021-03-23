@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,7 +28,7 @@ export class LoteEditComponent implements OnInit {
     private dateUtil: DateUtil) { }
 
   loteEditForm: any;
-  listAlmacenes: Observable<any>;
+  listAlmacenes: any[];
   selectedAlmacen: any;
   limitRef: number = 10;
   rows: any[] = [];
@@ -37,6 +36,7 @@ export class LoteEditComponent implements OnInit {
   selected: any;
   vId: number;
   @ViewChild(DatatableComponent) table: DatatableComponent;
+  errorGeneral = { isError: false, msgError: '' };
 
   ngOnInit(): void {
     this.vId = parseInt(this.route.snapshot.params['id']);
@@ -57,7 +57,8 @@ export class LoteEditComponent implements OnInit {
       almacen: ['', [Validators.required]],
       totalPesoNeto: [],
       promedioRendimiento: [],
-      promedioHumedad: []
+      promedioHumedad: [],
+      promedioPuntajeFinal: []
     });
   }
   get f() {
@@ -111,36 +112,53 @@ export class LoteEditComponent implements OnInit {
     this.loteEditForm.controls.razonSocial.setValue(row.RazonSocial);
     this.loteEditForm.controls.nroLote.setValue(row.Numero);
     this.loteEditForm.controls.direccion.setValue(row.Direccion);
-    this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
+    if (row.FechaRegistro && row.FechaRegistro.substring(0, 10) != "0001-01-01") {
+      this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
+    }
     this.loteEditForm.controls.ruc.setValue(row.Ruc);
-    this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
-    this.loteEditForm.controls.totalPesoNeto.setValue(row.TotalKilosNetosPesado);
-    this.loteEditForm.controls.promedioRendimiento.setValue(row.PromedioRendimientoPorcentaje);
-    this.loteEditForm.controls.promedioHumedad.setValue(row.PromedioHumedadPorcentaje);
+    if (row.AlmacenId && this.listAlmacenes.find(x => x.Codigo == row.AlmacenId)) {
+      this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
+    }
+    if (row.TotalKilosNetosPesado) {
+      this.loteEditForm.controls.totalPesoNeto.setValue(row.TotalKilosNetosPesado);
+    }
+    if (row.PromedioRendimientoPorcentaje) {
+      this.loteEditForm.controls.promedioRendimiento.setValue(row.PromedioRendimientoPorcentaje);
+    }
+    if (row.PromedioHumedadPorcentaje) {
+      this.loteEditForm.controls.promedioHumedad.setValue(row.PromedioHumedadPorcentaje);
+    }
+    if (row.PromedioTotalAnalisisSensorial) {
+      this.loteEditForm.controls.promedioPuntajeFinal.setValue(row.PromedioTotalAnalisisSensorial);
+    }
     this.spinner.hide();
   }
 
   Save(): void {
-    const form = this;
-    swal.fire({
-      title: '¿Estas Seguro?',
-      text: `¿Está seguro de actualizar el lote "${this.loteEditForm.value.nroLote}"?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2F8BE6',
-      cancelButtonColor: '#F55252',
-      confirmButtonText: 'Si',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        form.UpdateLote();
-      }
-    });
-
+    if (!this.loteEditForm.invalid) {
+      this.errorGeneral = { isError: false, msgError: '' };
+      const form = this;
+      swal.fire({
+        title: '¿Estas Seguro?',
+        text: `¿Está seguro de actualizar el lote "${this.loteEditForm.value.nroLote}"?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.UpdateLote();
+        }
+      });
+    } else {
+      this.errorGeneral = { isError: true, msgError: 'Por favor completar los campos OBLIGATORIOS!' };
+    }
   }
 
   UpdateLote(): void {
