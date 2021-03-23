@@ -52,38 +52,29 @@
                   <input type="date" class="form-control" formControlName="fechaFinal" id="validationTooltip07"
                     name="fechaFinal" (blur)="compareTwoDates()" placeholder="date" date [ngClass]="{ 'is-invalid': submitted && f.fechaFinal.invalid, 
                   'is-valid': submitted && !f.fechaFinal.invalid }" />
-                  <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                  
                 </div>
 
               </div>
               <div class="form-group row" style="margin-top: 1rem">
-                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">ESTADO</label>
-                <div class="col-md-9">
-                  <ng-select [items]="listaEstado" bindLabel="name" [(ngModel)]="selectEstado" class="form-control"
-                    placeholder="Seleccionar Estado" formControlName="estado" bindLabel="Label" bindValue="Codigo"
-                    [ngClass]="{ 'is-invalid': submittedEdit && f.estado.invalid, 'is-valid': submittedEdit && !f.estado.invalid }">
-                  </ng-select>
-                </div>
-              </div>
-              <div class="form-group row" style="margin-top: 1rem">
-                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">TIPO</label>
+                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">PRODUCTO</label>
                 <div class="col-md-9">
                   <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
                     placeholder="Seleccionar Tipo" formControlName="producto" (change)="changeSubProducto($event)"
                     bindLabel="Label" bindValue="Codigo"
-                    [ngClass]="{ 'is-invalid': submittedEdit && f.producto.invalid, 'is-valid': submittedEdit && !f.producto.invalid }">
+                    [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }">
                   </ng-select>
                 </div>
               </div>
 
               <div class="form-group row" style="margin-top: 1rem">
-                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">SUB TIPO</label>
+                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">SUB PRODUCTO</label>
                 <div class="col-md-9">
 
                   <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
                     formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
                     placeholder="Seleccionar Sub Tipo"
-                    [ngClass]="{ 'is-invalid': submittedEdit && f.subproducto.invalid, 'is-valid': submittedEdit && !f.subproducto.invalid }">
+                    [ngClass]="{ 'is-invalid': submitted && f.subproducto.invalid, 'is-valid': submitted && !f.subproducto.invalid }">
                   </ng-select>
 
 
@@ -160,14 +151,18 @@
           <div class="row">
             <div class="col-12">
               <div class="row">
-                <div class="col-md-2">
-                  <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                <div class="col-md-10">
+                  <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                 </div>
+                  <div class="col-md-2 justify-content-end">
+                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                  </div>
+                
               </div>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row"  style="margin-top: 1rem">
             <div class="col-12">
               <fieldset class="form-group">
                 <label style="font-size: 0.6rem;">Show
@@ -206,7 +201,7 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Peso Bruto kg." prop="TotalKilosNetosPesado" width="40">
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Puntaje Final" prop="TotalAnalisisSensorial" width="10">
+                <ngx-datatable-column name="Puntaje Final" prop="PromedioTotalAnalisisSensorial" width="10">
                 </ngx-datatable-column>
                 <ngx-datatable-column name="% Rendimiento Promedio" prop="PromedioRendimientoPorcentaje" width="60">
                 </ngx-datatable-column>
@@ -247,25 +242,33 @@
             style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
             <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
           </div>
-          <div class="row">
-            <div class="col-12 col-md-5">
+          <div class="row" style="margin-top: 1rem;">
+            <div class="col-12 col-md-6">
               <div class="form-group row">
-                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Razón Social</label>
-                <div class="col-md-9">
+                <label for="validationTooltip08" class="col-md-4 col-form-label card-text2">Razón Social</label>
+                <div class="col-md-8">
                   <input type="text" minlength="5" maxlength="20" formControlName="rzsocial" class="form-control"
-                    id="validationTooltip08" placeholder="Razon Social">
+                    id="validationTooltip08" placeholder="Razon Social"  [ngClass]="{ 'is-invalid': submittedT && fT.rzsocial.invalid, 'is-valid': submittedT && !fT.rzsocial.invalid }">
+                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.minlength">Ingrese 5 a 20
+                      letras</small>
+                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.maxlength">Ingrese 5 a 20
+                      letras</small>
                 </div>
               </div>
 
 
             </div>
-            <div class="col-12 col-md-7">
+            <div class="col-12 col-md-6">
 
               <div class="form-group row">
                 <label for="validationTooltip08" class="col-md-3 col-form-label card-text2"> RUC </label>
                 <div class="col-md-9">
                   <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
-                    id="validationTooltip08" placeholder="Ruc">
+                    id="validationTooltip08" placeholder="Ruc"  [ngClass]="{ 'is-invalid': submittedT && fT.ruc.invalid, 'is-valid': submittedT && !fT.ruc.invalid }">
+                    <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.minlength">Ingrese 8 a 20
+                      letras</small>
+                    <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.maxlength">Ingrese 8 a 20
+                      letras</small>
                 </div>
 
               </div>
@@ -275,10 +278,13 @@
           <div class="row">
             <div class="col-12">
               <div class="row">
-                <div class="col-md-2">
-                  <button class="btn btn-primary mr-1 mb-1" type="submit"
-                    (click)="buscarTransportista()">Buscar</button>
+                <div class="col-md-10">
+                  <small class="form-text text-muted danger" *ngIf="errorTransportista.isError">{{errorTransportista.errorMessage}}</small>
                 </div>
+                  <div class="col-md-2 justify-content-end">
+                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscarTransportista()">Buscar</button>
+                  </div>
+                
               </div>
             </div>
           </div>
@@ -345,7 +351,7 @@
           Lotes</button>
       </div>
     </div>
-    <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+    <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;">
       <div class="col-12">
         <ngx-datatable class="bootstrap core-bootstrap" #tableLotesDetalle
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
@@ -393,11 +399,9 @@
 
         <ng-select [items]="listaMotivoTranslado" formControlName="motivotranslado" bindLabel="Label" bindValue="Codigo"
           id="validationTooltip01" placeholder="Seleccionar Motivo Translado"
-          [ngClass]="{ 'is-invalid': submitted && fedit.motivotranslado.invalid, 'is-valid': submitted && !fedit.motivotranslado.invalid }"
           [(ngModel)]="selectedMotivoTranslado" (change)="changeMotivo($event)" 
-          [ngClass]="{ 'is-invalid': submittedEdit && ftns.motivotranslado.invalid, 'is-valid': submittedEdit && !ftns.motivotranslado.invalid }">
+          [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.motivotranslado.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.motivotranslado.invalid }">
         </ng-select>
-        <small class="form-text text-muted danger" *ngIf="ftns.motivotranslado.errors?.required">*Requerido</small>
       </div>
 
      

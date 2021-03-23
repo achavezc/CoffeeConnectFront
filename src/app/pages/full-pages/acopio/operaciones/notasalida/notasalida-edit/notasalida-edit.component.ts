@@ -1,15 +1,13 @@
-import { Component, OnInit, ViewEncapsulation, Input,Output,EventEmitter , ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input,ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
 import { AcopioService } from '../../../../../../services/acopio.service';
 import { NgxSpinnerService } from "ngx-spinner";
-import { host } from '../../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { ReqRegistrarPesado } from '../../../../../../services/models/req-registrar-pesado';
 import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -34,10 +32,12 @@ export class NotaSalidaEditComponent implements OnInit {
   selectClasificacion: any;
   consultaEmpresas: FormGroup;
   submitted = false;
+  submittedE = false;
   submittedEdit = false;
   closeResult: string;
   notaSalidaFormEdit: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
+  errorEmpresa:  any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selectedE = [];
   popupModel;
@@ -109,6 +109,7 @@ export class NotaSalidaEditComponent implements OnInit {
         if (res.Result.ErrCode == "") {
           this.detalle = res.Result.Data;
           this.cargarDataFormulario(res.Result.Data);
+          this.child.cargarDatos(res.Result.Data.DetalleLotes)
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
         } else {
@@ -142,14 +143,12 @@ export class NotaSalidaEditComponent implements OnInit {
     this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaCarreta);
     this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaCarreta);
     this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
-    this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoTrasladoId);
-    //this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.Observacion);
+    this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoTrasladoReferencia);
+    this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.Observacion);
     this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
     this.numero = data.Numero; 
-    
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
     this.almacen = data.Almacen;
-  
     this.responsable = data.UsuarioRegistro;
     this.eventsNsSubject.next(data.DetalleLotes);
     this.spinner.hide();
@@ -159,7 +158,7 @@ export class NotaSalidaEditComponent implements OnInit {
     this.eventsNsSubject.next();
     this.eventsSubject.next();
   }
- 
+
   get fns() {
     return this.notaSalidaFormEdit.controls;
   }
@@ -184,8 +183,7 @@ export class NotaSalidaEditComponent implements OnInit {
             numconstanciamtc: new FormControl('', []),
             motivotranslado: new FormControl('', [Validators.required]),
             numreferencia: new FormControl('', []),
-            observacion: new FormControl('', []),
-            tableLotes:this.fb.group({})
+            observacion: new FormControl('', [])
           }),
         });
         this.notaSalidaFormEdit.setValidators(this.comparisonValidator())
@@ -225,8 +223,7 @@ openModal(modalEmpresa) {
         rzsocial: new FormControl('', []),
         clasificacion: new FormControl('', [])
       });
-  
-
+    this.consultaEmpresas.setValidators(this.comparisonValidatorEmpresa())
     this.maestroService.obtenerMaestros("ClasificacionEmpresaProveedoraAcreedora")
       .subscribe(res => {
         if (res.Result.Success) {
@@ -240,6 +237,23 @@ openModal(modalEmpresa) {
      
   }
 
+  public comparisonValidatorEmpresa(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors => {
+      let rzsocial = group.controls['rzsocial'].value;
+      let ruc = group.controls['ruc'].value;
+      if (rzsocial == "" && ruc==  "" ) {
+        this.errorEmpresa = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      } 
+       else {
+        this.errorEmpresa = { isError: false, errorMessage: '' };
+      }
+      return;
+    };
+  }
+  get fe()
+  {
+    return this.consultaEmpresas.controls
+  }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {
@@ -264,6 +278,7 @@ openModal(modalEmpresa) {
       const motivotranslado = group.get('tagcalidad').get("motivotranslado").value;
       const destinatario = group.get('destinatario').value;
       const dirDestino = group.get('dirDestino').value;
+      const almacen = group.get('almacen').value;
       const ruc = group.get('ruc').value;
       const propietario = group.get('tagcalidad').get('propietario').value;
       const calruc = group.get('tagcalidad').get("ruc").value;
@@ -272,17 +287,20 @@ openModal(modalEmpresa) {
       const codvehicular =group.get('tagcalidad').get("codvehicular").value;
       const numconstanciamtc =group.get('tagcalidad').get("numconstanciamtc").value;
 
-      
-      if ( destinatario == "" || dirDestino == "" || ruc == "") {
+      if ( almacen == undefined || almacen == "") {
+
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Tipo de Almacen' };
+      }
+      else if ( destinatario == "" || dirDestino == "" || ruc == "") {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Empresa Destino' };
 
       }
-      /*else if ( this.child.tableLotes.rowCount == 0)
+      else if ( this.child.listaLotesDetalleId.length == 0)
       {
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' };
-      }*/
-      else if ( motivotranslado == "" ) {
+      }
+      else if ( motivotranslado == undefined  || motivotranslado == "" || motivotranslado == {}) {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Motivo de Translado' };
 
@@ -317,13 +335,13 @@ openModal(modalEmpresa) {
  buscar() {
     
     if (this.consultaEmpresas.invalid) {
-      this.submitted = true;
+      this.submittedE = true;
       return;
     } else {
-      this.submitted = false;
+      this.submittedE = false;
       this.filtrosEmpresaProv.RazonSocial = this.consultaEmpresas.controls['rzsocial'].value;
       this.filtrosEmpresaProv.Ruc = this.consultaEmpresas.controls['ruc'].value;
-      this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value;
+      this.filtrosEmpresaProv.ClasificacionId =this.consultaEmpresas.controls['clasificacion'].value.length == 0 ? "" : this.consultaEmpresas.controls['clasificacion'].value;
       this.filtrosEmpresaProv.EmpresaId = 1;
       this.filtrosEmpresaProv.EstadoId = "01";
       this.spinner.show(undefined,
@@ -342,12 +360,12 @@ openModal(modalEmpresa) {
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              this.errorEmpresa = { isError: true, errorMessage: res.Result.Message };
             } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              this.errorEmpresa = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            this.errorEmpresa = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
           err => {

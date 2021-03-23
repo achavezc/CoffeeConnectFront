@@ -1,23 +1,18 @@
-import { Component, OnInit, ViewEncapsulation, Input,Output,EventEmitter , ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder, ControlContainer } from '@angular/forms';
 import { AcopioService } from '../../../../../../../services/acopio.service';
 import { NgxSpinnerService } from "ngx-spinner";
-import { host } from '../../../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
-import { ReqRegistrarPesado } from '../../../../../../../services/models/req-registrar-pesado';
 import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../../services/util/date-util';
-import { formatDate } from '@angular/common';
-import { Subject } from 'rxjs';
 import { LoteService } from '../../../../../../../services/lote.service';
 import {TransportistaService } from '../../../../../../../services/transportista.service';
-import { forEach } from 'core-js/core/array';
 import { Observable } from 'rxjs';
 
 
@@ -48,10 +43,12 @@ export class TagNotaSalidaEditComponent implements OnInit {
   selectedMotivoTranslado: any = {};
   visibleNumReferencia = false;
   submitted = false;
+  submittedT= false;
   closeResult: string;
   tagNotadeSalida: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   error: any = { isError: false, errorMessage: '' };
+  errorTransportista: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selected = [];
@@ -172,30 +169,28 @@ export class TagNotaSalidaEditComponent implements OnInit {
   {
     this.consultaTransportistas = new FormGroup(
       {
-        rzsocial: new FormControl('', []),
-        ruc: new FormControl('', [])
+        rzsocial: new FormControl('',[Validators.minLength(5), Validators.maxLength(20)]),
+        ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20)])
       }
     );
+    this.consultaTransportistas.setValidators(this.comparisonValidatorTransportista())
+  }
+  public comparisonValidatorTransportista(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors => {
+      let rzsocial = group.controls['rzsocial'].value;
+      let ruc = group.controls['ruc'].value;
+      if (rzsocial == "" && ruc==  "" ) {
+        this.errorTransportista = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      } 
+       else {
+        this.errorTransportista = { isError: false, errorMessage: '' };
+      }
+      return;
+    };
   }
  
   cargarformTagNotaSalida()
   {
-   /* this.tagNotadeSalida = new FormGroup(
-      {
-        propietario: new FormControl('', []),
-        domiciliado: new FormControl('', []),
-        ruc: new FormControl('', []),
-        conductor: new FormControl('', []),
-        brevete: new FormControl('', []),
-        codvehicular: new FormControl('', []),
-        marca: new FormControl('', []),
-        placa: new FormControl('', []),
-        numconstanciamtc: new FormControl('', []),
-        motivotranslado: new FormControl('', []),
-        numreferencia: new FormControl('', [])
-
-      }
-    );*/
     this.maestroService.obtenerMaestros("MotivoSalida")
       .subscribe(res => {
         if (res.Result.Success) {
@@ -215,13 +210,12 @@ export class TagNotaSalidaEditComponent implements OnInit {
         numeroLote: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaInicio: new FormControl('', [Validators.required]),
         fechaFinal:new FormControl('', [Validators.required]),
-        producto: new FormControl('', []),
+        producto: new FormControl('', [Validators.required]),
         subproducto: new FormControl('', []),
         tipoDocumento: new FormControl('', []),
         numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         socio: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
-        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
-        estado: new FormControl('', [])
+        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)])
       });
     this.consultaLotes.setValidators(this.comparisonValidator())
 
@@ -239,16 +233,6 @@ export class TagNotaSalidaEditComponent implements OnInit {
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaAlmacen = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-      this.maestroService.obtenerMaestros("EstadoLote")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaEstado = res.Result.Data;
         }
       },
         err => {
@@ -324,28 +308,35 @@ export class TagNotaSalidaEditComponent implements OnInit {
   get f() {
     return this.consultaLotes.controls;
   }
+  get fT() {
+    return this.consultaTransportistas.controls;
+  }
   get fedit() {
     return this.tagNotadeSalida.controls;
   }
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nroLote = group.controls['numeroLote'];
-      let nroDocumento = group.controls['numeroDocumento'];
-      let tipoDocumento = group.controls['tipoDocumento'];
-      let codigoSocio = group.controls['socio'];
-      let nombre = group.controls['rzsocial'];
-      let vProduct = group.controls['producto'];
-      let vByProduct = group.controls['subProducto'];
-      if (!nroLote && !nroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } else if (nroDocumento && !tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      } else if (!nroDocumento && tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
-      } else if (vByProduct && !vProduct) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
+      let fechaInicio = group.controls['fechaInicio'].value;
+      let fechaFinal = group.controls['fechaFinal'].value;
+      let nroDocumento = group.controls['numeroDocumento'].value;
+      let tipoDocumento = group.controls['tipoDocumento'].value;
+      let vProduct = group.controls['producto'].value;
+
+      if (fechaInicio == "" && fechaFinal==  "" && (vProduct.value ==  "" || vProduct ==  undefined)) {
+        this.error = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      } 
+      else if (!vProduct) {
+        this.error = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
       } else {
-        this.errorGeneral = { isError: false, errorMessage: '' };
+        this.error = { isError: false, errorMessage: '' };
+      }
+      if (nroDocumento != "" && (tipoDocumento == "" || tipoDocumento == undefined)) {
+
+        this.error = { isError: true, errorMessage: 'Seleccione un tipo documento' };
+
+      } else if (nroDocumento == "" && (tipoDocumento != "" && tipoDocumento != undefined)) {
+
+        this.error = { isError: true, errorMessage: 'Ingrese un numero documento' };
       }
       return;
     };
@@ -354,12 +345,12 @@ export class TagNotaSalidaEditComponent implements OnInit {
   buscarTransportista()
   {
 
-     if (this.consultaTransportistas.invalid || this.errorGeneral.isError) {
-      this.submitted = true;
+     if (this.consultaTransportistas.invalid || this.errorTransportista.isError) {
+      this.submittedT = true;
       return;
     } else {
       this.selectedT = [];
-      this.submitted = false;
+      this.submittedT = false;
       this.filtrosTransportista.RazonSocial = this.consultaTransportistas.controls['rzsocial'].value;
       this.filtrosTransportista.Ruc = this.consultaTransportistas.controls['ruc'].value;
       this.filtrosTransportista.EmpresaId = 1;
@@ -379,18 +370,18 @@ export class TagNotaSalidaEditComponent implements OnInit {
               this.tempDataT = res.Result.Data;
               this.rowsT = [...this.tempDataT];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              this.errorTransportista = { isError: true, errorMessage: res.Result.Message };
             } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              this.errorTransportista = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            this.errorTransportista = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
           err => {
             this.spinner.hide();
             console.error(err);
-            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+            this.errorTransportista = { isError: false, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
@@ -412,8 +403,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
   buscar() {
-    let columns =[];
-    if (this.consultaLotes.invalid || this.errorGeneral.isError) {
+    if (this.consultaLotes.invalid || this.error.isError) {
       this.submitted = true;
       return;
     } else {
@@ -426,7 +416,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
       this.filtrosLotes.Numero = this.consultaLotes.controls['numeroLote'].value;
       this.filtrosLotes.FechaInicio = this.consultaLotes.controls['fechaInicio'].value;
       this.filtrosLotes.FechaFin = this.consultaLotes.controls['fechaFinal'].value;
-      this.filtrosLotes.EstadoId = this.consultaLotes.controls['estado'].value == null || this.consultaLotes.controls['estado'].value.length == 0 ? "" : this.consultaLotes.controls['estado'].value ;
+      this.filtrosLotes.EstadoId = "01" ;
       this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value == null || this.consultaLotes.controls['producto'].value.length ==  0 ? "" : this.consultaLotes.controls['producto'].value ;
       this.filtrosLotes.SubProductoId =  this.consultaLotes.controls['subproducto'].value == null || this.consultaLotes.controls['subproducto'].value.length == 0 ? "":  this.consultaLotes.controls['subproducto'].value ;
       this.filtrosLotes.CodigoSocio = this.consultaLotes.controls['socio'].value;
@@ -447,18 +437,18 @@ export class TagNotaSalidaEditComponent implements OnInit {
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              this.error = { isError: true, errorMessage: res.Result.Message };
             } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              this.error = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            this.error = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
           err => {
             this.spinner.hide();
             console.error(err);
-            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+            this.error = { isError: false, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
