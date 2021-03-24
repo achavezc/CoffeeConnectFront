@@ -148,7 +148,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   eliminarLote (select)
   {
     let form = this;
-    this.alertUtil.alertSiNoCallback('.Está seguro de eliminar el lote ' + select[0].Numero + '?', '',function(result){
+    this.alertUtil.alertSiNoCallback('Está seguro?', 'El lote ' + select[0].Numero + ' se eliminará de su lista.' ,function(result){
       if(result.isConfirmed){
         form.listaLotesDetalleId = form.listaLotesDetalleId.filter(x=>x.LoteId != select[0].LoteId)
         form.tempDataLoteDetalle = form.listaLotesDetalleId;
