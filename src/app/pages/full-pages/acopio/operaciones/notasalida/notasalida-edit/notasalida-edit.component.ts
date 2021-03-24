@@ -375,8 +375,6 @@ openModal(modalEmpresa) {
   }
  guardar(){
 
-
-
    if ( this.child.listaLotesDetalleId.length == 0)
       {
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' };
@@ -392,12 +390,24 @@ openModal(modalEmpresa) {
       let list : NotaSalidaAlmacenDetalleDTO[] = [] ;
       this.child.listaLotesDetalleId.forEach( x=>
         {
+         if (list.length != 0)
+         {
+           if((list.filter(y=>y.LoteId == x.LoteId)).length == 0)
+           {
           let object = new NotaSalidaAlmacenDetalleDTO (
            x.LoteId,
-           0
           );
           list.push(object)
+           }
         }
+        else
+        {
+          let object = new NotaSalidaAlmacenDetalleDTO (
+            x.LoteId,
+           );
+          list.push(object)
+        }
+      }
       );
       let request = new ReqNotaSalida(
         Number(this.id),

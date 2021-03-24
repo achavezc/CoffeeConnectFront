@@ -53,6 +53,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selected = [];
   selectedT = [];
+  selectLoteDetalle = [];
   public rowsT = [];
   private tempDataT = [];
   popupModel;
@@ -111,7 +112,6 @@ export class TagNotaSalidaEditComponent implements OnInit {
         next: (data) => this.cargarDatos(data)
         
       });
-
   }
 
 
@@ -121,6 +121,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   cargarDatos(detalleLotes:any){
     this.tempDataLoteDetalle = detalleLotes;
     this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+    this.calcularTotales();
   }
 
   changeMotivo(e)
@@ -136,11 +137,29 @@ export class TagNotaSalidaEditComponent implements OnInit {
   }
   openModal(modalLotes) {
     this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });
+   
     this.cargarLotes();
     this.clear();
+    this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
     
   }
 
+  eliminarLote (select)
+  {
+    let form = this;
+    this.alertUtil.alertSiNoCallback('.Está seguro de eliminar el lote ' + select[0].Numero + '?', '',function(result){
+      if(result.isConfirmed){
+        form.listaLotesDetalleId = form.listaLotesDetalleId.filter(x=>x.LoteId != select[0].LoteId)
+        form.tempDataLoteDetalle = form.listaLotesDetalleId;
+        form.rowsLotesDetalle = [...form.tempDataLoteDetalle];
+        form.selectLoteDetalle= [];
+        form.calcularTotales();
+      }
+    }
+    );
+    
+  }
   openModalTransportista(modalTransportista)
   {
     this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'lg' });
@@ -456,8 +475,10 @@ export class TagNotaSalidaEditComponent implements OnInit {
 
   agregar (e)
   {
+    let lote = this.listaLotesDetalleId.filter(x=> x.LoteId == e[0].LoteId);
+    if (lote.length == 0)
+    {
     this.filtrosLotesID.LoteId = Number(e[0].LoteId);
-    
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -507,6 +528,13 @@ export class TagNotaSalidaEditComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );
+
+      this.modalService.dismissAll();
+    }
+    else
+    {
+      this.alertUtil.alertWarning("Oops...!", "El Lote " + e[0].Numero +" ya fue agregado.");
+    }
   }
   
   calcularTotales()
@@ -524,7 +552,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
     });
     
     this.totales.Total = Total;
-    this.totales.PorcentRendimiento = RendimientoPorcentaje/Total;
+    this.totales.PorcentRendimiento = (RendimientoPorcentaje == 0) ? 0: (RendimientoPorcentaje/Total);
     this.totales.CantidadTotal =CantidadPesado;
     this.totales.TotalKilos = KilosNetosPesado;
     let array : any[] = [];

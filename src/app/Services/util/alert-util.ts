@@ -44,6 +44,33 @@ export class AlertUtil {
     })
   }
 
+  alertSiNoCallback(title:String, mensaje:any, callback){
+    swal.fire({
+      icon: "warning",
+      title: title,
+      text: mensaje,
+      showCancelButton: true,  
+      confirmButtonText: 'Si',  
+      cancelButtonText: 'No'
+    }).then((result)=> {
+    
+     callback(result); // this should execute now
+    
+    })
+  }
+
+ 
+    alertWarning(title:String, mensaje:any){
+      swal.fire({
+        icon: "warning",
+        title: title,
+        text: mensaje,
+        customClass: {
+          confirmButton: 'btn btn-primary'
+        },
+      })
+    }
+
  
 
 }

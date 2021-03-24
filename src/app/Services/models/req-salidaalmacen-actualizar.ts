@@ -94,15 +94,10 @@ export class ReqNotaSalida
 
  export class  NotaSalidaAlmacenDetalleDTO{
 
-    constructor(LoteId:number,NotaSalidaAlmacenDetalleId?:number )
+    constructor(LoteId:number)
     {
-        if (NotaSalidaAlmacenDetalleId)
-        {
-            this.NotaSalidaAlmacenDetalleId = NotaSalidaAlmacenDetalleId
-        }
         this.LoteId = LoteId
     }
 
-    LoteId: number;
-    NotaSalidaAlmacenDetalleId?: number;
+    LoteId: number
 }

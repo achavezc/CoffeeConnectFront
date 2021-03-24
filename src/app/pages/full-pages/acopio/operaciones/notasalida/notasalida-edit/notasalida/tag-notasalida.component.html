@@ -42,6 +42,7 @@
                   'is-valid': submitted && !f.fechaInicio.invalid }" />
                   <small class="form-text text-muted danger"
                     *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                    <small class="form-text text-muted danger" *ngIf="f.fechaInicio.errors?.required">Ingresar Fecha de Inicio</small>
                 </div>
 
               </div>
@@ -52,7 +53,7 @@
                   <input type="date" class="form-control" formControlName="fechaFinal" id="validationTooltip07"
                     name="fechaFinal" (blur)="compareTwoDates()" placeholder="date" date [ngClass]="{ 'is-invalid': submitted && f.fechaFinal.invalid, 
                   'is-valid': submitted && !f.fechaFinal.invalid }" />
-                  
+                  <small class="form-text text-muted danger" *ngIf="f.fechaFinal.errors?.required">Ingresar Fecha Final</small>
                 </div>
 
               </div>
@@ -64,6 +65,7 @@
                     bindLabel="Label" bindValue="Codigo"
                     [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }">
                   </ng-select>
+                  <small class="form-text text-muted danger" *ngIf="f.producto.errors?.required">Seleccione Producto</small>
                 </div>
               </div>
 
@@ -184,7 +186,7 @@
               <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotes
                 [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                 [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
-                [selected]="selected" [selectionType]="'single'">
+                [selected]="selected" [selectionType]="'single'" (dblclick)="agregar(selected)">
                 <ngx-datatable-column name="N° Lote" prop="Numero" width="30">
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
 
@@ -212,17 +214,6 @@
               </ngx-datatable>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12">
-
-              <div class="col-md-4">
-                <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="agregar(selected)"> Agregar </button>
-                <button class="btn btn-primary mr-1 mb-1" type="submit"> Cancelar</button>
-              </div>
-
-            </div>
-          </div>
-
         </form>
       </div>
     </ng-template>
@@ -312,7 +303,7 @@
                 [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                 [limit]="limitRefT" [rows]="rowsT" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
                 [selected]="selectedT" [selectionType]="'single'" (dblclick)="seleccionarTransportista(selectedT)">
-                <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20">
+                <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20" >
 
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
@@ -346,16 +337,20 @@
       </div>
     </ng-template>
     <div class="row">
-      <div class="col-md-4" style="margin-top: 2rem;">
+      <div class="cold-2" style="margin-top: 2rem;">
         <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModal(modalLotes)">Agregar
           Lotes</button>
+      </div>
+      <div class="cold-2" style="margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminarLote(selectLoteDetalle)"  [disabled]="selectLoteDetalle.length == 0" >Eliminar Lote</button>
       </div>
     </div>
     <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;">
       <div class="col-12">
-        <ngx-datatable class="bootstrap core-bootstrap" #tableLotesDetalle
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-          [rows]="rowsLotesDetalle">
+          [rows]="rowsLotesDetalle" 
+          [selected]="selectLoteDetalle" [selectionType]="'single'" >
           <ngx-datatable-column name="Numero Lote" prop="Numero" width="10">
           </ngx-datatable-column>
           <ngx-datatable-column name="N° Nota Ingreso" prop="NumeroNotaIngresoAlmacen" width="10">
@@ -414,19 +409,13 @@
     
     </div>
 
-    <div class="row" style="margin-top: 2rem;">
-      <div class="col-md-4">
-        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
-          (click)="openModalTransportista(modalTransportista)">Agregar Transportista</button>
-      </div>
-    </div>
     <div class="row"
       style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
       <div class="card-subtitle-form">DATOS DEL TRANSPORTISTA</div>
     </div>
 
     <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-5">
         <label for="basicInput">PROPIETARIO</label>
         <input type="text" class="form-control" id="basicInput" formControlName="propietario" disabled>
         <label for="basicInput">DOMICILIADO</label>
@@ -439,8 +428,13 @@
         <label for="basicInput">BREVETE</label>
         <input type="text" class="form-control" id="basicInput" formControlName="brevete" disabled>
       </div>
-
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-2" style="padding-left: 0cm;">
+        <button type="button"  (click)="openModalTransportista(modalTransportista)" class="btn btn-default"
+        style="margin-top: 1.5rem;">
+        <i class="fa fa-search"></i>
+      </button>
+      </div>
+      <div class="col-12 col-md-5">
         <label for="basicInput">COD. VEHICULAR</label>
         <input type="text" class="form-control" id="basicInput" formControlName="codvehicular" disabled>
         <label for="basicInput">MARCA</label>
