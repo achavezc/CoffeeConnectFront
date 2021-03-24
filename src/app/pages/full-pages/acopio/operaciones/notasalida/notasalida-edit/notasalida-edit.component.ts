@@ -296,10 +296,7 @@ openModal(modalEmpresa) {
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Empresa Destino' };
 
       }
-      else if ( this.child.listaLotesDetalleId.length == 0)
-      {
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' };
-      }
+      
       else if ( motivotranslado == undefined  || motivotranslado == "" || motivotranslado == {}) {
 
         this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Motivo de Translado' };
@@ -379,7 +376,15 @@ openModal(modalEmpresa) {
  guardar(){
 
 
-    if (this.notaSalidaFormEdit.invalid) {
+
+   if ( this.child.listaLotesDetalleId.length == 0)
+      {
+        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' };
+      }
+      else{
+        this.errorGeneral = { isError: false, errorMessage: '' };
+      }
+    if (this.notaSalidaFormEdit.invalid || this.errorGeneral.isError) {
       this.submittedEdit = true;
       return;
     } else {
