@@ -41,10 +41,12 @@
                   </div>
                  
                   <div class="col-md-6 form-group">
-                    <ng-select #ngSelectComponent id="validationTooltip05" [items]="listaAlmacen"
+                    <ng-select id="validationTooltip05" [items]="listaAlmacen" class="form-control"
                       [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
                       placeholder="Seleccionar Almacen" [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }">
                     </ng-select>
+
+                    <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">Ingrese Tipo Almacén</small>
                   </div>
                 </div>
               
@@ -60,7 +62,10 @@
             <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 4rem;">
               <div class="col-12 col-md-5">
                 <label for="basicInput">Destinatario</label>
-                <input type="text" class="form-control" id="basicInput" formControlName="destinatario" disabled>
+                <input type="text" class="form-control" id="basicInput" formControlName="destinatario" disabled class="form-control"
+                [ngClass]="{ 'is-invalid': submittedEdit && fns.destinatario.invalid, 'is-valid': submittedEdit && !fns.destinatario.invalid }">
+                <small class="form-text text-muted danger" *ngIf="fns.destinatario.errors?.required">Ingrese Destinatario</small>
+
                 <label for="basicInput">Ruc</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
 
@@ -82,7 +87,7 @@
                         style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                         <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
                       </div>
-                      <div class="row">
+                      <div class="row" style="margin-top: 1rem;">
                         <div class="col-12 col-md-6">
                           <div class="form-group row">
                             <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">RUC</label>
@@ -113,7 +118,7 @@
                             <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">RAZON SOCIAL</label>
                             <div class="col-md-9">
                               <input type="text" minlength="8" maxlength="20" formControlName="rzsocial"
-                                class="form-control" id="validationTooltip08" placeholder="RUC de Lote"
+                                class="form-control" id="validationTooltip08" placeholder="Razon Social"
                                 [ngClass]="{ 'is-invalid': submittedE && fe.rzsocial.invalid, 'is-valid': submittedE && !fe.rzsocial.invalid }">
                                 <small class="form-text text-muted danger" *ngIf="fe.rzsocial.errors?.minlength">Ingrese 5 a 20
                                   letras</small>
@@ -215,7 +220,7 @@
                   </a>
                   <ng-template ngbNavContent>
 
-                    <app-tagNotasalida formGroupName="tagcalidad" [events]="eventsNsSubject.asObservable()" [submittedEdit] = "submittedEdit"></app-tagNotasalida>
+                    <app-tagNotasalida formGroupName="tagcalidad" [errorReferencia]=[errorReferencia] [submittedEdit] = "submittedEdit"></app-tagNotasalida>
 
                     
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">

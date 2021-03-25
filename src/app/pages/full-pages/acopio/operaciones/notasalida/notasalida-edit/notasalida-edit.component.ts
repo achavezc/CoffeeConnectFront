@@ -3,10 +3,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
-import { AcopioService } from '../../../../../../services/acopio.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../../../services/models/login';
-import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
@@ -29,6 +27,7 @@ export class NotaSalidaEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
   @ViewChild(TagNotaSalidaEditComponent) child;
+  errorReferencia: any;
   selectClasificacion: any;
   consultaEmpresas: FormGroup;
   submitted = false;
@@ -50,7 +49,7 @@ export class NotaSalidaEditComponent implements OnInit {
   eventsSubject: Subject<void> = new Subject<void>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
-  listaAlmacen=[];
+  listaAlmacen: any[];
   numero="";
   esEdit = false; 
   selectAlmacen: any;
@@ -68,7 +67,7 @@ export class NotaSalidaEditComponent implements OnInit {
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
     private alertUtil: AlertUtil,
     private router: Router,
-    private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,
+    private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
@@ -139,19 +138,32 @@ export class NotaSalidaEditComponent implements OnInit {
     this.notaSalidaFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
     this.notaSalidaFormEdit.get('tagcalidad').get("conductor").setValue(data.Conductor);
     this.notaSalidaFormEdit.get('tagcalidad').get("brevete").setValue(data.LicenciaConductor);
-    this.notaSalidaFormEdit.get('tagcalidad').get("codvehicular").setValue(data.TaraPesado);
-    this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaCarreta);
-    this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaCarreta);
+    this.notaSalidaFormEdit.get('tagcalidad').get("codvehicular").setValue(data.ConfiguracionVehicular);
+    this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaTractor);
+    this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaTractor);
     this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
     this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoTrasladoId);
     this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.Observacion);
     this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
+    let objectDestino: any ={};
+    objectDestino.EmpresaProveedoraAcreedoraId = data.EmpresaIdDestino;
+    this.selectedE.push(objectDestino);
+    let objectTransporte: any ={};
+    objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
+    objectTransporte.TransporteId = data.TransporteId;
+    objectTransporte.NumeroConstanciaMTC = data.NumeroConstanciaMTC;
+    objectTransporte.MarcaTractorId = data.MarcaTractorId;
+    objectTransporte.PlacaTractor = data.PlacaTractor;
+    objectTransporte.MarcaCarretaId = data.MarcaCarretaId;
+    objectTransporte.PlacaCarreta = data.PlacaCarreta;
+    objectTransporte.Conductor = data.Conductor;
+    objectTransporte.Licencia = data.Licencia;
+    this.child.selectedT.push(objectTransporte);
     this.numero = data.Numero; 
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro),"/");
     this.almacen = data.Almacen;
     this.responsable = data.UsuarioRegistro;
-    //this.eventsNsSubject.next(data.DetalleLotes);
-    this.spinner.hide();
+    this.spinner.hide();   
   }
 
   emitEventToChild() {
@@ -165,14 +177,14 @@ export class NotaSalidaEditComponent implements OnInit {
   cargarForm() {
       this.notaSalidaFormEdit =this.fb.group(
         {
-          numNotaSalida: ['', ],
+          numNotaSalida:  new FormControl('', []),
           almacen: new FormControl('', [Validators.required]),
-          destinatario: ['', ],
-          ruc:  ['', ],
+          destinatario: ['',[Validators.required] ],
+          ruc:   new FormControl('', []),
           dirPartida:  [this.login.Result.Data.DireccionEmpresa, []],
-          dirDestino:  ['', ],
+          dirDestino:   new FormControl('', []),
           tagcalidad:this.fb.group({
-            propietario: new FormControl('', []),
+            propietario: new FormControl('', [Validators.required]),
             domiciliado: new FormControl('', []),
             ruc: new FormControl('', []),
             conductor: new FormControl('', []),
@@ -203,11 +215,11 @@ export class NotaSalidaEditComponent implements OnInit {
 openModal(modalEmpresa) {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarEmpresas();
-    this.clear();
+    this.clearModalEmpresa();
     
   }
 
-  clear() {
+  clearModalEmpresa() {
 
     this.selectClasificacion = [];
     this.consultaEmpresas.controls['ruc'].reset;
@@ -243,9 +255,11 @@ openModal(modalEmpresa) {
       let ruc = group.controls['ruc'].value;
       if (rzsocial == "" && ruc==  "" ) {
         this.errorEmpresa = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+        
       } 
        else {
         this.errorEmpresa = { isError: false, errorMessage: '' };
+        
       }
       return;
     };
@@ -275,41 +289,14 @@ openModal(modalEmpresa) {
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
 
+      const numreferencia = group.get('tagcalidad').get("numreferencia").value;
       const motivotranslado = group.get('tagcalidad').get("motivotranslado").value;
-      const destinatario = group.get('destinatario').value;
-      const dirDestino = group.get('dirDestino').value;
-      const almacen = group.get('almacen').value;
-      const ruc = group.get('ruc').value;
-      const propietario = group.get('tagcalidad').get('propietario').value;
-      const calruc = group.get('tagcalidad').get("ruc").value;
-      const conductor = group.get('tagcalidad').get("conductor").value;
-      const brevete =group.get('tagcalidad').get("brevete").value;
-      const codvehicular =group.get('tagcalidad').get("codvehicular").value;
-      const numconstanciamtc =group.get('tagcalidad').get("numconstanciamtc").value;
 
-      if ( almacen == undefined || almacen == "") {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Tipo de Almacen' };
-      }
-      else if ( destinatario == "" || dirDestino == "" || ruc == "") {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Empresa Destino' };
-
-      }
-      
-      else if ( motivotranslado == undefined  || motivotranslado == "" || motivotranslado == {}) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Motivo de Translado' };
-
-      }
-     else if ( propietario == "" || calruc == "" || conductor == "" || brevete == "" || codvehicular == "" || numconstanciamtc == "") {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Transportista' };
-
-      }
-     
-       else {
-        this.errorGeneral = { isError: false, errorMessage: '' };
+    if ( motivotranslado== "02" && numreferencia == "") {
+      this.errorReferencia = true;
+      }     
+    else {
+      this.errorReferencia =false;
       }
       
       return;
@@ -317,7 +304,7 @@ openModal(modalEmpresa) {
   }
 
 
-  cancelar(){
+cancelar(){
     this.router.navigate(['/acopio/operaciones/notasalida-list']);
 }
   seleccionarEmpresa(e) {
@@ -331,7 +318,7 @@ openModal(modalEmpresa) {
   
  buscar() {
     
-    if (this.consultaEmpresas.invalid) {
+    if (this.consultaEmpresas.invalid || this.errorEmpresa.isError ) {
       this.submittedE = true;
       return;
     } else {
@@ -368,25 +355,25 @@ openModal(modalEmpresa) {
           err => {
             this.spinner.hide();
             console.error(err);
-            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+            this.errorEmpresa = { isError: false, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
   }
  guardar(){
-
-   if ( this.child.listaLotesDetalleId.length == 0)
-      {
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' };
-      }
-      else{
-        this.errorGeneral = { isError: false, errorMessage: '' };
-      }
+   if (this.child.listaLotesDetalleId.length == 0)
+   { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' };}
+   else
+   {
+    this.errorGeneral = { isError: false, errorMessage: '' };
+   }
     if (this.notaSalidaFormEdit.invalid || this.errorGeneral.isError) {
+     
       this.submittedEdit = true;
       return;
     } else {
       this.submittedEdit = false;
+     
       let list : NotaSalidaAlmacenDetalleDTO[] = [] ;
       this.child.listaLotesDetalleId.forEach( x=>
         {
@@ -394,17 +381,11 @@ openModal(modalEmpresa) {
          {
            if((list.filter(y=>y.LoteId == x.LoteId)).length == 0)
            {
-          let object = new NotaSalidaAlmacenDetalleDTO (
-           x.LoteId,
-          );
+          let object = new NotaSalidaAlmacenDetalleDTO (x.LoteId);
           list.push(object)
            }
-        }
-        else
-        {
-          let object = new NotaSalidaAlmacenDetalleDTO (
-            x.LoteId,
-           );
+        }else{
+          let object = new NotaSalidaAlmacenDetalleDTO (x.LoteId);
           list.push(object)
         }
       }
@@ -431,7 +412,7 @@ openModal(modalEmpresa) {
         this.child.totales.TotalKilos ,
         this.child.totales.PorcentRendimiento ,
         null,
-        this.login.Result.Data.NombreCompletoUsuario,
+        this.login.Result.Data.NombreUsuario,
         list,
         this.child.totales.CantidadTotal
       );
@@ -513,62 +494,6 @@ openModal(modalEmpresa) {
       }
     );  
   }
-
- /* actualizarService(request:ReqRegistrarPesado){
-    this.acopioService.actualizarPesado(request)
-    .subscribe(res => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        if (res.Result.ErrCode == "") {
-          var form = this;
-          this.alertUtil.alertOkCallback('Actualizado!', 'Guia Actualizada.',function(result){
-            if(result.isConfirmed){
-              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
-            }
-          }
-          );
-
-        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      } else {
-        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-      }
-    },
-      err => {
-        this.spinner.hide();
-        console.log(err);
-        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-      }
-    );  
-  }
-
-  obtenerDetalle(){
-    this.acopioService.obtenerDetalle(Number(this.id))
-    .subscribe(res => {
-      
-      if (res.Result.Success) {
-        if (res.Result.ErrCode == "") {
-          this.detalleMateriaPrima = res.Result.Data;
-          this.cargarDataFormulario(res.Result.Data);
-        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      } else {
-        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-      }
-    },
-      err => {
-        console.log(err);
-        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-      }
-    );  
-  }
- */
 
 }
 

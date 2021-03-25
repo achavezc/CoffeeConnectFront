@@ -393,18 +393,19 @@
         <label for="basicInput">Motivo de Translado</label>
 
         <ng-select [items]="listaMotivoTranslado" formControlName="motivotranslado" bindLabel="Label" bindValue="Codigo"
-          id="validationTooltip01" placeholder="Seleccionar Motivo Translado"
-          [(ngModel)]="selectedMotivoTranslado" (change)="changeMotivo($event)" 
+          id="validationTooltip01" placeholder="Seleccionar Motivo Translado" class="form-control"
+          [(ngModel)]="selectedMotivoTranslado" (change)="changeMotivo($event)"
           [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.motivotranslado.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.motivotranslado.invalid }">
-        </ng-select>
+        </ng-select> 
+        <small class="form-text text-muted danger" *ngIf="tagNotadeSalida.controls.motivotranslado.errors?.required">Seleccione Motivo</small>
       </div>
 
      
       <div class="col-12 col-md-6" *ngIf="visibleNumReferencia">
         <label for="basicInput"> Numero de Referencia </label>
 
-        <input type="text" formControlName="numreferencia" class="form-control" id="validationTooltip08"
-          placeholder="Numero de Referencia">
+        <input type="text" formControlName="numreferencia" class="form-control" id="validationTooltip08" placeholder="Numero de Referencia" >
+        <!-- <small class="form-text text-muted danger" *ngIf="errorReferencia" (change)="changeNumReferencia()">Requerido</small>-->
       </div>
     
     </div>
@@ -417,7 +418,12 @@
     <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
       <div class="col-12 col-md-5">
         <label for="basicInput">PROPIETARIO</label>
-        <input type="text" class="form-control" id="basicInput" formControlName="propietario" disabled>
+        <input type="text" class="form-control" id="basicInput" formControlName="propietario" [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.propietario.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.propietario.invalid }" disabled>
+       
+        
+
+       
+      <small class="form-text text-muted danger" *ngIf="tagNotadeSalida.controls.propietario.errors?.required">Seleccione Transportista</small>
         <label for="basicInput">DOMICILIADO</label>
         <input type="text" class="form-control" id="basicInput" formControlName="domiciliado" disabled>
         <label for="basicInput">RUC</label>

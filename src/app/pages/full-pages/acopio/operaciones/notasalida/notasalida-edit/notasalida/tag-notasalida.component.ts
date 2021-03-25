@@ -2,14 +2,10 @@ import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../../services/maestro.service';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder, ControlContainer } from '@angular/forms';
-import { AcopioService } from '../../../../../../../services/acopio.service';
+import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../../../../services/models/login';
-import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
-import {Router} from "@angular/router"
-import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { LoteService } from '../../../../../../../services/lote.service';
 import {TransportistaService } from '../../../../../../../services/transportista.service';
@@ -27,6 +23,8 @@ export class TagNotaSalidaEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
   @Input() submittedEdit;
+  @Input() errorReferencia;
+  errorMessage: any;
   listaAlmacen: any[];
   listaEstado: any[];
   selectAlmacen: any;
@@ -40,7 +38,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   selectedTipoDocumento: any;
   listaTipoDocumento: any[];
   listaMotivoTranslado: any[];
-  selectedMotivoTranslado: any = {};
+  selectedMotivoTranslado: any;
   visibleNumReferencia = false;
   submitted = false;
   submittedT= false;
@@ -67,16 +65,13 @@ export class TagNotaSalidaEditComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   public limitRefT = 10;
-  //@Input() detalleMateriaPrima;
- // eventsSubject: Subject<void> = new Subject<void>();
-  //eventosSubject: Subject<void> = new Subject<void>();
   filtrosLotes: any = {};
   filtrosLotesID: any = {};
   filtrosTransportista: any = {};
   listaLotesDetalleId = [];
   valueMotivoSalidaTransf = '02';
   totales:any = {};
-  esEdit = false; //
+  esEdit = false; 
   @Input() eventsNs: Observable<any>;
 
   @ViewChild(DatatableComponent) tableLotes: DatatableComponent;
@@ -87,47 +82,58 @@ export class TagNotaSalidaEditComponent implements OnInit {
  
   constructor(private modalService: NgbModal, private maestroService: MaestroService, 
     private alertUtil: AlertUtil,
-    private router: Router,
-    private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     private dateUtil: DateUtil,
     private loteService: LoteService,
     private transportistaService:TransportistaService,
     private controlContainer: ControlContainer
-   
-    ) {
-  
-  }
+    ) {}
  
  
   ngOnInit(): void {
-    this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
-    this.cargarformTagNotaSalida();
    
-   /*  this.events.subscribe(
-      () => this.cargarDatos()); */
-
+    this.cargarformTagNotaSalida();
+    this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
+  
       this.eventsNs.subscribe({
         next: (data) => this.cargarDatos(data)
         
       });
   }
 
-
-  get ftns() {
-    return this.tagNotadeSalida.controls;
-  }
   cargarDatos(detalleLotes:any){
-    this.tempDataLoteDetalle = detalleLotes;
+    detalleLotes.forEach(x => {
+      let object : any = {};  
+      object.Numero = x.NumeroLote,
+      object.Producto = x.Producto
+      object.UnidadMedida = x.UnidadMedida
+      object.CantidadPesado = x.CantidadPesado
+      object.RendimientoPorcentaje = x.RendimientoPorcentaje
+      object.KilosNetosPesado = x.KilosNetosPesado
+      object.LoteId = x.LoteId
+      object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
+      object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
+      this.listaLotesDetalleId.push(object);
+
+    });
+    this.tempDataLoteDetalle = this.listaLotesDetalleId;
     this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
     this.calcularTotales();
   }
 
+  changeNumReferencia()
+  {
+    if (this.tagNotadeSalida.controls["motivotranslado"].value == "02" && this.tagNotadeSalida.controls["numreferencia"].value != "")
+    {
+      this.errorReferencia = false;
+    }
+
+  }
   changeMotivo(e)
   {
     if ( e.Codigo == this.valueMotivoSalidaTransf)
     {
+     
       this.visibleNumReferencia = true;
     }
     else
