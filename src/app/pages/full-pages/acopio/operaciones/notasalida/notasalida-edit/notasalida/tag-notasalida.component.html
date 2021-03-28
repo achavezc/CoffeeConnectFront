@@ -351,28 +351,30 @@
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
           [rows]="rowsLotesDetalle" 
           [selected]="selectLoteDetalle" [selectionType]="'single'" >
-          <ngx-datatable-column name="Numero Lote" prop="Numero" width="10">
+          <ngx-datatable-column name="Numero Lote" prop="Numero" >
           </ngx-datatable-column>
-          <ngx-datatable-column name="N° Nota Ingreso" prop="NumeroNotaIngresoAlmacen" width="10">
+          <ngx-datatable-column name="N° Nota Ingreso" prop="NumeroNotaIngresoAlmacen" >
           </ngx-datatable-column>
-          <ngx-datatable-column name="Tipo de Producto" prop="Producto" width="20">
+          <ngx-datatable-column name="Tipo de Producto" prop="Producto" >
           </ngx-datatable-column>
-          <ngx-datatable-column name="Unid. Medida" prop="UnidadMedida" width="10">
+          <ngx-datatable-column name="Unid. Medida" prop="UnidadMedida">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="10">
+          <ngx-datatable-column name="Cantidad" prop="CantidadPesado" >
           </ngx-datatable-column>
-          <ngx-datatable-column name="Puntaje Final" prop="TotalAnalisisSensorial" width="10">
+          <ngx-datatable-column name="% Humedad" prop="HumedadPorcentaje">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje" width="10">
+          <ngx-datatable-column name="Puntaje Final" prop="TotalAnalisisSensorial" >
           </ngx-datatable-column>
-          <ngx-datatable-column name="Peso Bruto Kg." prop="KilosNetosPesado" width="10">
+          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje" >
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Peso Bruto Kg." prop="KilosNetosPesado" >
           </ngx-datatable-column>
         </ngx-datatable>
       </div>
     </div>
 
     <div class="row justify-content-end" style="margin-right: 6rem; margin-left: 6rem;">
-      <div class="col-6">
+      <div class="col-7">
         <ngx-datatable class="bootstrap core-bootstrap" #tableLotesTotal
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
           [rows]="rowsLotesTotal">
@@ -381,6 +383,8 @@
           <ngx-datatable-column name="PROMEDIO % RENDIMIENTO" prop="PorcentRendimiento" width="20">
           </ngx-datatable-column>
           <ngx-datatable-column name="CANTIDAD TOTAL" prop="CantidadTotal" width="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="% HUMEDAD" prop="HumedadPorcentaje" width="10">
           </ngx-datatable-column>
           <ngx-datatable-column name="TOTAL KILOS BRUTOS" prop="TotalKilos" width="10">
           </ngx-datatable-column>

@@ -112,6 +112,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
       object.KilosNetosPesado = x.KilosNetosPesado
       object.LoteId = x.LoteId
       object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
+      object.HumedadPorcentaje = x.HumedadPorcentaje
       object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
       this.listaLotesDetalleId.push(object);
 
@@ -512,6 +513,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
                 object.LoteId = x.LoteId
                 object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
                 object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
+                object.HumedadPorcentaje = x.HumedadPorcentaje
                 this.listaLotesDetalleId.push(object);
               })
               
@@ -549,16 +551,19 @@ export class TagNotaSalidaEditComponent implements OnInit {
     let RendimientoPorcentaje = 0;
     let CantidadPesado = 0;
     let KilosNetosPesado = 0;
+    let HumedadPorcentaje = 0;
     this.rowsLotesDetalle.forEach(x=>{
       Total += 1;
       RendimientoPorcentaje += x.RendimientoPorcentaje;
       CantidadPesado += x.CantidadPesado;
       KilosNetosPesado += x.KilosNetosPesado;
+      HumedadPorcentaje += x.HumedadPorcentaje;
       
     });
     
     this.totales.Total = Total;
     this.totales.PorcentRendimiento = (RendimientoPorcentaje == 0) ? 0: (RendimientoPorcentaje/Total);
+    this.totales.HumedadPorcentaje =  (HumedadPorcentaje == 0) ? 0: (HumedadPorcentaje/Total);
     this.totales.CantidadTotal =CantidadPesado;
     this.totales.TotalKilos = KilosNetosPesado;
     let array : any[] = [];
