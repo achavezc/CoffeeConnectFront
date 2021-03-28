@@ -215,13 +215,14 @@
                             <ngx-datatable-column name="N° Nota Ingreso" prop="Numero" width="130">
 
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                                  <div class="d-flex align-items-center">
-                                    <div class="cell-line-height">
-                                      <a class="line-height-1 mb-0" routerLink="/operaciones/ingresoalmacen-edit" [queryParams]="{ id: row.NotaIngresoAlmacenId}" >{{ name }}</a>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0" routerLink="/operaciones/ingresoalmacen-edit"
+                                                [queryParams]="{ id: row.NotaIngresoAlmacenId}">{{ name }}</a>
+                                        </div>
                                     </div>
-                                  </div>
                                 </ng-template>
-                              </ngx-datatable-column>
+                            </ngx-datatable-column>
 
                             <ngx-datatable-column name="Código Socio" prop="CodigoSocio" width="100">
                             </ngx-datatable-column>
@@ -248,11 +249,8 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="100">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
-                                    <div class="badge" [ngClass]="{
-                          'bg-light-success': status == 'Ingresado',
-                          'bg-light-danger': status == 'Anulado',
-                          'bg-light-warning': status == 'Lotizado'
-                        }">
+                                    <div class="badge" [ngClass]="{ 'bg-light-success': status == 'Ingresado', 'bg-light-danger': status == 'Anulado', 
+                                        'bg-light-warning': status == 'Lotizado' }">
                                         {{ status }}
                                     </div>
                                 </ng-template>

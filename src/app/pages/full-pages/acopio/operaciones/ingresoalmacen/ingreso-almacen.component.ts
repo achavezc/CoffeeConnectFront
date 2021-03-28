@@ -66,26 +66,26 @@ export class IngresoAlmacenComponent implements OnInit {
   LoadForm(): void {
     this.ingresoAlmacenForm = this.fb.group({
       //nroIngreso: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      nroIngreso: ['', ],
+      nroIngreso: ['',],
       tipoDocumento: [],
       //numeroDocumento: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      numeroDocumento: ['', ],
+      numeroDocumento: ['',],
       fechaInicio: [, [Validators.required]],
       fechaFin: [, [Validators.required]],
       //codigoSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      codigoSocio: ['', ],
+      codigoSocio: ['',],
       estado: ['', Validators.required],
       //nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
-      nombreRazonSocial: ['', ],
+      nombreRazonSocial: ['',],
       almacen: [],
-      producto: ['',Validators.required],
+      producto: ['', Validators.required],
       subProducto: [],
       rendimientoInicio: [],
       rendimientoFin: [],
       puntajeFinalIni: [],
       puntajeFinalFin: []
     });
-    //this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
+    this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
   }
 
   get f() {
@@ -118,23 +118,24 @@ export class IngresoAlmacenComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let numeroGuia = group.controls['nroIngreso'].value.trim();
-      let numeroDocumento = group.controls['numeroDocumento'].value.trim();
-      let tipoDocumento = group.controls['tipoDocumento'].value;
-      let codigoSocio = group.controls['codigoSocio'].value.trim();
-      let nombre = group.controls['nombreRazonSocial'].value.trim();
-      let vProduct = group.controls['producto'].value;
-      let vByProduct = group.controls['subProducto'].value;
+      // let numeroGuia = group.controls['nroIngreso'].value.trim();
+      // let numeroDocumento = group.controls['numeroDocumento'].value.trim();
+      // let tipoDocumento = group.controls['tipoDocumento'].value;
+      // let codigoSocio = group.controls['codigoSocio'].value.trim();
+      // let nombre = group.controls['nombreRazonSocial'].value.trim();
+      // let vProduct = group.controls['producto'].value;
+      // let vByProduct = group.controls['subProducto'].value;
 
-      if (!numeroGuia && !numeroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } else if (numeroDocumento && !tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      } else if (!numeroDocumento && tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
-      } else if (vByProduct && !vProduct) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
-      } else if ((group.value.rendimientoInicio && !group.value.rendimientoFin)
+      // if (!numeroGuia && !numeroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
+      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      // } else if (numeroDocumento && !tipoDocumento) {
+      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
+      // } else if (!numeroDocumento && tipoDocumento) {
+      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
+      // } else if (vByProduct && !vProduct) {
+      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
+      // } else 
+      if ((group.value.rendimientoInicio && !group.value.rendimientoFin)
         || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores de rendimiento.' };
       } else if (group.value.rendimientoInicio && group.value.rendimientoFin && group.value.rendimientoFin <= group.value.rendimientoInicio) {
