@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
+import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component'
 
 
 @Component({
@@ -73,10 +74,6 @@ export class MateriaPrimaEditComponent implements OnInit {
   unidadMedidaPesado:any;
   form: string = "materiaprima"
 
-
-  eventsSubject: Subject<void> = new Subject<void>();
-  eventosSubject: Subject<void> = new Subject<void>();
-
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService, private filtrosProveedor: FiltrosProveedor,
@@ -116,11 +113,6 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
   );
   }
-  emitEventToChild() {
-    this.eventsSubject.next();
-    this.eventosSubject.next();
-  }
- 
   
   cargarForm() {
     let x = this.selectSubProducto;
@@ -590,6 +582,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
       }
     );  
+    //this.child.obtenerDetalle();
   }
   async cargarDataFormulario(data: any){
     await this.cargarTipoProduccion();

@@ -17,8 +17,7 @@ import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 export class ControlCalidadComponentHumedo implements OnInit {
 
    
-    @Input() detalle : any;
-    @Input() events: Observable<void>;
+      @Input() detalle : any;
       tableOlor: FormGroup;
       tableColor: FormGroup;
       listaOlor : any[];
@@ -35,8 +34,10 @@ export class ControlCalidadComponentHumedo implements OnInit {
        ngOnInit(): void {
         this.cargarForm()
          this.cargarCombos();
-         this.events.subscribe(
-          () => this.obtenerDetalle());
+         if (this.detalle)
+         {
+           this.obtenerDetalle();
+         }
        }
    
        constructor(private maestroUtil: MaestroUtil, private dateUtil: DateUtil, private router: Router, 

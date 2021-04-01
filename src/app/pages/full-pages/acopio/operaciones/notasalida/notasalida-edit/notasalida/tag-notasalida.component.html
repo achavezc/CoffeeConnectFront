@@ -142,7 +142,7 @@
                 <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">Almacen</label>
                 <div class="col-md-9">
                   <ng-select #ngSelectComponent id="validationTooltip05" [items]="listaAlmacen"
-                    [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
+                    [(ngModel)]="selectAlmacenLote" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
                     placeholder="Seleccionar Almacen"
                     [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }">
                   </ng-select>
@@ -408,7 +408,6 @@
         <label for="basicInput"> Numero de Referencia </label>
 
         <input type="text" formControlName="numreferencia" class="form-control" id="validationTooltip08" placeholder="Numero de Referencia" >
-        <!-- <small class="form-text text-muted danger" *ngIf="errorReferencia" (change)="changeNumReferencia()">Requerido</small>-->
       </div>
     
     </div>

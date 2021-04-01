@@ -23,11 +23,11 @@ export class TagNotaSalidaEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
   @Input() submittedEdit;
-  @Input() errorReferencia;
+  @Input() selectAlmacen;
   errorMessage: any;
   listaAlmacen: any[];
   listaEstado: any[];
-  selectAlmacen: any;
+  selectAlmacenLote: any;
   consultaLotes: FormGroup;
   consultaTransportistas: FormGroup;
   selectEstado: any[];
@@ -122,14 +122,6 @@ export class TagNotaSalidaEditComponent implements OnInit {
     this.calcularTotales();
   }
 
-  changeNumReferencia()
-  {
-    if (this.tagNotadeSalida.controls["motivotranslado"].value == "02" && this.tagNotadeSalida.controls["numreferencia"].value != "")
-    {
-      this.errorReferencia = false;
-    }
-
-  }
   changeMotivo(e)
   {
     if ( e.Codigo == this.valueMotivoSalidaTransf)
@@ -232,7 +224,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   cargarLotes() {
     this.consultaLotes = new FormGroup(
       {
-        almacen: new FormControl('', []),
+        almacen: new FormControl({value:'' , disabled: true}, []),
         numeroLote: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaInicio: new FormControl('', [Validators.required]),
         fechaFinal:new FormControl('', [Validators.required]),
@@ -562,8 +554,8 @@ export class TagNotaSalidaEditComponent implements OnInit {
     });
     
     this.totales.Total = Total;
-    this.totales.PorcentRendimiento = (RendimientoPorcentaje == 0) ? 0: (RendimientoPorcentaje/Total);
-    this.totales.HumedadPorcentaje =  (HumedadPorcentaje == 0) ? 0: (HumedadPorcentaje/Total);
+    this.totales.PorcentRendimiento = (RendimientoPorcentaje == 0) ? 0: (RendimientoPorcentaje/Total).toFixed(2);
+    this.totales.HumedadPorcentaje =  (HumedadPorcentaje == 0) ? 0: (HumedadPorcentaje/Total).toFixed(2);
     this.totales.CantidadTotal =CantidadPesado;
     this.totales.TotalKilos = KilosNetosPesado;
     let array : any[] = [];

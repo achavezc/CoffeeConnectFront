@@ -43,7 +43,8 @@
                   <div class="col-md-6 form-group">
                     <ng-select id="validationTooltip05" [items]="listaAlmacen" class="form-control"
                       [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
-                      placeholder="Seleccionar Almacen" [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }">
+                      placeholder="Seleccionar Almacen" [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }"
+                      (change)= "seleccionarTipoAlmacen()">
                     </ng-select>
 
                     <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">Ingrese Tipo Almacén</small>
@@ -117,7 +118,7 @@
                           <div class="form-group row">
                             <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">RAZON SOCIAL</label>
                             <div class="col-md-9">
-                              <input type="text" minlength="8" maxlength="20" formControlName="rzsocial"
+                              <input type="text" minlength="5" maxlength="20" formControlName="rzsocial"
                                 class="form-control" id="validationTooltip08" placeholder="Razon Social"
                                 [ngClass]="{ 'is-invalid': submittedE && fe.rzsocial.invalid, 'is-valid': submittedE && !fe.rzsocial.invalid }">
                                 <small class="form-text text-muted danger" *ngIf="fe.rzsocial.errors?.minlength">Ingrese 5 a 20
@@ -220,7 +221,7 @@
                   </a>
                   <ng-template ngbNavContent>
 
-                    <app-tagNotasalida formGroupName="tagcalidad" [errorReferencia]=[errorReferencia] [submittedEdit] = "submittedEdit"></app-tagNotasalida>
+                    <app-tagNotasalida formGroupName="tagcalidad" [selectAlmacen] = "selectAlmacen" [submittedEdit] = "submittedEdit"></app-tagNotasalida>
 
                     
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
@@ -242,12 +243,11 @@
                   </ng-template>
                 </li>
                 <li [ngbNavItem]="2">
-                  <a (click)="emitEventToChild()" ngbNavLink
-                  [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'">
+                  <a ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'">
                     <span class="d-none d-sm-block">Control de Calidad</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-controlCalidadSeco [form] = "form" [events]="eventsSubject.asObservable()" [detalle] = "detalle" ></app-controlCalidadSeco>
+                    <app-controlCalidadSeco [form] = "form" [detalle] = "detalle" ></app-controlCalidadSeco>
                   </ng-template>
                 </li>
               </ul>

@@ -1,8 +1,5 @@
 import { Component, OnInit,Input, ViewChild} from '@angular/core';
-import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
-import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn , FormArray, FormBuilder} from '@angular/forms';
-import {NumeroUtil} from "../../../../../../../../services/util/numeros-util";
 import {AcopioService} from '../../../../../../../../services/acopio.service';
 import {ReqControlCalidad, AnalisisFisicoColorDetalleList, AnalisisFisicoOlorDetalleList, AnalisisFisicoDefectoPrimarioDetalleList,
   AnalisisFisicoDefectoSecundarioDetalleList, RegistroTostadoIndicadorDetalleList, AnalisisSensorialDefectoDetalleList,
@@ -13,6 +10,7 @@ import {Router} from "@angular/router";
 import { ILogin } from '../../../../../../../../services/models/login';
 import { DateUtil } from '../../../../../../../../services/util/date-util';
 import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-salida-almacen.service';
+import { MaestroService } from '../../../../../../../../services/maestro.service';
 
 
 @Component({
@@ -32,7 +30,6 @@ export class ControlCalidadComponent implements OnInit {
    formControlCalidad: FormGroup;
    tableOlor: FormGroup;
    tableColor: FormGroup;
-   //tableAnalisisSensorial: FormGroup;
    tableDefectosPrimarios: FormGroup;
    tableDefectosSecundarios: FormGroup;
    tableSensorialDefectos: FormGroup;
@@ -54,106 +51,103 @@ export class ControlCalidadComponent implements OnInit {
    mensajeErrorGenerico = "Ocurrio un error interno.";
    responsable: string;
    fechaCalidad: string;
-   
-   @Input() events: Observable<void>;
 
-  constructor(private maestroUtil: MaestroUtil, private fb: FormBuilder,
+  constructor(
     private acopioService : AcopioService,  private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil, private router: Router, private dateUtil: DateUtil,
-    private notaSalidaAlmacenService: NotaSalidaAlmacenService){
+    private notaSalidaAlmacenService: NotaSalidaAlmacenService, private maestroService: MaestroService){
+     
   } 
-  
+    
   ngOnInit(): void
     { 
-      this.cargarCombos();
-      this.cargarForm();
-      this.events.subscribe(
-        () => this.obtenerDetalle());
+    
+    this.cargarForm();
+    this.cargarCombos();
+    
     }
-    cargarCombos()
+
+    async cargarCombos()
     {
     var form = this;
-    this.maestroUtil.obtenerMaestros("DefectosPrimarios", function (res) {
-      if (res.Result.Success) {
-        form.listaDefectosPrimarios = res.Result.Data;
-        let group={}    
-        form.listaDefectosPrimarios.forEach(input_template=>{
-          group['DefPrimario%'+input_template.Codigo]=new FormControl('',[]);  
-        })
-        group['SubTotalDefPrimarios'] =new FormControl('',[]);
-        form.tableDefectosPrimarios = new FormGroup(group);
-      }
-    });
-    this.maestroUtil.obtenerMaestros("DefectosSecundarios", function (res) {
-      if (res.Result.Success) {
-        form.listaDefectosSecundarios = res.Result.Data;
-        let group={}    
-        form.listaDefectosSecundarios.forEach(input_template=>{
-          group['DefSecundarios%'+input_template.Codigo]=new FormControl('',[]);  
-        })
-        
-        form.tableDefectosSecundarios = new FormGroup(group);
-      }
-    });
-    this.maestroUtil.obtenerMaestros("Olor", function (res) {
-      if (res.Result.Success) {
-      form.listaOlor = res.Result.Data;
+    var dataDefP = await this.maestroService.obtenerMaestros("DefectosPrimarios").toPromise();
+    if (dataDefP.Result.Success) {
+      form.listaDefectosPrimarios = dataDefP.Result.Data;
+      let group={}    
+      form.listaDefectosPrimarios.forEach(input_template=>{
+        group['DefPrimario%'+input_template.Codigo]=new FormControl('',[]);  
+      })
+      group['SubTotalDefPrimarios'] =new FormControl('',[]);
+      form.tableDefectosPrimarios = new FormGroup(group);
+    }
+    var dataDefS = await this.maestroService.obtenerMaestros("DefectosSecundarios").toPromise();
+    if (dataDefS.Result.Success) {
+      form.listaDefectosSecundarios = dataDefS.Result.Data;
+      let group={}    
+      form.listaDefectosSecundarios.forEach(input_template=>{
+        group['DefSecundarios%'+input_template.Codigo]=new FormControl('',[]);  
+      })
+      
+      form.tableDefectosSecundarios = new FormGroup(group);
+    }
+    var dataOlor = await this.maestroService.obtenerMaestros("Olor").toPromise();
+    if (dataOlor.Result.Success) {
+      form.listaOlor = dataOlor.Result.Data;
       let group={}    
         form.listaOlor.forEach(input_template=>{
           group['CheckboxOlor%'+input_template.Codigo]=new FormControl('',[]);  
         })
         form.tableOlor = new FormGroup(group);
       }
-    });
-    this.maestroUtil.obtenerMaestros("Color", function (res) {
-      if (res.Result.Success) {
-        form.listaColor = res.Result.Data;
-        let group={}    
-        form.listaColor.forEach(input_template=>{
-          group['CheckboxColor%'+input_template.Codigo]=new FormControl('',[]);  
-        })
-        form.tableColor = new FormGroup(group);
-      }
-    });
-    this.maestroUtil.obtenerMaestros("SensorialRanking", function (res) {
-      if (res.Result.Success) {
-        form.listaSensorialRanking = res.Result.Data;
-        form.valorMinMax();
-      }
-    });
-    this.maestroUtil.obtenerMaestros("SensorialAtributos", function (res) {
-      if (res.Result.Success) {
-        form.listaSensorialAtributos = res.Result.Data;
-        let group={}    
-        form.listaSensorialAtributos.forEach(input_template=>{
-          group['sensorialAtrib%'+input_template.Codigo]=new FormControl('',[Validators.max(form.maxSensorial),Validators.min(form.minSensorial)]);  
-          group['sensorialAtribRanking%'+input_template.Codigo]=new FormControl('',[]);  
-        })
-        form.tableSensorialRanking = new FormGroup(group);
-      }
-    });
-    this.maestroUtil.obtenerMaestros("SensorialDefectos", function (res) {
-      if (res.Result.Success) {
-        form.listaSensorialDefectos = res.Result.Data;
-        let group={}  
-        form.listaSensorialDefectos.forEach(input_template=>{
-          group['checkboxSenDefectos%'+input_template.Codigo]=new FormControl('',[]);  
-        })
-        form.tableSensorialDefectos = new FormGroup(group);
-      }
-    });
-    this.maestroUtil.obtenerMaestros("IndicadorTostado", function (res) {
-      if (res.Result.Success) {
-        form.listaIndicadorTostado= res.Result.Data;
-        let group={}    
-        form.listaIndicadorTostado.forEach(input_template=>{
-          group['tostado%'+input_template.Codigo]=new FormControl('',[]);  
-        })
-        form.tableRegistroTostado = new FormGroup(group);
-      }
-    });
-    
+    var dataColor = await this.maestroService.obtenerMaestros("Color").toPromise();
+    if (dataColor.Result.Success) {
+      form.listaColor = dataColor.Result.Data;
+      let group={}    
+      form.listaColor.forEach(input_template=>{
+        group['CheckboxColor%'+input_template.Codigo]=new FormControl('',[]);  
+      })
+      form.tableColor = new FormGroup(group);
     }
+    var dataSenR =  await this.maestroService.obtenerMaestros("SensorialRanking").toPromise();
+    if (dataSenR.Result.Success) {
+      form.listaSensorialRanking = dataSenR.Result.Data;
+      form.valorMinMax();
+    }
+    var dataSenA = await this.maestroService.obtenerMaestros("SensorialAtributos").toPromise();
+    if (dataSenA.Result.Success) {
+      form.listaSensorialAtributos = dataSenA.Result.Data;
+      let group={}    
+      form.listaSensorialAtributos.forEach(input_template=>{
+        group['sensorialAtrib%'+input_template.Codigo]=new FormControl('',[Validators.max(form.maxSensorial),Validators.min(form.minSensorial)]);  
+        group['sensorialAtribRanking%'+input_template.Codigo]=new FormControl('',[]);  
+      })
+      form.tableSensorialRanking = new FormGroup(group);
+    }
+    var dataSenD = await  this.maestroService.obtenerMaestros("SensorialDefectos").toPromise();
+    if (dataSenD.Result.Success) {
+      form.listaSensorialDefectos = dataSenD.Result.Data;
+      let group={}  
+      form.listaSensorialDefectos.forEach(input_template=>{
+        group['checkboxSenDefectos%'+input_template.Codigo]=new FormControl('',[]);  
+      })
+      form.tableSensorialDefectos = new FormGroup(group);
+    }
+    var dataInT = await this.maestroService.obtenerMaestros("IndicadorTostado").toPromise();;
+    if (dataInT.Result.Success) {
+      form.listaIndicadorTostado= dataInT.Result.Data;
+      let group={}    
+      form.listaIndicadorTostado.forEach(input_template=>{
+        group['tostado%'+input_template.Codigo]=new FormControl('',[]);  
+      })
+      form.tableRegistroTostado = new FormGroup(group);
+    }
+    if (this.detalle)
+    {
+     this.obtenerDetalle();
+    }
+    }
+
+
      cargarForm() {
     this.formControlCalidad = new FormGroup(
       {
@@ -600,7 +594,7 @@ export class ControlCalidadComponent implements OnInit {
  }
 
  
- obtenerDetalle()
+  obtenerDetalle()
  {
   var form = this;
   let puntajeFinal: number = 0;

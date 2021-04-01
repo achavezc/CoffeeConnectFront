@@ -33,7 +33,6 @@ export class NotaCompraComponent implements OnInit {
   numeroNotaCompra = "";
   estado = "";
 
-  @Input() events: Observable<void>;
   constructor(
     private maestroService: MaestroService,
     private notaCompraService: NotaCompraService,
@@ -49,8 +48,10 @@ export class NotaCompraComponent implements OnInit {
     
     this.cargarForm();
     
-    this.events.subscribe(
-      () => this.obtenerDetalle());
+    if (this.detalle)
+    {
+      this.obtenerDetalle();
+    }
   }
   
   cargarForm() {

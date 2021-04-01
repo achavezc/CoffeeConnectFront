@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input,ViewChild } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
@@ -9,7 +9,6 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import {Router} from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { Subject } from 'rxjs';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ReqNotaSalida, NotaSalidaAlmacenDetalleDTO } from '../../../../../../services/models/req-salidaalmacen-actualizar';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
@@ -27,7 +26,6 @@ export class NotaSalidaEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
   @ViewChild(TagNotaSalidaEditComponent) child;
-  errorReferencia: any;
   selectClasificacion: any;
   consultaEmpresas: FormGroup;
   submitted = false;
@@ -45,8 +43,6 @@ export class NotaSalidaEditComponent implements OnInit {
   public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
-  eventsNsSubject: Subject<any> = new Subject<any>();
-  eventsSubject: Subject<void> = new Subject<void>();
   filtrosEmpresaProv: any= {};
   listaClasificacion = [];
   listaAlmacen: any[];
@@ -79,6 +75,11 @@ export class NotaSalidaEditComponent implements OnInit {
   }
   singleSelectCheck(row: any) {
     return this.selectedE.indexOf(row) === -1;
+  }
+
+  seleccionarTipoAlmacen()
+  {
+    this.child.selectAlmacenLote = this.selectAlmacen;
   }
  
   ngOnInit(): void {
@@ -164,12 +165,7 @@ export class NotaSalidaEditComponent implements OnInit {
     this.almacen = data.Almacen;
     this.responsable = data.UsuarioRegistro;
     this.spinner.hide();   
-  }
-
-  emitEventToChild() {
-    this.eventsNsSubject.next();
-    this.eventsSubject.next();
-  }
+  } 
 
   get fns() {
     return this.notaSalidaFormEdit.controls;
@@ -198,7 +194,6 @@ export class NotaSalidaEditComponent implements OnInit {
             observacion: new FormControl('', [])
           }),
         });
-        this.notaSalidaFormEdit.setValidators(this.comparisonValidator())
         this.maestroService.obtenerMaestros("Almacen")
         .subscribe(res => {
           if (res.Result.Success) {
@@ -286,22 +281,7 @@ openModal(modalEmpresa) {
   get fedit() {
     return this.notaSalidaFormEdit.controls;
   }
-  public comparisonValidator(): ValidatorFn {
-    return (group: FormGroup): ValidationErrors => {
-
-      const numreferencia = group.get('tagcalidad').get("numreferencia").value;
-      const motivotranslado = group.get('tagcalidad').get("motivotranslado").value;
-
-    if ( motivotranslado== "02" && numreferencia == "") {
-      this.errorReferencia = true;
-      }     
-    else {
-      this.errorReferencia =false;
-      }
-      
-      return;
-    };
-  }
+  
 
 
 cancelar(){

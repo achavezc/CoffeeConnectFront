@@ -382,27 +382,27 @@
                
               </li>
               <li [ngbNavItem]="2"  >
-                <a (click)="emitEventToChild()"  ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'" >
+                <a  ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'" >
                   <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
                 </a>
                 
                
                   <ng-template ngbNavContent *ngIf="viewTagSeco">
-                  <app-controlCalidadSeco [events]="eventsSubject.asObservable()" *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadSeco>
+                  <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadSeco>
                   </ng-template>
 
                  <ng-template ngbNavContent *ngIf="!viewTagSeco" >
-                    <app-controlCalidadHumedo  [events]="eventosSubject.asObservable()" *ngIf="detalle" [detalle]="detalle" ></app-controlCalidadHumedo>
+                    <app-controlCalidadHumedo  *ngIf="detalle" [detalle]="detalle" ></app-controlCalidadHumedo>
                     </ng-template>
                     
 
               </li>
               <li [ngbNavItem]="3">
-                <a (click)="emitEventToChild()" ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
+                <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
                   <span class="d-none d-sm-block" style="font-size: 1.1rem;">Nota de Compra</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <app-notacompra [events]="eventsSubject.asObservable()" *ngIf = "detalle" [detalle]="detalle"></app-notacompra>
+                  <app-notacompra *ngIf = "detalle" [detalle]="detalle"></app-notacompra>
                 </ng-template>
               </li>
             </ul>
