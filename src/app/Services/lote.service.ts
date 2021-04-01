@@ -44,4 +44,9 @@ export class LoteService {
     let url = `${this.url}/ConsultarLoteDetallePorLoteId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+
+  ConsultarEtiquetasLote(request: any) {
+    let url = `${this.url}/ConsultarEtiquetasLote`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
 }

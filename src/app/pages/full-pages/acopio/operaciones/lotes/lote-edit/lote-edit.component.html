@@ -124,11 +124,11 @@
                     <table class="table table-sm">
                         <tbody>
                             <tr>
-                                <td>TOTAL PESO NETO (KG)</td>
+                                <td>TOTAL PESO BRUTO (KG)</td>
                                 <td>
                                     <input type="number" name="totalPesoNeto" id="totalPesoNeto"
                                         formControlName="totalPesoNeto" class="form-control form-control-sm text-right"
-                                        placeholder="Total peso neto (kg)" [readonly]="true">
+                                        placeholder="Total peso bruto (kg)" [readonly]="true">
                                 </td>
                             </tr>
                             <tr>
@@ -163,15 +163,18 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-lg-8 col-md-8 col-sm-8">
+                <div class="col-lg-9 col-md-9 col-sm-9">
                     <small class="form-label text-muted danger" *ngIf="errorGeneral.isError">
                         {{errorGeneral.msgError}}
                     </small>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="col-lg-1 col-md-1 col-sm-1">
+                    <button class="btn btn-primary" (click)="Print()">Imprimir</button>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1">
                     <button class="btn btn-primary" (click)="Save()">Guardar</button>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="col-lg-1 col-md-1 col-sm-1">
                     <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                 </div>
             </div>

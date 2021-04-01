@@ -303,7 +303,7 @@
             </div>
 
             <ngx-spinner></ngx-spinner>
-            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="guardar()">Guardar</button>
+            <button class="btn btn-primary mr-1 mb-1" type="submit" *ngIf="estadoId != estadoLiquidado" (click)="guardar()">Guardar</button>
 
             <button type="button" class="btn btn-primary mr-1 mb-1" (click)="Print()"
                 *ngIf="detalle.NotaCompra != null">Imprimir</button>

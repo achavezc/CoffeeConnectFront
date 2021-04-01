@@ -32,6 +32,8 @@ export class NotaCompraComponent implements OnInit {
   subedit = false;
   numeroNotaCompra = "";
   estado = "";
+  estadoId = "";
+  estadoLiquidado = "02"
 
   constructor(
     private maestroService: MaestroService,
@@ -145,6 +147,7 @@ export class NotaCompraComponent implements OnInit {
     this.numeroNotaCompra = data.NotaCompra.Numero;
     this.estado = data.NotaCompra.Estado;
     this.id = data.NotaCompra.NotaCompraId
+    this.estadoId= data.NotaCompra.EstadoId;
     this.notaCompraForm.controls['numero'].setValue(data.NotaCompra.Numero);
     this.notaCompraForm.controls['tipo'].setValue(data.NotaCompra.TipoId);
     this.notaCompraForm.controls['unidadMedida'].setValue(data.NotaCompra.UnidadMedidaIdPesado);
@@ -185,6 +188,11 @@ export class NotaCompraComponent implements OnInit {
     this.notaCompraForm.controls['descarteAT'].setValue(data.DescarteGramosAnalisisFisico);
     this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
     this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
+
+    if(this.estadoId = this.estadoLiquidado){    
+      this.notaCompraForm.controls['tipo'].disable();
+      this.notaCompraForm.controls['dsctoHumedadPC'].disable();
+      }
   }
  }
 
