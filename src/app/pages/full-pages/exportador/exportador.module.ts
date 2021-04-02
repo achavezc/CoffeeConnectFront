@@ -21,6 +21,8 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { OrdenServicioComponent } from './ordenservicio/orden-servicio.component';
+import { ClienteComponent } from './cliente/cliente.component';
+import { ContratoComponent } from './contrato/contrato.component';
 
 @NgModule({
   imports: [
@@ -44,7 +46,9 @@ import { OrdenServicioComponent } from './ordenservicio/orden-servicio.component
     NgxSpinnerModule
   ],
   declarations: [
-    OrdenServicioComponent
+    OrdenServicioComponent,
+    ClienteComponent,
+    ContratoComponent
   ],
   exports: [],
   providers: [
