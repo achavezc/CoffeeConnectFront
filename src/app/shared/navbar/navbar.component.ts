@@ -8,7 +8,7 @@ import { CustomizerService } from '../services/customizer.service';
 import { FormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
-import { ILogin} from '../../services/models/login';
+import { ILogin } from '../../services/models/login';
 
 @Component({
   selector: "app-navbar",
@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   layoutSub: Subscription;
   configSub: Subscription;
   nombreUsuario: "Pamela";
-  img:"";
+  img: "";
 
   @ViewChild('search') searchElement: ElementRef;
   @ViewChildren('searchResults') searchResults: QueryList<any>;
@@ -69,8 +69,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.listItems = LISTITEMS;
-    this.login  = JSON.parse(localStorage.getItem("user"));
-    this.user  = this.login.Result.Data.NombreCompletoUsuario;
+    this.login = JSON.parse(localStorage.getItem("user"));
+    this.user = this.login.Result.Data.NombreCompletoUsuario;
 
     if (this.innerWidth < 1200) {
       this.isSmallScreen = true;
@@ -188,7 +188,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedLanguageText = "Spanish";
       this.selectedLanguageFlag = "./assets/img/flags/es.png";
     }
-    
+
   }
 
   ToggleClass() {

@@ -8,15 +8,17 @@
       <!-- First level menu -->
       <li appTopMenulink *ngFor="let menuItem of menuItems" [parent]="menuItem.title" level="{{level + 1}}"
         [attr.data-menu]="menuItem.class === 'dropdown nav-item' ? 'dropdown' : null" [ngClass]="[menuItem.class]"
-        [routerLinkActive]="menuItem.submenu.length != 0 ? 'active' : 'active'" [routerLinkActiveOptions]="{exact: true}">
+        [routerLinkActive]="menuItem.submenu.length != 0 ? 'active' : 'active'"
+        [routerLinkActiveOptions]="{exact: true}">
 
         <a appTopMenuAnchorToggle *ngIf="menuItem.submenu.length > 0 && !menuItem.isExternalLink" data-toggle="dropdown"
           class="dropdown-toggle nav-link d-flex align-items-center">
           <i [ngClass]="[menuItem.icon]"></i>
           <span>{{menuItem.title | translate }}</span>
         </a>
-        <a appTopMenuAnchorToggle routerLink="{{menuItem.path}}" *ngIf="menuItem.submenu.length === 0 && !menuItem.isExternalLink"
-          data-toggle="dropdown" class="nav-link d-flex align-items-center">
+        <a appTopMenuAnchorToggle routerLink="{{menuItem.path}}"
+          *ngIf="menuItem.submenu.length === 0 && !menuItem.isExternalLink" data-toggle="dropdown"
+          class="nav-link d-flex align-items-center">
           <i [ngClass]="[menuItem.icon]"></i>
           <span>{{menuItem.title | translate }}</span>
         </a>
@@ -38,7 +40,8 @@
               <i [ngClass]="[menuSubItem.icon]"></i>
               <span>{{menuSubItem.title | translate }}</span>
             </a>
-            <a appTopMenuAnchorToggle routerLink="{{menuSubItem.path}}" *ngIf="menuSubItem.submenu.length === 0 && !menuSubItem.isExternalLink"
+            <a appTopMenuAnchorToggle routerLink="{{menuSubItem.path}}"
+              *ngIf="menuSubItem.submenu.length === 0 && !menuSubItem.isExternalLink"
               [ngClass]="'dropdown-item d-flex align-items-center'">
               <i [ngClass]="[menuSubItem.icon]"></i>
               <span>{{menuSubItem.title | translate }}</span>
