@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: () => import('./agropecuario/agropecuario.module').then(m => m.AgropecuarioModule)
   },
   {
+    path: 'exportador',
+    loadChildren: () => import('./exportador/exportador.module').then(m => m.ExportadorModule)
+  },
+  {
     path: '',
     children: [
       {

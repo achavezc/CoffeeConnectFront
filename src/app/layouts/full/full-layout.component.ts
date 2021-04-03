@@ -62,7 +62,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.layoutSub = layoutService.toggleSidebar$.subscribe(
       isShow => {
         this.hideSidebar = !isShow;
-        if(this.hideSidebar) {
+        if (this.hideSidebar) {
           this.overlayContent = false;
         } else {
           this.overlayContent = true;
@@ -301,7 +301,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     const isTablet = this.deviceService.isTablet();
 
     if (isMobile || isTablet) {
-      if(!this.hideSidebar){
+      if (!this.hideSidebar) {
         this.renderer.addClass(this.document.body, "overflow-hidden");
       } else {
         this.renderer.removeClass(this.document.body, "overflow-hidden");

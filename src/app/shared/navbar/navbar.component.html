@@ -1,5 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light header-navbar {{transparentBGClass}}"
-  [ngClass]="{'navbar-brand-center': menuPosition === 'Top', 'navbar-static': menuPosition === 'Side' &&
+<nav class="navbar navbar-expand-lg navbar-light header-navbar {{transparentBGClass}}" [ngClass]="{'navbar-brand-center': menuPosition === 'Top', 'navbar-static': menuPosition === 'Side' &&
   config?.layout.navbar.type === 'Static' , 'navbar-sticky': menuPosition === 'Side' &&
   config?.layout.navbar.type === 'Fixed', 'fixed-top': isSmallScreen && menuPosition === 'Top'}">
   <div class="container-fluid navbar-wrapper">
@@ -13,7 +12,7 @@
           <a class="nav-link apptogglefullscreen" id="navbar-fullscreen" href="javascript:;" appToggleFullscreen
             (click)="ToggleClass()"><i class=" {{toggleClass}} font-medium-3"></i></a>
         </li>
-      <!-- <li class="nav-item nav-search">
+        <!-- <li class="nav-item nav-search">
          <a class="nav-link nav-link-search" id="navbar-search" href="javascript:" (click)="toggleSearchOpenClass(true)"><i
               class="ft-search font-medium-3"></i></a>
           <div class="search-input {{searchOpenClass}}">
@@ -59,7 +58,7 @@
     <div class="navbar-container">
       <div class="collapse navbar-collapse d-block" id="navbarSupportedContent">
         <ul class="navbar-nav">
-          <li class="i18n-dropdown dropdown nav-item mr-2" display="dynamic" ngbDropdown >
+          <li class="i18n-dropdown dropdown nav-item mr-2" display="dynamic" ngbDropdown>
             <a class="nav-link d-flex align-items-center dropdown-toggle dropdown-language" id="dropdown-flag"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle><img class="langimg selected-flag"
                 [src]="selectedLanguageFlag" alt="flag" /><span
@@ -67,12 +66,12 @@
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="dropdown-flag">
               <a class="dropdown-item" href="javascript:;" data-language="en" (click)="ChangeLanguage('en')"><img
                   class="langimg mr-2" src="./assets/img/flags/us.png" alt="flag" /><span
-                  class="font-small-3">English</span></a><a class="dropdown-item" href="javascript:;" data-language="es" (click)="ChangeLanguage('es')"
-               ><img class="langimg mr-2" src="./assets/img/flags/es.png"
+                  class="font-small-3">English</span></a><a class="dropdown-item" href="javascript:;" data-language="es"
+                (click)="ChangeLanguage('es')"><img class="langimg mr-2" src="./assets/img/flags/es.png"
                   alt="flag" /><span class="font-small-3">Spanish</span></a>
             </div>
           </li>
-         <!--<li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
+          <!--<li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
           <a class="nav-link dropdown-toggle dropdown-notification p-0 mt-2" id="drp-notification" href="javascript:;"
               data-toggle="dropdown" ngbDropdownToggle><i class="ft-bell font-medium-3"></i><span
                 class="notification badge badge-pill badge-danger">4</span></a>
@@ -257,7 +256,7 @@
               </li>
             </ul>
           </li>-->
-          <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown >
+          <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown>
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-center" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
               <div class="user d-md-flex d-none mr-1">
@@ -268,7 +267,7 @@
             </a>
             <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0" aria-labelledby="dropdownBasic2"
               ngbDropdownMenu>
-             <!-- <a class="dropdown-item" routerLink="/chat">
+              <!-- <a class="dropdown-item" routerLink="/chat">
                 <div class="d-flex align-items-center">
                   <i class="ft-message-square mr-2"></i><span>Chat</span>
                 </div>
@@ -291,7 +290,7 @@
               </a>
             </div>
           </li>
-        <!--  <li class="nav-item d-none d-lg-block mr-2 mt-1">
+          <!--  <li class="nav-item d-none d-lg-block mr-2 mt-1">
             <a class="nav-link notification-sidebar-toggle" (click)="toggleNotificationSidebar();"><i
                 class="ft-align-right font-medium-3"></i></a>
           </li>-->
