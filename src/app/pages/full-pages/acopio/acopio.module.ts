@@ -31,11 +31,16 @@ import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-al
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
+
+import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenservicio-edit/ordenservicio-edit.component';
 import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { NotaCompraComponent } from "./operaciones/materiaprima/materiaprima-edit/notacompra/notacompra.component";
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
 import {TagNotaSalidaEditComponent} from './operaciones/notasalida/notasalida-edit/notasalida/tag-notasalida.component';
+import {TagOrdenServicioComponent} from './operaciones/ordenservicio/ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component'
 import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingresoalmacen-edit/ingresoalmacen-edit.component';
+//import {MConsultarLotesComponent} from '../modals/consultarLotes/consultar-lotes.component'
+import {ModalModule} from '../modals/modal.module'
 
 @NgModule({
   imports: [
@@ -56,7 +61,8 @@ import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingres
     TagInputModule,
     QuillModule,
     MatchHeightModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ModalModule
   ],
   declarations: [
     MateriaPrimaListComponent,
@@ -70,18 +76,23 @@ import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingres
     LotesComponent,
     NotaSalidaComponent,
     OrdenServicioComponent,
+    OrdenServicioEditComponent,
     NotaCompraEditComponent,
     NotaCompraComponent,
     LoteEditComponent,
     TagNotaSalidaEditComponent,
-    IngresoAlmacenEditComponent
+    IngresoAlmacenEditComponent,
+    TagOrdenServicioComponent
+    
     
   ],
   exports: [
     PesadoCafeComponent,
     ControlCalidadComponent,
     ControlCalidadComponentHumedo,
-    TagNotaSalidaEditComponent
+    TagNotaSalidaEditComponent,
+    OrdenServicioEditComponent,
+    TagOrdenServicioComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

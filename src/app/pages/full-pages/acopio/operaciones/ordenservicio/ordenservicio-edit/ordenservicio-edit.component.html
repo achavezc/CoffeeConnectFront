@@ -1,0 +1,293 @@
+<form class="needs-validation" [formGroup]="ordenServicioFormEdit">
+    <section id="tooltip-validation">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 2rem;">  
+              <div class="row">
+                <div class="col-12 col-md-8">
+                  <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                  <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                  <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+  
+                  <div class="form-row">
+  
+                    <div class="col-md-6 form-group" *ngIf="esEdit">
+                      <label class="card-forms" for="users-edit-name">N° ORDEN DE SERVICIO</label>
+                    </div>
+  
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
+                    </div>
+                  </div>
+                  <div class="form-row">
+  
+                    <div class="col-md-6 form-group" *ngIf="esEdit">
+                      <label class="card-forms" for="users-edit-email">FECHA</label>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms" for="users-edit-username"
+                        style="font-weight: bold;">{{fechaRegistro}}</label>
+                    </div>
+                  </div>
+                  <div class="form-row">
+  
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms">ESTADO</label>
+                    </div>
+  
+                    <div class="col-md-6 form-group">
+                      <ng-select id="validationTooltip05" [items]="listaEstado" class="form-control"
+                        [(ngModel)]="selectEstado" formControlName="estado" bindLabel="Label" bindValue="Codigo"
+                        placeholder="Seleccionar Estado" [ngClass]="{ 'is-invalid': submittedEdit && fedit.estado.invalid, 'is-valid': submittedEdit && !fedit.estado.invalid }">
+                      </ng-select>
+  
+                      <small class="form-text text-muted danger" *ngIf="fedit.estado.errors?.required">Ingrese Estado</small>
+                    </div>
+                  </div>
+  
+                </div>
+  
+              </div>
+  
+             
+              <div class="row"
+              style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+              <div class="card-subtitle-form">DATOS DEL EMPRESA</div>
+            </div>
+
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+              <div class="col-12 col-md-5">
+                <label for="basicInput">Destinatario</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="destinatario" disabled
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                <small class="form-text text-muted danger" *ngIf="fedit.destinatario.errors?.required">Ingrese
+                  Destinatario</small>
+
+                <label for="basicInput">Ruc</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
+
+              </div>
+              <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                 <app-consultar-empresa (empresaEvent)="receiveMessage($event)"></app-consultar-empresa>
+                </ng-template>
+                <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                  style="margin-top: 1.5rem;">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+              <div class="col-12 col-md-5">
+                <label for="basicInput">Direccion de Partida</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="dirPartida" disabled>
+                <label for="basicInput">Direccion de Destino</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="dirDestino" disabled>
+              </div>
+             
+            </div>
+              <!--<div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 4rem;">
+                <div class="col-12 col-md-5">
+                  <label for="basicInput">Destinatario</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="destinatario" disabled
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fns.destinatario.invalid, 'is-valid': submittedEdit && !fns.destinatario.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="fns.destinatario.errors?.required">Ingrese
+                    Destinatario</small>
+  
+                  <label for="basicInput">Ruc</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
+  
+                </div>
+                <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                  <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                    <div class="modal-header" style="text-align: center;">
+  
+                      <h4 class="modal-title" style="font-size: 1rem;">Busqueda de Empresas</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form [formGroup]="consultaEmpresas" class="needs-validation"
+                        style="padding-left: 0.3rem; padding-right: 0.3rem;">
+                        <ngx-spinner></ngx-spinner>
+                        <div class="row"
+                          style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                          <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
+                        </div>
+                        <div class="row" style="margin-top: 1rem;">
+                          <div class="col-12 col-md-6">
+                            <div class="form-group row">
+                              <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">RUC</label>
+                              <div class="col-md-9">
+                                <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
+                                  id="validationTooltip08" placeholder="RUC"
+                                  [ngClass]="{ 'is-invalid': submitted && fe.ruc.invalid, 'is-valid': submitted && !fe.ruc.invalid }">
+                                <small class="form-text text-muted danger" *ngIf="fe.ruc.errors?.minlength">Ingrese 8 a 20
+                                  letras</small>
+                                <small class="form-text text-muted danger" *ngIf="fe.ruc.errors?.maxlength">Ingrese 8 a 20
+                                  letras</small>
+                              </div>
+                            </div>
+  
+                            <div class="form-group row" style="margin-top: 1rem">
+                              <label for="validationTooltip05"
+                                class="col-md-3 col-form-label card-text2">CLASIFICACION</label>
+                              <div class="col-md-9">
+                                <ng-select [items]="listaClasificacion" bindLabel="name" [(ngModel)]="selectClasificacion"
+                                  class="form-control" placeholder="Seleccionar Clasificacion"
+                                  formControlName="clasificacion" bindLabel="Label" bindValue="Codigo"
+                                  [ngClass]="{ 'is-invalid': submittedE && fe.clasificacion.invalid, 'is-valid': submittedE && !fe.clasificacion.invalid }">
+                                </ng-select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6">
+                            <div class="form-group row">
+                              <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">RAZON
+                                SOCIAL</label>
+                              <div class="col-md-9">
+                                <input type="text" minlength="5" maxlength="20" formControlName="rzsocial"
+                                  class="form-control" id="validationTooltip08" placeholder="Razon Social"
+                                  [ngClass]="{ 'is-invalid': submittedE && fe.rzsocial.invalid, 'is-valid': submittedE && !fe.rzsocial.invalid }">
+                                <small class="form-text text-muted danger" *ngIf="fe.rzsocial.errors?.minlength">Ingrese 5
+                                  a 20
+                                  letras</small>
+                                <small class="form-text text-muted danger" *ngIf="fe.rzsocial.errors?.maxlength">Ingrese 5
+                                  a 20
+                                  letras</small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-md-10">
+                                <small class="form-text text-muted danger"
+                                  *ngIf="errorEmpresa.isError">{{errorEmpresa.errorMessage}}</small>
+                              </div>
+                              <div class="col-md-2 justify-content-end">
+                                <button class="btn btn-primary mr-1 mb-1" type="submitE"
+                                  (click)="buscar()">Buscar</button>
+                              </div>
+  
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="row">
+                          <div class="col-12">
+                            <fieldset class="form-group">
+                              <label style="font-size: 0.6rem;">Show
+                                <select name="users-list-select" style="font-size: 0.8rem;"
+                                  class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                  (click)="updateLimit($event)">
+                                  <option value="10">10</option>
+                                  <option value="25">25</option>
+                                  <option value="50">50</option>
+                                  <option value="100">100</option>
+                                </select>
+                                entries</label>
+                              <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
+                                <input id="ngx-filter-ref"
+                                  class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                  (keyup)="filterUpdate($event)" />
+                              </label>
+                            </fieldset>
+  
+                            <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableEmpresa
+                              [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                              [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
+                              [selectCheck]="singleSelectCheck" [selected]="selectedE" [selectionType]="'single'"
+                              (dblclick)="seleccionarEmpresa(selectedE)">
+                              <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="40">
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Direccion" prop="Direccion" width="60">
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Departamento" prop="Departamento" width="25">
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Provincia" prop="Provincia" width="25">
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Distrito" prop="Distrito" width="25">
+                              </ngx-datatable-column>
+  
+                            </ngx-datatable>
+                          </div>
+                        </div>
+  
+                      </form>
+                    </div>
+                  </ng-template>
+                  <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                    style="margin-top: 1.5rem;">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+                <div class="col-12 col-md-5">
+                  <label for="basicInput">Direccion de Partida</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="dirPartida" disabled>
+                  <label for="basicInput">Direccion de Destino</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="dirDestino" disabled>
+                </div>
+              </div>-->
+  
+            
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </section>
+    <section class="users-edit">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body">
+                <!-- Nav-tabs -->
+                <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
+                  <li [ngbNavItem]="1">
+                    <a ngbNavLink class="nav-link d-flex align-items-center">
+                      <span class="d-none d-sm-block">Orden de Servicio</span>
+                    </a>
+                    <ng-template ngbNavContent>
+                      <tag-orden-servicio formGroupName="tagordenservicio" (subproductoEvent)="receiveSubProducto($event)"></tag-orden-servicio>              
+                    </ng-template>
+                  </li>
+                  <li [ngbNavItem]="2">
+                    <a ngbNavLink class="nav-link d-flex align-items-center">
+                      <span class="d-none d-sm-block">Control de Calidad</span>
+                    </a>
+                    
+                      <ng-template ngbNavContent *ngIf="viewTagSeco">
+                        <app-controlCalidadSeco [form] = "form" [detalle] = "detalle" ></app-controlCalidadSeco>
+                        </ng-template>
+      
+                       <ng-template ngbNavContent *ngIf="!viewTagSeco">
+                          <app-controlCalidadHumedo [detalle] = "detalle" ></app-controlCalidadHumedo>
+                          </ng-template>
+                   
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div [ngbNavOutlet]="nav"></div>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="d-flex justify-content-between align-items-center">
+      <ngx-spinner></ngx-spinner>
+    </div>
+  
+  </form>

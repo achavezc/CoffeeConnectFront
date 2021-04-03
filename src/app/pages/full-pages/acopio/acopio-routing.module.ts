@@ -10,6 +10,7 @@ import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingres
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
+import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenservicio-edit/ordenservicio-edit.component';
 import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
 
@@ -92,6 +93,13 @@ const routes: Routes = [
         component: OrdenServicioComponent,
         data: {
           title: 'Ordenes de Servicio - Control de Calidad Externa'
+        }
+      },
+      {
+        path: 'ordenservicio-controlcalidadexterna-edit',
+        component: OrdenServicioEditComponent,
+        data: {
+          title: 'Ordenes de Servicio Edit- Control de Calidad Externa'
         }
       }
     ]

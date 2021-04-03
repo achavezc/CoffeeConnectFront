@@ -477,60 +477,71 @@ export class TagNotaSalidaEditComponent implements OnInit {
     let lote = this.listaLotesDetalleId.filter(x=> x.LoteId == e[0].LoteId);
     if (lote.length == 0)
     {
-    this.filtrosLotesID.LoteId = Number(e[0].LoteId);
-    this.spinner.show(undefined,
+      let loteSubProducto = this.listaLotesDetalleId.filter(x=> x.SubProductoId == this.selectSubProducto);
+      if (loteSubProducto.length == 0)
       {
-        type: 'ball-triangle-path',
-        size: 'large',
-        bdColor: 'rgba(0, 0, 0, 0.8)',
-        color: '#fff',
-        fullScreen: true
-      });
-    this.loteService.ConsultarDetallePorLoteId(this.filtrosLotesID)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-
-            if (res.Result.Data)
-            {
-              res.Result.Data.forEach(x=>{
-                let object : any = {};                
-                object.Producto = x.Producto
-                object.UnidadMedida = x.UnidadMedida
-                object.CantidadPesado = x.CantidadPesado
-                object.RendimientoPorcentaje = x.RendimientoPorcentaje
-                object.KilosNetosPesado = x.KilosNetosPesado
-                object.Numero = e[0].Numero
-                object.LoteId = x.LoteId
-                object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
-                object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
-                object.HumedadPorcentaje = x.HumedadPorcentaje
-                this.listaLotesDetalleId.push(object);
-              })
-              
-            this.tempDataLoteDetalle = this.listaLotesDetalleId;
-            this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-            this.calcularTotales();
+        this.filtrosLotesID.LoteId = Number(e[0].LoteId);
+        this.spinner.show(undefined,
+          {
+            type: 'ball-triangle-path',
+            size: 'large',
+            bdColor: 'rgba(0, 0, 0, 0.8)',
+            color: '#fff',
+            fullScreen: true
+          });
+        this.loteService.ConsultarDetallePorLoteId(this.filtrosLotesID)
+          .subscribe(res => {
+            this.spinner.hide();
+            if (res.Result.Success) {
+              if (res.Result.ErrCode == "") {
+  
+                if (res.Result.Data)
+                {
+                  res.Result.Data.forEach(x=>{
+                    let object : any = {};                
+                    object.Producto = x.Producto
+                    object.UnidadMedida = x.UnidadMedida
+                    object.CantidadPesado = x.CantidadPesado
+                    object.RendimientoPorcentaje = x.RendimientoPorcentaje
+                    object.KilosNetosPesado = x.KilosNetosPesado
+                    object.Numero = e[0].Numero
+                    object.LoteId = x.LoteId
+                    object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
+                    object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
+                    object.HumedadPorcentaje = x.HumedadPorcentaje
+                    object.SubProductoId = x.SubProductoId
+                    this.listaLotesDetalleId.push(object);
+                  })
+                  
+                this.tempDataLoteDetalle = this.listaLotesDetalleId;
+                this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+                this.calcularTotales();
+                }
+              } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+                this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              } else {
+                this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              }
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.error(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
+          },
+            err => {
+              this.spinner.hide();
+              console.error(err);
+              this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+            }
+          );
+  
+          this.modalService.dismissAll(); 
+      }
+      else
+      {
+        this.alertUtil.alertWarning("Oops...!", "Debe Seleccionar el mismo SubProducto");
+      }
 
-      this.modalService.dismissAll();
     }
+    
     else
     {
       this.alertUtil.alertWarning("Oops...!", "El Lote " + e[0].Numero +" ya fue agregado.");
