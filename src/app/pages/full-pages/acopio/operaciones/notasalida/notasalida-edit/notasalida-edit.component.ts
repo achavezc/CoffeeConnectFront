@@ -109,7 +109,8 @@ export class NotaSalidaEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;
             this.cargarDataFormulario(res.Result.Data);
-            this.child.cargarDatos(res.Result.Data.DetalleLotes)
+            this.child.cargarDatos(res.Result.Data.DetalleLotes);
+            this.selectAlmacen = res.Result.Data.AlmacenId;
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {

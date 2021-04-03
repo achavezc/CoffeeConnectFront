@@ -224,7 +224,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   cargarLotes() {
     this.consultaLotes = new FormGroup(
       {
-        almacen: new FormControl({value:'' , disabled: true}, []),
+        almacen: new FormControl({value: '' , disabled: true}, []),
         numeroLote: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaInicio: new FormControl('', [Validators.required]),
         fechaFinal:new FormControl('', [Validators.required]),
@@ -267,6 +267,8 @@ export class TagNotaSalidaEditComponent implements OnInit {
           console.error(err);
         }
       );
+
+      this.selectAlmacenLote = this.selectAlmacen;
   }
   changeSubProducto(e) {
     let filterProducto = e.Codigo;

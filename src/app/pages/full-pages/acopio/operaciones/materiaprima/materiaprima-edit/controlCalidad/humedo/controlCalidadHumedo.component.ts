@@ -20,6 +20,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
 
    
       @Input() detalle : any;
+      @Input() form;
       tableOlor: FormGroup;
       tableColor: FormGroup;
       listaOlor : any[];
@@ -32,7 +33,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
       submitted = false;
       reqControlCalidad: ReqControlCalidad;
       mensajeErrorGenerico = "Ocurrio un error interno.";
-      @Input() form;
+      
      
        ngOnInit(): void {
         this.cargarForm()
