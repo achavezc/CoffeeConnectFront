@@ -29,7 +29,6 @@ import { AuthService } from "./services/auth.service";
 import { MaestroService } from "./services/maestro.service";
 import { MaestroUtil } from "./services/util/maestro-util";
 import { AlertUtil } from "./services/util/alert-util";
-import { NumeroUtil } from "./services/util/numeros-util";
 import { DateUtil } from "./services/util/date-util";
 import { AcopioService, FiltrosMateriaPrima, FiltrosProveedor } from "./services/acopio.service";
 import { NotaIngresoAlmacenService } from "./services/nota-ingreso-almacen.service";
@@ -93,7 +92,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MaestroUtil,
     AlertUtil,
     DateUtil,
-    NumeroUtil,
     AuthService,
     AuthGuard,
     DragulaService,
