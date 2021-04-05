@@ -6,36 +6,36 @@
                 <ng-select [items]="listaTipoProduccion" formControlName="tipoProduccion" bindLabel="Label" bindValue="Codigo"
                   id="validationTooltip01" placeholder="Seleccionar Tipo Produccion" class="form-control"
                   [(ngModel)]="selectedTipoProduccion"
-                  [ngClass]="{ 'is-invalid': submitted && tagOrdenServicio.controls.tipoProduccion.invalid, 'is-valid': submitted && !tagOrdenServicio.controls.tipoProduccion.invalid }">
+                  [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.tipoProduccion.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.tipoProduccion.invalid }">
                 </ng-select> 
-                <small class="form-text text-muted danger" *ngIf="tagOrdenServicio.controls.tipoProduccion.errors?.required">Seleccione Tipo Produccion</small>
+               
                 <label for="basicInput">PRODUCTO</label>
                 <ng-select [items]="listaProducto" formControlName="producto" bindLabel="Label" bindValue="Codigo"
                   id="validationTooltip01" placeholder="Seleccionar Producto" class="form-control"
                   [(ngModel)]="selectedProducto" (change)="changeSubProducto($event)"
-                  [ngClass]="{ 'is-invalid': submitted && tagOrdenServicio.controls.producto.invalid, 'is-valid': submitted && !tagOrdenServicio.controls.producto.invalid }">
+                  [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.producto.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.producto.invalid }">
                 </ng-select> 
-                <small class="form-text text-muted danger" *ngIf="tagOrdenServicio.controls.producto.errors?.required">Seleccione Producto</small>
+               
                 <label for="basicInput">SUBPRODUCTO</label>
                 <ng-select [items]="listaSubProducto" formControlName="subproducto" bindLabel="Label" bindValue="Codigo"
                   id="validationTooltip01" placeholder="Seleccionar SubProducto" class="form-control"
                   [(ngModel)]="selectedSubProducto" (change)="changeView($event)"
-                  [ngClass]="{ 'is-invalid': submitted && tagOrdenServicio.controls.subproducto.invalid, 'is-valid': submitted && !tagOrdenServicio.controls.subproducto.invalid }">
+                  [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.subproducto.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.subproducto.invalid }">
                 </ng-select> 
-                <small class="form-text text-muted danger" *ngIf="tagOrdenServicio.controls.subproducto.errors?.required">Seleccione SubProducto</small>
+                
             </div>
             <div class="col-12 col-md-6">
               <label for="basicInput">RENDIMIENTO</label>
-              <input type="text" class="form-control" id="basicInput" formControlName="rendimiento">
+              <input type="text" class="form-control" id="basicInput" formControlName="rendimiento"  [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.rendimiento.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.rendimiento.invalid }">
               <label for="basicInput">UNIDAD DE MEDIDA</label>
               <ng-select [items]="listaUnidadMedida" formControlName="unidadmedida" bindLabel="Label" bindValue="Codigo"
                 id="validationTooltip01" placeholder="Seleccionar Unidad Medida" class="form-control"
                 [(ngModel)]="selectedUnidadMedida"
-                [ngClass]="{ 'is-invalid': submitted && tagOrdenServicio.controls.unidadmedida.invalid, 'is-valid': submitted && !tagOrdenServicio.controls.unidadmedida.invalid }">
+                [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.unidadmedida.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.unidadmedida.invalid }">
               </ng-select> 
-              <small class="form-text text-muted danger" *ngIf="tagOrdenServicio.controls.unidadmedida.errors?.required">Seleccione Unidad de Medida</small>
+              
               <label for="basicInput">CANTIDAD</label>
-              <input type="text" class="form-control" id="basicInput" formControlName="cantidad">
+              <input type="text" class="form-control" id="basicInput" formControlName="cantidad" [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.cantidad.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.cantidad.invalid }">
               
             </div>
           </div>

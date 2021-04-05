@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Output, EventEmitter, Input } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
@@ -23,7 +23,7 @@ export class TagOrdenServicioComponent implements OnInit {
   selectedSubProducto: any;
   listaUnidadMedida: any[];
   selectedUnidadMedida: any;
-  submitted = false;
+  @Input() submittedEdit;
   viewTagSeco: boolean = false;
   @Output() subproductoEvent = new EventEmitter<boolean>();
   constructor( private controlContainer: ControlContainer,

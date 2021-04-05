@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, Form
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../../../services/models/login';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { Router } from "@angular/router"
+import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { EmpresaService } from '../../../../../../services/empresa.service';
