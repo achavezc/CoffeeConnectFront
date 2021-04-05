@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <div class="content-header">BANDEJA DE REGISTRO DE CLIENTES</div>
+        <div class="content-header">BANDEJA DE CONSULTA DE CLIENTES</div>
     </div>
 </div>
 
@@ -54,7 +54,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="descCliente" class="form-label">País</label>
+                                    <label for="pais" class="form-label">País</label>
                                     <ng-select [items]="listPais" formControlName="pais" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="pais" placeholder="Seleccionar país"
                                         [ngClass]="{ 'is-invalid': f.pais.invalid, 'is-valid': !f.pais.invalid }"
@@ -62,9 +62,10 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="descCliente" class="form-label">Estado</label>
+                                    <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listEstados" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar país"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar estado"
                                         [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
@@ -73,10 +74,13 @@
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Anular</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Exportar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="clienteForm.invalid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="!rows || rows.length <= 0" (click)="Anular()">Anular</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="!rows || rows.length <= 0" (click)="Exportar()">Exportar</button>
                         </form>
                     </div>
                 </div>

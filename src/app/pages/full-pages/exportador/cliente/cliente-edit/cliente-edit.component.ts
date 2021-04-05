@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-cliente-edit',
@@ -7,9 +8,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClienteEditComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
+
+  clienteEditForm: FormGroup;
+  listPaises: any[];
+  listDepartamentos: any[];
+  listProvincias: any[];
+  listDistritos: any[];
+  listCiudades: any[];
+  selectedPais: any;
+  selectedDepartamento: any;
+  selectedProvincia: any;
+  selectedDistrito: any;
+  selectedCiudad: any;
 
   ngOnInit(): void {
+    this.LoadForm();
   }
 
+  LoadForm(): void {
+    this.clienteEditForm = this.fb.group({
+      razonSocial: [],
+      direccionCabe: [],
+      fecha: [],
+      nroRucCabe: [],
+      tipoCliente: [],
+      codCliente: [],
+      cliente: [],
+      nroRuc: [],
+      telefono: [],
+      email: [],
+      direccion: [],
+      pais: [],
+      departamento: [],
+      provincia: [],
+      distrito: [],
+      ciudad: [],
+      descGerente: [],
+      idGerente: [],
+      descPresidente: [],
+      idPresidente: []
+    });
+  }
+
+  get f() {
+    return this.clienteEditForm.controls;
+  }
 }

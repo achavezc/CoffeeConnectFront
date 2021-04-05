@@ -20,7 +20,6 @@ import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustom
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-
 import { ClienteComponent } from './cliente/cliente.component';
 import { ContratoComponent } from './contrato/contrato.component';
 import { ClienteEditComponent } from './cliente/cliente-edit/cliente-edit.component';
@@ -52,8 +51,6 @@ import { ContratoEditComponent } from './contrato/contrato-edit/contrato-edit.co
     ContratoComponent,
     ClienteEditComponent,
     ContratoEditComponent
-  ],
-  exports: [
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
