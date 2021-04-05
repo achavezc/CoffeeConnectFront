@@ -1,8 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
-import { ExportadorRoutingModule } from "./exportador-routing.module";
 import { ChartistModule } from "ng-chartist";
 import { AgmCoreModule } from "@agm/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -20,37 +18,38 @@ import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustom
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-import { ClienteComponent } from './cliente/cliente.component';
-import { ContratoComponent } from './contrato/contrato.component';
-import { ClienteEditComponent } from './cliente/cliente-edit/cliente-edit.component';
-import { ContratoEditComponent } from './contrato/contrato-edit/contrato-edit.component';
+import { ExportadorRoutingModule } from "./exportador-routing.module";
+import { ClienteComponent } from './operaciones/cliente/cliente.component';
+import { ContratoComponent } from './operaciones/contrato/contrato.component';
+import { ClienteEditComponent } from './operaciones/cliente/cliente-edit/cliente-edit.component';
+import { ContratoEditComponent } from './operaciones/contrato/contrato-edit/contrato-edit.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ExportadorRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ChartistModule,
-    AgmCoreModule,
-    NgSelectModule,
-    NgbModule,
-    SwiperModule,
-    PipeModule,
-    NgxDatatableModule,
-    CustomFormsModule,
-    ArchwizardModule,
-    UiSwitchModule,
-    TagInputModule,
-    QuillModule,
-    MatchHeightModule,
-    NgxSpinnerModule
-  ],
   declarations: [
     ClienteComponent,
     ContratoComponent,
     ClienteEditComponent,
     ContratoEditComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxSpinnerModule,
+    NgxDatatableModule,
+    ChartistModule,
+    AgmCoreModule,
+    NgSelectModule,
+    NgbModule,
+    SwiperModule,
+    CustomFormsModule,
+    ArchwizardModule,
+    UiSwitchModule,
+    TagInputModule,
+    QuillModule,
+    PipeModule,
+    MatchHeightModule,
+    ExportadorRoutingModule
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

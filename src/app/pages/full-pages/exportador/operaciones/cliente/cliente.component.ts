@@ -3,11 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 
-import { DateUtil } from '../../../../services/util/date-util';
-import { ClienteService } from '../../../../services/cliente.service';
-import { MaestroUtil } from '../../../../services/util/maestro-util';
-import { MaestroService } from '../../../../services/maestro.service';
-import { ExcelService } from '../../../../shared/util/excel.service';
+import { DateUtil } from '../../../../../services/util/date-util';
+import { ClienteService } from '../../../../../services/cliente.service';
+import { MaestroUtil } from '../../../../../services/util/maestro-util';
+import { MaestroService } from '../../../../../services/maestro.service';
+import { ExcelService } from '../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-cliente',

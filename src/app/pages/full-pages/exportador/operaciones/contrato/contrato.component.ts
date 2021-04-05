@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { DateUtil } from '../../../../services/util/date-util';
+import { DateUtil } from '../../../../../services/util/date-util';
 
 @Component({
   selector: 'app-contrato',
