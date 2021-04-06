@@ -23,9 +23,10 @@ import { SocioComponent } from './operaciones/socio/socio.component';
 import { SocioEditComponent } from './operaciones/socio/socio-edit/socio-edit.component';
 import { FincaComponent } from './operaciones/socio/finca/finca.component';
 import { FincaEditComponent } from './operaciones/socio/finca/fincaedit/finca-edit.component';
+import { CertificacionListComponent } from './operaciones/socio/finca/certificaciones/list/certificacion-list.component';
 
 @NgModule({
-  declarations: [SocioComponent, SocioEditComponent, FincaComponent, FincaEditComponent],
+  declarations: [SocioComponent, SocioEditComponent, FincaComponent, FincaEditComponent, CertificacionListComponent],
   imports: [
     CommonModule,
     FormsModule,

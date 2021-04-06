@@ -5,7 +5,7 @@ import { SocioComponent } from './operaciones/socio/socio.component';
 import { SocioEditComponent } from './operaciones/socio/socio-edit/socio-edit.component';
 import { FincaComponent } from './operaciones/socio/finca/finca.component';
 import { FincaEditComponent } from './operaciones/socio/finca/fincaedit/finca-edit.component';
-
+import { CertificacionListComponent } from './operaciones/socio/finca/certificaciones/list/certificacion-list.component';
 const routes: Routes = [
     {
         path: 'operaciones',
@@ -58,6 +58,13 @@ const routes: Routes = [
                 component: FincaEditComponent,
                 data: {
                     title: 'Actualizar Socio - Finca'
+                }
+            },
+            {
+                path: 'socio/finca/certificaciones',
+                component: CertificacionListComponent,
+                data: {
+                    title: 'Certificaciones - Lista'
                 }
             }
         ]

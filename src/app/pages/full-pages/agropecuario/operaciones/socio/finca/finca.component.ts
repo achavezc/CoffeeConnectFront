@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute,NavigationExtras } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
@@ -36,6 +36,7 @@ export class FincaComponent implements OnInit {
   tempRows = [];
   objParams: any;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
+  selected = [];
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   ngOnInit(): void {
@@ -66,6 +67,9 @@ export class FincaComponent implements OnInit {
   filterUpdate(event: any): void {
 
   }
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
+  }
 
   SearchSocioById(): void {
     this.spinner.show();
@@ -90,8 +94,12 @@ export class FincaComponent implements OnInit {
   }
 
   Certifications(): void {
-
+    if (this.selected && this.selected.length > 0) {
+     
+      this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], { queryParams: { SocioFincaId: this.selected[0].SocioFincaId}});
+    }
   }
+
 
   Inspections(): void {
 

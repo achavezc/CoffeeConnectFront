@@ -29,9 +29,9 @@
             </div> -->
             <div class="form-row">
                 <button class="btn btn-primary mr-1" type="button" (click)="New()">Nuevo</button>
-                <button class="btn btn-primary mr-1" type="button" (click)="Certifications()">Certificaciones</button>
-                <button class="btn btn-primary mr-1" type="button" (click)="Inspections()">Inspección</button>
-                <button class="btn btn-primary mr-1" type="button" (click)="Diagnosis()">Diagnostico</button>
+                <button class="btn btn-primary mr-1" type="button"  [disabled]="selected.length <= 0" (click)="Certifications()">Certificaciones</button>
+                <button class="btn btn-primary mr-1" type="button"  [disabled]="selected.length <= 0"(click)="Inspections()">Inspección</button>
+                <button class="btn btn-primary mr-1" type="button"  [disabled]="selected.length <= 0"(click)="Diagnosis()">Diagnostico</button>
                 <button class="btn btn-danger" type="button" (click)="Cancel()">Cancelar</button>
             </div>
         </form>
@@ -59,7 +59,8 @@
             </label>
         </fieldset>
         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-            rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true">
+            rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
             <ngx-datatable-column name="NOMBRE" prop="Nombre" width="90">
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                     <div class="d-flex align-items-center">
