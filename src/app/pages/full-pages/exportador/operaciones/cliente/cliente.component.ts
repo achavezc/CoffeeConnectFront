@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 
 import { DateUtil } from '../../../../../services/util/date-util';
 import { ClienteService } from '../../../../../services/cliente.service';
-import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
@@ -25,8 +24,7 @@ export class ClienteComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
-    private excelService: ExcelService,
-    private route: ActivatedRoute) { }
+    private excelService: ExcelService) { }
 
   clienteForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -100,6 +98,10 @@ export class ClienteComponent implements OnInit {
     this.table.offset = 0;
   }
 
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
+  }
+
   getRequest(): any {
     return {
       Numero: this.clienteForm.value.codCliente ?? '',
@@ -157,6 +159,7 @@ export class ClienteComponent implements OnInit {
   }
 
   Exportar(): void {
+    this.spinner.show();
     const form = this;
     swal.fire({
       title: 'Confirmación',
@@ -174,6 +177,7 @@ export class ClienteComponent implements OnInit {
     }).then(function (result) {
       if (result.value) {
         form.Search(true);
+        form.spinner.hide();
       }
     });
   }
@@ -182,7 +186,7 @@ export class ClienteComponent implements OnInit {
     const form = this;
     swal.fire({
       title: 'Confirmación',
-      text: `¿Está seguro de anular el cliente ""?`,
+      text: `¿Está seguro de anular el cliente "${form.selected[0].RazonSocial}"?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#2F8BE6',
@@ -195,6 +199,7 @@ export class ClienteComponent implements OnInit {
       buttonsStyling: false,
     }).then(function (result) {
       if (result.value) {
+        form.Buscar();
       }
     });
   }
