@@ -64,7 +64,7 @@ export class FincaEditComponent implements OnInit {
       tiempoTotal: [],
       medioTransporte: [''],
       cultivo: [''],
-      presipitacion: [''],
+      precipitacion: [''],
       nroPersonalCosecha: [],
       estado: ['', [Validators.required]]
     });
@@ -92,7 +92,7 @@ export class FincaEditComponent implements OnInit {
 
   async GetFincas(id: number) {
     this.listFincas = [];
-    const res = await this.productorFincaService.SearchProducerById({ ProductorId: id}).toPromise();
+    const res = await this.productorFincaService.SearchProducerById({ ProductorId: id }).toPromise();
     if (res.Result.Success) {
       this.listFincas = res.Result.Data;
     }
@@ -135,7 +135,7 @@ export class FincaEditComponent implements OnInit {
       this.socioFincaEditForm.controls.cultivo.setValue(data.Cultivo);
     }
     if (data.Precipitacion) {
-      this.socioFincaEditForm.controls.presipitacion.setValue(data.Precipitacion);
+      this.socioFincaEditForm.controls.precipitacion.setValue(data.Precipitacion);
     }
     if (data.CantidadPersonalCosecha) {
       this.socioFincaEditForm.controls.nroPersonalCosecha.setValue(data.CantidadPersonalCosecha);
@@ -155,7 +155,7 @@ export class FincaEditComponent implements OnInit {
       TiempoTotalFincaCentroAcopio: this.socioFincaEditForm.value.tiempoTotal ?? null,
       MedioTransporte: this.socioFincaEditForm.value.medioTransporte,
       Cultivo: this.socioFincaEditForm.value.cultivo,
-      Precipitacion: this.socioFincaEditForm.value.presipitacion,
+      Precipitacion: this.socioFincaEditForm.value.precipitacion,
       CantidadPersonalCosecha: this.socioFincaEditForm.value.nroPersonalCosecha ?? null,
       Usuario: 'mruizb',
       EstadoId: this.socioFincaEditForm.value.estado

@@ -1,0 +1,270 @@
+<form class="needs-validation" [formGroup]="clienteEditForm">
+    <div class="form-row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card mb-0">
+                <div class="card-body pb-0">
+                    <div class="form-row">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="text" name="razonSocial" id="razonSocial" formControlName="razonSocial"
+                                        class="form-control form-control-sm" placeholder="Razón Social"
+                                        [ngClass]="{ 'is-invalid': f.razonSocial.invalid, 'is-valid': !f.razonSocial.invalid }"
+                                        [readonly]="true" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="text" name="direccionCabe" id="direccionCabe"
+                                        formControlName="direccionCabe" class="form-control form-control-sm"
+                                        [ngClass]="{ 'is-invalid': f.direccionCabe.invalid, 'is-valid': !f.direccionCabe.invalid }"
+                                        placeholder="Dirección" [readonly]="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row" *ngIf="vId > 0">
+                                <label for="fecha" class="col-md-3 col-form-label">FECHA</label>
+                                <div class="col-md-9">
+                                    <input type="date" class="form-control form-control-sm text-center"
+                                        formControlName="fecha" id="fecha" date name="fecha"
+                                        placeholder="Seleccionar fecha"
+                                        [ngClass]="{ 'is-invalid': f.fecha.invalid, 'is-valid': !f.fecha.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
+                            <div class="form-group row">
+                                <label for="nroRucCabe" class="col-md-1 col-form-label">RUC</label>
+                                <div class="col-md-11">
+                                    <input type="text" name="nroRucCabe" id="nroRucCabe" formControlName="nroRucCabe"
+                                        class="form-control form-control-sm" placeholder="Número R.U.C"
+                                        [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid': !f.nroRucCabe.invalid }"
+                                        [readonly]="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-0">
+                <h5 class="card-header bg-primary text-white text-center align-middle p-0">MAESTRO DE CLIENTES</h5>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <div class="form-group row">
+                                <label for="" class="col-12 col-form-label">DATOS GENERALES</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10">
+                            <div class="form-group row">
+                                <label for="tipoCliente" class="col-2 col-form-label">TIPO DE CLIENTE</label>
+                                <div class="col-md-5">
+                                    <ng-select [items]="listTiposClientes" formControlName="tipoCliente"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoCliente"
+                                        placeholder="Seleccionar Tipo de Cliente" [(ngModel)]="selectedTipoCliente"
+                                        [ngClass]="{ 'is-invalid': f.tipoCliente.invalid, 'is-valid': !f.tipoCliente.invalid }">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="codCliente" class="col-md-3 col-form-label">COD. CLIENTE</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="codCliente" id="codCliente" formControlName="codCliente"
+                                        [ngClass]="{ 'is-invalid': f.codCliente.invalid, 'is-valid': !f.codCliente.invalid }"
+                                        class="form-control" placeholder="Código del cliente" [readonly]="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="cliente" class="col-md-3 col-form-label pr-0">CLIENTE</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="cliente" id="cliente" formControlName="cliente"
+                                        [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }"
+                                        class="form-control" placeholder="Descripción del cliente" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="nroRuc" class="col-md-3 col-form-label">N° RUC</label>
+                                <div class="col-md-6">
+                                    <input type="number" name="nroRuc" id="nroRuc" formControlName="nroRuc"
+                                        [ngClass]="{ 'is-invalid': f.nroRuc.invalid, 'is-valid': !f.nroRuc.invalid }"
+                                        class="form-control text-right" placeholder="Número de R.U.C" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="telefono" class="col-md-3 col-form-label">TELÉFONO</label>
+                                <div class="col-md-6">
+                                    <input type="number" name="telefono" id="telefono" formControlName="telefono"
+                                        [ngClass]="{ 'is-invalid': f.telefono.invalid, 'is-valid': !f.telefono.invalid }"
+                                        class="form-control text-right" placeholder="Número de Teléfono" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="email" class="col-md-3 col-form-label pr-0">E-MAIL</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="email" id="email" formControlName="email"
+                                        [ngClass]="{ 'is-invalid': f.email.invalid, 'is-valid': !f.email.invalid }"
+                                        class="form-control" placeholder="Correo electronico" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="direccion" class="col-md-3 col-form-label">DIRECCIÓN</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="direccion" id="direccion" formControlName="direccion"
+                                        [ngClass]="{ 'is-invalid': f.direccion.invalid, 'is-valid': !f.direccion.invalid }"
+                                        class="form-control" placeholder="Dirección" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="pais" class="col-md-3 col-form-label">PAÍS</label>
+                                <div class="col-md-9">
+                                    <ng-select [items]="listPaises" formControlName="pais" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="pais" placeholder="Seleccionar país"
+                                        [ngClass]="{ 'is-invalid': f.pais.invalid, 'is-valid': !f.pais.invalid }"
+                                        [(ngModel)]="selectedPais">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="departamento" class="col-md-4 col-form-label pr-0">DEPARTAMENTO</label>
+                                <div class="col-md-8">
+                                    <ng-select [items]="listDepartamentos" formControlName="departamento"
+                                        class="form-control" bindLabel="Descripcion" bindValue="Codigo"
+                                        id="departamento" placeholder="Seleccionar departamento"
+                                        [(ngModel)]="selectedDepartamento" (change)="onChangeDepartament($event)"
+                                        [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="provincia" class="col-md-3 col-form-label">PROVINCIA</label>
+                                <div class="col-md-9">
+                                    <ng-select [items]="listProvincias" formControlName="provincia" class="form-control"
+                                        bindLabel="Descripcion" bindValue="Codigo" id="provincia"
+                                        [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }"
+                                        placeholder="Seleccionar provincia" [(ngModel)]="selectedProvincia"
+                                        (change)="onChangeProvince($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="distrito" class="col-md-3 col-form-label">DISTRITO</label>
+                                <div class="col-md-9">
+                                    <ng-select [items]="listDistritos" formControlName="distrito" class="form-control"
+                                        bindLabel="Descripcion" bindValue="Codigo" id="distrito"
+                                        [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }"
+                                        placeholder="Seleccionar distrito" [(ngModel)]="selectedDistrito">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="ciudad" class="col-md-4 col-form-label pr-0">CIUDAD</label>
+                                <div class="col-md-8">
+                                    <ng-select [items]="listCiudades" formControlName="ciudad" class="form-control"
+                                        bindLabel="Descripcion" bindValue="Codigo" id="ciudad"
+                                        placeholder="Seleccionar ciudad" [(ngModel)]="selectedCiudad"
+                                        [ngClass]="{ 'is-invalid': f.ciudad.invalid, 'is-valid': !f.ciudad.invalid }">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group row">
+                                <label for="descGerente" class="col-md-3 col-form-label">GERENTE GENERAL</label>
+                                <div class="col-md-6 pl-0">
+                                    <input type="number" name="descGerente" id="descGerente"
+                                        formControlName="descGerente" class="form-control"
+                                        [ngClass]="{ 'is-invalid': f.descGerente.invalid, 'is-valid': !f.descGerente.invalid }"
+                                        placeholder="Gerente General" />
+                                </div>
+                                <label for="idGerente" class="col-md-1 col-form-label">ID #</label>
+                                <div class="col-md-2 pl-0">
+                                    <input type="number" name="idGerente" id="idGerente" formControlName="idGerente"
+                                        [ngClass]="{ 'is-invalid': f.idGerente.invalid, 'is-valid': !f.idGerente.invalid }"
+                                        class="form-control text-right" placeholder="ID" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group row">
+                                <label for="descPresidente" class="col-md-3 col-form-label">PRESIDENTE</label>
+                                <div class="col-md-6 pl-0">
+                                    <input type="number" name="descPresidente" id="descPresidente"
+                                        [ngClass]="{ 'is-invalid': f.descPresidente.invalid, 'is-valid': !f.descPresidente.invalid }"
+                                        formControlName="descPresidente" class="form-control" placeholder="Presidente">
+                                </div>
+                                <label for="idPresidente" class="col-md-1 col-form-label">ID #</label>
+                                <div class="col-md-2 pl-0">
+                                    <input type="number" name="idPresidente" id="idPresidente"
+                                        [ngClass]="{ 'is-invalid': f.idPresidente.invalid, 'is-valid': !f.idPresidente.invalid }"
+                                        formControlName="idPresidente" class="form-control text-right" placeholder="ID">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <label for="responsableComercial" class="col-md-3 col-form-label">
+                                    Responsable de Comercial:</label>
+                                <div class="col-md-7">
+                                    <input type="text" name="responsableComercial" id="responsableComercial"
+                                        formControlName="responsableComercial" class="form-control"
+                                        [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }"
+                                        placeholder="Responsable de comercial">
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
+                                    <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="d-flex justify-content-center">
+    <ngx-spinner></ngx-spinner>
+</div>

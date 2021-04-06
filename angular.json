@@ -54,8 +54,7 @@
             ],
             "scripts": [
               "src/assets/vendor/pace/pace.min.js",
-              "node_modules/apexcharts/dist/apexcharts.min.js",
-              "node_modules/html2canvas/dist/html2canvas.min.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js"
             ]
           },
           "configurations": {

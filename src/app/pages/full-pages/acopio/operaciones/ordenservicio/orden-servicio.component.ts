@@ -3,11 +3,11 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
-
-import { MaestroUtil } from '../../../../services/util/maestro-util';
-import { DateUtil } from '../../../../services/util/date-util';
-import { AlertUtil } from '../../../../services/util/alert-util';
-import { OrdenservicioControlcalidadService } from '../../../../services/ordenservicio-controlcalidad.service';
+import {Router} from "@angular/router"
+import { MaestroUtil } from './../../../../../services/util/maestro-util';
+import { DateUtil } from './../../../../../services/util/date-util';
+import { AlertUtil } from './../../../../../services/util/alert-util';
+import { OrdenservicioControlcalidadService } from './../../../../../services/ordenservicio-controlcalidad.service';
 
 @Component({
   selector: 'app-orden-servicio',
@@ -22,8 +22,8 @@ export class OrdenServicioComponent implements OnInit {
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private ordenSerContCalidService: OrdenservicioControlcalidadService) {
-    // this.singleSelectCheck = this.singleSelectCheck.bind(this);
+    private ordenSerContCalidService: OrdenservicioControlcalidadService,
+    private router : Router) {
   }
 
   ordenServConCalExtForm: FormGroup;
@@ -252,6 +252,10 @@ export class OrdenServicioComponent implements OnInit {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
+  }
+
+  Nuevo() {
+    this.router.navigate(['/operaciones/ordenservicio-controlcalidadexterna-edit']);
   }
 
 }

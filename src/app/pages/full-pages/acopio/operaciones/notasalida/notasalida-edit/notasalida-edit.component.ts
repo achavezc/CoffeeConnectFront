@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, Form
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../../../services/models/login';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { Router } from "@angular/router"
+import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { EmpresaService } from '../../../../../../services/empresa.service';
@@ -19,7 +19,7 @@ import { host } from '../../../../../../shared/hosts/main.host';
 @Component({
   selector: 'app-notasalidad-edit',
   templateUrl: './notasalida-edit.component.html',
-  styleUrls: ['./notasalida-edit.component.scss', "/assets/sass/libs/datatables.scss"],
+  styleUrls: ['./notasalida-edit.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class NotaSalidaEditComponent implements OnInit {
@@ -54,11 +54,13 @@ export class NotaSalidaEditComponent implements OnInit {
   id: Number = 0;
   fechaRegistro: any;
   almacen: "";
-  fechaPesado: any;
   responsable: "";
   form: string = "notasalida";
   detalle: any;
   disabledControl: string = '';
+  empresa: any;
+  viewTagSeco: boolean;
+  
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
@@ -72,11 +74,9 @@ export class NotaSalidaEditComponent implements OnInit {
     private notaSalidaAlmacenService: NotaSalidaAlmacenService
 
   ) {
-    this.singleSelectCheck = this.singleSelectCheck.bind(this);
+   
   }
-  singleSelectCheck(row: any) {
-    return this.selectedE.indexOf(row) === -1;
-  }
+  
 
   seleccionarTipoAlmacen()
   {
@@ -109,7 +109,8 @@ export class NotaSalidaEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;
             this.cargarDataFormulario(res.Result.Data);
-            this.child.cargarDatos(res.Result.Data.DetalleLotes)
+            this.child.cargarDatos(res.Result.Data.DetalleLotes);
+            this.selectAlmacen = res.Result.Data.AlmacenId;
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
@@ -165,6 +166,15 @@ export class NotaSalidaEditComponent implements OnInit {
     this.almacen = data.Almacen;
     this.responsable = data.UsuarioRegistro;
     this.spinner.hide();   
+
+    if (data.DetalleLotes[0].SubProductoId == "02")
+    {
+        this.viewTagSeco = true;
+    }
+    else
+    {
+      this.viewTagSeco = false;
+    }
   } 
 
 
@@ -210,135 +220,26 @@ export class NotaSalidaEditComponent implements OnInit {
 
   openModal(modalEmpresa) {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg' });
-    this.cargarEmpresas();
-    this.clearModalEmpresa();
 
   }
 
-  clearModalEmpresa() {
 
-    this.selectClasificacion = [];
-    this.consultaEmpresas.controls['ruc'].reset;
-    this.consultaEmpresas.controls['rzsocial'].reset;
-    this.rows = [];
-  }
-
-
-  cargarEmpresas() {
-    this.consultaEmpresas = new FormGroup(
-      {
-        ruc: new FormControl('', []),
-        rzsocial: new FormControl('', []),
-        clasificacion: new FormControl('', [])
-      });
-    this.consultaEmpresas.setValidators(this.comparisonValidatorEmpresa())
-    this.maestroService.obtenerMaestros("ClasificacionEmpresaProveedoraAcreedora")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaClasificacion = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-
-  }
-
-  public comparisonValidatorEmpresa(): ValidatorFn {
-    return (group: FormGroup): ValidationErrors => {
-      let rzsocial = group.controls['rzsocial'].value;
-      let ruc = group.controls['ruc'].value;
-      if (rzsocial == "" && ruc == "") {
-        this.errorEmpresa = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-
-      }
-      else {
-        this.errorEmpresa = { isError: false, errorMessage: '' };
-
-      }
-      return;
-    };
-  }
-  get fe() {
-    return this.consultaEmpresas.controls
-  }
-  filterUpdate(event) {
-    const val = event.target.value.toLowerCase();
-    const temp = this.tempData.filter(function (d) {
-      return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-    this.rows = temp;
-    this.tableEmpresa.offset = 0;
-  }
-
-  updateLimit(limit) {
-    this.limitRef = limit.target.value;
-  }
-  get f() {
-    return this.consultaEmpresas.controls
-  }
   get fedit() {
     return this.notaSalidaFormEdit.controls;
   }
 
+  receiveMessage($event) {
+    this.selectedE = $event
+    this.notaSalidaFormEdit.get('destinatario').setValue(this.selectedE[0].RazonSocial);
+    this.notaSalidaFormEdit.get('ruc').setValue(this.selectedE[0].Ruc);
+    this.notaSalidaFormEdit.get('dirDestino').setValue(this.selectedE[0].Direccion + " - " + this.selectedE[0].Distrito + " - " + this.selectedE[0].Provincia + " - " + this.selectedE[0].Departamento);
+    this.modalService.dismissAll();
+  }
 
   cancelar() {
     this.router.navigate(['/acopio/operaciones/notasalida-list']);
   }
-  seleccionarEmpresa(e) {
-
-    this.notaSalidaFormEdit.get('destinatario').setValue(e[0].RazonSocial);
-    this.notaSalidaFormEdit.get('ruc').setValue(e[0].Ruc);
-    this.notaSalidaFormEdit.get('dirDestino').setValue(e[0].Direccion + " - " + e[0].Distrito + " - " + e[0].Provincia + " - " + e[0].Departamento);
-
-    this.modalService.dismissAll();
-  }
-
-  buscar() {
-
-    if (this.consultaEmpresas.invalid || this.errorEmpresa.isError) {
-      this.submittedE = true;
-      return;
-    } else {
-      this.submittedE = false;
-      this.filtrosEmpresaProv.RazonSocial = this.consultaEmpresas.controls['rzsocial'].value;
-      this.filtrosEmpresaProv.Ruc = this.consultaEmpresas.controls['ruc'].value;
-      this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value.length == 0 ? "" : this.consultaEmpresas.controls['clasificacion'].value;
-      this.filtrosEmpresaProv.EmpresaId = 1;
-      this.filtrosEmpresaProv.EstadoId = "01";
-      this.spinner.show(undefined,
-        {
-          type: 'ball-triangle-path',
-          size: 'large',
-          bdColor: 'rgba(0, 0, 0, 0.8)',
-          color: '#fff',
-          fullScreen: true
-        });
-      this.empresaService.ConsultarEmpresaProv(this.filtrosEmpresaProv)
-        .subscribe(res => {
-          this.spinner.hide();
-          if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
-              this.tempData = res.Result.Data;
-              this.rows = [...this.tempData];
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorEmpresa = { isError: true, errorMessage: res.Result.Message };
-            } else {
-              this.errorEmpresa = { isError: true, errorMessage: this.mensajeErrorGenerico };
-            }
-          } else {
-            this.errorEmpresa = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        },
-          err => {
-            this.spinner.hide();
-            console.error(err);
-            this.errorEmpresa = { isError: false, errorMessage: this.mensajeErrorGenerico };
-          }
-        );
-    }
-  }
+ 
   guardar() {
     if (this.child.listaLotesDetalleId.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' }; }
     else {

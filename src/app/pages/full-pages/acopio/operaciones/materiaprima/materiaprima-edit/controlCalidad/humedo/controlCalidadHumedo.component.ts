@@ -9,6 +9,8 @@ import {Router} from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
 import {AcopioService} from '../../../../../../../../services/acopio.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
+import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-salida-almacen.service';
+import { MaestroService } from '../../../../../../../../services/maestro.service';
 @Component({
   selector: 'app-controlCalidadHumedo',
   templateUrl: './controlCalidadHumedo.component.html',
@@ -18,6 +20,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
 
    
       @Input() detalle : any;
+      @Input() form;
       tableOlor: FormGroup;
       tableColor: FormGroup;
       listaOlor : any[];
@@ -30,18 +33,18 @@ export class ControlCalidadComponentHumedo implements OnInit {
       submitted = false;
       reqControlCalidad: ReqControlCalidad;
       mensajeErrorGenerico = "Ocurrio un error interno.";
+      
      
        ngOnInit(): void {
         this.cargarForm()
          this.cargarCombos();
-         if (this.detalle)
-         {
-           this.obtenerDetalle();
-         }
+        
        }
    
        constructor(private maestroUtil: MaestroUtil, private dateUtil: DateUtil, private router: Router, 
-        private spinner: NgxSpinnerService,private acopioService : AcopioService, private alertUtil: AlertUtil){
+        private spinner: NgxSpinnerService,private acopioService : AcopioService, private alertUtil: AlertUtil,
+        private notaSalidaAlmacenService:NotaSalidaAlmacenService,
+        private maestroService: MaestroService){
        } 
 
        cargarForm() {
@@ -51,21 +54,21 @@ export class ControlCalidadComponentHumedo implements OnInit {
             ObservacionAnalisisFisico: new FormControl('',[])
           });
         }
-       cargarCombos(){
+        async cargarCombos(){
          var form = this;       
-       this.maestroUtil.obtenerMaestros("Olor", function (res) {
-         if (res.Result.Success) {
-           form.listaOlor = res.Result.Data;
+       var dataOlor =  await this.maestroService.obtenerMaestros("Olor").toPromise();
+         if (dataOlor.Result.Success) {
+           form.listaOlor = dataOlor.Result.Data;
       let group={}    
         form.listaOlor.forEach(input_template=>{
           group['CheckboxOlor%'+input_template.Codigo]=new FormControl('',[]);  
         })
         form.tableOlor = new FormGroup(group);
          }
-       });
-       this.maestroUtil.obtenerMaestros("Color", function (res) {
-         if (res.Result.Success) {
-          form.listaColor = res.Result.Data;
+       
+         var dataColor =  await this.maestroService.obtenerMaestros("Color").toPromise();
+         if (dataColor.Result.Success) {
+          form.listaColor = dataColor.Result.Data;
           let group={}    
           form.listaColor.forEach(input_template=>{
             group['CheckboxColor%'+input_template.Codigo]=new FormControl('',[]);  
@@ -73,7 +76,12 @@ export class ControlCalidadComponentHumedo implements OnInit {
           form.tableColor = new FormGroup(group);
           
          }
-       });
+
+         if (this.detalle)
+         {
+           this.obtenerDetalle();
+         }
+  
      }
 
      obtenerDetalle()
@@ -140,6 +148,9 @@ if (this.detalle.AnalisisFisicoOlorDetalle!= null)
        color: '#fff',
        fullScreen: true
      });
+
+     if (this.form == "materiaprima")
+      {
      this.acopioService.Actualizar(this.reqControlCalidad)
      .subscribe(res => {
        this.spinner.hide();
@@ -167,7 +178,39 @@ if (this.detalle.AnalisisFisicoOlorDetalle!= null)
          console.log(err);
          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
        }
-     );  
+     );
+    }
+    else if (this.form == "notasalida")
+    {
+      this.notaSalidaAlmacenService.ActualizarAnalisisCalidad(this.reqControlCalidad)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/notasalida-list']);
+            }
+          }
+          );
+            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );  
+    }  
    }
  }
  obtenerDetalleAnalisisFisicoColor(tableColor)

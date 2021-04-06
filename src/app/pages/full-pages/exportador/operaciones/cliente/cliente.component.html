@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <div class="content-header">BANDEJA DE REGISTRO DE CLIENTES</div>
+        <div class="content-header">BANDEJA DE CONSULTA DE CLIENTES</div>
     </div>
 </div>
 
@@ -16,13 +16,13 @@
                                     <label for="codCliente" class="form-label">Código Cliente</label>
                                     <input type="text" formControlName="codCliente" class="form-control" id="codCliente"
                                         placeholder="Código del cliente"
-                                        [ngClass]="{ 'is-invalid': f.codCliente.invalid, 'is-valid': !f.codCliente.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.codCliente.invalid, 'is-valid': !f.codCliente.invalid }" />
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="ruc" class="form-label">RUC</label>
                                     <input type="number" formControlName="ruc" class="form-control" id="ruc"
                                         placeholder="R.U.C"
-                                        [ngClass]="{ 'is-invalid': f.ruc.invalid, 'is-valid': !f.ruc.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.ruc.invalid, 'is-valid': !f.ruc.invalid }" />
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="fechaInicial" class="form-label">Fecha Inicial</label>
@@ -54,7 +54,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="descCliente" class="form-label">País</label>
+                                    <label for="pais" class="form-label">País</label>
                                     <ng-select [items]="listPais" formControlName="pais" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="pais" placeholder="Seleccionar país"
                                         [ngClass]="{ 'is-invalid': f.pais.invalid, 'is-valid': !f.pais.invalid }"
@@ -62,9 +62,10 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="descCliente" class="form-label">Estado</label>
+                                    <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listEstados" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar país"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar estado"
                                         [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
@@ -73,10 +74,13 @@
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Anular</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Exportar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="clienteForm.invalid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="!selected || selected.length <= 0" (click)="Anular()">Anular</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="!rows || rows.length <= 0" (click)="Exportar()">Exportar</button>
                         </form>
                     </div>
                 </div>
@@ -88,6 +92,7 @@
 <div class="d-flex justify-content-between align-items-center">
     <ngx-spinner></ngx-spinner>
 </div>
+
 
 <section id="ngx-datatable-filter">
     <div class="row">
@@ -116,27 +121,27 @@
                         </fieldset>
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
-                            [selected]="selected" [selectionType]="'single'">
+                            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
                             <ngx-datatable-column name="Cod. Cliente" prop="Numero" width="90">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
-                                                [routerLink]="['/productor/administracion/productor/update', row.ProductorId]">{{
+                                                [routerLink]="['/exportador/operaciones/cliente/update', row.ClienteId]">{{
                                                 name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo Cliente" prop="TipoDocumento" width="130">
+                            <ngx-datatable-column name="Tipo Cliente" prop="TipoCliente" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="RUC" prop="NumeroDocumento" width="120">
+                            <ngx-datatable-column name="RUC" prop="Ruc" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Razón Social" prop="NombreRazonSocial" width="250">
+                            <ngx-datatable-column name="Razón Social" prop="RazonSocial" width="250">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Dirección" prop="Departamento" width="140">
+                            <ngx-datatable-column name="Dirección" prop="Direccion" width="140">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="País" prop="Provincia" width="140">
+                            <ngx-datatable-column name="País" prop="Pais" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
