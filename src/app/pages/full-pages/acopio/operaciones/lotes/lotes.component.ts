@@ -84,7 +84,11 @@ export class LotesComponent implements OnInit {
       let vProduct = group.controls['producto'].value;
       let vByProduct = group.controls['subProducto'].value;
 
-      if (!nroLote && !nroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
+      if (nroLote && (!group.value.fechaInicio || !group.value.fechaFin)) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambas fechas.' };
+      } else if (!nroLote && (!group.value.fechaInicio || !group.value.fechaFin || !group.value.estado || !group.value.producto)) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar los siguientes filtros: rango de fechas, estado y producto.' };
+      } else if (!nroLote && !nroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
       } else if (nroDocumento && !tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };

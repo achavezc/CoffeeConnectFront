@@ -1,13 +1,16 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { DatatableComponent } from "@swimlane/ngx-datatable";
+import swal from 'sweetalert2';
 
 import { DateUtil } from '../../../../../services/util/date-util';
 import { ClienteService } from '../../../../../services/cliente.service';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../shared/util/excel.service';
+import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 
 @Component({
   selector: 'app-cliente',
@@ -20,30 +23,31 @@ export class ClienteComponent implements OnInit {
   constructor(private fb: FormBuilder, private dateUtil: DateUtil,
     private clienteService: ClienteService,
     private spinner: NgxSpinnerService,
-    private maestroUtil: MaestroUtil,
     private maestroService: MaestroService,
     private router: Router,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private route: ActivatedRoute) { }
 
   clienteForm: FormGroup;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
   listTipoCliente: [] = [];
   listPais: [] = [];
   listEstados: [] = [];
   selectedTipoCliente: any;
   selectedPais: any;
   selectedEstado: any;
-  selected: any;
+  selected = [];
   limitRef: number = 10;
-  rows: [] = [];
-  tempData: [] = [];
+  rows = [];
+  tempData = [];
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    this.clienteForm.controls['fechaInicial'].setValue(this.dateUtil.currentDate());
-    this.clienteForm.controls['fechaFinal'].setValue(this.dateUtil.currentMonthAgo());
+    this.clienteForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
+    this.clienteForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
   }
 
   LoadForm(): void {
@@ -84,11 +88,16 @@ export class ClienteComponent implements OnInit {
   }
 
   updateLimit(event: any): void {
-
+    this.limitRef = event.target.value;
   }
 
   filterUpdate(event: any): void {
-
+    const val = event.target.value.toLowerCase();
+    const temp = this.tempData.filter(function (d) {
+      return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    this.rows = temp;
+    this.table.offset = 0;
   }
 
   getRequest(): any {
@@ -116,19 +125,19 @@ export class ClienteComponent implements OnInit {
             this.rows = res.Result.Data;
             this.tempData = this.rows;
           } else {
-            // vArrHeaderExcel = [
-            //   new HeaderExcel("Número Guia", "center"),
-            //   new HeaderExcel("Código Socio", "center"),
-            //   new HeaderExcel("Tipo Documento", "center"),
-            //   new HeaderExcel("Número Documento", "right", "#"),
-            //   new HeaderExcel("Nombre o Razón Social"),
-            //   new HeaderExcel("Fecha Registro", "center", "dd/mm/yyyy"),
-            //   new HeaderExcel("Estado", "center")
-            // ];
+            const vArrHeaderExcel = [
+              new HeaderExcel("Código Cliente", "center"),
+              new HeaderExcel("Tipo Cliente"),
+              new HeaderExcel("RUC", "center"),
+              new HeaderExcel("Razón Social"),
+              new HeaderExcel("Dirección"),
+              new HeaderExcel("País"),
+              new HeaderExcel("Estado", "center")
+            ];
 
             let vArrData: any[] = [];
-            this.tempData.forEach((x: any) => vArrData.push([x.Numero, x.Codigo]));
-            this.excelService.ExportJSONAsExcel([], vArrData, 'Clientes');
+            this.tempData.forEach((x: any) => vArrData.push([x.Numero, x.TipoCliente, x.Ruc, x.RazonSocial, x.Direccion, x.Pais, x.Estado]));
+            this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Clientes');
           }
         } else {
           this.errorGeneral = { isError: true, msgError: res.Result.Message };
@@ -148,15 +157,50 @@ export class ClienteComponent implements OnInit {
   }
 
   Exportar(): void {
-    this.Search(true);
+    const form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `¿Está seguro de exportar la información mostrada?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        form.Search(true);
+      }
+    });
   }
 
   Anular(): void {
-
+    const form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `¿Está seguro de anular el cliente ""?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+      }
+    });
   }
 
   Nuevo(): void {
-    this.router.navigate(['/exportador/cliente/create']);
+    this.router.navigate(['/exportador/operaciones/cliente/create']);
   }
 
 }

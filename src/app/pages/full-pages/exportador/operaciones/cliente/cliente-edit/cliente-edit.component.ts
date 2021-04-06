@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cliente-edit',
@@ -8,7 +9,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ClienteEditComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private router: Router) { }
 
   clienteEditForm: FormGroup;
   listPaises: any[];
@@ -53,5 +55,9 @@ export class ClienteEditComponent implements OnInit {
 
   get f() {
     return this.clienteEditForm.controls;
+  }
+
+  Cancel(): void {
+    this.router.navigate(['/exportador/operaciones/cliente/list']);
   }
 }

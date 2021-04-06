@@ -31,7 +31,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="col-lg-8 col-md-8 col-sm-8">
                     <div class="form-group row">
@@ -56,7 +55,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <label for="">DETALLE DE LOTES</label>
@@ -67,7 +65,6 @@
                     <label for="">ALMACEN</label>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset class="form-group">
@@ -115,18 +112,15 @@
                     </ngx-datatable>
                 </div>
             </div>
-
             <div class="form-row">
-                <div class="col-lg-8 col-md-8 col-sm-8">
-
-                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8"></div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <table class="table table-sm">
                         <tbody>
                             <tr>
                                 <td>TOTAL PESO BRUTO (KG)</td>
                                 <td>
-                                    <input type="number" name="totalPesoNeto" id="totalPesoNeto"
+                                    <input type="text" name="totalPesoNeto" id="totalPesoNeto"
                                         formControlName="totalPesoNeto" class="form-control form-control-sm text-right"
                                         placeholder="Total peso bruto (kg)" [readonly]="true">
                                 </td>
@@ -136,7 +130,7 @@
                                 <td>
                                     <input type="text" name="promedioRendimiento" id="promedioRendimiento"
                                         formControlName="promedioRendimiento"
-                                        class="form-control form-control-sm text-center"
+                                        class="form-control form-control-sm text-right"
                                         placeholder="Promedio rendimiento" [readonly]="true">
                                 </td>
                             </tr>
@@ -145,7 +139,7 @@
                                 <td>
                                     <input type="text" name="promedioHumedad" id="promedioHumedad"
                                         formControlName="promedioHumedad"
-                                        class="form-control form-control-sm text-center" placeholder="Promedio humedad"
+                                        class="form-control form-control-sm text-right" placeholder="Promedio humedad"
                                         [readonly]="true">
                                 </td>
                             </tr>
@@ -154,7 +148,7 @@
                                 <td>
                                     <input type="text" name="promedioPuntajeFinal" id="promedioPuntajeFinal"
                                         formControlName="promedioPuntajeFinal"
-                                        class="form-control form-control-sm text-center"
+                                        class="form-control form-control-sm text-right"
                                         placeholder="Promedio puntaje final" [readonly]="true">
                                 </td>
                             </tr>
