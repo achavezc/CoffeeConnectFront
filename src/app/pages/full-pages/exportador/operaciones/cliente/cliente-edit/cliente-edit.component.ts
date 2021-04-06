@@ -77,7 +77,8 @@ export class ClienteEditComponent implements OnInit {
       descGerente: [],
       idGerente: [],
       descPresidente: [],
-      idPresidente: []
+      idPresidente: [],
+      responsableComercial: []
     });
   }
 
