@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
@@ -33,7 +33,7 @@ export class ClienteEditComponent implements OnInit {
   listDistritos: [];
   listCiudades: [];
   selectedTipoCliente: string;
-  selectedPais: string;
+  selectedPais: any;
   selectedDepartamento: string;
   selectedProvincia: string;
   selectedDistrito: string;
@@ -45,14 +45,16 @@ export class ClienteEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoadForm();
-    // this.LoadCombos();
-    // this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
-    // this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    // if (this.vId > 0) {
+    this.addValidations();
+    this.LoadCombos();
+    this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.LoadDataInicial();
+    if (this.vId > 0) {
+      this.ConsultarPorId();
+    } else {
 
-    // } else {
-    //   this.LoadDataInicial();
-    // }
+    }
   }
 
   LoadForm(): void {
@@ -80,10 +82,27 @@ export class ClienteEditComponent implements OnInit {
       idPresidente: [],
       responsableComercial: []
     });
+    this.clienteEditForm.setValidators(this.comparisonValidator());
   }
 
   get f() {
     return this.clienteEditForm.controls;
+  }
+
+  public comparisonValidator(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors => {
+
+      if (this.vId > 0 && !group.value.fecha) {
+        this.errorGeneral = { isError: true, msgError: 'Por favor ingresar una fecha.' };
+      } else if (group.value.descGerente && !group.value.idGerente) {
+        this.errorGeneral = { isError: true, msgError: 'Por favor ingresar el ID del gerente.' };
+      } else if (group.value.descPresidente && !group.value.idPresidente) {
+        this.errorGeneral = { isError: true, msgError: 'Por favor ingresar el ID del presidente.' };
+      } else {
+        this.errorGeneral = { isError: false, msgError: '' };
+      }
+      return;
+    };
   }
 
   LoadDataInicial(): void {
@@ -96,19 +115,83 @@ export class ClienteEditComponent implements OnInit {
   }
 
   LoadCombos(): void {
+    this.GetPaises();
     this.GetTiposClientes();
-    this.GetDepartamentos();
   }
 
-  // async GetPaises() {
-  //   const res = await 
-  // }
+  addValidations(): void {
+    const departamento = this.clienteEditForm.controls.departamento;
+    const provincia = this.clienteEditForm.controls.provincia;
+    const distrito = this.clienteEditForm.controls.distrito;
+    const ciudad = this.clienteEditForm.controls.ciudad;
+    const nroRuc = this.clienteEditForm.controls.nroRuc;
+
+    this.clienteEditForm.controls.tipoCliente.valueChanges.subscribe((tc: any) => {
+      if (tc === '01') {
+        departamento.setValidators(Validators.required);
+        provincia.setValidators(Validators.required);
+        distrito.setValidators(Validators.required);
+        nroRuc.setValidators(Validators.required);
+        ciudad.clearValidators();
+      } else if (tc === '02') {
+        departamento.clearValidators();
+        provincia.clearValidators();
+        distrito.clearValidators();
+        nroRuc.clearValidators();
+        ciudad.setValidators(Validators.required);
+      } else {
+        departamento.clearValidators();
+        provincia.clearValidators();
+        distrito.clearValidators();
+        ciudad.clearValidators();
+        nroRuc.clearValidators();
+      }
+      departamento.updateValueAndValidity();
+      provincia.updateValueAndValidity();
+      distrito.updateValueAndValidity();
+      ciudad.updateValueAndValidity();
+      nroRuc.updateValueAndValidity();
+    });
+  }
+
+  onChangeTipoCliente(event: any): void {
+    if (event.Codigo == '01') {
+      // this.clienteEditForm.controls.pais.setValue(this.vSessionUser.Result.Data.Pais);
+      this.clienteEditForm.controls.pais.setValue('PE');
+      this.onChangePais({ Codigo: this.selectedPais });
+    } else {
+      this.clienteEditForm.controls.pais.reset();
+    }
+  }
+
+  async GetPaises() {
+    const res: any = await this.maestroService.ConsultarPaisAsync().toPromise();
+    if (res.Result.Success) {
+      this.listPaises = res.Result.Data;
+    }
+  }
+
+  onChangePais(event: any): void {
+    this.spinner.show();
+    const form = this;
+    this.listDepartamentos = [];
+    this.clienteEditForm.controls.departamento.reset();
+    this.maestroUtil.GetDepartments(event.Codigo, (res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        form.listDepartamentos = res.Result.Data;
+        form.listCiudades = res.Result.Data;
+      }
+    });
+  }
 
   async GetTiposClientes() {
+    this.spinner.show();
     const res: any = await this.maestroService.obtenerMaestros('TipoCliente').toPromise();
     if (res.Result.Success) {
       this.listTiposClientes = res.Result.Data;
     }
+    this.spinner.hide();
   }
 
   async GetDepartamentos() {
@@ -119,10 +202,12 @@ export class ClienteEditComponent implements OnInit {
   }
 
   onChangeDepartament(event: any): void {
+    this.spinner.show();
     const form = this;
     this.listProvincias = [];
     this.clienteEditForm.controls.provincia.reset();
     this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, (res: any) => {
+      this.spinner.hide();
       if (res.Result.Success) {
         form.listProvincias = res.Result.Data;
       }
@@ -138,11 +223,13 @@ export class ClienteEditComponent implements OnInit {
   }
 
   onChangeProvince(event: any): void {
+    this.spinner.show();
     const form = this;
     this.listDistritos = [];
     this.clienteEditForm.controls.distrito.reset();
     this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais,
       (res: any) => {
+        this.spinner.hide();
         if (res.Result.Success) {
           form.listDistritos = res.Result.Data;
         }
@@ -159,6 +246,7 @@ export class ClienteEditComponent implements OnInit {
 
   Save(): void {
     if (!this.clienteEditForm.invalid && !this.errorGeneral.isError) {
+      this.errorGeneral = { isError: false, msgError: '' };
       const form = this;
       if (this.vId <= 0) {
         //CREAR
@@ -201,6 +289,8 @@ export class ClienteEditComponent implements OnInit {
           }
         });
       }
+    } else {
+      this.errorGeneral = { isError: true, msgError: 'Por favor completar los campos OBLIGATORIOS.' };
     }
   }
 
@@ -209,21 +299,21 @@ export class ClienteEditComponent implements OnInit {
       ClienteId: this.clienteEditForm.value.idCliente ?? 0,
       Numero: this.clienteEditForm.value.codCliente ?? '',
       TipoClienteId: this.clienteEditForm.value.tipoCliente ?? '',
-      Ruc: this.clienteEditForm.value.nroRuc ?? '',
+      Ruc: this.clienteEditForm.value.nroRuc ? this.clienteEditForm.value.nroRuc.toString() : '',
       RazonSocial: this.clienteEditForm.value.cliente ?? '',
       Direccion: this.clienteEditForm.value.direccion ?? '',
       PaisId: this.clienteEditForm.value.pais ?? 0,
       DepartamentoId: this.clienteEditForm.value.departamento ?? '',
       ProvinciaId: this.clienteEditForm.value.provincia ?? '',
       DistritoId: this.clienteEditForm.value.distrito ?? '',
-      NumeroTelefono: this.clienteEditForm.value.telefono.toString() ?? '',
+      NumeroTelefono: this.clienteEditForm.value.telefono ? this.clienteEditForm.value.telefono.toString() : '',
       CorreoElectronico: this.clienteEditForm.value.email ?? '',
       GerenteGeneral: this.clienteEditForm.value.descGerente ?? '',
-      GerenteGeneralNumero: this.clienteEditForm.value.idGerente.toString() ?? '',
+      GerenteGeneralNumero: this.clienteEditForm.value.idGerente ? this.clienteEditForm.value.idGerente.toString() : '',
       Presidente: this.clienteEditForm.value.descPresidente ?? '',
-      PresidenteNumero: this.clienteEditForm.value.idPresidente.toString() ?? '',
+      PresidenteNumero: this.clienteEditForm.value.idPresidente ? this.clienteEditForm.value.idPresidente.toString() : '',
       Usuario: 'mruizb',
-      EstadoId: ''
+      EstadoId: '01'
     }
   }
 
@@ -238,7 +328,7 @@ export class ClienteEditComponent implements OnInit {
           this.Cancel();
         });
       } else {
-        this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        this.alertUtil.alertError('ERROR!', res.Result.Message);
       }
     }, (err: any) => {
       this.spinner.hide();
@@ -258,13 +348,89 @@ export class ClienteEditComponent implements OnInit {
           this.Cancel();
         });
       } else {
-        this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        this.alertUtil.alertError('ERROR!', res.Result.Message);
       }
     }, (err: any) => {
       this.spinner.hide();
       console.log(err);
       this.errorGeneral = { isError: true, msgError: this.vMsgErrorGenerico };
     })
+  }
+
+  ConsultarPorId(): void {
+    this.spinner.show();
+    this.clienteService.SearchById({ ClienteId: this.vId }).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.CompletarFormulario(res.Result.Data);
+      } else {
+        this.spinner.hide();
+      }
+    }, (err: any) => {
+      this.spinner.hide();
+    })
+  }
+
+  async CompletarFormulario(data: any) {
+    if (data.ClienteId) {
+      this.clienteEditForm.controls.idCliente.setValue(data.ClienteId);
+    }
+    if (data.FechaRegistro) {
+      this.clienteEditForm.controls.fecha.setValue(data.FechaRegistro.substring(0, 10));
+    }
+    if (data.TipoClienteId) {
+      await this.GetTiposClientes();
+      this.clienteEditForm.controls.tipoCliente.setValue(data.TipoClienteId);
+    }
+    if (data.Numero) {
+      this.clienteEditForm.controls.codCliente.setValue(data.Numero);
+    }
+    if (data.RazonSocial) {
+      this.clienteEditForm.controls.cliente.setValue(data.RazonSocial);
+    }
+    if (data.Ruc) {
+      this.clienteEditForm.controls.nroRuc.setValue(data.Ruc);
+    }
+    if (data.NumeroTelefono) {
+      this.clienteEditForm.controls.telefono.setValue(data.NumeroTelefono);
+    }
+    if (data.CorreoElectronico) {
+      this.clienteEditForm.controls.email.setValue(data.CorreoElectronico);
+    }
+    if (data.Direccion) {
+      this.clienteEditForm.controls.direccion.setValue(data.Direccion);
+    }
+    if (data.PaisId) {
+      await this.GetPaises();
+      this.clienteEditForm.controls.pais.setValue(data.PaisId);
+      this.onChangePais({ Codigo: this.selectedPais });
+    }
+    if (data.DepartamentoId) {
+      this.clienteEditForm.controls.departamento.setValue(data.DepartamentoId);
+      this.clienteEditForm.controls.ciudad.setValue(data.DepartamentoId);
+    }
+    if (data.ProvinciaId) {
+      await this.GetProvincias();
+      this.clienteEditForm.controls.provincia.setValue(data.ProvinciaId);
+    }
+    if (data.DistritoId) {
+      await this.GetDistritos();
+      this.clienteEditForm.controls.distrito.setValue(data.DistritoId);
+    }
+    if (data.GerenteGeneral) {
+      this.clienteEditForm.controls.descGerente.setValue(data.GerenteGeneral);
+    }
+    if (data.GerenteGeneralNumero) {
+      this.clienteEditForm.controls.idGerente.setValue(data.GerenteGeneralNumero);
+    }
+    if (data.Presidente) {
+      this.clienteEditForm.controls.descPresidente.setValue(data.Presidente);
+    }
+    if (data.PresidenteNumero) {
+      this.clienteEditForm.controls.idPresidente.setValue(data.PresidenteNumero);
+    }
+    // this.clienteEditForm.controls.responsableComercial.setValue(data.);
+    this.spinner.hide();
   }
 
   Cancel(): void {

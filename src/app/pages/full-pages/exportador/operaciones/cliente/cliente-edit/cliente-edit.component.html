@@ -69,7 +69,8 @@
                                     <ng-select [items]="listTiposClientes" formControlName="tipoCliente"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoCliente"
                                         placeholder="Seleccionar Tipo de Cliente" [(ngModel)]="selectedTipoCliente"
-                                        [ngClass]="{ 'is-invalid': f.tipoCliente.invalid, 'is-valid': !f.tipoCliente.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.tipoCliente.invalid, 'is-valid': !f.tipoCliente.invalid }"
+                                        (change)="onChangeTipoCliente($event)">
                                     </ng-select>
                                 </div>
                             </div>
@@ -145,9 +146,11 @@
                                 <label for="pais" class="col-md-3 col-form-label">PAÍS</label>
                                 <div class="col-md-9">
                                     <ng-select [items]="listPaises" formControlName="pais" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="pais" placeholder="Seleccionar país"
+                                        bindLabel="Descripcion" bindValue="Codigo" id="pais"
+                                        placeholder="Seleccionar país"
                                         [ngClass]="{ 'is-invalid': f.pais.invalid, 'is-valid': !f.pais.invalid }"
-                                        [(ngModel)]="selectedPais">
+                                        [(ngModel)]="selectedPais" (change)="onChangePais($event)"
+                                        [readonly]="!selectedTipoCliente || selectedTipoCliente == '01'">
                                     </ng-select>
                                 </div>
                             </div>
@@ -160,7 +163,8 @@
                                         class="form-control" bindLabel="Descripcion" bindValue="Codigo"
                                         id="departamento" placeholder="Seleccionar departamento"
                                         [(ngModel)]="selectedDepartamento" (change)="onChangeDepartament($event)"
-                                        [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }"
+                                        [readonly]="!selectedTipoCliente || selectedTipoCliente == '02'">
                                     </ng-select>
                                 </div>
                             </div>
@@ -173,7 +177,8 @@
                                         bindLabel="Descripcion" bindValue="Codigo" id="provincia"
                                         [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }"
                                         placeholder="Seleccionar provincia" [(ngModel)]="selectedProvincia"
-                                        (change)="onChangeProvince($event)">
+                                        (change)="onChangeProvince($event)"
+                                        [readonly]="!selectedTipoCliente || selectedTipoCliente == '02'">
                                     </ng-select>
                                 </div>
                             </div>
@@ -187,7 +192,8 @@
                                     <ng-select [items]="listDistritos" formControlName="distrito" class="form-control"
                                         bindLabel="Descripcion" bindValue="Codigo" id="distrito"
                                         [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }"
-                                        placeholder="Seleccionar distrito" [(ngModel)]="selectedDistrito">
+                                        placeholder="Seleccionar distrito" [(ngModel)]="selectedDistrito"
+                                        [readonly]="!selectedTipoCliente || selectedTipoCliente == '02'">
                                     </ng-select>
                                 </div>
                             </div>
@@ -199,7 +205,8 @@
                                     <ng-select [items]="listCiudades" formControlName="ciudad" class="form-control"
                                         bindLabel="Descripcion" bindValue="Codigo" id="ciudad"
                                         placeholder="Seleccionar ciudad" [(ngModel)]="selectedCiudad"
-                                        [ngClass]="{ 'is-invalid': f.ciudad.invalid, 'is-valid': !f.ciudad.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.ciudad.invalid, 'is-valid': !f.ciudad.invalid }"
+                                        [readonly]="!selectedTipoCliente || selectedTipoCliente == '01'">
                                     </ng-select>
                                 </div>
                             </div>
@@ -210,7 +217,7 @@
                             <div class="form-group row">
                                 <label for="descGerente" class="col-md-3 col-form-label">GERENTE GENERAL</label>
                                 <div class="col-md-6 pl-0">
-                                    <input type="number" name="descGerente" id="descGerente"
+                                    <input type="text" name="descGerente" id="descGerente"
                                         formControlName="descGerente" class="form-control"
                                         [ngClass]="{ 'is-invalid': f.descGerente.invalid, 'is-valid': !f.descGerente.invalid }"
                                         placeholder="Gerente General" />
@@ -227,7 +234,7 @@
                             <div class="form-group row">
                                 <label for="descPresidente" class="col-md-3 col-form-label">PRESIDENTE</label>
                                 <div class="col-md-6 pl-0">
-                                    <input type="number" name="descPresidente" id="descPresidente"
+                                    <input type="text" name="descPresidente" id="descPresidente"
                                         [ngClass]="{ 'is-invalid': f.descPresidente.invalid, 'is-valid': !f.descPresidente.invalid }"
                                         formControlName="descPresidente" class="form-control" placeholder="Presidente">
                                 </div>
@@ -258,6 +265,12 @@
                                     <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <small class="danger form-text text-muted"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                         </div>
                     </div>
                 </div>
