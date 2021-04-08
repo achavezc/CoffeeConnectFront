@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewEncapsulation, Input,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -44,7 +44,7 @@ export class NotaSalidaEditComponent implements OnInit {
   public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
-  filtrosEmpresaProv: any= {};
+  filtrosEmpresaProv: any = {};
   listaClasificacion = [];
   listaAlmacen: any[];
   numero = "";
@@ -60,7 +60,7 @@ export class NotaSalidaEditComponent implements OnInit {
   disabledControl: string = '';
   empresa: any;
   viewTagSeco: boolean;
-  
+
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
@@ -74,12 +74,11 @@ export class NotaSalidaEditComponent implements OnInit {
     private notaSalidaAlmacenService: NotaSalidaAlmacenService
 
   ) {
-   
-  }
-  
 
-  seleccionarTipoAlmacen()
-  {
+  }
+
+
+  seleccionarTipoAlmacen() {
     this.child.selectAlmacenLote = this.selectAlmacen;
   }
 
@@ -165,57 +164,54 @@ export class NotaSalidaEditComponent implements OnInit {
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.almacen = data.Almacen;
     this.responsable = data.UsuarioRegistro;
-    this.spinner.hide();   
+    this.spinner.hide();
 
-    if (data.DetalleLotes[0].SubProductoId == "02")
-    {
-        this.viewTagSeco = true;
+    if (data.DetalleLotes[0].SubProductoId == "02") {
+      this.viewTagSeco = true;
     }
-    else
-    {
+    else {
       this.viewTagSeco = false;
     }
-  } 
+  }
 
 
   get fns() {
     return this.notaSalidaFormEdit.controls;
   }
-  cargarForm() 
-  {
-      this.notaSalidaFormEdit =this.fb.group(
-        {
-          numNotaSalida:  new FormControl('', []),
-          almacen: new FormControl('', [Validators.required]),
-          destinatario: ['',[Validators.required] ],
-          ruc:   new FormControl('', []),
-          dirPartida:  [this.login.Result.Data.DireccionEmpresa, []],
-          dirDestino:   new FormControl('', []),
-          tagcalidad:this.fb.group({
-            propietario: new FormControl('', [Validators.required]),
-            domiciliado: new FormControl('', []),
-            ruc: new FormControl('', []),
-            conductor: new FormControl('', []),
-            brevete: new FormControl('', []),
-            codvehicular: new FormControl('', []),
-            marca: new FormControl('', []),
-            placa: new FormControl('', []),
-            numconstanciamtc: new FormControl('', []),
-            motivotranslado: new FormControl('', [Validators.required]),
-            numreferencia: new FormControl('', []),
-            observacion: new FormControl('', [])
-          }),
-        });
-        this.maestroService.obtenerMaestros("Almacen")
-        .subscribe(res => {
-          if (res.Result.Success) {
-            this.listaAlmacen = res.Result.Data;
-          }
-        },
-          err => {
-            console.error(err);
-          }
-        );
+  cargarForm() {
+    this.notaSalidaFormEdit = this.fb.group(
+      {
+        numNotaSalida: new FormControl('', []),
+        almacen: new FormControl('', [Validators.required]),
+        destinatario: ['', [Validators.required]],
+        ruc: new FormControl('', []),
+        dirPartida: [this.login.Result.Data.DireccionEmpresa, []],
+        dirDestino: new FormControl('', []),
+        tagcalidad: this.fb.group({
+          propietario: new FormControl('', [Validators.required]),
+          domiciliado: new FormControl('', []),
+          ruc: new FormControl('', []),
+          conductor: new FormControl('', []),
+          brevete: new FormControl('', []),
+          codvehicular: new FormControl('', []),
+          marca: new FormControl('', []),
+          placa: new FormControl('', []),
+          numconstanciamtc: new FormControl('', []),
+          motivotranslado: new FormControl('', [Validators.required]),
+          numreferencia: new FormControl('', []),
+          observacion: new FormControl('', [])
+        }),
+      });
+    this.maestroService.obtenerMaestros("Almacen")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listaAlmacen = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
   }
 
   openModal(modalEmpresa) {
@@ -239,7 +235,7 @@ export class NotaSalidaEditComponent implements OnInit {
   cancelar() {
     this.router.navigate(['/acopio/operaciones/notasalida-list']);
   }
- 
+
   guardar() {
     if (this.child.listaLotesDetalleId.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' }; }
     else {
@@ -372,8 +368,18 @@ export class NotaSalidaEditComponent implements OnInit {
   imprimir(): void {
     let link = document.createElement('a');
     document.body.appendChild(link);
-    link.href = `${host}NotaSalidaAlmacen/GenerarPDFGuiaRemision?id=${1}`;
+    link.href = `${host}NotaSalidaAlmacen/GenerarPDFGuiaRemision?id=${this.id}`;
     link.download = "GuiaRemision.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
+
+  ListaProductores(): void {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}NotaSalidaAlmacen/GenerarPDFListaProductores?id=${this.id}`;
+    link.download = "ListaProductoresGR.pdf"
     link.target = "_blank";
     link.click();
     link.remove();
