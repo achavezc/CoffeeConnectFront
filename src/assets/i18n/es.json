@@ -238,7 +238,31 @@
 	},
 	"Exportador":
 	{
-		"Label":"Exportador"
+		"Label":"Exportador",
+    "Operaciones":
+		{
+			"Label":"Operaciones",
+			"ControlCalidadExterna":
+				{
+					"Label":"Orden de Servicio"
+				},
+        "Cliente":
+				{
+					"Label":"Cliente"
+				},
+        "Contrato":
+				{
+					"Label":"Contrato"
+				}
+		},
+		"Administracion":
+		{
+			"Label":"Administracion",
+			"MaestrosGenerales":
+				{
+				  "Label":"Maestros Generales"
+				}
+		}
 	},
 	"Transporte":
 	{

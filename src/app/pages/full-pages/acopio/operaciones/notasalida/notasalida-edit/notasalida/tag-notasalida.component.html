@@ -42,7 +42,8 @@
                   'is-valid': submitted && !f.fechaInicio.invalid }" />
                   <small class="form-text text-muted danger"
                     *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                    <small class="form-text text-muted danger" *ngIf="f.fechaInicio.errors?.required">Ingresar Fecha de Inicio</small>
+                  <small class="form-text text-muted danger" *ngIf="f.fechaInicio.errors?.required">Ingresar Fecha de
+                    Inicio</small>
                 </div>
 
               </div>
@@ -53,7 +54,8 @@
                   <input type="date" class="form-control" formControlName="fechaFinal" id="validationTooltip07"
                     name="fechaFinal" (blur)="compareTwoDates()" placeholder="date" date [ngClass]="{ 'is-invalid': submitted && f.fechaFinal.invalid, 
                   'is-valid': submitted && !f.fechaFinal.invalid }" />
-                  <small class="form-text text-muted danger" *ngIf="f.fechaFinal.errors?.required">Ingresar Fecha Final</small>
+                  <small class="form-text text-muted danger" *ngIf="f.fechaFinal.errors?.required">Ingresar Fecha
+                    Final</small>
                 </div>
 
               </div>
@@ -65,7 +67,8 @@
                     bindLabel="Label" bindValue="Codigo"
                     [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }">
                   </ng-select>
-                  <small class="form-text text-muted danger" *ngIf="f.producto.errors?.required">Seleccione Producto</small>
+                  <small class="form-text text-muted danger" *ngIf="f.producto.errors?.required">Seleccione
+                    Producto</small>
                 </div>
               </div>
 
@@ -156,15 +159,15 @@
                 <div class="col-md-10">
                   <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                 </div>
-                  <div class="col-md-2 justify-content-end">
-                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
-                  </div>
-                
+                <div class="col-md-2 justify-content-end">
+                  <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                </div>
+
               </div>
             </div>
           </div>
 
-          <div class="row"  style="margin-top: 1rem">
+          <div class="row" style="margin-top: 1rem">
             <div class="col-12">
               <fieldset class="form-group">
                 <label style="font-size: 0.6rem;">Show
@@ -239,11 +242,12 @@
                 <label for="validationTooltip08" class="col-md-4 col-form-label card-text2">Razón Social</label>
                 <div class="col-md-8">
                   <input type="text" minlength="5" maxlength="20" formControlName="rzsocial" class="form-control"
-                    id="validationTooltip08" placeholder="Razon Social"  [ngClass]="{ 'is-invalid': submittedT && fT.rzsocial.invalid, 'is-valid': submittedT && !fT.rzsocial.invalid }">
-                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.minlength">Ingrese 5 a 20
-                      letras</small>
-                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.maxlength">Ingrese 5 a 20
-                      letras</small>
+                    id="validationTooltip08" placeholder="Razon Social"
+                    [ngClass]="{ 'is-invalid': submittedT && fT.rzsocial.invalid, 'is-valid': submittedT && !fT.rzsocial.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.minlength">Ingrese 5 a 20
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.maxlength">Ingrese 5 a 20
+                    letras</small>
                 </div>
               </div>
 
@@ -255,11 +259,12 @@
                 <label for="validationTooltip08" class="col-md-3 col-form-label card-text2"> RUC </label>
                 <div class="col-md-9">
                   <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
-                    id="validationTooltip08" placeholder="Ruc"  [ngClass]="{ 'is-invalid': submittedT && fT.ruc.invalid, 'is-valid': submittedT && !fT.ruc.invalid }">
-                    <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.minlength">Ingrese 8 a 20
-                      letras</small>
-                    <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.maxlength">Ingrese 8 a 20
-                      letras</small>
+                    id="validationTooltip08" placeholder="Ruc"
+                    [ngClass]="{ 'is-invalid': submittedT && fT.ruc.invalid, 'is-valid': submittedT && !fT.ruc.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.minlength">Ingrese 8 a 20
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.maxlength">Ingrese 8 a 20
+                    letras</small>
                 </div>
 
               </div>
@@ -270,12 +275,14 @@
             <div class="col-12">
               <div class="row">
                 <div class="col-md-10">
-                  <small class="form-text text-muted danger" *ngIf="errorTransportista.isError">{{errorTransportista.errorMessage}}</small>
+                  <small class="form-text text-muted danger"
+                    *ngIf="errorTransportista.isError">{{errorTransportista.errorMessage}}</small>
                 </div>
-                  <div class="col-md-2 justify-content-end">
-                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscarTransportista()">Buscar</button>
-                  </div>
-                
+                <div class="col-md-2 justify-content-end">
+                  <button class="btn btn-primary mr-1 mb-1" type="submit"
+                    (click)="buscarTransportista()">Buscar</button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -303,7 +310,7 @@
                 [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                 [limit]="limitRefT" [rows]="rowsT" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
                 [selected]="selectedT" [selectionType]="'single'" (dblclick)="seleccionarTransportista(selectedT)">
-                <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20" >
+                <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20">
 
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
@@ -342,32 +349,32 @@
           Lotes</button>
       </div>
       <div class="cold-2" style="margin-top: 2rem;">
-        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminarLote(selectLoteDetalle)"  [disabled]="selectLoteDetalle.length == 0" >Eliminar Lote</button>
+        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminarLote(selectLoteDetalle)"
+          [disabled]="selectLoteDetalle.length == 0">Eliminar Lote</button>
       </div>
     </div>
     <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;">
       <div class="col-12">
         <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-          [rows]="rowsLotesDetalle" 
-          [selected]="selectLoteDetalle" [selectionType]="'single'" >
-          <ngx-datatable-column name="Numero Lote" prop="Numero" >
+          [rows]="rowsLotesDetalle" [selected]="selectLoteDetalle" [selectionType]="'single'">
+          <ngx-datatable-column name="Numero Lote" prop="Numero">
           </ngx-datatable-column>
-          <ngx-datatable-column name="N° Nota Ingreso" prop="NumeroNotaIngresoAlmacen" >
+          <ngx-datatable-column name="N° Nota Ingreso" prop="NumeroNotaIngresoAlmacen">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Tipo de Producto" prop="Producto" >
+          <ngx-datatable-column name="Tipo de Producto" prop="Producto">
           </ngx-datatable-column>
           <ngx-datatable-column name="Unid. Medida" prop="UnidadMedida">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Cantidad" prop="CantidadPesado" >
+          <ngx-datatable-column name="Cantidad" prop="CantidadPesado">
           </ngx-datatable-column>
           <ngx-datatable-column name="% Humedad" prop="HumedadPorcentaje">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Puntaje Final" prop="TotalAnalisisSensorial" >
+          <ngx-datatable-column name="Puntaje Final" prop="TotalAnalisisSensorial">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje" >
+          <ngx-datatable-column name="Rendimiento Porcentaje" prop="RendimientoPorcentaje">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Peso Bruto Kg." prop="KilosNetosPesado" >
+          <ngx-datatable-column name="Peso Bruto Kg." prop="KilosNetosPesado">
           </ngx-datatable-column>
         </ngx-datatable>
       </div>
@@ -375,9 +382,8 @@
 
     <div class="row justify-content-end" style="margin-right: 6rem; margin-left: 6rem;">
       <div class="col-7">
-        <ngx-datatable class="bootstrap core-bootstrap" #tableLotesTotal
-          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-          [rows]="rowsLotesTotal">
+        <ngx-datatable class="bootstrap core-bootstrap" #tableLotesTotal [columnMode]="ColumnMode.force"
+          [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [rows]="rowsLotesTotal">
           <ngx-datatable-column name="TOTAL LOTES" prop="Total" width="10">
           </ngx-datatable-column>
           <ngx-datatable-column name="PROMEDIO % RENDIMIENTO" prop="PorcentRendimiento" width="20">
@@ -399,17 +405,19 @@
           id="validationTooltip01" placeholder="Seleccionar Motivo Translado" class="form-control"
           [(ngModel)]="selectedMotivoTranslado" (change)="changeMotivo($event)"
           [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.motivotranslado.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.motivotranslado.invalid }">
-        </ng-select> 
-        <small class="form-text text-muted danger" *ngIf="tagNotadeSalida.controls.motivotranslado.errors?.required">Seleccione Motivo</small>
+        </ng-select>
+        <small class="form-text text-muted danger"
+          *ngIf="tagNotadeSalida.controls.motivotranslado.errors?.required">Seleccione Motivo</small>
       </div>
 
-     
+
       <div class="col-12 col-md-6" *ngIf="visibleNumReferencia">
         <label for="basicInput"> Numero de Referencia </label>
 
-        <input type="text" formControlName="numreferencia" class="form-control" id="validationTooltip08" placeholder="Numero de Referencia" >
+        <input type="text" formControlName="numreferencia" class="form-control" id="validationTooltip08"
+          placeholder="Numero de Referencia">
       </div>
-    
+
     </div>
 
     <div class="row"
@@ -420,12 +428,15 @@
     <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
       <div class="col-12 col-md-5">
         <label for="basicInput">PROPIETARIO</label>
-        <input type="text" class="form-control" id="basicInput" formControlName="propietario" [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.propietario.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.propietario.invalid }" disabled>
-       
-        
+        <input type="text" class="form-control" id="basicInput" formControlName="propietario"
+          [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.propietario.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.propietario.invalid }"
+          disabled>
 
-       
-      <small class="form-text text-muted danger" *ngIf="tagNotadeSalida.controls.propietario.errors?.required">Seleccione Transportista</small>
+
+
+
+        <small class="form-text text-muted danger"
+          *ngIf="tagNotadeSalida.controls.propietario.errors?.required">Seleccione Transportista</small>
         <label for="basicInput">DOMICILIADO</label>
         <input type="text" class="form-control" id="basicInput" formControlName="domiciliado" disabled>
         <label for="basicInput">RUC</label>
@@ -437,10 +448,10 @@
         <input type="text" class="form-control" id="basicInput" formControlName="brevete" disabled>
       </div>
       <div class="col-12 col-md-2" style="padding-left: 0cm;">
-        <button type="button"  (click)="openModalTransportista(modalTransportista)" class="btn btn-default"
-        style="margin-top: 1.5rem;">
-        <i class="fa fa-search"></i>
-      </button>
+        <button type="button" (click)="openModalTransportista(modalTransportista)" class="btn btn-default"
+          style="margin-top: 1.5rem;">
+          <i class="fa fa-search"></i>
+        </button>
       </div>
       <div class="col-12 col-md-5">
         <label for="basicInput">COD. VEHICULAR</label>
@@ -457,8 +468,8 @@
       <div class="col-12">
         <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
         <div class="position-relative has-icon-left">
-          <textarea id="bordered-form-6" rows="4" class="form-control" name="notes"
-            formControlName="observacion" maxlength="100"></textarea>
+          <textarea id="bordered-form-6" rows="4" class="form-control" name="notes" formControlName="observacion"
+            maxlength="100"></textarea>
           <div class="form-control-position">
             <i class="ft-file"></i>
           </div>

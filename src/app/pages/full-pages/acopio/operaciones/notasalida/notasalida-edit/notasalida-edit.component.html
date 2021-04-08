@@ -42,11 +42,13 @@
                   <div class="col-md-6 form-group">
                     <ng-select id="validationTooltip05" [items]="listaAlmacen" class="form-control"
                       [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
-                      placeholder="Seleccionar Almacen" [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }"
-                      (change)= "seleccionarTipoAlmacen()">
+                      placeholder="Seleccionar Almacen"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }"
+                      (change)="seleccionarTipoAlmacen()">
                     </ng-select>
 
-                    <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">Ingrese Tipo Almacén</small>
+                    <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">Ingrese Tipo
+                      Almacén</small>
                   </div>
                 </div>
 
@@ -109,7 +111,8 @@
                     <span class="d-none d-sm-block">Nota de Salida</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-tagNotasalida formGroupName="tagcalidad" [selectAlmacen] = "selectAlmacen" [submittedEdit] = "submittedEdit"></app-tagNotasalida>              
+                    <app-tagNotasalida formGroupName="tagcalidad" [selectAlmacen]="selectAlmacen"
+                      [submittedEdit]="submittedEdit"></app-tagNotasalida>
 
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                       <div class="col-8 d-flex flex-sm-row flex-column">
@@ -118,8 +121,10 @@
                           for="horizontal-form-1">{{responsable}}</label>
                       </div>
                       <div class="col-8 d-flex flex-sm-row flex-column">
-                        <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Nota Salida</label>
-                        <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaRegistro}}</label>
+                        <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Nota
+                          Salida</label>
+                        <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                          for="horizontal-form-1">{{fechaRegistro}}</label>
                       </div>
 
                     </div>
@@ -127,9 +132,13 @@
                       <small class="form-text text-muted danger"
                         *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                     </div>
-                    <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
-                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
-                        (click)="imprimir()">Imprimir</button>
+                    <div class="col-md-12 justify-content-end !important" style="margin-top: 2rem;">
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
+                        [disabled]="!id || id <= 0">Guia Remisión</button>
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="ListaProductores()"
+                        [disabled]="!id || id <= 0">Lista Productores</button>
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="RegistroSeguridad()"
+                        [disabled]="!id || id <= 0">Registro de Seguridad</button>
                       <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
                         (click)="guardar()">Guardar</button>
                       <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
@@ -143,12 +152,13 @@
                   </a>
 
                   <ng-template ngbNavContent *ngIf="viewTagSeco">
-                    <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadSeco>
-                    </ng-template>
-  
-                   <ng-template ngbNavContent *ngIf="!viewTagSeco" >
-                      <app-controlCalidadHumedo  *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadHumedo>
-                      </ng-template>
+                    <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form]="form"></app-controlCalidadSeco>
+                  </ng-template>
+
+                  <ng-template ngbNavContent *ngIf="!viewTagSeco">
+                    <app-controlCalidadHumedo *ngIf="detalle" [detalle]="detalle" [form]="form">
+                    </app-controlCalidadHumedo>
+                  </ng-template>
 
 
                 </li>

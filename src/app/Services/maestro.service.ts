@@ -61,4 +61,9 @@ export class MaestroService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  ConsultarPaisAsync() {
+    const url = `${this.url}/ConsultarPais`;
+    return this.http.post<any>(url, {}).catch(this.errorHandling.handleError);
+  }
+
 }
