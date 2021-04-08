@@ -15,8 +15,8 @@ export class CertificacionListComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private certificacionService: CertificacionService,
-    private alertUtil: AlertUtil
-    
+    private alertUtil: AlertUtil,
+    private router: Router
     ) { }
   certificacionForm: FormGroup;
   limitRef = 10;
@@ -71,6 +71,6 @@ export class CertificacionListComponent implements OnInit {
   }
 
   New(){
-
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones/create`], { queryParams: { SocioFincaId: this.vId}})
   }
 }

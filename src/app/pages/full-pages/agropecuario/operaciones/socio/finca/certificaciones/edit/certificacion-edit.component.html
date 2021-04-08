@@ -1,0 +1,90 @@
+
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">Registro de Certificaciones</div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+<div class="card">
+    <div class="card-body">
+ 
+      <form class="needs-validation" [formGroup]="certificacionEditForm">
+            <div class="form-row">
+              <div class="col-md-6 mb-6 form-group mb-2">
+                <label for="validationTooltip04">Tipo Certificacion</label>
+                <ng-select [items]="listaTipoCertificacion" formControlName="tipoCertificacion" class="form-control"
+                  bindLabel="Label" bindValue="Codigo" id="validationTooltip05" placeholder="Tipo Certificacion"
+                  [ngClass]="{ 'is-invalid': submitted && f.tipoCertificacion.invalid, 'is-valid': submitted && !f.tipoCertificacion.invalid }"
+                  [(ngModel)]="selectedTipoCertificacion">
+                </ng-select>
+              </div>
+              <div class="col-md-6 mb-6 form-group mb-2">
+                <label for="validationTooltip05">Fecha Emisión</label>
+                <input type="date" class="form-control" formControlName="fechaEmision" id="validationTooltip07"
+                name="fechaEmision" placeholder="date" date
+                [ngClass]="{ 'is-invalid': submitted && f.fechaEmision.invalid, 'is-valid': submitted && !f.fechaEmision.invalid }" />
+              </div>
+              
+            </div>
+
+            <div class="form-row">
+
+              <div class="col-md-6 mb-6 form-group mb-2">
+                <label for="validationTooltip08">Fecha Expiración </label>
+                <input type="date" class="form-control" formControlName="fechaExpiracion" id="validationTooltip07"
+                name="fechaExpiracion" placeholder="date" date
+                [ngClass]="{ 'is-invalid': submitted && f.fechaExpiracion.invalid, 'is-valid': submitted && !f.fechaExpiracion.invalid }" />
+              </div>
+
+              <div class="col-md-6 mb-6 form-group mb-2">
+                <label for="validationTooltip344">Entidad Certificadora </label>
+                <ng-select [items]="listaEntidadCertificadora" formControlName="entidadCertificadora" class="form-control"
+                  bindLabel="Label" bindValue="Codigo" id="validationTooltip344" placeholder="Entidad Certificadora"
+                  [ngClass]="{ 'is-invalid': submitted && f.entidadCertificadora.invalid, 'is-valid': submitted && !f.entidadCertificadora.invalid }"
+                  [(ngModel)]="selectedEntidadCertificadora">
+                </ng-select>
+              </div>
+  
+            </div>
+
+            <div class="form-row">
+
+              <div class="col-md-6 mb-6 form-group mb-2">
+                <label for="validationTooltip10">Estado</label>
+                <ul class="list-unstyled mb-0">
+                  <li class="d-inline-block mr-2">
+                    <div class="radio">
+                      <input type="radio" name="basic-radio-1" formControlName="estado" class="form-control" id="radio1" checked>
+                      <label for="radio1">Active</label>
+                    </div>
+                  </li>
+                  <li class="d-inline-block mr-2">
+                    <div class="radio">
+                      <input type="radio" name="basic-radio-1" formControlName="estado" class="form-control" id="radio2">
+                      <label for="radio2">Inactive</label>
+                    </div>
+                  </li>
+             
+                </ul>
+              </div>
+              <div class="col-md-6 mb-6 form-group mb-2">
+                <label for="validationTooltip09">Carga Certificado</label>
+                <label class="custom-file">
+                  <input type="file" ng2FileSelect [uploader]="uploader">
+                  <span class="custom-file-control"></span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="save()">Guardar</button>
+              <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Cancel()">Cancelar</button>
+            </div>
+           
+          </form>
+    </div>
+</div>
+

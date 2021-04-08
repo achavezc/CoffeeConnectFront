@@ -17,7 +17,7 @@ import { AgropecuarioModule } from './agropecuario/agropecuario.module';
 import { MConsultarProductorComponent } from './modals/consultarproductor/m-consultar-productor.component';
 import { ListFilterPipe } from '../../shared/pipes/listFilter.pipe';
 import { ExportadorModule } from './exportador/exportador.module';
-
+import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +33,8 @@ import { ExportadorModule } from './exportador/exportador.module';
     AcopioModule,
     ProductorModule,
     AgropecuarioModule,
-    ExportadorModule
+    ExportadorModule,
+    FileUploadModule
   ],
   declarations: [
     InvoicePageComponent,

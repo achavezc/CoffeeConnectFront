@@ -20,5 +20,10 @@ export class CertificacionService {
     const url = `${this.url}/ConsultarPorSocioFincaId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+  Create(request: any): Observable<any> {
+    const url = `${this.url}/Registrar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
 
 }
