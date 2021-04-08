@@ -384,4 +384,14 @@ export class NotaSalidaEditComponent implements OnInit {
     link.click();
     link.remove();
   }
+
+  RegistroSeguridad(): void {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}NotaSalidaAlmacen/GenerarPDFRegistroSeguridad?id=${this.id}`;
+    link.download = "ListaProductoresGR.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
 }
