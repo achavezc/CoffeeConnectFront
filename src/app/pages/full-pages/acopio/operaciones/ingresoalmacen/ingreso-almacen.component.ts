@@ -37,11 +37,13 @@ export class IngresoAlmacenComponent implements OnInit {
   listStates: Observable<any>;
   listAlmacen: Observable<any>;
   listProducts: [];
+  listCertificacion: [];
   listByProducts: [];
   selectedTypeDocument: any;
   selectedState: any;
   selectedAlmacen: any;
   selectedProduct: any;
+  selectedCertificacion: any;
   selectedByProduct: any;
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -78,6 +80,7 @@ export class IngresoAlmacenComponent implements OnInit {
       //nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       nombreRazonSocial: ['',],
       almacen: [],
+      certificacion: [],
       producto: ['', Validators.required],
       subProducto: [],
       rendimientoInicio: [],
@@ -107,6 +110,11 @@ export class IngresoAlmacenComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("Almacen", function (res) {
       if (res.Result.Success) {
         form.listAlmacen = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
+      if (res.Result.Success) {
+        form.listCertificacion = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros("Producto", function (res) {
@@ -259,6 +267,7 @@ export class IngresoAlmacenComponent implements OnInit {
         NombreRazonSocial: this.ingresoAlmacenForm.value.nombreRazonSocial,
         TipoDocumentoId: this.ingresoAlmacenForm.value.tipoDocumento,
         ProductoId: this.ingresoAlmacenForm.value.producto,
+        TipoCertificacionId: this.ingresoAlmacenForm.value.certificacion,
         SubProductoId: this.ingresoAlmacenForm.value.subProducto,
         NumeroDocumento: this.ingresoAlmacenForm.value.numeroDocumento,
         CodigoSocio: this.ingresoAlmacenForm.value.codigoSocio,
@@ -302,6 +311,7 @@ export class IngresoAlmacenComponent implements OnInit {
                   new HeaderExcel("Nombre o Razón Social"),
                   new HeaderExcel("Producto"),
                   new HeaderExcel("Sub Producto"),
+                  new HeaderExcel("Certificación"),
                   new HeaderExcel("Almacén"),
                   new HeaderExcel("Fecha", "center", "dd/mm/yyyy"),
                   new HeaderExcel("Estado", "center"),
@@ -317,6 +327,7 @@ export class IngresoAlmacenComponent implements OnInit {
                     res.Result.Data[i].NombreRazonSocial,
                     res.Result.Data[i].Producto,
                     res.Result.Data[i].SubProducto,
+                    res.Result.Data[i].Certificacion,
                     res.Result.Data[i].Almacen,
                     new Date(res.Result.Data[i].FechaRegistro),
                     res.Result.Data[i].Estado

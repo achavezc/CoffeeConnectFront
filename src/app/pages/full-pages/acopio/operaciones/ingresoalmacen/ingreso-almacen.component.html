@@ -157,6 +157,14 @@
                                                 id="puntajeFinalFin" name="puntajeFinal" placeholder="Puntaje final"
                                                 [ngClass]="{ 'is-invalid': submitted && f.puntajeFinalFin.invalid, 'is-valid': submitted && !f.puntajeFinalFin.invalid }">
                                         </div>
+                                        <div class="col-md-4 mb-4 form-group mb-2">
+                                            <label for="certificacion" class="form-label">Certificación</label>
+                                            <ng-select [items]="listCertificacion" formControlName="certificacion" class="form-control"
+                                                bindLabel="Label" bindValue="Codigo" id="certificacion" placeholder="Certificación"
+                                                [ngClass]="{ 'is-invalid': submitted && f.certificacion.invalid, 'is-valid': submitted && !f.certificacion.invalid }"
+                                                [(ngModel)]="selectedCertificacion" >
+                                            </ng-select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -235,6 +243,8 @@
                             <ngx-datatable-column name="Producto" prop="Producto" width="180">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Certificación" prop="Certificacion" width="180">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje" width="120">
                             </ngx-datatable-column>
