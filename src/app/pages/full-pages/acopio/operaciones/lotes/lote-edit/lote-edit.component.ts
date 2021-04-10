@@ -56,6 +56,8 @@ export class LoteEditComponent implements OnInit {
       direccion: [],
       fecha: [],
       ruc: [],
+      producto: [],
+      certificacion: [],
       almacen: ['', [Validators.required]],
       totalPesoNeto: [],
       promedioRendimiento: [],
@@ -118,6 +120,8 @@ export class LoteEditComponent implements OnInit {
       this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
     }
     this.loteEditForm.controls.ruc.setValue(row.Ruc);
+    this.loteEditForm.controls.certificacion.setValue(row.Certificacion);
+    this.loteEditForm.controls.producto.setValue(row.Producto);
     if (row.AlmacenId && this.listAlmacenes.find(x => x.Codigo == row.AlmacenId)) {
       this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
     }

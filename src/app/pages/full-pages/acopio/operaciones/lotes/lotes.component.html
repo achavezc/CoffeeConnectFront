@@ -124,6 +124,14 @@
                                         [(ngModel)]="selectedByProduct">
                                     </ng-select>
                                 </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="certificacion" class="form-label">Certificación</label>
+                                    <ng-select [items]="listCertificacion" formControlName="certificacion" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="certificacion" placeholder="Certificación"
+                                        [ngClass]="{ 'is-invalid': submitted && f.certificacion.invalid, 'is-valid': submitted && !f.certificacion.invalid }"
+                                        [(ngModel)]="selectedCertificacion" >
+                                    </ng-select>
+                                </div>
                             </div>
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
@@ -185,6 +193,8 @@
                                 </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Almacén" prop="Almacen">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Certificación" prop="Certificacion">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Lote" prop="FechaRegistroCadena">
                             </ngx-datatable-column>

@@ -33,11 +33,13 @@ export class LotesComponent implements OnInit {
   listStates: Observable<any>;
   listAlmacen: Observable<any>;
   listProducts: [];
+  listCertificacion: [];
   listByProducts: [];
   selectedTypeDocument: any;
   selectedState: any;
   selectedAlmacen: any;
   selectedProduct: any;
+  selectedCertificacion: any;
   selectedByProduct: any;
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -69,6 +71,7 @@ export class LotesComponent implements OnInit {
       nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       almacen: [],
       producto: [],
+      certificacion: [],
       subProducto: []
     });
     this.banLoteForm.setValidators(this.comparisonValidator());
@@ -81,7 +84,7 @@ export class LotesComponent implements OnInit {
       let tipoDocumento = group.controls['tipoDocumento'].value;
       let codigoSocio = group.controls['codSocio'].value.trim();
       let nombre = group.controls['nombreRazonSocial'].value.trim();
-      let vProduct = group.controls['producto'].value;
+      let vProduct = group.controls['producto'].value;      
       let vByProduct = group.controls['subProducto'].value;
 
       if (nroLote && (!group.value.fechaInicio || !group.value.fechaFin)) {
@@ -122,6 +125,11 @@ export class LotesComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("Almacen", function (res) {
       if (res.Result.Success) {
         form.listAlmacen = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
+      if (res.Result.Success) {
+        form.listCertificacion = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros("Producto", function (res) {
@@ -201,6 +209,7 @@ export class LotesComponent implements OnInit {
         NombreRazonSocial: this.banLoteForm.value.nombreRazonSocial,
         AlmacenId: this.banLoteForm.value.almacen,
         ProductoId: this.banLoteForm.value.producto,
+        TipoCertificacionId: this.banLoteForm.value.certificacion,
         SubProductoId: this.banLoteForm.value.subProducto,
         EmpresaId: 1
       }
@@ -222,6 +231,7 @@ export class LotesComponent implements OnInit {
                 let vArrHeaderExcel: HeaderExcel[] = [
                   new HeaderExcel("Número lote", "center"),
                   new HeaderExcel("Almacen"),
+                  new HeaderExcel("Certificación"),
                   new HeaderExcel("Fecha Lote", "center", "dd/mm/yyyy"),
                   new HeaderExcel("Peso Neto", "right", "#"),
                   new HeaderExcel("% Rendimiento Promedio", "center"),
@@ -234,6 +244,7 @@ export class LotesComponent implements OnInit {
                   vArrData.push([
                     res.Result.Data[i].Numero,
                     res.Result.Data[i].Almacen,
+                    res.Result.Data[i].Certificacion,
                     new Date(res.Result.Data[i].FechaRegistro),
                     res.Result.Data[i].TotalKilosNetosPesado,
                     res.Result.Data[i].PromedioRendimientoPorcentaje,
