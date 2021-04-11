@@ -376,30 +376,35 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   GenerarLote(): void {
-    let request = this.DevolverRequestGenerarLotes();
-    if (request && request.length > 0) {
-      let form = this;
-      swal.fire({
-        title: 'Confirmación',
-        text: `¿Está seguro de continuar con la generación de lotes?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then(function (result) {
-        if (result.value) {
-          form.ProcesarGenerarLote(request);
-        }
-      });
+    if (this.selectedProduct && this.selectedCertificacion) {
+      this.errorGeneral = { isError: false, errorMessage: '' };
+      let request = this.DevolverRequestGenerarLotes();
+      if (request && request.length > 0) {
+        let form = this;
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con la generación de lotes?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.ProcesarGenerarLote(request);
+          }
+        });
+      } else {
+        this.alertUtil.alertError("Advertencia",
+          "Por favor solo seleccionar filas que se encuentren en estado INGRESADO y tengan asignado un ALMACEN.");
+      }
     } else {
-      this.alertUtil.alertError("Advertencia",
-        "Por favor solo seleccionar filas que se encuentren en estado INGRESADO y tengan asignado un ALMACEN.");
+      this.alertUtil.alertError("Advertencia", 'Por favor seleccionar un producto y certificación.');
     }
   }
 
@@ -522,6 +527,7 @@ export class IngresoAlmacenComponent implements OnInit {
   DevolverRequestGenerarLotes(): any[] {
     let result: any[] = [], vObjRequest: any = {};
     let vFilas = this.DevolverFilasValidas();
+    const form = this;
     if (vFilas && vFilas.length > 0) {
       let vArrAlmacenes: number[] = vFilas.map(x => x.AlmacenId);
       vArrAlmacenes = [...new Set(vArrAlmacenes)];
@@ -535,7 +541,9 @@ export class IngresoAlmacenComponent implements OnInit {
           vObjRequest = {
             Usuario: "mruizb",
             EmpresaId: user.Data.EmpresaId,
-            AlmacenId: cv.toString()
+            AlmacenId: cv.toString(),
+            ProductoId: form.selectedProduct,
+            TipoCertificacionId: form.selectedCertificacion
           };
           vObjRequest.NotasIngresoAlmacenId = vArrIdsNotaIngreso;
           result.push(vObjRequest);
