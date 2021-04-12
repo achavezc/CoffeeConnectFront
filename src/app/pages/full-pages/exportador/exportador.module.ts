@@ -23,13 +23,17 @@ import { ClienteComponent } from './operaciones/cliente/cliente.component';
 import { ContratoComponent } from './operaciones/contrato/contrato.component';
 import { ClienteEditComponent } from './operaciones/cliente/cliente-edit/cliente-edit.component';
 import { ContratoEditComponent } from './operaciones/contrato/contrato-edit/contrato-edit.component';
+import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.component';
+import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproceso-edit/orden-proceso-edit.component';
 
 @NgModule({
   declarations: [
     ClienteComponent,
     ContratoComponent,
     ClienteEditComponent,
-    ContratoEditComponent
+    ContratoEditComponent,
+    OrdenProcesoComponent,
+    OrdenProcesoEditComponent
   ],
   imports: [
     CommonModule,
