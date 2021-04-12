@@ -1,1 +1,128 @@
-<p>orden-proceso-edit works!</p>
+<!-- <form class="needs-validation" [formGroup]="ordenProcesoEditForm">
+    <div class="form-row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card mb-0">
+                <div class="card-body pb-0">
+                    <div class="form-row">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="text" name="razonSocial" id="razonSocial" formControlName="razonSocial"
+                                        class="form-control" placeholder="Razón Social"
+                                        [ngClass]="{ 'is-invalid': f.razonSocial.invalid, 'is-valid': !f.razonSocial.invalid }"
+                                        [readonly]="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="fecha" class="col-md-3 col-form-label">N° DE ORDEN</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="nroOrden" id="nroOrden" formControlName="nroOrden"
+                                        class="form-control"
+                                        [ngClass]="{ 'is-invalid': f.nroOrden.invalid, 'is-valid': !f.nroOrden.invalid }"
+                                        placeholder="Número de orden" [readonly]="true" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="text" name="direccionCabe" id="direccionCabe"
+                                        formControlName="direccionCabe" class="form-control"
+                                        [ngClass]="{ 'is-invalid': f.direccionCabe.invalid, 'is-valid': !f.direccionCabe.invalid }"
+                                        placeholder="Dirección" [readonly]="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row" *ngIf="vId > 0">
+                                <label for="fecha" class="col-md-3 col-form-label">FECHA</label>
+                                <div class="col-md-9">
+                                    <input type="date" class="form-control text-center" formControlName="fecha"
+                                        id="fecha" date name="fecha" placeholder="Seleccionar fecha"
+                                        [ngClass]="{ 'is-invalid': f.fecha.invalid, 'is-valid': !f.fecha.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
+                            <div class="form-group row">
+                                <label for="nroRucCabe" class="col-md-1 col-form-label">RUC</label>
+                                <div class="col-md-11">
+                                    <input type="text" name="nroRucCabe" id="nroRucCabe" formControlName="nroRucCabe"
+                                        class="form-control" placeholder="Número R.U.C"
+                                        [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid': !f.nroRucCabe.invalid }"
+                                        [readonly]="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-0">
+                <h5 class="card-header bg-primary text-white text-center align-middle p-0">MAESTRO DE PROCESO</h5>
+                <div class="card-body">
+                    <div class="form-row bg-primary align-middle mb-1">
+                        <label for="" class="text-white">DATOS GENERALES</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="nroContrato" class="col-lg-4 col-from-label">N° CONTRATO</label>
+                                <div class="col-lg-8">
+                                    <input type="text" name="nroContrato" id="nroContrato" formControlName="nroContrato"
+                                        class="form-control" placeholder="Número de contrato" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="fechaContrato" class="col-lg-5 col-from-label">FEC. CONTRATO</label>
+                                <div class="col-lg-7">
+                                    <input type="date" class="form-control text-center" formControlName="fechaContrato"
+                                        id="fechaContrato" date name="fechaContrato" placeholder="Fecha de contrato"
+                                        [ngClass]="{ 'is-invalid': f.fechaContrato.invalid, 'is-valid': !f.fechaContrato.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row bg-primary align-middle mb-1">
+                        <label for="" class="text-white">DETALLE DEL PRODUCTO TERMINADO</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="producto" class="col-lg-3 col-from-label">PRODUCTO</label>
+                                <div class="col-lg-9">
+                                    <ng-select [items]="listProductos" formControlName="producto" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="producto" placeholder="Producto"
+                                        [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }"
+                                        [(ngModel)]="selectedProducto">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-12 text-right">
+                                    <button type="button" class="btn btn-primary mr-1">Guardar</button>
+                                    <button type="button" class="btn btn-danger">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form> -->
