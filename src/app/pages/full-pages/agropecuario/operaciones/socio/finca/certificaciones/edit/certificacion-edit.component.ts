@@ -263,7 +263,7 @@ export class CertificacionEditComponent implements OnInit {
       DescripcionArchivo: "",
       PathArchivo: "",
       Usuario: 'mruizb',
-      EstadoId: this.certificacionEditForm.value.estado
+      EstadoId: "01"//his.certificacionEditForm.value.estado
     }
   }
 
