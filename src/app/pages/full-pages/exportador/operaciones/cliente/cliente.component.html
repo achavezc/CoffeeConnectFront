@@ -56,7 +56,8 @@
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="pais" class="form-label">País</label>
                                     <ng-select [items]="listPais" formControlName="pais" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="pais" placeholder="Seleccionar país"
+                                        bindLabel="Descripcion" bindValue="PaisId" id="pais"
+                                        placeholder="Seleccionar país"
                                         [ngClass]="{ 'is-invalid': f.pais.invalid, 'is-valid': !f.pais.invalid }"
                                         [(ngModel)]="selectedPais">
                                     </ng-select>

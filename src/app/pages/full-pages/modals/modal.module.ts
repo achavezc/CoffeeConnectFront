@@ -17,43 +17,42 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import {MConsultarLotesComponent} from '../modals/consultarLotes/consultar-lotes.component'
-import {MConsultarEmpresaComponent} from '../modals/consultarEmpresa/consultar-empresa.component'
+import { MConsultarLotesComponent } from '../modals/consultarLotes/consultar-lotes.component'
+import { MConsultarEmpresaComponent } from '../modals/consultarEmpresa/consultar-empresa.component';
+import { MConsultarClienteComponent } from '../modals/consultarcliente/consultar-cliente.component'
 
 @NgModule({
-    imports: [
-      CommonModule,
-      FormsModule,
-      ReactiveFormsModule,
-      ChartistModule,
-      AgmCoreModule,
-      NgSelectModule,
-      NgbModule,
-      SwiperModule,
-      PipeModule,
-      NgxDatatableModule,
-      CustomFormsModule,
-      ArchwizardModule,
-      UiSwitchModule,
-      TagInputModule,
-      QuillModule,
-      MatchHeightModule,
-      NgxSpinnerModule,
-    ],
-    declarations: [
-        MConsultarLotesComponent,
-        MConsultarEmpresaComponent
-    
-    ],
-    exports: [
-        
-        MConsultarLotesComponent,
-        MConsultarEmpresaComponent
-      
-    ],
-    providers: [
-      { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
-    ]
-  })
-  export class ModalModule { }
-  
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ChartistModule,
+    AgmCoreModule,
+    NgSelectModule,
+    NgbModule,
+    SwiperModule,
+    PipeModule,
+    NgxDatatableModule,
+    CustomFormsModule,
+    ArchwizardModule,
+    UiSwitchModule,
+    TagInputModule,
+    QuillModule,
+    MatchHeightModule,
+    NgxSpinnerModule,
+  ],
+  declarations: [
+    MConsultarLotesComponent,
+    MConsultarEmpresaComponent,
+    MConsultarClienteComponent
+  ],
+  exports: [
+    MConsultarLotesComponent,
+    MConsultarEmpresaComponent,
+    MConsultarClienteComponent
+  ],
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+  ]
+})
+export class ModalModule { }

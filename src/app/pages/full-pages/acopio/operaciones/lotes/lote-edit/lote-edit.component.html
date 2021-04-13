@@ -56,15 +56,30 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label for="">DETALLE DE LOTES</label>
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="form-group row">
+                        <label for="producto" class="col-4 col-form-label">PRODUCTO</label>
+                        <div class="col-8">
+                            <input type="text" name="producto" id="producto" formControlName="producto" class="form-control"
+                                placeholder="Producto" [readonly]="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="certificacion" class="col-4 col-form-label">CERTIFICACIÓN</label>
+                        <div class="col-8">
+                            <input type="text" name="certificacion" id="certificacion" formControlName="certificacion" class="form-control"
+                                placeholder="Certificación" [readonly]="true">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label for="">ALMACEN</label>
+                    <label for="">DETALLE DE LOTES</label>
                 </div>
-            </div>
+            </div>           
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset class="form-group">
@@ -91,9 +106,7 @@
                         <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacenString" width="190">
                         </ngx-datatable-column>
                         <ngx-datatable-column name="CÓDIGO SOCIO" prop="CodigoSocio" width="130">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="PRODUCTO" prop="Producto" width="200">
-                        </ngx-datatable-column>
+                        </ngx-datatable-column>                        
                         <ngx-datatable-column name="PROVEEDOR" prop="CodigoSocio" width="200">
                         </ngx-datatable-column>
                         <ngx-datatable-column name="UNIDAD DE MEDIDA" prop="UnidadMedida" width="170">

@@ -10,6 +10,7 @@ import { ClienteService } from '../../../../../services/cliente.service';
 import { MaestroService } from '../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
+import { MaestroUtil } from '../../../../../services/util/maestro-util';
 
 @Component({
   selector: 'app-cliente',
@@ -24,7 +25,8 @@ export class ClienteComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private maestroUtil: MaestroUtil) { }
 
   clienteForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -68,6 +70,11 @@ export class ClienteComponent implements OnInit {
   LoadCombos(): void {
     this.GetListEstados();
     this.GetListTiposClientes();
+    this.maestroUtil.GetPais((res: any) => {
+      if (res.Result.Success) {
+        this.listPais = res.Result.Data;
+      }
+    });
   }
 
   async GetListEstados() {

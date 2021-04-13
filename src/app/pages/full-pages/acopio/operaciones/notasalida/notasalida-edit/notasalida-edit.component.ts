@@ -281,7 +281,7 @@ export class NotaSalidaEditComponent implements OnInit {
         this.notaSalidaFormEdit.get('tagcalidad').get("observacion").value,
         this.child.totales.Total,
         this.child.totales.TotalKilos,
-        this.child.totales.PorcentRendimiento,
+        Number(this.child.totales.PorcentRendimiento),
         null,
         this.login.Result.Data.NombreUsuario,
         list,

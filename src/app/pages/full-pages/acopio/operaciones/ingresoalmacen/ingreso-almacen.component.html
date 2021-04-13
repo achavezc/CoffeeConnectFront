@@ -159,6 +159,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="certificacion" class="form-label">Certificación</label>
+                                    <ng-select [items]="listCertificacion" formControlName="certificacion"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="certificacion"
+                                        placeholder="Certificación"
+                                        [ngClass]="{ 'is-invalid': submitted && f.certificacion.invalid, 'is-valid': submitted && !f.certificacion.invalid }"
+                                        [(ngModel)]="selectedCertificacion">
+                                    </ng-select>
+                                </div>
                             </div>
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
@@ -235,6 +244,12 @@
                             <ngx-datatable-column name="Producto" prop="Producto" width="180">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Certificación" prop="Certificacion" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Unidad Medida" prop="UnidadMedida" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje" width="120">
                             </ngx-datatable-column>

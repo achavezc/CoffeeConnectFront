@@ -123,6 +123,10 @@ export class ContratoComponent implements OnInit {
     };
   }
 
+  Buscar(): void {
+    this.Search();
+  }
+
   Search(xls = false): void {
     if (!this.contratoForm.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
