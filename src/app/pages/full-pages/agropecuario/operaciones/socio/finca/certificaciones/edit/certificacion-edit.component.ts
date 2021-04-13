@@ -104,7 +104,7 @@ export class CertificacionEditComponent implements OnInit {
         fechaEmision: new FormControl('', [Validators.required]),
         fechaExpiracion: new FormControl('', [Validators.required]),
         entidadCertificadora: new FormControl('', [Validators.required]),
-        estado: new FormControl('', [Validators.required]),
+        estado: new FormControl('', []),
         file: new FormControl('', []),
       })
   }
