@@ -89,8 +89,15 @@
                                         class="form-control" placeholder="Código de cliente" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.codCliente.invalid, 'is-valid': !f.codCliente.invalid }">
                                 </div>
-                                <div class="col-lg-1 col-md-1">
-                                    <button class="btn btn-primary" type="button">B</button>
+                                <div class="col-12 col-lg-12 col-md-12">
+                                    <ng-template #mdlConsultarClientes let-c="close" let-d="dismiss">
+                                        <app-consultar-cliente (responseCliente)="GetDataModalClientes($event)">
+                                        </app-consultar-cliente>
+                                    </ng-template>
+                                    <button type="button" (click)="openModal(mdlConsultarClientes)"
+                                        class="btn btn-primary">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>

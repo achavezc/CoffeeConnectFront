@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -17,7 +18,8 @@ export class ContratoEditComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private maestroService: MaestroService,
     private spinner: NgxSpinnerService,
-    private dateUtil: DateUtil) { }
+    private dateUtil: DateUtil,
+    private modalService: NgbModal) { }
 
   contratoEditForm: FormGroup;
   listCondicionEmbarque = [];
@@ -203,6 +205,14 @@ export class ContratoEditComponent implements OnInit {
     if (res.Result.Success) {
       this.listGrado = res.Result.Data;
     }
+  }
+
+  GetDataModalClientes(event: any): void {
+    this.modalService.dismissAll();
+  }
+
+  openModal(modal: any) {
+    this.modalService.open(modal, { size: 'xl', centered: true });
   }
 
 }

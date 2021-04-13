@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h4 class="modal-title">Busqueda de Clientes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="mdlClienteForm" class="needs-validation">
+        <div class="form-row">
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mcodCliente" class="form-label">Código Cliente</label>
+                <input type="text" formControlName="mcodCliente" class="form-control" id="mcodCliente"
+                    placeholder="Código del cliente"
+                    [ngClass]="{ 'is-invalid': fm.mcodCliente.invalid, 'is-valid': !fm.mcodCliente.invalid }" />
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mruc" class="form-label">RUC</label>
+                <input type="number" formControlName="mruc" class="form-control" id="mruc" placeholder="R.U.C"
+                    [ngClass]="{ 'is-invalid': fm.mruc.invalid, 'is-valid': !fm.mruc.invalid }" />
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mfechaInicial" class="form-label">Fecha Inicial</label>
+                <input type="date" class="form-control" formControlName="mfechaInicial" date id="mfechaInicial"
+                    name="mfechaInicial" placeholder="Seleccionar fecha inicial"
+                    [ngClass]="{ 'is-invalid': fm.mfechaInicial.invalid, 'is-valid': !fm.mfechaInicial.invalid }" />
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mfechaFinal" class="form-label">Fecha Final</label>
+                <input type="date" class="form-control" formControlName="mfechaFinal" date id="mfechaFinal"
+                    name="mfechaFinal" placeholder="Seleccionar fecha final"
+                    [ngClass]="{ 'is-invalid': fm.mfechaFinal.invalid, 'is-valid': !fm.mfechaFinal.invalid }" />
+            </div>
+        </div>
+
+    </form>
+</div>

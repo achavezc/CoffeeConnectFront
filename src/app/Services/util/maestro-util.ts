@@ -79,4 +79,9 @@ export class MaestroUtil {
     return this.maestroService.ConsultarZona(request).toPromise();
   }
 
+  GetPais(callback?: Function): void {
+    this.maestroService.GetPais()
+      .subscribe((res: any) => callback(res), (err: any) => console.log(err))
+  }
+
 }
