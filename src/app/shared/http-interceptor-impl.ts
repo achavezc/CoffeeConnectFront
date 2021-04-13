@@ -20,14 +20,21 @@ export class HttpInterceptorImpl implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = "";// this.storage.getToken();
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Allowed', 'true');
-    //.append('Authorization', `bearer ${token}`);
-    const reqCloned = req.clone({
-      headers: headers
-    });
+    var contenType = 'application/json'
+    if(req.url.includes("/SocioFincaCertificacion/Registrar")){
+      contenType = 'multipart/form-data'
+    }
+      const token = "";// this.storage.getToken();
+      const headers = new HttpHeaders()
+        .set('enctype', contenType)
+        .set('Allowed', 'true')
+        .set('Accept', 'application/json');
+      //.append('Authorization', `bearer ${token}`);
+      const reqCloned = req.clone({
+        headers: headers
+      });
+   
+   
 
     return next.handle(reqCloned).catch((err) => {
       console.error('Error Ocurred', err);

@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-body">
  
-      <form class="needs-validation" [formGroup]="certificacionEditForm">
+      <form class="needs-validation" [formGroup]="certificacionEditForm"  (ngSubmit)="onSubmit()">
             <div class="form-row">
               <div class="col-md-6 mb-6 form-group mb-2">
                 <label for="validationTooltip04">Tipo Certificacion</label>
@@ -73,14 +73,15 @@
               <div class="col-md-6 mb-6 form-group mb-2">
                 <label for="validationTooltip09">Carga Certificado</label>
                 <label class="custom-file">
-                  <input type="file" ng2FileSelect [uploader]="uploader">
-                  <span class="custom-file-control"></span>
+                 <!--  <input type="file" ng2FileSelect [uploader]="uploader">
+                  <span class="custom-file-control"></span> -->
+                  <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
                 </label>
               </div>
             </div>
 
             <div>
-              <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="save()">Guardar</button>
+              <button class="btn btn-primary mr-1 mb-1" type="submit" >Guardar</button>
               <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Cancel()">Cancelar</button>
             </div>
            

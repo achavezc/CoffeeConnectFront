@@ -6,11 +6,12 @@ import { CertificacionService } from '../../../../../../../../services/certifica
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 import { Observable } from 'rxjs';
-import { FileUploader } from 'ng2-file-upload';
+import {HttpClient, HttpParams, HttpRequest, HttpEvent,HttpHeaders } from '@angular/common/http';
+//import { FileUploader } from 'ng2-file-upload';
 import swal from 'sweetalert2';
 
 
-const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+const URL = 'http://localhost:5000/api/SocioFincaCertificacion/Registrar';
 @Component({
   selector: 'app-certificacion-edit',
   templateUrl: './certificacion-edit.component.html',
@@ -20,7 +21,7 @@ const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
 export class CertificacionEditComponent implements OnInit {
 
-
+  SERVER_URL = "http://localhost:5000/api/SocioFincaCertificacion/Registrar";
   hasBaseDropZoneOver = false;
   hasAnotherDropZoneOver = false;
   certificacionEditForm: FormGroup;
@@ -34,18 +35,20 @@ export class CertificacionEditComponent implements OnInit {
   SocioFincaId = 0;
   SocioFincaCertificacionId = 0;
   objParams: any;
-  uploader: FileUploader = new FileUploader({
+
+/*   uploader: FileUploader = new FileUploader({
     url: URL,
     isHTML5: true
   });
-
+ */
   
   constructor(private spinner: NgxSpinnerService,
     private maestroUtil: MaestroUtil,
     private certificacionService: CertificacionService,
     private alertUtil : AlertUtil,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private httpClient: HttpClient
   ) {
 
   }
@@ -59,7 +62,25 @@ export class CertificacionEditComponent implements OnInit {
       }
     });
 
+    //this.initializeUploader();
+
   }
+
+/* 
+  initializeUploader() {
+    this.uploader = new FileUploader({
+      url: URL,
+      isHTML5: true
+    });
+
+    this.uploader.onAfterAddingFile = (file) => {file.withCredentials = false; };
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      if (response) {
+        var dd = response;
+      }
+    };
+  }
+ */
   cargarcombos() {
     var form = this;
     this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
@@ -79,11 +100,12 @@ export class CertificacionEditComponent implements OnInit {
   cargarForm() {
     this.certificacionEditForm = new FormGroup(
       {
-        tipoCertificacion: new FormControl('', []),
-        fechaEmision: new FormControl('', []),
-        fechaExpiracion: new FormControl('', []),
-        entidadCertificadora: new FormControl('', []),
-        estado: new FormControl('', [])
+        tipoCertificacion: new FormControl('', [Validators.required]),
+        fechaEmision: new FormControl('', [Validators.required]),
+        fechaExpiracion: new FormControl('', [Validators.required]),
+        entidadCertificadora: new FormControl('', [Validators.required]),
+        estado: new FormControl('', [Validators.required]),
+        file: new FormControl('', []),
       })
   }
 
@@ -97,7 +119,7 @@ export class CertificacionEditComponent implements OnInit {
   }
   
 
-  save(): void {
+  onSubmit() {
     if (!this.certificacionEditForm.invalid) {
       const form = this;
 /*       if (this.vId > 0) {
@@ -144,9 +166,36 @@ export class CertificacionEditComponent implements OnInit {
 
 
   
+  
   Create(): void {
     this.spinner.show();
     const request = this.GetRequest();
+    const formData = new FormData();
+    formData.append('file', this.certificacionEditForm.get('file').value);
+    formData.append('request',  JSON.stringify(request));
+    const headers = new HttpHeaders();
+    headers.append('enctype', 'multipart/form-data');
+    this.httpClient
+     .post(this.SERVER_URL, formData, { headers })
+     .subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+          "Se registro correctamente la certificacion.",
+          () => {
+            this.Cancel();
+          });
+      } else {
+        this.alertUtil.alertError("ERROR!", res.Result.Message);
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+    });
+
+    
+    /*
     this.certificacionService.Create(request)
       .subscribe((res: any) => {
         this.spinner.hide();
@@ -163,9 +212,9 @@ export class CertificacionEditComponent implements OnInit {
         console.log(err);
         this.spinner.hide();
         this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-      });
+      });}*/
+      
   }
-
   Update(): void {
     this.spinner.show();
     const request = this.GetRequest();
@@ -187,6 +236,20 @@ export class CertificacionEditComponent implements OnInit {
         this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
       });
   }
+  fileChange(event) {
+    
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      //this.certificacionEditForm.get('profile').setValue(file);
+      this.certificacionEditForm.patchValue({
+        file: file
+      });
+      this.certificacionEditForm.get('file').updateValueAndValidity()
+      
+    }
+
+  }
+
 
   
   GetRequest(): any {
@@ -196,11 +259,11 @@ export class CertificacionEditComponent implements OnInit {
       EntidadCertificadoraId: this.certificacionEditForm.value.entidadCertificadora,
       TipoCertificacionId: this.certificacionEditForm.value.tipoCertificacion,
       FechaCaducidad: new Date(this.certificacionEditForm.value.fechaExpiracion) ?? null,
-      NombreArchivo: "demo.jpg",//this.certificacionEditForm.value.tiempoTotal ?? null,
-      DescripcionArchivo: "demo file",
-      PathArchivo: "/DEMO/demo.jpg",
+      NombreArchivo: "",
+      DescripcionArchivo: "",
+      PathArchivo: "",
       Usuario: 'mruizb',
-      EstadoId: "01"//this.certificacionEditForm.value.estado
+      EstadoId: this.certificacionEditForm.value.estado
     }
   }
 
