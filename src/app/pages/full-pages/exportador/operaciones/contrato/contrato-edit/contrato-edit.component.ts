@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
+import { ContratoService } from '../../../../../../services/contrato.service';
+import { AlertUtil } from '../../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-contrato-edit',
@@ -19,7 +23,11 @@ export class ContratoEditComponent implements OnInit {
     private maestroService: MaestroService,
     private spinner: NgxSpinnerService,
     private dateUtil: DateUtil,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private router: Router,
+    private route: ActivatedRoute,
+    private contratoService: ContratoService,
+    private alertUtil: AlertUtil) { }
 
   contratoEditForm: FormGroup;
   listCondicionEmbarque = [];
@@ -47,23 +55,34 @@ export class ContratoEditComponent implements OnInit {
   selectedCertificacion: any;
   selectedGrado: any;
   vId: number;
+  vSessionUser: any;
 
   ngOnInit(): void {
+    this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
-    this.contratoEditForm.controls.fechaContrato.setValue(this.dateUtil.currentDate());
-    this.contratoEditForm.controls.fechaEmbarque.setValue(this.dateUtil.currentDate());
-    this.contratoEditForm.controls.fechaFactExp.setValue(this.dateUtil.currentDate());
+    this.LoadDataInicial();
+
+    if (this.vId > 0) {
+      this.SearchById();
+    } else if (this.vId <= 0) {
+      this.contratoEditForm.controls.fechaContrato.setValue(this.dateUtil.currentDate());
+      this.contratoEditForm.controls.fechaEmbarque.setValue(this.dateUtil.currentDate());
+      this.contratoEditForm.controls.fechaFactExp.setValue(this.dateUtil.currentDate());
+    }
   }
 
   LoadForm(): void {
     this.contratoEditForm = this.fb.group({
+      idContrato: [],
       razonSocial: [, Validators.required],
       direccionCabe: [, Validators.required],
-      fecha: [, Validators.required],
+      fecha: [],
       nroRucCabe: [, Validators.required],
-      nroContrato: [, Validators.required],
+      nroContrato: [],
       fechaContrato: [, Validators.required],
+      idCliente: [],
       codCliente: [, Validators.required],
       cliente: [, Validators.required],
       floId: [, Validators.required],
@@ -85,13 +104,26 @@ export class ContratoEditComponent implements OnInit {
       grado: [, Validators.required],
       pesoSacoKG: [, Validators.required],
       cantidadDefectos: [, Validators.required],
-      cargaContrato: [, Validators.required],
-      responsableComercial: [, Validators.required]
+      cargaContrato: [],
+      responsableComercial: [, Validators.required],
+      sujetoAprobMuestra: [],
+      muestraEnviadaCliente: [],
+      muestraAnalisisGlifosato: [],
+      estado: []
     });
   }
 
   get f() {
     return this.contratoEditForm.controls;
+  }
+
+  LoadDataInicial(): void {
+    if (this.vSessionUser && this.vSessionUser.Result && this.vSessionUser.Result.Data) {
+      const session = this.vSessionUser.Result.Data;
+      this.contratoEditForm.controls.razonSocial.setValue(session.RazonSocialEmpresa);
+      this.contratoEditForm.controls.direccionCabe.setValue(session.DireccionEmpresa);
+      this.contratoEditForm.controls.nroRucCabe.setValue(session.RucEmpresa);
+    }
   }
 
   LoadCombos(): void {
@@ -207,12 +239,265 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
+  onChangePais(event: any): void {
+    const form = this;
+    this.listCiudades = [];
+    this.contratoEditForm.controls.ciudad.reset();
+    this.maestroUtil.GetDepartments(event.Codigo, (res: any) => {
+      if (res.Result.Success) {
+        form.listCiudades = res.Result.Data;
+      }
+    });
+  }
+
   GetDataModalClientes(event: any): void {
+    this.contratoEditForm.controls.idCliente.setValue(event[0].ClienteId);
+    this.contratoEditForm.controls.codCliente.setValue(event[0].Numero);
+    this.contratoEditForm.controls.cliente.setValue(event[0].RazonSocial);
     this.modalService.dismissAll();
   }
 
-  openModal(modal: any) {
-    this.modalService.open(modal, { size: 'xl', centered: true });
+  openModal(modalEmpresa: any): void {
+    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
+  GetRequest(): any {
+    return {
+      ContratoId: this.contratoEditForm.value.idContrato ? parseInt(this.contratoEditForm.value.idContrato) : 0,
+      Numero: this.contratoEditForm.value.nroContrato ? this.contratoEditForm.value.nroContrato : '',
+      ClienteId: this.contratoEditForm.value.idCliente ? parseInt(this.contratoEditForm.value.idCliente) : 0,
+      FloId: this.contratoEditForm.value.floId ? this.contratoEditForm.value.floId.toString() : '',
+      CondicionEmbarqueId: this.contratoEditForm.value.condicionEmbarque ? this.contratoEditForm.value.condicionEmbarque : '',
+      FechaEmbarque: this.contratoEditForm.value.fechaEmbarque ? this.contratoEditForm.value.fechaEmbarque : '',
+      FechaContrato: this.contratoEditForm.value.fechaContrato ? this.contratoEditForm.value.fechaContrato : '',
+      FechaFacturacion: this.contratoEditForm.value.fechaFactExp ? this.contratoEditForm.value.fechaFactExp : '',
+      PaisDestinoId: this.contratoEditForm.value.pais ? parseInt(this.contratoEditForm.value.pais) : 0,
+      DepartamentoDestinoId: this.contratoEditForm.value.ciudad ? this.contratoEditForm.value.ciudad : '',
+      ProductoId: this.contratoEditForm.value.producto ? this.contratoEditForm.value.producto : '',
+      TipoProduccionId: this.contratoEditForm.value.tipoProduccion ? this.contratoEditForm.value.tipoProduccion : '',
+      MonedadId: this.contratoEditForm.value.moneda ? this.contratoEditForm.value.moneda : '',
+      Monto: this.contratoEditForm.value.precio ? parseFloat(this.contratoEditForm.value.precio) : 0,
+      UnidadMedicionId: this.contratoEditForm.value.unidadMedida ? this.contratoEditForm.value.unidadMedida : '',
+      UnidadMedidaId: this.contratoEditForm.value.sacosBulk ? this.contratoEditForm.value.sacosBulk : '',
+      EntidadCertificadoraId: this.contratoEditForm.value.certificadora ? this.contratoEditForm.value.certificadora : '',
+      TipoCertificacionId: this.contratoEditForm.value.certificacion ? this.contratoEditForm.value.certificacion.join('|') : '',
+      CalidadId: this.contratoEditForm.value.calidad ? this.contratoEditForm.value.calidad : '',
+      GradoId: this.contratoEditForm.value.grado ? this.contratoEditForm.value.grado : '',
+      Cantidad: this.contratoEditForm.value.cantidad ? parseFloat(this.contratoEditForm.value.cantidad) : 0,
+      PesoPorSaco: this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0,
+      PreparacionCantidadDefectos: this.contratoEditForm.value.cantidadDefectos ? parseFloat(this.contratoEditForm.value.cantidadDefectos) : 0,
+      RequiereAprobacionMuestra: this.contratoEditForm.value.sujetoAprobMuestra ? this.contratoEditForm.value.sujetoAprobMuestra : false,
+      MuestraEnviadaCliente: this.contratoEditForm.value.muestraEnviadaCliente ? this.contratoEditForm.value.muestraEnviadaCliente : false,
+      MuestraEnviadaAnalisisGlifosato: this.contratoEditForm.value.muestraAnalisisGlifosato ? this.contratoEditForm.value.muestraAnalisisGlifosato : false,
+      NombreArchivo: '',
+      PathArchivo: '',
+      Usuario: 'mruizb',
+      EstadoId: '01'
+    }
+  }
+
+  Guardar(): void {
+    if (!this.contratoEditForm.invalid) {
+      const form = this;
+      if (this.vId > 0) {
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con la modificación del contrato?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            form.Update();
+          }
+        });
+      } else if (this.vId <= 0) {
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con la creación del nuevo contrato?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            form.Create();
+          }
+        });
+      }
+    }
+  }
+
+  Create(): void {
+    const request = this.GetRequest();
+    this.contratoService.Create(request)
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('Confirmación!',
+            'Contrato registrado correctamente.', () => {
+              this.Cancelar();
+            });
+        }
+      }, (err: any) => {
+        console.log(err);
+      });
+  }
+
+  Update(): void {
+    const request = this.GetRequest();
+    this.contratoService.Update(request)
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('Confirmación!',
+            'Contrato actualizado correctamente.', () => {
+              this.Cancelar();
+            });
+        }
+      }, (err: any) => {
+        console.log(err);
+      });
+  }
+
+  SearchById(): void {
+    this.spinner.show();
+    this.contratoService.SearchById({ ContratoId: this.vId })
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          this.AutocompleteForm(res.Result.Data);
+        }
+      }, (err: any) => {
+        console.log(err);
+      });
+  }
+
+  async AutocompleteForm(data: any) {
+    if (data) {
+      if (data.ContratoId) {
+        this.contratoEditForm.controls.idContrato.setValue(data.ContratoId);
+      }
+      if (data.Numero) {
+        this.contratoEditForm.controls.nroContrato.setValue(data.Numero);
+      }
+      if (data.ClienteId) {
+        this.contratoEditForm.controls.idCliente.setValue(data.ClienteId);
+      }
+      if (data.NumeroCliente) {
+        this.contratoEditForm.controls.codCliente.setValue(data.NumeroCliente);
+      }
+      if (data.Cliente) {
+        this.contratoEditForm.controls.cliente.setValue(data.Cliente);
+      }
+      if (data.FloId) {
+        this.contratoEditForm.controls.floId.setValue(data.FloId);
+      }
+      if (data.CondicionEmbarqueId) {
+        await this.GetCondicionEmbarque();
+        this.contratoEditForm.controls.condicionEmbarque.setValue(data.CondicionEmbarqueId);
+      }
+      if (data.FechaEmbarque) {
+        this.contratoEditForm.controls.fechaEmbarque.setValue(data.FechaEmbarque.substring(0, 10));
+      }
+      if (data.FechaContrato) {
+        this.contratoEditForm.controls.fechaContrato.setValue(data.FechaContrato.substring(0, 10));
+      }
+      if (data.FechaFacturacion) {
+        this.contratoEditForm.controls.fechaFactExp.setValue(data.FechaFacturacion.substring(0, 10));
+      }
+      if (data.PaisDestinoId) {
+        await this.GetPais();
+        this.contratoEditForm.controls.pais.setValue(data.PaisDestinoId);
+        // this.onChangePais({ Codigo: this.selectedPais })
+      }
+      // if (data.DepartamentoDestinoId) {
+      //   await this.GetCiudad();
+      //   this.contratoEditForm.controls.ciudad.setValue(data.DepartamentoDestinoId);
+      // }
+      if (data.ProductoId) {
+        await this.GetProductos();
+        this.contratoEditForm.controls.producto.setValue(data.ProductoId);
+      }
+      if (data.TipoProduccionId) {
+        await this.GetTipoProduccion();
+        this.contratoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
+      }
+      if (data.MonedadId) {
+        await this.GetMonedas();
+        this.contratoEditForm.controls.moneda.setValue(data.MonedadId);
+      }
+      if (data.Monto) {
+        this.contratoEditForm.controls.precio.setValue(data.Monto);
+      }
+      if (data.UnidadMedicionId) {
+        await this.GetUnidadMedida();
+        this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
+      }
+      if (data.UnidadMedidaId) {
+        await this.GetSacosBulk();
+        this.contratoEditForm.controls.sacosBulk.setValue(data.UnidadMedidaId);
+      }
+      if (data.EntidadCertificadoraId) {
+        await this.GetCertificadora();
+        this.contratoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
+      }
+      if (data.TipoCertificacionId) {
+        await this.GetCertificacion();
+        this.contratoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
+      }
+      if (data.CalidadId) {
+        await this.GetCalidad();
+        this.contratoEditForm.controls.calidad.setValue(data.CalidadId);
+      }
+      if (data.GradoId) {
+        await this.GetGradoPreparacion();
+        this.contratoEditForm.controls.grado.setValue(data.GradoId);
+      }
+      if (data.Cantidad) {
+        this.contratoEditForm.controls.cantidad.setValue(data.Cantidad);
+      }
+      if (data.PesoPorSaco) {
+        this.contratoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
+      }
+      if (data.PreparacionCantidadDefectos) {
+        this.contratoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
+      }
+      if (data.RequiereAprobacionMuestra) {
+        this.contratoEditForm.controls.sujetoAprobMuestra.setValue(data.RequiereAprobacionMuestra);
+      }
+      if (data.MuestraEnviadaCliente) {
+        this.contratoEditForm.controls.muestraEnviadaCliente.setValue(data.MuestraEnviadaCliente);
+      }
+      if (data.MuestraEnviadaAnalisisGlifosato) {
+        this.contratoEditForm.controls.muestraAnalisisGlifosato.setValue(data.MuestraEnviadaAnalisisGlifosato);
+      }
+      // this.contratoEditForm.controls..setValue(data.NombreArchivo);
+      // this.contratoEditForm.controls..setValue(data.PathArchivo);
+      if (data.FechaRegistro) {
+        this.contratoEditForm.controls.fecha.setValue(data.FechaRegistro.substring(0, 10));
+      }
+      // this.contratoEditForm.controls..setValue(data.UsuarioRegistro);
+      // this.contratoEditForm.controls..setValue(data.FechaUltimaActualizacion);
+      // this.contratoEditForm.controls..setValue(data.UsuarioUltimaActualizacion);
+      if (data.EstadoId) {
+        this.contratoEditForm.controls.estado.setValue(data.EstadoId);
+      }
+    }
+    this.spinner.hide();
+  }
+
+  Cancelar(): void {
+    this.router.navigate(['/exportador/operaciones/contrato/list']);
+  }
 }

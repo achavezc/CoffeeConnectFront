@@ -37,12 +37,12 @@ import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenser
 import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { NotaCompraComponent } from "./operaciones/materiaprima/materiaprima-edit/notacompra/notacompra.component";
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
-import {TagNotaSalidaEditComponent} from './operaciones/notasalida/notasalida-edit/notasalida/tag-notasalida.component';
-import {TagOrdenServicioComponent} from './operaciones/ordenservicio/ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component'
+import { TagNotaSalidaEditComponent } from './operaciones/notasalida/notasalida-edit/notasalida/tag-notasalida.component';
+import { TagOrdenServicioComponent } from './operaciones/ordenservicio/ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component'
 
 
 import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingresoalmacen-edit/ingresoalmacen-edit.component';
-import {ModalModule} from '../modals/modal.module'
+import { ModalModule } from '../modals/modal.module'
 
 @NgModule({
   imports: [
@@ -77,8 +77,8 @@ import {ModalModule} from '../modals/modal.module'
     IngresoAlmacenComponent,
     LotesComponent,
     NotaSalidaComponent,
-  OrdenServicioComponent,
-   OrdenServicioEditComponent,
+    OrdenServicioComponent,
+    OrdenServicioEditComponent,
     NotaCompraEditComponent,
     NotaCompraComponent,
     LoteEditComponent,
@@ -93,7 +93,7 @@ import {ModalModule} from '../modals/modal.module'
     ControlCalidadComponentHumedo,
     TagNotaSalidaEditComponent,
     OrdenServicioComponent,
-   OrdenServicioEditComponent,
+    OrdenServicioEditComponent,
     TagOrdenServicioComponent
   ],
   providers: [

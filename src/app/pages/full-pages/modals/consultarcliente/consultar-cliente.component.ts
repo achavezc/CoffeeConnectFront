@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 
 import { MaestroUtil } from '../../../../services/util/maestro-util';
+import { DateUtil } from '../../../../services/util/date-util';
 import { ClienteService } from '../../../../services/cliente.service';
 
 @Component({
@@ -15,56 +16,57 @@ import { ClienteService } from '../../../../services/cliente.service';
 })
 export class MConsultarClienteComponent implements OnInit {
 
-  constructor(private modalService: NgbModal,
-    private spinner: NgxSpinnerService,
-    private maestroUtil: MaestroUtil,
-    private clienteService: ClienteService) {
-    this.singleSelectCheck = this.singleSelectCheck.bind(this);
-  }
-
   @ViewChild('vform') validationForm: FormGroup;
   mdlClienteForm: FormGroup;
-  listMdlTipoCliente = [];
-  listMdlPais = [];
-  listMdlEstados = [];
+  listMdlTipoCliente: any[];
+  listMdlPais: any[];
   selMdlTipoCliente: any;
   selMdlPais: any;
-  selMdlEstado: any;
   public rows = [];
   private tempData = [];
   public limitRef = 10;
-  selected: any;
+  public ColumnMode = ColumnMode;
+  selectedClientes = [];
   errorMdlGeneral = { isError: false, msgError: '' };
   msgMdlMsgGenerico = "Ocurrio un error interno.";
   @Output() responseCliente = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) dgModalCLientes: DatatableComponent;
+
+  constructor(private modalService: NgbModal,
+    private spinner: NgxSpinnerService,
+    private maestroUtil: MaestroUtil,
+    private clienteService: ClienteService,
+    private dateUtil: DateUtil,
+    private fb: FormBuilder) {
+    this.singleSelectCheck = this.singleSelectCheck.bind(this);
+  }
 
   ngOnInit(): void {
     this.LoadForm();
   }
 
   LoadForm(): void {
-    this.mdlClienteForm = new FormGroup({
-      mcodCliente: new FormControl('', []),
-      mruc: new FormControl('', []),
-      mfechaInicial: new FormControl('', [Validators.required]),
-      mfechaFinal: new FormControl('', [Validators.required]),
-      mdescCliente: new FormControl('', []),
-      mtipoCliente: new FormControl('', []),
-      mpais: new FormControl(null, []),
-      mestado: new FormControl('', [Validators.required])
+    this.mdlClienteForm = this.fb.group({
+      mcodCliente: [],
+      mruc: [],
+      mfechaInicial: ['', [Validators.required]],
+      mfechaFinal: [, [Validators.required]],
+      mdescCliente: [],
+      mtipoCliente: [],
+      mpais: []
     });
+
+    this.mdlClienteForm.controls.mfechaInicial.setValue(this.dateUtil.currentMonthAgo());
+    this.mdlClienteForm.controls.mfechaFinal.setValue(this.dateUtil.currentDate());
     this.mdlClienteForm.setValidators(this.comparisonValidatorMdlClientes())
-    this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
-      if (res.Result.Success) {
-        this.listMdlEstados = res.Result.Data;
-      }
-    });
+
+    this.listMdlTipoCliente = [];
     this.maestroUtil.obtenerMaestros('TipoCliente', (res: any) => {
       if (res.Result.Success) {
         this.listMdlTipoCliente = res.Result.Data;
       }
     });
+    this.listMdlPais = [];
     this.maestroUtil.GetPais((res: any) => {
       if (res.Result.Success) {
         this.listMdlPais = res.Result.Data;
@@ -80,9 +82,8 @@ export class MConsultarClienteComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       let finicial = group.controls['fechaInicial'].value;
       let ffinal = group.controls['fechaFinal'].value;
-      let estado = group.controls['estado'].value;
 
-      if (!finicial && !ffinal && !estado) {
+      if (!finicial && !ffinal) {
         this.errorMdlGeneral = { isError: true, msgError: 'Por favor ingresar por lo menos un filtro.' };
       }
       else {
@@ -106,23 +107,23 @@ export class MConsultarClienteComponent implements OnInit {
   }
 
   singleSelectCheck(row: any) {
-    return this.selected.indexOf(row) === -1;
+    return this.selectedClientes.indexOf(row) === -1;
   }
 
   DblSelected(event: any): void {
-    // this.responseCliente.emit(this.empresa)
+    this.responseCliente.emit(event);
   }
 
   getRequest(): any {
     return {
-      Numero: this.mdlClienteForm.value.codCliente ?? '',
-      RazonSocial: this.mdlClienteForm.value.descCliente ?? '',
-      TipoClienteId: this.mdlClienteForm.value.tipoCliente ?? '',
-      Ruc: this.mdlClienteForm.value.ruc ?? '',
-      EstadoId: this.mdlClienteForm.value.estado ?? '',
-      PaisId: this.mdlClienteForm.value.pais ?? 0,
-      FechaInicio: this.mdlClienteForm.value.fechaInicial ?? '',
-      FechaFin: this.mdlClienteForm.value.fechaFinal ?? ''
+      Numero: this.mdlClienteForm.value.mcodCliente ?? '',
+      RazonSocial: this.mdlClienteForm.value.mdescCliente ?? '',
+      TipoClienteId: this.mdlClienteForm.value.mtipoCliente ?? '',
+      Ruc: this.mdlClienteForm.value.mruc ?? '',
+      EstadoId: this.mdlClienteForm.value.mestado ?? '',
+      PaisId: this.mdlClienteForm.value.mpais ?? 0,
+      FechaInicio: this.mdlClienteForm.value.mfechaInicial ?? '',
+      FechaFin: this.mdlClienteForm.value.mfechaFinal ?? ''
     };
   }
 
