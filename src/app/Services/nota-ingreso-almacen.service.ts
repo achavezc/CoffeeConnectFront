@@ -12,12 +12,12 @@ export class NotaIngresoAlmacenService {
     private errorHandling: ErrorHandling) {
   }
 
-  enviarAlmacen(id: number): Observable<any> {
+  enviarAlmacen(id: number, username: string): Observable<any> {
     const url = `${this.url}/Registrar`;
 
     const body: any = {
       GuiaRecepcionMateriaPrimaId: id,
-      Usuario: "mruizb"
+      Usuario: username
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
@@ -36,9 +36,9 @@ export class NotaIngresoAlmacenService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  obtenerDetalle(id:number): Observable<any> {
+  obtenerDetalle(id: number): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
-     
+
     const body: any = {
       NotaIngresoAlmacenId: id
     };

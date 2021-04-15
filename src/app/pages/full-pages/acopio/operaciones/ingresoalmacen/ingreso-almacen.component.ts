@@ -476,7 +476,7 @@ export class IngresoAlmacenComponent implements OnInit {
     let obj: any = {};
     for (let i = 0; i < pIngresados.length; i++) {
       obj = pIngresados[i];
-      this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, "mruizb")
+      this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, this.userSession.Result.Data.NombreUsuario)
         .subscribe(res => {
           if (!res.Result.Success) {
             if (res.Result.Message && res.Result.ErrCode) {
@@ -539,7 +539,7 @@ export class IngresoAlmacenComponent implements OnInit {
           });
 
           vObjRequest = {
-            Usuario: "mruizb",
+            Usuario: this.userSession.Result.Data.NombreUsuario,
             EmpresaId: user.Data.EmpresaId,
             AlmacenId: cv.toString(),
             ProductoId: form.selectedProduct,

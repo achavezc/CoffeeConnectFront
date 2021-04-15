@@ -53,6 +53,7 @@ export class FincaEditComponent implements OnInit {
   vId: number;
   vCodProductor: number;
   errorGeneral = { isError: false, msgError: '' };
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
@@ -60,6 +61,7 @@ export class FincaEditComponent implements OnInit {
     this.LoadCombos();
     this.AddValidations();
     this.vCodProductor = undefined;
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     if (this.vId > 0) {
       this.SearchProducerFincaById();
     } else {
@@ -320,7 +322,7 @@ export class FincaEditComponent implements OnInit {
       CantidadAnimalesMenores: this.fincaEditForm.value.nroAnimalesMenores ?? 0,
       MaterialVivienda: this.fincaEditForm.value.materialVivienda ?? '',
       Suelo: this.fincaEditForm.value.suelo ?? '',
-      Usuario: 'mruizb',
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: this.fincaEditForm.value.estado ?? ''
     };
     return result;

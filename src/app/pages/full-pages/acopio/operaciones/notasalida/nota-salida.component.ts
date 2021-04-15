@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
@@ -50,12 +50,14 @@ export class NotaSalidaComponent implements OnInit {
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.notaSalidaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.notaSalidaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   get f() {
@@ -238,7 +240,7 @@ export class NotaSalidaComponent implements OnInit {
     form.spinner.show();
     this.notaSalidaService.Anular({
       NotaSalidaAlmacenId: this.selected[0].NotaSalidaAlmacenId,
-      Usuario: "mruizb"
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario
     }).subscribe((res: any) => {
       if (res.Result.Success) {
         if (!res.Result.ErrCode) {

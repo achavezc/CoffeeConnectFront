@@ -51,12 +51,14 @@ export class LotesComponent implements OnInit {
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.banLoteForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.banLoteForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   LoadForm(): void {
@@ -309,7 +311,7 @@ export class LotesComponent implements OnInit {
   AnularFila(): void {
     let form = this;
     this.spinner.show();
-    this.loteService.Anular({ LoteId: this.selected[0].LoteId, Usuario: "mruizb" })
+    this.loteService.Anular({ LoteId: this.selected[0].LoteId, Usuario: this.vSessionUser.Result.Data.NombreUsuario })
       .subscribe(res => {
         if (res.Result.Success) {
           if (!res.Result.ErrCode) {

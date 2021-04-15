@@ -61,11 +61,13 @@ export class SocioEditComponent implements OnInit {
   mSelected: any[] = [];
   @ViewChild(DatatableComponent) mTblProductores: DatatableComponent;
   @ViewChild("modalBusqProductores", { static: false }) modalBusqProductores: TemplateRef<any>;
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.vId = this.route.snapshot.params['id'];
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     if (!this.vId) {
       // this.socioEditForm.controls.estado.setValue('01');
       this.socioEditForm.controls.fecRegistro.setValue(this.dateUtil.currentDate());
@@ -253,7 +255,7 @@ export class SocioEditComponent implements OnInit {
       const request = {
         SocioId: 0,
         ProductorId: this.socioEditForm.value.idProductor,
-        Usuario: 'mruizb',
+        Usuario: this.vSessionUser.Result.Data.NombreUsuario,
         EstadoId: '01'
       }
 
@@ -281,7 +283,7 @@ export class SocioEditComponent implements OnInit {
       const request = {
         SocioId: this.vId,
         ProductorId: this.socioEditForm.value.idProductor,
-        Usuario: 'mruizb',
+        Usuario: this.vSessionUser.Result.Data.NombreUsuario,
         EstadoId: this.socioEditForm.value.estado
       }
 

@@ -18,11 +18,11 @@ export class NotaCompraService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
 
-  Anular(pNotaCompraId: number) {
+  Anular(pNotaCompraId: number, username: string) {
     let url = `${this.url}/Anular`;
     let request = {
       NotaCompraId: pNotaCompraId,
-      Usuario: 'mruizb'
+      Usuario: username
     }
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }

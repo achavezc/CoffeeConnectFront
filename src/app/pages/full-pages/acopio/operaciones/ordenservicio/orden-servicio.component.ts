@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
 import { MaestroUtil } from './../../../../../services/util/maestro-util';
 import { DateUtil } from './../../../../../services/util/date-util';
 import { AlertUtil } from './../../../../../services/util/alert-util';
@@ -23,7 +23,7 @@ export class OrdenServicioComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private ordenSerContCalidService: OrdenservicioControlcalidadService,
-    private router : Router) {
+    private router: Router) {
   }
 
   ordenServConCalExtForm: FormGroup;
@@ -43,12 +43,14 @@ export class OrdenServicioComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.ordenServConCalExtForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ordenServConCalExtForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   LoadForm(): void {
@@ -232,7 +234,10 @@ export class OrdenServicioComponent implements OnInit {
   }
 
   AnularOSSelected(): void {
-    this.ordenSerContCalidService.Anular({ OrdenServicioControlCalidadId: this.selected[0].OrdenServicioControlCalidadId, Usuario: "mruizb" })
+    this.ordenSerContCalidService.Anular({
+      OrdenServicioControlCalidadId: this.selected[0].OrdenServicioControlCalidadId,
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario
+    })
       .subscribe(res => {
         if (res.Result.Success) {
           if (!res.Result.ErrCode) {

@@ -39,9 +39,11 @@ export class LoteEditComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   errorGeneral = { isError: false, msgError: '' };
   listEtiquetasLotes: any[];
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.vId = parseInt(this.route.snapshot.params['id']);
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     if (this.vId && this.vId > 0) {
       this.LoadForm();
       // this.LoadCombos();
@@ -172,7 +174,7 @@ export class LoteEditComponent implements OnInit {
     const request = {
       LoteId: this.vId,
       AlmacenId: this.selectedAlmacen,
-      Usuario: 'mruizb'
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario
     }
     this.loteService.Update(request)
       .subscribe((res: any) => {
