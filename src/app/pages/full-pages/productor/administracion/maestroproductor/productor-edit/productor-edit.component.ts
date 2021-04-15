@@ -60,6 +60,7 @@ export class ProductorEditComponent implements OnInit {
   vId: number;
   errGeneral = { isError: false, message: '' };
   msgErrorGenerico = 'Ha ocurrido un error. Por favor comunicarse con el área de sistemas.';
+  vSessionUser: any;
 
   get f() {
     return this.productorEditForm.controls;
@@ -70,6 +71,7 @@ export class ProductorEditComponent implements OnInit {
     this.LoadCombos();
     this.LoadDataInitial();
     this.addValidations();
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   LoadForm(): void {
@@ -361,7 +363,7 @@ export class ProductorEditComponent implements OnInit {
       FechaNacimientoConyuge: this.productorEditForm.value.fecNacimientoCyg ?? null,
       GradoEstudiosIdConyuge: this.productorEditForm.value.gradoEstudioCyg ?? '',
       LugarNacimientoConyuge: this.productorEditForm.value.lugarNacimientoCyg ?? '',
-      Usuario: 'mruizb',
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: this.productorEditForm.value.estado
     };
 

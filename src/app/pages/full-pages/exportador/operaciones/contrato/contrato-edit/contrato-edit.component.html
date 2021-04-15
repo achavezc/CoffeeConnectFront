@@ -94,8 +94,7 @@
                                         <app-consultar-cliente (responseCliente)="GetDataModalClientes($event)">
                                         </app-consultar-cliente>
                                     </ng-template>
-                                    <button type="button" (click)="openModal(modalEmpresa)"
-                                        class="btn btn-primary">
+                                    <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-primary">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -164,7 +163,7 @@
                                 <label for="destino" class="col-lg-3 col-from-label pr-0">DESTINO</label>
                                 <div class="col-lg-4">
                                     <ng-select [items]="listPaises" formControlName="pais" class="form-control"
-                                        bindLabel="Descripcion" bindValue="PaisId" id="pais" placeholder="País"
+                                        bindLabel="Descripcion" bindValue="Codigo" id="pais" placeholder="País"
                                         [ngClass]="{ 'is-invalid': f.pais.invalid, 'is-valid': !f.pais.invalid }"
                                         [(ngModel)]="selectedPais" (change)="onChangePais($event)">
                                     </ng-select>
@@ -392,7 +391,7 @@
                                 <div class="col-lg-5">
                                     <input type="text" name="responsableComercial" id="responsableComercial"
                                         formControlName="responsableComercial" class="form-control"
-                                        placeholder="Cantidad"
+                                        placeholder="Cantidad" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }">
                                 </div>
                             </div>
@@ -416,3 +415,6 @@
         </div>
     </div>
 </form>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>

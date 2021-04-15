@@ -6,7 +6,7 @@ import { CertificacionService } from '../../../../../../../../services/certifica
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 import { Observable } from 'rxjs';
-import {HttpClient, HttpParams, HttpRequest, HttpEvent,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 //import { FileUploader } from 'ng2-file-upload';
 import swal from 'sweetalert2';
 
@@ -35,17 +35,18 @@ export class CertificacionEditComponent implements OnInit {
   SocioFincaId = 0;
   SocioFincaCertificacionId = 0;
   objParams: any;
+  vSessionUser: any;
 
-/*   uploader: FileUploader = new FileUploader({
-    url: URL,
-    isHTML5: true
-  });
- */
-  
+  /*   uploader: FileUploader = new FileUploader({
+      url: URL,
+      isHTML5: true
+    });
+   */
+
   constructor(private spinner: NgxSpinnerService,
     private maestroUtil: MaestroUtil,
     private certificacionService: CertificacionService,
-    private alertUtil : AlertUtil,
+    private alertUtil: AlertUtil,
     private router: Router,
     private route: ActivatedRoute,
     private httpClient: HttpClient
@@ -54,6 +55,7 @@ export class CertificacionEditComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cargarForm();
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.route.queryParams.subscribe((params) => {
       this.objParams = params;
       if (params) {
@@ -66,21 +68,21 @@ export class CertificacionEditComponent implements OnInit {
 
   }
 
-/* 
-  initializeUploader() {
-    this.uploader = new FileUploader({
-      url: URL,
-      isHTML5: true
-    });
-
-    this.uploader.onAfterAddingFile = (file) => {file.withCredentials = false; };
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if (response) {
-        var dd = response;
-      }
-    };
-  }
- */
+  /* 
+    initializeUploader() {
+      this.uploader = new FileUploader({
+        url: URL,
+        isHTML5: true
+      });
+  
+      this.uploader.onAfterAddingFile = (file) => {file.withCredentials = false; };
+      this.uploader.onSuccessItem = (item, response, status, headers) => {
+        if (response) {
+          var dd = response;
+        }
+      };
+    }
+   */
   cargarcombos() {
     var form = this;
     this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
@@ -117,84 +119,84 @@ export class CertificacionEditComponent implements OnInit {
   fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
   }
-  
+
 
   onSubmit() {
     if (!this.certificacionEditForm.invalid) {
       const form = this;
-/*       if (this.vId > 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la actualización del socio finca?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.Update();
-          }
-        });
-      } else { */
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con el registro de certificacion?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.Create();
-          }
-        });
+      /*       if (this.vId > 0) {
+              swal.fire({
+                title: 'Confirmación',
+                text: `¿Está seguro de continuar con la actualización del socio finca?.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#2F8BE6',
+                cancelButtonColor: '#F55252',
+                confirmButtonText: 'Si',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                  cancelButton: 'btn btn-danger ml-1'
+                },
+                buttonsStyling: false,
+              }).then(function (result) {
+                if (result.value) {
+                  form.Update();
+                }
+              });
+            } else { */
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Está seguro de continuar con el registro de certificacion?.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.Create();
+        }
+      });
       //}
     }
   }
 
 
-  
-  
+
+
   Create(): void {
     this.spinner.show();
     const request = this.GetRequest();
     const formData = new FormData();
     formData.append('file', this.certificacionEditForm.get('file').value);
-    formData.append('request',  JSON.stringify(request));
+    formData.append('request', JSON.stringify(request));
     const headers = new HttpHeaders();
     headers.append('enctype', 'multipart/form-data');
     this.httpClient
-     .post(this.SERVER_URL, formData, { headers })
-     .subscribe((res: any) => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-          "Se registro correctamente la certificacion.",
-          () => {
-            this.Cancel();
-          });
-      } else {
-        this.alertUtil.alertError("ERROR!", res.Result.Message);
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.spinner.hide();
-      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-    });
+      .post(this.SERVER_URL, formData, { headers })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+            "Se registro correctamente la certificacion.",
+            () => {
+              this.Cancel();
+            });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+      });
 
-    
+
     /*
     this.certificacionService.Create(request)
       .subscribe((res: any) => {
@@ -213,7 +215,7 @@ export class CertificacionEditComponent implements OnInit {
         this.spinner.hide();
         this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
       });}*/
-      
+
   }
   Update(): void {
     this.spinner.show();
@@ -237,7 +239,7 @@ export class CertificacionEditComponent implements OnInit {
       });
   }
   fileChange(event) {
-    
+
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       //this.certificacionEditForm.get('profile').setValue(file);
@@ -245,13 +247,13 @@ export class CertificacionEditComponent implements OnInit {
         file: file
       });
       this.certificacionEditForm.get('file').updateValueAndValidity()
-      
+
     }
 
   }
 
 
-  
+
   GetRequest(): any {
     return {
       SocioFincaCertificacionId: this.SocioFincaCertificacionId ?? 0,
@@ -262,13 +264,13 @@ export class CertificacionEditComponent implements OnInit {
       NombreArchivo: "",
       DescripcionArchivo: "",
       PathArchivo: "",
-      Usuario: 'mruizb',
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: "01"//his.certificacionEditForm.value.estado
     }
   }
 
   Cancel(): void {
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], { queryParams: { SocioFincaId: this.SocioFincaId}});
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], { queryParams: { SocioFincaId: this.SocioFincaId } });
   }
 
 }

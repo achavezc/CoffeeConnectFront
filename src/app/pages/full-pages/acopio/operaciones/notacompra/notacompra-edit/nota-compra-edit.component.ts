@@ -211,7 +211,7 @@ export class NotaCompraEditComponent implements OnInit {
         this.notaCompraEditForm.controls.precioDiaAT.setValue(precioDia.PrecioDia);
         if (precioDia.PrecioDia > data.PrecioGuardado) {
           this.notaCompraEditForm.controls.precioPagadoAT.setValue(precioDia.PrecioDia);
-        }else{
+        } else {
           this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
         }
       }
@@ -247,7 +247,7 @@ export class NotaCompraEditComponent implements OnInit {
     this.spinner.show();
     const request = {
       NotaCompraId: this.vId,
-      Usuario: 'mruizb',
+      Usuario: this.vUserSession.Result.Data.NombreUsuario,
       MonedaId: this.notaCompraEditForm.value.monedaAT,
       PrecioPagado: this.notaCompraEditForm.value.precioPagadoAT,
       Importe: this.notaCompraEditForm.value.importeAT

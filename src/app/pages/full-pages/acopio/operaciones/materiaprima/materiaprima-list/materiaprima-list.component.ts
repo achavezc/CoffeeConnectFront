@@ -11,7 +11,7 @@ import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import swal from 'sweetalert2';
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
 
 @Component({
   selector: "app-materiaprima-list",
@@ -41,6 +41,7 @@ export class MateriaPrimaListComponent implements OnInit {
   estadoPesado = "01";
   estadoAnalizado = "02";
   @ViewChild(DatatableComponent) table: DatatableComponent;
+  vSessionUser: any;
 
   // row data
   public rows = [];
@@ -87,7 +88,7 @@ export class MateriaPrimaListComponent implements OnInit {
 
     this.cargarForm();
     this.cargarcombos();
-
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.consultaMateriaPrimaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.consultaMateriaPrimaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
 
@@ -160,7 +161,7 @@ export class MateriaPrimaListComponent implements OnInit {
               res.Result.Data.forEach(obj => {
 
                 var fecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistroCadena = this.dateUtil.formatDate(fecha,"/");
+                obj.FechaRegistroCadena = this.dateUtil.formatDate(fecha, "/");
 
               });
               this.tempData = res.Result.Data;
@@ -280,28 +281,28 @@ export class MateriaPrimaListComponent implements OnInit {
   enviar() {
     if (this.selected.length > 0) {
       if (this.selected[0].EstadoId == this.estadoAnalizado) {
-          var form = this;
-          swal.fire({
-            title: '¿Estas seguro?',
-            text: "¿Estas seguro de enviar a almacen?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2F8BE6',
-            cancelButtonColor: '#F55252',
-            confirmButtonText: 'Si',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-danger ml-1'
-            },
-            buttonsStyling: false,
-          }).then(function (result) {
-            if (result.value) {
-              form.enviarAlmacenGuia();
-            }
-          });
-        } else {
-          this.alertUtil.alertError("Error", "Solo se puede enviar guias con estado analizado")
-        }
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estas seguro de enviar a almacen?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.enviarAlmacenGuia();
+          }
+        });
+      } else {
+        this.alertUtil.alertError("Error", "Solo se puede enviar guias con estado analizado")
+      }
     }
   }
 
@@ -314,7 +315,7 @@ export class MateriaPrimaListComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.acopioService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId)
+    this.acopioService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId, this.vSessionUser.Result.Data.NombreUsuario)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -348,7 +349,7 @@ export class MateriaPrimaListComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.notaIngrersoService.enviarAlmacen(this.selected[0].GuiaRecepcionMateriaPrimaId)
+    this.notaIngrersoService.enviarAlmacen(this.selected[0].GuiaRecepcionMateriaPrimaId, this.vSessionUser.Result.Data.NombreUsuario)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

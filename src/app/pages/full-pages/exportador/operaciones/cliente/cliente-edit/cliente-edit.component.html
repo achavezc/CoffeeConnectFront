@@ -156,7 +156,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
+                            <div class="form-group row" *ngIf="f.tipoCliente.value && f.tipoCliente.value == '01'">
                                 <label for="departamento" class="col-md-4 col-form-label pr-0">DEPARTAMENTO</label>
                                 <div class="col-md-8">
                                     <ng-select [items]="listDepartamentos" formControlName="departamento"
@@ -168,8 +168,20 @@
                                     </ng-select>
                                 </div>
                             </div>
+                            <div class="form-group row" *ngIf="f.tipoCliente.value && f.tipoCliente.value == '02'">
+                                <label for="ciudad" class="col-md-4 col-form-label pr-0">CIUDAD</label>
+                                <div class="col-md-8">
+                                    <ng-select [items]="listCiudades" formControlName="ciudad" class="form-control"
+                                        bindLabel="Descripcion" bindValue="Codigo" id="ciudad"
+                                        placeholder="Seleccionar ciudad" [(ngModel)]="selectedCiudad"
+                                        [ngClass]="{ 'is-invalid': f.ciudad.invalid, 'is-valid': !f.ciudad.invalid }"
+                                        [readonly]="!selectedTipoCliente || selectedTipoCliente == '01'">
+                                    </ng-select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4"
+                            *ngIf="f.tipoCliente.value && f.tipoCliente.value == '01'">
                             <div class="form-group row">
                                 <label for="provincia" class="col-md-3 col-form-label">PROVINCIA</label>
                                 <div class="col-md-9">
@@ -184,7 +196,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row" *ngIf="f.tipoCliente.value && f.tipoCliente.value == '01'">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
                                 <label for="distrito" class="col-md-3 col-form-label">DISTRITO</label>
@@ -194,19 +206,6 @@
                                         [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }"
                                         placeholder="Seleccionar distrito" [(ngModel)]="selectedDistrito"
                                         [readonly]="!selectedTipoCliente || selectedTipoCliente == '02'">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="ciudad" class="col-md-4 col-form-label pr-0">CIUDAD</label>
-                                <div class="col-md-8">
-                                    <ng-select [items]="listCiudades" formControlName="ciudad" class="form-control"
-                                        bindLabel="Descripcion" bindValue="Codigo" id="ciudad"
-                                        placeholder="Seleccionar ciudad" [(ngModel)]="selectedCiudad"
-                                        [ngClass]="{ 'is-invalid': f.ciudad.invalid, 'is-valid': !f.ciudad.invalid }"
-                                        [readonly]="!selectedTipoCliente || selectedTipoCliente == '01'">
                                     </ng-select>
                                 </div>
                             </div>
@@ -256,7 +255,7 @@
                                     Responsable de Comercial:</label>
                                 <div class="col-md-7">
                                     <input type="text" name="responsableComercial" id="responsableComercial"
-                                        formControlName="responsableComercial" class="form-control"
+                                        formControlName="responsableComercial" class="form-control" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }"
                                         placeholder="Responsable de comercial">
                                 </div>

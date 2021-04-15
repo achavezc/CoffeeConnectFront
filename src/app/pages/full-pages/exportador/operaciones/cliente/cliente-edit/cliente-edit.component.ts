@@ -53,7 +53,7 @@ export class ClienteEditComponent implements OnInit {
     if (this.vId > 0) {
       this.ConsultarPorId();
     } else {
-
+      this.clienteEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     }
   }
 
@@ -312,7 +312,7 @@ export class ClienteEditComponent implements OnInit {
       GerenteGeneralNumero: this.clienteEditForm.value.idGerente ? this.clienteEditForm.value.idGerente.toString() : '',
       Presidente: this.clienteEditForm.value.descPresidente ?? '',
       PresidenteNumero: this.clienteEditForm.value.idPresidente ? this.clienteEditForm.value.idPresidente.toString() : '',
-      Usuario: 'mruizb',
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: '01'
     }
   }

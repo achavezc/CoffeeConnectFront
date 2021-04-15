@@ -13,7 +13,7 @@ import { ILogin } from '../../../services/models/login';
 
 export class LoginPageComponent {
 
-  loginModel  : ILogin;
+  loginModel: ILogin;
   loginFormSubmitted = false;
   isLoginFailed = false;
 
@@ -53,20 +53,19 @@ export class LoginPageComponent {
         this.spinner.hide();
         console.log(res);
         this.loginModel = res;
-        if (res.Result.Success)
-        {
-        this.spinner.hide();
-        localStorage.setItem("user", JSON.stringify(this.loginModel));
-        this.router.navigate(['/home']);
+        if (res.Result.Success) {
+          this.spinner.hide();
+          localStorage.setItem("user", JSON.stringify(this.loginModel));
+          this.router.navigate(['/home']);
         }
       },
-      err => {
-        this.isLoginFailed = true;
-        this.spinner.hide();
-        console.error(err);
-      }
+        err => {
+          this.isLoginFailed = true;
+          this.spinner.hide();
+          console.error(err);
+        }
       );
-      
+
   }
 
 }

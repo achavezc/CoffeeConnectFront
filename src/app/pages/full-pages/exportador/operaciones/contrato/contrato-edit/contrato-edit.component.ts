@@ -63,7 +63,7 @@ export class ContratoEditComponent implements OnInit {
     this.LoadForm();
     this.LoadCombos();
     this.LoadDataInicial();
-
+    this.contratoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     if (this.vId > 0) {
       this.SearchById();
     } else if (this.vId <= 0) {
@@ -142,12 +142,10 @@ export class ContratoEditComponent implements OnInit {
   }
 
   async GetCondicionEmbarque() {
-    this.spinner.show();
     this.listCondicionEmbarque = [];
     const res = await this.maestroService.obtenerMaestros('CondicionEmbarque').toPromise();
     if (res.Result.Success) {
       this.listCondicionEmbarque = res.Result.Data;
-      this.spinner.hide();
     }
   }
 
@@ -271,7 +269,7 @@ export class ContratoEditComponent implements OnInit {
       FechaEmbarque: this.contratoEditForm.value.fechaEmbarque ? this.contratoEditForm.value.fechaEmbarque : '',
       FechaContrato: this.contratoEditForm.value.fechaContrato ? this.contratoEditForm.value.fechaContrato : '',
       FechaFacturacion: this.contratoEditForm.value.fechaFactExp ? this.contratoEditForm.value.fechaFactExp : '',
-      PaisDestinoId: this.contratoEditForm.value.pais ? parseInt(this.contratoEditForm.value.pais) : 0,
+      PaisDestinoId: this.contratoEditForm.value.pais ? this.contratoEditForm.value.pais : '',
       DepartamentoDestinoId: this.contratoEditForm.value.ciudad ? this.contratoEditForm.value.ciudad : '',
       ProductoId: this.contratoEditForm.value.producto ? this.contratoEditForm.value.producto : '',
       TipoProduccionId: this.contratoEditForm.value.tipoProduccion ? this.contratoEditForm.value.tipoProduccion : '',
@@ -283,7 +281,7 @@ export class ContratoEditComponent implements OnInit {
       TipoCertificacionId: this.contratoEditForm.value.certificacion ? this.contratoEditForm.value.certificacion.join('|') : '',
       CalidadId: this.contratoEditForm.value.calidad ? this.contratoEditForm.value.calidad : '',
       GradoId: this.contratoEditForm.value.grado ? this.contratoEditForm.value.grado : '',
-      Cantidad: this.contratoEditForm.value.cantidad ? parseFloat(this.contratoEditForm.value.cantidad) : 0,
+      CantidadPorSaco: this.contratoEditForm.value.cantidad ? parseFloat(this.contratoEditForm.value.cantidad) : 0,
       PesoPorSaco: this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0,
       PreparacionCantidadDefectos: this.contratoEditForm.value.cantidadDefectos ? parseFloat(this.contratoEditForm.value.cantidadDefectos) : 0,
       RequiereAprobacionMuestra: this.contratoEditForm.value.sujetoAprobMuestra ? this.contratoEditForm.value.sujetoAprobMuestra : false,
@@ -291,8 +289,9 @@ export class ContratoEditComponent implements OnInit {
       MuestraEnviadaAnalisisGlifosato: this.contratoEditForm.value.muestraAnalisisGlifosato ? this.contratoEditForm.value.muestraAnalisisGlifosato : false,
       NombreArchivo: '',
       PathArchivo: '',
-      Usuario: 'mruizb',
-      EstadoId: '01'
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+      EstadoId: '01',
+      CalculoContratoId: ''
     }
   }
 
@@ -419,12 +418,12 @@ export class ContratoEditComponent implements OnInit {
       if (data.PaisDestinoId) {
         await this.GetPais();
         this.contratoEditForm.controls.pais.setValue(data.PaisDestinoId);
-        // this.onChangePais({ Codigo: this.selectedPais })
+        this.onChangePais({ Codigo: this.selectedPais })
       }
-      // if (data.DepartamentoDestinoId) {
-      //   await this.GetCiudad();
-      //   this.contratoEditForm.controls.ciudad.setValue(data.DepartamentoDestinoId);
-      // }
+      if (data.DepartamentoDestinoId) {
+        await this.GetCiudad();
+        this.contratoEditForm.controls.ciudad.setValue(data.DepartamentoDestinoId);
+      }
       if (data.ProductoId) {
         await this.GetProductos();
         this.contratoEditForm.controls.producto.setValue(data.ProductoId);
@@ -464,8 +463,8 @@ export class ContratoEditComponent implements OnInit {
         await this.GetGradoPreparacion();
         this.contratoEditForm.controls.grado.setValue(data.GradoId);
       }
-      if (data.Cantidad) {
-        this.contratoEditForm.controls.cantidad.setValue(data.Cantidad);
+      if (data.CantidadPorSaco) {
+        this.contratoEditForm.controls.cantidad.setValue(data.CantidadPorSaco);
       }
       if (data.PesoPorSaco) {
         this.contratoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);

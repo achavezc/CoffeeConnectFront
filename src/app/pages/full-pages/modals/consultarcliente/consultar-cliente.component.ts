@@ -120,7 +120,7 @@ export class MConsultarClienteComponent implements OnInit {
       RazonSocial: this.mdlClienteForm.value.mdescCliente ?? '',
       TipoClienteId: this.mdlClienteForm.value.mtipoCliente ?? '',
       Ruc: this.mdlClienteForm.value.mruc ?? '',
-      EstadoId: this.mdlClienteForm.value.mestado ?? '',
+      EstadoId: '01',
       PaisId: this.mdlClienteForm.value.mpais ?? 0,
       FechaInicio: this.mdlClienteForm.value.mfechaInicial ?? '',
       FechaFin: this.mdlClienteForm.value.mfechaFinal ?? ''
