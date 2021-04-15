@@ -53,7 +53,7 @@ export class ClienteEditComponent implements OnInit {
     if (this.vId > 0) {
       this.ConsultarPorId();
     } else {
-
+      this.clienteEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     }
   }
 
