@@ -57,14 +57,14 @@
                 <ul class="list-unstyled mb-0">
                   <li class="d-inline-block mr-2">
                     <div class="radio">
-                      <input type="radio" name="basic-radio-1" formControlName="estado" class="form-control" id="radio1" checked>
-                      <label for="radio1">Active</label>
+                      <input type="radio" name="basic-radio-1" value="01" formControlName="estado" class="form-control" id="radio1">
+                      <label for="radio1">Activo</label>
                     </div>
                   </li>
                   <li class="d-inline-block mr-2">
                     <div class="radio">
-                      <input type="radio" name="basic-radio-1" formControlName="estado" class="form-control" id="radio2">
-                      <label for="radio2">Inactive</label>
+                      <input type="radio" name="basic-radio-1" value="00" formControlName="estado" class="form-control" id="radio2">
+                      <label for="radio2">Inactivo</label>
                     </div>
                   </li>
              
@@ -73,13 +73,23 @@
               <div class="col-md-6 mb-6 form-group mb-2">
                 <label for="validationTooltip09">Carga Certificado</label>
                 <label class="custom-file">
-                 <!--  <input type="file" ng2FileSelect [uploader]="uploader">
-                  <span class="custom-file-control"></span> -->
-                  <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+                  <input type="file" (change)="fileChange($event)" placeholder="Upload file"  accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
                 </label>
               </div>
             </div>
 
+            <div class="form-row">
+
+              <div class="col-md-6 mb-6 form-group mb-2">
+                
+              </div>
+              <div class="col-md-6 mb-6 form-group mb-2">
+                <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
+              </div>
+            </div>
+
+
+           
             <div>
               <button class="btn btn-primary mr-1 mb-1" type="submit" >Guardar</button>
               <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Cancel()">Cancelar</button>

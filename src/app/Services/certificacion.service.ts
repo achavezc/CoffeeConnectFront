@@ -24,6 +24,16 @@ export class CertificacionService {
     const url = `${this.url}/Registrar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+  SearchById(pId: number): Observable<any> {
+    const url = `${this.url}/ConsultarPorId`;
+    return this.http.post<any>(url, { SocioFincaCertificacionId: pId }).catch(this.errorHandling.handleError);
+  }
+
+  DescargarArchivo(archivoVisual: String, pathFile: String): Observable<any> {
+    const url = `${this.url}/DescargarArchivo`;
+    return this.http.post<any>(url, { ArchivoVisual: archivoVisual, PathFile: pathFile}).catch(this.errorHandling.handleError);
+  }
+
 
 
 }
