@@ -51,10 +51,12 @@ export class NotacompraListComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.consultaNotaCompraForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.consultaNotaCompraForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
   }
@@ -273,7 +275,7 @@ export class NotacompraListComponent implements OnInit {
   }
 
   AnularNCSeleccionada() {
-    this.notaCompraService.Anular(this.selected[0].NotaCompraId)
+    this.notaCompraService.Anular(this.selected[0].NotaCompraId, this.vSessionUser.Result.Data.NombreUsuario)
       .subscribe(res => {
         if (res.Result.Success) {
           if (!res.Result.ErrCode) {

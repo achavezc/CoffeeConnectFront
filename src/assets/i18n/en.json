@@ -243,6 +243,10 @@
 	{
 		"Label":"Transport"
 	},
+  "Cliente":
+	{
+		"Label":"Customer"
+	},
 	"Agropecuario":
 	{
 		"Label":"Agricultural",

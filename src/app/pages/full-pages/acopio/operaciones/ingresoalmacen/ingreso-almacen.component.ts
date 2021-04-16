@@ -376,7 +376,7 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   GenerarLote(): void {
-    if (this.selectedProduct && this.selectedCertificacion) {
+    if (this.selectedProduct && this.selectedCertificacion && this.selectedByProduct) {
       this.errorGeneral = { isError: false, errorMessage: '' };
       let request = this.DevolverRequestGenerarLotes();
       if (request && request.length > 0) {
@@ -404,7 +404,7 @@ export class IngresoAlmacenComponent implements OnInit {
           "Por favor solo seleccionar filas que se encuentren en estado INGRESADO y tengan asignado un ALMACEN.");
       }
     } else {
-      this.alertUtil.alertError("Advertencia", 'Por favor seleccionar un producto y certificación.');
+      this.alertUtil.alertError("Advertencia", 'Por favor seleccionar un producto, sub producto y certificación.');
     }
   }
 
@@ -476,7 +476,7 @@ export class IngresoAlmacenComponent implements OnInit {
     let obj: any = {};
     for (let i = 0; i < pIngresados.length; i++) {
       obj = pIngresados[i];
-      this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, "mruizb")
+      this.ingresoAlmacenService.Anular(obj.NotaIngresoAlmacenId, this.userSession.Result.Data.NombreUsuario)
         .subscribe(res => {
           if (!res.Result.Success) {
             if (res.Result.Message && res.Result.ErrCode) {
@@ -539,10 +539,11 @@ export class IngresoAlmacenComponent implements OnInit {
           });
 
           vObjRequest = {
-            Usuario: "mruizb",
+            Usuario: this.userSession.Result.Data.NombreUsuario,
             EmpresaId: user.Data.EmpresaId,
             AlmacenId: cv.toString(),
             ProductoId: form.selectedProduct,
+            SubProductoId: form.selectedByProduct,
             TipoCertificacionId: form.selectedCertificacion
           };
           vObjRequest.NotasIngresoAlmacenId = vArrIdsNotaIngreso;

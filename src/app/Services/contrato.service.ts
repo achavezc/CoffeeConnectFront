@@ -19,4 +19,19 @@ export class ContratoService {
     const url = `${this.url}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  Create(request: any): Observable<any> {
+    const url = `${this.url}/Registrar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  Update(request: any): Observable<any> {
+    const url = `${this.url}/Actualizar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  SearchById(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarPorId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }

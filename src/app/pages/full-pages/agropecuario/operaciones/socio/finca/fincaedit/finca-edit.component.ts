@@ -36,9 +36,11 @@ export class FincaEditComponent implements OnInit {
   vId: number;
   objParams: any;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.route.queryParams.subscribe((params) => {
       this.objParams = params;
       this.LoadForm();
@@ -157,7 +159,7 @@ export class FincaEditComponent implements OnInit {
       Cultivo: this.socioFincaEditForm.value.cultivo,
       Precipitacion: this.socioFincaEditForm.value.precipitacion,
       CantidadPersonalCosecha: this.socioFincaEditForm.value.nroPersonalCosecha ?? null,
-      Usuario: 'mruizb',
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: this.socioFincaEditForm.value.estado
     }
   }

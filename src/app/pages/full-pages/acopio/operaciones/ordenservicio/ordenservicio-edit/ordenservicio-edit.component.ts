@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, Form
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from "@angular/router";
-import {ReqOrdenServicio} from './../../../../../../services/models/req-ordenservicio-registrar';
+import { ReqOrdenServicio } from './../../../../../../services/models/req-ordenservicio-registrar';
 import { OrdenservicioControlcalidadService } from './../../../../../../services/ordenservicio-controlcalidad.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 
@@ -19,43 +19,43 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 })
 export class OrdenServicioEditComponent implements OnInit {
 
-    @ViewChild('vform') validationForm: FormGroup;
-    @ViewChild(DatatableComponent) table: DatatableComponent;
-    login: ILogin;
-    ordenServicioFormEdit: FormGroup;
-    viewTagSeco: boolean = null;
-    listaEstado: any[];
-    selectEstado: any;
-    submittedEdit =  false;
-    submitted = false;
-    detalle: any;
-    disabledControl: any;
-    form: string = "ordenServicio";
-    numero: any;
-    fechaRegistro: any;
-    listTipoSocio: any[];
-    selectTipoSocio: any;
-    esEdit: true;
-    listaTipoProveedor: any[];
-    listaTipoDocumento: any[];
-    selectedTipoDocumento: any;
-    selectTipoProveedor: any;
-    rows: any[];
-    errorGeneral: any = { isError: false, errorMessage: '' };
-    selectEmpresa:any[];
-    responseble = '';
-    id: Number = 0;
-    mensajeErrorGenerico = "Ocurrio un error interno.";
-    estado: any;
+  @ViewChild('vform') validationForm: FormGroup;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  login: ILogin;
+  ordenServicioFormEdit: FormGroup;
+  viewTagSeco: boolean = null;
+  listaEstado: any[];
+  selectEstado: any;
+  submittedEdit = false;
+  submitted = false;
+  detalle: any;
+  disabledControl: any;
+  form: string = "ordenServicio";
+  numero: any;
+  fechaRegistro: any;
+  listTipoSocio: any[];
+  selectTipoSocio: any;
+  esEdit: true;
+  listaTipoProveedor: any[];
+  listaTipoDocumento: any[];
+  selectedTipoDocumento: any;
+  selectTipoProveedor: any;
+  rows: any[];
+  errorGeneral: any = { isError: false, errorMessage: '' };
+  selectEmpresa: any[];
+  responseble = '';
+  id: Number = 0;
+  mensajeErrorGenerico = "Ocurrio un error interno.";
+  estado: any;
 
-    constructor(private fb: FormBuilder,
-      private spinner: NgxSpinnerService,
-      private maestroService: MaestroService,
-      private modalService: NgbModal,
-      private router: Router,
-      private ordenservicioControlcalidadService :OrdenservicioControlcalidadService,
-      private alertUtil : AlertUtil) {
-    }
+  constructor(private fb: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private maestroService: MaestroService,
+    private modalService: NgbModal,
+    private router: Router,
+    private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
+    private alertUtil: AlertUtil) {
+  }
 
   receiveMessage($event) {
     this.selectEmpresa = $event
@@ -64,11 +64,11 @@ export class OrdenServicioEditComponent implements OnInit {
     this.ordenServicioFormEdit.get('dirDestino').setValue(this.selectEmpresa[0].Direccion + " - " + this.selectEmpresa[0].Distrito + " - " + this.selectEmpresa[0].Provincia + " - " + this.selectEmpresa[0].Departamento);
     this.modalService.dismissAll();
   }
- 
+
   receiveSubProducto($event) {
     this.viewTagSeco = $event;
   }
-  
+
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
@@ -76,53 +76,49 @@ export class OrdenServicioEditComponent implements OnInit {
 
   openModal(modalEmpresa) {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
-  
+
   }
 
-  cargarForm() 
-  {
-      this.ordenServicioFormEdit =this.fb.group(
-        {
-          destinatario: ['',[Validators.required] ],
-          ruc:   new FormControl('', []),
-          dirPartida:  [this.login.Result.Data.DireccionEmpresa, []],
-          dirDestino:   new FormControl('', []),
-          tagordenservicio:this.fb.group({
-            tipoProduccion: new FormControl('', [Validators.required]),
-            producto: new FormControl('', [Validators.required]),
-            subproducto: new FormControl('', [Validators.required]),
-            rendimiento: new FormControl('', [Validators.required]),
-            unidadmedida: new FormControl('', [Validators.required]),
-            cantidad: new FormControl('',[Validators.required])
-          }),
-        });
+  cargarForm() {
+    this.ordenServicioFormEdit = this.fb.group(
+      {
+        destinatario: ['', [Validators.required]],
+        ruc: new FormControl('', []),
+        dirPartida: [this.login.Result.Data.DireccionEmpresa, []],
+        dirDestino: new FormControl('', []),
+        tagordenservicio: this.fb.group({
+          tipoProduccion: new FormControl('', [Validators.required]),
+          producto: new FormControl('', [Validators.required]),
+          subproducto: new FormControl('', [Validators.required]),
+          rendimiento: new FormControl('', [Validators.required]),
+          unidadmedida: new FormControl('', [Validators.required]),
+          cantidad: new FormControl('', [Validators.required])
+        }),
+      });
 
-        this.maestroService.obtenerMaestros("EstadoOrdenServicioControlCalidad")
-        .subscribe(res => {
-          if (res.Result.Success) {
-            this.listaEstado = res.Result.Data;
-          }
-        },
-          err => {
-            console.error(err);
-          }
-        );
+    this.maestroService.obtenerMaestros("EstadoOrdenServicioControlCalidad")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listaEstado = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
   }
 
   get fedit() {
     return this.ordenServicioFormEdit.controls;
   }
 
-  guardar()
-  {
-    if (this.ordenServicioFormEdit.invalid || this.errorGeneral.isError)
-    {
+  guardar() {
+    if (this.ordenServicioFormEdit.invalid || this.errorGeneral.isError) {
 
       this.submittedEdit = true;
       return;
     }
-    else
-    {
+    else {
       this.submittedEdit = false;
       let request = new ReqOrdenServicio(
         Number(this.id),
@@ -215,8 +211,7 @@ export class OrdenServicioEditComponent implements OnInit {
         }
       );
   }
-  cancelar()
-  {
+  cancelar() {
 
     this.router.navigate(['/acopio/operaciones/orderservicio-controlcalidadexterna-list']);
   }
