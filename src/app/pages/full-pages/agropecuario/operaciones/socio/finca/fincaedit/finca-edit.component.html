@@ -49,7 +49,7 @@
                         <div class="col-8">
                             <input type="number" name="distanciaKM" id="distanciaKM" formControlName="distanciaKM"
                                 [ngClass]="{ 'is-invalid': f.distanciaKM.invalid, 'is-valid': !f.distanciaKM.invalid }"
-                                class="form-control" placeholder="Ingresar distancia KM">
+                                class="form-control text-right" placeholder="Ingresar distancia KM">
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         <div class="col-8">
                             <input type="number" name="tiempoTotal" id="tiempoTotal" formControlName="tiempoTotal"
                                 [ngClass]="{ 'is-invalid': f.tiempoTotal.invalid, 'is-valid': !f.tiempoTotal.invalid }"
-                                class="form-control" placeholder="Ingresar tiempo total">
+                                class="form-control text-right" placeholder="Ingresar tiempo total">
                         </div>
                     </div>
                 </div>
@@ -105,12 +105,61 @@
                             <input type="number" name="nroPersonalCosecha" id="nroPersonalCosecha"
                                 formControlName="nroPersonalCosecha"
                                 [ngClass]="{ 'is-invalid': f.nroPersonalCosecha.invalid, 'is-valid': !f.nroPersonalCosecha.invalid }"
-                                class="form-control" placeholder="Ingresar número personal en cosecha">
+                                class="form-control text-right" placeholder="Ingresar número personal en cosecha">
                         </div>
                     </div>
                 </div>
             </div>
         </form>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-1">
+                    <div class="col-lg-8"></div>
+                    <div class="col-lg-4">
+                        <button class="btn btn-sm btn-primary" type="button" (click)="addRow()">Add Row</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8"></div>
+                    <div class="col-lg-4">
+                        <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows">
+
+                            <ngx-datatable-column [sortable]="false">
+                                <ng-template ngx-datatable-cell-template let-row=" row" let-anio="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                            (click)="EliminarFila(rowIndex)">Eliminar</button>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Año" prop="Anio" [sortable]="false">
+                                <ng-template ngx-datatable-cell-template let-row=" row" let-anio="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control form-control-sm text-right"
+                                            (blur)="UpdateValue($event, rowIndex, 'anio')">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Estimado (Kilos)" prop="Estimado" [sortable]="false">
+                                <ng-template let-row=" row" let-estimado="value" ngx-datatable-cell-template
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control form-control-sm text-right"
+                                            (blur)="UpdateValue($event, rowIndex, 'estimado')" aria-valuemin="">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="card-footer text-right">
         <button class="btn btn-primary mr-1" (click)="Save()">Guardar</button>

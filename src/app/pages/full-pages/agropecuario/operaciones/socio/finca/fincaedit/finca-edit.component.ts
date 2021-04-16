@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,7 +14,8 @@ import { MaestroService } from '../../../../../../../services/maestro.service';
 @Component({
   selector: 'app-finca-edit',
   templateUrl: './finca-edit.component.html',
-  styleUrls: ['./finca-edit.component.scss']
+  styleUrls: ['./finca-edit.component.scss', '/assets/sass/libs/datatables.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FincaEditComponent implements OnInit {
 
@@ -37,6 +38,10 @@ export class FincaEditComponent implements OnInit {
   objParams: any;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
   vSessionUser: any;
+  selected = [];
+  rows = [];
+  tempRows = [];
+  @ViewChild(DatatableComponent) table: DatatableComponent;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
@@ -160,7 +165,8 @@ export class FincaEditComponent implements OnInit {
       Precipitacion: this.socioFincaEditForm.value.precipitacion,
       CantidadPersonalCosecha: this.socioFincaEditForm.value.nroPersonalCosecha ?? null,
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: this.socioFincaEditForm.value.estado
+      EstadoId: this.socioFincaEditForm.value.estado,
+      FincaEstimado: this.rows.filter(x => x.Anio != 0 && x.Estimado != 0)
     }
   }
 
@@ -260,6 +266,25 @@ export class FincaEditComponent implements OnInit {
     } else {
       this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.socioFincaEditForm.value.idSocio}`],
         { queryParams: { idProductor: this.socioFincaEditForm.value.idProductor } });
+    }
+  }
+
+  addRow(): void {
+    // let rows = [...this.rows];
+    // rows.splice(row.$$index, 1);
+    this.rows = [...this.rows, { Anio: 0, Estimado: 0 }];
+  }
+
+  EliminarFila(index: any): void {
+    this.rows.splice(index, 1);
+    this.rows = [...this.rows];
+  }
+
+  UpdateValue(event, index, prop): void {
+    if (prop === 'anio') {
+      this.rows[index].Anio = parseFloat(event.target.value)
+    } else if (prop === 'estimado') {
+      this.rows[index].Estimado = parseFloat(event.target.value)
     }
   }
 }
