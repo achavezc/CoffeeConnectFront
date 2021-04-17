@@ -231,7 +231,7 @@ export class ContratoEditComponent implements OnInit {
 
   async GetGradoPreparacion() {
     this.listGrado = [];
-    const res = await this.maestroService.obtenerMaestros('GradoEstudios').toPromise();
+    const res = await this.maestroService.obtenerMaestros('Grado').toPromise();
     if (res.Result.Success) {
       this.listGrado = res.Result.Data;
     }
