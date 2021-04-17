@@ -496,6 +496,19 @@ export class ContratoEditComponent implements OnInit {
     this.spinner.hide();
   }
 
+  fileChange(event) {
+
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      //this.certificacionEditForm.get('profile').setValue(file);
+      this.contratoEditForm.patchValue({
+        file: file
+      });
+      this.contratoEditForm.get('file').updateValueAndValidity()
+
+    }
+
+  }
   Cancelar(): void {
     this.router.navigate(['/exportador/operaciones/contrato/list']);
   }

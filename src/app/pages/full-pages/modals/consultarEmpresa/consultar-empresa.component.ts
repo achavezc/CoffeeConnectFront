@@ -5,6 +5,7 @@ import { MaestroService } from '../../../../services/maestro.service';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { EmpresaService } from '../../../../services/empresa.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { ILogin } from '../../../../services/models/login';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class MConsultarEmpresaComponent implements OnInit {
   filtrosEmpresaProv: any = {};
   mensajeErrorGenerico = "Ocurrio un error interno.";
   empresa: any[];
+  login: ILogin;
   @Output() empresaEvent = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
@@ -69,8 +71,8 @@ export class MConsultarEmpresaComponent implements OnInit {
       this.submittedE = false;
       this.filtrosEmpresaProv.RazonSocial = this.consultaEmpresas.controls['rzsocial'].value;
       this.filtrosEmpresaProv.Ruc = this.consultaEmpresas.controls['ruc'].value;
-      this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value.length == 0 ? "" : this.consultaEmpresas.controls['clasificacion'].value;
-      this.filtrosEmpresaProv.EmpresaId = 1;
+      this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value == null ? "" : this.consultaEmpresas.controls['clasificacion'].value;
+      this.filtrosEmpresaProv.EmpresaId = Number(this.login.Result.Data.EmpresaId);
       this.filtrosEmpresaProv.EstadoId = "01";
       this.spinner.show(undefined,
         {
