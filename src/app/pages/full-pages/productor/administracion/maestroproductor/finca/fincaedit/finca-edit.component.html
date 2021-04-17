@@ -19,10 +19,15 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group row">
                         <label for="latitud" class="col-4 col-form-label pr-0">Latitud</label>
-                        <div class="col-8">
+                        <div class="col-4">
                             <input type="number" name="latitud" id="latitud" formControlName="latitud"
                                 [ngClass]="{ 'is-invalid': f.latitud.invalid, 'is-valid': !f.latitud.invalid }"
-                                class="form-control" placeholder="Ingresar latitud">
+                                class="form-control text-right" placeholder="Ingresar latitud">
+                        </div>
+                        <div class="col-4">
+                            <input type="text" name="latitud2" id="latitud2" formControlName="latitud2"
+                                [ngClass]="{ 'is-invalid': f.latitud2.invalid, 'is-valid': !f.latitud2.invalid }"
+                                class="form-control text-right">
                         </div>
                     </div>
                 </div>
@@ -42,10 +47,15 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group row">
                         <label for="longitud" class="col-4 col-form-label pr-0">Longitud</label>
-                        <div class="col-8">
+                        <div class="col-4">
                             <input type="number" name="longitud" id="longitud" formControlName="longitud"
                                 [ngClass]="{ 'is-invalid': f.longitud.invalid, 'is-valid': !f.longitud.invalid }"
-                                class="form-control" placeholder="Ingresar longitud">
+                                class="form-control text-right" placeholder="Ingresar longitud">
+                        </div>
+                        <div class="col-4">
+                            <input type="text" name="longitud2" id="longitud2" formControlName="longitud2"
+                                [ngClass]="{ 'is-invalid': f.longitud2.invalid, 'is-valid': !f.longitud2.invalid }"
+                                class="form-control text-right">
                         </div>
                     </div>
                 </div>
@@ -71,7 +81,7 @@
                         <div class="col-8">
                             <input type="number" name="altitud" id="altitud" formControlName="altitud"
                                 [ngClass]="{ 'is-invalid': f.altitud.invalid, 'is-valid': !f.altitud.invalid }"
-                                class="form-control" placeholder="Ingresar altitud">
+                                class="form-control text-right" placeholder="Ingresar altitud">
                         </div>
                     </div>
                 </div>
@@ -151,7 +161,7 @@
                         <label for="nroAnimalesMenores" class="col-4 col-form-label pr-0">N° Animales menores</label>
                         <div class="col-8">
                             <input type="number" name="nroAnimalesMenores" id="nroAnimalesMenores"
-                                formControlName="nroAnimalesMenores" class="form-control"
+                                formControlName="nroAnimalesMenores" class="form-control text-right"
                                 [ngClass]="{ 'is-invalid': f.nroAnimalesMenores.invalid, 'is-valid': !f.nroAnimalesMenores.invalid }"
                                 placeholder="Ingresar número de animales menores">
                         </div>
@@ -227,7 +237,7 @@
                             centro de Salud</label>
                         <div class="col-8">
                             <input type="number" name="tiempoUnidadCentroSalud" id="tiempoUnidadCentroSalud"
-                                formControlName="tiempoUnidadCentroSalud" class="form-control"
+                                formControlName="tiempoUnidadCentroSalud" class="form-control text-right"
                                 [ngClass]="{ 'is-invalid': f.tiempoUnidadCentroSalud.invalid, 'is-valid': !f.tiempoUnidadCentroSalud.invalid }"
                                 placeholder="Ingresar tiempo de la unidad al centro de salud">
                         </div>

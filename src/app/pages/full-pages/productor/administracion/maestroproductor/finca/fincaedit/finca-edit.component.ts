@@ -95,7 +95,9 @@ export class FincaEditComponent implements OnInit {
       tiempoUnidadCentroSalud: [],
       fCentroEducativo: [],
       centroEducativo: [],
-      estado: ['', [Validators.required]]
+      estado: ['', [Validators.required]],
+      latitud2: [],
+      longitud2: []
     });
   }
 
@@ -295,6 +297,12 @@ export class FincaEditComponent implements OnInit {
     if (data.EstadoId) {
       this.fincaEditForm.controls.estado.setValue(data.EstadoId);
     }
+    if (data.LatitudDms) {
+      this.fincaEditForm.controls.latitud2.setValue(data.LatitudDms);
+    }
+    if (data.LonguitudDms) {
+      this.fincaEditForm.controls.longitud2.setValue(data.LonguitudDms);
+    }
     this.spinner.hide();
   }
 
@@ -311,6 +319,8 @@ export class FincaEditComponent implements OnInit {
       Latitud: this.fincaEditForm.value.latitud ?? 0,
       Longuitud: this.fincaEditForm.value.longitud ?? 0,
       Altitud: this.fincaEditForm.value.altitud ?? 0,
+      LatitudDms: this.fincaEditForm.value.latitud2 ? this.fincaEditForm.value.latitud2 : null,
+      LonguitudDms: this.fincaEditForm.value.longitud2 ? this.fincaEditForm.value.longitud2 : null,
       FuenteEnergiaId: this.fincaEditForm.value.fuenteEnergia ?? '',
       FuenteAguaId: this.fincaEditForm.value.fuenteAgua ?? '',
       InternetId: this.fincaEditForm.value.fInternet ?? '',
