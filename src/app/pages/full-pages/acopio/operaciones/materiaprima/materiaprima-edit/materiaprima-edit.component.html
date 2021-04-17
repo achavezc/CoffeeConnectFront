@@ -243,6 +243,7 @@
                             <ngx-datatable-column name="Distrito" prop="Distrito" width="25"></ngx-datatable-column>
                             <ngx-datatable-column name="Zona" prop="Zona" width="25"></ngx-datatable-column> 
                             <ngx-datatable-column name="Finca"  prop="Finca"  ></ngx-datatable-column>
+                            <ngx-datatable-column name="Certificacion"  prop="Certificacion"  ></ngx-datatable-column>
                             <!-- <ngx-datatable-column name="TipoProveedorId"  prop="TipoProveedorId"  ></ngx-datatable-column>
                              -->
                           </ngx-datatable>
@@ -274,6 +275,12 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="provZona"
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provZona.invalid, 'is-valid': submittedEdit && !fedit.provZona.invalid }"
                 disabled>
+               
+                <label for="basicInput">Certificación</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="provCertificacion"
+                [ngClass]="{ 'is-invalid': submittedEdit && fedit.provCertificacion.invalid, 'is-valid': submittedEdit && !fedit.provCertificacion.invalid }"
+                disabled>
+               
               </div>
               <div class="col-12 col-md-5">
                 <label for="basicInput">Finca</label>
@@ -282,6 +289,7 @@
                 disabled>
              
               </div>
+              
             </div>
             
             <div class="row"

@@ -135,6 +135,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         provDistrito: ['', Validators.required],
         provZona: ['', Validators.required],
         provFinca: ['',],
+        provCertificacion: ['',],        
         fechaCosecha: ['', Validators.required],
         guiaReferencia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaPesado: ['',],
@@ -316,6 +317,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('provDistrito').setValue(e[0].Distrito);
     this.consultaMateriaPrimaFormEdit.get('provZona').setValue(e[0].Zona);
     this.consultaMateriaPrimaFormEdit.get('provFinca').setValue(e[0].Finca);
+    this.consultaMateriaPrimaFormEdit.get('provCertificacion').setValue(e[0].Certificacion);
 
     this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(e[0].TipoProveedorId);
     this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(null);
@@ -603,6 +605,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls["provDepartamento"].setValue(data.Departamento);
     this.consultaMateriaPrimaFormEdit.controls["provProvincia"].setValue(data.Provincia);
     this.consultaMateriaPrimaFormEdit.controls["provDistrito"].setValue(data.Distrito);
+    this.consultaMateriaPrimaFormEdit.controls["provCertificacion"].setValue(data.SocioFincaCertificacion);
     this.consultaMateriaPrimaFormEdit.controls["provZona"].setValue(data.Zona);
     this.consultaMateriaPrimaFormEdit.controls["provFinca"].setValue(data.Finca);
     //this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(this.dateUtil.formatDate(new Date(data.FechaPesado),"/"));
