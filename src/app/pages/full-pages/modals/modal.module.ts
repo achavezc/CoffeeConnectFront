@@ -19,7 +19,8 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MConsultarLotesComponent } from '../modals/consultarLotes/consultar-lotes.component'
 import { MConsultarEmpresaComponent } from '../modals/consultarEmpresa/consultar-empresa.component';
-import { MConsultarClienteComponent } from '../modals/consultarcliente/consultar-cliente.component'
+import { MConsultarClienteComponent } from '../modals/consultarcliente/consultar-cliente.component';
+import { MConsultarContratoComponent } from './consultarcontrato/consultar-contrato.component'
 
 @NgModule({
   imports: [
@@ -44,12 +45,14 @@ import { MConsultarClienteComponent } from '../modals/consultarcliente/consultar
   declarations: [
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
-    MConsultarClienteComponent
+    MConsultarClienteComponent,
+    MConsultarContratoComponent
   ],
   exports: [
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
-    MConsultarClienteComponent
+    MConsultarClienteComponent,
+    MConsultarContratoComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

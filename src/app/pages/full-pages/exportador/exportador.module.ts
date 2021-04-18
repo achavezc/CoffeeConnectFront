@@ -58,7 +58,8 @@ import { ModalModule } from '../modals/modal.module'
     ModalModule
   ],
   exports: [
-    ContratoEditComponent
+    ContratoEditComponent,
+    OrdenProcesoEditComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

@@ -61,7 +61,7 @@
                     <div class="form-row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="nroContrato" class="col-lg-4 col-from-label">N° CONTRATO</label>
+                                <label for="nroContrato" class="col-lg-4 col-form-label">N° CONTRATO</label>
                                 <div class="col-lg-8">
                                     <input type="text" name="nroContrato" id="nroContrato" formControlName="nroContrato"
                                         class="form-control" placeholder="Número de contrato" [readonly]="true"
@@ -71,7 +71,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="fechaContrato" class="col-lg-5 col-from-label">FEC. CONTRATO</label>
+                                <label for="fechaContrato" class="col-lg-5 col-form-label">FEC. CONTRATO</label>
                                 <div class="col-lg-7">
                                     <input type="date" class="form-control text-center" formControlName="fechaContrato"
                                         id="fechaContrato" date name="fechaContrato" placeholder="Fecha de contrato"
@@ -83,7 +83,7 @@
                     <div class="form-row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="codCliente" class="col-lg-4 col-from-label">COD. CLIENTE</label>
+                                <label for="codCliente" class="col-lg-4 col-form-label">COD. CLIENTE</label>
                                 <div class="col-lg-5 col-md-5">
                                     <input type="text" name="codCliente" id="codCliente" formControlName="codCliente"
                                         class="form-control" placeholder="Código de cliente" [readonly]="true"
@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <label for="cliente" class="col-lg-2 col-from-label">CLIENTE</label>
+                                <label for="cliente" class="col-lg-2 col-form-label">CLIENTE</label>
                                 <div class="col-lg-9">
                                     <input type="text" name="cliente" id="cliente" formControlName="cliente"
                                         class="form-control" placeholder="Cliente" [readonly]="true"
@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="floId" class="col-lg-4 col-from-label">FLO ID</label>
+                                <label for="floId" class="col-lg-4 col-form-label">FLO ID</label>
                                 <div class="col-lg-8">
                                     <input type="number" name="floId" id="floId" formControlName="floId"
                                         class="form-control" placeholder="FLO ID"
@@ -124,7 +124,7 @@
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <label for="condicionEmbarque" class="col-lg-3 col-from-label pr-0">CONDICIÓN
+                                <label for="condicionEmbarque" class="col-lg-3 col-form-label pr-0">CONDICIÓN
                                     EMBARQUE</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listCondicionEmbarque" formControlName="condicionEmbarque"
@@ -138,7 +138,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="fechaEmbarque" class="col-lg-4 col-from-label pr-0">FEC. EMBARQUE</label>
+                                <label for="fechaEmbarque" class="col-lg-4 col-form-label pr-0">FEC. EMBARQUE</label>
                                 <div class="col-lg-8">
                                     <input type="date" class="form-control text-center" formControlName="fechaEmbarque"
                                         id="fechaEmbarque" date name="fechaEmbarque" placeholder="Fecha de embarque"
@@ -148,7 +148,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="fechaFactExp" class="col-lg-4 col-from-label pr-0">FEC. FACT./EXP.</label>
+                                <label for="fechaFactExp" class="col-lg-4 col-form-label pr-0">FEC. FACT./EXP.</label>
                                 <div class="col-lg-8">
                                     <input type="date" class="form-control text-center" formControlName="fechaFactExp"
                                         id="fechaFactExp" date name="fechaFactExp" placeholder="Fecha de embarque"
@@ -160,7 +160,7 @@
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <label for="destino" class="col-lg-3 col-from-label pr-0">DESTINO</label>
+                                <label for="destino" class="col-lg-3 col-form-label pr-0">DESTINO</label>
                                 <div class="col-lg-4">
                                     <ng-select [items]="listPaises" formControlName="pais" class="form-control"
                                         bindLabel="Descripcion" bindValue="Codigo" id="pais" placeholder="País"
@@ -184,7 +184,7 @@
                     <div class="form-row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="producto" class="col-lg-3 col-from-label">PRODUCTO</label>
+                                <label for="producto" class="col-lg-3 col-form-label">PRODUCTO</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listProductos" formControlName="producto" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="producto" placeholder="Producto"
@@ -196,7 +196,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="moneda" class="col-lg-3 col-from-label">MONEDA</label>
+                                <label for="moneda" class="col-lg-3 col-form-label">MONEDA</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listMonedas" formControlName="moneda" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="moneda" placeholder="Moneda"
@@ -208,7 +208,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="precio" class="col-lg-3 col-from-label">PRECIO</label>
+                                <label for="precio" class="col-lg-3 col-form-label">PRECIO</label>
                                 <div class="col-lg-9">
                                     <input type="number" name="precio" id="precio" formControlName="precio"
                                         class="form-control" placeholder="Precio"
@@ -220,7 +220,7 @@
                     <div class="form-row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="tipoProduccion" class="col-lg-4 col-from-label pr-0">TIPO DE
+                                <label for="tipoProduccion" class="col-lg-4 col-form-label pr-0">TIPO DE
                                     PRODUCCIÓN</label>
                                 <div class="col-lg-8">
                                     <ng-select [items]="listTipoProduccion" formControlName="tipoProduccion"
@@ -234,7 +234,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="unidadMedida" class="col-lg-3 col-from-label pr-0">UNI. MEDIDA</label>
+                                <label for="unidadMedida" class="col-lg-3 col-form-label pr-0">UNI. MEDIDA</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listUniMedida" formControlName="unidadMedida"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="unidadMedida"
@@ -249,7 +249,7 @@
                     <div class="form-row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="certificadora" class="col-lg-4 col-from-label pr-0">CERTIFICADORA</label>
+                                <label for="certificadora" class="col-lg-4 col-form-label pr-0">CERTIFICADORA</label>
                                 <div class="col-lg-8">
                                     <ng-select [items]="listCertificadora" formControlName="certificadora"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="certificadora"
@@ -262,7 +262,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="sacosBulk" class="col-lg-3 col-from-label">SACOS / BULK</label>
+                                <label for="sacosBulk" class="col-lg-3 col-form-label">SACOS / BULK</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listSacosBulk" formControlName="sacosBulk" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="sacosBulk" placeholder="Sacos / Bulk"
@@ -274,7 +274,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="calidad" class="col-lg-3 col-from-label">CALIDAD</label>
+                                <label for="calidad" class="col-lg-3 col-form-label">CALIDAD</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listCalidad" formControlName="calidad" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="calidad" placeholder="Calidad"
@@ -288,7 +288,7 @@
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <label for="certificacion" class="col-lg-2 col-from-label pr-0">CERTIFICACIÓN</label>
+                                <label for="certificacion" class="col-lg-2 col-form-label pr-0">CERTIFICACIÓN</label>
                                 <div class="col-lg-10">
                                     <ng-select [items]="listCertificacion" formControlName="certificacion"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="certificacion"
@@ -301,7 +301,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="cantidad" class="col-lg-5 col-from-label pr-0">CANTIDAD</label>
+                                <label for="cantidad" class="col-lg-5 col-form-label pr-0">CANTIDAD</label>
                                 <div class="col-lg-7">
                                     <input type="number" name="cantidad" id="cantidad" formControlName="cantidad"
                                         class="form-control" placeholder="Cantidad"
@@ -311,7 +311,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="grado" class="col-lg-6 col-from-label">GRADO PREPARACIÓN</label>
+                                <label for="grado" class="col-lg-6 col-form-label">GRADO PREPARACIÓN</label>
                                 <div class="col-lg-6">
                                     <ng-select [items]="listGrado" formControlName="grado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="grado" placeholder="Grado Preparación"
@@ -347,7 +347,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="pesoSacoKG" class="col-lg-5 col-from-label">PESO POR SACO KG</label>
+                                <label for="pesoSacoKG" class="col-lg-5 col-form-label">PESO POR SACO KG</label>
                                 <div class="col-lg-7">
                                     <input type="number" name="pesoSacoKG" id="pesoSacoKG" formControlName="pesoSacoKG"
                                         class="form-control" placeholder="Peso del saco por KG"
@@ -357,7 +357,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="cantidadDefectos" class="col-lg-6 col-from-label pr-0">CANTIDAD DE
+                                <label for="cantidadDefectos" class="col-lg-6 col-form-label pr-0">CANTIDAD DE
                                     DEFECTOS</label>
                                 <div class="col-lg-6">
                                     <input type="number" name="cantidadDefectos" id="cantidadDefectos"
@@ -374,19 +374,20 @@
                                 <div class="col-md-6 mb-6 form-group mb-2">
                                     <label for="validationTooltip09">Cargar Contrato</label>
                                     <label class="custom-file">
-                                     <!--  <input type="file" ng2FileSelect [uploader]="uploader">
+                                        <!--  <input type="file" ng2FileSelect [uploader]="uploader">
                                       <span class="custom-file-control"></span> -->
-                                      <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+                                        <input type="file" (change)="fileChange($event)" placeholder="Upload file"
+                                            accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
                                     </label>
-                                  </div>
-                               
+                                </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group row">
-                                <label for="responsableComercial" class="col-lg-2 col-from-label">RESPONSABLE DE
+                                <label for="responsableComercial" class="col-lg-2 col-form-label">RESPONSABLE DE
                                     COMERCIAL</label>
                                 <div class="col-lg-5">
                                     <input type="text" name="responsableComercial" id="responsableComercial"
