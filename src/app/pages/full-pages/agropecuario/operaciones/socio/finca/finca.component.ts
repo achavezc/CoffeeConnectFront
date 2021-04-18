@@ -96,7 +96,18 @@ export class FincaComponent implements OnInit {
   Certifications(): void {
     if (this.selected && this.selected.length > 0) {
      
-      this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], { queryParams: { SocioFincaId: this.selected[0].SocioFincaId}});
+      this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], 
+      { 
+        queryParams: 
+        { 
+          SocioFincaId: this.selected[0].SocioFincaId,
+          ProductorId: this.selected[0].ProductorId,
+          SocioId: this.selected[0].SocioId
+        
+        }
+
+      }
+      );
     }
   }
 
