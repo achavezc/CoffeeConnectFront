@@ -95,7 +95,8 @@ export class NotaCompraEditComponent implements OnInit {
       precioDiaAT: [],
       precioGuardadoAT: [],
       precioPagadoAT: [],
-      importeAT: []
+      importeAT: [],
+      observacionNotaCompra: []
     });
   }
 
@@ -216,6 +217,8 @@ export class NotaCompraEditComponent implements OnInit {
         }
       }
     }
+
+    this.notaCompraEditForm.controls.observacionNotaCompra.setValue(data.Observaciones);
     this.spinner.hide();
   }
 

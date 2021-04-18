@@ -81,6 +81,7 @@ export class NotaCompraComponent implements OnInit {
           importeAT:  ['', ],
           tipo:  ['', Validators.required],
           numero:  ['', ],
+          observacionNotaCompra: ['', ]
           
         });
   }
@@ -188,11 +189,14 @@ export class NotaCompraComponent implements OnInit {
     this.notaCompraForm.controls['descarteAT'].setValue(data.DescarteGramosAnalisisFisico);
     this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
     this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
+  
 
     if(this.estadoId = this.estadoLiquidado){    
       this.notaCompraForm.controls['tipo'].disable();
       this.notaCompraForm.controls['dsctoHumedadPC'].disable();
       }
+
+      this.notaCompraForm.controls['observacionNotaCompra'].setValue(data.NotaCompra.Observaciones);
   }
  }
 
@@ -237,7 +241,8 @@ export class NotaCompraComponent implements OnInit {
         PrecioGuardado: this.notaCompraForm.controls['precioGuardadoAT'].value,
         PrecioPagado: this.notaCompraForm.controls['precioPagadoAT'].value,
         Importe: this.notaCompraForm.controls['importeAT'].value,
-        UsuarioNotaCompra: this.detalle.UsuarioPesado
+        UsuarioNotaCompra: this.detalle.UsuarioPesado,
+        Observaciones : this.notaCompraForm.controls['observacionNotaCompra'].value
       };
       
       if(this.id != 0){

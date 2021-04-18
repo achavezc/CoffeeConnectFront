@@ -254,7 +254,12 @@
                                     </td>
                                 </tr>
                              <tr class="form-row">
-                                    <td class="col" colspan="7"></td>
+                                    <td class="col" colspan="7">
+                                        <label for="observaciones" class="form-label font-weight-bold">Observaciones</label>
+                                        <textarea id="bordered-form-6" rows="4" class="form-control"  formControlName="observacionNotaCompra" name="notes"
+                                        [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.observacionNotaCompra.invalid, 'is-valid': subedit && !notaCompraForm.controls.observacionNotaCompra.invalid }"
+                                        ></textarea>
+                                    </td>
                                     <td class="col-3">
                                         <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
                                             guardado</label>
