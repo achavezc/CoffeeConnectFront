@@ -1,0 +1,107 @@
+<div class="modal-header">
+    <h4 class="modal-title">Busqueda de Contratos Activos</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <form class="needs-validation" [formGroup]="mContratoForm" novalidate>
+        <ngx-spinner></ngx-spinner>
+        <div class="form-row">
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mNroContrato" class="form-label">N° Contrato</label>
+                <input type="text" formControlName="mNroContrato" class="form-control" id="mNroContrato"
+                    placeholder="Número de contrato" name="mNroContrato"
+                    [ngClass]="{ 'is-invalid': f.mNroContrato.invalid, 'is-valid': !f.mNroContrato.invalid }">
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mCodCliente" class="form-label">Código Cliente</label>
+                <input type="text" formControlName="mCodCliente" class="form-control" id="mCodCliente"
+                    placeholder="Código de cliente" name="mCodCliente"
+                    [ngClass]="{ 'is-invalid': f.mCodCliente.invalid, 'is-valid': !f.mCodCliente.invalid }">
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mFechaInicial" class="form-label">Fecha Inicial</label>
+                <input type="date" class="form-control" formControlName="mFechaInicial" date id="mFechaInicial"
+                    name="mFechaInicial" placeholder="Seleccionar fecha inicial"
+                    [ngClass]="{ 'is-invalid': f.mFechaInicial.invalid, 'is-valid': !f.mFechaInicial.invalid }" />
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mFechaFinal" class="form-label">Fecha Final</label>
+                <input type="date" class="form-control" formControlName="mFechaFinal" date id="mFechaFinal"
+                    name="mFechaFinal" placeholder="Seleccionar fecha final"
+                    [ngClass]="{ 'is-invalid': f.mFechaFinal.invalid, 'is-valid': !f.mFechaFinal.invalid }" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mDescCliente" class="form-label">Cliente</label>
+                <input type="text" formControlName="mDescCliente" class="form-control" id="mDescCliente"
+                    placeholder="Cliente"
+                    [ngClass]="{ 'is-invalid': f.mDescCliente.invalid, 'is-valid': !f.mDescCliente.invalid }">
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mProducto" class="form-label">Producto</label>
+                <ng-select [items]="mListProductos" formControlName="mProducto" class="form-control" bindLabel="Label"
+                    bindValue="Codigo" id="mProducto" placeholder="Seleccionar Producto"
+                    [ngClass]="{ 'is-invalid': f.mProducto.invalid, 'is-valid': !f.mProducto.invalid }"
+                    [(ngModel)]="mSelectedProducto">
+                </ng-select>
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mTipoProduccion" class="form-label">Tipo de Producción</label>
+                <ng-select [items]="mListTipoProduccion" formControlName="mTipoProduccion" class="form-control"
+                    bindLabel="Label" bindValue="Codigo" id="mTipoProduccion"
+                    placeholder="Seleccionar tipo de producción"
+                    [ngClass]="{ 'is-invalid': f.mTipoProduccion.invalid, 'is-valid': !f.mTipoProduccion.invalid }"
+                    [(ngModel)]="mSelectedTipoProduccion">
+                </ng-select>
+            </div>
+        </div>
+
+        <small class="form-text text-muted danger mb-1" *ngIf="mErrprGnral.isError">{{mErrprGnral.msgError}}</small>
+        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
+            [disabled]="mContratoForm.invalid">Buscar</button>
+
+        <div class="form-row">
+            <div class="col-lg-12">
+                <fieldset class="form-group">
+                    <label>Show
+                        <select name="users-list-select"
+                            class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                            (click)="updateLimit($event)">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        entries</label>
+                    <label for="ngx-filter-ref" class="float-right">Search:
+                        <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                            type="text" (keyup)="filterUpdate($event)" />
+                    </label>
+                </fieldset>
+                <ngx-datatable #dgConsultaContratos class="bootstrap core-bootstrap" [columnMode]="'force'"
+                    [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
+                    [scrollbarH]="true" [selected]="mSelected" [selectionType]="'single'"
+                    [selectCheck]="singleSelectCheck" (dblclick)="DblSelected()">
+                    <ngx-datatable-column name="CONTRATO" prop="Numero" width="90">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="COD. CLIENTE" prop="Cliente" width="250">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="CLIENTE" prop="Cliente" width="250">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="DESTINO" prop="Cliente" width="250">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="FECHA DE CONTRATO" prop="FechaEmbarque" width="130">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="PRODUCTO" prop="Producto" width="140">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="TIPO DE PRODUCCIÓN" prop="TipoProduccion" width="140">
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+    </form>
+</div>

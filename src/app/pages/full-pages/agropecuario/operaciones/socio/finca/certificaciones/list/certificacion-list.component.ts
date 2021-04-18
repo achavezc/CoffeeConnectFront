@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute,NavigationExtras } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { CertificacionService } from '../../../../../../../../services/certificacion.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
-
+import { DateUtil } from '../../../../../../../../services/util/date-util';
 @Component({
   selector: 'app-certificacion-list',
   templateUrl: './certificacion-list.component.html',
@@ -16,7 +16,8 @@ export class CertificacionListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private certificacionService: CertificacionService,
     private alertUtil: AlertUtil,
-    private router: Router
+    private router: Router,
+    private dateUtil: DateUtil
     ) { }
   certificacionForm: FormGroup;
   limitRef = 10;
@@ -26,8 +27,8 @@ export class CertificacionListComponent implements OnInit {
   objParams: any;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
   selected = [];
-  
-
+  ProductorId = 0;
+  SocioId = 0;
   ngOnInit(): void {
   
     this.route.queryParams.subscribe((params) => {
@@ -35,6 +36,8 @@ export class CertificacionListComponent implements OnInit {
       // this.LoadForm();
         if (params.SocioFincaId != null) {
           this.vId = Number(params.SocioFincaId);
+          this.ProductorId = Number(params.ProductorId);
+          this.SocioId = Number(params.SocioId);
           this.SearchCertificacionesById();
         } 
       }
@@ -47,6 +50,12 @@ export class CertificacionListComponent implements OnInit {
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
+          res.Result.Data.forEach(obj => {
+
+            var fecha = new Date(obj.FechaCaducidad);
+            obj.FechaCaducidad = this.dateUtil.formatDate(fecha, "/");
+
+          });
           this.tempRows = res.Result.Data;
           this.rows = this.tempRows;
         } else {
@@ -74,5 +83,11 @@ export class CertificacionListComponent implements OnInit {
     this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones/create`], { queryParams: { SocioFincaId: this.vId}})
   }
 
+  Cancelar(){
+    const navigationExtras: NavigationExtras = {
+      queryParams: { idProductor: this.ProductorId }
+    }
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.SocioId}`], navigationExtras);
+  }
   
 }
