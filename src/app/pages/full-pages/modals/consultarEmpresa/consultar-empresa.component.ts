@@ -45,6 +45,7 @@ export class MConsultarEmpresaComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cargarEmpresas();
+    this.login = JSON.parse(localStorage.getItem("user"));
   }
 
   close() {
@@ -71,7 +72,7 @@ export class MConsultarEmpresaComponent implements OnInit {
       this.submittedE = false;
       this.filtrosEmpresaProv.RazonSocial = this.consultaEmpresas.controls['rzsocial'].value;
       this.filtrosEmpresaProv.Ruc = this.consultaEmpresas.controls['ruc'].value;
-      this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value == null ? "" : this.consultaEmpresas.controls['clasificacion'].value;
+      this.filtrosEmpresaProv.ClasificacionId = this.consultaEmpresas.controls['clasificacion'].value == null || this.consultaEmpresas.controls['clasificacion'].value == undefined ? "" : this.consultaEmpresas.controls['clasificacion'].value;
       this.filtrosEmpresaProv.EmpresaId = Number(this.login.Result.Data.EmpresaId);
       this.filtrosEmpresaProv.EstadoId = "01";
       this.spinner.show(undefined,

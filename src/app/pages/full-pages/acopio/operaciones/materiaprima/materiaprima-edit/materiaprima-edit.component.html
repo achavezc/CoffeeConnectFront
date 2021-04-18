@@ -100,6 +100,11 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="provCodigo"
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provCodigo.invalid, 'is-valid': submittedEdit && !fedit.provCodigo.invalid }"
                 disabled>
+
+                <label for="basicInput">Finca</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="provFinca"
+                [ngClass]="{ 'is-invalid': submittedEdit && fedit.provFinca.invalid, 'is-valid': submittedEdit && !fedit.provFinca.invalid }"
+                disabled>
               </div>
               <div class="col-12 col-md-2" style="padding-left: 0cm;">
                 <ng-template #customContent let-c="close" let-d="dismiss">
@@ -280,15 +285,11 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="provCertificacion"
                 [ngClass]="{ 'is-invalid': submittedEdit && fedit.provCertificacion.invalid, 'is-valid': submittedEdit && !fedit.provCertificacion.invalid }"
                 disabled>
+
+              
                
               </div>
-              <div class="col-12 col-md-5">
-                <label for="basicInput">Finca</label>
-                <input type="text" class="form-control" id="basicInput" formControlName="provFinca"
-                [ngClass]="{ 'is-invalid': submittedEdit && fedit.provFinca.invalid, 'is-valid': submittedEdit && !fedit.provFinca.invalid }"
-                disabled>
              
-              </div>
               
             </div>
             
@@ -373,12 +374,12 @@
                   <app-pesadoCafe formGroupName="pesado" [submittedEdit]="submittedEdit" [unidadMedidaPesado]="unidadMedidaPesado"></app-pesadoCafe>
                   <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                     <div class="col-8 d-flex flex-sm-row flex-column">
-                      <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
+                      <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                      <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
                     </div>
                     <div class="col-8 d-flex flex-sm-row flex-column">
-                      <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
-                      <label class="col-md-12 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaPesado}}</label>
+                      <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
+                      <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaPesado}}</label>
                     </div>
       
                   </div>

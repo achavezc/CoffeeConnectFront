@@ -31,7 +31,7 @@ export class OrdenServicioEditComponent implements OnInit {
   detalle: any;
   disabledControl: any;
   form: string = "ordenServicio";
-  numero: any;
+  numero: any = "";
   fechaRegistro: any;
   listTipoSocio: any[];
   selectTipoSocio: any;
@@ -123,7 +123,7 @@ export class OrdenServicioEditComponent implements OnInit {
       let request = new ReqOrdenServicio(
         Number(this.id),
         Number(this.login.Result.Data.EmpresaId),
-        this.selectEmpresa[0].Codigo,
+        this.selectEmpresa[0].EmpresaProveedoraAcreedoraId,
         this.numero,
         this.ordenServicioFormEdit.get('tagordenservicio').get("unidadmedida").value,
         Number(this.ordenServicioFormEdit.get('tagordenservicio').get("cantidad").value),
@@ -131,7 +131,6 @@ export class OrdenServicioEditComponent implements OnInit {
         this.ordenServicioFormEdit.get('tagordenservicio').get("subproducto").value,
         this.ordenServicioFormEdit.get('tagordenservicio').get("tipoProduccion").value,
         Number(this.ordenServicioFormEdit.get('tagordenservicio').get("rendimiento").value),
-        null,
         this.login.Result.Data.NombreUsuario
       );
       let json = JSON.stringify(request);

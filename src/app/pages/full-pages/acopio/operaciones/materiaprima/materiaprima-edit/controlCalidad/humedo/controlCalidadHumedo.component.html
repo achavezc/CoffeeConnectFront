@@ -32,12 +32,11 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <ng-container *ngFor="let item of listaOlor ; let i=index">
-                                                    <!--*ngFor="let item of listaOlor; let i=index" -->
+                                               
 
-                                                    <tr>
+                                                    <tr *ngFor="let item of listaOlor ; let i=index">
 
-                                                        <td style="width: 70%;"> <label class="label-checkbox">{{ item.Label }}</label></td>
+                                                        <td style="width: 70%;">{{ item.Label }}</td>
                                                         <td style="border-left: 1px solid #E0E0E0; width: 30%;">
                                                             <div class="checkbox">
                                                                 <input type="checkbox" [id]="'CheckboxOlor%'+item.Codigo"
@@ -52,7 +51,7 @@
 
                                                     </tr>
 
-                                                </ng-container>
+                                               
                                             </tbody>
                                         </table>
                                     </div>

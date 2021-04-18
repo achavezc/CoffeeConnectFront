@@ -451,6 +451,11 @@ export class MateriaPrimaEditComponent implements OnInit {
         intermediarioFinca = this.consultaMateriaPrimaFormEdit.controls["provFinca"].value;
       }
 
+      var SocioFincaCertificacion = null;
+      if (Number(this.consultaMateriaPrimaFormEdit.controls["provCertificacion"].value) != 0) {
+        SocioFincaCertificacion = this.consultaMateriaPrimaFormEdit.controls["provCertificacion"].value;
+      }
+
       let request = new ReqRegistrarPesado(
         Number(this.id),
         1,
@@ -472,6 +477,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         terceroFincaId,
         intermediarioFinca,
         this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].value,
+        SocioFincaCertificacion
       );
       this.spinner.show(undefined,
         {
