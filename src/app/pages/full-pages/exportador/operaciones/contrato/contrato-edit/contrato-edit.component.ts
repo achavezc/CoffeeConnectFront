@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup,FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import {HttpClient,HttpHeaders } from '@angular/common/http';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { ContratoService } from '../../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { host } from '../../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-contrato-edit',
@@ -27,7 +28,8 @@ export class ContratoEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private contratoService: ContratoService,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private httpClient: HttpClient) { }
 
   contratoEditForm: FormGroup;
   listCondicionEmbarque = [];
@@ -56,6 +58,9 @@ export class ContratoEditComponent implements OnInit {
   selectedGrado: any;
   vId: number;
   vSessionUser: any;
+  private url = `${host}Contrato`;
+  mensajeErrorGenerico = "Ocurrio un error interno.";
+  fileName = "";
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
@@ -109,7 +114,10 @@ export class ContratoEditComponent implements OnInit {
       sujetoAprobMuestra: [],
       muestraEnviadaCliente: [],
       muestraAnalisisGlifosato: [],
-      estado: []
+      estado: [],
+      file: new FormControl('', []),
+        fileName: new FormControl('', []),
+        pathFile: new FormControl('', [])
     });
   }
 
@@ -291,7 +299,8 @@ export class ContratoEditComponent implements OnInit {
       PathArchivo: '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: '01',
-      CalculoContratoId: ''
+      CalculoContratoId: '',
+      DescripcionArchivo:  ''
     }
   }
 
@@ -341,33 +350,59 @@ export class ContratoEditComponent implements OnInit {
   }
 
   Create(): void {
+    this.spinner.show();
     const request = this.GetRequest();
-    this.contratoService.Create(request)
-      .subscribe((res: any) => {
-        if (res.Result.Success) {
-          this.alertUtil.alertOkCallback('Confirmación!',
-            'Contrato registrado correctamente.', () => {
-              this.Cancelar();
-            });
-        }
-      }, (err: any) => {
-        console.log(err);
-      });
+    const formData = new FormData();
+    formData.append('file', this.contratoEditForm.get('file').value);
+    formData.append('request',  JSON.stringify(request));
+    const headers = new HttpHeaders();
+    headers.append('enctype', 'multipart/form-data');
+    this.httpClient
+     .post(this.url + '/Registrar', formData, { headers })
+     .subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+          "Se registro correctamente el contrato.",
+          () => {
+            this.Cancelar();
+          });
+      } else {
+        this.alertUtil.alertError("ERROR!", res.Result.Message);
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+    });
   }
 
   Update(): void {
+    this.spinner.show();
     const request = this.GetRequest();
-    this.contratoService.Update(request)
-      .subscribe((res: any) => {
-        if (res.Result.Success) {
-          this.alertUtil.alertOkCallback('Confirmación!',
-            'Contrato actualizado correctamente.', () => {
-              this.Cancelar();
-            });
-        }
-      }, (err: any) => {
-        console.log(err);
-      });
+    const formData = new FormData();
+    formData.append('file', this.contratoEditForm.get('file').value);
+    formData.append('request',  JSON.stringify(request));
+    const headers = new HttpHeaders();
+    headers.append('enctype', 'multipart/form-data');
+    this.httpClient
+     .post(this.url + '/Actualizar', formData, { headers })
+     .subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+          "Se actualizo correctamente la certificacion.",
+          () => {
+            this.Cancelar();
+          });
+      } else {
+        this.alertUtil.alertError("ERROR!", res.Result.Message);
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+    });
   }
 
   SearchById(): void {
@@ -492,10 +527,19 @@ export class ContratoEditComponent implements OnInit {
       if (data.EstadoId) {
         this.contratoEditForm.controls.estado.setValue(data.EstadoId);
       }
+      this.contratoEditForm.controls.fileName.setValue(data.NombreArchivo);
+      this.contratoEditForm.controls.pathFile.setValue(data.PathArchivo);
+      this.fileName =  data.NombreArchivo
+      this.spinner.hide();
     }
     this.spinner.hide();
   }
-
+  Descargar() {
+    var nombreFile = this.contratoEditForm.value.fileName;
+    var rutaFile = this.contratoEditForm.value.pathFile;
+    window.open(this.url+'/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile , '_blank');
+    
+  }
   fileChange(event) {
 
     if (event.target.files.length > 0) {
@@ -512,4 +556,5 @@ export class ContratoEditComponent implements OnInit {
   Cancelar(): void {
     this.router.navigate(['/exportador/operaciones/contrato/list']);
   }
+
 }
