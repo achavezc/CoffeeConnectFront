@@ -49,4 +49,9 @@ export class LoteService {
     let url = `${this.url}/ConsultarEtiquetasLote`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+  
+  ActualizarAnalisisCalidad(request: any): Observable<any> {
+    const url = `${this.url}/ActualizarAnalisisCalidad`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }

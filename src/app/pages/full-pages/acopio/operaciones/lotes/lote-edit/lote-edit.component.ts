@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators,FormControl } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { LoteService } from '../../../../../../services/lote.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
+import {DetalleLoteComponent} from '../lote-edit/detalleLote/detalleLote.component'
 
 @Component({
   selector: 'app-lote-edit',
@@ -40,6 +41,11 @@ export class LoteEditComponent implements OnInit {
   errorGeneral = { isError: false, msgError: '' };
   listEtiquetasLotes: any[];
   vSessionUser: any;
+  viewTagSeco: Boolean;
+  disabledControl: string = '';
+  detalle: any;
+  form: string = "lote"
+  @ViewChild(DetalleLoteComponent) child;
 
   ngOnInit(): void {
     this.vId = parseInt(this.route.snapshot.params['id']);
@@ -48,6 +54,9 @@ export class LoteEditComponent implements OnInit {
       this.LoadForm();
       // this.LoadCombos();
       this.SearchById();
+    }
+    else {
+      this.disabledControl = 'disabled';
     }
   }
 
@@ -65,7 +74,17 @@ export class LoteEditComponent implements OnInit {
       totalPesoNeto: [],
       promedioRendimiento: [],
       promedioHumedad: [],
-      promedioPuntajeFinal: []
+      promedioPuntajeFinal: [],
+      detalleLote: this.fb.group({
+        unidadMedida: new FormControl('', []),
+        totalSacos: new FormControl('', []),
+        kilosNetos: new FormControl('', []),
+        totalPesoNeto: new FormControl('', []),
+        promedioRendimiento: new FormControl('', []),
+        promedioHumedad: new FormControl('', []),
+        promedioPuntajeFinal: new FormControl('', []),
+       
+      }),
     });
   }
   get f() {
@@ -102,6 +121,7 @@ export class LoteEditComponent implements OnInit {
     this.loteService.SearchDetailsById({ LoteId: this.vId })
       .subscribe((res: any) => {
         if (res.Result.Success) {
+          this.detalle = res.Result.Data;
           res.Result.Data.forEach((x: any) => {
             x.FechaIngresoAlmacenString = this.dateUtil.formatDate(new Date(x.FechaIngresoAlmacen))
           });
@@ -126,21 +146,39 @@ export class LoteEditComponent implements OnInit {
     this.loteEditForm.controls.certificacion.setValue(row.Certificacion);
     this.loteEditForm.controls.producto.setValue(row.Producto);
     this.loteEditForm.controls.subproducto.setValue(row.SubProducto);
+    if (row.SubProductoId == "02") {
+      this.viewTagSeco = true;
+    }
+    else {
+      this.viewTagSeco = false;
+    }
+
     if (row.AlmacenId && this.listAlmacenes.find(x => x.Codigo == row.AlmacenId)) {
       this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
     }
+    
+    if (row.UnidadMedida) {
+      this.loteEditForm.controls.detalleLote.controls.unidadMedida.setValue(row.UnidadMedida);
+    }
+    if (row.Cantidad) {
+      this.loteEditForm.controls.detalleLote.controls.totalSacos.setValue(row.Cantidad);
+    }
     if (row.TotalKilosNetosPesado) {
-      this.loteEditForm.controls.totalPesoNeto.setValue(row.TotalKilosNetosPesado);
+      this.loteEditForm.controls.detalleLote.controls.kilosNetos.setValue(row.TotalKilosNetosPesado);
+    }
+    if (row.TotalKilosBrutosPesado) {
+      this.loteEditForm.controls.detalleLote.controls.totalPesoNeto.setValue(row.TotalKilosBrutosPesado);
     }
     if (row.PromedioRendimientoPorcentaje) {
-      this.loteEditForm.controls.promedioRendimiento.setValue(row.PromedioRendimientoPorcentaje);
+      this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.PromedioRendimientoPorcentaje);
     }
     if (row.PromedioHumedadPorcentaje) {
-      this.loteEditForm.controls.promedioHumedad.setValue(row.PromedioHumedadPorcentaje);
+      this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.PromedioHumedadPorcentaje);
     }
     if (row.PromedioTotalAnalisisSensorial) {
-      this.loteEditForm.controls.promedioPuntajeFinal.setValue(row.PromedioTotalAnalisisSensorial);
+      this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.PromedioTotalAnalisisSensorial);
     }
+    this.child.cargarDatos(row.Result.Data);
     this.spinner.hide();
   }
 

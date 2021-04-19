@@ -1,0 +1,118 @@
+<div class="mt-2" id="account" [formGroup]="detalleLoteFormGroup">
+   
+   
+        <div class="form-row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <fieldset class="form-group">
+                    <label>Show
+                        <select name="users-list-select"
+                            class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                            (click)="updateLimit($event)">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        entries</label>
+                    <label for="ngx-filter-ref" class="float-right">Search:
+                        <input id="ngx-filter-ref"
+                            class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                            (keyup)="filterUpdate($event)" />
+                    </label>
+                </fieldset>
+                <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                    [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true">
+                    <ngx-datatable-column name="N° DE GUIA" prop="NumeroNotaIngresoAlmacen" width="100">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacen" width="190">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="CÓDIGO SOCIO" prop="CodigoSocio" width="130">
+                    </ngx-datatable-column>                        
+                    <ngx-datatable-column name="PROVEEDOR" prop="CodigoSocio" width="200">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="UNIDAD DE MEDIDA" prop="UnidadMedida" width="170">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="CANTIDAD" prop="CantidadPesado" width="100">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="PESO BRUTO (KG)" prop="KilosBrutosPesado" width="150">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="PUNTAJE FINAL (ANALISIS SENSORIAL)" prop="TotalAnalisisSensorial"
+                        width="300">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="RENDIMIENTO" prop="RendimientoPorcentaje" width="120">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="% HUMEDAD" prop="HumedadPorcentaje" width="100">
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-8 col-md-8 col-sm-8"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td>UNIDAD MEDIDA</td>
+                            <td>
+                                <input type="text" name="unidadMedida" id="unidadMedida"
+                                    formControlName="unidadMedida" class="form-control form-control-sm text-right"
+                                    placeholder="Unidad de Medida" [readonly]="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL SACOS</td>
+                            <td>
+                                <input type="text" name="totalSacos" id="totalSacos"
+                                    formControlName="totalSacos" class="form-control form-control-sm text-right"
+                                    placeholder="Total Sacos" [readonly]="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>KILOS NETOS</td>
+                            <td>
+                                <input type="text" name="kilosNetos" id="kilosNetos"
+                                    formControlName="kilosNetos" class="form-control form-control-sm text-right"
+                                    placeholder="Kilos Netos" [readonly]="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL KILOS BRUTO</td>
+                            <td>
+                                <input type="text" name="totalPesoNeto" id="totalPesoNeto"
+                                    formControlName="totalPesoNeto" class="form-control form-control-sm text-right"
+                                    placeholder="Total peso bruto (kg)" [readonly]="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>RENDIMIENTO %</td>
+                            <td>
+                                <input type="text" name="promedioRendimiento" id="promedioRendimiento"
+                                    formControlName="promedioRendimiento"
+                                    class="form-control form-control-sm text-right"
+                                    placeholder="Promedio rendimiento" [readonly]="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HUMEDAD %</td>
+                            <td>
+                                <input type="text" name="promedioHumedad" id="promedioHumedad"
+                                    formControlName="promedioHumedad"
+                                    class="form-control form-control-sm text-right" placeholder="Promedio humedad"
+                                    [readonly]="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PUNTAJE FINAL</td>
+                            <td>
+                                <input type="text" name="promedioPuntajeFinal" id="promedioPuntajeFinal"
+                                    formControlName="promedioPuntajeFinal"
+                                    class="form-control form-control-sm text-right"
+                                    placeholder="Promedio puntaje final" [readonly]="true">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+</div>

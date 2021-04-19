@@ -43,6 +43,7 @@ import { TagOrdenServicioComponent } from './operaciones/ordenservicio/ordenserv
 
 import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingresoalmacen-edit/ingresoalmacen-edit.component';
 import { ModalModule } from '../modals/modal.module'
+import { DetalleLoteComponent } from "./operaciones/lotes/lote-edit/detalleLote/detalleLote.component";
 
 @NgModule({
   imports: [
@@ -85,7 +86,8 @@ import { ModalModule } from '../modals/modal.module'
     TagNotaSalidaEditComponent,
     IngresoAlmacenEditComponent,
     TagOrdenServicioComponent,
-    IngresoAlmacenEditComponent
+    IngresoAlmacenEditComponent,
+    DetalleLoteComponent
   ],
   exports: [
     PesadoCafeComponent,
@@ -94,7 +96,8 @@ import { ModalModule } from '../modals/modal.module'
     TagNotaSalidaEditComponent,
     OrdenServicioComponent,
     OrdenServicioEditComponent,
-    TagOrdenServicioComponent
+    TagOrdenServicioComponent,
+    DetalleLoteComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

@@ -88,116 +88,78 @@
                 
             </div>
 
-            <div class="form-row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label for="">DETALLE DE LOTES</label>
+            <section class="users-edit">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-content">
+                        <div class="card-body">
+                          <!-- Nav-tabs -->
+                          <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
+                            <li [ngbNavItem]="1" >
+                              <a ngbNavLink class="nav-link d-flex align-items-center">
+                                <span class="d-none d-sm-block" style="font-size: 1.1rem;">Detalle Lote</span>
+                              </a>
+                              <ng-template ngbNavContent>
+                               
+                                <app-detalleLote formGroupName="detalleLote"></app-detalleLote>
+                                <div class="form-row">
+                                    <div class="col-lg-9 col-md-9 col-sm-9">
+                                        <small class="form-label text-muted danger" *ngIf="errorGeneral.isError">
+                                            {{errorGeneral.msgError}}
+                                        </small>
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1">
+                                        <button class="btn btn-primary" (click)="Print()">Imprimir</button>
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1">
+                                        <button class="btn btn-primary" (click)="Save()">Guardar</button>
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1">
+                                        <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
+                                    </div>
+                                </div>
+                              </ng-template>
+                             
+                            </li>
+                            <li [ngbNavItem]="2"  >
+                              <a  ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'" >
+                                <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
+                              </a>
+                              
+                                <ng-template ngbNavContent *ngIf="viewTagSeco">
+                                <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadSeco>
+                                </ng-template>
+              
+                               <ng-template ngbNavContent *ngIf="!viewTagSeco" >
+                                  <app-controlCalidadHumedo  *ngIf="detalle" [detalle]="detalle" ></app-controlCalidadHumedo>
+                                  </ng-template>
+                                  
+              
+                            </li>
+                           
+                          </ul>
+                          <div class="tab-content">
+                            <div [ngbNavOutlet]="nav"></div>
+                          </div>
+              
+              
+              
+              
+              
+              
+                          
+              
+              
+              
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </div>           
-            <div class="form-row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <fieldset class="form-group">
-                        <label>Show
-                            <select name="users-list-select"
-                                class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
-                                (click)="updateLimit($event)">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            entries</label>
-                        <label for="ngx-filter-ref" class="float-right">Search:
-                            <input id="ngx-filter-ref"
-                                class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
-                                (keyup)="filterUpdate($event)" />
-                        </label>
-                    </fieldset>
-                    <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
-                        [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true">
-                        <ngx-datatable-column name="N° DE GUIA" prop="NumeroNotaIngresoAlmacen" width="100">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacenString" width="190">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="CÓDIGO SOCIO" prop="CodigoSocio" width="130">
-                        </ngx-datatable-column>                        
-                        <ngx-datatable-column name="PROVEEDOR" prop="CodigoSocio" width="200">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="UNIDAD DE MEDIDA" prop="UnidadMedida" width="170">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="CANTIDAD" prop="CantidadPesado" width="100">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="PESO BRUTO (KG)" prop="KilosBrutosPesado" width="150">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="PUNTAJE FINAL (ANALISIS SENSORIAL)" prop="TotalAnalisisSensorial"
-                            width="300">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="RENDIMIENTO" prop="RendimientoPorcentaje" width="120">
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="% HUMEDAD" prop="HumedadPorcentaje" width="100">
-                        </ngx-datatable-column>
-                    </ngx-datatable>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-lg-8 col-md-8 col-sm-8"></div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <table class="table table-sm">
-                        <tbody>
-                            <tr>
-                                <td>TOTAL PESO BRUTO (KG)</td>
-                                <td>
-                                    <input type="text" name="totalPesoNeto" id="totalPesoNeto"
-                                        formControlName="totalPesoNeto" class="form-control form-control-sm text-right"
-                                        placeholder="Total peso bruto (kg)" [readonly]="true">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PROMEDIO RENDIMIENTO</td>
-                                <td>
-                                    <input type="text" name="promedioRendimiento" id="promedioRendimiento"
-                                        formControlName="promedioRendimiento"
-                                        class="form-control form-control-sm text-right"
-                                        placeholder="Promedio rendimiento" [readonly]="true">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PROMEDIO HUMEDAD (%)</td>
-                                <td>
-                                    <input type="text" name="promedioHumedad" id="promedioHumedad"
-                                        formControlName="promedioHumedad"
-                                        class="form-control form-control-sm text-right" placeholder="Promedio humedad"
-                                        [readonly]="true">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PROMEDIO PUNTAJE FINAL</td>
-                                <td>
-                                    <input type="text" name="promedioPuntajeFinal" id="promedioPuntajeFinal"
-                                        formControlName="promedioPuntajeFinal"
-                                        class="form-control form-control-sm text-right"
-                                        placeholder="Promedio puntaje final" [readonly]="true">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-lg-9 col-md-9 col-sm-9">
-                    <small class="form-label text-muted danger" *ngIf="errorGeneral.isError">
-                        {{errorGeneral.msgError}}
-                    </small>
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-1">
-                    <button class="btn btn-primary" (click)="Print()">Imprimir</button>
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-1">
-                    <button class="btn btn-primary" (click)="Save()">Guardar</button>
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-1">
-                    <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
-                </div>
-            </div>
+              
+              </section>
+
         </form>
     </div>
 </div>
