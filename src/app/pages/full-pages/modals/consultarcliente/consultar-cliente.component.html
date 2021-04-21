@@ -86,18 +86,19 @@
                 <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-conclientes" #dgModalCLientes
                     [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                     [limit]="limitRef" [rows]="rows" [scrollbarH]="true" [selected]="selectedClientes"
-                    [selectionType]="'single'" [selectCheck]="singleSelectCheck" (dblclick)="DblSelected(selectedClientes)">
-                    <ngx-datatable-column name="Cod. Cliente" prop="Numero" width="90">
+                    [selectionType]="'single'" [selectCheck]="singleSelectCheck"
+                    (dblclick)="DblSelected(selectedClientes)">
+                    <ngx-datatable-column name="Cod. Cliente" prop="Numero" width="150">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Tipo Cliente" prop="TipoCliente" width="100">
+                    <ngx-datatable-column name="Tipo Cliente" prop="TipoCliente" width="200">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="RUC" prop="Ruc" width="80">
+                    <ngx-datatable-column name="RUC" prop="Ruc" width="150">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Razón Social" prop="RazonSocial" width="250">
+                    <ngx-datatable-column name="Razón Social" prop="RazonSocial" width="400">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Dirección" prop="Direccion" width="140">
+                    <ngx-datatable-column name="Dirección" prop="Direccion" width="350">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="País" prop="Pais" width="100">
+                    <ngx-datatable-column name="País" prop="Pais" width="150">
                     </ngx-datatable-column>
                 </ngx-datatable>
             </div>
