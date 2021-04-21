@@ -169,8 +169,9 @@ export class LoteEditComponent implements OnInit {
     if (row.TotalKilosBrutosPesado) {
       this.loteEditForm.controls.detalleLote.controls.totalPesoNeto.setValue(row.TotalKilosBrutosPesado);
     }
-   
+    if (row.RendimientoPorcentaje){
       this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);
+    }
     
     if (row.HumedadPorcentajeAnalisisFisico) {
       this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);
