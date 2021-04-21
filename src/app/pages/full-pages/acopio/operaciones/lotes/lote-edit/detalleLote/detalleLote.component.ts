@@ -38,23 +38,8 @@ export class DetalleLoteComponent implements OnInit {
       }
 
       cargarDatos(detalleLotes:any){
-       /* detalleLotes.forEach(x => {
-          let object : any = {};  
-          object.Numero = x.NumeroLote,
-          object.Producto = x.Producto
-          object.UnidadMedida = x.UnidadMedida
-          object.CantidadPesado = x.CantidadPesado
-          object.RendimientoPorcentaje = x.RendimientoPorcentaje
-          object.KilosNetosPesado = x.KilosNetosPesado
-          object.LoteId = x.LoteId
-          object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
-          object.HumedadPorcentaje = x.HumedadPorcentaje
-          object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
-          this.listaLotesDetalleId.push(object);
-    
-        });*/
-        this.tempRows = detalleLotes;
-        this.rows = [...detalleLotes];
+        this.tempRows = detalleLotes.listaDetalle;
+        this.rows = [...detalleLotes.listaDetalle];
       }
 
       

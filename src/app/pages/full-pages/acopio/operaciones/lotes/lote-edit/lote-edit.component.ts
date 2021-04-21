@@ -122,12 +122,12 @@ export class LoteEditComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.Result.Success) {
           this.detalle = res.Result.Data;
-          res.Result.Data.forEach((x: any) => {
+          res.Result.Data.listaDetalle.forEach((x: any) => {
             x.FechaIngresoAlmacenString = this.dateUtil.formatDate(new Date(x.FechaIngresoAlmacen))
           });
-          this.tempRows = res.Result.Data;
+          this.tempRows = res.Result.Data.listaDetalle;
           this.rows = [...this.tempRows];
-          this.AutocompleteForm(res);
+          this.AutocompleteForm(res.Result.Data);
         }
       }, (err: any) => {
         this.spinner.hide();
@@ -169,16 +169,16 @@ export class LoteEditComponent implements OnInit {
     if (row.TotalKilosBrutosPesado) {
       this.loteEditForm.controls.detalleLote.controls.totalPesoNeto.setValue(row.TotalKilosBrutosPesado);
     }
-    if (row.PromedioRendimientoPorcentaje) {
-      this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.PromedioRendimientoPorcentaje);
+   
+      this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);
+    
+    if (row.HumedadPorcentajeAnalisisFisico) {
+      this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);
     }
-    if (row.PromedioHumedadPorcentaje) {
-      this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.PromedioHumedadPorcentaje);
+    if (row.TotalAnalisisSensorial) {
+      this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.TotalAnalisisSensorial);
     }
-    if (row.PromedioTotalAnalisisSensorial) {
-      this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.PromedioTotalAnalisisSensorial);
-    }
-    this.child.cargarDatos(row.Result.Data);
+    this.child.cargarDatos(row);
     this.spinner.hide();
   }
 
