@@ -80,8 +80,8 @@ export class MConsultarClienteComponent implements OnInit {
 
   public comparisonValidatorMdlClientes(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let finicial = group.controls['fechaInicial'].value;
-      let ffinal = group.controls['fechaFinal'].value;
+      let finicial = group.controls['mfechaFinal'].value;
+      let ffinal = group.controls['mfechaFinal'].value;
 
       if (!finicial && !ffinal) {
         this.errorMdlGeneral = { isError: true, msgError: 'Por favor ingresar por lo menos un filtro.' };

@@ -194,4 +194,8 @@ export class SocioComponent implements OnInit {
       this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.selected[0].SocioId}`], navigationExtras);
     }
   }
+
+  GoProjects(): void {
+    this.router.navigate(['/agropecuario/operaciones/socio/proyectos/list/' + 1]);
+  }
 }
