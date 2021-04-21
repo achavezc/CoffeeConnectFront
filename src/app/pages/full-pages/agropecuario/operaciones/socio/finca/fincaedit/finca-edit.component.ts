@@ -240,7 +240,7 @@ export class FincaEditComponent implements OnInit {
   Update(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.socioFincaService.Create(request)
+    this.socioFincaService.Update(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
