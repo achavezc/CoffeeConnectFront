@@ -115,20 +115,21 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-1">
-                    <div class="col-lg-8"></div>
-                    <div class="col-lg-4">
-                        <button class="btn btn-sm btn-primary" type="button" (click)="addRow()">Add Row</button>
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
+                        <button class="btn btn-sm btn-primary" type="button" (click)="addRow()">Agregar Fila</button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-8"></div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-7"></div>
+                    <div class="col-lg-5">
                         <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows">
 
                             <ngx-datatable-column [sortable]="false">
                                 <ng-template ngx-datatable-cell-template let-row=" row" let-anio="value"
                                     let-rowIndex="rowIndex">
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center text-center"
+                                        *ngIf="row.SocioFincaEstimadoId <= 0 || !row.SocioFincaEstimadoId">
                                         <button type="button" class="btn btn-sm btn-primary"
                                             (click)="EliminarFila(rowIndex)">Eliminar</button>
                                     </div>
@@ -140,7 +141,7 @@
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
                                         <input type="number" autofocus class="form-control form-control-sm text-right"
-                                            (blur)="UpdateValue($event, rowIndex, 'anio')">
+                                            (blur)="UpdateValue($event, rowIndex, 'anio')" value="{{anio}}">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
@@ -150,7 +151,19 @@
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
                                         <input type="number" autofocus class="form-control form-control-sm text-right"
-                                            (blur)="UpdateValue($event, rowIndex, 'estimado')" aria-valuemin="">
+                                            (blur)="UpdateValue($event, rowIndex, 'estimado')" aria-valuemin=""
+                                            value="{{estimado}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Saldo (Kilos)" prop="SaldoPendiente" [sortable]="false">
+                                <ng-template let-row=" row" let-saldo="value" ngx-datatable-cell-template
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control form-control-sm text-right"
+                                            (blur)="UpdateValue($event, rowIndex, 'saldo')" aria-valuemin=""
+                                            [readonly]="true" value="{{saldo}}">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
