@@ -23,7 +23,7 @@ import { ProductorComponent } from './administracion/maestroproductor/productor.
 import { ProductorEditComponent } from './administracion/maestroproductor/productor-edit/productor-edit.component';
 import { FincaComponent } from './administracion/maestroproductor/finca/finca.component';
 import { FincaEditComponent } from './administracion/maestroproductor/finca/fincaedit/finca-edit.component';
-
+import { ModalModule } from '../modals/modal.module'
 @NgModule({
   declarations: [ProductorComponent, ProductorEditComponent, FincaComponent, FincaEditComponent],
   imports: [
@@ -44,7 +44,8 @@ import { FincaEditComponent } from './administracion/maestroproductor/finca/finc
     QuillModule,
     PipeModule,
     MatchHeightModule,
-    ProductorRoutingModule
+    ProductorRoutingModule,
+    ModalModule
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

@@ -21,7 +21,7 @@ import { MConsultarLotesComponent } from '../modals/consultarLotes/consultar-lot
 import { MConsultarEmpresaComponent } from '../modals/consultarEmpresa/consultar-empresa.component';
 import { MConsultarClienteComponent } from '../modals/consultarcliente/consultar-cliente.component';
 import { MConsultarContratoComponent } from './consultarcontrato/consultar-contrato.component'
-
+import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -45,12 +45,14 @@ import { MConsultarContratoComponent } from './consultarcontrato/consultar-contr
   declarations: [
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
+    MapasFincaComponent,
     MConsultarClienteComponent,
     MConsultarContratoComponent
   ],
   exports: [
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
+    MapasFincaComponent,
     MConsultarClienteComponent,
     MConsultarContratoComponent
   ],

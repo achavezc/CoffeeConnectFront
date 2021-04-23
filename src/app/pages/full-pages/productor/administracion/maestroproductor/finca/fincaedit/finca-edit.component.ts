@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
-
+import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../../services/maestro.service';
 import { ProductorFincaService } from '../../../../../../../services/productor-finca.service';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-finca-edit',
   templateUrl: './finca-edit.component.html',
-  styleUrls: ['./finca-edit.component.scss']
+  styleUrls: ['./finca-edit.component.scss', "/assets/sass/libs/datatables.scss"]
 })
 export class FincaEditComponent implements OnInit {
+
+  @ViewChild('vform') validationForm: FormGroup;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
 
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -23,7 +27,9 @@ export class FincaEditComponent implements OnInit {
     private productorFincaService: ProductorFincaService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private router: Router) { }
+    private router: Router,
+    private modalService: NgbModal
+    ) { }
 
   fincaEditForm: any;
   listDepartamentos: any[];
@@ -54,7 +60,10 @@ export class FincaEditComponent implements OnInit {
   vCodProductor: number;
   errorGeneral = { isError: false, msgError: '' };
   vSessionUser: any;
-
+  rows: any[];
+  selectEmpresa: any[];
+  FincaId = 0;
+  
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
     this.LoadForm();
@@ -248,6 +257,7 @@ export class FincaEditComponent implements OnInit {
 
   async AutocompleteForm(data: any) {
     this.fincaEditForm.controls.idProductorFinca.setValue(data.ProductorFincaId);
+    this.FincaId = data.ProductorFincaId
     this.fincaEditForm.controls.idProductor.setValue(data.ProductorId);
     this.fincaEditForm.controls.nombreFinca.setValue(data.Nombre);
     if (data.Latitud) {
@@ -429,6 +439,22 @@ export class FincaEditComponent implements OnInit {
     } else {
       this.router.navigate([`/productor/administracion/productor/finca/list/${this.fincaEditForm.value.idProductor}`]);
     }
+  }
+
+  receiveMessage($event) {
+    this.selectEmpresa = $event
+    /*
+    this.selectEmpresa = $event
+    this.ordenServicioFormEdit.get('destinatario').setValue(this.selectEmpresa[0].RazonSocial);
+    this.ordenServicioFormEdit.get('ruc').setValue(this.selectEmpresa[0].Ruc);
+    this.ordenServicioFormEdit.get('dirDestino').setValue(this.selectEmpresa[0].Direccion + " - " + this.selectEmpresa[0].Distrito + " - " + this.selectEmpresa[0].Provincia + " - " + this.selectEmpresa[0].Departamento); 
+    */
+    this.modalService.dismissAll();
+  }
+
+  
+  openModal(modalMapasFinca) {
+    this.modalService.open(modalMapasFinca, { windowClass: 'dark-modal', size: 'xl' });
   }
 
 }

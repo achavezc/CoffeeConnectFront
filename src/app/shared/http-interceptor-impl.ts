@@ -21,7 +21,10 @@ export class HttpInterceptorImpl implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     var contenType = 'application/json'
-    if(req.url.includes("/SocioFincaCertificacion/Registrar") || req.url.includes("/SocioFincaCertificacion/DescargarArchivo")){
+    if(req.url.includes("/SocioFincaCertificacion/Registrar") 
+    || req.url.includes("/SocioFincaCertificacion/DescargarArchivo")
+    || req.url.includes("/FincaMapa/Registrar")
+    ){
       contenType = 'multipart/form-data'
     }
       const token = "";// this.storage.getToken();
