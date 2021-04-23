@@ -7,6 +7,9 @@ import { FincaComponent } from './operaciones/socio/finca/finca.component';
 import { FincaEditComponent } from './operaciones/socio/finca/fincaedit/finca-edit.component';
 import { CertificacionListComponent } from './operaciones/socio/finca/certificaciones/list/certificacion-list.component';
 import { CertificacionEditComponent } from './operaciones/socio/finca/certificaciones/edit/certificacion-edit.component';
+import { ProyectosComponent } from './operaciones/socio/proyectos/proyectos.component';
+import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectos-edit/proyectos-edit.component';
+
 const routes: Routes = [
     {
         path: 'operaciones',
@@ -73,6 +76,27 @@ const routes: Routes = [
                 component: CertificacionEditComponent,
                 data: {
                     title: 'Certificaciones - Crear'
+                }
+            },
+            {
+                path: 'socio/proyectos/list/:id',
+                component: ProyectosComponent,
+                data: {
+                    title: 'Lista de Proyectos'
+                }
+            },
+            {
+                path: 'socio/proyectos/create',
+                component: ProyectosEditComponent,
+                data: {
+                    title: 'Nuevo Proyecto'
+                }
+            },
+            {
+                path: 'socio/proyectos/update/:id',
+                component: ProyectosEditComponent,
+                data: {
+                    title: 'Actualizar Proyecto'
                 }
             },
         ]

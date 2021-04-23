@@ -148,7 +148,10 @@ export class FincaEditComponent implements OnInit {
       this.socioFincaEditForm.controls.nroPersonalCosecha.setValue(data.CantidadPersonalCosecha);
     }
     await this.GetEstados();
-    this.socioFincaEditForm.controls.estado.setValue(data.EstadoId);
+    if (data.EstadoId) {
+      this.socioFincaEditForm.controls.estado.setValue(data.EstadoId);
+    }
+    this.rows = data.FincaEstimado;
     this.spinner.hide();
   }
 
@@ -240,7 +243,7 @@ export class FincaEditComponent implements OnInit {
   Update(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.socioFincaService.Create(request)
+    this.socioFincaService.Update(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -270,9 +273,7 @@ export class FincaEditComponent implements OnInit {
   }
 
   addRow(): void {
-    // let rows = [...this.rows];
-    // rows.splice(row.$$index, 1);
-    this.rows = [...this.rows, { Anio: 0, Estimado: 0 }];
+    this.rows = [...this.rows, { Anio: 0, Estimado: 0, ProductoId: '',Consumido:0 }];
   }
 
   EliminarFila(index: any): void {
@@ -280,7 +281,7 @@ export class FincaEditComponent implements OnInit {
     this.rows = [...this.rows];
   }
 
-  UpdateValue(event, index, prop): void {
+  UpdateValue(event: any, index: any, prop: any): void {
     if (prop === 'anio') {
       this.rows[index].Anio = parseFloat(event.target.value)
     } else if (prop === 'estimado') {

@@ -13,25 +13,25 @@
                 <label for="mNroContrato" class="form-label">N° Contrato</label>
                 <input type="text" formControlName="mNroContrato" class="form-control" id="mNroContrato"
                     placeholder="Número de contrato" name="mNroContrato"
-                    [ngClass]="{ 'is-invalid': f.mNroContrato.invalid, 'is-valid': !f.mNroContrato.invalid }">
+                    [ngClass]="{ 'is-invalid': fm.mNroContrato.invalid, 'is-valid': !fm.mNroContrato.invalid }">
             </div>
             <div class="col-md-3 mb-4 form-group mb-2">
                 <label for="mCodCliente" class="form-label">Código Cliente</label>
                 <input type="text" formControlName="mCodCliente" class="form-control" id="mCodCliente"
                     placeholder="Código de cliente" name="mCodCliente"
-                    [ngClass]="{ 'is-invalid': f.mCodCliente.invalid, 'is-valid': !f.mCodCliente.invalid }">
+                    [ngClass]="{ 'is-invalid': fm.mCodCliente.invalid, 'is-valid': !fm.mCodCliente.invalid }">
             </div>
             <div class="col-md-3 mb-4 form-group mb-2">
                 <label for="mFechaInicial" class="form-label">Fecha Inicial</label>
                 <input type="date" class="form-control" formControlName="mFechaInicial" date id="mFechaInicial"
                     name="mFechaInicial" placeholder="Seleccionar fecha inicial"
-                    [ngClass]="{ 'is-invalid': f.mFechaInicial.invalid, 'is-valid': !f.mFechaInicial.invalid }" />
+                    [ngClass]="{ 'is-invalid': fm.mFechaInicial.invalid, 'is-valid': !fm.mFechaInicial.invalid }" />
             </div>
             <div class="col-md-3 mb-4 form-group mb-2">
                 <label for="mFechaFinal" class="form-label">Fecha Final</label>
                 <input type="date" class="form-control" formControlName="mFechaFinal" date id="mFechaFinal"
                     name="mFechaFinal" placeholder="Seleccionar fecha final"
-                    [ngClass]="{ 'is-invalid': f.mFechaFinal.invalid, 'is-valid': !f.mFechaFinal.invalid }" />
+                    [ngClass]="{ 'is-invalid': fm.mFechaFinal.invalid, 'is-valid': !fm.mFechaFinal.invalid }" />
             </div>
         </div>
         <div class="form-row">
@@ -39,13 +39,13 @@
                 <label for="mDescCliente" class="form-label">Cliente</label>
                 <input type="text" formControlName="mDescCliente" class="form-control" id="mDescCliente"
                     placeholder="Cliente"
-                    [ngClass]="{ 'is-invalid': f.mDescCliente.invalid, 'is-valid': !f.mDescCliente.invalid }">
+                    [ngClass]="{ 'is-invalid': fm.mDescCliente.invalid, 'is-valid': !fm.mDescCliente.invalid }">
             </div>
             <div class="col-md-3 mb-4 form-group mb-2">
                 <label for="mProducto" class="form-label">Producto</label>
                 <ng-select [items]="mListProductos" formControlName="mProducto" class="form-control" bindLabel="Label"
                     bindValue="Codigo" id="mProducto" placeholder="Seleccionar Producto"
-                    [ngClass]="{ 'is-invalid': f.mProducto.invalid, 'is-valid': !f.mProducto.invalid }"
+                    [ngClass]="{ 'is-invalid': fm.mProducto.invalid, 'is-valid': !fm.mProducto.invalid }"
                     [(ngModel)]="mSelectedProducto">
                 </ng-select>
             </div>
@@ -54,14 +54,22 @@
                 <ng-select [items]="mListTipoProduccion" formControlName="mTipoProduccion" class="form-control"
                     bindLabel="Label" bindValue="Codigo" id="mTipoProduccion"
                     placeholder="Seleccionar tipo de producción"
-                    [ngClass]="{ 'is-invalid': f.mTipoProduccion.invalid, 'is-valid': !f.mTipoProduccion.invalid }"
+                    [ngClass]="{ 'is-invalid': fm.mTipoProduccion.invalid, 'is-valid': !fm.mTipoProduccion.invalid }"
                     [(ngModel)]="mSelectedTipoProduccion">
+                </ng-select>
+            </div>
+            <div class="col-md-3 mb-4 form-group mb-2">
+                <label for="mCalidad" class="form-label">Calidad</label>
+                <ng-select [items]="mListCalidad" formControlName="mCalidad" class="form-control" bindLabel="Label"
+                    bindValue="Codigo" id="mCalidad" placeholder="Seleccionar calidad"
+                    [ngClass]="{ 'is-invalid': fm.mCalidad.invalid, 'is-valid': !fm.mCalidad.invalid }"
+                    [(ngModel)]="mSelectedCalidad">
                 </ng-select>
             </div>
         </div>
 
         <small class="form-text text-muted danger mb-1" *ngIf="mErrprGnral.isError">{{mErrprGnral.msgError}}</small>
-        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
+        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Buscar()"
             [disabled]="mContratoForm.invalid">Buscar</button>
 
         <div class="form-row">
@@ -86,19 +94,17 @@
                     [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
                     [scrollbarH]="true" [selected]="mSelected" [selectionType]="'single'"
                     [selectCheck]="singleSelectCheck" (dblclick)="DblSelected()">
-                    <ngx-datatable-column name="CONTRATO" prop="Numero" width="90">
+                    <ngx-datatable-column name="CONTRATO" prop="Numero" width="150">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="COD. CLIENTE" prop="Cliente" width="250">
+                    <ngx-datatable-column name="FECHA DE CONTRATO" prop="FechaEmbarqueString" width="180">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="CLIENTE" prop="Cliente" width="250">
+                    <ngx-datatable-column name="CLIENTE" prop="Cliente" width="400">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="DESTINO" prop="Cliente" width="250">
+                    <ngx-datatable-column name="PRODUCTO" prop="Producto" width="200">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="FECHA DE CONTRATO" prop="FechaEmbarque" width="130">
+                    <ngx-datatable-column name="TIPO DE PRODUCCIÓN" prop="TipoProduccion" width="200">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="PRODUCTO" prop="Producto" width="140">
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="TIPO DE PRODUCCIÓN" prop="TipoProduccion" width="140">
+                    <ngx-datatable-column name="CALIDAD" prop="Calidad" width="140">
                     </ngx-datatable-column>
                 </ngx-datatable>
             </div>

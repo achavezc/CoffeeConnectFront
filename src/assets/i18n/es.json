@@ -254,6 +254,12 @@
 				{
 					"Label":"Contrato"
 				}
+				,
+        "OrdenProceso":
+				{
+					"Label":"Orden de Proceso"
+				}
+
 		},
 		"Administracion":
 		{
