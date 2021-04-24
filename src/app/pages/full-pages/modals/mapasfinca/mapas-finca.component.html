@@ -58,6 +58,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row">
+
+                      <div class="col-md-6 mb-6 form-group mb-2">
+                        
+                      </div>
+                      <div class="col-md-6 mb-6 form-group mb-2">
+                        <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
+                      </div>
+                    </div>
                 </div>
             </div>
             <button class="btn btn-primary mr-1 mb-1" (click)="onSubmit()">Guardar</button>
@@ -66,7 +75,11 @@
         </div>
       </ng-template>
      <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModal(customContent)">Nuevo</button>
+     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalEditar(customContent)">Editar</button>
      <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="eliminar()">Eliminar</button>
+
+     <small class="form-text text-muted danger"
+     *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
 
     <div class="row" style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
         <div class="card-subtitle-form">LISTA DE DOCUMENTOS</div>
@@ -80,9 +93,9 @@
 
             <ngx-datatable-column name="Descripcion" prop="Descripcion" width="40">
             </ngx-datatable-column>
-            <ngx-datatable-column name="Archivo" prop="Archivo" width="60">
+            <ngx-datatable-column name="Archivo" prop="Nombre" width="60">
             </ngx-datatable-column>
- 
+          
           </ngx-datatable>
         </div>
       </div>

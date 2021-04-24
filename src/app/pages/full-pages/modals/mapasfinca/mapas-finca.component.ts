@@ -3,12 +3,13 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, Form
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../services/maestro.service';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { EmpresaService } from '../../../../services/empresa.service';
+import { MapaFincaService } from '../../../../services/mapafinca.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../services/models/login';
 import { AlertUtil } from '../../../../services/util/alert-util';
 import {HttpClient,HttpHeaders } from '@angular/common/http';
 import { host } from '../../../../shared/hosts/main.host';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-mapas-finca',
@@ -29,16 +30,19 @@ export class MapasFincaComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   mensajeErrorGenerico = "Ocurrio un error interno.";
+  errorGeneral: any = { isError: false, errorMessage: '' };
   FincaMapaId = 0;
   @Input() FincaId : any;
   @Output() empresaEvent = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
+  fileName = "";
 
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private alertUtil : AlertUtil,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private mapaFincaService: MapaFincaService
     ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -48,6 +52,7 @@ export class MapasFincaComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cargarForm();
+    this.cargarFiles()
   }
 
   close() {
@@ -65,6 +70,41 @@ export class MapasFincaComponent implements OnInit {
         descripcion: new FormControl('', [])
       })
 
+  }
+
+  cargarFiles(){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.mapaFincaService.ConsultarPorFincaId({"FincaId": this.FincaId})
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+          
+            this.tempData = res.Result.Data;
+            this.rows = [...this.tempData];
+            this.selected = [];
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
   }
 
   get fe() {
@@ -87,7 +127,12 @@ export class MapasFincaComponent implements OnInit {
   onSubmit() {
     if (!this.mapaFileForm.invalid) {
       this.submitted = false;
-      this.guardarDocumento();
+      if (this.FincaMapaId > 0) {
+        this.actualizarDocumento();
+      }else{
+        this.guardarDocumento();
+      }
+      
     }else{
       this.submitted = true;
       return;
@@ -95,8 +140,37 @@ export class MapasFincaComponent implements OnInit {
   }
 
   openModal(customContent) {
+    this.FincaMapaId = 0;
+    this.fileName =  "";
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
 
+  }
+
+  openModalEditar(customContent) {
+    if(this.selected.length>0){ 
+      this.FincaMapaId = this.selected[0].FincaMapaId;
+      this.errorGeneral = { isError: false, errorMessage: "" };
+
+
+      this.mapaFileForm.controls.estado.setValue(this.selected[0].EstadoId);
+      this.mapaFileForm.controls.fileName.setValue(this.selected[0].Nombre);
+      this.mapaFileForm.controls.pathFile.setValue(this.selected[0].Path);
+      this.mapaFileForm.controls.descripcion.setValue(this.selected[0].Descripcion);
+      this.fileName =  this.selected[0].Nombre
+      
+      this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
+      
+    }else{
+      this.errorGeneral = { isError: true, errorMessage: "Selecciones un elemento del listado" };
+    }
+
+  }
+
+  Descargar() {
+    var nombreFile = this.mapaFileForm.value.fileName;
+    var rutaFile = this.mapaFileForm.value.pathFile;
+    window.open(this.url+'/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile , '_blank');
+ 
   }
 
   guardarDocumento(){
@@ -126,6 +200,33 @@ export class MapasFincaComponent implements OnInit {
       this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
     });
   }
+  actualizarDocumento(){
+    this.spinner.show();
+    const request = this.GetRequest();
+    const formData = new FormData();
+    formData.append('file', this.mapaFileForm.get('file').value);
+    formData.append('request',  JSON.stringify(request));
+    const headers = new HttpHeaders();
+    headers.append('enctype', 'multipart/form-data');
+    this.httpClient
+     .post(this.url + '/Actualizar', formData, { headers })
+     .subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+          "Se actualizó correctamente el documento.",
+          () => {
+            this.cancelarDocumento();
+          });
+      } else {
+        this.alertUtil.alertError("ERROR!", res.Result.Message);
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+    });
+  }
 
 
   GetRequest(): any {
@@ -141,7 +242,8 @@ export class MapasFincaComponent implements OnInit {
   }
 
   cancelarDocumento(){
-   
+
+   this.cargarFiles();
   }
 
   eliminar(){
