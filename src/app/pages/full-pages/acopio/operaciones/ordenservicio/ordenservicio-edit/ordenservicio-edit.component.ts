@@ -10,6 +10,7 @@ import { Router } from "@angular/router";
 import { ReqOrdenServicio } from './../../../../../../services/models/req-ordenservicio-registrar';
 import { OrdenservicioControlcalidadService } from './../../../../../../services/ordenservicio-controlcalidad.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class OrdenServicioEditComponent implements OnInit {
   submittedEdit = false;
   submitted = false;
   detalle: any;
-  disabledControl: any;
+  disabledControl: string = '';
   form: string = "ordenServicio";
   numero: any = "";
   fechaRegistro: any;
@@ -54,7 +55,8 @@ export class OrdenServicioEditComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
-    private alertUtil: AlertUtil) {
+    private alertUtil: AlertUtil,
+    private route: ActivatedRoute) {
   }
 
   receiveMessage($event) {
@@ -72,6 +74,16 @@ export class OrdenServicioEditComponent implements OnInit {
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
+    this.route.queryParams
+      .subscribe(params => {
+        if (Number(params.id)) {
+          this.id = Number(params.id);
+          this.esEdit = true;
+        }
+        else {
+          this.disabledControl = 'disabled';
+        }
+      })
   }
 
   openModal(modalEmpresa) {

@@ -34,4 +34,9 @@ export class SocioFincaService {
     const url = `${this.url}/ConsultarPorId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  SearchSocioFinca(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarSocioFincaEstimadoPorSocioFincaId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }

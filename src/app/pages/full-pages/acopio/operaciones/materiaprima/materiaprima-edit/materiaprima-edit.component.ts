@@ -15,7 +15,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
-import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component'
+import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
+import {SocioFincaService} from '../../../../../../Services/socio-finca.service';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   tipoSocio = "01";
   tipoTercero = "02";
   tipoIntermediario = "03";
+  tipoProduccionConvencional = "02";
   id: Number = 0;
   status: string = "";
   estado = "";
@@ -73,6 +75,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   detalle: any;
   unidadMedidaPesado: any;
   form: string = "materiaprima"
+  btnGuardar = true;
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
@@ -82,7 +85,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     private spinner: NgxSpinnerService, private acopioService: AcopioService, private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private dateUtil: DateUtil
+    private dateUtil: DateUtil,
+    private socioFinca : SocioFincaService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -199,6 +203,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
     this.cargarSubProducto(filterProducto);
+    this.consultarSocioFinca();
   }
 
   changeView(e) {
@@ -209,6 +214,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     else {
       this.viewTagSeco = false;
     }
+    this.consultarSocioFinca();
   }
 
   async cargarSubProducto(codigo: any) {
@@ -325,6 +331,16 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(null);
 
+    if (e[0].Certificacion == "")
+    {
+      this.selectTipoProduccion = this.tipoProduccionConvencional;
+      this.consultaMateriaPrimaFormEdit.controls.tipoProduccion.disable();
+    }
+    else
+    {
+      this.selectTipoProduccion = [];
+      this.consultaMateriaPrimaFormEdit.controls.tipoProduccion.enable();
+    }
     if (e[0].TipoProveedorId == this.tipoSocio) {
       this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(e[0].ProveedorId);
       this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(e[0].FincaId);
@@ -654,6 +670,52 @@ export class MateriaPrimaEditComponent implements OnInit {
 
 
   }
+
+  async consultarSocioFinca()
+  {
+    let request = 
+    {
+      "SocioFincaId": 2000// Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
+    }
+   if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
+   this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" )
+   {
+    this.socioFinca.SearchSocioFinca(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+            if (res.Result.Data.SaldoPendiente > this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value)
+            {
+            this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
+            this.btnGuardar = false;
+
+            }
+            else if (res.Result.Data.SaldoPendiente== 0 && this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].value =="01" )
+            {
+              this.btnGuardar = true;
+            }
+            else{
+              this.btnGuardar = true;
+            }
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+  }
+}
 
 }
 

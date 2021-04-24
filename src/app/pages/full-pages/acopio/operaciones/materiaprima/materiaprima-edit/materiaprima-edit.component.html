@@ -371,7 +371,7 @@
                   <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
                 </a>
                 <ng-template ngbNavContent>
-                  <app-pesadoCafe formGroupName="pesado" [submittedEdit]="submittedEdit" [unidadMedidaPesado]="unidadMedidaPesado"></app-pesadoCafe>
+                  <app-pesadoCafe (miEvento)="consultarSocioFinca()" formGroupName="pesado" [submittedEdit]="submittedEdit" [unidadMedidaPesado]="unidadMedidaPesado"></app-pesadoCafe>
                   <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                     <div class="col-8 d-flex flex-sm-row flex-column">
                       <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
@@ -384,7 +384,7 @@
       
                   </div>
                   <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
+                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"  [disabled]="!btnGuardar" (click)="guardar()">Guardar</button>
                     <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
                   </div>
                 </ng-template>

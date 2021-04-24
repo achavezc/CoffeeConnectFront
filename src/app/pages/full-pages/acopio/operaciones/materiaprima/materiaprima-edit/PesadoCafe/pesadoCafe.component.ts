@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit , EventEmitter} from '@angular/core';
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,ControlContainer} from '@angular/forms';
+//import { EventEmitter } from 'events';
 
 @Component({
   selector:'[formGroup] app-pesadoCafe,[formGroupName] app-pesadoCafe',
@@ -13,11 +14,12 @@ export class PesadoCafeComponent implements OnInit {
   selectedUnidadMedida: any;
   @Input() unidadMedidaPesado;
   @Input() submittedEdit;
-  
+  @Output() miEvento = new EventEmitter<any>();
   sacos = "01";
   latas = "02";
   kilos = 7;
   tara = 0.2;
+  mensaje = "";
   constructor(private maestroUtil: MaestroUtil,
     private controlContainer: ControlContainer
     ) {
@@ -74,6 +76,10 @@ export class PesadoCafeComponent implements OnInit {
     }
   }
 
+  consultarSocioFinca()
+  {
+  this.miEvento.emit(this.mensaje);
+  }
 
 
 
