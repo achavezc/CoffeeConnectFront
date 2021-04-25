@@ -1,4 +1,4 @@
-import { Component,ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -29,7 +29,7 @@ export class FincaEditComponent implements OnInit {
     private alertUtil: AlertUtil,
     private router: Router,
     private modalService: NgbModal
-    ) { }
+  ) { }
 
   fincaEditForm: any;
   listDepartamentos: any[];
@@ -63,7 +63,7 @@ export class FincaEditComponent implements OnInit {
   rows: any[];
   selectEmpresa: any[];
   FincaId = 0;
-  
+
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
     this.LoadForm();
@@ -452,7 +452,7 @@ export class FincaEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  
+
   openModal(modalMapasFinca) {
     this.modalService.open(modalMapasFinca, { windowClass: 'dark-modal', size: 'xl' });
   }
