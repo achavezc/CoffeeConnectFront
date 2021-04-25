@@ -16,7 +16,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
-import {SocioFincaService} from '../../../../../../Services/socio-finca.service';
+import {SocioFincaService} from './../../../../../../Services/socio-finca.service';
 
 
 @Component({
@@ -675,7 +675,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   {
     let request = 
     {
-      "SocioFincaId": 2000// Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
+      "SocioFincaId": Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
     }
    if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
    this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" )

@@ -7,6 +7,7 @@ export class ReqControlCalidad {
     GuiaRecepcionMateriaPrimaId?: number,
     NotaSalidaAlmacenId?: number,
     LoteId?:number,
+    OrdenServicioControlCalidadId?:number,
     ObservacionAnalisisFisico?: string,
     AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[],
     AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[],
@@ -116,6 +117,10 @@ export class ReqControlCalidad {
         {
             this.LoteId= LoteId
         }
+        if (OrdenServicioControlCalidadId)
+        {
+            this.OrdenServicioControlCalidadId = OrdenServicioControlCalidadId
+        }
 
         this.EmpresaId = EmpresaId,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
@@ -126,6 +131,7 @@ export class ReqControlCalidad {
     GuiaRecepcionMateriaPrimaId?: number;
     NotaSalidaAlmacenId?:number;
     LoteId?:number;
+    OrdenServicioControlCalidadId?:number;
     ExportableGramosAnalisisFisico?: number;
     ExportablePorcentajeAnalisisFisico?: number;
     DescarteGramosAnalisisFisico?: number;
