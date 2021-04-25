@@ -1,0 +1,46 @@
+<div class="modal-header bg-primary">
+    <h4 class="modal-title">{{titleModal}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="listaDocumentosForm" class="needs-validation">
+        <ngx-spinner></ngx-spinner>
+        <div class="form-row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group row">
+                    <label for="nombre" class="col-2 col-form-label pr-0">Nombre</label>
+                    <div class="col-3">
+                        <label for="nombreValue" class="col-6 col-form-label pr-0">Datos Prueba</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
+        <button class="btn btn-primary mr-1 mb-1" type="button">Editar</button>
+        <button class="btn btn-primary mr-1 mb-1" type="button">Eliminar</button>
+
+        <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+
+        <div class="form-row mb-1">
+            <div class="col-lg-12 bg-primary text-center">
+                <label class="card-subtitle-form">{{subTitleModal}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <ngx-datatable class="bootstrap core-bootstrap" #tblListDocuments [columnMode]="'force'"
+                    [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
+                    [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
+
+                    <ngx-datatable-column name="Descripcion" prop="Descripcion" width="40">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Archivo" prop="Nombre" width="60">
+                    </ngx-datatable-column>
+
+                </ngx-datatable>
+            </div>
+        </div>
+    </form>
+</div>

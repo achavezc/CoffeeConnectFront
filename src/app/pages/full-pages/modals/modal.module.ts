@@ -22,6 +22,8 @@ import { MConsultarEmpresaComponent } from '../modals/consultarEmpresa/consultar
 import { MConsultarClienteComponent } from '../modals/consultarcliente/consultar-cliente.component';
 import { MConsultarContratoComponent } from './consultarcontrato/consultar-contrato.component'
 import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component';
+import { MListaDocumentosComponent } from './listadocumentos/lista-documentos.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component'
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
     MapasFincaComponent,
+    MListaDocumentosComponent,
     MConsultarClienteComponent,
     MConsultarContratoComponent
   ],
@@ -53,6 +56,7 @@ import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component'
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
     MapasFincaComponent,
+    MListaDocumentosComponent,
     MConsultarClienteComponent,
     MConsultarContratoComponent
   ],

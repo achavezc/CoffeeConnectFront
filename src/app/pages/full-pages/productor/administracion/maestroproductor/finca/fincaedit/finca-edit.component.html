@@ -296,11 +296,23 @@
                         </div>
                         <div class="col-4 text-center">
                             <label for="" class="mr-1">FOTO GEOREFERENCIADAS</label>
-                            <button class="btn btn-sm btn-primary">...</button>
+                            <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+                                <app-lista-documentos [codeForm]="frmMdlListaFotosGeoreferenciadas"
+                                    (responseEvent)="modalResponse($event)">
+                                </app-lista-documentos>
+                            </ng-template>
+                            <button class="btn btn-sm btn-primary" (click)="openModalCustom(mdlListDocuments)"
+                                type="button">...</button>
                         </div>
                         <div class="col-4 text-center">
                             <label for="" class="mr-1">DOCUMENTOS ADJUNTOS</label>
-                            <button class="btn btn-sm btn-primary">...</button>
+                            <ng-template #mdlAttachments let-c="close" let-d="dismiss">
+                                <app-lista-documentos [codeForm]="frmMdlAttachments"
+                                    (responseEvent)="modalResponse($event)">
+                                </app-lista-documentos>
+                            </ng-template>
+                            <button class="btn btn-sm btn-primary" (click)="openModalCustom(mdlAttachments)"
+                                type="button">...</button>
                         </div>
                     </div>
                 </div>
