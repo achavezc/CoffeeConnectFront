@@ -12,7 +12,7 @@ import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-salida-almacen.service';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import {LoteService} from '../../../../../../../../services/lote.service';
-import {OrdenservicioControlcalidadService} from '../../../../../../../../Services/ordenservicio-controlcalidad.service'
+import {OrdenservicioControlcalidadService} from '../../../../../../../../services/ordenservicio-controlcalidad.service'
 @Component({
   selector: 'app-controlCalidadHumedo',
   templateUrl: './controlCalidadHumedo.component.html',
