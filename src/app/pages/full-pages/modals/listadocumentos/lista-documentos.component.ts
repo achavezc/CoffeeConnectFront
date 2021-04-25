@@ -48,4 +48,12 @@ export class MListaDocumentosComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
+  openModal(modal) {
+    this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true });
+  }
+
+  modalResponse(event) {
+    this.modalService.dismissAll();
+  }
+
 }

@@ -17,7 +17,14 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary mr-1 mb-1" type="button">Nuevo</button>
+        
+        <ng-template #mdlAddFile let-c="close" let-d="dismiss">
+            <app-agregar-archivo (resAddFileEvent)="modalResponse($event)">
+            </app-agregar-archivo>
+        </ng-template>
+        <button class="btn btn-primary mr-1 mb-1" (click)="openModal(mdlAddFile)"
+            type="button">Nuevo</button>
+
         <button class="btn btn-primary mr-1 mb-1" type="button">Editar</button>
         <button class="btn btn-primary mr-1 mb-1" type="button">Eliminar</button>
 
