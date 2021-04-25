@@ -16,7 +16,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
-import {SocioFincaService} from '../../../../../../Services/socio-finca.service';
+import { SocioFincaService } from '../../../../../../services/socio-finca.service';
 
 
 @Component({
@@ -86,7 +86,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private socioFinca : SocioFincaService
+    private socioFinca: SocioFincaService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -139,7 +139,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         provDistrito: ['', Validators.required],
         provZona: ['', Validators.required],
         provFinca: ['',],
-        provCertificacion: ['',],        
+        provCertificacion: ['',],
         fechaCosecha: ['', Validators.required],
         guiaReferencia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaPesado: ['',],
@@ -331,13 +331,11 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(null);
 
-    if (e[0].Certificacion == "")
-    {
+    if (e[0].Certificacion == "") {
       this.selectTipoProduccion = this.tipoProduccionConvencional;
       this.consultaMateriaPrimaFormEdit.controls.tipoProduccion.disable();
     }
-    else
-    {
+    else {
       this.selectTipoProduccion = [];
       this.consultaMateriaPrimaFormEdit.controls.tipoProduccion.enable();
     }
@@ -671,51 +669,47 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   }
 
-  async consultarSocioFinca()
-  {
-    let request = 
+  async consultarSocioFinca() {
+    let request =
     {
       "SocioFincaId": 2000// Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
     }
-   if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
-   this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" )
-   {
-    this.socioFinca.SearchSocioFinca(request)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-            if (res.Result.Data.SaldoPendiente > this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value)
-            {
-            this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
-            this.btnGuardar = false;
+    if (this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
+      this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02") {
+      this.socioFinca.SearchSocioFinca(request)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              var form = this;
+              if (res.Result.Data.SaldoPendiente > this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value) {
+                this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
+                this.btnGuardar = false;
 
+              }
+              else if (res.Result.Data.SaldoPendiente == 0 && this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].value == "01") {
+                this.btnGuardar = true;
+              }
+              else {
+                this.btnGuardar = true;
+              }
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
-            else if (res.Result.Data.SaldoPendiente== 0 && this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].value =="01" )
-            {
-              this.btnGuardar = true;
-            }
-            else{
-              this.btnGuardar = true;
-            }
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
   }
-}
 
 }
 
