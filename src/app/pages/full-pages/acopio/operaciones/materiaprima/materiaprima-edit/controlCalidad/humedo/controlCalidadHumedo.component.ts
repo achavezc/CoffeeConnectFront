@@ -11,7 +11,8 @@ import {AcopioService} from '../../../../../../../../services/acopio.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-salida-almacen.service';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
-import {LoteService} from '../../../../../../../../services/lote.service'
+import {LoteService} from '../../../../../../../../services/lote.service';
+import {OrdenservicioControlcalidadService} from '../../../../../../../../Services/ordenservicio-controlcalidad.service'
 @Component({
   selector: 'app-controlCalidadHumedo',
   templateUrl: './controlCalidadHumedo.component.html',
@@ -46,7 +47,8 @@ export class ControlCalidadComponentHumedo implements OnInit {
         private spinner: NgxSpinnerService,private acopioService : AcopioService, private alertUtil: AlertUtil,
         private notaSalidaAlmacenService:NotaSalidaAlmacenService,
         private maestroService: MaestroService,
-        private loteService: LoteService){
+        private loteService: LoteService,
+        private ordenServicio : OrdenservicioControlcalidadService){
        } 
 
        cargarForm() {
@@ -138,6 +140,7 @@ if (this.detalle.AnalisisFisicoOlorDetalle!= null)
    this.detalle.GuiaRecepcionMateriaPrimaId? Number(this.detalle.GuiaRecepcionMateriaPrimaId):  null,
       this.detalle.NotaSalidaAlmacenId? Number(this.detalle.NotaSalidaAlmacenId):  null,
       this.detalle.LoteId? Number(this.detalle.LoteId):  null,
+      this.detalle.OrdenServicioControlCalidadId? Number(this.detalle.OrdenServicioControlCalidadId):  null,
       controlFormControlCalidad["ObservacionAnalisisFisico"].value,
    listaDetalleOlor,
    listaDetalleColor
@@ -224,6 +227,36 @@ if (this.detalle.AnalisisFisicoOlorDetalle!= null)
           this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
             if(result.isConfirmed){
               form.router.navigate(['/operaciones/lotes-list']);
+            }
+          }
+          );
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );  
+    } 
+    else if (this.form == "ordenServicio")
+    {
+      this.ordenServicio.ActualizarAnalisisCalidad(this.reqControlCalidad)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/orderservicio-controlcalidadexterna-list']);
             }
           }
           );

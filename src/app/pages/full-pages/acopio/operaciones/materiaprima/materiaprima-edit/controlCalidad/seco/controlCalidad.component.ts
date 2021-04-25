@@ -12,6 +12,7 @@ import { DateUtil } from '../../../../../../../../services/util/date-util';
 import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-salida-almacen.service';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import {LoteService} from '../../../../../../../../services/lote.service'
+import {OrdenservicioControlcalidadService} from '../../../../../../../../Services/ordenservicio-controlcalidad.service'
 
 
 @Component({
@@ -57,7 +58,8 @@ export class ControlCalidadComponent implements OnInit {
     private acopioService : AcopioService,  private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil, private router: Router, private dateUtil: DateUtil,
     private notaSalidaAlmacenService: NotaSalidaAlmacenService, private maestroService: MaestroService,
-    private loteService: LoteService){
+    private loteService: LoteService,
+    private ordenServicio : OrdenservicioControlcalidadService){
      
   } 
     
@@ -304,6 +306,7 @@ export class ControlCalidadComponent implements OnInit {
       this.detalle.GuiaRecepcionMateriaPrimaId? Number(this.detalle.GuiaRecepcionMateriaPrimaId):  null,
       this.detalle.NotaSalidaAlmacenId? Number(this.detalle.NotaSalidaAlmacenId):  null,
       this.detalle.LoteId? Number(this.detalle.LoteId):  null,
+      this.detalle.OrdenServicioControlCalidadId? Number(this.detalle.OrdenServicioControlCalidadId):  null,
       controlFormControlCalidad["ObservacionAnalisisFisico"].value,
       listaDetalleOlor,
       listaDetalleColor,
@@ -408,6 +411,38 @@ export class ControlCalidadComponent implements OnInit {
           this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
             if(result.isConfirmed){
               form.router.navigate(['/operaciones/lotes-list']);
+            }
+          }
+          );
+            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );  
+      }
+      else if (this.form == "ordenServicio")
+      {
+    
+      this.ordenServicio.ActualizarAnalisisCalidad(this.reqControlCalidad)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+            if(result.isConfirmed){
+              form.router.navigate(['/operaciones/orderservicio-controlcalidadexterna-list']);
             }
           }
           );
