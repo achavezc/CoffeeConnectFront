@@ -12,7 +12,6 @@
                             <input type="text" name="nombreFinca" id="nombreFinca" formControlName="nombreFinca"
                                 [ngClass]="{ 'is-invalid': f.nombreFinca.invalid, 'is-valid': !f.nombreFinca.invalid }"
                                 class="form-control" placeholder="Ingresar nombre de la finca">
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.nombreFinca.required">Es obligatorio!</small> -->
                         </div>
                     </div>
                 </div>
@@ -70,7 +69,6 @@
                                 [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }"
                                 (change)="onChangeDepartament($event)">
                             </ng-select>
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.departamento.required">Es obligatorio!</small> -->
                         </div>
                     </div>
                 </div>
@@ -96,7 +94,6 @@
                                 [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }"
                                 (change)="onChangeProvince($event)">
                             </ng-select>
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.provincia.required">Es obligatorio!</small> -->
                         </div>
                     </div>
                 </div>
@@ -124,7 +121,6 @@
                                 [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }"
                                 (change)="onChangeDistrito($event)">
                             </ng-select>
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.distrito.required">Es obligatorio!</small> -->
                         </div>
                     </div>
                 </div>
@@ -151,7 +147,6 @@
                                 [ngClass]="{ 'is-invalid': f.zona.invalid, 'is-valid': !f.zona.invalid }"
                                 [(ngModel)]="selectedZona">
                             </ng-select>
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.nombreFinca.required">Es obligatorio!</small> -->
                         </div>
                     </div>
                 </div>
@@ -253,7 +248,6 @@
                                 [ngClass]="{ 'is-invalid': f.fCentroEducativo.invalid, 'is-valid': !f.fCentroEducativo.invalid }"
                                 placeholder="Seleccionar centro educativo" [(ngModel)]="selectedFlagCentroEdu">
                             </ng-select>
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.fCentroEducativo.required">Es obligatorio!</small> -->
                         </div>
                         <div class="col-6">
                             <ng-select [items]="listCentrosEducativos" formControlName="centroEducativo"
@@ -262,7 +256,6 @@
                                 placeholder="Seleccionar centro educativo" [(ngModel)]="selectedCentroEdu"
                                 [multiple]="true">
                             </ng-select>
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.centroEducativo.required">Es obligatorio!</small> -->
                         </div>
                     </div>
                 </div>
@@ -277,7 +270,6 @@
                                 [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                 [readonly]="!vId || vId <= 0" [(ngModel)]="selectedEstado">
                             </ng-select>
-                            <!-- <small class="invalid-tooltip" *ngIf="!f.estado.required">Es obligatorio!</small> -->
                         </div>
                     </div>
                 </div>
@@ -297,21 +289,20 @@
                         <div class="col-4 text-center">
                             <label for="" class="mr-1">FOTO GEOREFERENCIADAS</label>
                             <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="frmMdlListaFotosGeoreferenciadas"
-                                    (responseEvent)="modalResponse($event)">
+                                <app-lista-documentos [codeForm]="'frmMdlListaFotosGeoreferenciadas'"
+                                    [FincaId]="FincaId">
                                 </app-lista-documentos>
                             </ng-template>
-                            <button class="btn btn-sm btn-primary" (click)="openModalCustom(mdlListDocuments)"
+                            <button class="btn btn-sm btn-primary" (click)="openModal(mdlListDocuments)"
                                 type="button">...</button>
                         </div>
                         <div class="col-4 text-center">
                             <label for="" class="mr-1">DOCUMENTOS ADJUNTOS</label>
                             <ng-template #mdlAttachments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="frmMdlAttachments"
-                                    (responseEvent)="modalResponse($event)">
+                                <app-lista-documentos [codeForm]="'frmMdlAttachments'" [FincaId]="FincaId">
                                 </app-lista-documentos>
                             </ng-template>
-                            <button class="btn btn-primary" (click)="openModalCustom(mdlAttachments)"
+                            <button class="btn btn-sm btn-primary" (click)="openModal(mdlAttachments)"
                                 type="button">...</button>
                         </div>
                     </div>

@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { FincaFotoGeoreferenciadaService } from '../../../../services/finca-foto-georeferenciada.service';
+import { FincaDocumentoAdjuntoService } from '../../../../services/finca-documento-adjunto.service';
 
 @Component({
   selector: 'app-lista-documentos',
@@ -20,13 +23,15 @@ export class MListaDocumentosComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   errorGeneral: any = { isError: false, errorMessage: '' };
   @Input() codeForm: any;
+  @Input() FincaId: any;
   titleModal: any;
   subTitleModal: any;
-  @Output() responseEvent = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) tblListDocuments: DatatableComponent;
 
   constructor(private spinner: NgxSpinnerService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private fotoGeoreferenciadaService: FincaFotoGeoreferenciadaService,
+    private documentoAdjuntoService: FincaDocumentoAdjuntoService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -38,6 +43,7 @@ export class MListaDocumentosComponent implements OnInit {
       this.titleModal = 'CARGA DE OTROS DOCUMENTOS';
       this.subTitleModal = 'LISTA DE DOCUMENTOS';
     }
+    this.LoadFiles();
   }
 
   singleSelectCheck(row: any) {
@@ -54,6 +60,48 @@ export class MListaDocumentosComponent implements OnInit {
 
   modalResponse(event) {
     this.modalService.dismissAll();
+  }
+
+  LoadFiles(): void {
+    if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
+      this.GetPhotosGeoreferenced();
+    } else if (this.codeForm === 'frmMdlAttachments') {
+      this.GetAttachments();
+    }
+  }
+
+  GetPhotosGeoreferenced(): void {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, errorMessage: '' };
+    this.fotoGeoreferenciadaService.SearchByFincaId({ FincaId: this.FincaId }).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.rows = res.Result.Data;
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    });
+  }
+
+  GetAttachments(): void {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, errorMessage: '' };
+    this.documentoAdjuntoService.SearchByFincaId({ FincaId: this.FincaId }).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.rows = res.Result.Data;
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    });
   }
 
 }

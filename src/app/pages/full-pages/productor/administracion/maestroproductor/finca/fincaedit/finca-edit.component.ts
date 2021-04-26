@@ -63,8 +63,6 @@ export class FincaEditComponent implements OnInit {
   rows: any[];
   selectEmpresa: any[];
   FincaId = 0;
-  frmMdlListaFotosGeoreferenciadas: string;
-  frmMdlAttachments: string;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
@@ -73,8 +71,7 @@ export class FincaEditComponent implements OnInit {
     this.AddValidations();
     this.vCodProductor = undefined;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.frmMdlListaFotosGeoreferenciadas = 'frmMdlListaFotosGeoreferenciadas';
-    this.frmMdlAttachments = 'frmMdlAttachments';
+    
     if (this.vId > 0) {
       this.SearchProducerFincaById();
     } else {
@@ -456,26 +453,8 @@ export class FincaEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  openModal(modalMapasFinca) {
-    this.modalService.open(modalMapasFinca, { windowClass: 'dark-modal', size: 'xl' });
-  }
-
-  openModalCustom(modaluno) {
-    try {
-      this.modalService.open(modaluno, { windowClass: 'dark-modal', size: 'xl', centered: true });
-    }
-    catch (ex) {
-      console.log(ex);
-    }
-  }
-
-  modalResponse(data) {
-    try {
-      this.modalService.dismissAll();
-    }
-    catch (error) {
-      console.log(error);
-    };
+  openModal(modal) {
+    this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
 }

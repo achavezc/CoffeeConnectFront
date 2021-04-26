@@ -17,4 +17,9 @@ export class FincaDocumentoAdjuntoService {
     let url = `${this.url}/ConsultarPorId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+
+  SearchByFincaId(request: any) {
+    let url = `${this.url}/ConsultarPorFincaId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
+  }
 }
