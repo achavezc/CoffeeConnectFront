@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChartistModule } from "ng-chartist";
 import { AgmCoreModule } from "@agm/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { PipeModule } from "../../../shared/pipes/pipe.module";
@@ -43,7 +43,7 @@ import { MAgregarArchivoComponent } from './agregararchivo/agregar-archivo.compo
     TagInputModule,
     QuillModule,
     MatchHeightModule,
-    NgxSpinnerModule,
+    NgxSpinnerModule
   ],
   declarations: [
     MConsultarLotesComponent,

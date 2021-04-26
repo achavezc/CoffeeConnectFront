@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-agregar-archivo',
@@ -13,8 +13,7 @@ export class MAgregarArchivoComponent implements OnInit {
   fileName = "";
   @Output() resAddFileEvent = new EventEmitter<any[]>();
 
-  constructor(private fb: FormBuilder,
-    private modalService: NgbModal) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.LoadForm();
@@ -37,5 +36,9 @@ export class MAgregarArchivoComponent implements OnInit {
   SaveFile(): void {
 
   }
+
+  // CloseModal(action: any) {
+  //   this.activeModal.close(action);
+  // }
 
 }

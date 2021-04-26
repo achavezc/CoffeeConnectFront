@@ -44,7 +44,7 @@ export class MListaDocumentosComponent implements OnInit {
     return this.selected.indexOf(row) === -1;
   }
 
-  close() {
+  CloseModal() {
     this.modalService.dismissAll();
   }
 
