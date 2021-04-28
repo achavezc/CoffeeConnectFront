@@ -71,7 +71,7 @@ export class FincaEditComponent implements OnInit {
     this.AddValidations();
     this.vCodProductor = undefined;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    
+
     if (this.vId > 0) {
       this.SearchProducerFincaById();
     } else {
