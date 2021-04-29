@@ -289,8 +289,7 @@
                         <div class="col-4 text-center">
                             <label for="" class="mr-1">FOTO GEOREFERENCIADAS</label>
                             <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="'frmMdlListaFotosGeoreferenciadas'"
-                                    [FincaId]="FincaId">
+                                <app-lista-documentos [codeForm]="'frmMdlListaFotosGeoreferenciadas'" [code]="FincaId">
                                 </app-lista-documentos>
                             </ng-template>
                             <button class="btn btn-sm btn-primary" (click)="openModal(mdlListDocuments)"
@@ -299,7 +298,7 @@
                         <div class="col-4 text-center">
                             <label for="" class="mr-1">DOCUMENTOS ADJUNTOS</label>
                             <ng-template #mdlAttachments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="'frmMdlAttachments'" [FincaId]="FincaId">
+                                <app-lista-documentos [codeForm]="'frmMdlAttachments'" [code]="FincaId">
                                 </app-lista-documentos>
                             </ng-template>
                             <button class="btn btn-sm btn-primary" (click)="openModal(mdlAttachments)"

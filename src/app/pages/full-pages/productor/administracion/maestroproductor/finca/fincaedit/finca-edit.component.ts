@@ -1,14 +1,15 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../../services/maestro.service';
 import { ProductorFincaService } from '../../../../../../../services/productor-finca.service';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-finca-edit',

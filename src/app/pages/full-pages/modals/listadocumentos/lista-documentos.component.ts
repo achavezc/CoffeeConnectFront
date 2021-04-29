@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -9,6 +9,7 @@ import { FincaFotoGeoreferenciadaService } from '../../../../services/finca-foto
 import { FincaDocumentoAdjuntoService } from '../../../../services/finca-documento-adjunto.service';
 import { host } from '../../../../shared/hosts/main.host';
 import { AlertUtil } from '../../../../services/util/alert-util';
+import { resultMemoize } from '@ngrx/store';
 
 @Component({
   selector: 'app-lista-documentos',
@@ -26,8 +27,9 @@ export class MListaDocumentosComponent implements OnInit {
   selected = [];
   mensajeErrorGenerico = "Ocurrio un error interno.";
   errorGeneral: any = { isError: false, errorMessage: '' };
+  errorAddFiles: any = { isError: false, errorMessage: '' };
   @Input() codeForm: any;
-  @Input() FincaId: any;
+  @Input() code: any;
   titleModal: any;
   subTitleModal: any;
   @ViewChild(DatatableComponent) tblListDocuments: DatatableComponent;
@@ -54,6 +56,9 @@ export class MListaDocumentosComponent implements OnInit {
     } else if (this.codeForm === 'frmMdlAttachments') {
       this.titleModal = 'CARGA DE OTROS DOCUMENTOS';
       this.subTitleModal = 'LISTA DE DOCUMENTOS';
+    } else if (this.codeForm === 'frmMdlSocioDocuments') {
+      this.titleModal = 'CARGA DE DOCUMENTOS DEL SOCIO';
+      this.subTitleModal = 'LISTA DE FINCAS DEL PROVEEDOR - DOCUMENTOS SOCIO';
     }
     this.LoadFormAddFiles();
     this.LoadFiles();
@@ -112,7 +117,7 @@ export class MListaDocumentosComponent implements OnInit {
   GetPhotosGeoreferenced(): void {
     this.spinner.show();
     this.errorGeneral = { isError: false, errorMessage: '' };
-    this.fotoGeoreferenciadaService.SearchByFincaId({ FincaId: this.FincaId }).subscribe((res: any) => {
+    this.fotoGeoreferenciadaService.SearchByFincaId({ FincaId: this.code }).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.rows = res.Result.Data;
@@ -129,7 +134,7 @@ export class MListaDocumentosComponent implements OnInit {
   GetAttachments(): void {
     this.spinner.show();
     this.errorGeneral = { isError: false, errorMessage: '' };
-    this.documentoAdjuntoService.SearchByFincaId({ FincaId: this.FincaId }).subscribe((res: any) => {
+    this.documentoAdjuntoService.SearchByFincaId({ FincaId: this.code }).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.rows = res.Result.Data;
@@ -145,12 +150,29 @@ export class MListaDocumentosComponent implements OnInit {
 
   LoadFormAddFiles(): void {
     this.agregarArchivoForm = this.fb.group({
-      descripcion: [''],
-      file: [''],
+      descripcion: ['', Validators.required],
+      file: ['', Validators.required],
       fileName: [''],
       pathFile: [''],
       estado: ['']
     });
+    this.agregarArchivoForm.setValidators(this.addValidations());
+  }
+
+  get fm() {
+    return this.agregarArchivoForm.controls;
+  }
+
+  addValidations(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors => {
+
+      if (!group.value.descripcion || !group.value.file) {
+        this.errorAddFiles = { isError: true, errorMessage: 'Por favor ingresar ambos valores.' };
+      } else {
+        this.errorAddFiles = { isError: false, errorMessage: '' };
+      }
+      return;
+    };
   }
 
   fileChange(event: any): void {
@@ -162,13 +184,31 @@ export class MListaDocumentosComponent implements OnInit {
     }
   }
 
-  Descargar(): void {
-    const nombreFile = this.agregarArchivoForm.value.fileName;
-    const rutaFile = this.agregarArchivoForm.value.pathFile;
+  Descargar(data?: any): void {
+    let nombreFile = '';
+    let rutaFile = ''
+    if (data) {
+      nombreFile = data.Nombre;
+      rutaFile = data.Path;
+    } else {
+      nombreFile = this.agregarArchivoForm.value.fileName;
+      rutaFile = this.agregarArchivoForm.value.pathFile;
+    }
+
     if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
-      window.open(`${host}FincaFotoGeoreferenciada/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`, '_blank');
+      let link = document.createElement('a');
+      document.body.appendChild(link);
+      link.href = `${host}FincaFotoGeoreferenciada/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`;
+      link.target = "_blank";
+      link.click();
+      link.remove();
     } else if (this.codeForm === 'frmMdlAttachments') {
-      window.open(`${host}FincaDocumentoAdjunto/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`, '_blank');
+      let link = document.createElement('a');
+      document.body.appendChild(link);
+      link.href = `${host}FincaFotoGeoreferenciada/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`;
+      link.target = "_blank";
+      link.click();
+      link.remove();
     }
   }
 
@@ -185,7 +225,7 @@ export class MListaDocumentosComponent implements OnInit {
   GetRequestPhoto(): any {
     return {
       FincaFotoGeoreferenciadaId: Number(this.idFincaFotoGeoreferenciada),
-      FincaId: Number(this.FincaId),
+      FincaId: Number(this.code),
       Nombre: this.agregarArchivoForm.value.fileName,
       Descripcion: this.agregarArchivoForm.value.descripcion,
       Path: this.agregarArchivoForm.value.pathFile,
@@ -197,7 +237,7 @@ export class MListaDocumentosComponent implements OnInit {
   GetRequestDocument(): any {
     return {
       FincaDocumentoAdjuntoId: Number(this.idFincaDocumentoAdjunto),
-      FincaId: Number(this.FincaId),
+      FincaId: Number(this.code),
       Nombre: this.agregarArchivoForm.value.fileName,
       Descripcion: this.agregarArchivoForm.value.descripcion,
       Path: this.agregarArchivoForm.value.pathFile,
@@ -231,6 +271,7 @@ export class MListaDocumentosComponent implements OnInit {
             "Se registro correctamente el documento.",
             () => {
               this.LoadFiles();
+              this.CancelModalAddFiles();
             });
         } else {
           this.alertUtil.alertError("ERROR!", res.Result.Message);
@@ -267,6 +308,7 @@ export class MListaDocumentosComponent implements OnInit {
             "Se actualizó correctamente el documento.",
             () => {
               this.LoadFiles();
+              this.CancelModalAddFiles();
             });
         } else {
           this.alertUtil.alertError("ERROR!", res.Result.Message);
@@ -276,6 +318,11 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
       });
+  }
+
+  CancelModalAddFiles(): void {
+    const btnCancel = document.getElementById('btnCancel');
+    btnCancel.click();
   }
 
 }

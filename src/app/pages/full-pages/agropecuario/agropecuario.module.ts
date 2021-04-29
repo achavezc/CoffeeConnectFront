@@ -27,6 +27,7 @@ import { CertificacionListComponent } from './operaciones/socio/finca/certificac
 import { CertificacionEditComponent } from './operaciones/socio/finca/certificaciones/edit/certificacion-edit.component';
 import { ProyectosComponent } from './operaciones/socio/proyectos/proyectos.component';
 import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectosedit/proyectos-edit.component';
+import { ModalModule } from '../modals/modal.module';
 
 @NgModule({
   declarations: [SocioComponent, SocioEditComponent, FincaComponent, FincaEditComponent, CertificacionListComponent, CertificacionEditComponent, ProyectosComponent, ProyectosEditComponent],
@@ -49,7 +50,8 @@ import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectose
     PipeModule,
     MatchHeightModule,
     AgropecuarioRoutingModule,
-    FileUploadModule
+    FileUploadModule,
+    ModalModule
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
