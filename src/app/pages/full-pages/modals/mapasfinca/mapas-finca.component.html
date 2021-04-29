@@ -9,7 +9,7 @@
   <form [formGroup]="mapasFincaForm" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;">
     <ngx-spinner></ngx-spinner>
 
-    <div class="form-row">
+<!--     <div class="form-row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group row">
           <label for="nombre" class="col-2 col-form-label pr-0">Nombre</label>
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <ng-template #customContent let-c="close" let-d="dismiss">
       <div class="modal-header" style="text-align: center;">
@@ -41,7 +41,9 @@
                   <div class="form-group row">
                     <label for="nombre" class="col-2 col-form-label pr-0">Descripcion</label>
                     <div class="col-3">
-                      <input type="text" class="form-control" formControlName="descripcion">
+                      <input type="text" class="form-control" formControlName="descripcion"
+                      [ngClass]="{ 'is-invalid': submittedE && f.descripcion.invalid, 'is-valid': submittedE &&  !f.descripcion.invalid }"
+                      >
                     </div>
                   </div>
                 </div>
@@ -53,7 +55,7 @@
                     <div class="col-3">
                       <label class="custom-file">
                         <input type="file" (change)="fileChange($event)" placeholder="Upload file"
-                          accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+                          accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx" >
                       </label>
                     </div>
                   </div>
@@ -94,7 +96,12 @@
 
           <ngx-datatable-column name="Descripcion" prop="Descripcion" width="40">
           </ngx-datatable-column>
-          <ngx-datatable-column name="Archivo" prop="Nombre" width="60">
+        
+          
+          <ngx-datatable-column name="Archivo" prop="Nombre" width="40">
+            <ng-template let-row="row" let-status="value" ngx-datatable-cell-template>
+              <a role="button" (click)="DescargarDetalle(row)" style="color: blue;">{{status}}</a>
+            </ng-template>
           </ngx-datatable-column>
 
         </ngx-datatable>

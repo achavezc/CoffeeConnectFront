@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../services/maestro.service';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MapaFincaService } from '../../../../services/mapafinca.service';
@@ -18,6 +18,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   encapsulation: ViewEncapsulation.None
 })
 export class MapasFincaComponent implements OnInit {
+  
   private url = `${host}FincaMapa`;
   @ViewChild('vform') validationForm: FormGroup;
   submittedE = false;
@@ -64,10 +65,10 @@ export class MapasFincaComponent implements OnInit {
     this.mapaFileForm = new FormGroup(
       {
         estado: new FormControl('', []),
-        file: new FormControl('', []),
+        file: new FormControl('', [Validators.required]),
         fileName: new FormControl('', []),
         pathFile: new FormControl('', []),
-        descripcion: new FormControl('', [])
+        descripcion: new FormControl('', [Validators.required])
       })
 
   }
@@ -110,6 +111,9 @@ export class MapasFincaComponent implements OnInit {
   get fe() {
     return this.mapasFincaForm.controls
   }
+  get f() {
+    return this.mapaFileForm.controls
+  }
 
   fileChange(event) {
 
@@ -126,7 +130,8 @@ export class MapasFincaComponent implements OnInit {
 
   onSubmit() {
     if (!this.mapaFileForm.invalid) {
-      this.submitted = false;
+      
+      this.submittedE = false;
       if (this.FincaMapaId > 0) {
         this.actualizarDocumento();
       } else {
@@ -134,7 +139,7 @@ export class MapasFincaComponent implements OnInit {
       }
 
     } else {
-      this.submitted = true;
+      this.submittedE = true;
       return;
     }
   }
@@ -169,6 +174,12 @@ export class MapasFincaComponent implements OnInit {
   Descargar() {
     var nombreFile = this.mapaFileForm.value.fileName;
     var rutaFile = this.mapaFileForm.value.pathFile;
+    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
+
+  }
+  DescargarDetalle(row) {
+    var nombreFile = row.Nombre;
+    var rutaFile = row.Path;
     window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
 
   }
@@ -244,6 +255,8 @@ export class MapasFincaComponent implements OnInit {
   cancelarDocumento() {
 
     this.cargarFiles();
+    this.modalService.dismissAll();
+   // this.activeModal.dismiss();
   }
 
   eliminar() {
