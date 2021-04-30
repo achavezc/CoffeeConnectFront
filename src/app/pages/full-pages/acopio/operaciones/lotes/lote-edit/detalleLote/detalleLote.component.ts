@@ -2,6 +2,7 @@ import { Component, Input, OnInit ,ViewChild} from '@angular/core';
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,ControlContainer} from '@angular/forms';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector:'app-detalleLote',
@@ -15,10 +16,20 @@ export class DetalleLoteComponent implements OnInit {
     rows: any[] = [];
     tempRows: any[];
     errorGeneral = { isError: false, msgError: '' };
+    popUp = true;
+    detalleLotes: any[] =[];
 
-    constructor( private controlContainer: ControlContainer)
+    constructor( private controlContainer: ControlContainer,
+      private modalService: NgbModal)
     {
 
+    }
+    openModal(modalNotaIngresoAlmacen) {
+      this.modalService.open(modalNotaIngresoAlmacen, { windowClass: 'dark-modal', size: 'xl' });
+  
+    }
+    close() {
+      this.modalService.dismissAll();
     }
     ngOnInit(): void {
         this.detalleLoteFormGroup = <FormGroup> this.controlContainer.control;
@@ -38,8 +49,30 @@ export class DetalleLoteComponent implements OnInit {
       }
 
       cargarDatos(detalleLotes:any){
+        this.detalleLotes = detalleLotes.listaDetalle;
         this.tempRows = detalleLotes.listaDetalle;
         this.rows = [...detalleLotes.listaDetalle];
+      }
+
+      agregarNotaIngreso($event)
+      {
+       
+       $event.forEach(x=>{
+          let object : any = {};  
+          object.NumeroNotaIngresoAlmacen = x.Numero;
+          object.FechaIngresoAlmacen = x.FechaRegistro;
+          object.CodigoSocio = x.CodigoSocio;
+          object.UnidadMedida = x.UnidadMedida;
+          object.CantidadPesado = x.CantidadPesado;
+          object.KilosBrutosPesado = x.KilosBrutosPesado;
+          object.KilosNetosPesado = x.KilosNetosPesado;
+          object.TotalAnalisisSensorial = x.TotalAnalisisSensorial;
+          object.RendimientoPorcentaje = x.RendimientoPorcentaje;
+          object.HumedadPorcentaje = x.HumedadPorcentajeAnalisisFisico;
+          this.detalleLotes.push(object);
+        });
+        this.tempRows = this.detalleLotes;
+        this.rows = [...this.detalleLotes];
       }
 
       

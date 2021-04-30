@@ -13,6 +13,7 @@ import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-sa
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import {LoteService} from '../../../../../../../../services/lote.service';
 import {OrdenservicioControlcalidadService} from '../../../../../../../../services/ordenservicio-controlcalidad.service'
+
 @Component({
   selector: 'app-controlCalidadHumedo',
   templateUrl: './controlCalidadHumedo.component.html',
@@ -48,7 +49,8 @@ export class ControlCalidadComponentHumedo implements OnInit {
         private notaSalidaAlmacenService:NotaSalidaAlmacenService,
         private maestroService: MaestroService,
         private loteService: LoteService,
-        private ordenServicio : OrdenservicioControlcalidadService){
+        private ordenServicio : OrdenservicioControlcalidadService
+        ){
        } 
 
        cargarForm() {
@@ -248,7 +250,7 @@ if (this.detalle.AnalisisFisicoOlorDetalle!= null)
     } 
     else if (this.form == "ordenServicio")
     {
-      this.ordenServicio.ActualizarAnalisisCalidad(this.reqControlCalidad)
+     this.ordenServicio.ActualizarAnalisisCalidad(this.reqControlCalidad)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

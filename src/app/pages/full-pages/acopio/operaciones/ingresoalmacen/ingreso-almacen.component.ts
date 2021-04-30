@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -56,6 +56,8 @@ export class IngresoAlmacenComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
   userSession: any = {};
+  @Input() popUp = false;
+  @Output() agregarEvent = new EventEmitter<any>();
 
   ngOnInit(): void {
     this.LoadForm();
@@ -552,6 +554,11 @@ export class IngresoAlmacenComponent implements OnInit {
       }
     }
     return result;
+  }
+
+  Agregar(selected : any)
+  {
+    this.agregarEvent.emit(selected)
   }
 
 }
