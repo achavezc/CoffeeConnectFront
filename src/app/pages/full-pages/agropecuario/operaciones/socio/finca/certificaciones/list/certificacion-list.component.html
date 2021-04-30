@@ -46,7 +46,14 @@
                         <div class="cell-line-height">
                             <a class="line-height-1 mb-0"
                                 [routerLink]="['/agropecuario/operaciones/socio/finca/certificaciones/create']"
-                                [queryParams]=" { SocioFincaId: row.SocioFincaId, SocioFincaCertificacionId: row.SocioFincaCertificacionId}"
+                                [queryParams]=
+                                " { 
+                                    SocioFincaId: row.SocioFincaId, 
+                                    SocioFincaCertificacionId: row.SocioFincaCertificacionId,
+                                    ProductorId: this.ProductorId,
+                                    SocioId: this.SocioId
+                                
+                                }"
                             >
                                 {{ name }}
                             </a>

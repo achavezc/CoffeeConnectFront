@@ -65,7 +65,7 @@ export class MapasFincaComponent implements OnInit {
     this.mapaFileForm = new FormGroup(
       {
         estado: new FormControl('', []),
-        file: new FormControl('', [Validators.required]),
+        file: new FormControl('', []),
         fileName: new FormControl('', []),
         pathFile: new FormControl('', []),
         descripcion: new FormControl('', [Validators.required])
@@ -135,7 +135,12 @@ export class MapasFincaComponent implements OnInit {
       if (this.FincaMapaId > 0) {
         this.actualizarDocumento();
       } else {
-        this.guardarDocumento();
+        if(this.mapaFileForm.get('file').value){
+          this.guardarDocumento();
+        }else {
+          this.submittedE = true;
+          return;
+        }
       }
 
     } else {
@@ -147,7 +152,7 @@ export class MapasFincaComponent implements OnInit {
   openModal(customContent) {
     this.FincaMapaId = 0;
     this.fileName = "";
-    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
+    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg',centered: true });
 
   }
 
@@ -163,7 +168,7 @@ export class MapasFincaComponent implements OnInit {
       this.mapaFileForm.controls.descripcion.setValue(this.selected[0].Descripcion);
       this.fileName = this.selected[0].Nombre
 
-      this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
+      this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg',centered: true });
 
     } else {
       this.errorGeneral = { isError: true, errorMessage: "Selecciones un elemento del listado" };

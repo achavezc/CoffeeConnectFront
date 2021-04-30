@@ -80,7 +80,15 @@ export class CertificacionListComponent implements OnInit {
   }
 
   New(){
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones/create`], { queryParams: { SocioFincaId: this.vId}})
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones/create`], 
+    { 
+      queryParams: 
+      { 
+        SocioFincaId: this.vId,
+        ProductorId: this.ProductorId,
+        SocioId: this.SocioId
+      }
+    })
   }
 
   Cancelar(){

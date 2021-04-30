@@ -64,7 +64,7 @@ export class FincaEditComponent implements OnInit {
   rows: any[];
   selectEmpresa: any[];
   FincaId = 0;
-
+  esEdit = false;
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
     this.LoadForm();
@@ -75,7 +75,9 @@ export class FincaEditComponent implements OnInit {
 
     if (this.vId > 0) {
       this.SearchProducerFincaById();
+      this.esEdit = true;
     } else {
+      this.esEdit = false;
       this.route.queryParams.subscribe((res: any) => {
         this.vCodProductor = parseInt(res.codProductor)
       });
