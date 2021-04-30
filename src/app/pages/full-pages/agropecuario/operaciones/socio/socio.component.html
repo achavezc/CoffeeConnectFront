@@ -94,7 +94,13 @@
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!socioListForm.valid"
                                 (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Documentos</button>
+                            <ng-template #mdlSocioDocuments let-c="close" let-d="dismiss">
+                                <app-lista-documentos [codeForm]="'frmMdlSocioDocuments'" [code]="1">
+                                </app-lista-documentos>
+                            </ng-template>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                (click)="OpenModal(mdlSocioDocuments)"
+                                [disabled]="selected.length <= 0">Documentos</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoFinca()"
                                 [disabled]="selected.length <= 0">Fincas</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoProjects()"

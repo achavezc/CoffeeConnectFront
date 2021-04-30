@@ -19,6 +19,7 @@ import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/sec
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 
 
+
 @Component({
   selector: 'app-materiaprima-list',
   templateUrl: './materiaprima-edit.component.html',
@@ -139,7 +140,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         provDistrito: ['', Validators.required],
         provZona: ['', Validators.required],
         provFinca: ['',],
-        provCertificacion: ['',],        
+        provCertificacion: ['',],
         fechaCosecha: ['', Validators.required],
         guiaReferencia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaPesado: ['',],
@@ -331,13 +332,11 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(null);
     this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(null);
 
-    if (e[0].Certificacion == "")
-    {
+    if (e[0].Certificacion == "") {
       this.selectTipoProduccion = this.tipoProduccionConvencional;
       this.consultaMateriaPrimaFormEdit.controls.tipoProduccion.disable();
     }
-    else
-    {
+    else {
       this.selectTipoProduccion = [];
       this.consultaMateriaPrimaFormEdit.controls.tipoProduccion.enable();
     }
@@ -671,12 +670,12 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   }
 
-  async consultarSocioFinca()
-  {
-    let request = 
+  async consultarSocioFinca() {
+    let request =
     {
       "SocioFincaId": Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
     }
+
    if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
    this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" )
    {
@@ -699,23 +698,18 @@ export class MateriaPrimaEditComponent implements OnInit {
             else{
               this.btnGuardar = true;
             }
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
+        } },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
   }
-}
 
 }
 

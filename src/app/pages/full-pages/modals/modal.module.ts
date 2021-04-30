@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChartistModule } from "ng-chartist";
 import { AgmCoreModule } from "@agm/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { PipeModule } from "../../../shared/pipes/pipe.module";
@@ -22,6 +22,9 @@ import { MConsultarEmpresaComponent } from '../modals/consultarEmpresa/consultar
 import { MConsultarClienteComponent } from '../modals/consultarcliente/consultar-cliente.component';
 import { MConsultarContratoComponent } from './consultarcontrato/consultar-contrato.component'
 import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component';
+import { MListaDocumentosComponent } from './listadocumentos/lista-documentos.component';
+import { MAgregarArchivoComponent } from './agregararchivo/agregar-archivo.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -40,21 +43,25 @@ import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component'
     TagInputModule,
     QuillModule,
     MatchHeightModule,
-    NgxSpinnerModule,
+    NgxSpinnerModule
   ],
   declarations: [
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
     MapasFincaComponent,
+    MListaDocumentosComponent,
     MConsultarClienteComponent,
-    MConsultarContratoComponent
+    MConsultarContratoComponent,
+    MAgregarArchivoComponent
   ],
   exports: [
     MConsultarLotesComponent,
     MConsultarEmpresaComponent,
     MapasFincaComponent,
+    MListaDocumentosComponent,
     MConsultarClienteComponent,
-    MConsultarContratoComponent
+    MConsultarContratoComponent,
+    MAgregarArchivoComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

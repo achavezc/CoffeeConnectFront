@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, Validators,FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { LoteService } from '../../../../../../services/lote.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
-import {DetalleLoteComponent} from '../lote-edit/detalleLote/detalleLote.component'
+import { DetalleLoteComponent } from '../lote-edit/detalleLote/detalleLote.component'
 
 @Component({
   selector: 'app-lote-edit',
@@ -27,7 +28,8 @@ export class LoteEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private alert: AlertUtil,
-    private dateUtil: DateUtil) { }
+    private dateUtil: DateUtil,
+    private modalService: NgbModal) { }
 
   loteEditForm: any;
   listAlmacenes: any[];
@@ -83,8 +85,15 @@ export class LoteEditComponent implements OnInit {
         promedioRendimiento: new FormControl('', []),
         promedioHumedad: new FormControl('', []),
         promedioPuntajeFinal: new FormControl('', []),
-       
+
       }),
+      idContrato: [],
+      contrato: [],
+      cliente: [],
+      unidadMedida: [],
+      cantidad: [],
+      kilosNetos: [],
+      kilosPendientes: []
     });
   }
   get f() {
@@ -156,7 +165,7 @@ export class LoteEditComponent implements OnInit {
     if (row.AlmacenId && this.listAlmacenes.find(x => x.Codigo == row.AlmacenId)) {
       this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
     }
-    
+
     if (row.UnidadMedida) {
       this.loteEditForm.controls.detalleLote.controls.unidadMedida.setValue(row.UnidadMedida);
     }
@@ -169,10 +178,10 @@ export class LoteEditComponent implements OnInit {
     if (row.TotalKilosBrutosPesado) {
       this.loteEditForm.controls.detalleLote.controls.totalPesoNeto.setValue(row.TotalKilosBrutosPesado);
     }
-    if (row.RendimientoPorcentaje){
+    if (row.RendimientoPorcentaje) {
       this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);
     }
-    
+
     if (row.HumedadPorcentajeAnalisisFisico) {
       this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);
     }
@@ -260,5 +269,31 @@ export class LoteEditComponent implements OnInit {
 
   Cancel(): void {
     this.router.navigate(['/acopio/operaciones/lotes-list']);
+  }
+
+  OpenModal(modal: any): void {
+    this.modalService.open(modal, { size: 'xl', centered: true })
+  }
+
+  GetDataMdlContrato(event: any): void {
+    if (event) {
+      const data = event[0];
+      if (data.ContratoId) {
+        this.loteEditForm.controls.idContrato.setValue(data.ContratoId);
+      }
+      if (data.Numero) {
+        this.loteEditForm.controls.contrato.setValue(data.Numero);
+      }
+      if (data.Cliente) {
+        this.loteEditForm.controls.cliente.setValue(data.Cliente);
+      }
+      this.loteEditForm.controls.cantidad.setValue(data.Cantidad);
+      if (data.UnidadMedida) {
+        this.loteEditForm.controls.unidadMedida.setValue(data.UnidadMedida);
+      }
+      this.loteEditForm.controls.kilosNetos.setValue(data.KilosNetos);
+
+    }
+    this.modalService.dismissAll();
   }
 }

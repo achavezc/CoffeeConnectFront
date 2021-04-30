@@ -1,14 +1,15 @@
-import { Component,ViewChild, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../../services/maestro.service';
 import { ProductorFincaService } from '../../../../../../../services/productor-finca.service';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-finca-edit',
@@ -29,7 +30,7 @@ export class FincaEditComponent implements OnInit {
     private alertUtil: AlertUtil,
     private router: Router,
     private modalService: NgbModal
-    ) { }
+  ) { }
 
   fincaEditForm: any;
   listDepartamentos: any[];
@@ -63,7 +64,7 @@ export class FincaEditComponent implements OnInit {
   rows: any[];
   selectEmpresa: any[];
   FincaId = 0;
-  
+
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
     this.LoadForm();
@@ -71,6 +72,7 @@ export class FincaEditComponent implements OnInit {
     this.AddValidations();
     this.vCodProductor = undefined;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+
     if (this.vId > 0) {
       this.SearchProducerFincaById();
     } else {
@@ -452,9 +454,8 @@ export class FincaEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  
-  openModal(modalMapasFinca) {
-    this.modalService.open(modalMapasFinca, { windowClass: 'dark-modal', size: 'xl' });
+  openModal(modal) {
+    this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
 }

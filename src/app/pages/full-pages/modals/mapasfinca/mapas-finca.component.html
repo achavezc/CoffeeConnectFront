@@ -1,103 +1,111 @@
 <div class="modal-header" style="text-align: center;">
 
-    <h4 class="modal-title" style="font-size: 1rem;">CARGA DE MAPA DE LA FINCA</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+  <h4 class="modal-title" style="font-size: 1rem;">CARGA DE MAPA DE LA FINCA</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
-  <div class="modal-body">
-    <form [formGroup]="mapasFincaForm" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;">
-      <ngx-spinner></ngx-spinner>
+<div class="modal-body">
+  <form [formGroup]="mapasFincaForm" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;">
+    <ngx-spinner></ngx-spinner>
 
-      <div class="form-row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="form-group row">
-                    <label for="nombre" class="col-2 col-form-label pr-0">Nombre</label>
-                    <div class="col-3">
-                        <label for="nombreValue" class="col-6 col-form-label pr-0">Datos Prueba</label>
-                    </div>
-                </div>
-            </div>
-     </div>
-     
-     <ng-template #customContent let-c="close" let-d="dismiss">
-        <div class="modal-header" style="text-align: center;">
-
-          <h4 class="modal-title" style="font-size: 1rem;">AGREGAR DOCUMENTO</h4>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="card-header text-center" style="padding-bottom: 0px;padding-top: 0px;">
-                REGISTRO DE DOCUMENTO
-            </div>
-          <form [formGroup]="mapaFileForm" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;" >
-            <ngx-spinner></ngx-spinner>
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group row">
-                                <label for="nombre" class="col-2 col-form-label pr-0">Descripcion</label>
-                                <div class="col-3">
-                                    <input type="text"  class="form-control" formControlName="descripcion" >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group row">
-                                <label for="documento" class="col-2 col-form-label pr-0">Documento</label>
-                                <div class="col-3">
-                                    <label class="custom-file">
-                                        <input type="file" (change)="fileChange($event)" placeholder="Upload file"  accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
-                                      </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-
-                      <div class="col-md-6 mb-6 form-group mb-2">
-                        
-                      </div>
-                      <div class="col-md-6 mb-6 form-group mb-2">
-                        <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-primary mr-1 mb-1" (click)="onSubmit()">Guardar</button>
-            <button class="btn btn-primary mr-1 mb-1" (click)="d('Cross click')">Cancelar</button>
-          </form>
-        </div>
-      </ng-template>
-     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModal(customContent)">Nuevo</button>
-     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalEditar(customContent)">Editar</button>
-     <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="eliminar()">Eliminar</button>
-
-     <small class="form-text text-muted danger"
-     *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-
-    <div class="row" style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-        <div class="card-subtitle-form">LISTA DE DOCUMENTOS</div>
-    </div>
-    <div class="row" style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem;">
-        <div class="col-12">
-          <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableProveedor
-            [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-            [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
-            [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
-
-            <ngx-datatable-column name="Descripcion" prop="Descripcion" width="40">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Archivo" prop="Nombre" width="60">
-            </ngx-datatable-column>
-          
-          </ngx-datatable>
+<!--     <div class="form-row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group row">
+          <label for="nombre" class="col-2 col-form-label pr-0">Nombre</label>
+          <div class="col-3">
+            <label for="nombreValue" class="col-6 col-form-label pr-0">Datos Prueba</label>
+          </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div> -->
+
+    <ng-template #customContent let-c="close" let-d="dismiss">
+      <div class="modal-header" style="text-align: center;">
+
+        <h4 class="modal-title" style="font-size: 1rem;">AGREGAR DOCUMENTO</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-header text-center" style="padding-bottom: 0px;padding-top: 0px;">
+          REGISTRO DE DOCUMENTO
+        </div>
+        <form [formGroup]="mapaFileForm" class="needs-validation" style="padding-left: 0.3rem; padding-right: 0.3rem;">
+          <ngx-spinner></ngx-spinner>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group row">
+                    <label for="nombre" class="col-2 col-form-label pr-0">Descripcion</label>
+                    <div class="col-3">
+                      <input type="text" class="form-control" formControlName="descripcion"
+                      [ngClass]="{ 'is-invalid': submittedE && f.descripcion.invalid, 'is-valid': submittedE &&  !f.descripcion.invalid }"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group row">
+                    <label for="documento" class="col-2 col-form-label pr-0">Documento</label>
+                    <div class="col-3">
+                      <label class="custom-file">
+                        <input type="file" (change)="fileChange($event)" placeholder="Upload file"
+                          accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx" >
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+
+                <div class="col-md-6 mb-6 form-group mb-2">
+
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary mr-1 mb-1" (click)="onSubmit()">Guardar</button>
+          <button class="btn btn-primary mr-1 mb-1" (click)="d('Cross click')">Cancelar</button>
+        </form>
+      </div>
+    </ng-template>
+    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModal(customContent)">Nuevo</button>
+    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalEditar(customContent)">Editar</button>
+    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="eliminar()">Eliminar</button>
+
+    <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+
+    <div class="row"
+      style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+      <div class="card-subtitle-form">LISTA DE DOCUMENTOS</div>
+    </div>
+    <div class="row" style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem;">
+      <div class="col-12">
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableProveedor
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
+          [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selected"
+          [selectionType]="'single'">
+
+          <ngx-datatable-column name="Descripcion" prop="Descripcion" width="40">
+          </ngx-datatable-column>
+        
+          
+          <ngx-datatable-column name="Archivo" prop="Nombre" width="40">
+            <ng-template let-row="row" let-status="value" ngx-datatable-cell-template>
+              <a role="button" (click)="DescargarDetalle(row)" style="color: blue;">{{status}}</a>
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </div>
+    </div>
+  </form>
+</div>

@@ -4,6 +4,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router, NavigationExtras } from '@angular/router';
 import swal from 'sweetalert2';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
@@ -24,7 +25,8 @@ export class SocioComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private socioService: SocioService,
-    private router: Router) {
+    private router: Router,
+    private modalService: NgbModal) {
   }
 
   socioListForm: FormGroup;
@@ -86,13 +88,10 @@ export class SocioComponent implements OnInit {
 
       if (!group.value.codSocio && !group.value.nombRazonSocial && !group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
-        // group.controls['nombRazonSocial'].setErrors({ isError: true, message: 'Por favor ingresar una razón social.' });
       } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
-        // group.controls['tipoDocumento'].setErrors({ isError: true, message: 'Por favor seleccionar un tipo de documento.' });
       } else if (!group.value.nroDocumento && group.value.tipoDocumento) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un número de documento.' };
-        // group.controls['nroDocumento'].setErrors({ isError: true, message: 'Por favor ingresar un número de documento.' });
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -197,5 +196,12 @@ export class SocioComponent implements OnInit {
 
   GoProjects(): void {
     this.router.navigate(['/agropecuario/operaciones/socio/proyectos/list/' + 1]);
+  }
+
+  OpenModal(modal: any): void {
+    // const res = this.modalService.open(modal, { size: 'xl', centered: true });
+    // res.componentInstance.codeForm = 'frmMdlListaFotosGeoreferenciadas';
+    // res.componentInstance.FincaId = 0;
+    this.modalService.open(modal, { size: 'xl', centered: true });
   }
 }

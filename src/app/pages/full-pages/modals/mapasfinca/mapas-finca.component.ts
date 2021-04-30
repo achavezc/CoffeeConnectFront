@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../services/maestro.service';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MapaFincaService } from '../../../../services/mapafinca.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../services/models/login';
 import { AlertUtil } from '../../../../services/util/alert-util';
-import {HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { host } from '../../../../shared/hosts/main.host';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
@@ -18,6 +18,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   encapsulation: ViewEncapsulation.None
 })
 export class MapasFincaComponent implements OnInit {
+  
   private url = `${host}FincaMapa`;
   @ViewChild('vform') validationForm: FormGroup;
   submittedE = false;
@@ -32,7 +33,7 @@ export class MapasFincaComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   errorGeneral: any = { isError: false, errorMessage: '' };
   FincaMapaId = 0;
-  @Input() FincaId : any;
+  @Input() FincaId: any;
   @Output() empresaEvent = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
   fileName = "";
@@ -40,10 +41,10 @@ export class MapasFincaComponent implements OnInit {
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
-    private alertUtil : AlertUtil,
+    private alertUtil: AlertUtil,
     private httpClient: HttpClient,
     private mapaFincaService: MapaFincaService
-    ) {
+  ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -64,15 +65,15 @@ export class MapasFincaComponent implements OnInit {
     this.mapaFileForm = new FormGroup(
       {
         estado: new FormControl('', []),
-        file: new FormControl('', []),
+        file: new FormControl('', [Validators.required]),
         fileName: new FormControl('', []),
         pathFile: new FormControl('', []),
-        descripcion: new FormControl('', [])
+        descripcion: new FormControl('', [Validators.required])
       })
 
   }
 
-  cargarFiles(){
+  cargarFiles() {
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -81,12 +82,12 @@ export class MapasFincaComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.mapaFincaService.ConsultarPorFincaId({"FincaId": this.FincaId})
+    this.mapaFincaService.ConsultarPorFincaId({ "FincaId": this.FincaId })
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-          
+
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
             this.selected = [];
@@ -110,44 +111,48 @@ export class MapasFincaComponent implements OnInit {
   get fe() {
     return this.mapasFincaForm.controls
   }
+  get f() {
+    return this.mapaFileForm.controls
+  }
 
   fileChange(event) {
-    
+
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.mapaFileForm.patchValue({
         file: file
       });
       this.mapaFileForm.get('file').updateValueAndValidity()
-      
+
     }
-    
+
   }
 
   onSubmit() {
     if (!this.mapaFileForm.invalid) {
-      this.submitted = false;
+      
+      this.submittedE = false;
       if (this.FincaMapaId > 0) {
         this.actualizarDocumento();
-      }else{
+      } else {
         this.guardarDocumento();
       }
-      
-    }else{
-      this.submitted = true;
+
+    } else {
+      this.submittedE = true;
       return;
     }
   }
 
   openModal(customContent) {
     this.FincaMapaId = 0;
-    this.fileName =  "";
+    this.fileName = "";
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
 
   }
 
   openModalEditar(customContent) {
-    if(this.selected.length>0){ 
+    if (this.selected.length > 0) {
       this.FincaMapaId = this.selected[0].FincaMapaId;
       this.errorGeneral = { isError: false, errorMessage: "" };
 
@@ -156,11 +161,11 @@ export class MapasFincaComponent implements OnInit {
       this.mapaFileForm.controls.fileName.setValue(this.selected[0].Nombre);
       this.mapaFileForm.controls.pathFile.setValue(this.selected[0].Path);
       this.mapaFileForm.controls.descripcion.setValue(this.selected[0].Descripcion);
-      this.fileName =  this.selected[0].Nombre
-      
+      this.fileName = this.selected[0].Nombre
+
       this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
-      
-    }else{
+
+    } else {
       this.errorGeneral = { isError: true, errorMessage: "Selecciones un elemento del listado" };
     }
 
@@ -169,84 +174,92 @@ export class MapasFincaComponent implements OnInit {
   Descargar() {
     var nombreFile = this.mapaFileForm.value.fileName;
     var rutaFile = this.mapaFileForm.value.pathFile;
-    window.open(this.url+'/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile , '_blank');
- 
+    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
+
+  }
+  DescargarDetalle(row) {
+    var nombreFile = row.Nombre;
+    var rutaFile = row.Path;
+    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
+
   }
 
-  guardarDocumento(){
+  guardarDocumento() {
     this.spinner.show();
     const request = this.GetRequest();
     const formData = new FormData();
     formData.append('file', this.mapaFileForm.get('file').value);
-    formData.append('request',  JSON.stringify(request));
+    formData.append('request', JSON.stringify(request));
     const headers = new HttpHeaders();
     headers.append('enctype', 'multipart/form-data');
     this.httpClient
-     .post(this.url + '/Registrar', formData, { headers })
-     .subscribe((res: any) => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-          "Se registro correctamente el documento.",
-          () => {
-            this.cancelarDocumento();
-          });
-      } else {
-        this.alertUtil.alertError("ERROR!", res.Result.Message);
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.spinner.hide();
-      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-    });
+      .post(this.url + '/Registrar', formData, { headers })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+            "Se registro correctamente el documento.",
+            () => {
+              this.cancelarDocumento();
+            });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+      });
   }
-  actualizarDocumento(){
+  actualizarDocumento() {
     this.spinner.show();
     const request = this.GetRequest();
     const formData = new FormData();
     formData.append('file', this.mapaFileForm.get('file').value);
-    formData.append('request',  JSON.stringify(request));
+    formData.append('request', JSON.stringify(request));
     const headers = new HttpHeaders();
     headers.append('enctype', 'multipart/form-data');
     this.httpClient
-     .post(this.url + '/Actualizar', formData, { headers })
-     .subscribe((res: any) => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-          "Se actualizó correctamente el documento.",
-          () => {
-            this.cancelarDocumento();
-          });
-      } else {
-        this.alertUtil.alertError("ERROR!", res.Result.Message);
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.spinner.hide();
-      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-    });
+      .post(this.url + '/Actualizar', formData, { headers })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+            "Se actualizó correctamente el documento.",
+            () => {
+              this.cancelarDocumento();
+            });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+      });
   }
 
 
   GetRequest(): any {
     return {
-        FincaMapaId:  Number(this.FincaMapaId),
-        FincaId: Number(this.FincaId),
-        Nombre:  this.mapaFileForm.value.fileName,
-        Descripcion: this.mapaFileForm.value.descripcion,
-        Path: this.mapaFileForm.value.pathFile,
-        Usuario: 'mruizb',
-        EstadoId: "01"//this.mapaFileForm.value.estado
+      FincaMapaId: Number(this.FincaMapaId),
+      FincaId: Number(this.FincaId),
+      Nombre: this.mapaFileForm.value.fileName,
+      Descripcion: this.mapaFileForm.value.descripcion,
+      Path: this.mapaFileForm.value.pathFile,
+      Usuario: 'mruizb',
+      EstadoId: "01"//this.mapaFileForm.value.estado
     }
   }
 
-  cancelarDocumento(){
+  cancelarDocumento() {
 
-   this.cargarFiles();
+    this.cargarFiles();
+    this.modalService.dismissAll();
+   // this.activeModal.dismiss();
   }
 
-  eliminar(){
+  eliminar() {
 
   }
 

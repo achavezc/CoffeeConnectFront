@@ -8,7 +8,7 @@ import { FincaEditComponent } from './operaciones/socio/finca/fincaedit/finca-ed
 import { CertificacionListComponent } from './operaciones/socio/finca/certificaciones/list/certificacion-list.component';
 import { CertificacionEditComponent } from './operaciones/socio/finca/certificaciones/edit/certificacion-edit.component';
 import { ProyectosComponent } from './operaciones/socio/proyectos/proyectos.component';
-import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectos-edit/proyectos-edit.component';
+import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectosedit/proyectos-edit.component';
 
 const routes: Routes = [
     {
