@@ -16,7 +16,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
-import {SocioFincaService} from './../../../../../../Services/socio-finca.service';
+import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 
 
 @Component({
@@ -86,7 +86,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private socioFinca : SocioFincaService
+   private socioFinca : SocioFincaService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -680,7 +680,7 @@ export class MateriaPrimaEditComponent implements OnInit {
    if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
    this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" )
    {
-    this.socioFinca.SearchSocioFinca(request)
+   this.socioFinca.SearchSocioFinca(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

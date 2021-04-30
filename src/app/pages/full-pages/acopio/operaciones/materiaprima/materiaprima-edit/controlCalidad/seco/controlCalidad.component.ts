@@ -11,8 +11,8 @@ import { ILogin } from '../../../../../../../../services/models/login';
 import { DateUtil } from '../../../../../../../../services/util/date-util';
 import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-salida-almacen.service';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
-import {LoteService} from '../../../../../../../../services/lote.service'
-import {OrdenservicioControlcalidadService} from '../../../../../../../../Services/ordenservicio-controlcalidad.service'
+import {LoteService} from '../../../../../../../../services/lote.service';
+import {OrdenservicioControlcalidadService} from '../../../../../../../../services/ordenservicio-controlcalidad.service';
 
 
 @Component({
@@ -59,7 +59,8 @@ export class ControlCalidadComponent implements OnInit {
     private alertUtil: AlertUtil, private router: Router, private dateUtil: DateUtil,
     private notaSalidaAlmacenService: NotaSalidaAlmacenService, private maestroService: MaestroService,
     private loteService: LoteService,
-    private ordenServicio : OrdenservicioControlcalidadService){
+    private ordenServicio : OrdenservicioControlcalidadService
+    ){
      
   } 
     

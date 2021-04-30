@@ -56,7 +56,7 @@ export class OrdenServicioEditComponent implements OnInit {
     private maestroService: MaestroService,
     private modalService: NgbModal,
     private router: Router,
-    private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
+   private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
     private alertUtil: AlertUtil,
     private route: ActivatedRoute,
     private dateUtil: DateUtil) {
@@ -244,7 +244,7 @@ export class OrdenServicioEditComponent implements OnInit {
       );
   }
   actualizarNotaSalidaService(request: ReqOrdenServicio) {
-    this.ordenservicioControlcalidadService.Actualizar(request)
+   this.ordenservicioControlcalidadService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
