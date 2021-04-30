@@ -668,6 +668,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
 
   }
+  
 
   async consultarSocioFinca() {
     let request =

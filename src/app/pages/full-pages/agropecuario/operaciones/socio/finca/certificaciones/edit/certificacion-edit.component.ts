@@ -39,7 +39,8 @@ export class CertificacionEditComponent implements OnInit {
   SocioFincaCertificacionId = 0;
   objParams: any;
   fileName = "";
-
+  ProductorId = 0;
+  SocioId = 0;
  
   
   constructor(private spinner: NgxSpinnerService,
@@ -60,6 +61,12 @@ export class CertificacionEditComponent implements OnInit {
       if (params) {
         if(params.SocioFincaId){
           this.SocioFincaId = params.SocioFincaId;
+        }
+        if(params.ProductorId){
+          this.ProductorId = params.ProductorId;
+        }
+        if(params.SocioId){
+          this.SocioId = params.SocioId;
         }
         if(params.SocioFincaCertificacionId){
           this.SocioFincaCertificacionId = params.SocioFincaCertificacionId;
@@ -306,7 +313,15 @@ export class CertificacionEditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], { queryParams: { SocioFincaId: this.SocioFincaId}});
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], 
+    { 
+      queryParams: 
+      { 
+        SocioFincaId: this.SocioFincaId,
+        ProductorId: this.ProductorId,
+        SocioId: this.SocioId
+      }
+    });
   }
 
 }
