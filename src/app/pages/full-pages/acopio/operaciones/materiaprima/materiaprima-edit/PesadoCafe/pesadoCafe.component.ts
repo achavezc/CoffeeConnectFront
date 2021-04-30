@@ -82,5 +82,9 @@ export class PesadoCafeComponent implements OnInit {
   }
 
 
+  cleanKilosBrutos()
+  {
+    this.pesadoFormGroup.controls['kilosBruto'].setValue("");
+  }
 
 }

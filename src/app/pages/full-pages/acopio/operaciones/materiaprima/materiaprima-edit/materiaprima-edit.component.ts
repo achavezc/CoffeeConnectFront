@@ -17,6 +17,7 @@ import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
+import {PesadoCafeComponent} from '../materiaprima-edit/pesadoCafe/pesadoCafe.component';
 
 
 
@@ -77,6 +78,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   unidadMedidaPesado: any;
   form: string = "materiaprima"
   btnGuardar = true;
+  @ViewChild(PesadoCafeComponent) child;
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
@@ -204,7 +206,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
     this.cargarSubProducto(filterProducto);
-    this.consultarSocioFinca();
+    this.cleanKilosBrutos();
   }
 
   changeView(e) {
@@ -215,7 +217,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     else {
       this.viewTagSeco = false;
     }
-    this.consultarSocioFinca();
+    this.cleanKilosBrutos();
   }
 
   async cargarSubProducto(codigo: any) {
@@ -352,7 +354,7 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(e[0].ProveedorId);
     }
 
-
+    this.cleanKilosBrutos();
     this.modalService.dismissAll();
   }
 
@@ -673,27 +675,27 @@ export class MateriaPrimaEditComponent implements OnInit {
   async consultarSocioFinca() {
     let request =
     {
-      "SocioFincaId": Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
+      "SocioFincaId": 2000//Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
     }
 
    if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
-   this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" )
+   this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" && this.consultaMateriaPrimaFormEdit.controls["provCertificacion"].value != "")
    {
    this.socioFinca.SearchSocioFinca(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            var form = this;
-            if (res.Result.Data.SaldoPendiente > this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value)
+            if ( res.Result.Data.Estimado != null && res.Result.Data.SaldoPendiente > this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value)
             {
             this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
             this.btnGuardar = false;
 
             }
-            else if (res.Result.Data.SaldoPendiente== 0 && this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].value =="01" )
+            else if (res.Result.Data.Estimado == null )
             {
-              this.btnGuardar = true;
+              this.alertUtil.alertWarning('Oops!', 'La finca no tiene registrado los estimados para el año actual');
+              this.btnGuardar = false;
             }
             else{
               this.btnGuardar = true;
@@ -710,6 +712,11 @@ export class MateriaPrimaEditComponent implements OnInit {
         );
     }
   }
+
+async cleanKilosBrutos()
+ {
+  this.child.cleanKilosBrutos();
+ }
 
 }
 

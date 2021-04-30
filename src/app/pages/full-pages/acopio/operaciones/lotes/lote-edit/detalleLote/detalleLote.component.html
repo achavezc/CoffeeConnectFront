@@ -44,8 +44,8 @@
                             (keyup)="filterUpdate($event)" />
                     </label>
                 </fieldset>
-                <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
-                    [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true">
+                <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-lote" [columnMode]="'force'" [headerHeight]="50"
+                    [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true" [selected]="selected" [selectionType]="'single'">
                     <ngx-datatable-column name="N° DE GUIA" prop="NumeroNotaIngresoAlmacen" width="100">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacen" width="190">
