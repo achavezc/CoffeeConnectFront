@@ -5,7 +5,7 @@
           <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"  (click)="openModal(modalNotaIngresoAlmacen)">Agregar</button>
         </div>
         <div class="cold-2" style="margin-top: 2rem; margin-bottom: 2rem;">
-          <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" >Eliminar</button>
+          <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminar(selected)">Eliminar</button>
         </div>
       </div>
       <ng-template #modalNotaIngresoAlmacen let-c="close" let-d="dismiss">

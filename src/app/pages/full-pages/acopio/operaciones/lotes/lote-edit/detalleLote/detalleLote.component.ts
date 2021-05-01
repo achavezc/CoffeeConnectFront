@@ -102,16 +102,19 @@ export class DetalleLoteComponent implements OnInit {
       eliminar(selected)
       {
         let form = this;
-        this.alertUtil.alertSiNoCallback('Está seguro?', 'La Nota de Ingreso ' + selected[0].Numero + ' se eliminará de su lista.' ,function(result){
+        this.alertUtil.alertSiNoCallback('Está seguro?', 'La Nota de Ingreso ' + selected[0].NumeroNotaIngresoAlmacen + ' se eliminará de su lista.' ,function(result){
           if(result.isConfirmed){
-            let detalle: any[] =[];
-            this.detalleLotes = form.detalleLotes.filter(x=>x.Numero == selected[0].Numero)
-            if (this.detalleLotes.length == 0)
+            let detalleEliminado: any[] =[];
+            detalleEliminado = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen == selected[0].NumeroNotaIngresoAlmacen)
+            if (detalleEliminado.length > 0)
             {
-              this.detalleLotes[0].Accion = "E";
+              detalleEliminado[0].Accion = "E";
+              form.detalleLotes = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen != selected[0].NumeroNotaIngresoAlmacen);
+              form.detalleLotes.push(detalleEliminado[0]);
+              
             }
-            
-            form.tempRows = form.detalleLotes;
+            let d = form.detalleLotes.filter(x=>x.Accion == null || x.Accion == 'N');
+            form.tempRows = d;
             form.rows = [...form.tempRows];
             form.selected= [];
           }
