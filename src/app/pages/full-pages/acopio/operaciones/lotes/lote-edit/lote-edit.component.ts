@@ -152,7 +152,10 @@ export class LoteEditComponent implements OnInit {
       this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
     }
     this.loteEditForm.controls.ruc.setValue(row.Ruc);
+    if(row.TipoCertificacion != null)
+    {
     this.loteEditForm.controls.certificacion.setValue(row.TipoCertificacion);
+    }
     this.loteEditForm.controls.producto.setValue(row.Producto);
     this.loteEditForm.controls.subproducto.setValue(row.SubProducto);
     if (row.SubProductoId == "02") {
