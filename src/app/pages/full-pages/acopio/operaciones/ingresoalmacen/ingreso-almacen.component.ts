@@ -57,6 +57,7 @@ export class IngresoAlmacenComponent implements OnInit {
   selected = [];
   userSession: any = {};
   @Input() popUp = false;
+  @Input() lote;
   @Output() agregarEvent = new EventEmitter<any>();
 
   ngOnInit(): void {
@@ -65,6 +66,37 @@ export class IngresoAlmacenComponent implements OnInit {
     this.ingresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ingresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.userSession = JSON.parse(localStorage.getItem('user'));
+    
+  }
+
+  async LoadFormPopup()
+  {
+    if (this.popUp)
+    {
+     
+      this.ingresoAlmacenForm.controls['estado'].disable();
+      this.ingresoAlmacenForm.controls['estado'].setValue("01");
+      this.ingresoAlmacenForm.controls['producto'].disable();
+      this.ingresoAlmacenForm.controls['producto'].setValue(this.lote.ProductoId);
+      let producto :any ={};
+      producto.Codigo = this.lote.ProductoId;
+      this.changeProduct(producto);
+      this.cargarsubProducto();
+      if (this.lote.TipoCertificacionId != "")
+      {
+      this.ingresoAlmacenForm.controls['certificacion'].disable();
+      this.ingresoAlmacenForm.controls['certificacion'].setValue(this.lote.TipoCertificacionId);
+    
+      }
+      
+    }
+  }
+
+  async cargarsubProducto()
+  {
+    //this.selectedByProduct = this.lote.SubProductoId;
+    this.ingresoAlmacenForm.controls['subProducto'].setValue(this.lote.SubProductoId);
+   // this.ingresoAlmacenForm.controls['subProducto'].disable();
   }
 
   LoadForm(): void {
@@ -97,33 +129,35 @@ export class IngresoAlmacenComponent implements OnInit {
     return this.ingresoAlmacenForm.controls;
   }
 
-  LoadCombos(): void {
+  async LoadCombos() {
     let form = this;
-    this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
+   await this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
       if (res.Result.Success) {
         form.listTypeDocuments = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("EstadoNotaIngresoAlmacen", function (res) {
+    await this.maestroUtil.obtenerMaestros("EstadoNotaIngresoAlmacen", function (res) {
       if (res.Result.Success) {
         form.listStates = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("Almacen", function (res) {
+    await this.maestroUtil.obtenerMaestros("Almacen", function (res) {
       if (res.Result.Success) {
         form.listAlmacen = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
+    await this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
       if (res.Result.Success) {
         form.listCertificacion = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("Producto", function (res) {
+    await this.maestroUtil.obtenerMaestros("Producto", function (res) {
       if (res.Result.Success) {
         form.listProducts = res.Result.Data;
       }
     });
+    
+    await this.LoadFormPopup();
   }
 
   public comparisonValidator(): ValidatorFn {
@@ -268,12 +302,12 @@ export class IngresoAlmacenComponent implements OnInit {
         Numero: this.ingresoAlmacenForm.value.nroIngreso,
         NombreRazonSocial: this.ingresoAlmacenForm.value.nombreRazonSocial,
         TipoDocumentoId: this.ingresoAlmacenForm.value.tipoDocumento,
-        ProductoId: this.ingresoAlmacenForm.value.producto,
-        TipoCertificacionId: this.ingresoAlmacenForm.value.certificacion,
-        SubProductoId: this.ingresoAlmacenForm.value.subProducto,
+        ProductoId: this.ingresoAlmacenForm.controls["producto"].value,
+        TipoCertificacionId:this.ingresoAlmacenForm.controls["certificacion"].value,
+        SubProductoId: this.ingresoAlmacenForm.controls["subProducto"].value,
         NumeroDocumento: this.ingresoAlmacenForm.value.numeroDocumento,
         CodigoSocio: this.ingresoAlmacenForm.value.codigoSocio,
-        EstadoId: this.ingresoAlmacenForm.value.estado,
+        EstadoId: this.ingresoAlmacenForm.controls["estado"].value,
         FechaInicio: new Date(this.ingresoAlmacenForm.value.fechaInicio),
         FechaFin: new Date(this.ingresoAlmacenForm.value.fechaFin),
         EmpresaId: this.userSession.Result.Data.EmpresaId,

@@ -5,7 +5,7 @@
           <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"  (click)="openModal(modalNotaIngresoAlmacen)">Agregar</button>
         </div>
         <div class="cold-2" style="margin-top: 2rem; margin-bottom: 2rem;">
-          <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminar(selected)">Eliminar</button>
+          <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="selected.length == 0" (click)="eliminar(selected)">Eliminar</button>
         </div>
       </div>
       <ng-template #modalNotaIngresoAlmacen let-c="close" let-d="dismiss">
@@ -22,7 +22,7 @@
               style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
               <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
             </div>
-        <app-ingreso-almacen (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-ingreso-almacen>
+        <app-ingreso-almacen (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp" [lote] ="lote"></app-ingreso-almacen>
     </div>
        </ng-template>
         <div class="form-row">

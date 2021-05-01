@@ -166,28 +166,14 @@ export class LoteEditComponent implements OnInit {
       this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
     }
 
-    if (row.UnidadMedida) {
-      this.loteEditForm.controls.detalleLote.controls.unidadMedida.setValue(row.UnidadMedida);
-    }
-    if (row.Cantidad) {
+      this.loteEditForm.controls.detalleLote.controls.unidadMedida.setValue(row.UnidadMedida);    
       this.loteEditForm.controls.detalleLote.controls.totalSacos.setValue(row.Cantidad);
-    }
-    if (row.TotalKilosNetosPesado) {
       this.loteEditForm.controls.detalleLote.controls.kilosNetos.setValue(row.TotalKilosNetosPesado);
-    }
-    if (row.TotalKilosBrutosPesado) {
-      this.loteEditForm.controls.detalleLote.controls.totalPesoNeto.setValue(row.TotalKilosBrutosPesado);
-    }
-    if (row.RendimientoPorcentaje) {
-      this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);
-    }
-
-    if (row.HumedadPorcentajeAnalisisFisico) {
-      this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);
-    }
-    if (row.TotalAnalisisSensorial) {
+      this.loteEditForm.controls.detalleLote.controls.totalPesoNeto.setValue(row.TotalKilosBrutosPesado);   
+      this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);  
+      this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);   
       this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.TotalAnalisisSensorial);
-    }
+    
     this.child.cargarDatos(row);
     this.spinner.hide();
   }
@@ -221,10 +207,36 @@ export class LoteEditComponent implements OnInit {
 
   UpdateLote(): void {
     this.spinner.show();
+    let listAccion: any[] =[];
+    if (this.child.detalleLotes.length>0)
+    {
+      this.child.detalleLotes.forEach( x => {
+        if (x.Accion == 'N')
+        {
+          let object : any= {};
+          object.Accion = x.Accion;
+          object.Id = x.NotaIngresoAlmacenId;
+          listAccion.push(object);
+        }
+        else if (x.Accion == 'E')
+        {
+          let object : any= {};
+          object.Accion = x.Accion;
+          object.Id = x.LoteDetalleId
+          listAccion.push(object);
+        }
+      });
+    }
     const request = {
       LoteId: this.vId,
       AlmacenId: this.selectedAlmacen,
-      Usuario: this.vSessionUser.Result.Data.NombreUsuario
+      ContratoId: 11,
+      Cantidad: 3,
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+      TotalKilosNetosPesado: 80,
+      TotalKilosBrutosPesado: 80,
+      NotasIngresoAlmacenId: listAccion
+
     }
     this.loteService.Update(request)
       .subscribe((res: any) => {

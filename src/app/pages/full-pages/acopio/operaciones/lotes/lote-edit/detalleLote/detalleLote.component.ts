@@ -20,6 +20,7 @@ export class DetalleLoteComponent implements OnInit {
     popUp = true;
     detalleLotes: any[] =[];
     selected= [];
+    lote: any;
 
     constructor( private controlContainer: ControlContainer,
       private modalService: NgbModal, private alertUtil: AlertUtil)
@@ -51,6 +52,7 @@ export class DetalleLoteComponent implements OnInit {
       }
 
       cargarDatos(detalleLotes:any){
+        this.lote = detalleLotes;
         this.detalleLotes = detalleLotes.listaDetalle;
         this.tempRows = detalleLotes.listaDetalle;
         this.rows = [...detalleLotes.listaDetalle];
@@ -71,6 +73,7 @@ export class DetalleLoteComponent implements OnInit {
        $event.forEach(x=>{
           let object : any = {};  
           object.NumeroNotaIngresoAlmacen = x.Numero;
+          object.NotaIngresoAlmacenId = x.NotaIngresoAlmacenId;
           object.FechaIngresoAlmacen = x.FechaRegistro;
           object.CodigoSocio = x.CodigoSocio;
           object.UnidadMedida = x.UnidadMedida;
@@ -83,7 +86,8 @@ export class DetalleLoteComponent implements OnInit {
           object.Accion = 'N';
           this.detalleLotes.push(object);
         });
-        this.tempRows = this.detalleLotes;
+        let d = this.detalleLotes.filter(x=>x.Accion == null || x.Accion == 'N');
+        this.tempRows = d;
         this.rows = [...this.tempRows];
         this.modalService.dismissAll();
       }
@@ -108,9 +112,15 @@ export class DetalleLoteComponent implements OnInit {
             detalleEliminado = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen == selected[0].NumeroNotaIngresoAlmacen)
             if (detalleEliminado.length > 0)
             {
+              if ( detalleEliminado[0].Accion  == 'N')
+              {
+                form.detalleLotes = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen != selected[0].NumeroNotaIngresoAlmacen);
+              }
+              else{
               detalleEliminado[0].Accion = "E";
               form.detalleLotes = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen != selected[0].NumeroNotaIngresoAlmacen);
               form.detalleLotes.push(detalleEliminado[0]);
+              }
               
             }
             let d = form.detalleLotes.filter(x=>x.Accion == null || x.Accion == 'N');
