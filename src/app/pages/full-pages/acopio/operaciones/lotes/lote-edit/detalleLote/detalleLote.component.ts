@@ -84,7 +84,7 @@ export class DetalleLoteComponent implements OnInit {
           this.detalleLotes.push(object);
         });
         this.tempRows = this.detalleLotes;
-        this.rows = [...this.detalleLotes];
+        this.rows = [...this.tempRows];
         this.modalService.dismissAll();
       }
       else{
@@ -104,7 +104,13 @@ export class DetalleLoteComponent implements OnInit {
         let form = this;
         this.alertUtil.alertSiNoCallback('Está seguro?', 'La Nota de Ingreso ' + selected[0].Numero + ' se eliminará de su lista.' ,function(result){
           if(result.isConfirmed){
-            form.detalleLotes = form.detalleLotes.filter(x=>x.Numero != selected[0].Numero)
+            let detalle: any[] =[];
+            this.detalleLotes = form.detalleLotes.filter(x=>x.Numero == selected[0].Numero)
+            if (this.detalleLotes.length == 0)
+            {
+              this.detalleLotes[0].Accion = "E";
+            }
+            
             form.tempRows = form.detalleLotes;
             form.rows = [...form.tempRows];
             form.selected= [];
