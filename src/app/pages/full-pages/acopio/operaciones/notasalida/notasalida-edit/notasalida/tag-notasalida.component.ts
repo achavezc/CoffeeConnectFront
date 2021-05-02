@@ -168,7 +168,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
 
   clear() {
 
-    this.selectAlmacen = [];
+   // this.selectAlmacen = [];
     this.consultaLotes.controls['numeroLote'].reset;
     this.consultaLotes.controls['fechaInicio'].reset;
     this.consultaLotes.controls['fechaFinal'].reset;

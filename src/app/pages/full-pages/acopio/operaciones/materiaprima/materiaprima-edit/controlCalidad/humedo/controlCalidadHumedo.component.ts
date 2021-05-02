@@ -188,36 +188,6 @@ if (this.detalle.AnalisisFisicoOlorDetalle!= null)
        }
      );
     }
-    else if (this.form == "notasalida")
-    {
-      this.notaSalidaAlmacenService.ActualizarAnalisisCalidad(this.reqControlCalidad)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
-            if(result.isConfirmed){
-              form.router.navigate(['/operaciones/notasalida-list']);
-            }
-          }
-          );
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );  
-    }  
     else if (this.form == "lote")
     {
       this.loteService.ActualizarAnalisisCalidad(this.reqControlCalidad)

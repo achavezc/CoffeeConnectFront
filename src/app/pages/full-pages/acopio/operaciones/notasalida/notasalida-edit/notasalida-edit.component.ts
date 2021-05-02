@@ -55,11 +55,8 @@ export class NotaSalidaEditComponent implements OnInit {
   fechaRegistro: any;
   almacen: "";
   responsable: "";
-  form: string = "notasalida";
-  detalle: any;
-  disabledControl: string = '';
   empresa: any;
-  viewTagSeco: boolean;
+
 
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
 
@@ -92,9 +89,6 @@ export class NotaSalidaEditComponent implements OnInit {
           this.esEdit = true;
           this.obtenerDetalle();
         }
-        else {
-          this.disabledControl = 'disabled';
-        }
       }
       );
   }
@@ -106,7 +100,6 @@ export class NotaSalidaEditComponent implements OnInit {
 
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.detalle = res.Result.Data;
             this.cargarDataFormulario(res.Result.Data);
             this.child.cargarDatos(res.Result.Data.DetalleLotes);
             this.selectAlmacen = res.Result.Data.AlmacenId;
@@ -166,12 +159,6 @@ export class NotaSalidaEditComponent implements OnInit {
     this.responsable = data.UsuarioRegistro;
     this.spinner.hide();
 
-    if (data.DetalleLotes[0].SubProductoId == "02") {
-      this.viewTagSeco = true;
-    }
-    else {
-      this.viewTagSeco = false;
-    }
   }
 
 
