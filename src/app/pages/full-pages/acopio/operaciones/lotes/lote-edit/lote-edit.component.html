@@ -90,7 +90,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group row">
                         <label for="contrato" class="col-3 col-form-label">CONTRATO</label>
-                        <div class="col-7">
+                        <div class="col-5">
                             <input type="text" name="contrato" id="contrato" formControlName="contrato"
                                 class="form-control" placeholder="Contrato" [readonly]="true">
                         </div>
@@ -175,7 +175,7 @@
                                             </a>
                                             <ng-template ngbNavContent>
 
-                                                <app-detalleLote formGroupName="detalleLote"></app-detalleLote>
+                                                <app-detalleLote (miEvento)="calculoKilosPendiente()" formGroupName="detalleLote"></app-detalleLote>
                                                 <div class="form-row">
                                                     <div class="col-lg-9 col-md-9 col-sm-9">
                                                         <small class="form-label text-muted danger"

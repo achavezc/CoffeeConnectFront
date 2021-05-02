@@ -1,4 +1,4 @@
-import { Component, Input, OnInit ,ViewChild} from '@angular/core';
+import { Component, Input, OnInit ,ViewChild, Output, EventEmitter} from '@angular/core';
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,ControlContainer} from '@angular/forms';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
@@ -21,6 +21,7 @@ export class DetalleLoteComponent implements OnInit {
     detalleLotes: any[] =[];
     selected= [];
     lote: any;
+    @Output() miEvento = new EventEmitter();
 
     constructor( private controlContainer: ControlContainer,
       private modalService: NgbModal, private alertUtil: AlertUtil)
@@ -70,6 +71,8 @@ export class DetalleLoteComponent implements OnInit {
         });
           if (detalle.length==0)
           {
+          let totalPesoNeto =  this.detalleLoteFormGroup.controls.totalKilosNetosPesado.value;
+          let totalKilosBrutosPesado =  this.detalleLoteFormGroup.controls.totalKilosBrutosPesado.value;
        $event.forEach(x=>{
           let object : any = {};  
           object.NumeroNotaIngresoAlmacen = x.Numero;
@@ -78,18 +81,25 @@ export class DetalleLoteComponent implements OnInit {
           object.CodigoSocio = x.CodigoSocio;
           object.UnidadMedida = x.UnidadMedida;
           object.CantidadPesado = x.CantidadPesado;
-          object.KilosBrutosPesado = x.KilosBrutosPesado;
+          object.KilosBrutosPesado = x.KilosBrutosPesado;         
           object.KilosNetosPesado = x.KilosNetosPesado;
           object.TotalAnalisisSensorial = x.TotalAnalisisSensorial;
           object.RendimientoPorcentaje = x.RendimientoPorcentaje;
           object.HumedadPorcentaje = x.HumedadPorcentajeAnalisisFisico;
           object.Accion = 'N';
+          totalKilosBrutosPesado = totalKilosBrutosPesado + x.KilosBrutosPesado
+          totalPesoNeto = totalPesoNeto + x.KilosNetosPesado;
           this.detalleLotes.push(object);
         });
+        this.detalleLoteFormGroup.controls.totalKilosNetosPesado.setValue(totalPesoNeto);
+        this.detalleLoteFormGroup.controls.totalKilosBrutosPesado.setValue(totalKilosBrutosPesado);
+        
+       
         let d = this.detalleLotes.filter(x=>x.Accion == null || x.Accion == 'N');
         this.tempRows = d;
         this.rows = [...this.tempRows];
         this.modalService.dismissAll();
+        this.miEvento.emit();
       }
       else{
         let notasIngreso = "";
@@ -101,6 +111,9 @@ export class DetalleLoteComponent implements OnInit {
         this.alertUtil.alertWarning("Oops...!", "Las Notas de Ingreso " + notasIngreso +" ya fueron agregadas.");
       }
        
+      
+     
+      
       }
 
       eliminar(selected)
@@ -112,6 +125,8 @@ export class DetalleLoteComponent implements OnInit {
             detalleEliminado = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen == selected[0].NumeroNotaIngresoAlmacen)
             if (detalleEliminado.length > 0)
             {
+              let totalPesoNeto =  form.detalleLoteFormGroup.controls.totalKilosNetosPesado.value;
+              let totalKilosBrutosPesado =  form.detalleLoteFormGroup.controls.totalKilosBrutosPesado.value;
               if ( detalleEliminado[0].Accion  == 'N')
               {
                 form.detalleLotes = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen != selected[0].NumeroNotaIngresoAlmacen);
@@ -121,8 +136,13 @@ export class DetalleLoteComponent implements OnInit {
               form.detalleLotes = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen != selected[0].NumeroNotaIngresoAlmacen);
               form.detalleLotes.push(detalleEliminado[0]);
               }
-              
+              totalPesoNeto = totalPesoNeto - selected[0].KilosNetosPesado;
+              totalKilosBrutosPesado = totalKilosBrutosPesado - selected[0].KilosBrutosPesado;
+              form.detalleLoteFormGroup.controls.totalKilosNetosPesado.setValue(totalPesoNeto);
+              form.detalleLoteFormGroup.controls.totalKilosBrutosPesado.setValue(totalKilosBrutosPesado);
+              form.miEvento.emit();
             }
+            
             let d = form.detalleLotes.filter(x=>x.Accion == null || x.Accion == 'N');
             form.tempRows = d;
             form.rows = [...form.tempRows];

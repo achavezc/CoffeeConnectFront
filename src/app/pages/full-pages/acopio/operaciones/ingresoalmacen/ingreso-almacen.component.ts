@@ -94,9 +94,8 @@ export class IngresoAlmacenComponent implements OnInit {
 
   async cargarsubProducto()
   {
-    //this.selectedByProduct = this.lote.SubProductoId;
     this.ingresoAlmacenForm.controls['subProducto'].setValue(this.lote.SubProductoId);
-   // this.ingresoAlmacenForm.controls['subProducto'].disable();
+    this.ingresoAlmacenForm.controls['subProducto'].disable();
   }
 
   LoadForm(): void {

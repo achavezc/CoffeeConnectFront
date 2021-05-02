@@ -676,7 +676,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   async consultarSocioFinca() {
     let request =
     {
-      "SocioFincaId": Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
+      "SocioFincaId": 2000//Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
     }
 
    if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
