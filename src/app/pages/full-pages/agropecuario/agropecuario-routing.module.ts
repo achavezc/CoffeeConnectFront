@@ -9,6 +9,8 @@ import { CertificacionListComponent } from './operaciones/socio/finca/certificac
 import { CertificacionEditComponent } from './operaciones/socio/finca/certificaciones/edit/certificacion-edit.component';
 import { ProyectosComponent } from './operaciones/socio/proyectos/proyectos.component';
 import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectosedit/proyectos-edit.component';
+import { InspeccionComponent } from './operaciones/socio/finca/inspeccion/inspeccion.component';
+import { InspeccionEditComponent } from './operaciones/socio/finca/inspeccion/inspeccion-edit/inspeccion-edit.component';
 
 const routes: Routes = [
     {
@@ -99,6 +101,20 @@ const routes: Routes = [
                     title: 'Actualizar Proyecto'
                 }
             },
+            {
+                path: 'socio/finca/inspeccion/list',
+                component: InspeccionComponent,
+                data: {
+                    title: 'Socio Finca - Inspecciones'
+                }
+            },
+            {
+                path: 'socio/finca/inspeccion/create',
+                component: InspeccionEditComponent,
+                data: {
+                    title: 'Socio Finca - Inspecciones'
+                }
+            }
         ]
     }
 ];
