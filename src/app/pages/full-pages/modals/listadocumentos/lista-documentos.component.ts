@@ -9,7 +9,7 @@ import { FincaFotoGeoreferenciadaService } from '../../../../services/finca-foto
 import { FincaDocumentoAdjuntoService } from '../../../../services/finca-documento-adjunto.service';
 import { host } from '../../../../shared/hosts/main.host';
 import { AlertUtil } from '../../../../services/util/alert-util';
-import { resultMemoize } from '@ngrx/store';
+import { SocioDocumentoService } from '../../../../services/socio-documento.service';
 
 @Component({
   selector: 'app-lista-documentos',
@@ -36,6 +36,7 @@ export class MListaDocumentosComponent implements OnInit {
   userSession: any;
   idFincaFotoGeoreferenciada = 0;
   idFincaDocumentoAdjunto = 0;
+  idSocioDocumento = 0;
   fileName = '';
 
   constructor(private spinner: NgxSpinnerService,
@@ -44,7 +45,8 @@ export class MListaDocumentosComponent implements OnInit {
     private documentoAdjuntoService: FincaDocumentoAdjuntoService,
     private fb: FormBuilder,
     private httpClient: HttpClient,
-    private alertUtil: AlertUtil) {
+    private alertUtil: AlertUtil,
+    private socioDocumentoService: SocioDocumentoService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -88,6 +90,8 @@ export class MListaDocumentosComponent implements OnInit {
         this.idFincaFotoGeoreferenciada = data.FincaFotoGeoreferenciadaId;
       } else if (data.FincaDocumentoAdjuntoId) {
         this.idFincaDocumentoAdjunto = data.FincaDocumentoAdjuntoId;
+      } else if (data.SocioDocumentoId){
+        this.idSocioDocumento = data.SocioDocumentoId;
       }
       this.agregarArchivoForm.controls.estado.setValue(data.EstadoId);
       this.agregarArchivoForm.controls.fileName.setValue(data.Nombre);
@@ -111,6 +115,8 @@ export class MListaDocumentosComponent implements OnInit {
       this.GetPhotosGeoreferenced();
     } else if (this.codeForm === 'frmMdlAttachments') {
       this.GetAttachments();
+    } else if (this.codeForm === 'frmMdlSocioDocuments') {
+      this.GetDocumentsPartner();
     }
   }
 
@@ -148,10 +154,27 @@ export class MListaDocumentosComponent implements OnInit {
     });
   }
 
+  GetDocumentsPartner(): void {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, errorMessage: '' };
+    this.socioDocumentoService.SearchByPartnetId({ SocioId: this.code }).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.rows = res.Result.Data;
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    });
+  }
+
   LoadFormAddFiles(): void {
     this.agregarArchivoForm = this.fb.group({
       descripcion: ['', Validators.required],
-      file: ['', Validators.required],
+      file: [''],
       fileName: [''],
       pathFile: [''],
       estado: ['']
@@ -164,9 +187,10 @@ export class MListaDocumentosComponent implements OnInit {
   }
 
   addValidations(): ValidatorFn {
+    const form = this;
     return (group: FormGroup): ValidationErrors => {
 
-      if (!group.value.descripcion || !group.value.file) {
+      if (!group.value.descripcion || (!group.value.file && !form.fileName)) {
         this.errorAddFiles = { isError: true, errorMessage: 'Por favor ingresar ambos valores.' };
       } else {
         this.errorAddFiles = { isError: false, errorMessage: '' };
@@ -209,14 +233,21 @@ export class MListaDocumentosComponent implements OnInit {
       link.target = "_blank";
       link.click();
       link.remove();
+    } else if (this.codeForm === 'frmMdlSocioDocuments') {
+      let link = document.createElement('a');
+      document.body.appendChild(link);
+      link.href = `${host}SocioDocumento/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`;
+      link.target = "_blank";
+      link.click();
+      link.remove();
     }
   }
 
   SaveFile(): void {
     if (!this.agregarArchivoForm.invalid) {
-      if (this.idFincaFotoGeoreferenciada > 0 || this.idFincaDocumentoAdjunto > 0) {
+      if (this.idFincaFotoGeoreferenciada > 0 || this.idFincaDocumentoAdjunto > 0 || this.idSocioDocumento > 0) {
         this.UpdateFile();
-      } else if (this.idFincaFotoGeoreferenciada <= 0 || this.idFincaDocumentoAdjunto <= 0) {
+      } else if (this.idFincaFotoGeoreferenciada <= 0 || this.idFincaDocumentoAdjunto <= 0 || this.idSocioDocumento <= 0) {
         this.CreateFile();
       }
     }
@@ -246,78 +277,102 @@ export class MListaDocumentosComponent implements OnInit {
     }
   }
 
-  CreateFile(): void {
-    this.spinner.show();
-    let url = '';
-    let request = {};
-    if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
-      url = `${host}FincaFotoGeoreferenciada`;
-      request = this.GetRequestPhoto();
-    } else if (this.codeForm === 'frmMdlAttachments') {
-      url = `${host}FincaDocumentoAdjunto`;
-      request = this.GetRequestDocument();
+  GetRequestPartnetDocument(): any {
+    return {
+      SocioDocumentoId: Number(this.idSocioDocumento),
+      SocioId: Number(this.code),
+      Nombre: this.agregarArchivoForm.value.fileName,
+      Descripcion: this.agregarArchivoForm.value.descripcion,
+      Path: this.agregarArchivoForm.value.pathFile,
+      Usuario: this.userSession.Result.Data.NombreUsuario,
+      EstadoId: "01"
     }
-    const formData = new FormData();
-    formData.append('file', this.agregarArchivoForm.get('file').value);
-    formData.append('request', JSON.stringify(request));
-    const headers = new HttpHeaders();
-    headers.append('enctype', 'multipart/form-data');
-    this.httpClient
-      .post(url + '/Registrar', formData, { headers })
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-            "Se registro correctamente el documento.",
-            () => {
-              this.LoadFiles();
-              this.CancelModalAddFiles();
-            });
-        } else {
-          this.alertUtil.alertError("ERROR!", res.Result.Message);
-        }
-      }, (err: any) => {
-        console.log(err);
-        this.spinner.hide();
-        this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-      });
+  }
+
+  CreateFile(): void {
+    if (this.agregarArchivoForm.value.fileName || this.agregarArchivoForm.value.file) {
+      this.spinner.show();
+      let url = '';
+      let request = {};
+      if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
+        url = `${host}FincaFotoGeoreferenciada`;
+        request = this.GetRequestPhoto();
+      } else if (this.codeForm === 'frmMdlAttachments') {
+        url = `${host}FincaDocumentoAdjunto`;
+        request = this.GetRequestDocument();
+      } else if (this.codeForm === 'frmMdlSocioDocuments') {
+        url = `${host}SocioDocumento`;
+        request = this.GetRequestPartnetDocument();
+      }
+
+      const formData = new FormData();
+      formData.append('file', this.agregarArchivoForm.get('file').value);
+      formData.append('request', JSON.stringify(request));
+      const headers = new HttpHeaders();
+      headers.append('enctype', 'multipart/form-data');
+      this.httpClient
+        .post(url + '/Registrar', formData, { headers })
+        .subscribe((res: any) => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+              "Se registro correctamente el documento.",
+              () => {
+                this.LoadFiles();
+                this.CancelModalAddFiles();
+              });
+          } else {
+            this.alertUtil.alertError("ERROR!", res.Result.Message);
+          }
+        }, (err: any) => {
+          console.log(err);
+          this.spinner.hide();
+          this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+        });
+    }
   }
 
   UpdateFile(): void {
-    this.spinner.show();
-    let url = '';
-    let request = {};
-    if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
-      url = `${host}FincaFotoGeoreferenciada`;
-      request = this.GetRequestPhoto();
-    } else if (this.codeForm === 'frmMdlAttachments') {
-      url = `${host}FincaDocumentoAdjunto`;
-      request = this.GetRequestDocument();
+    if (this.agregarArchivoForm.value.fileName || this.agregarArchivoForm.value.file) {
+      this.spinner.show();
+      let url = '';
+      let request = {};
+      if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
+        url = `${host}FincaFotoGeoreferenciada`;
+        request = this.GetRequestPhoto();
+      } else if (this.codeForm === 'frmMdlAttachments') {
+        url = `${host}FincaDocumentoAdjunto`;
+        request = this.GetRequestDocument();
+      } else if (this.codeForm === 'frmMdlSocioDocuments') {
+        url = `${host}SocioDocumento`;
+        request = this.GetRequestPartnetDocument();
+      }
+
+      const formData = new FormData();
+      formData.append('file', this.agregarArchivoForm.get('file').value);
+      formData.append('request', JSON.stringify(request));
+      const headers = new HttpHeaders();
+      headers.append('enctype', 'multipart/form-data');
+      this.httpClient
+        .post(url + '/Actualizar', formData, { headers })
+        .subscribe((res: any) => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+              "Se actualizó correctamente el documento.",
+              () => {
+                this.LoadFiles();
+                this.CancelModalAddFiles();
+              });
+          } else {
+            this.alertUtil.alertError("ERROR!", res.Result.Message);
+          }
+        }, (err: any) => {
+          console.log(err);
+          this.spinner.hide();
+          this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+        });
     }
-    const formData = new FormData();
-    formData.append('file', this.agregarArchivoForm.get('file').value);
-    formData.append('request', JSON.stringify(request));
-    const headers = new HttpHeaders();
-    headers.append('enctype', 'multipart/form-data');
-    this.httpClient
-      .post(url + '/Actualizar', formData, { headers })
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-            "Se actualizó correctamente el documento.",
-            () => {
-              this.LoadFiles();
-              this.CancelModalAddFiles();
-            });
-        } else {
-          this.alertUtil.alertError("ERROR!", res.Result.Message);
-        }
-      }, (err: any) => {
-        console.log(err);
-        this.spinner.hide();
-        this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-      });
   }
 
   CancelModalAddFiles(): void {

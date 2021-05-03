@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorHandling } from '../shared/util/error-handling';
 import { ReqRegistrarPesado } from './models/req-registrar-pesado';
-import { ReqActualizarPesado } from './models/req-actualizar-pesado';
 import { ReqControlCalidad } from '../services/models/req-controlcalidad-actualizar'
 
 export class FiltrosMateriaPrima {

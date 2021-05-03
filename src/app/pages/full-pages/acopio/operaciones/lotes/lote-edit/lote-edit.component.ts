@@ -12,7 +12,7 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
 import { DetalleLoteComponent } from '../lote-edit/detalleLote/detalleLote.component';
-import {ReqActualizarLote,IdsAccion} from '../../../../../../services/models/req-actualizar-lote';
+import { ReqActualizarLote, IdsAccion } from '../../../../../../services/models/req-actualizar-lote';
 
 
 @Component({
@@ -50,7 +50,7 @@ export class LoteEditComponent implements OnInit {
   detalle: any;
   form: string = "lote"
   @ViewChild(DetalleLoteComponent) child;
-  KilosNetos :any;
+  KilosNetos: any;
 
   ngOnInit(): void {
     this.vId = parseInt(this.route.snapshot.params['id']);
@@ -155,9 +155,8 @@ export class LoteEditComponent implements OnInit {
       this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
     }
     this.loteEditForm.controls.ruc.setValue(row.Ruc);
-    if(row.TipoCertificacion != null)
-    {
-    this.loteEditForm.controls.certificacion.setValue(row.TipoCertificacion);
+    if (row.TipoCertificacion != null) {
+      this.loteEditForm.controls.certificacion.setValue(row.TipoCertificacion);
     }
     this.loteEditForm.controls.producto.setValue(row.Producto);
     this.loteEditForm.controls.subproducto.setValue(row.SubProducto);
@@ -172,14 +171,14 @@ export class LoteEditComponent implements OnInit {
       this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
     }
 
-      this.loteEditForm.controls.detalleLote.controls.unidadMedida.setValue(row.UnidadMedida);    
-      this.loteEditForm.controls.detalleLote.controls.totalSacos.setValue(row.Cantidad);
-      this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.setValue(row.TotalKilosNetosPesado);
-      this.loteEditForm.controls.detalleLote.controls.totalKilosBrutosPesado.setValue(row.TotalKilosBrutosPesado);   
-      this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);  
-      this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);   
-      this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.TotalAnalisisSensorial);
-    
+    this.loteEditForm.controls.detalleLote.controls.unidadMedida.setValue(row.UnidadMedida);
+    this.loteEditForm.controls.detalleLote.controls.totalSacos.setValue(row.Cantidad);
+    this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.setValue(row.TotalKilosNetosPesado);
+    this.loteEditForm.controls.detalleLote.controls.totalKilosBrutosPesado.setValue(row.TotalKilosBrutosPesado);
+    this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);
+    this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);
+    this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.TotalAnalisisSensorial);
+
     this.child.cargarDatos(row);
     this.spinner.hide();
   }
@@ -215,19 +214,16 @@ export class LoteEditComponent implements OnInit {
     this.spinner.show();
     let listAccion: IdsAccion[] = [];
     let idContrato: any = null;
-    if (this.child.detalleLotes.length>0)
-    {
-      this.child.detalleLotes.forEach( x => {
-        if (x.Accion == 'N')
-        {
+    if (this.child.detalleLotes.length > 0) {
+      this.child.detalleLotes.forEach(x => {
+        if (x.Accion == 'N') {
           let object = new IdsAccion();
           object.Accion = x.Accion;
           object.Id = x.NotaIngresoAlmacenId;
-          
+
           listAccion.push(object);
         }
-        else if (x.Accion == 'E')
-        {
+        else if (x.Accion == 'E') {
           let object = new IdsAccion();
           object.Accion = x.Accion;
           object.Id = x.LoteDetalleId
@@ -235,16 +231,15 @@ export class LoteEditComponent implements OnInit {
         }
       });
     }
-    if (this.loteEditForm.controls.idContrato.value != null)
-    {
+    if (this.loteEditForm.controls.idContrato.value != null) {
       idContrato = this.loteEditForm.controls.idContrato.value;
     }
-    const request = new ReqActualizarLote (
-       this.vId,
-       this.selectedAlmacen,
-       this.vSessionUser.Result.Data.NombreUsuario,
-       this.loteEditForm.controls.detalleLote.controls.totalSacos.value,
-      
+    const request = new ReqActualizarLote(
+      this.vId,
+      this.selectedAlmacen,
+      this.vSessionUser.Result.Data.NombreUsuario,
+      this.loteEditForm.controls.detalleLote.controls.totalSacos.value,
+
       this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.value,
       this.loteEditForm.controls.detalleLote.controls.totalKilosBrutosPesado.value,
       listAccion,
@@ -324,11 +319,9 @@ export class LoteEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  calculoKilosPendiente()
-  {
-    if ( this.loteEditForm.controls.idContrato.value != null)
-    {
-    this.loteEditForm.controls.kilosPendientes.setValue(this.KilosNetos - this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.value);
+  calculoKilosPendiente() {
+    if (this.loteEditForm.controls.idContrato.value != null) {
+      this.loteEditForm.controls.kilosPendientes.setValue(this.KilosNetos - this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.value);
     }
   }
 

@@ -87,9 +87,9 @@
 
             </div>
             <div class="form-row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="contrato" class="col-3 col-form-label">CONTRATO</label>
+                        <label for="contrato" class="col-4 col-form-label">CONTRATO</label>
                         <div class="col-5">
                             <input type="text" name="contrato" id="contrato" formControlName="contrato"
                                 class="form-control" placeholder="Contrato" [readonly]="true">
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
                         <label for="cliente" class="col-2 col-form-label">CLIENTE</label>
                         <div class="col-10">
@@ -116,10 +116,10 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="unidadMedida" class="col-3 col-form-label">UNIDAD DE MEDIDA</label>
-                        <div class="col-9">
+                        <label for="unidadMedida" class="col-4 col-form-label pr-0">UNIDAD DE MEDIDA</label>
+                        <div class="col-7">
                             <input type="text" name="unidadMedida" id="unidadMedida" formControlName="unidadMedida"
                                 class="form-control" placeholder="Unidad de medida" [readonly]="true">
                         </div>
@@ -127,32 +127,32 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="cantidad" class="col-3 col-form-label">CANTIDAD</label>
-                        <div class="col-9">
+                        <label for="cantidad" class="col-4 col-form-label">CANTIDAD</label>
+                        <div class="col-7">
                             <input type="text" name="cantidad" id="cantidad" formControlName="cantidad"
-                                class="form-control" placeholder="Cantidad" [readonly]="true">
+                                class="form-control text-right" placeholder="Cantidad" [readonly]="true">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="kilosNetos" class="col-3 col-form-label">KILOS NETOS</label>
-                        <div class="col-9">
+                        <label for="kilosNetos" class="col-4 col-form-label">KILOS NETOS</label>
+                        <div class="col-7">
                             <input type="text" name="kilosNetos" id="kilosNetos" formControlName="kilosNetos"
-                                class="form-control" placeholder="Kilos Netos" [readonly]="true">
+                                class="form-control text-right" placeholder="Kilos Netos" [readonly]="true">
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="kilosPendientes" class="col-3 col-form-label">KILOS PENDIENTES</label>
-                        <div class="col-9">
+                        <label for="kilosPendientes" class="col-4 col-form-label">KILOS PENDIENTES</label>
+                        <div class="col-7">
                             <input type="text" name="kilosPendientes" id="kilosPendientes"
-                                formControlName="kilosPendientes" class="form-control" placeholder="Kilos Netos"
+                                formControlName="kilosPendientes" class="form-control text-right" placeholder="Kilos Netos"
                                 [readonly]="true">
                         </div>
                     </div>
@@ -175,7 +175,8 @@
                                             </a>
                                             <ng-template ngbNavContent>
 
-                                                <app-detalleLote (miEvento)="calculoKilosPendiente()" formGroupName="detalleLote"></app-detalleLote>
+                                                <app-detalleLote (miEvento)="calculoKilosPendiente()"
+                                                    formGroupName="detalleLote"></app-detalleLote>
                                                 <div class="form-row">
                                                     <div class="col-lg-9 col-md-9 col-sm-9">
                                                         <small class="form-label text-muted danger"
@@ -186,14 +187,14 @@
                                                     <div class="col-md-6 justify-content-end !important">
                                                         <button class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
                                                             (click)="Print()">Imprimir</button>
-                                                   
-                                                   
+
+
                                                         <button class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
                                                             (click)="Save()">Guardar</button>
-                                                    
+
                                                         <button class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
                                                             (click)="Cancel()">Cancelar</button>
-                                                        </div>
+                                                    </div>
                                                 </div>
                                             </ng-template>
 
@@ -222,15 +223,6 @@
                                     <div class="tab-content">
                                         <div [ngbNavOutlet]="nav"></div>
                                     </div>
-
-
-
-
-
-
-
-
-
 
                                 </div>
                             </div>
