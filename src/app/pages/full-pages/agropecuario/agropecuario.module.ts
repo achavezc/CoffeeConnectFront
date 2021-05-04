@@ -28,9 +28,12 @@ import { CertificacionEditComponent } from './operaciones/socio/finca/certificac
 import { ProyectosComponent } from './operaciones/socio/proyectos/proyectos.component';
 import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectosedit/proyectos-edit.component';
 import { ModalModule } from '../modals/modal.module';
+import { InspeccionComponent } from './operaciones/socio/finca/inspeccion/inspeccion.component';
+import { DiagnosticoComponent } from './operaciones/socio/finca/diagnostico/diagnostico.component';
+import { InspeccionEditComponent } from './operaciones/socio/finca/inspeccion/inspeccion-edit/inspeccion-edit.component';
 
 @NgModule({
-  declarations: [SocioComponent, SocioEditComponent, FincaComponent, FincaEditComponent, CertificacionListComponent, CertificacionEditComponent, ProyectosComponent, ProyectosEditComponent],
+  declarations: [SocioComponent, SocioEditComponent, FincaComponent, FincaEditComponent, CertificacionListComponent, CertificacionEditComponent, ProyectosComponent, ProyectosEditComponent, InspeccionComponent, DiagnosticoComponent, InspeccionEditComponent],
   imports: [
     CommonModule,
     FormsModule,
