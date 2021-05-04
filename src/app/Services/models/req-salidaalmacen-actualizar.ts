@@ -8,7 +8,7 @@ export class ReqNotaSalida
         AlmacenId: string,
         Numero: string,
         MotivoTrasladoId: string,
-        MotivoTrasladoReferencia: string,
+        MotivoTrasladoReferencia: string, 
         EmpresaIdDestino: number,
         EmpresaTransporteId: number,
         TransporteId: number,

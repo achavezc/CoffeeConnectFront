@@ -687,20 +687,28 @@ export class MateriaPrimaEditComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            if ( res.Result.Data.Estimado != null && res.Result.Data.SaldoPendiente > this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value)
+            if ( res.Result.Data != null )
             {
-            this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
-            this.btnGuardar = false;
-
+              if (res.Result.Data.SaldoPendiente == 0)
+              {
+                this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue("02"); 
+                this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].disable();
+              }
+              else if (res.Result.Data.SaldoPendiente < this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value)
+              {
+                this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
+                this.btnGuardar = false;
+              }
+              else{
+                this.btnGuardar = true;
+              }
             }
-            else if (res.Result.Data.Estimado == null )
+            else if (res.Result.Data == null )
             {
               this.alertUtil.alertWarning('Oops!', 'La finca no tiene registrado los estimados para el año actual');
               this.btnGuardar = false;
             }
-            else{
-              this.btnGuardar = true;
-            }
+            
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }

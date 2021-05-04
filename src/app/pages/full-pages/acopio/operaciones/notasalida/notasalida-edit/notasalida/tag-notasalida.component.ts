@@ -8,14 +8,14 @@ import { ILogin } from '../../../../../../../services/models/login';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { LoteService } from '../../../../../../../services/lote.service';
-import {TransportistaService } from '../../../../../../../services/transportista.service';
+import { TransportistaService } from '../../../../../../../services/transportista.service';
 import { Observable } from 'rxjs';
 
 
 @Component({
   selector: 'app-tagNotasalida',
   templateUrl: './tag-notasalida.component.html',
-  styleUrls: ['./tag-notasalida.component.scss',  "/assets/sass/libs/datatables.scss"],
+  styleUrls: ['./tag-notasalida.component.scss', "/assets/sass/libs/datatables.scss"],
   encapsulation: ViewEncapsulation.None
 })
 export class TagNotaSalidaEditComponent implements OnInit {
@@ -41,7 +41,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   selectedMotivoTranslado: any;
   visibleNumReferencia = false;
   submitted = false;
-  submittedT= false;
+  submittedT = false;
   closeResult: string;
   tagNotadeSalida: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -70,105 +70,95 @@ export class TagNotaSalidaEditComponent implements OnInit {
   filtrosTransportista: any = {};
   listaLotesDetalleId = [];
   valueMotivoSalidaTransf = '02';
-  totales:any = {};
-  esEdit = false; 
+  totales: any = {};
+  esEdit = false;
   @Input() eventsNs: Observable<any>;
 
   @ViewChild(DatatableComponent) tableLotes: DatatableComponent;
   @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
   @ViewChild(DatatableComponent) tableLotesDetalle: DatatableComponent;
   @ViewChild(DatatableComponent) tableLotesTotal: DatatableComponent;
-  
- 
-  constructor(private modalService: NgbModal, private maestroService: MaestroService, 
+
+
+  constructor(private modalService: NgbModal, private maestroService: MaestroService,
     private alertUtil: AlertUtil,
     private spinner: NgxSpinnerService,
     private dateUtil: DateUtil,
     private loteService: LoteService,
-    private transportistaService:TransportistaService,
+    private transportistaService: TransportistaService,
     private controlContainer: ControlContainer
-    ) {}
- 
- 
+  ) { }
+
+
   ngOnInit(): void {
-   
+
     this.cargarformTagNotaSalida();
-    this.tagNotadeSalida = <FormGroup> this.controlContainer.control;
-  
-      this.eventsNs.subscribe({
-        next: (data) => this.cargarDatos(data)
-        
-      });
+    this.tagNotadeSalida = <FormGroup>this.controlContainer.control;
+
+    this.eventsNs.subscribe({
+      next: (data) => this.cargarDatos(data)
+
+    });
   }
 
-  cargarDatos(detalleLotes:any){
+  cargarDatos(detalleLotes: any) {
     detalleLotes.forEach(x => {
-      let object : any = {};  
+      let object: any = {};
       object.Numero = x.NumeroLote,
-      object.Producto = x.Producto
-      object.UnidadMedida = x.UnidadMedida
-      object.CantidadPesado = x.CantidadPesado
+        object.Producto = x.Producto
+        object.SubProductoId = x.SubProductoId
+      //object.UnidadMedida = x.UnidadMedida
+      //object.CantidadPesado = x.CantidadPesado
       object.RendimientoPorcentaje = x.RendimientoPorcentaje
-      object.KilosNetosPesado = x.KilosNetosPesado
+      object.KilosNetos = x.KilosNetosPesado
+      object.KilosBrutos = x.KilosNetosPesado
       object.LoteId = x.LoteId
-      object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
       object.HumedadPorcentaje = x.HumedadPorcentaje
-      object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
       this.listaLotesDetalleId.push(object);
 
     });
     this.tempDataLoteDetalle = this.listaLotesDetalleId;
     this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-    this.calcularTotales();
   }
 
-  changeMotivo(e)
-  {
-    if ( e.Codigo == this.valueMotivoSalidaTransf)
-    {
-     
+  changeMotivo(e) {
+    if (e.Codigo == this.valueMotivoSalidaTransf) {
+
       this.visibleNumReferencia = true;
     }
-    else
-    {
+    else {
       this.visibleNumReferencia = false;
     }
   }
   openModal(modalLotes) {
-    this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });
-   
+    this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });    
     this.cargarLotes();
     this.clear();
     this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-    
+
   }
 
-  eliminarLote (select)
-  {
+  eliminarLote(select) {
     let form = this;
-    this.alertUtil.alertSiNoCallback('Está seguro?', 'El lote ' + select[0].Numero + ' se eliminará de su lista.' ,function(result){
-      if(result.isConfirmed){
-        form.listaLotesDetalleId = form.listaLotesDetalleId.filter(x=>x.LoteId != select[0].LoteId)
+    this.alertUtil.alertSiNoCallback('Está seguro?', 'El lote ' + select[0].Numero + ' se eliminará de su lista.', function (result) {
+      if (result.isConfirmed) {
+        form.listaLotesDetalleId = form.listaLotesDetalleId.filter(x => x.LoteId != select[0].LoteId)
         form.tempDataLoteDetalle = form.listaLotesDetalleId;
         form.rowsLotesDetalle = [...form.tempDataLoteDetalle];
-        form.selectLoteDetalle= [];
-        form.calcularTotales();
+        form.selectLoteDetalle = [];
       }
     }
     );
-    
+
   }
-  openModalTransportista(modalTransportista)
-  {
+  openModalTransportista(modalTransportista) {
     this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarTransportista();
     //this.clear();
   }
 
   clear() {
-
-   // this.selectAlmacen = [];
     this.consultaLotes.controls['numeroLote'].reset;
     this.consultaLotes.controls['fechaInicio'].reset;
     this.consultaLotes.controls['fechaFinal'].reset;
@@ -178,16 +168,15 @@ export class TagNotaSalidaEditComponent implements OnInit {
     this.consultaLotes.controls['numeroDocumento'].reset;
     this.consultaLotes.controls['socio'].reset;
     this.consultaLotes.controls['rzsocial'].reset;
-    this.selectEstado = [];   
+    this.selectEstado = [];
     this.rows = [];
   }
 
- 
-  cargarTransportista()
-  {
+
+  cargarTransportista() {
     this.consultaTransportistas = new FormGroup(
       {
-        rzsocial: new FormControl('',[Validators.minLength(5), Validators.maxLength(20)]),
+        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(20)]),
         ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20)])
       }
     );
@@ -197,18 +186,17 @@ export class TagNotaSalidaEditComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       let rzsocial = group.controls['rzsocial'].value;
       let ruc = group.controls['ruc'].value;
-      if (rzsocial == "" && ruc==  "" ) {
+      if (rzsocial == "" && ruc == "") {
         this.errorTransportista = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } 
-       else {
+      }
+      else {
         this.errorTransportista = { isError: false, errorMessage: '' };
       }
       return;
     };
   }
- 
-  cargarformTagNotaSalida()
-  {
+
+  cargarformTagNotaSalida() {
     this.maestroService.obtenerMaestros("MotivoSalida")
       .subscribe(res => {
         if (res.Result.Success) {
@@ -220,14 +208,23 @@ export class TagNotaSalidaEditComponent implements OnInit {
         }
       );
   }
-  
+
   cargarLotes() {
+    
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'large',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
     this.consultaLotes = new FormGroup(
       {
-        almacen: new FormControl({value: '' , disabled: true}, []),
+        almacen: new FormControl({ value: '', disabled: true }, []),
         numeroLote: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaInicio: new FormControl('', [Validators.required]),
-        fechaFinal:new FormControl('', [Validators.required]),
+        fechaFinal: new FormControl('', [Validators.required]),
         producto: new FormControl('', [Validators.required]),
         subproducto: new FormControl('', []),
         tipoDocumento: new FormControl('', []),
@@ -247,7 +244,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
           console.error(err);
         }
       );
-      this.maestroService.obtenerMaestros("Almacen")
+    this.maestroService.obtenerMaestros("Almacen")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaAlmacen = res.Result.Data;
@@ -257,7 +254,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
           console.error(err);
         }
       );
-      this.maestroService.obtenerMaestros("Producto")
+    this.maestroService.obtenerMaestros("Producto")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaProducto = res.Result.Data;
@@ -268,18 +265,19 @@ export class TagNotaSalidaEditComponent implements OnInit {
         }
       );
 
-      this.selectAlmacenLote = this.selectAlmacen;
+    this.selectAlmacenLote = this.selectAlmacen;
+    this.spinner.hide();
   }
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
     this.cargarSubProducto(filterProducto);
-   
+
   }
 
-  async cargarSubProducto(codigo:any){
-    
-     var data = await this.maestroService.obtenerMaestros("SubProducto").toPromise();
-     if (data.Result.Success) {
+  async cargarSubProducto(codigo: any) {
+
+    var data = await this.maestroService.obtenerMaestros("SubProducto").toPromise();
+    if (data.Result.Success) {
       this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
 
@@ -342,9 +340,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
       let tipoDocumento = group.controls['tipoDocumento'].value;
       let vProduct = group.controls['producto'].value;
 
-      if (fechaInicio == "" && fechaFinal==  "" && (vProduct.value ==  "" || vProduct ==  undefined)) {
+      if (fechaInicio == "" && fechaFinal == "" && (vProduct.value == "" || vProduct == undefined)) {
         this.error = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } 
+      }
       else if (!vProduct) {
         this.error = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
       } else {
@@ -361,11 +359,10 @@ export class TagNotaSalidaEditComponent implements OnInit {
       return;
     };
   }
- 
-  buscarTransportista()
-  {
 
-     if (this.consultaTransportistas.invalid || this.errorTransportista.isError) {
+  buscarTransportista() {
+
+    if (this.consultaTransportistas.invalid || this.errorTransportista.isError) {
       this.submittedT = true;
       return;
     } else {
@@ -405,20 +402,19 @@ export class TagNotaSalidaEditComponent implements OnInit {
           }
         );
     }
-  
+
   };
-  seleccionarTransportista(e)
-  {
-  
-    this.tagNotadeSalida.get('propietario').setValue(e[0].RazonSocial);    
+  seleccionarTransportista(e) {
+
+    this.tagNotadeSalida.get('propietario').setValue(e[0].RazonSocial);
     this.tagNotadeSalida.get('domiciliado').setValue(e[0].Direccion);
     this.tagNotadeSalida.get('ruc').setValue(e[0].Ruc);
     this.tagNotadeSalida.get('conductor').setValue(e[0].Conductor);
-    this.tagNotadeSalida.get('brevete').setValue(e[0].Licencia );
-    this.tagNotadeSalida.get('codvehicular').setValue(e[0].ConfiguracionVehicular );
-    this.tagNotadeSalida.get('marca').setValue(e[0].MarcaTractor );
-    this.tagNotadeSalida.get('placa').setValue(e[0].PlacaTractor );
-    this.tagNotadeSalida.get('numconstanciamtc').setValue(e[0].NumeroConstanciaMTC );
+    this.tagNotadeSalida.get('brevete').setValue(e[0].Licencia);
+    this.tagNotadeSalida.get('codvehicular').setValue(e[0].ConfiguracionVehicular);
+    this.tagNotadeSalida.get('marca').setValue(e[0].MarcaTractor);
+    this.tagNotadeSalida.get('placa').setValue(e[0].PlacaTractor);
+    this.tagNotadeSalida.get('numconstanciamtc').setValue(e[0].NumeroConstanciaMTC);
 
     this.modalService.dismissAll();
   }
@@ -429,16 +425,16 @@ export class TagNotaSalidaEditComponent implements OnInit {
     } else {
       this.selected = [];
       this.submitted = false;
-      this.filtrosLotes.AlmacenId = this.consultaLotes.controls['almacen'].value.length == 0 ? "": this.consultaLotes.controls['almacen'].value ;
+      this.filtrosLotes.AlmacenId = this.consultaLotes.controls['almacen'].value.length == 0 ? "" : this.consultaLotes.controls['almacen'].value;
       this.filtrosLotes.NombreRazonSocial = this.consultaLotes.controls['rzsocial'].value;
-      this.filtrosLotes.TipoDocumentoId = this.consultaLotes.controls['tipoDocumento'].value.length == 0 ? "": this.consultaLotes.controls['tipoDocumento'].value;
+      this.filtrosLotes.TipoDocumentoId = this.consultaLotes.controls['tipoDocumento'].value.length == 0 ? "" : this.consultaLotes.controls['tipoDocumento'].value;
       this.filtrosLotes.NumeroDocumento = this.consultaLotes.controls['numeroDocumento'].value;
       this.filtrosLotes.Numero = this.consultaLotes.controls['numeroLote'].value;
       this.filtrosLotes.FechaInicio = this.consultaLotes.controls['fechaInicio'].value;
       this.filtrosLotes.FechaFin = this.consultaLotes.controls['fechaFinal'].value;
-      this.filtrosLotes.EstadoId = "01" ;
-      this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value == null || this.consultaLotes.controls['producto'].value.length ==  0 ? "" : this.consultaLotes.controls['producto'].value ;
-      this.filtrosLotes.SubProductoId =  this.consultaLotes.controls['subproducto'].value == null || this.consultaLotes.controls['subproducto'].value.length == 0 ? "":  this.consultaLotes.controls['subproducto'].value ;
+      this.filtrosLotes.EstadoId = "01";
+      this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value == null || this.consultaLotes.controls['producto'].value.length == 0 ? "" : this.consultaLotes.controls['producto'].value;
+      this.filtrosLotes.SubProductoId = this.consultaLotes.controls['subproducto'].value == null || this.consultaLotes.controls['subproducto'].value.length == 0 ? "" : this.consultaLotes.controls['subproducto'].value;
       this.filtrosLotes.CodigoSocio = this.consultaLotes.controls['socio'].value;
       this.filtrosLotes.EmpresaId = 1;
       this.spinner.show(undefined,
@@ -474,108 +470,39 @@ export class TagNotaSalidaEditComponent implements OnInit {
     }
   }
 
-  agregar (e)
-  {
-    let lote = this.listaLotesDetalleId.filter(x=> x.LoteId == e[0].LoteId);
-    if (lote.length == 0)
-    {
-      let loteSubProducto = this.listaLotesDetalleId.filter(x=> x.SubProductoId == this.selectSubProducto);
-      if (loteSubProducto.length == 0)
-      {
+  agregar(e) {
+    let lote = this.listaLotesDetalleId.filter(x => x.LoteId == e[0].LoteId);
+    if (lote.length == 0) {
+      let loteSubProducto = this.listaLotesDetalleId.filter(x => x.SubProductoId == this.selectSubProducto);
+      if (loteSubProducto.length == 0) {
         this.filtrosLotesID.LoteId = Number(e[0].LoteId);
-        this.spinner.show(undefined,
-          {
-            type: 'ball-triangle-path',
-            size: 'large',
-            bdColor: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            fullScreen: true
-          });
-        this.loteService.ConsultarDetallePorLoteId(this.filtrosLotesID)
-          .subscribe(res => {
-            this.spinner.hide();
-            if (res.Result.Success) {
-              if (res.Result.ErrCode == "") {
-  
-                if (res.Result.Data)
-                {
-                  res.Result.Data.forEach(x=>{
-                    let object : any = {};                
-                    object.Producto = x.Producto
-                    object.UnidadMedida = x.UnidadMedida
-                    object.CantidadPesado = x.CantidadPesado
-                    object.RendimientoPorcentaje = x.RendimientoPorcentaje
-                    object.KilosNetosPesado = x.KilosNetosPesado
-                    object.Numero = e[0].Numero
-                    object.LoteId = x.LoteId
-                    object.NumeroNotaIngresoAlmacen = x.NumeroNotaIngresoAlmacen
-                    object.TotalAnalisisSensorial = x.TotalAnalisisSensorial
-                    object.HumedadPorcentaje = x.HumedadPorcentaje
-                    object.SubProductoId = x.SubProductoId
-                    this.listaLotesDetalleId.push(object);
-                  })
-                  
-                this.tempDataLoteDetalle = this.listaLotesDetalleId;
-                this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-                this.calcularTotales();
-                }
-              } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-                this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-              } else {
-                this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-              }
-            } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-            }
-          },
-            err => {
-              this.spinner.hide();
-              console.error(err);
-              this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-            }
-          );
-  
-          this.modalService.dismissAll(); 
+        let object: any = {};
+        object.Producto = e[0].Producto
+       // object.UnidadMedida = e[0].UnidadMedida /*add response*/
+        //object.CantidadPesado = e[0].CantidadPesado /*add response*/
+        object.Numero = e[0].Numero
+        object.LoteId = e[0].LoteId
+       // object.SubProductoId = e[0].SubProductoId /*add response*/
+        object.HumedadPorcentaje = e[0].HumedadPorcentajeAnalisisFisico
+        object.RendimientoPorcentaje = e[0].RendimientoPorcentaje
+        object.KilosNetos = e[0].TotalKilosNetosPesado
+        object.KilosBrutos = e[0].TotalKilosBrutosPesado
+        this.listaLotesDetalleId.push(object);
+        this.tempDataLoteDetalle = this.listaLotesDetalleId;
+        this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+        this.modalService.dismissAll();
       }
-      else
-      {
+      else {
         this.alertUtil.alertWarning("Oops...!", "Debe Seleccionar el mismo SubProducto");
       }
 
     }
-    
-    else
-    {
-      this.alertUtil.alertWarning("Oops...!", "El Lote " + e[0].Numero +" ya fue agregado.");
+
+    else {
+      this.alertUtil.alertWarning("Oops...!", "El Lote " + e[0].Numero + " ya fue agregado.");
     }
   }
-  
-  calcularTotales()
-  {
-    let Total = 0;
-    let RendimientoPorcentaje = 0;
-    let CantidadPesado = 0;
-    let KilosNetosPesado = 0;
-    let HumedadPorcentaje = 0;
-    this.rowsLotesDetalle.forEach(x=>{
-      Total += 1;
-      RendimientoPorcentaje += x.RendimientoPorcentaje;
-      CantidadPesado += x.CantidadPesado;
-      KilosNetosPesado += x.KilosNetosPesado;
-      HumedadPorcentaje += x.HumedadPorcentaje;
-      
-    });
-    
-    this.totales.Total = Total;
-    this.totales.PorcentRendimiento = (RendimientoPorcentaje == 0) ? 0: (RendimientoPorcentaje/Total).toFixed(2);
-    this.totales.HumedadPorcentaje =  (HumedadPorcentaje == 0) ? 0: (HumedadPorcentaje/Total).toFixed(2);
-    this.totales.CantidadTotal =CantidadPesado;
-    this.totales.TotalKilos = KilosNetosPesado;
-    let array : any[] = [];
-    array.push(this.totales);
-    this.tempDataLoteTotal = array;
-    this.rowsLotesTotal = [...array];
-  }
+
 }
 
 
