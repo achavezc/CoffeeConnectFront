@@ -325,8 +325,8 @@
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <div class="col-lg-12">
-                                    <label for="sujetoAprobMuestra">
+                                <div class="col-lg-12 col-md-12 col-sm-12 bg-primary text-white">
+                                    <!-- <label for="sujetoAprobMuestra">
                                         <input type="checkbox" name="sujetoAprobMuestra" id="sujetoAprobMuestra"
                                             [ngClass]="{ 'is-invalid': f.sujetoAprobMuestra.invalid, 'is-valid': !f.sujetoAprobMuestra.invalid }"
                                             formControlName="sujetoAprobMuestra">&nbsp;Sujeto a
@@ -341,7 +341,23 @@
                                             [ngClass]="{ 'is-invalid': f.muestraAnalisisGlifosato.invalid, 'is-valid': !f.muestraAnalisisGlifosato.invalid }"
                                             id="muestraAnalisisGlifosato"
                                             formControlName="muestraAnalisisGlifosato">&nbsp;Muestra
-                                        enviada para analisis de Glifosato</label>
+                                        enviada para analisis de Glifosato</label> -->
+                                    <label for="">SEGUIMIENTO DE MUESTRAS</label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="laboratorio" class="col-lg-5 col-form-label">LABORATORIO</label>
+                                        <div class="col-lg-7">
+                                            <ng-select [items]="listLaboratorios" formControlName="laboratorio"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="laboratorio" placeholder="Laboratorio"
+                                                [(ngModel)]="selectedLaboratorio"
+                                                [ngClass]="{ 'is-invalid': f.laboratorio.invalid, 'is-valid': !f.laboratorio.invalid }">
+                                            </ng-select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -387,9 +403,9 @@
                     <div class="form-row">
 
                         <div class="col-md-6 mb-6 form-group mb-2">
-                          <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
+                            <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
                         </div>
-                      </div>
+                    </div>
                     <div class="form-row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group row">

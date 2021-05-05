@@ -195,13 +195,10 @@ export class SocioComponent implements OnInit {
   }
 
   GoProjects(): void {
-    this.router.navigate(['/agropecuario/operaciones/socio/proyectos/list/' + 1]);
+    this.router.navigate([`/agropecuario/operaciones/socio/proyectos/list/${this.selected[0].SocioId}`]);
   }
 
   OpenModal(modal: any): void {
-    // const res = this.modalService.open(modal, { size: 'xl', centered: true });
-    // res.componentInstance.codeForm = 'frmMdlListaFotosGeoreferenciadas';
-    // res.componentInstance.FincaId = 0;
     this.modalService.open(modal, { size: 'xl', centered: true });
   }
 }

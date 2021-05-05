@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup,FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
-import {HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -44,6 +44,7 @@ export class ContratoEditComponent implements OnInit {
   listCalidad = [];
   listCertificacion = [];
   listGrado = [];
+  listLaboratorios: any[];
   selectedCondEmbarque: any;
   selectedPais: any;
   selectedCiudad: any;
@@ -56,6 +57,7 @@ export class ContratoEditComponent implements OnInit {
   selectedCalidad: any;
   selectedCertificacion: any;
   selectedGrado: any;
+  selectedLaboratorio: any;
   vId: number;
   vSessionUser: any;
   private url = `${host}Contrato`;
@@ -111,13 +113,14 @@ export class ContratoEditComponent implements OnInit {
       cantidadDefectos: [, Validators.required],
       cargaContrato: [],
       responsableComercial: [, Validators.required],
-      sujetoAprobMuestra: [],
-      muestraEnviadaCliente: [],
-      muestraAnalisisGlifosato: [],
+      // sujetoAprobMuestra: [],
+      // muestraEnviadaCliente: [],
+      // muestraAnalisisGlifosato: [],
       estado: [],
       file: new FormControl('', []),
-        fileName: new FormControl('', []),
-        pathFile: new FormControl('', [])
+      fileName: new FormControl('', []),
+      pathFile: new FormControl('', []),
+      laboratorio: []
     });
   }
 
@@ -300,7 +303,7 @@ export class ContratoEditComponent implements OnInit {
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: '01',
       CalculoContratoId: '',
-      DescripcionArchivo:  ''
+      DescripcionArchivo: ''
     }
   }
 
@@ -354,27 +357,27 @@ export class ContratoEditComponent implements OnInit {
     const request = this.GetRequest();
     const formData = new FormData();
     formData.append('file', this.contratoEditForm.get('file').value);
-    formData.append('request',  JSON.stringify(request));
+    formData.append('request', JSON.stringify(request));
     const headers = new HttpHeaders();
     headers.append('enctype', 'multipart/form-data');
     this.httpClient
-     .post(this.url + '/Registrar', formData, { headers })
-     .subscribe((res: any) => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-          "Se registro correctamente el contrato.",
-          () => {
-            this.Cancelar();
-          });
-      } else {
-        this.alertUtil.alertError("ERROR!", res.Result.Message);
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.spinner.hide();
-      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-    });
+      .post(this.url + '/Registrar', formData, { headers })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+            "Se registro correctamente el contrato.",
+            () => {
+              this.Cancelar();
+            });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+      });
   }
 
   Update(): void {
@@ -382,27 +385,27 @@ export class ContratoEditComponent implements OnInit {
     const request = this.GetRequest();
     const formData = new FormData();
     formData.append('file', this.contratoEditForm.get('file').value);
-    formData.append('request',  JSON.stringify(request));
+    formData.append('request', JSON.stringify(request));
     const headers = new HttpHeaders();
     headers.append('enctype', 'multipart/form-data');
     this.httpClient
-     .post(this.url + '/Actualizar', formData, { headers })
-     .subscribe((res: any) => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-          "Se actualizo correctamente la certificacion.",
-          () => {
-            this.Cancelar();
-          });
-      } else {
-        this.alertUtil.alertError("ERROR!", res.Result.Message);
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.spinner.hide();
-      this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
-    });
+      .post(this.url + '/Actualizar', formData, { headers })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+            "Se actualizo correctamente la certificacion.",
+            () => {
+              this.Cancelar();
+            });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.mensajeErrorGenerico);
+      });
   }
 
   SearchById(): void {
@@ -508,13 +511,13 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
       }
       if (data.RequiereAprobacionMuestra) {
-        this.contratoEditForm.controls.sujetoAprobMuestra.setValue(data.RequiereAprobacionMuestra);
+        // this.contratoEditForm.controls.sujetoAprobMuestra.setValue(data.RequiereAprobacionMuestra);
       }
       if (data.MuestraEnviadaCliente) {
-        this.contratoEditForm.controls.muestraEnviadaCliente.setValue(data.MuestraEnviadaCliente);
+        // this.contratoEditForm.controls.muestraEnviadaCliente.setValue(data.MuestraEnviadaCliente);
       }
       if (data.MuestraEnviadaAnalisisGlifosato) {
-        this.contratoEditForm.controls.muestraAnalisisGlifosato.setValue(data.MuestraEnviadaAnalisisGlifosato);
+        // this.contratoEditForm.controls.muestraAnalisisGlifosato.setValue(data.MuestraEnviadaAnalisisGlifosato);
       }
       // this.contratoEditForm.controls..setValue(data.NombreArchivo);
       // this.contratoEditForm.controls..setValue(data.PathArchivo);
@@ -529,7 +532,7 @@ export class ContratoEditComponent implements OnInit {
       }
       this.contratoEditForm.controls.fileName.setValue(data.NombreArchivo);
       this.contratoEditForm.controls.pathFile.setValue(data.PathArchivo);
-      this.fileName =  data.NombreArchivo
+      this.fileName = data.NombreArchivo
       this.spinner.hide();
     }
     this.spinner.hide();
@@ -537,8 +540,8 @@ export class ContratoEditComponent implements OnInit {
   Descargar() {
     var nombreFile = this.contratoEditForm.value.fileName;
     var rutaFile = this.contratoEditForm.value.pathFile;
-    window.open(this.url+'/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile , '_blank');
-    
+    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
+
   }
   fileChange(event) {
 
