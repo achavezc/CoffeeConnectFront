@@ -266,13 +266,12 @@ export class NotaSalidaEditComponent implements OnInit {
         this.child.selectedT[0].Conductor,
         this.child.selectedT[0].Licencia,
         this.notaSalidaFormEdit.get('tagcalidad').get("observacion").value,
-        this.child.totales.Total,
-        this.child.totales.TotalKilos,
-        Number(this.child.totales.PorcentRendimiento),
+        1,
+        this.child.listaLotesDetalleId[0].KilosBrutos,
         null,
         this.login.Result.Data.NombreUsuario,
         list,
-        this.child.totales.CantidadTotal
+        this.child.listaLotesDetalleId[0].CantidadPesado
       );
       let json = JSON.stringify(request);
       this.spinner.show(undefined,

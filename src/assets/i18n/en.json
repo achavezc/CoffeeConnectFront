@@ -221,9 +221,13 @@
 		"Operaciones":
 		{
 			"Label":"Operations",
-			"GuiaIngreso":
+			"NotaIngreso":
 				{
-					"Label":"Entry Guide"
+					"Label":"Nota de Ingreso"
+				},
+				"NotaIngresoAlmacen":
+				{
+					"Label":"Nota de Ingreso Almacen"
 				}
 		},
 		"Administracion":

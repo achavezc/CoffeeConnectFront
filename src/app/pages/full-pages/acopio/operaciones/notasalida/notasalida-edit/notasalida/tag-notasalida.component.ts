@@ -58,9 +58,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   login: ILogin;
   private tempData = [];
   private tempDataLoteDetalle = [];
-  private tempDataLoteTotal = [];
   public rows = [];
-  public rowsLotesTotal = [];
   public rowsLotesDetalle = []
   public ColumnMode = ColumnMode;
   public limitRef = 10;
@@ -70,7 +68,6 @@ export class TagNotaSalidaEditComponent implements OnInit {
   filtrosTransportista: any = {};
   listaLotesDetalleId = [];
   valueMotivoSalidaTransf = '02';
-  totales: any = {};
   esEdit = false;
   @Input() eventsNs: Observable<any>;
 
@@ -107,10 +104,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
       object.Numero = x.NumeroLote,
         object.Producto = x.Producto
         object.SubProductoId = x.SubProductoId
-      //object.UnidadMedida = x.UnidadMedida
-      //object.CantidadPesado = x.CantidadPesado
+      object.UnidadMedida = x.UnidadMedida
+      object.CantidadPesado = x.CantidadPesado
       object.RendimientoPorcentaje = x.RendimientoPorcentaje
-      object.KilosNetos = x.KilosNetosPesado
       object.KilosBrutos = x.KilosNetosPesado
       object.LoteId = x.LoteId
       object.HumedadPorcentaje = x.HumedadPorcentaje
@@ -471,35 +467,27 @@ export class TagNotaSalidaEditComponent implements OnInit {
   }
 
   agregar(e) {
-    let lote = this.listaLotesDetalleId.filter(x => x.LoteId == e[0].LoteId);
-    if (lote.length == 0) {
-      let loteSubProducto = this.listaLotesDetalleId.filter(x => x.SubProductoId == this.selectSubProducto);
-      if (loteSubProducto.length == 0) {
+    if (this.listaLotesDetalleId.length == 0) {
+      
         this.filtrosLotesID.LoteId = Number(e[0].LoteId);
         let object: any = {};
         object.Producto = e[0].Producto
-       // object.UnidadMedida = e[0].UnidadMedida /*add response*/
-        //object.CantidadPesado = e[0].CantidadPesado /*add response*/
+        object.UnidadMedida = e[0].UnidadMedida 
+        object.CantidadPesado = e[0].Cantidad 
         object.Numero = e[0].Numero
         object.LoteId = e[0].LoteId
-       // object.SubProductoId = e[0].SubProductoId /*add response*/
+         object.SubProductoId = e[0].SubProductoId 
         object.HumedadPorcentaje = e[0].HumedadPorcentajeAnalisisFisico
         object.RendimientoPorcentaje = e[0].RendimientoPorcentaje
-        object.KilosNetos = e[0].TotalKilosNetosPesado
         object.KilosBrutos = e[0].TotalKilosBrutosPesado
         this.listaLotesDetalleId.push(object);
         this.tempDataLoteDetalle = this.listaLotesDetalleId;
         this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-        this.modalService.dismissAll();
-      }
-      else {
-        this.alertUtil.alertWarning("Oops...!", "Debe Seleccionar el mismo SubProducto");
-      }
+        this.modalService.dismissAll();     
 
     }
-
     else {
-      this.alertUtil.alertWarning("Oops...!", "El Lote " + e[0].Numero + " ya fue agregado.");
+      this.alertUtil.alertWarning("Oops...!","Solo puede Agregar 1 Lote");
     }
   }
 
