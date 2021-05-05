@@ -88,14 +88,14 @@ const routes: Routes = [
                 }
             },
             {
-                path: 'socio/proyectos/create',
+                path: 'socio/proyectos/create/:partner',
                 component: ProyectosEditComponent,
                 data: {
                     title: 'Nuevo Proyecto'
                 }
             },
             {
-                path: 'socio/proyectos/update/:id',
+                path: 'socio/proyectos/update/:partner/:project',
                 component: ProyectosEditComponent,
                 data: {
                     title: 'Actualizar Proyecto'

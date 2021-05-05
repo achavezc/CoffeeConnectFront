@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { MaestroService } from '../../../../../../../services/maestro.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-proyectos-edit',
@@ -26,13 +27,18 @@ export class ProyectosEditComponent implements OnInit {
   selectedEstadoPlanDesen2: any;
   selectedUnidadMedida: any;
   selectedTipo: any;
-  vId: number;
+  vCodePartner: number;
+  vCodeProject: number;
 
   constructor(private fb: FormBuilder,
     private dateUtil: DateUtil,
-    private maestroServicio: MaestroService) { }
+    private maestroServicio: MaestroService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.vCodePartner = this.route.snapshot.params["partner"] ? Number(this.route.snapshot.params["partner"]) : 0
+    this.vCodeProject = this.route.snapshot.params["project"] ? Number(this.route.snapshot.params["project"]) : 0
     this.LoadForm();
     this.proyectosEditForm.controls.desem1Desde.setValue(this.dateUtil.currentDate());
     this.proyectosEditForm.controls.desem2Desde.setValue(this.dateUtil.currentDate());
@@ -125,4 +131,7 @@ export class ProyectosEditComponent implements OnInit {
     }
   }
 
+  Cancel(): void {
+    this.router.navigate([`/agropecuario/operaciones/socio/proyectos/list/${this.vCodePartner}`]);
+  }
 }
