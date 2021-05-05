@@ -22,7 +22,6 @@ export class ReqNotaSalida
         Observacion: string,
         CantidadLotes: number,
         PesoKilosBrutos: number,
-        PromedioPorcentajeRendimiento: number,
         EstadoId: string,
         UsuarioNotaSalidaAlmacen: string,
         ListNotaSalidaAlmacenDetalle: NotaSalidaAlmacenDetalleDTO[],
@@ -57,7 +56,6 @@ export class ReqNotaSalida
             this.Observacion = Observacion,
             this.CantidadLotes = CantidadLotes,
             this.PesoKilosBrutos = PesoKilosBrutos,
-            this.PromedioPorcentajeRendimiento = PromedioPorcentajeRendimiento,
             
             this.UsuarioNotaSalidaAlmacen = UsuarioNotaSalidaAlmacen,
             this.ListNotaSalidaAlmacenDetalle = ListNotaSalidaAlmacenDetalle,
@@ -85,7 +83,6 @@ export class ReqNotaSalida
     Observacion: string;
     CantidadLotes: number;
     PesoKilosBrutos: number;
-    PromedioPorcentajeRendimiento: number;
     EstadoId: string;
     UsuarioNotaSalidaAlmacen: string;
     ListNotaSalidaAlmacenDetalle: NotaSalidaAlmacenDetalleDTO[];
