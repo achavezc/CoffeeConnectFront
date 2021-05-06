@@ -1,0 +1,445 @@
+<form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit">
+    <section id="tooltip-validation">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 2rem;">
+            <!--   <form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit"> -->
+                
+                <div class="row">
+                  <div class="col-12 col-md-8">
+                    <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                    <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                    <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+    
+                    <div class="form-row"  *ngIf="esEdit" >
+                      <div class="col-md-6 form-group">
+                        <label class="card-forms" for="users-edit-username">N° DE GUIA</label>
+                      </div>
+    
+                      <div class="col-md-6 form-group">
+                        <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numeroGuia}}</label>
+                      </div>
+                    
+                    </div> 
+                    <div class="form-row" >
+                     
+                      <div class="col-md-6 form-group">
+                        <label class="card-forms" for="users-edit-name">N° GUIA REFERENCIA</label>
+                      </div>
+                      
+                      <div class="col-md-6 form-group">
+            
+                        <div class="form-group" style="margin-bottom: 0.5rem !important;">
+                          <div class="controls">
+                            <input type="text" style="height:20px" id="users-edit-username" formControlName="guiaReferencia"  class="form-control" aria-invalid="false"
+                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.guiaReferencia.invalid, 'is-valid': submittedEdit && !fedit.guiaReferencia.invalid }" >
+    
+                              <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.minlength">Ingrese 5 a 20
+                                letras</small>
+                              <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.maxlength">Ingrese 5 a 20
+                                letras</small>
+                              <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.pattern">Solo letras y
+                                números</small>
+                          </div>
+                        </div>
+    
+                      </div>
+                    </div>
+                    <div class="form-row"  *ngIf="esEdit"  >
+                      
+                      <div class="col-md-6 form-group">
+                        <label class="card-forms" for="users-edit-email">FECHA</label>
+                      </div>
+    
+                      <div class="col-md-4 form-group">
+                        <label class="card-forms" for="users-edit-username"  style="font-weight: bold;" >{{fechaRegistro}}</label>
+                      </div>
+                    </div>
+    
+                    <div class="form-row"  *ngIf="esEdit"  >
+                      
+                      <div class="col-md-6 form-group">
+                        <label class="card-forms" for="users-edit-email">ESTADO</label>
+                      </div>
+    
+                      <div class="col-md-4 form-group">
+                        <label class="card-forms" for="users-edit-username"  style="font-weight: bold;">{{estado}}</label>
+                      </div>
+                    </div>
+    
+                  </div>
+           
+                </div>
+    
+                <div class="row"
+                  style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                  <div class="card-subtitle-form">DATOS DEL PROVEEDOR</div>
+                </div>
+    
+                <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                  <div class="col-12 col-md-5">
+                    <label for="basicInput">Nombre</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provNombre" 
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provNombre.invalid, 'is-valid': submittedEdit && !fedit.provNombre.invalid }"
+                    disabled>
+                    <label for="basicInput">Doc. Identidad</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provDocumento" 
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provDocumento.invalid, 'is-valid': submittedEdit && !fedit.provDocumento.invalid }"
+                    disabled>
+                    <label for="basicInput">Tipo</label>
+                    <ng-select [items]="listTipoSocio" [(ngModel)]="selectTipoSocio" formControlName="provTipoSocio"
+                      bindLabel="Label" bindValue="Codigo"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.provTipoSocio.invalid, 'is-valid': submittedEdit && !fedit.provTipoSocio.invalid }" >
+                    </ng-select>
+    
+                    <label for="basicInput">Codigo</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provCodigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provCodigo.invalid, 'is-valid': submittedEdit && !fedit.provCodigo.invalid }"
+                    disabled>
+    
+                    <label for="basicInput">Finca</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provFinca"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provFinca.invalid, 'is-valid': submittedEdit && !fedit.provFinca.invalid }"
+                    disabled>
+                  </div>
+                  <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                    <ng-template #customContent let-c="close" let-d="dismiss">
+                      <div class="modal-header" style="text-align: center;">
+    
+                        <h4 class="modal-title" style="font-size: 1rem;">Buscador de Proveedor Aprobados (LPA)</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form [formGroup]="consultaProveedor" class="needs-validation"
+                          style="padding-left: 0.3rem; padding-right: 0.3rem;">
+                          <ngx-spinner></ngx-spinner>
+                          <div class="row"style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                            <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-12 col-md-5">
+                              <div class="form-group row" style="margin-top: 1rem">
+                                <label for="validationTooltip05" class="col-md-3 col-form-label card-text2">Tipo</label>
+                                <div class="col-md-9">
+                                  <ng-select #ngSelectComponent id="validationTooltip05" [items]="listaTipoProveedor"
+                                    [(ngModel)]="selectTipoProveedor" formControlName="tipoproveedor" bindLabel="Label"
+                                    bindValue="Codigo" placeholder="Seleccionar"
+                                    [ngClass]="{ 'is-invalid': submitted && f.tipoproveedor.invalid, 'is-valid': submitted && !f.tipoproveedor.invalid }">
+                                  </ng-select>
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="f.tipoproveedor.errors?.required">Ingrese Tipo de Proveedor</small>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="validationTooltip01" class="col-md-3 col-form-label card-text2">Tipo
+                                  Doc.</label>
+                                <div class="col-md-9">
+                                  <ng-select [items]="listaTipoDocumento" formControlName="tipoDocumento" bindLabel="Label"
+                                    bindValue="Codigo" id="validationTooltip01" placeholder="Seleccionar"
+                                    [ngClass]="{ 'is-invalid': submitted && f.tipoDocumento.invalid, 'is-valid': submitted && !f.tipoDocumento.invalid }"
+                                    [(ngModel)]="selectedTipoDocumento">
+                                  </ng-select>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Numero
+                                  Doc.</label>
+                                <div class="col-md-9">
+                                  <input type="text" minlength="8" maxlength="20" formControlName="numeroDocumento"
+                                    class="form-control" id="validationTooltip08" placeholder="Numero Documento"
+                                    [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.invalid, 'is-valid': submitted && !f.numeroDocumento.invalid }">
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="f.numeroDocumento.errors?.minlength">Ingrese 8 a 20
+                                    letras</small>
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="f.numeroDocumento.errors?.maxlength">Ingrese 8 a 20
+                                    letras</small>
+                                </div>
+    
+                              </div>
+    
+    
+                            </div>
+                            <div class="col-12 col-md-7">
+                              <div class="form-group row" style="margin-top: 1rem;">
+                                <label for="validationTooltip08" class="col-md-3 col-form-label card-text2">Socio</label>
+                                <div class="col-md-9">
+                                  <input id="validationTooltip08" type="text" class="form-control" formControlName="socio"
+                                    name="first-name"
+                                    [ngClass]="{ 'is-invalid': submitted && f.socio.invalid, 'is-valid': submitted && !f.socio.invalid }">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label class="col-md-3 col-form-label card-text" for="validationTooltip09">Nombre/Rz.
+                                  Social</label>
+                                <div class="col-md-9">
+                                  <input type="text" class="form-control" id="validationTooltip09"
+                                    formControlName="rzsocial"
+                                    [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }"
+                                    name="first-name">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="row">
+                                <div class="col-md-10">
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-2">
+                                  <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="row">
+                            <div class="col-12">
+                              <fieldset class="form-group">
+                                <label style="font-size: 0.6rem;">Show
+                                  <select name="users-list-select" style="font-size: 0.8rem;"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                  </select>
+                                  entries</label>
+                                <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
+                                  <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                                </label>
+                              </fieldset>
+                              <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableProveedor
+                                [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                                [limit]="limitRef" [rows]="rows" style="font-size: 0.8rem;"
+                                [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'"
+                                (dblclick)="seleccionarProveedor(selected)">
+                                <ngx-datatable-column name="Cod. Socio" prop="CodigoSocio" width="30"  >
+                                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+    
+                                    <div class="d-flex align-items-center">
+                                      <div class="cell-line-height">
+                                        {{ name }}
+                                      </div>
+                                    </div>
+    
+                                  </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Tipo Doc." prop="TipoDocumento" width="20">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Documento" prop="NumeroDocumento" width="40">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Razon Social" prop="NombreRazonSocial" width="60">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Departamento" prop="Departamento" width="25">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Provincia" prop="Provincia" width="25"></ngx-datatable-column>
+                                <ngx-datatable-column name="Distrito" prop="Distrito" width="25"></ngx-datatable-column>
+                                <ngx-datatable-column name="Zona" prop="Zona" width="25"></ngx-datatable-column> 
+                                <ngx-datatable-column name="Finca"  prop="Finca"  ></ngx-datatable-column>
+                                <ngx-datatable-column name="Certificacion"  prop="Certificacion"  ></ngx-datatable-column>
+                                <!-- <ngx-datatable-column name="TipoProveedorId"  prop="TipoProveedorId"  ></ngx-datatable-column>
+                                 -->
+                              </ngx-datatable>
+                            </div>
+                          </div>
+    
+                        </form>
+                      </div>
+                    </ng-template>
+                    <button type="button" (click)="openModal(customContent)" class="btn btn-default"
+                      style="margin-top: 1.5rem;">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
+                  <div class="col-12 col-md-5">
+                    <label for="basicInput">Departamento</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provDepartamento"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provDepartamento.invalid, 'is-valid': submittedEdit && !fedit.provDepartamento.invalid }"
+                    disabled>
+                    <label for="basicInput">Provincia</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provProvincia" 
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provProvincia.invalid, 'is-valid': submittedEdit && !fedit.provProvincia.invalid }"
+                    disabled>
+                    <label for="basicInput">Distrito</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provDistrito"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provDistrito.invalid, 'is-valid': submittedEdit && !fedit.provDistrito.invalid }"
+                    disabled>
+                    <label for="basicInput">Zona</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provZona"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provZona.invalid, 'is-valid': submittedEdit && !fedit.provZona.invalid }"
+                    disabled>
+                   
+                    <label for="basicInput">Certificación</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="provCertificacion"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.provCertificacion.invalid, 'is-valid': submittedEdit && !fedit.provCertificacion.invalid }"
+                    disabled>
+    
+                  
+                   
+                  </div>
+                 
+                  
+                </div>
+                
+                <div class="row"
+                  style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                  <div class="card-subtitle-form">DATOS DEL PRODUCTO</div>
+                </div>
+                
+                <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                  <div class="col-12 col-md-5">
+                    <label for="basicInput">TIPO</label>
+                    <div class="form-group">
+                      <div class="controls">
+                        <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
+                          placeholder="Seleccionar Tipo" formControlName="producto" (change)="changeSubProducto($event)" 
+                          bindLabel="Label" bindValue="Codigo"
+                          [ngClass]="{ 'is-invalid': submittedEdit && fedit.producto.invalid, 'is-valid': submittedEdit && !fedit.producto.invalid }">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <label for="basicInput">SUB TIPO</label>
+                    <div class="form-group" style="margin-bottom: 0.5rem !important;">
+                      <div class="controls">
+                        <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto" 
+                          formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
+                          placeholder="Seleccionar Tipo Producto" (change)="changeView($event)" 
+                          [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }"
+                          >
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <button type="button" class="btn btn-default" (click)="cargarProveedor()">
+                      <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                  </div>
+                  <div class="col-12 col-md-5">
+                    <label for="validationTooltip10">Fecha Cosecha</label>
+                    <div class="form-group">
+                      <div class="controls">
+                          <input type="date" class="form-control" formControlName="fechaCosecha" id="validationTooltip10"
+                          name="fechaCosecha" placeholder="date" date
+                          [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaCosecha.invalid, 'is-valid': submittedEdit && !fedit.fechaCosecha.invalid }" />
+                      </div>
+                    </div>
+                    <label for="basicInput">Tipo Producción</label>
+                    <div class="form-group" style="margin-bottom: 0.5rem !important;">
+                      <div class="controls">
+                        <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
+                          formControlName="tipoProduccion" bindLabel="Label" bindValue="Codigo" class="form-control"
+                          placeholder="Seleccionar Tipo Producción" 
+                          [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }"
+                          >
+                        </ng-select>
+                      </div>
+                    </div>
+    
+                  </div>
+                </div>
+               
+    <!--           </form> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </section>
+    <section class="users-edit">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body">
+                <!-- Nav-tabs -->
+                <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
+                  <li [ngbNavItem]="1" [destroyOnHide]="true">
+                    <a ngbNavLink class="nav-link d-flex align-items-center">
+                      <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
+                    </a>
+                    <ng-template ngbNavContent>
+                      <app-pesadoCafe (miEvento)="consultarSocioFinca()" formGroupName="pesado" [submittedEdit]="submittedEdit" [unidadMedidaPesado]="unidadMedidaPesado"></app-pesadoCafe>
+                      <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                        <div class="col-8 d-flex flex-sm-row flex-column">
+                          <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                          <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
+                        </div>
+                        <div class="col-8 d-flex flex-sm-row flex-column">
+                          <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
+                          <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaPesado}}</label>
+                        </div>
+          
+                      </div>
+                      <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"  [disabled]="!btnGuardar" (click)="guardar()">Guardar</button>
+                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
+                      </div>
+                    </ng-template>
+                   
+                  </li>
+                  <li [ngbNavItem]="2"  >
+                    <a  ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'" >
+                      <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
+                    </a>
+                    
+                   
+                      <ng-template ngbNavContent *ngIf="viewTagSeco">
+                      <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadSeco>
+                      </ng-template>
+    
+                     <ng-template ngbNavContent *ngIf="!viewTagSeco" >
+                        <app-controlCalidadHumedo  *ngIf="detalle" [detalle]="detalle" ></app-controlCalidadHumedo>
+                        </ng-template>
+                        
+    
+                  </li>
+                  <li [ngbNavItem]="3">
+                    <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
+                      <span class="d-none d-sm-block" style="font-size: 1.1rem;">Nota de Compra</span>
+                    </a>
+                    <ng-template ngbNavContent>
+                      <app-notacompra *ngIf = "detalle" [detalle]="detalle"></app-notacompra>
+                    </ng-template>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div [ngbNavOutlet]="nav"></div>
+                </div>
+    
+    
+    
+    
+    
+    
+                
+    
+    
+    
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </section>
+    
+    
+    
+    <div class="d-flex justify-content-between align-items-center">
+      <ngx-spinner></ngx-spinner>
+    </div>
+    
+    </form>
