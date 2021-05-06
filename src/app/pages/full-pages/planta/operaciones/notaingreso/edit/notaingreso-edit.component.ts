@@ -578,7 +578,7 @@ export class NotaIngresoEditComponent implements OnInit {
 
 
   cancelar() {
-    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+    this.router.navigate(['/operaciones/notaingreso-list']);
   }
 
   obtenerDetalle() {
