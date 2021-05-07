@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { NotaIngresoListComponent } from './operaciones/notaingreso/list/notaingreso-list.component';
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
+import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
+import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
 
 
 const routes: Routes = [
@@ -21,8 +23,23 @@ const routes: Routes = [
         component: NotaIngresoEditComponent,
         data: {
           title: 'Edit'
+        },
+      },
+      {
+        path: 'notaingresoalmacen-list',
+        component: NotaIngresoAlmacenListComponent,
+        data: {
+          title: 'List'
+        },
+      },
+      {
+        path: 'notaingresoalmacen-edit',
+        component: NotaIngresoAlmacenEditComponent,
+        data: {
+          title: 'Edit'
         }
       }
+
     ]
   }
 ];
