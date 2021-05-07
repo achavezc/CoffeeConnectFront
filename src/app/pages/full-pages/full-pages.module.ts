@@ -12,6 +12,7 @@ import { InvoicePageComponent } from "./invoice/invoice-page.component";
 import { HomeComponent } from "./home/home.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { AcopioModule } from "./acopio/acopio.module";
+import { PlantaModule } from "./planta/planta.module";
 import { ProductorModule } from './productor/productor.module';
 import { AgropecuarioModule } from './agropecuario/agropecuario.module';
 import { MConsultarProductorComponent } from './modals/consultarproductor/m-consultar-productor.component';
@@ -31,6 +32,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     SwiperModule,
     NgxDatatableModule,
     AcopioModule,
+    PlantaModule,
     ProductorModule,
     AgropecuarioModule,
     ExportadorModule,

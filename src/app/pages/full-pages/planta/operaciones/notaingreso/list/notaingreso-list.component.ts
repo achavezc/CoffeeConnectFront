@@ -64,9 +64,8 @@ export class NotaIngresoListComponent implements OnInit {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
     ngOnInit(): void {
-
-       
-    
+      this.cargarForm();
+      this.buscar();
     }
 
     get f() {
@@ -74,12 +73,14 @@ export class NotaIngresoListComponent implements OnInit {
     }
     
     filterUpdate(event) {
+      /*
       const val = event.target.value.toLowerCase();
       const temp = this.tempData.filter(function (d) {
         return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
       });
       this.rows = temp;
       this.table.offset = 0;
+      */
     }
     singleSelectCheck(row: any) {
       return this.selected.indexOf(row) === -1;
@@ -93,15 +94,16 @@ export class NotaIngresoListComponent implements OnInit {
   cargarForm() {
     this.consultaMateriaPrimaForm = new FormGroup(
       {
-        numeroGuia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
-        tipoDocumento: new FormControl('', []),
-        nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
+        notaIngreso: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        codigoOrganizacion: new FormControl('', []),
+        numeroGuiaRemision: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
         fechaInicio: new FormControl('', [Validators.required]),
-        numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
-        estado: new FormControl('', []),
         fechaFin: new FormControl('', [Validators.required,]),
-        codigoSocio: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
-        producto: new FormControl('', [])
+        organizacion: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        ruc: new FormControl('', []),
+        tipoProducto: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        subProducto: new FormControl('', []),
+        estado: new FormControl('', [])
       });
     this.consultaMateriaPrimaForm.setValidators(this.comparisonValidator())
   }
@@ -126,6 +128,35 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   buscar() {
+    var lstDemo = [
+      {
+        "Numero":"G13333",
+        "NumeroGuiaRemision":"GR33444",
+        "FechaIngreso":"10/13/2021",
+        "Organizacion":"Prueba",
+        "TipoProducto":"Prueba",
+        "SubProducto":"Prueba",
+        "Motivo":"Pruena",
+        "Certificacion":"Prueba",
+        "Estado":"Pesado"
+      },
+       {
+        "Numero":"G13333",
+        "NumeroGuiaRemision":"GR33444",
+        "FechaIngreso":"10/13/2021",
+        "Organizacion":"Prueba",
+        "TipoProducto":"Prueba",
+        "SubProducto":"Prueba",
+        "Motivo":"Pruena",
+        "Certificacion":"Prueba",
+        "Estado":"Pesado"
+      }
+    ];
+
+    this.tempData = lstDemo;
+    this.rows = [...this.tempData];
+    this.selected = [];
+    /*
     if (this.consultaMateriaPrimaForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -179,6 +210,7 @@ export class NotaIngresoListComponent implements OnInit {
           }
         );
     }
+    */
   }
 
   compareTwoDates() {
