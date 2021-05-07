@@ -22,6 +22,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { NotaIngresoListComponent } from "./operaciones/notaingreso/list/notaingreso-list.component";
 import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaingreso-edit.component";
+import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
+import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
 import { ModalModule } from '../modals/modal.module'
 
 
@@ -49,7 +51,9 @@ import { ModalModule } from '../modals/modal.module'
   ],
   declarations: [
     NotaIngresoListComponent,
-    NotaIngresoEditComponent
+    NotaIngresoEditComponent,
+    NotaIngresoAlmacenListComponent,
+    NotaIngresoAlmacenEditComponent
   ],
   exports: [
     

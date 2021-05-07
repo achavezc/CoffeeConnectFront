@@ -74,6 +74,7 @@ export class LoteEditComponent implements OnInit {
       ruc: [],
       producto: [],
       subproducto: [],
+      tipoProduccion:[],
       certificacion: [],
       almacen: ['', [Validators.required]],
       totalPesoNeto: [],
@@ -160,6 +161,7 @@ export class LoteEditComponent implements OnInit {
     }
     this.loteEditForm.controls.producto.setValue(row.Producto);
     this.loteEditForm.controls.subproducto.setValue(row.SubProducto);
+    this.loteEditForm.controls.tipoProduccion.setValue(row.TipoProduccion);
     if (row.SubProductoId == "02") {
       this.viewTagSeco = true;
     }

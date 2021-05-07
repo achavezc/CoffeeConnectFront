@@ -46,26 +46,26 @@
                 </fieldset>
                 <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-lote" [columnMode]="'force'" [headerHeight]="50"
                     [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true" [selected]="selected" [selectionType]="'single'">
-                    <ngx-datatable-column name="N° NOTA DE INGRESO" prop="NumeroNotaIngresoAlmacen" width="100">
+                    <ngx-datatable-column name="N° NOTA DE INGRESO" prop="NumeroNotaIngresoAlmacen" width="180">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="FEC. INGRESO ALMACEN" prop="FechaIngresoAlmacen" width="190">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="CÓDIGO SOCIO" prop="CodigoSocio" width="130">
                     </ngx-datatable-column>                        
-                    <ngx-datatable-column name="SOCIO" prop="CodigoSocio" width="200">
+                    <ngx-datatable-column name="SOCIO" prop="Socio" width="100">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="CERTIFICADORA" prop="Certificadora" width="130">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="UNIDAD DE MEDIDA" prop="UnidadMedida" width="170">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="CANTIDAD" prop="CantidadPesado" width="100">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="PESO BRUTO (KG)" prop="KilosBrutosPesado" width="150">
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="PESO NETO (KG)" prop="KilosNetosPesado" width="150">
+                    <ngx-datatable-column name="TOTAL KILOS BRUTOS" prop="KilosBrutosPesado" width="160">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="PUNTAJE FINAL (ANALISIS SENSORIAL)" prop="TotalAnalisisSensorial"
                         width="300">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="RENDIMIENTO" prop="RendimientoPorcentaje" width="120">
+                    <ngx-datatable-column name="% RENDIMIENTO" prop="RendimientoPorcentaje" width="120">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="% HUMEDAD" prop="HumedadPorcentaje" width="100">
                     </ngx-datatable-column>
@@ -91,14 +91,6 @@
                                 <input type="text" name="totalSacos" id="totalSacos"
                                     formControlName="totalSacos" class="form-control form-control-sm text-right"
                                     placeholder="Total Sacos" [readonly]="true">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>TOTAL KILOS NETOS</td>
-                            <td>
-                                <input type="text" name="totalKilosNetosPesado" id="totalKilosNetosPesado"
-                                    formControlName="totalKilosNetosPesado" class="form-control form-control-sm text-right"
-                                    placeholder="Kilos Netos" [readonly]="true">
                             </td>
                         </tr>
                         <tr>

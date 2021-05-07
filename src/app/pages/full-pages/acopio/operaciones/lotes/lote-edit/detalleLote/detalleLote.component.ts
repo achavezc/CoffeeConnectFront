@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,Contr
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
+import{DateUtil} from '../../../../../../../services/util/date-util';
 
 @Component({
   selector:'app-detalleLote',
@@ -24,7 +25,7 @@ export class DetalleLoteComponent implements OnInit {
     @Output() miEvento = new EventEmitter();
 
     constructor( private controlContainer: ControlContainer,
-      private modalService: NgbModal, private alertUtil: AlertUtil)
+      private modalService: NgbModal, private alertUtil: AlertUtil, private dateUtil: DateUtil)
     {
 
     }
@@ -55,6 +56,8 @@ export class DetalleLoteComponent implements OnInit {
       cargarDatos(detalleLotes:any){
         this.lote = detalleLotes;
         this.detalleLotes = detalleLotes.listaDetalle;
+        detalleLotes.listaDetalle.forEach(x=>
+          {x.FechaIngresoAlmacen = this.dateUtil.formatDate( new Date(x.FechaIngresoAlmacen), '/')});
         this.tempRows = detalleLotes.listaDetalle;
         this.rows = [...detalleLotes.listaDetalle];
       }
