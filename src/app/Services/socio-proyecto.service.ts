@@ -27,11 +27,11 @@ export class SocioProyectoService {
 
   SearchById(pId: number): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
-    return this.http.post<any>(url, { SocioId: pId }).catch(this.errorHandling.handleError);
+    return this.http.post<any>(url, { SocioProyectoId: pId }).catch(this.errorHandling.handleError);
   }
 
   SearchByPartnerId(pId: number): Observable<any> {
     const url = `${this.url}/ConsultarPorSocioId`;
-    return this.http.post<any>(url, { SocioProyectoId: pId }).catch(this.errorHandling.handleError);
+    return this.http.post<any>(url, { SocioId: pId }).catch(this.errorHandling.handleError);
   }
 }

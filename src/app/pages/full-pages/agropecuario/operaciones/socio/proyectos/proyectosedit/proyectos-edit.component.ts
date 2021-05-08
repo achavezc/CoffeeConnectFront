@@ -67,13 +67,14 @@ export class ProyectosEditComponent implements OnInit {
     if (this.vCodeProject <= 0) {
       this.proyectosEditForm.controls.fechaRegistro.setValue(this.dateUtil.currentDate());
     } else {
-
+      this.GetProjectById();
     }
   }
 
   LoadForm(): void {
     this.proyectosEditForm = this.fb.group({
       idSocioProyecto: [],
+      idSocio: [],
       idEmpresa: [],
       orgIntermediaria: [],
       fechaRegistro: [],
@@ -231,13 +232,146 @@ export class ProyectosEditComponent implements OnInit {
     });
   }
 
+  CalculateTotalEntregar(): void {
+    const totalEntregar = this.proyectosEditForm.value.cantidadInsumo ? this.proyectosEditForm.value.cantidadInsumo : 0;
+    const insuEntregado = this.proyectosEditForm.value.cantInsumoEntregado ? this.proyectosEditForm.value.cantInsumoEntregado : 0;
+    this.proyectosEditForm.controls.totalXEntregar.setValue(totalEntregar - insuEntregado);
+  }
+
+  GetProjectById(): void {
+    this.spinner.show();
+    this.socioProyectoService.SearchById(this.vCodeProject)
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          this.vMsgGeneral = { isError: false, msgError: '' };
+          this.AutocompleteForm(res.Result.Data);
+        } else {
+          this.vMsgGeneral = { isError: true, msgError: res.Result.Message };
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.vMsgGeneral = { isError: true, msgError: this.vMsgGenerico };
+        this.spinner.hide();
+      });
+  }
+
+  async AutocompleteForm(data: any) {
+    if (data) {
+      if (data.SocioProyectoId) {
+        this.proyectosEditForm.controls.idSocioProyecto.setValue(data.SocioProyectoId);
+      }
+      if (data.SocioId) {
+        this.proyectosEditForm.controls.idSocio.setValue(data.SocioId);
+      }
+      if (data.EmpresaId) {
+        this.proyectosEditForm.controls.idEmpresa.setValue(data.EmpresaId);
+      }
+      // this.proyectosEditForm.controls.orgIntermediaria.setValue(data.);
+      if (data.FechaRegistro && data.FechaRegistro.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaRegistro.setValue(data.FechaRegistro.substring(0, 10));
+      }
+      if (data.ProyectoId) {
+        await this.LoadProjects();
+        this.proyectosEditForm.controls.proyecto.setValue(data.ProyectoId);
+        this.ChangeProject({ Codigo: data.ProyectoId });
+      }
+      if (data.EstadoId) {
+        await this.LoadStates();
+        this.proyectosEditForm.controls.estado.setValue(data.EstadoId);
+      }
+      if (data.MonedaId) {
+        await this.LoadCurrencys();
+        this.proyectosEditForm.controls.moneda.setValue(data.MonedaId);
+      }
+      if (data.Monto) {
+        this.proyectosEditForm.controls.monto.setValue(data.Monto);
+      }
+      if (data.PeriodoDesde) {
+        this.proyectosEditForm.controls.periodoDesde.setValue(data.PeriodoDesde);
+      }
+      if (data.PeriodoHasta) {
+        this.proyectosEditForm.controls.periodoHasta.setValue(data.PeriodoHasta);
+      }
+      if (data.CantidadHectareas) {
+        this.proyectosEditForm.controls.nroHectareas.setValue(data.CantidadHectareas);
+      }
+      if (data.MontoPrimerDesembolso) {
+        this.proyectosEditForm.controls.montoPrimerDesembolso.setValue(data.MontoPrimerDesembolso);
+      }
+      if (data.FechaInicioPrimerDesembolso && data.FechaInicioPrimerDesembolso.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaIniPrimerDesembolso.setValue(data.FechaInicioPrimerDesembolso.substring(0, 10));
+      }
+      if (data.FechaFinPrimerDesembolso && data.FechaFinPrimerDesembolso.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaFinPrimerDesembolso.setValue(data.FechaFinPrimerDesembolso.substring(0, 10));
+      }
+      if (data.FechaCobroPrimerDesembolso && data.FechaCobroPrimerDesembolso.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaCobroPrimerDesembolso.setValue(data.FechaCobroPrimerDesembolso.substring(0, 10));
+      }
+      if (data.CobradoPrimerDesembolso) {
+        this.proyectosEditForm.controls.cobradoPrimerDesembolso.setValue(data.CobradoPrimerDesembolso);
+      }
+      if (data.MontoSegundoDesembolso) {
+        this.proyectosEditForm.controls.montoSegundoDesembolso.setValue(data.MontoSegundoDesembolso);
+      }
+      if (data.FechaInicioSegundoDesembolso && data.FechaInicioSegundoDesembolso.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaInicioSegundoDesembolso.setValue(data.FechaInicioSegundoDesembolso.substring(0, 10));
+      }
+      if (data.FechaFinSegundoDesembolso && data.FechaFinSegundoDesembolso.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaFinSegundoDesembolso.setValue(data.FechaFinSegundoDesembolso.substring(0, 10));
+      }
+      if (data.CobradoSegundoDesembolso) {
+        this.proyectosEditForm.controls.cobradoSegundoDesembolso.setValue(data.CobradoSegundoDesembolso);
+      }
+      if (data.FechaCobroSegundoDesembolso && data.FechaCobroSegundoDesembolso.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaCobroSegundoDesembolso.setValue(data.FechaCobroSegundoDesembolso.substring(0, 10));
+      }
+      if (data.UnidadMedidaId) {
+        await this.LoadUnidadMedida();
+        this.proyectosEditForm.controls.unidadMedida.setValue(data.UnidadMedidaId);
+      }
+      if (data.TipoInsumoId) {
+        await this.LoadTipos();
+        this.proyectosEditForm.controls.tipoInsumo.setValue(data.TipoInsumoId);
+      }
+      if (data.CantidadInsumo) {
+        this.proyectosEditForm.controls.cantidadInsumo.setValue(data.CantidadInsumo);
+      }
+      if (data.CantidadInsumoEntregado) {
+        this.proyectosEditForm.controls.cantInsumoEntregado.setValue(data.CantidadInsumoEntregado);
+      }
+      this.CalculateTotalEntregar();
+      // this.proyectosEditForm.controls.totalXEntregar.setValue(data.);
+      if (data.CantidadInsumoPedidoFinal) {
+        this.proyectosEditForm.controls.cantInsumoPedidoFinal.setValue(data.CantidadInsumoPedidoFinal);
+      }
+      if (data.FechaInicioCapacitacion && data.FechaInicioCapacitacion.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaInicioCapacitacion.setValue(data.FechaInicioCapacitacion.substring(0, 10));
+      }
+      if (data.FechaFinCapacitacion && data.FechaFinCapacitacion.substring(0, 10) != "0001-01-01") {
+        this.proyectosEditForm.controls.fechaFinCapacitacion.setValue(data.FechaFinCapacitacion.substring(0, 10));
+      }
+      if (data.ObservacionCapacitacion) {
+        this.proyectosEditForm.controls.obsCapacitacion.setValue(data.ObservacionCapacitacion);
+      }
+      if (data.AdopcionTecnologias) {
+        this.proyectosEditForm.controls.adopcionTecnologias.setValue(data.AdopcionTecnologias);
+      }
+      if (data.Requisitos) {
+        await this.LoadRequirements();
+        this.proyectosEditForm.controls.requisitos.setValue(data.Requisitos.split('|').map(String));
+      }
+    }
+    this.spinner.hide();
+  }
+
   GetRequest(): any {
     const form = this.proyectosEditForm.value;
     const request = {
       SocioProyectoId: form.idSocioProyecto ? form.idSocioProyecto : 0,
+      SocioId: this.vCodePartner,
       EmpresaId: this.vSession.Result.Data.EmpresaId,
-      OrganizacionProyectoAnterior: form.fechaRegistro ? form.fechaRegistro : '',
-      FechaProyectoAnterior: form.orgIntermediaria ? form.orgIntermediaria : null,
+      OrganizacionProyectoAnterior: form.orgIntermediaria ? form.orgIntermediaria : '',
+      FechaProyectoAnterior: null,
       ProyectoId: form.proyecto ? form.proyecto : '',
       MonedaId: form.moneda ? form.moneda : '',
       Monto: form.monto ? form.monto : 0,
@@ -264,7 +398,8 @@ export class ProyectosEditComponent implements OnInit {
       FechaFinCapacitacion: form.fechaFinCapacitacion ? form.fechaFinCapacitacion : null,
       AdopcionTecnologias: form.adopcionTecnologias == true ? true : false,
       Requisitos: form.requisitos ? form.requisitos.join('|') : '',
-      Usuario: this.vSession.Result.Data.NombreUsuario
+      Usuario: this.vSession.Result.Data.NombreUsuario,
+      EstadoId: form.estado ? form.estado : ''
     }
     return request;
   }
@@ -336,7 +471,24 @@ export class ProyectosEditComponent implements OnInit {
   }
 
   Update(): void {
-
+    this.spinner.show();
+    const request = this.GetRequest();
+    this.socioProyectoService.Update(request).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.vMsgGeneral = { isError: false, msgError: '' };
+        this.alertUtil.alertOkCallback('Confirmación!', 'Proyecto actualizado exitosamente.',
+          () => {
+            this.Cancel();
+          });
+      } else {
+        this.vMsgGeneral = { isError: true, msgError: res.Result.Message };
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.vMsgGeneral = { isError: true, msgError: this.vMsgGenerico };
+    });
   }
 
   Cancel(): void {

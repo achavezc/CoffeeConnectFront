@@ -286,7 +286,8 @@
                                     <input type="number" name="cantidadInsumo" id="cantidadInsumo"
                                         formControlName="cantidadInsumo" [readonly]="flagAgroRural || flagDevida"
                                         [ngClass]="{ 'is-invalid': f.cantidadInsumo.invalid, 'is-valid': !f.cantidadInsumo.invalid }"
-                                        class="form-control text-right" placeholder="Total a Entregar">
+                                        class="form-control text-right" placeholder="Total a Entregar"
+                                        (change)="CalculateTotalEntregar()">
                                 </div>
                             </div>
                         </div>
@@ -297,7 +298,7 @@
                                 <label for="cantInsumoEntregado" class="col-3 col-form-label">Entregados</label>
                                 <div class="col-lg-9">
                                     <input type="number" name="cantInsumoEntregado" id="cantInsumoEntregado"
-                                        formControlName="cantInsumoEntregado"
+                                        formControlName="cantInsumoEntregado" (change)="CalculateTotalEntregar()"
                                         [ngClass]="{ 'is-invalid': f.cantInsumoEntregado.invalid, 'is-valid': !f.cantInsumoEntregado.invalid }"
                                         class="form-control text-right" placeholder="Entregados"
                                         [readonly]="flagAgroRural || flagDevida">
