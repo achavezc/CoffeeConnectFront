@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngIf="vCodeProject || vCodeProject > 0">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group row">
                         <label for="fechaRegistro" class="col-3 col-form-label">Fecha Registro</label>
                         <div class="col-9">
@@ -34,19 +34,19 @@
                             <ng-select [items]="listProyectos" formControlName="proyecto" class="form-control"
                                 bindLabel="Label" bindValue="Codigo" id="proyecto" placeholder="Seleccionar proyecto"
                                 [ngClass]="{ 'is-invalid': f.proyecto.invalid, 'is-valid': !f.proyecto.invalid }"
-                                [(ngModel)]="selectedProyecto">
+                                [(ngModel)]="selectedProyecto" (change)="ChangeProject($event)">
                             </ng-select>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngIf="vCodeProject || vCodeProject > 0">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group row">
                         <label for="estado" class="col-3 col-form-label">Estado</label>
                         <div class="col-9">
                             <ng-select [items]="listEstados" formControlName="estado" class="form-control"
                                 bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar Estado"
                                 [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                [(ngModel)]="selectedEstado">
+                                [(ngModel)]="selectedEstado" [readonly]="!vCodeProject || vCodeProject <= 0">
                             </ng-select>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                                 <div class="col-lg-9">
                                     <ng-select [items]="listMonedas" formControlName="moneda" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="moneda"
-                                        placeholder="Seleccionar Moneda"
+                                        placeholder="Seleccionar Moneda" [readonly]="flagAgroBanco"
                                         [ngClass]="{ 'is-invalid': f.moneda.invalid, 'is-valid': !f.moneda.invalid }"
                                         [(ngModel)]="selectedMoneda">
                                     </ng-select>
@@ -80,19 +80,26 @@
                                 <div class="col-lg-9">
                                     <input type="number" name="monto" id="monto" formControlName="monto"
                                         [ngClass]="{ 'is-invalid': f.monto.invalid, 'is-valid': !f.monto.invalid }"
-                                        class="form-control text-right" placeholder="Monto">
+                                        class="form-control text-right" placeholder="Monto" [readonly]="flagAgroBanco">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="form-group row">
-                                <label for="periodo" class="col-3 col-form-label">Período</label>
-                                <div class="col-lg-9">
-                                    <input type="text" name="periodo" id="periodo" formControlName="periodo"
-                                        [ngClass]="{ 'is-invalid': f.periodo.invalid, 'is-valid': !f.periodo.invalid }"
-                                        class="form-control" placeholder="Moneda">
+                                <label for="periodoDesde" class="col-3 col-form-label">Período</label>
+                                <div class="col-lg-4">
+                                    <input type="number" name="periodoDesde" id="periodoDesde"
+                                        formControlName="periodoDesde"
+                                        [ngClass]="{ 'is-invalid': f.periodoDesde.invalid, 'is-valid': !f.periodoDesde.invalid }"
+                                        class="form-control" placeholder="Periodo" [readonly]="flagAgroBanco">
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="number" name="periodoHasta" id="periodoHasta"
+                                        formControlName="periodoHasta"
+                                        [ngClass]="{ 'is-invalid': f.periodoHasta.invalid, 'is-valid': !f.periodoHasta.invalid }"
+                                        class="form-control" placeholder="Periodo" [readonly]="flagAgroBanco">
                                 </div>
                             </div>
                         </div>
@@ -103,7 +110,8 @@
                                     <input type="number" name="nroHectareas" id="nroHectareas"
                                         formControlName="nroHectareas"
                                         [ngClass]="{ 'is-invalid': f.nroHectareas.invalid, 'is-valid': !f.nroHectareas.invalid }"
-                                        class="form-control text-right" placeholder="Número de Hectareas">
+                                        class="form-control text-right" placeholder="Número de Hectareas"
+                                        [readonly]="flagAgroBanco">
                                 </div>
                             </div>
                         </div>
@@ -124,80 +132,88 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="font-weight-bold">1° desembolso</td>
+                                        <td class="font-weight-bold p-0">1° desembolso</td>
                                         <td>
-                                            <input type="number" name="desem1Monto" id="desem1Monto"
-                                                formControlName="desem1Monto"
-                                                [ngClass]="{ 'is-invalid': f.desem1Monto.invalid, 'is-valid': !f.desem1Monto.invalid }"
+                                            <input type="number" name="montoPrimerDesembolso" id="montoPrimerDesembolso"
+                                                formControlName="montoPrimerDesembolso" [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.montoPrimerDesembolso.invalid, 'is-valid': !f.montoPrimerDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Monto">
                                         </td>
                                         <td>
-                                            <input type="date" date name="desem1Desde" id="desem1Desde"
-                                                formControlName="desem1Desde"
-                                                [ngClass]="{ 'is-invalid': f.desem1Desde.invalid, 'is-valid': !f.desem1Desde.invalid }"
+                                            <input type="date" date name="fechaIniPrimerDesembolso"
+                                                id="fechaIniPrimerDesembolso" formControlName="fechaIniPrimerDesembolso"
+                                                [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.fechaIniPrimerDesembolso.invalid, 'is-valid': !f.fechaIniPrimerDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Desde">
                                         </td>
                                         <td>
-                                            <input type="date" date name="desem1Hasta" id="desem1Hasta"
-                                                formControlName="desem1Hasta"
-                                                [ngClass]="{ 'is-invalid': f.desem1Hasta.invalid, 'is-valid': !f.desem1Hasta.invalid }"
+                                            <input type="date" date name="fechaFinPrimerDesembolso"
+                                                id="fechaFinPrimerDesembolso" formControlName="fechaFinPrimerDesembolso"
+                                                [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.fechaFinPrimerDesembolso.invalid, 'is-valid': !f.fechaFinPrimerDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Desde">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-right font-weight-bold">Estado</td>
                                         <td>
-                                            <ng-select [items]="listEstadoPlanDesen1" formControlName="estadoPlanDesen1"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo"
-                                                id="estadoPlanDesen1" placeholder="Seleccionar Estado"
-                                                [ngClass]="{ 'is-invalid': f.estadoPlanDesen1.invalid, 'is-valid': !f.estadoPlanDesen1.invalid }"
-                                                [(ngModel)]="selectedEstadoPlanDesen1">
-                                            </ng-select>
+                                            <label for="cobradoPrimerDesembolso" *ngIf="!flagAgroBanco">
+                                                <input type="checkbox" name="cobradoPrimerDesembolso"
+                                                    id="cobradoPrimerDesembolso"
+                                                    formControlName="cobradoPrimerDesembolso" class="mr-3"
+                                                    [ngClass]="{ 'is-invalid': f.cobradoPrimerDesembolso.invalid, 'is-valid': !f.cobradoPrimerDesembolso.invalid }">
+                                                Cobrado</label>
                                         </td>
                                         <td class="text-center font-weight-bold">Fec. Cobro</td>
                                         <td>
-                                            <input type="date" date name="fechaCobro" id="fechaCobro"
-                                                formControlName="fechaCobro"
-                                                [ngClass]="{ 'is-invalid': f.fechaCobro.invalid, 'is-valid': !f.fechaCobro.invalid }"
+                                            <input type="date" date name="fechaCobroPrimerDesembolso"
+                                                id="fechaCobroPrimerDesembolso"
+                                                formControlName="fechaCobroPrimerDesembolso" [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.fechaCobroPrimerDesembolso.invalid, 'is-valid': !f.fechaCobroPrimerDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Desde">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="font-weight-bold">2° desembolso</td>
+                                        <td class="font-weight-bold p-0">2° desembolso</td>
                                         <td>
-                                            <input type="number" name="desem2Monto" id="desem2Monto"
-                                                formControlName="desem2Monto"
-                                                [ngClass]="{ 'is-invalid': f.desem2Monto.invalid, 'is-valid': !f.desem2Monto.invalid }"
+                                            <input type="number" name="montoSegundoDesembolso"
+                                                id="montoSegundoDesembolso" formControlName="montoSegundoDesembolso"
+                                                [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.montoSegundoDesembolso.invalid, 'is-valid': !f.montoSegundoDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Monto">
                                         </td>
                                         <td>
-                                            <input type="date" date name="desem2Desde" id="desem2Desde"
-                                                formControlName="desem2Desde"
-                                                [ngClass]="{ 'is-invalid': f.desem2Desde.invalid, 'is-valid': !f.desem2Desde.invalid }"
+                                            <input type="date" date name="fechaInicioSegundoDesembolso"
+                                                id="fechaInicioSegundoDesembolso"
+                                                formControlName="fechaInicioSegundoDesembolso"
+                                                [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.fechaInicioSegundoDesembolso.invalid, 'is-valid': !f.fechaInicioSegundoDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Desde">
                                         </td>
                                         <td>
-                                            <input type="date" date name="desem2Hasta" id="desem2Hasta"
-                                                formControlName="desem2Hasta"
-                                                [ngClass]="{ 'is-invalid': f.desem2Hasta.invalid, 'is-valid': !f.desem2Hasta.invalid }"
+                                            <input type="date" date name="fechaFinSegundoDesembolso"
+                                                id="fechaFinSegundoDesembolso"
+                                                formControlName="fechaFinSegundoDesembolso" [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.fechaFinSegundoDesembolso.invalid, 'is-valid': !f.fechaFinSegundoDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Desde">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-right font-weight-bold">Estado</td>
                                         <td>
-                                            <ng-select [items]="listEstadoPlanDesen2" formControlName="estadoPlanDesen2"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo"
-                                                id="estadoPlanDesen2" placeholder="Seleccionar Estado"
-                                                [ngClass]="{ 'is-invalid': f.estadoPlanDesen2.invalid, 'is-valid': !f.estadoPlanDesen2.invalid }"
-                                                [(ngModel)]="selectedEstadoPlanDesen2">
-                                            </ng-select>
+                                            <label for="cobradoSegundoDesembolso" *ngIf="!flagAgroBanco">
+                                                <input type="checkbox" name="cobradoSegundoDesembolso"
+                                                    id="cobradoSegundoDesembolso"
+                                                    formControlName="cobradoSegundoDesembolso" class="mr-3"
+                                                    [ngClass]="{ 'is-invalid': f.cobradoSegundoDesembolso.invalid, 'is-valid': !f.cobradoSegundoDesembolso.invalid }">
+                                                Cobrado</label>
                                         </td>
                                         <td class="text-center font-weight-bold">Fec. Cobro</td>
                                         <td>
-                                            <input type="date" date name="fechaCobro2" id="fechaCobro2"
-                                                formControlName="fechaCobro2"
-                                                [ngClass]="{ 'is-invalid': f.fechaCobro2.invalid, 'is-valid': !f.fechaCobro2.invalid }"
+                                            <input type="date" date name="fechaCobroSegundoDesembolso"
+                                                id="fechaCobroSegundoDesembolso"
+                                                formControlName="fechaCobroSegundoDesembolso" [readonly]="flagAgroBanco"
+                                                [ngClass]="{ 'is-invalid': f.fechaCobroSegundoDesembolso.invalid, 'is-valid': !f.fechaCobroSegundoDesembolso.invalid }"
                                                 class="form-control text-right" placeholder="Desde">
                                         </td>
                                     </tr>
@@ -211,98 +227,16 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="fotoCafetal" id="fotoCafetal"
-                                        formControlName="fotoCafetal"
-                                        [ngClass]="{ 'is-invalid': f.fotoCafetal.invalid, 'is-valid': !f.fotoCafetal.invalid }">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <ng-select [items]="listRequirements" formControlName="requisitos"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="requisitos"
+                                        [multiple]="true" placeholder="Seleccionar Moneda"
+                                        [(ngModel)]="selectedRequirements" [readonly]="flagAgroBanco"
+                                        [ngClass]="{ 'is-invalid': f.requisitos.invalid, 'is-valid': !f.requisitos.invalid }">
+                                    </ng-select>
                                 </div>
-                                <label for="fotoCafetal" class="col-11 col-form-label">Foto del Cafetal</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="expediente" id="chk2" formControlName="expediente"
-                                        [ngClass]="{ 'is-invalid': f.expediente.invalid, 'is-valid': !f.expediente.invalid }">
-                                </div>
-                                <label for="expediente" class="col-11 col-form-label">Expediente</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="fotoMantaBeneficioHumedo" id="fotoMantaBeneficioHumedo"
-                                        formControlName="fotoMantaBeneficioHumedo"
-                                        [ngClass]="{ 'is-invalid': f.fotoMantaBeneficioHumedo.invalid, 'is-valid': !f.fotoMantaBeneficioHumedo.invalid }">
-                                </div>
-                                <label for="fotoMantaBeneficioHumedo" class="col-11 col-form-label">Foto de la Manta de
-                                    Beneficio Húmedo</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="fotoVivienda" id="fotoVivienda"
-                                        formControlName="fotoVivienda"
-                                        [ngClass]="{ 'is-invalid': f.fotoVivienda.invalid, 'is-valid': !f.fotoVivienda.invalid }">
-                                </div>
-                                <label for="fotoVivienda" class="col-11 col-form-label">Foto de la vivienda</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="dniActualizado" id="dniActualizado"
-                                        formControlName="dniActualizado"
-                                        [ngClass]="{ 'is-invalid': f.dniActualizado.invalid, 'is-valid': !f.dniActualizado.invalid }">
-                                </div>
-                                <label for="dniActualizado" class="col-11 col-form-label">DNI Actualizado</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="tituloPropiedad" id="tituloPropiedad"
-                                        formControlName="tituloPropiedad"
-                                        [ngClass]="{ 'is-invalid': f.tituloPropiedad.invalid, 'is-valid': !f.tituloPropiedad.invalid }">
-                                </div>
-                                <label for="tituloPropiedad" class="col-11 col-form-label">Titulo de propiedad</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="docuTransfeCompraVenta" id="docuTransfeCompraVenta"
-                                        formControlName="docuTransfeCompraVenta"
-                                        [ngClass]="{ 'is-invalid': f.docuTransfeCompraVenta.invalid, 'is-valid': !f.docuTransfeCompraVenta.invalid }">
-                                </div>
-                                <label for="docuTransfeCompraVenta" class="col-11 col-form-label">Documento de
-                                    transferencia compra y venta</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="certificadoPosesion" id="certificadoPosesion"
-                                        formControlName="certificadoPosesion"
-                                        [ngClass]="{ 'is-invalid': f.certificadoPosesion.invalid, 'is-valid': !f.certificadoPosesion.invalid }">
-                                </div>
-                                <label for="certificadoPosesion" class="col-11 col-form-label">Certificado de
-                                    poseción</label>
                             </div>
                         </div>
                     </div>
@@ -322,7 +256,7 @@
                                 <div class="col-lg-9">
                                     <ng-select [items]="listUnidadMedida" formControlName="unidadMedida"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="unidadMedida"
-                                        placeholder="Unidad de medida"
+                                        placeholder="Unidad de medida" [readonly]="flagAgroRural || flagDevida"
                                         [ngClass]="{ 'is-invalid': f.unidadMedida.invalid, 'is-valid': !f.unidadMedida.invalid }"
                                         [(ngModel)]="selectedUnidadMedida">
                                     </ng-select>
@@ -333,12 +267,12 @@
                     <div class="form-row">
                         <div class="col-lg-12">
                             <div class="form-group row">
-                                <label for="tipo" class="col-3 col-form-label">Tipo</label>
+                                <label for="tipoInsumo" class="col-3 col-form-label">Tipo</label>
                                 <div class="col-lg-9">
-                                    <ng-select [items]="listTipos" formControlName="tipo" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="tipo" placeholder="Unidad de medida"
-                                        [ngClass]="{ 'is-invalid': f.tipo.invalid, 'is-valid': !f.tipo.invalid }"
-                                        [(ngModel)]="selectedTipo">
+                                    <ng-select [items]="listTipos" formControlName="tipoInsumo" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="tipoInsumo" placeholder="Tipo"
+                                        [ngClass]="{ 'is-invalid': f.tipoInsumo.invalid, 'is-valid': !f.tipoInsumo.invalid }"
+                                        [(ngModel)]="selectedTipo" [readonly]="flagAgroRural || flagDevida">
                                     </ng-select>
                                 </div>
                             </div>
@@ -347,12 +281,13 @@
                     <div class="form-row">
                         <div class="col-lg-12">
                             <div class="form-group row">
-                                <label for="totalEntregar" class="col-3 col-form-label">Total a Entregar</label>
+                                <label for="cantidadInsumo" class="col-3 col-form-label">Total a Entregar</label>
                                 <div class="col-lg-9">
-                                    <input type="number" name="totalEntregar" id="totalEntregar"
-                                        formControlName="totalEntregar"
-                                        [ngClass]="{ 'is-invalid': f.totalEntregar.invalid, 'is-valid': !f.totalEntregar.invalid }"
-                                        class="form-control text-right" placeholder="Total a Entregar">
+                                    <input type="number" name="cantidadInsumo" id="cantidadInsumo"
+                                        formControlName="cantidadInsumo" [readonly]="flagAgroRural || flagDevida"
+                                        [ngClass]="{ 'is-invalid': f.cantidadInsumo.invalid, 'is-valid': !f.cantidadInsumo.invalid }"
+                                        class="form-control text-right" placeholder="Total a Entregar"
+                                        (change)="CalculateTotalEntregar()">
                                 </div>
                             </div>
                         </div>
@@ -360,11 +295,13 @@
                     <div class="form-row">
                         <div class="col-lg-12">
                             <div class="form-group row">
-                                <label for="entregados" class="col-3 col-form-label">Entregados</label>
+                                <label for="cantInsumoEntregado" class="col-3 col-form-label">Entregados</label>
                                 <div class="col-lg-9">
-                                    <input type="number" name="entregados" id="entregados" formControlName="entregados"
-                                        [ngClass]="{ 'is-invalid': f.entregados.invalid, 'is-valid': !f.entregados.invalid }"
-                                        class="form-control text-right" placeholder="Entregados">
+                                    <input type="number" name="cantInsumoEntregado" id="cantInsumoEntregado"
+                                        formControlName="cantInsumoEntregado" (change)="CalculateTotalEntregar()"
+                                        [ngClass]="{ 'is-invalid': f.cantInsumoEntregado.invalid, 'is-valid': !f.cantInsumoEntregado.invalid }"
+                                        class="form-control text-right" placeholder="Entregados"
+                                        [readonly]="flagAgroRural || flagDevida">
                                 </div>
                             </div>
                         </div>
@@ -375,7 +312,7 @@
                                 <label for="totalXEntregar" class="col-3 col-form-label">Total por Entregar</label>
                                 <div class="col-lg-9">
                                     <input type="number" name="totalXEntregar" id="totalXEntregar"
-                                        formControlName="totalXEntregar"
+                                        formControlName="totalXEntregar" [readonly]="flagAgroRural || flagDevida"
                                         [ngClass]="{ 'is-invalid': f.totalXEntregar.invalid, 'is-valid': !f.totalXEntregar.invalid }"
                                         class="form-control text-right" placeholder="Total por entregar">
                                 </div>
@@ -385,11 +322,11 @@
                     <div class="form-row">
                         <div class="col-lg-12">
                             <div class="form-group row">
-                                <label for="pedidoFinal" class="col-3 col-form-label">Pedido Final</label>
+                                <label for="cantInsumoPedidoFinal" class="col-3 col-form-label">Pedido Final</label>
                                 <div class="col-lg-9">
-                                    <input type="number" name="pedidoFinal" id="pedidoFinal"
-                                        formControlName="pedidoFinal"
-                                        [ngClass]="{ 'is-invalid': f.pedidoFinal.invalid, 'is-valid': !f.pedidoFinal.invalid }"
+                                    <input type="number" name="cantInsumoPedidoFinal" id="cantInsumoPedidoFinal"
+                                        formControlName="cantInsumoPedidoFinal" [readonly]="flagAgroRural || flagDevida"
+                                        [ngClass]="{ 'is-invalid': f.cantInsumoPedidoFinal.invalid, 'is-valid': !f.cantInsumoPedidoFinal.invalid }"
                                         class="form-control text-right" placeholder="Pedido final">
                                 </div>
                             </div>
@@ -402,20 +339,24 @@
                     </div>
                     <div class="form-row mb-2">
                         <div class="col-lg-6">
-                            <textarea class="form-control" id="txtArea1" formControlName="txtArea1" rows="3"
-                                [ngClass]="{ 'is-invalid': f.txtArea1.invalid, 'is-valid': !f.txtArea1.invalid }"></textarea>
+                            <textarea class="form-control" id="obsCapacitacion" formControlName="obsCapacitacion"
+                                rows="3"
+                                [ngClass]="{ 'is-invalid': f.obsCapacitacion.invalid, 'is-valid': !f.obsCapacitacion.invalid }"
+                                [readonly]="flagInia || flagDevida"></textarea>
                         </div>
                         <div class="col-lg-3 text-center">
-                            <label for="desde" class="form-label">Desde</label>
-                            <input type="date" date name="desde" id="desde" formControlName="desde"
-                                [ngClass]="{ 'is-invalid': f.desde.invalid, 'is-valid': !f.desde.invalid }"
-                                class="form-control text-right" placeholder="Desde">
+                            <label for="fechaInicioCapacitacion" class="form-label">Desde</label>
+                            <input type="date" date name="fechaInicioCapacitacion" id="fechaInicioCapacitacion"
+                                formControlName="fechaInicioCapacitacion"
+                                [ngClass]="{ 'is-invalid': f.fechaInicioCapacitacion.invalid, 'is-valid': !f.fechaInicioCapacitacion.invalid }"
+                                class="form-control text-right" placeholder="Desde" [readonly]="flagInia || flagDevida">
                         </div>
                         <div class="col-lg-3 text-center">
-                            <label for="hasta" class="form-label">Hasta</label>
-                            <input type="date" date name="hasta" id="hasta" formControlName="hasta"
-                                [ngClass]="{ 'is-invalid': f.hasta.invalid, 'is-valid': !f.hasta.invalid }"
-                                class="form-control text-right" placeholder="Hasta">
+                            <label for="fechaFinCapacitacion" class="form-label">Hasta</label>
+                            <input type="date" date name="fechaFinCapacitacion" id="fechaFinCapacitacion"
+                                formControlName="fechaFinCapacitacion"
+                                [ngClass]="{ 'is-invalid': f.fechaFinCapacitacion.invalid, 'is-valid': !f.fechaFinCapacitacion.invalid }"
+                                class="form-control text-right" placeholder="Hasta" [readonly]="flagInia || flagDevida">
                         </div>
                     </div>
                     <div class="form-row mb-2">
@@ -424,15 +365,15 @@
                                 tecnologías"</label>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row" *ngIf="!flagAgroideas">
                         <div class="col-lg-12">
                             <div class="form-group row">
                                 <div class="col-lg-1 col-form-label">
-                                    <input type="checkbox" name="seleccionado" id="seleccionado"
-                                        formControlName="seleccionado"
-                                        [ngClass]="{ 'is-invalid': f.seleccionado.invalid, 'is-valid': !f.seleccionado.invalid }">
+                                    <input type="checkbox" name="adopcionTecnologias" id="adopcionTecnologias"
+                                        formControlName="adopcionTecnologias"
+                                        [ngClass]="{ 'is-invalid': f.adopcionTecnologias.invalid, 'is-valid': !f.adopcionTecnologias.invalid }">
                                 </div>
-                                <label for="seleccionado" class="col-11 col-form-label">Seleccionado</label>
+                                <label for="adopcionTecnologias" class="col-11 col-form-label">Seleccionado</label>
                             </div>
                         </div>
                     </div>
@@ -441,8 +382,11 @@
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="form-group row">
-                        <div class="col-lg-12 text-right">
-                            <button class="btn btn-primary mr-1">Guardar</button>
+                        <div class="col-lg-6">
+                            <label class="text-danger" *ngIf="vMsgGeneral.isError">{{vMsgGeneral.msgError}}</label>
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <button class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
                             <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                         </div>
                     </div>
