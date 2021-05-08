@@ -287,7 +287,7 @@
                                         formControlName="cantidadInsumo" [readonly]="flagAgroRural || flagDevida"
                                         [ngClass]="{ 'is-invalid': f.cantidadInsumo.invalid, 'is-valid': !f.cantidadInsumo.invalid }"
                                         class="form-control text-right" placeholder="Total a Entregar"
-                                        (change)="CalculateTotalEntregar()">
+                                        (keyup)="CalculateTotalEntregar()">
                                 </div>
                             </div>
                         </div>
@@ -298,7 +298,7 @@
                                 <label for="cantInsumoEntregado" class="col-3 col-form-label">Entregados</label>
                                 <div class="col-lg-9">
                                     <input type="number" name="cantInsumoEntregado" id="cantInsumoEntregado"
-                                        formControlName="cantInsumoEntregado" (change)="CalculateTotalEntregar()"
+                                        formControlName="cantInsumoEntregado" (keyup)="CalculateTotalEntregar()"
                                         [ngClass]="{ 'is-invalid': f.cantInsumoEntregado.invalid, 'is-valid': !f.cantInsumoEntregado.invalid }"
                                         class="form-control text-right" placeholder="Entregados"
                                         [readonly]="flagAgroRural || flagDevida">
@@ -312,7 +312,7 @@
                                 <label for="totalXEntregar" class="col-3 col-form-label">Total por Entregar</label>
                                 <div class="col-lg-9">
                                     <input type="number" name="totalXEntregar" id="totalXEntregar"
-                                        formControlName="totalXEntregar" [readonly]="flagAgroRural || flagDevida"
+                                        formControlName="totalXEntregar" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.totalXEntregar.invalid, 'is-valid': !f.totalXEntregar.invalid }"
                                         class="form-control text-right" placeholder="Total por entregar">
                                 </div>

@@ -55,14 +55,6 @@ export class ProyectosEditComponent implements OnInit {
     this.vSession = JSON.parse(localStorage.getItem("user"));
     this.LoadForm();
     this.AddRequiredConditionals();
-    // this.proyectosEditForm.controls.fechaIniPrimerDesembolso.setValue(this.dateUtil.currentDate());
-    // this.proyectosEditForm.controls.fechaFinPrimerDesembolso.setValue(this.dateUtil.currentDate());
-    // this.proyectosEditForm.controls.fechaInicioSegundoDesembolso.setValue(this.dateUtil.currentDate());
-    // this.proyectosEditForm.controls.fechaFinSegundoDesembolso.setValue(this.dateUtil.currentDate());
-    // this.proyectosEditForm.controls.fechaCobroPrimerDesembolso.setValue(this.dateUtil.currentDate());
-    // this.proyectosEditForm.controls.fechaCobroSegundoDesembolso.setValue(this.dateUtil.currentDate());
-    // this.proyectosEditForm.controls.fechaInicioCapacitacion.setValue(this.dateUtil.currentDate());
-    // this.proyectosEditForm.controls.fechaFinCapacitacion.setValue(this.dateUtil.currentDate());
     this.LoadDropDowns();
     if (this.vCodeProject <= 0) {
       this.proyectosEditForm.controls.fechaRegistro.setValue(this.dateUtil.currentDate());
@@ -167,25 +159,59 @@ export class ProyectosEditComponent implements OnInit {
     }
   }
 
+  ResetControlsForm(): void {
+    this.proyectosEditForm.controls.moneda.reset();
+    this.proyectosEditForm.controls.monto.reset();
+    this.proyectosEditForm.controls.periodoDesde.reset();
+    this.proyectosEditForm.controls.periodoHasta.reset();
+    this.proyectosEditForm.controls.nroHectareas.reset();
+    this.proyectosEditForm.controls.montoPrimerDesembolso.reset();
+    this.proyectosEditForm.controls.fechaIniPrimerDesembolso.reset();
+    this.proyectosEditForm.controls.fechaFinPrimerDesembolso.reset();
+    this.proyectosEditForm.controls.fechaCobroPrimerDesembolso.reset();
+    this.proyectosEditForm.controls.cobradoPrimerDesembolso.reset();
+    this.proyectosEditForm.controls.montoSegundoDesembolso.reset();
+    this.proyectosEditForm.controls.fechaInicioSegundoDesembolso.reset();
+    this.proyectosEditForm.controls.fechaFinSegundoDesembolso.reset();
+    this.proyectosEditForm.controls.cobradoSegundoDesembolso.reset();
+    this.proyectosEditForm.controls.fechaCobroSegundoDesembolso.reset();
+    this.proyectosEditForm.controls.unidadMedida.reset();
+    this.proyectosEditForm.controls.tipoInsumo.reset();
+    this.proyectosEditForm.controls.cantidadInsumo.reset();
+    this.proyectosEditForm.controls.cantInsumoEntregado.reset();
+    this.proyectosEditForm.controls.totalXEntregar.reset();
+    this.proyectosEditForm.controls.cantInsumoPedidoFinal.reset();
+    this.proyectosEditForm.controls.fechaInicioCapacitacion.reset();
+    this.proyectosEditForm.controls.fechaFinCapacitacion.reset();
+    this.proyectosEditForm.controls.obsCapacitacion.reset();
+    this.proyectosEditForm.controls.adopcionTecnologias.reset();
+    this.proyectosEditForm.controls.requisitos.reset();
+  }
+
   ChangeProject(event: any): void {
+    this.RefreshFlagsProjects(event.Codigo);
+    this.ResetControlsForm();
+  }
+
+  RefreshFlagsProjects(Codigo: any): void {
     this.flagAgroBanco = true;
     this.flagAgroRural = true;
     this.flagDevida = true;
     this.flagAgroideas = true;
     this.flagInia = true;
 
-    if (event.Codigo === '01') {
+    if (Codigo === '01') {
       this.flagAgroRural = false;
       this.flagDevida = false;
-    } else if (event.Codigo === '02') {
+    } else if (Codigo === '02') {
       this.flagAgroideas = false;
-    } else if (event.Codigo === '03') {
+    } else if (Codigo === '03') {
       this.flagAgroBanco = false;
-    } else if (event.Codigo === '05') {
+    } else if (Codigo === '05') {
       this.flagAgroRural = false;
       this.flagDevida = false;
       this.flagInia = false;
-    } else if (event.Codigo === '04') {
+    } else if (Codigo === '04') {
       this.flagInia = false;
       this.flagDevida = false;
     }
@@ -202,24 +228,25 @@ export class ProyectosEditComponent implements OnInit {
     const totalEntregar = this.proyectosEditForm.controls.cantidadInsumo
 
     this.proyectosEditForm.controls.proyecto.valueChanges.subscribe((p: any) => {
+      uniMedida.clearValidators();
+      tipo.clearValidators();
+      totalEntregar.clearValidators();
+      money.clearValidators();
+      monto.clearValidators();
+      periodoDesde.clearValidators();
+      periodoHasta.clearValidators();
+      cantHectareas.clearValidators();
+
       if (p === '03') {
         money.setValidators(Validators.required);
         monto.setValidators(Validators.required);
         periodoDesde.setValidators(Validators.required);
         periodoHasta.setValidators(Validators.required);
         cantHectareas.setValidators(Validators.required);
-        uniMedida.clearValidators();
-        tipo.clearValidators();
-        totalEntregar.clearValidators();
       } else if (p === '01' || p === '05') {
         uniMedida.setValidators(Validators.required);
         tipo.setValidators(Validators.required);
         totalEntregar.setValidators(Validators.required);
-        money.clearValidators();
-        monto.clearValidators();
-        periodoDesde.clearValidators();
-        periodoHasta.clearValidators();
-        cantHectareas.clearValidators();
       }
       money.updateValueAndValidity();
       monto.updateValueAndValidity();
@@ -273,7 +300,7 @@ export class ProyectosEditComponent implements OnInit {
       if (data.ProyectoId) {
         await this.LoadProjects();
         this.proyectosEditForm.controls.proyecto.setValue(data.ProyectoId);
-        this.ChangeProject({ Codigo: data.ProyectoId });
+        this.RefreshFlagsProjects(data.ProyectoId);
       }
       if (data.EstadoId) {
         await this.LoadStates();
