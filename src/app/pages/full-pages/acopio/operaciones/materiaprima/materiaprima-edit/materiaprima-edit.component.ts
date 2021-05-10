@@ -689,7 +689,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             if ( res.Result.Data != null )
             {
-              if (res.Result.Data.SaldoPendiente == 0)
+              if (res.Result.Data.SaldoPendiente <= 0)
               {
                 this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue("02"); 
                 this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].disable();

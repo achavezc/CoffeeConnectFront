@@ -76,6 +76,7 @@ export class DetalleLoteComponent implements OnInit {
           {
           let totalPesoNeto =  this.detalleLoteFormGroup.controls.totalKilosNetosPesado.value;
           let totalKilosBrutosPesado =  this.detalleLoteFormGroup.controls.totalKilosBrutosPesado.value;
+          let cantidadPesado = this.detalleLoteFormGroup.controls.totalSacos.value;
        $event.forEach(x=>{
           let object : any = {};  
           object.NumeroNotaIngresoAlmacen = x.Numero;
@@ -92,10 +93,12 @@ export class DetalleLoteComponent implements OnInit {
           object.Accion = 'N';
           totalKilosBrutosPesado = totalKilosBrutosPesado + x.KilosBrutosPesado
           totalPesoNeto = totalPesoNeto + x.KilosNetosPesado;
+          cantidadPesado = cantidadPesado + x.CantidadPesado;
           this.detalleLotes.push(object);
         });
         this.detalleLoteFormGroup.controls.totalKilosNetosPesado.setValue(totalPesoNeto);
         this.detalleLoteFormGroup.controls.totalKilosBrutosPesado.setValue(totalKilosBrutosPesado);
+        this.detalleLoteFormGroup.controls.totalSacos.setValue(cantidadPesado);
         
        
         let d = this.detalleLotes.filter(x=>x.Accion == null || x.Accion == 'N');
@@ -113,10 +116,6 @@ export class DetalleLoteComponent implements OnInit {
         )
         this.alertUtil.alertWarning("Oops...!", "Las Notas de Ingreso " + notasIngreso +" ya fueron agregadas.");
       }
-       
-      
-     
-      
       }
 
       eliminar(selected)
@@ -130,6 +129,7 @@ export class DetalleLoteComponent implements OnInit {
             {
               let totalPesoNeto =  form.detalleLoteFormGroup.controls.totalKilosNetosPesado.value;
               let totalKilosBrutosPesado =  form.detalleLoteFormGroup.controls.totalKilosBrutosPesado.value;
+              let cantidadPesado = form.detalleLoteFormGroup.controls.totalSacos.value;
               if ( detalleEliminado[0].Accion  == 'N')
               {
                 form.detalleLotes = form.detalleLotes.filter(x=>x.NumeroNotaIngresoAlmacen != selected[0].NumeroNotaIngresoAlmacen);
@@ -141,8 +141,10 @@ export class DetalleLoteComponent implements OnInit {
               }
               totalPesoNeto = totalPesoNeto - selected[0].KilosNetosPesado;
               totalKilosBrutosPesado = totalKilosBrutosPesado - selected[0].KilosBrutosPesado;
+              cantidadPesado = cantidadPesado - selected[0].CantidadPesado;
               form.detalleLoteFormGroup.controls.totalKilosNetosPesado.setValue(totalPesoNeto);
               form.detalleLoteFormGroup.controls.totalKilosBrutosPesado.setValue(totalKilosBrutosPesado);
+              form.detalleLoteFormGroup.controls.totalSacos.setValue(cantidadPesado);
               form.miEvento.emit();
             }
             
