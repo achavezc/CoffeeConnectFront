@@ -45,6 +45,10 @@ export class ContratoEditComponent implements OnInit {
   listCertificacion = [];
   listGrado = [];
   listLaboratorios: any[];
+  listCalculos = [];
+  listEstadoSegMuestra = [];
+  listEmpaques = [];
+  listTipos = [];
   selectedCondEmbarque: any;
   selectedPais: any;
   selectedCiudad: any;
@@ -58,6 +62,10 @@ export class ContratoEditComponent implements OnInit {
   selectedCertificacion: any;
   selectedGrado: any;
   selectedLaboratorio: any;
+  selectedCalculo: any;
+  selectedEstadoSegMuestra: any;
+  selectedEmpaque: any;
+  selectedTipo: any;
   vId: number;
   vSessionUser: any;
   private url = `${host}Contrato`;
@@ -113,14 +121,19 @@ export class ContratoEditComponent implements OnInit {
       cantidadDefectos: [, Validators.required],
       cargaContrato: [],
       responsableComercial: [, Validators.required],
-      // sujetoAprobMuestra: [],
-      // muestraEnviadaCliente: [],
-      // muestraAnalisisGlifosato: [],
       estado: [],
       file: new FormControl('', []),
       fileName: new FormControl('', []),
       pathFile: new FormControl('', []),
-      laboratorio: []
+      laboratorio: [],
+      calculo: [],
+      fecRecojoEnvioCurier: [],
+      truckingNumber: [],
+      estadoSegMuestras: [],
+      fecRecepcionDestino: [],
+      empaque: [],
+      tipo: [],
+      totalSacos69Kg: []
     });
   }
 
@@ -138,6 +151,7 @@ export class ContratoEditComponent implements OnInit {
   }
 
   LoadCombos(): void {
+    this.spinner.show();
     this.GetCondicionEmbarque();
     this.GetPais();
     this.GetCiudad();
@@ -150,6 +164,10 @@ export class ContratoEditComponent implements OnInit {
     this.GetCalidad();
     this.GetCertificacion();
     this.GetGradoPreparacion();
+    this.GetCalculations();
+    this.GetLaboratorys();
+    this.GetStatusTrackingSamples();
+    this.spinner.hide();
   }
 
   async GetCondicionEmbarque() {
@@ -248,6 +266,27 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
+  async GetCalculations() {
+    const res = await this.maestroService.obtenerMaestros('Calculo').toPromise();
+    if (res.Result.Success) {
+      this.listCalculos = res.Result.Data;
+    }
+  }
+
+  async GetLaboratorys() {
+    const res = await this.maestroService.obtenerMaestros('Laboratorio').toPromise();
+    if (res.Result.Success) {
+      this.listLaboratorios = res.Result.Data;
+    }
+  }
+
+  async GetStatusTrackingSamples() {
+    const res = await this.maestroService.obtenerMaestros('EstadoMuestra').toPromise();
+    if (res.Result.Success) {
+      this.listEstadoSegMuestra = res.Result.Data;
+    }
+  }
+
   onChangePais(event: any): void {
     const form = this;
     this.listCiudades = [];
@@ -271,39 +310,44 @@ export class ContratoEditComponent implements OnInit {
   }
 
   GetRequest(): any {
+    const form = this.contratoEditForm.value;
     return {
-      ContratoId: this.contratoEditForm.value.idContrato ? parseInt(this.contratoEditForm.value.idContrato) : 0,
-      Numero: this.contratoEditForm.value.nroContrato ? this.contratoEditForm.value.nroContrato : '',
-      ClienteId: this.contratoEditForm.value.idCliente ? parseInt(this.contratoEditForm.value.idCliente) : 0,
-      FloId: this.contratoEditForm.value.floId ? this.contratoEditForm.value.floId.toString() : '',
-      CondicionEmbarqueId: this.contratoEditForm.value.condicionEmbarque ? this.contratoEditForm.value.condicionEmbarque : '',
-      FechaEmbarque: this.contratoEditForm.value.fechaEmbarque ? this.contratoEditForm.value.fechaEmbarque : '',
-      FechaContrato: this.contratoEditForm.value.fechaContrato ? this.contratoEditForm.value.fechaContrato : '',
-      FechaFacturacion: this.contratoEditForm.value.fechaFactExp ? this.contratoEditForm.value.fechaFactExp : '',
-      PaisDestinoId: this.contratoEditForm.value.pais ? this.contratoEditForm.value.pais : '',
-      DepartamentoDestinoId: this.contratoEditForm.value.ciudad ? this.contratoEditForm.value.ciudad : '',
-      ProductoId: this.contratoEditForm.value.producto ? this.contratoEditForm.value.producto : '',
-      TipoProduccionId: this.contratoEditForm.value.tipoProduccion ? this.contratoEditForm.value.tipoProduccion : '',
-      MonedadId: this.contratoEditForm.value.moneda ? this.contratoEditForm.value.moneda : '',
-      Monto: this.contratoEditForm.value.precio ? parseFloat(this.contratoEditForm.value.precio) : 0,
-      UnidadMedicionId: this.contratoEditForm.value.unidadMedida ? this.contratoEditForm.value.unidadMedida : '',
-      UnidadMedidaId: this.contratoEditForm.value.sacosBulk ? this.contratoEditForm.value.sacosBulk : '',
-      EntidadCertificadoraId: this.contratoEditForm.value.certificadora ? this.contratoEditForm.value.certificadora : '',
-      TipoCertificacionId: this.contratoEditForm.value.certificacion ? this.contratoEditForm.value.certificacion.join('|') : '',
-      CalidadId: this.contratoEditForm.value.calidad ? this.contratoEditForm.value.calidad : '',
-      GradoId: this.contratoEditForm.value.grado ? this.contratoEditForm.value.grado : '',
-      CantidadPorSaco: this.contratoEditForm.value.cantidad ? parseFloat(this.contratoEditForm.value.cantidad) : 0,
-      PesoPorSaco: this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0,
-      PreparacionCantidadDefectos: this.contratoEditForm.value.cantidadDefectos ? parseFloat(this.contratoEditForm.value.cantidadDefectos) : 0,
-      RequiereAprobacionMuestra: this.contratoEditForm.value.sujetoAprobMuestra ? this.contratoEditForm.value.sujetoAprobMuestra : false,
-      MuestraEnviadaCliente: this.contratoEditForm.value.muestraEnviadaCliente ? this.contratoEditForm.value.muestraEnviadaCliente : false,
-      MuestraEnviadaAnalisisGlifosato: this.contratoEditForm.value.muestraAnalisisGlifosato ? this.contratoEditForm.value.muestraAnalisisGlifosato : false,
+      ContratoId: form.idContrato ? parseInt(form.idContrato) : 0,
+      Numero: form.nroContrato ? form.nroContrato : '',
+      ClienteId: form.idCliente ? parseInt(form.idCliente) : 0,
+      FloId: form.floId ? form.floId.toString() : '',
+      CondicionEmbarqueId: form.condicionEmbarque ? form.condicionEmbarque : '',
+      FechaEmbarque: form.fechaEmbarque ? form.fechaEmbarque : '',
+      FechaContrato: form.fechaContrato ? form.fechaContrato : '',
+      FechaFacturacion: form.fechaFactExp ? form.fechaFactExp : '',
+      PaisDestinoId: form.pais ? form.pais : '',
+      CalculoContratoId: form.calculo ? form.calculo : '',
+      DepartamentoDestinoId: form.ciudad ? form.ciudad : '',
+      ProductoId: form.producto ? form.producto : '',
+      TipoProduccionId: form.tipoProduccion ? form.tipoProduccion : '',
+      MonedadId: form.moneda ? form.moneda : '',
+      Monto: form.precio ? parseFloat(form.precio) : 0,
+      UnidadMedicionId: form.unidadMedida ? form.unidadMedida : '',
+      UnidadMedidaId: form.sacosBulk ? form.sacosBulk : '',
+      EntidadCertificadoraId: form.certificadora ? form.certificadora : '',
+      TipoCertificacionId: form.certificacion ? form.certificacion.join('|') : '',
+      CalidadId: form.calidad ? form.calidad : '',
+      GradoId: form.grado ? form.grado : '',
+      CantidadPorSaco: form.cantidad ? parseFloat(form.cantidad) : 0,
+      PesoPorSaco: form.pesoSacoKG ? parseFloat(form.pesoSacoKG) : 0,
+      PreparacionCantidadDefectos: form.cantidadDefectos ? parseFloat(form.cantidadDefectos) : 0,
+      LaboratorioId: form.laboratorio ? form.laboratorio : '',
+      NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
+      EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
+      FechaEnvioMuestra: form.fecRecojoEnvioCurier ? form.fecRecojoEnvioCurier : null,
+      FechaRecepcionMuestra: form.fecRecepcionDestino ? form.fecRecepcionDestino : null,
       NombreArchivo: '',
+      DescripcionArchivo: '',
       PathArchivo: '',
+      EmpaqueId: form.empaque ? form.empaque : '',
+      TipoId: form.tipo ? form.tipo : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: '01',
-      CalculoContratoId: '',
-      DescripcionArchivo: ''
+      EstadoId: '01'
     }
   }
 
@@ -533,7 +577,23 @@ export class ContratoEditComponent implements OnInit {
       this.contratoEditForm.controls.fileName.setValue(data.NombreArchivo);
       this.contratoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.fileName = data.NombreArchivo
+      if (data.LaboratorioId) {
+        await this.GetLaboratorys();
+        this.contratoEditForm.controls.laboratorio.setValue(data.LaboratorioId);
+      }
+      if (data.FechaEnvioMuestra && data.FechaEnvioMuestra.substring(0, 10) != "0001-01-01")
+        this.contratoEditForm.controls.fecRecojoEnvioCurier.setValue(data.FechaEnvioMuestra.substring(0, 10));
+
+      if (data.NumeroSeguimientoMuestra)
+        this.contratoEditForm.controls.truckingNumber.setValue(data.NumeroSeguimientoMuestra);
+      if (data.EstadoMuestraId) {
+        this.GetStatusTrackingSamples();
+        this.contratoEditForm.controls.estadoSegMuestras.setValue(data.EstadoMuestraId);
+      }
+      if (data.FechaRecepcionMuestra && data.FechaRecepcionMuestra.substring(0, 10) != "0001-01-01")
+        this.contratoEditForm.controls.fecRecepcionDestino.setValue(data.FechaRecepcionMuestra.substring(0, 10));
       this.spinner.hide();
+    } else {
     }
     this.spinner.hide();
   }

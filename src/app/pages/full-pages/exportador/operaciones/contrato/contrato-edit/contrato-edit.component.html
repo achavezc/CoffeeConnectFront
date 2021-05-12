@@ -245,6 +245,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="calculo" class="col-lg-3 col-form-label pr-0">CALCULO</label>
+                                <div class="col-lg-9">
+                                    <ng-select [items]="listCalculos" formControlName="calculo" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="calculo" placeholder="Calculo"
+                                        [ngClass]="{ 'is-invalid': f.calculo.invalid, 'is-valid': !f.calculo.invalid }"
+                                        [(ngModel)]="selectedCalculo">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -326,28 +338,12 @@
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 bg-primary text-white">
-                                    <!-- <label for="sujetoAprobMuestra">
-                                        <input type="checkbox" name="sujetoAprobMuestra" id="sujetoAprobMuestra"
-                                            [ngClass]="{ 'is-invalid': f.sujetoAprobMuestra.invalid, 'is-valid': !f.sujetoAprobMuestra.invalid }"
-                                            formControlName="sujetoAprobMuestra">&nbsp;Sujeto a
-                                        aprobación de muestra antes de embarque</label><br />
-                                    <label for="muestraEnviadaCliente">
-                                        <input type="checkbox" name="muestraEnviadaCliente" id="muestraEnviadaCliente"
-                                            [ngClass]="{ 'is-invalid': f.muestraEnviadaCliente.invalid, 'is-valid': !f.muestraEnviadaCliente.invalid }"
-                                            formControlName="muestraEnviadaCliente">&nbsp;Muestra enviada al
-                                        cliente</label><br />
-                                    <label for="muestraAnalisisGlifosato">
-                                        <input type="checkbox" name="muestraAnalisisGlifosato"
-                                            [ngClass]="{ 'is-invalid': f.muestraAnalisisGlifosato.invalid, 'is-valid': !f.muestraAnalisisGlifosato.invalid }"
-                                            id="muestraAnalisisGlifosato"
-                                            formControlName="muestraAnalisisGlifosato">&nbsp;Muestra
-                                        enviada para analisis de Glifosato</label> -->
                                     <label for="">SEGUIMIENTO DE MUESTRAS</label>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-0">
                                         <label for="laboratorio" class="col-lg-5 col-form-label">LABORATORIO</label>
                                         <div class="col-lg-7">
                                             <ng-select [items]="listLaboratorios" formControlName="laboratorio"
@@ -360,26 +356,128 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="pesoSacoKG" class="col-lg-5 col-form-label">PESO POR SACO KG</label>
-                                <div class="col-lg-7">
-                                    <input type="number" name="pesoSacoKG" id="pesoSacoKG" formControlName="pesoSacoKG"
-                                        class="form-control" placeholder="Peso del saco por KG"
-                                        [ngClass]="{ 'is-invalid': f.pesoSacoKG.invalid, 'is-valid': !f.pesoSacoKG.invalid }">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row mb-0">
+                                        <label for="fecRecojoEnvioCurier" class="col-lg-5 col-form-label">FEC.
+                                            RECOJO/ENVIO CURIER</label>
+                                        <div class="col-lg-7">
+                                            <input type="date" date name="fecRecojoEnvioCurier"
+                                                id="fecRecojoEnvioCurier" formControlName="fecRecojoEnvioCurier"
+                                                class="form-control text-center" placeholder="Fecha recojo/envio curier"
+                                                [ngClass]="{ 'is-invalid': f.fecRecojoEnvioCurier.invalid, 'is-valid': !f.fecRecojoEnvioCurier.invalid }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row mb-0">
+                                        <label for="truckingNumber" class="col-lg-5 col-form-label">TRACKING
+                                            NUMBER</label>
+                                        <div class="col-lg-7">
+                                            <input type="text" name="truckingNumber" id="truckingNumber"
+                                                formControlName="truckingNumber" class="form-control"
+                                                placeholder="Tracking number"
+                                                [ngClass]="{ 'is-invalid': f.truckingNumber.invalid, 'is-valid': !f.truckingNumber.invalid }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row mb-0">
+                                        <label for="estadoSegMuestras" class="col-lg-5 col-form-label">ESTADO</label>
+                                        <div class="col-lg-7">
+                                            <ng-select [items]="listEstadoSegMuestra"
+                                                formControlName="estadoSegMuestras" class="form-control"
+                                                bindLabel="Label" bindValue="Codigo" id="estadoSegMuestras"
+                                                placeholder="Estado" [(ngModel)]="selectedEstadoSegMuestra"
+                                                [ngClass]="{ 'is-invalid': f.estadoSegMuestras.invalid, 'is-valid': !f.estadoSegMuestras.invalid }">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row mb-o">
+                                        <label for="fecRecepcionDestino" class="col-lg-5 col-form-label">FEC. RECEPCIÓN
+                                            EN DESTINO</label>
+                                        <div class="col-lg-7">
+                                            <input type="date" date name="fecRecepcionDestino" id="fecRecepcionDestino"
+                                                formControlName="fecRecepcionDestino" class="form-control text-center"
+                                                placeholder="Fecha recepción en destino"
+                                                [ngClass]="{ 'is-invalid': f.fecRecepcionDestino.invalid, 'is-valid': !f.fecRecepcionDestino.invalid }">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <label for="cantidadDefectos" class="col-lg-6 col-form-label pr-0">CANTIDAD DE
-                                    DEFECTOS</label>
-                                <div class="col-lg-6">
-                                    <input type="number" name="cantidadDefectos" id="cantidadDefectos"
-                                        formControlName="cantidadDefectos" class="form-control"
-                                        placeholder="Cantidad de defectos"
-                                        [ngClass]="{ 'is-invalid': f.cantidadDefectos.invalid, 'is-valid': !f.cantidadDefectos.invalid }">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <div class="form-group row mb-0">
+                                        <label for="empaque" class="col-lg-4 col-form-label pr-0">EMPAQUE/TIPO</label>
+                                        <div class="col-lg-8">
+                                            <ng-select [items]="listEmpaques" formControlName="empaque"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="empaque"
+                                                placeholder="Empaque" [(ngModel)]="selectedEmpaque"
+                                                [ngClass]="{ 'is-invalid': f.empaque.invalid, 'is-valid': !f.empaque.invalid }">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="form-group row mb-0">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <ng-select [items]="listTipos" formControlName="tipo" class="form-control"
+                                                bindLabel="Label" bindValue="Codigo" id="tipo" placeholder="Tipo"
+                                                [(ngModel)]="selectedTipo"
+                                                [ngClass]="{ 'is-invalid': f.tipo.invalid, 'is-valid': !f.tipo.invalid }">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group row mb-0">
+                                        <label for="pesoSacoKG" class="col-lg-5 col-form-label pr-0">PESO POR SACO
+                                            KG</label>
+                                        <div class="col-lg-7">
+                                            <input type="number" name="pesoSacoKG" id="pesoSacoKG"
+                                                formControlName="pesoSacoKG" class="form-control"
+                                                placeholder="Peso del saco por KG"
+                                                [ngClass]="{ 'is-invalid': f.pesoSacoKG.invalid, 'is-valid': !f.pesoSacoKG.invalid }">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group row mb-0">
+                                        <label for="cantidadDefectos" class="col-lg-6 col-form-label pr-0">CANTIDAD DE
+                                            DEFECTOS</label>
+                                        <div class="col-lg-6">
+                                            <input type="number" name="cantidadDefectos" id="cantidadDefectos"
+                                                formControlName="cantidadDefectos" class="form-control"
+                                                placeholder="Cantidad de defectos"
+                                                [ngClass]="{ 'is-invalid': f.cantidadDefectos.invalid, 'is-valid': !f.cantidadDefectos.invalid }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group row mb-0">
+                                        <label for="totalSacos69Kg" class="col-lg-6 col-form-label">TOTAL SACOS X
+                                            69 KG</label>
+                                        <div class="col-lg-6">
+                                            <input type="number" name="totalSacos69Kg" id="totalSacos69Kg"
+                                                formControlName="totalSacos69Kg" class="form-control"
+                                                placeholder="Total de socio x 69 Kg"
+                                                [ngClass]="{ 'is-invalid': f.totalSacos69Kg.invalid, 'is-valid': !f.totalSacos69Kg.invalid }">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -390,8 +488,6 @@
                                 <div class="col-md-6 mb-6 form-group mb-2">
                                     <label for="validationTooltip09">Cargar Contrato</label>
                                     <label class="custom-file">
-                                        <!--  <input type="file" ng2FileSelect [uploader]="uploader">
-                                      <span class="custom-file-control"></span> -->
                                         <input type="file" (change)="fileChange($event)" placeholder="Upload file"
                                             accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
                                     </label>
@@ -401,7 +497,6 @@
                         </div>
                     </div>
                     <div class="form-row">
-
                         <div class="col-md-6 mb-6 form-group mb-2">
                             <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
                         </div>
