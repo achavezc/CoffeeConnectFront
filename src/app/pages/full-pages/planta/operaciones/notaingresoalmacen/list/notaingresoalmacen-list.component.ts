@@ -71,8 +71,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         this.singleSelectCheck = this.singleSelectCheck.bind(this);
       }
     ngOnInit(): void {
-
-       
+      this.cargarForm();
+       this.cargarcombos();
     
     }
     compareTwoDates() {
@@ -121,15 +121,15 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
           rzsocial: new FormControl('', []),
           estado: new FormControl('', []),
           fechaFin: new FormControl('', [Validators.required,]),
-          codigoSocio: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
           producto: new FormControl('', []),
           almacen: new FormControl('', []),
           rendimientoInicio: new FormControl('', []),
           rendimientoFin: new FormControl('', []),
           puntajeFinalFin: new FormControl('', []),
-          puntajeFinalInicio: new FormControl('', [])
+          puntajeFinalInicio: new FormControl('', []),
+          certificacion: new FormControl('', [])
         });
-      this.notaIngresoAlamcenForm.setValidators(this.comparisonValidator())
+      //this.notaIngresoAlamcenForm.setValidators(this.comparisonValidator())
     }
   
     public comparisonValidator(): ValidatorFn {
@@ -160,9 +160,9 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
           return;
         };
       }
-    cargarcombos() {
+        cargarcombos() {
       var form = this;
-      this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion", function (res) {
+      this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
         if (res.Result.Success) {
           form.listaEstado = res.Result.Data;
         }
@@ -172,9 +172,19 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
           form.listaTipoDocumento = res.Result.Data;
         }
       });
-      this.maestroUtil.obtenerMaestros("Producto", function (res) {
+      this.maestroUtil.obtenerMaestros("ProductoPlanta", function (res) {
         if (res.Result.Success) {
           form.listaProducto = res.Result.Data;
+        }
+      });
+      this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) {
+        if (res.Result.Success) {
+          form.listaSubProducto = res.Result.Data;
+        }
+      });
+      this.maestroUtil.obtenerMaestros("EntidadCertificadoraPlanta", function (res) {
+        if (res.Result.Success) {
+          form.listaCertificacion = res.Result.Data;
         }
       });
     }
