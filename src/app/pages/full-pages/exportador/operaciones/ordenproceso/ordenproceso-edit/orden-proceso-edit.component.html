@@ -115,19 +115,17 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-lg-7 col-md-7 col-sm-7">
                             <div class="form-group row">
-                                <label for="destino" class="col-lg-4 col-form-label">DESTINO</label>
-                                <div class="col-lg-6">
-                                    <ng-select [items]="listDestinos" formControlName="destino" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="destino" placeholder="Destino"
-                                        [ngClass]="{ 'is-invalid': f.destino.invalid, 'is-valid': !f.destino.invalid }"
-                                        [(ngModel)]="selectedDestino">
-                                    </ng-select>
+                                <label for="destino" class="col-lg-2 col-form-label">DESTINO</label>
+                                <div class="col-lg-9">
+                                    <input type="text" name="destino" id="destino" formControlName="destino"
+                                        class="form-control" placeholder="Destino" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.destino.invalid, 'is-valid': !f.destino.invalid }">
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-1">
                                     <ng-template #mdlConsultarEmpresa let-c="close" let-d="dismiss">
-                                        <app-consultar-empresa (empresaEvent)="GetDataModal($event)">
+                                        <app-consultar-empresa (empresaEvent)="GetDataEmpresa($event)">
                                         </app-consultar-empresa>
                                     </ng-template>
                                     <button type="button" (click)="openModal(mdlConsultarEmpresa)"
@@ -137,7 +135,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3"></div>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-group row">
                                 <label for="fecFinProcesoPlanta" class="col-lg-5 col-form-label">FEC. FIN DE PROCESO
@@ -225,12 +222,12 @@
                     <div class="form-row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="unidadMedida" class="col-lg-4 col-form-label">UND. MEDIDA</label>
+                                <label for="empaqueTipo" class="col-lg-4 col-form-label">EMPAQUE/TIPO</label>
                                 <div class="col-lg-8">
-                                    <input type="number" class="form-control text-right" formControlName="unidadMedida"
-                                        id="unidadMedida" name="unidadMedida" placeholder="Unidad de medida"
+                                    <input type="number" class="form-control text-right" formControlName="empaqueTipo"
+                                        id="empaqueTipo" name="empaqueTipo" placeholder="Empaque / Tipo"
                                         [readonly]="true"
-                                        [ngClass]="{ 'is-invalid': f.unidadMedida.invalid, 'is-valid': !f.unidadMedida.invalid }" />
+                                        [ngClass]="{ 'is-invalid': f.empaqueTipo.invalid, 'is-valid': !f.empaqueTipo.invalid }" />
                                 </div>
                             </div>
                         </div>
@@ -293,7 +290,7 @@
                                 <div class="col-lg-6">
                                     <input type="number" class="form-control text-right"
                                         formControlName="totalKilosBruto" id="totalKilosBruto" name="totalKilosBruto"
-                                        placeholder="Total kilos brutos" [readonly]="true"
+                                        placeholder="Total kilos brutos"
                                         [ngClass]="{ 'is-invalid': f.totalKilosBruto.invalid, 'is-valid': !f.totalKilosBruto.invalid }" />
                                 </div>
                             </div>
@@ -323,6 +320,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group row">
+                                <label for="totalKilosBrutos" class="col-lg-6 col-form-label">Cargar Liquidación de
+                                    Proceso</label>
+                                <div class="col-lg-6">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -336,6 +342,16 @@
                                         id="responsableComercial" name="responsableComercial"
                                         placeholder="Responsable comercial" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <small class="form-text text-muted danger mb-1"
+                                        *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                                 </div>
                                 <div class="col-lg-6 text-right">
                                     <button type="button" class="btn btn-primary mr-1">Guardar</button>
