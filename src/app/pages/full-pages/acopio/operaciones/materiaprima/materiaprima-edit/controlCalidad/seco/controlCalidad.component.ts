@@ -13,6 +13,7 @@ import {NotaSalidaAlmacenService} from '../../../../../../../../services/nota-sa
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import {LoteService} from '../../../../../../../../services/lote.service';
 import {OrdenservicioControlcalidadService} from '../../../../../../../../services/ordenservicio-controlcalidad.service';
+import { ControlCalidadService } from '../controlCalidadServices';
 
 
 @Component({
@@ -55,11 +56,10 @@ export class ControlCalidadComponent implements OnInit {
    fechaCalidad: string;
 
   constructor(
-    private acopioService : AcopioService,  private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil, private router: Router, private dateUtil: DateUtil,
-    private notaSalidaAlmacenService: NotaSalidaAlmacenService, private maestroService: MaestroService,
-    private loteService: LoteService,
-    private ordenServicio : OrdenservicioControlcalidadService
+    private spinner: NgxSpinnerService,
+    private router: Router, private dateUtil: DateUtil,
+    private maestroService: MaestroService,
+    private controlCalidadService: ControlCalidadService
     ){
      
   } 
@@ -307,6 +307,7 @@ export class ControlCalidadComponent implements OnInit {
       this.detalle.GuiaRecepcionMateriaPrimaId? Number(this.detalle.GuiaRecepcionMateriaPrimaId):  null,
       this.detalle.NotaSalidaAlmacenId? Number(this.detalle.NotaSalidaAlmacenId):  null,
       this.detalle.LoteId? Number(this.detalle.LoteId):  null,
+      this.detalle.NotaIngresoPlantaId? Number(this.detalle.NotaIngresoPlantaId):  null,
       this.detalle.OrdenServicioControlCalidadId? Number(this.detalle.OrdenServicioControlCalidadId):  null,
       controlFormControlCalidad["ObservacionAnalisisFisico"].value,
       listaDetalleOlor,
@@ -337,101 +338,18 @@ export class ControlCalidadComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-      if (this.form == "materiaprima")
-      {
-      this.acopioService.Actualizar(this.reqControlCalidad)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
-            if(result.isConfirmed){
-              form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
-            }
-          }
-          );
-            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );  
+      if (this.form == "materiaprima") {
+        this.controlCalidadService.actualizarControlCalidadMateriaPrima(this.reqControlCalidad);
       }
-     
-      else if (this.form == "lote")
-      {
-    
-      this.loteService.ActualizarAnalisisCalidad(this.reqControlCalidad)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
-            if(result.isConfirmed){
-              form.router.navigate(['/operaciones/lotes-list']);
-            }
-          }
-          );
-            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );  
+      else if (this.form == "lote") {
+        this.controlCalidadService.actualizarControlCalidadLote(this.reqControlCalidad);
       }
-      else if (this.form == "ordenServicio")
+      else if (this.form == "ordenServicio") {
+        this.controlCalidadService.actualizarControlCalidadOrdenServicio(this.reqControlCalidad);
+      }
+      else if (this.form == "notaingresoplanta")
       {
-    
-      this.ordenServicio.ActualizarAnalisisCalidad(this.reqControlCalidad)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-          this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
-            if(result.isConfirmed){
-              form.router.navigate(['/operaciones/orderservicio-controlcalidadexterna-list']);
-            }
-          }
-          );
-            //this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list'])
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );  
+        this.controlCalidadService.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
       }
     }
     
