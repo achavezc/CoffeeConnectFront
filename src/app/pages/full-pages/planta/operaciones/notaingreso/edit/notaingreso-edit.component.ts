@@ -108,7 +108,7 @@ export class NotaIngresoEditComponent implements OnInit {
         if (Number(params.id)) {
           this.id = Number(params.id);
           this.esEdit = true;
-          this.obtenerDetalle();
+         // this.obtenerDetalle();
           if (this.status == "01") {
             this.disabledNota = 'disabled';
           }

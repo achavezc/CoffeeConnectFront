@@ -11,7 +11,7 @@
         <div class="card">
           <div class="card-content">
             <div class="card-body">
-              <form class="needs-validation" [formGroup]="consultaMateriaPrimaForm">
+              <form class="needs-validation" [formGroup]="consultaNotaIngresoPlantaForm">
                 <div class="form-row">
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">Nro Nota de Ingreso</label>
@@ -83,15 +83,16 @@
                     <ng-select [items]="listaProducto" formControlName="tipoProducto" class="form-control" bindLabel="Label"
                       bindValue="Codigo" id="validationTooltip12" placeholder="Tipo Producto"
                       [ngClass]="{ 'is-invalid': submitted && f.tipoProducto.invalid, 'is-valid': submitted && !f.tipoProducto.invalid }"
+                      (change)="changeSubProducto($event)" 
                       [(ngModel)]="selectedProducto">
                     </ng-select>
                   </div>
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip12">Sub Producto</label>
-                    <ng-select [items]="listaProducto" formControlName="subProducto" class="form-control" bindLabel="Label"
+                    <ng-select [items]="listaSubProducto" formControlName="subProducto" class="form-control" bindLabel="Label"
                       bindValue="Codigo" id="validationTooltip12" placeholder="Sub Producto"
                       [ngClass]="{ 'is-invalid': submitted && f.subProducto.invalid, 'is-valid': submitted && !f.subProducto.invalid }"
-                      [(ngModel)]="selectedProducto">
+                      [(ngModel)]="selectedSubProducto">
                     </ng-select>
                   </div>
                   
@@ -100,10 +101,19 @@
                 <div class="form-row">
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip12">Estado</label>
-                    <ng-select [items]="listaProducto" formControlName="estado" class="form-control" bindLabel="Label"
+                    <ng-select [items]="listaEstado" formControlName="estado" class="form-control" bindLabel="Label"
                       bindValue="Codigo" id="validationTooltip12" placeholder="Estado"
                       [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
-                      [(ngModel)]="selectedProducto">
+                      [(ngModel)]="selectedEstado">
+                    </ng-select>
+                  </div>
+
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip32">Motivo</label>
+                    <ng-select [items]="listaMotivo" formControlName="motivo" class="form-control" bindLabel="Label"
+                      bindValue="Codigo" id="validationTooltip32" placeholder="Motivo"
+                      [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
+                      [(ngModel)]="selectedMotivo">
                     </ng-select>
                   </div>
               
@@ -156,14 +166,27 @@
               <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
                 [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                 [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
-                <ngx-datatable-column name="Numero Nota Ingreson" prop="Numero" width="30"></ngx-datatable-column>
+
+                <ngx-datatable-column name="Numero Nota Ingreso" prop="Numero" width="40">
+
+                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                    <div class="d-flex align-items-center">
+                      <div class="cell-line-height">
+                        <a class="line-height-1 mb-0" routerLink="/operaciones/notaingreso-edit" [queryParams]="{ id: row.NotaIngresoPlantaId, status: row.EstadoId}" >{{ name }}</a>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+
+               
                 <ngx-datatable-column name="Nro Guia Remision" prop="NumeroGuiaRemision" width="30"></ngx-datatable-column>
-                <ngx-datatable-column name="Fecha Ingreso" prop="FechaIngreso" width="30"></ngx-datatable-column>
-                <ngx-datatable-column name="Organizacion" prop="Organizacion" width="50"></ngx-datatable-column>
-                <ngx-datatable-column name="Tipo Producto" prop="TipoProducto" width="120">
+                <ngx-datatable-column name="Fecha Ingreso" prop="FechaRegistroCadena" width="30"></ngx-datatable-column>
+                <ngx-datatable-column name="Organizacion" prop="RazonSocial" width="50"></ngx-datatable-column>
+                <ngx-datatable-column name="Tipo Producto" prop="Producto" width="120">
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="30"></ngx-datatable-column>
-                <ngx-datatable-column name="Motivo" prop="Motivo" width="30"></ngx-datatable-column>
+                <ngx-datatable-column name="Motivo" prop="MotivoIngreso" width="30"></ngx-datatable-column>
                 <ngx-datatable-column name="Certificacion" prop="Certificacion" width="30"></ngx-datatable-column>
                
                 <ngx-datatable-column name="Estado" prop="Estado" width="40">

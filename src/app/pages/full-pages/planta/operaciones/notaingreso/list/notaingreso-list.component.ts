@@ -3,8 +3,8 @@ import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { AcopioService, FiltrosMateriaPrima } from '../../../../../../services/acopio.service';
-import { NotaIngresoAlmacenService } from '../../../../../../services/nota-ingreso-almacen.service';
+import { PlantaService } from '../../../../../../Services/planta.service';
+
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
@@ -12,6 +12,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import swal from 'sweetalert2';
 import { Router } from "@angular/router"
+import { MaestroService } from '../../../../../../services/maestro.service';
 
 @Component({
     selector: "app-notaingreso-list",
@@ -22,17 +23,20 @@ import { Router } from "@angular/router"
     ],
     encapsulation: ViewEncapsulation.None
   })
-  
 export class NotaIngresoListComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   submitted = false;
   listaEstado: Observable<any[]>;
   listaTipoDocumento: Observable<any[]>;
   listaProducto: Observable<any[]>;
+  listaSubProducto: Observable<any[]>;
+  listaMotivo: Observable<any[]>;
   selectedTipoDocumento: any;
   selectedEstado: any;
+  selectedMotivo: any;
   selectedProducto: any;
-  consultaMateriaPrimaForm: FormGroup;
+  selectedSubProducto: any;
+  consultaNotaIngresoPlantaForm: FormGroup;
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -50,26 +54,25 @@ export class NotaIngresoListComponent implements OnInit {
 
   // private
   private tempData = [];
-
   constructor(
     private router: Router,
     private maestroUtil: MaestroUtil,
     private alertUtil: AlertUtil,
     private dateUtil: DateUtil,
-    private acopioService: AcopioService,
-    private notaIngrersoService: NotaIngresoAlmacenService,
-    private filtrosMateriaPrima: FiltrosMateriaPrima,
-    private excelService: ExcelService,
-    private spinner: NgxSpinnerService) {
+    private plantaService: PlantaService,
+    
+    private spinner: NgxSpinnerService,
+    private maestroService: MaestroService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
     ngOnInit(): void {
       this.cargarForm();
       this.buscar();
+      this.cargarcombos();
     }
 
     get f() {
-      return this.consultaMateriaPrimaForm.controls;
+      return this.consultaNotaIngresoPlantaForm.controls;
     }
     
     filterUpdate(event) {
@@ -92,7 +95,7 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   cargarForm() {
-    this.consultaMateriaPrimaForm = new FormGroup(
+    this.consultaNotaIngresoPlantaForm = new FormGroup(
       {
         notaIngreso: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         codigoOrganizacion: new FormControl('', []),
@@ -101,77 +104,72 @@ export class NotaIngresoListComponent implements OnInit {
         fechaFin: new FormControl('', [Validators.required,]),
         organizacion: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         ruc: new FormControl('', []),
-        tipoProducto: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        tipoProducto: new FormControl('', []),
         subProducto: new FormControl('', []),
-        estado: new FormControl('', [])
+        estado: new FormControl('', []),
+        motivo: new FormControl('', [])
       });
-    this.consultaMateriaPrimaForm.setValidators(this.comparisonValidator())
+    this.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
   }
 
   cargarcombos() {
     var form = this;
-    this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion", function (res) {
-      if (res.Result.Success) {
-        form.listaEstado = res.Result.Data;
-      }
-    });
-    this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
-      if (res.Result.Success) {
-        form.listaTipoDocumento = res.Result.Data;
-      }
-    });
-    this.maestroUtil.obtenerMaestros("Producto", function (res) {
+    this.maestroUtil.obtenerMaestros("ProductoPlanta", function (res) {
       if (res.Result.Success) {
         form.listaProducto = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaEstado = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaMotivo = res.Result.Data;
+      }
+    });
+  }
+
+  changeSubProducto(e) {
+    let filterProducto = e.Codigo;
+    this.cargarSubProducto(filterProducto);
+  }
+
+  async cargarSubProducto(codigo: any) {
+
+    var data = await this.maestroService.obtenerMaestros("SubProductoPlanta").toPromise();
+    if (data.Result.Success) {
+      this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
+    }
+
   }
 
   buscar() {
-    var lstDemo = [
-      {
-        "Numero":"G13333",
-        "NumeroGuiaRemision":"GR33444",
-        "FechaIngreso":"10/13/2021",
-        "Organizacion":"Prueba",
-        "TipoProducto":"Prueba",
-        "SubProducto":"Prueba",
-        "Motivo":"Pruena",
-        "Certificacion":"Prueba",
-        "Estado":"Pesado"
-      },
-       {
-        "Numero":"G13333",
-        "NumeroGuiaRemision":"GR33444",
-        "FechaIngreso":"10/13/2021",
-        "Organizacion":"Prueba",
-        "TipoProducto":"Prueba",
-        "SubProducto":"Prueba",
-        "Motivo":"Pruena",
-        "Certificacion":"Prueba",
-        "Estado":"Pesado"
-      }
-    ];
 
-    this.tempData = lstDemo;
-    this.rows = [...this.tempData];
-    this.selected = [];
-    /*
-    if (this.consultaMateriaPrimaForm.invalid || this.errorGeneral.isError) {
+    
+    if (this.consultaNotaIngresoPlantaForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
     } else {
 
       this.submitted = false;
-      this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value;
-      this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value;
-      this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value;
-      this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value;
-      this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value;
-      this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value;
-      this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value;
-      this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value;
-      this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value;
+      var objRequest = {
+        "Numero": this.consultaNotaIngresoPlantaForm.controls['notaIngreso'].value,
+        "NumeroGuiaRemision": this.consultaNotaIngresoPlantaForm.controls['numeroGuiaRemision'].value,
+        "NumeroOrganizacion": this.consultaNotaIngresoPlantaForm.controls['codigoOrganizacion'].value,
+        "RazonSocialOrganizacion": this.consultaNotaIngresoPlantaForm.controls['organizacion'].value,
+        "RucOrganizacion": this.consultaNotaIngresoPlantaForm.controls['ruc'].value,
+        "ProductoId": this.consultaNotaIngresoPlantaForm.controls['tipoProducto'].value,
+        "SubProductoId": this.consultaNotaIngresoPlantaForm.controls['subProducto'].value,
+        "MotivoIngresoId": this.consultaNotaIngresoPlantaForm.controls['motivo'].value,
+        "EstadoId": this.consultaNotaIngresoPlantaForm.controls['estado'].value,
+        "EmpresaId": 1,
+        "FechaInicio": this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value,
+        "FechaFin": this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value,
+
+      }
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
@@ -180,7 +178,7 @@ export class NotaIngresoListComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
-      this.acopioService.consultarMateriaPrima(this.filtrosMateriaPrima)
+      this.plantaService.Consultar(objRequest)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -210,33 +208,35 @@ export class NotaIngresoListComponent implements OnInit {
           }
         );
     }
-    */
+    
+    
+    
   }
 
   compareTwoDates() {
-    var anioFechaInicio = new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value).getFullYear()
-    var anioFechaFin = new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value).getFullYear()
+    var anioFechaInicio = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value).getFullYear()
+    var anioFechaFin = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value).getFullYear()
 
-    if (new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value) < new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value)) {
+    if (new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value) < new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value)) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
-      this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
+      this.consultaNotaIngresoPlantaForm.controls['fechaFin'].setErrors({ isError: true })
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
+      this.consultaNotaIngresoPlantaForm.controls['fechaFin'].setErrors({ isError: true })
     } else {
       this.error = { isError: false, errorMessage: '' };
     }
   }
 
   compareFechas() {
-    var anioFechaInicio = new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value).getFullYear()
-    var anioFechaFin = new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value).getFullYear()
-    if (new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value) > new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value)) {
+    var anioFechaInicio = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value).getFullYear()
+    var anioFechaFin = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value).getFullYear()
+    if (new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value) > new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value)) {
       this.errorFecha = { isError: true, errorMessage: 'La fecha inicio no puede ser mayor a la fecha fin' };
-      this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
+      this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].setErrors({ isError: true })
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
+      this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].setErrors({ isError: true })
     } else {
       this.errorFecha = { isError: false, errorMessage: '' };
     }
@@ -245,7 +245,8 @@ export class NotaIngresoListComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      const numeroGuia = group.controls['numeroGuia'];
+      /*
+      const numeroGuia = group.controls['notaIngreso'];
       const numeroDocumento = group.controls['numeroDocumento'];
       const codigoSocio = group.controls['codigoSocio'];
       const nombre = group.controls['nombre'];
@@ -267,7 +268,7 @@ export class NotaIngresoListComponent implements OnInit {
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
 
       }
-
+      */
       return;
     };
   }
@@ -335,6 +336,7 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   anularGuia() {
+    /*
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -343,7 +345,7 @@ export class NotaIngresoListComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.acopioService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId, this.vSessionUser.Result.Data.NombreUsuario)
+    this.notaIngresoPlantaService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId, this.vSessionUser.Result.Data.NombreUsuario)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -366,9 +368,11 @@ export class NotaIngresoListComponent implements OnInit {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
+      */
   }
 
   enviarAlmacenGuia() {
+    /*
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -401,22 +405,24 @@ export class NotaIngresoListComponent implements OnInit {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
+      */
   }
 
   exportar() {
+    /*
     try {
       if (this.rows == null || this.rows.length <= 0) {
         this.alertUtil.alertError("Error", "No existen datos a exportar.");
       } else {
-        this.filtrosMateriaPrima.Numero = this.consultaMateriaPrimaForm.controls['numeroGuia'].value
-        this.filtrosMateriaPrima.NombreRazonSocial = this.consultaMateriaPrimaForm.controls['nombre'].value
-        this.filtrosMateriaPrima.TipoDocumentoId = this.consultaMateriaPrimaForm.controls['tipoDocumento'].value
-        this.filtrosMateriaPrima.NumeroDocumento = this.consultaMateriaPrimaForm.controls['numeroDocumento'].value
-        this.filtrosMateriaPrima.ProductoId = this.consultaMateriaPrimaForm.controls['producto'].value
-        this.filtrosMateriaPrima.CodigoSocio = this.consultaMateriaPrimaForm.controls['codigoSocio'].value
-        this.filtrosMateriaPrima.EstadoId = this.consultaMateriaPrimaForm.controls['estado'].value
-        this.filtrosMateriaPrima.FechaInicio = this.consultaMateriaPrimaForm.controls['fechaInicio'].value
-        this.filtrosMateriaPrima.FechaFin = this.consultaMateriaPrimaForm.controls['fechaFin'].value
+        this.filtrosMateriaPrima.Numero = this.consultaNotaIngresoPlantaForm.controls['numeroGuia'].value
+        this.filtrosMateriaPrima.NombreRazonSocial = this.consultaNotaIngresoPlantaForm.controls['nombre'].value
+        this.filtrosMateriaPrima.TipoDocumentoId = this.consultaNotaIngresoPlantaForm.controls['tipoDocumento'].value
+        this.filtrosMateriaPrima.NumeroDocumento = this.consultaNotaIngresoPlantaForm.controls['numeroDocumento'].value
+        this.filtrosMateriaPrima.ProductoId = this.consultaNotaIngresoPlantaForm.controls['producto'].value
+        this.filtrosMateriaPrima.CodigoSocio = this.consultaNotaIngresoPlantaForm.controls['codigoSocio'].value
+        this.filtrosMateriaPrima.EstadoId = this.consultaNotaIngresoPlantaForm.controls['estado'].value
+        this.filtrosMateriaPrima.FechaInicio = this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value
+        this.filtrosMateriaPrima.FechaFin = this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value
 
         let vArrHeaderExcel: HeaderExcel[] = [];
 
@@ -476,6 +482,7 @@ export class NotaIngresoListComponent implements OnInit {
     catch (err) {
       alert('Ha ocurrio un error en la descarga delExcel.');
     }
+    */
   }
 
 
