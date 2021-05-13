@@ -182,7 +182,7 @@
                                 <div class="col-lg-8">
                                     <ng-select [items]="listCertificacion" formControlName="certificacion"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="certificacion"
-                                        placeholder="Certificación" [multiple]="true" [readonly]="true"
+                                        placeholder="Certificación" [multiple]="true"
                                         [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
                                         [(ngModel)]="selectedCertificacion">
                                     </ng-select>
@@ -193,9 +193,9 @@
                     <div class="form-row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="totalSacosUtilizar" class="col-lg-4 col-form-label">TOTAL SACOS A
+                                <label for="totalSacosUtilizar" class="col-lg-5 col-form-label">TOTAL SACOS A
                                     UTILIZAR</label>
-                                <div class="col-lg-8">
+                                <div class="col-lg-7">
                                     <input type="number" class="form-control text-right"
                                         formControlName="totalSacosUtilizar" id="totalSacosUtilizar"
                                         name="totalSacosUtilizar" placeholder="Total de sacos a utilizar"
@@ -205,8 +205,9 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
-                                <label for="porcenRendimiento" class="col-lg-4 col-form-label">% RENDIMIENTO</label>
-                                <div class="col-lg-8">
+                                <label for="porcenRendimiento" class="col-lg-5 col-form-label pr-0">%
+                                    RENDIMIENTO</label>
+                                <div class="col-lg-7 pl-0">
                                     <input type="number" class="form-control text-right"
                                         formControlName="porcenRendimiento" id="porcenRendimiento"
                                         name="porcenRendimiento" placeholder="Rendimiento"
@@ -302,7 +303,7 @@
                                 <div class="col-lg-6">
                                     <input type="number" class="form-control text-right"
                                         formControlName="cantidadDefectos" id="cantidadDefectos" name="cantidadDefectos"
-                                        placeholder="Total kilos brutos" [readonly]="true"
+                                        placeholder="Cantidad de defectos" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.cantidadDefectos.invalid, 'is-valid': !f.cantidadDefectos.invalid }" />
                                 </div>
                             </div>
@@ -325,7 +326,10 @@
                                 <label for="totalKilosBrutos" class="col-lg-6 col-form-label">Cargar Liquidación de
                                     Proceso</label>
                                 <div class="col-lg-6">
-
+                                    <label class="custom-file">
+                                        <input type="file" (change)="fileChange($event)" placeholder="Upload file"
+                                            accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -354,8 +358,8 @@
                                         *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                                 </div>
                                 <div class="col-lg-6 text-right">
-                                    <button type="button" class="btn btn-primary mr-1">Guardar</button>
-                                    <button type="button" class="btn btn-danger">Cancelar</button>
+                                    <button type="button" class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
+                                    <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                                 </div>
                             </div>
                         </div>

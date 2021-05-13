@@ -89,9 +89,9 @@
                                 [disabled]="ordenProcesoForm.invalid">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!selected || selected.length <= 0">Anular</button>
+                                [disabled]="!selected || selected.length <= 0" (click)="Anular()">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!rows || rows.length <= 0">Exportar</button>
+                                [disabled]="!rows || rows.length <= 0" (click)="Export()">Exportar</button>
                         </form>
                     </div>
                 </div>
@@ -131,8 +131,9 @@
                         </fieldset>
                         <ngx-datatable #tblOrdenProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            [scrollbarH]="true" [selected]="selected" [selectionType]="'single'">
-                            <ngx-datatable-column name="N° ORDEN" prop="N° ORDEN" width="90">
+                            [scrollbarH]="true" [selected]="selected" [selectionType]="'single'"
+                            [selectCheck]="singleSelectCheck">
+                            <ngx-datatable-column name="N° ORDEN" prop="Numero" width="160">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -143,19 +144,20 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° CONTRATO" prop="N° CONTRATO" width="130">
+                            <ngx-datatable-column name="N° CONTRATO" prop="NumeroContrato" width="180">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="CÓDIGO" prop="CÓDIGO" width="120">
+                            <ngx-datatable-column name="CÓDIGO" prop="NumeroCliente" width="180">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="CLIENTE" prop="CLIENTE" width="250">
+                            <ngx-datatable-column name="CLIENTE" prop="Cliente" width="400">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="RUC" prop="Producto" width="140">
+                            <ngx-datatable-column name="RUC" prop="Ruc" width="200">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="EMP. PROCESADORA" prop="TipoProduccion" width="140">
+                            <ngx-datatable-column name="EMP. PROCESADORA" prop="RazonSocialEmpresaProcesadora"
+                                width="230">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="TIPO DE PROCESO" prop="Calidad" width="140">
+                            <ngx-datatable-column name="TIPO DE PROCESO" prop="TipoProceso" width="180">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="FEC. REGISTRO" prop="Calidad" width="140">
+                            <ngx-datatable-column name="FEC. REGISTRO" prop="FechaRegistroString" width="140">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="ESTADO" prop="Estado" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>

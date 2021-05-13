@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -49,6 +50,7 @@ export class ContratoEditComponent implements OnInit {
   listEstadoSegMuestra = [];
   listEmpaques = [];
   listTipos = [];
+  listNavieras = [];
   selectedCondEmbarque: any;
   selectedPais: any;
   selectedCiudad: any;
@@ -66,6 +68,7 @@ export class ContratoEditComponent implements OnInit {
   selectedEstadoSegMuestra: any;
   selectedEmpaque: any;
   selectedTipo: any;
+  selectedNaviera: any;
   vId: number;
   vSessionUser: any;
   private url = `${host}Contrato`;
@@ -133,7 +136,9 @@ export class ContratoEditComponent implements OnInit {
       fecRecepcionDestino: [],
       empaque: [],
       tipo: [],
-      totalSacos69Kg: []
+      totalSacos69Kg: [],
+      naviera: [],
+      observaciones: []
     });
   }
 
@@ -167,6 +172,7 @@ export class ContratoEditComponent implements OnInit {
     this.GetCalculations();
     this.GetLaboratorys();
     this.GetStatusTrackingSamples();
+    this.GetShippingCompany();
     this.spinner.hide();
   }
 
@@ -287,6 +293,13 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
+  async GetShippingCompany() {
+    const res = await this.maestroService.obtenerMaestros('Naviera').toPromise();
+    if (res.Result.Success) {
+      this.listNavieras = res.Result.Data;
+    }
+  }
+
   onChangePais(event: any): void {
     const form = this;
     this.listCiudades = [];
@@ -341,6 +354,8 @@ export class ContratoEditComponent implements OnInit {
       EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
       FechaEnvioMuestra: form.fecRecojoEnvioCurier ? form.fecRecojoEnvioCurier : null,
       FechaRecepcionMuestra: form.fecRecepcionDestino ? form.fecRecepcionDestino : null,
+      ObservacionMuestra: form.observaciones ? form.observaciones : '',
+      NavieraId: form.naviera ? form.naviera : '',
       NombreArchivo: '',
       DescripcionArchivo: '',
       PathArchivo: '',
@@ -586,25 +601,35 @@ export class ContratoEditComponent implements OnInit {
 
       if (data.NumeroSeguimientoMuestra)
         this.contratoEditForm.controls.truckingNumber.setValue(data.NumeroSeguimientoMuestra);
+
       if (data.EstadoMuestraId) {
         this.GetStatusTrackingSamples();
         this.contratoEditForm.controls.estadoSegMuestras.setValue(data.EstadoMuestraId);
       }
+
       if (data.FechaRecepcionMuestra && data.FechaRecepcionMuestra.substring(0, 10) != "0001-01-01")
         this.contratoEditForm.controls.fecRecepcionDestino.setValue(data.FechaRecepcionMuestra.substring(0, 10));
+
+      if (data.ObservacionMuestra)
+        this.contratoEditForm.controls.observaciones.setValue(data.ObservacionMuestra);
+
+      if (data.NavieraId) {
+        await this.GetShippingCompany();
+        this.contratoEditForm.controls.naviera.setValue(data.NavieraId);
+      }
       this.spinner.hide();
     } else {
     }
     this.spinner.hide();
   }
+
   Descargar() {
     var nombreFile = this.contratoEditForm.value.fileName;
     var rutaFile = this.contratoEditForm.value.pathFile;
     window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
-
   }
-  fileChange(event) {
 
+  fileChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       //this.certificacionEditForm.get('profile').setValue(file);
@@ -612,9 +637,7 @@ export class ContratoEditComponent implements OnInit {
         file: file
       });
       this.contratoEditForm.get('file').updateValueAndValidity()
-
     }
-
   }
   Cancelar(): void {
     this.router.navigate(['/exportador/operaciones/contrato/list']);
