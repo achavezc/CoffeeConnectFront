@@ -40,9 +40,9 @@ export class OrdenProcesoService {
     return this.http.post<any>(url, request, { headers }).catch(this.errorHandling.handleError);
   }
 
-  SearchById(request: any): Observable<any> {
+  SearchById(id: any): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
-    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+    return this.http.post<any>(url, { OrdenProcesoId: id }).catch(this.errorHandling.handleError);
   }
 
   Anular(request: any): Observable<any> {

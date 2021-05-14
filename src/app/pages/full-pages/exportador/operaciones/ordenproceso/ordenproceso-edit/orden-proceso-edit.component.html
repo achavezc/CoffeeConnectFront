@@ -135,87 +135,225 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5">
-                            <div class="form-group row">
-                                <label for="fecFinProcesoPlanta" class="col-lg-5 col-form-label">FEC. FIN DE PROCESO
-                                    PLANTA</label>
-                                <div class="col-lg-4">
-                                    <input type="date" date class="form-control" formControlName="fecFinProcesoPlanta"
-                                        id="fecFinProcesoPlanta" name="fecFinProcesoPlanta"
-                                        placeholder="Fecha fin de proceso"
-                                        [ngClass]="{ 'is-invalid': f.fecFinProcesoPlanta.invalid, 'is-valid': !f.fecFinProcesoPlanta.invalid }" />
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="tipoProceso" class="col-lg-4 col-form-label">TIPO DE PROCESO</label>
-                                <div class="col-lg-8">
-                                    <ng-select [items]="listTipoProceso" formControlName="tipoProceso"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoProceso"
-                                        placeholder="Tipo de proceso"
-                                        [ngClass]="{ 'is-invalid': f.tipoProceso.invalid, 'is-valid': !f.tipoProceso.invalid }"
-                                        [(ngModel)]="selectedTipoProceso">
-                                    </ng-select>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-sx-3">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="tipoProduccion" class="col-lg-5 col-form-label">TIPO
+                                            PRODUCCIÓN</label>
+                                        <div class="col-lg-7">
+                                            <ng-select [items]="listTipoProduccion" formControlName="tipoProduccion"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="tipoProduccion" placeholder="Tipo de producción" [readonly]="true"
+                                                [ngClass]="{ 'is-invalid': f.tipoProduccion.invalid, 'is-valid': !f.tipoProduccion.invalid }"
+                                                [(ngModel)]="selectedTipoProduccion">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="certificacion" class="col-lg-5 col-form-label">CERTIFICACIÓN</label>
+                                        <div class="col-lg-7">
+                                            <ng-select [items]="listCertificacion" formControlName="certificacion"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="certificacion" placeholder="Certificación" [readonly]="true"
+                                                [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
+                                                [(ngModel)]="selectedCertificacion">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="tipoProceso" class="col-lg-5 col-form-label">TIPO PROCESO</label>
+                                        <div class="col-lg-7">
+                                            <ng-select [items]="listTipoProcesos" formControlName="tipoProceso"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="tipoProceso" placeholder="Tipo de proceso"
+                                                [ngClass]="{ 'is-invalid': f.tipoProceso.invalid, 'is-valid': !f.tipoProceso.invalid }"
+                                                [(ngModel)]="selectedTipoProceso">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="totalSacosUtilizar" class="col-lg-5 col-form-label">TOTAL SACOS
+                                            UTILIZAR</label>
+                                        <div class="col-lg-7">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="totalSacosUtilizar" id="totalSacosUtilizar"
+                                                name="totalSacosUtilizar" placeholder="Total de sacos a utilizar"
+                                                [ngClass]="{ 'is-invalid': f.totalSacosUtilizar.invalid, 'is-valid': !f.totalSacosUtilizar.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="porcenRendimiento" class="col-lg-5 col-form-label">%
+                                            RENDIMIENTO</label>
+                                        <div class="col-lg-7">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="porcenRendimiento" id="porcenRendimiento"
+                                                name="porcenRendimiento" placeholder="% Rendimiento"
+                                                [ngClass]="{ 'is-invalid': f.porcenRendimiento.invalid, 'is-valid': !f.porcenRendimiento.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="fecFinProcesoPlanta" class="col-lg-6 col-form-label">FEC. FIN DE
+                                            PROCESO PLANTA</label>
+                                        <div class="col-lg-6">
+                                            <input type="date" date class="form-control text-center"
+                                                formControlName="fecFinProcesoPlanta" id="fecFinProcesoPlanta"
+                                                name="fecFinProcesoPlanta" placeholder="Fecha fin de proceso"
+                                                [ngClass]="{ 'is-invalid': f.fecFinProcesoPlanta.invalid, 'is-valid': !f.fecFinProcesoPlanta.invalid }" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="tipoProduccion" class="col-lg-5 col-form-label pr-0">TIPO DE
-                                    PRODUCCIÓN</label>
-                                <div class="col-lg-7 pl-0">
-                                    <ng-select [items]="listTipoProduccion" formControlName="tipoProduccion"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoProduccion"
-                                        placeholder="Tipo de producción" [readonly]="true"
-                                        [ngClass]="{ 'is-invalid': f.tipoProduccion.invalid, 'is-valid': !f.tipoProduccion.invalid }"
-                                        [(ngModel)]="selectedTipoProduccion">
-                                    </ng-select>
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-sx-9">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" type="button"
+                                        (click)="addRowDetail()">+</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="certificacion" class="col-lg-4 col-form-label">CERTIFICACIÓN</label>
-                                <div class="col-lg-8">
-                                    <ng-select [items]="listCertificacion" formControlName="certificacion"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="certificacion"
-                                        placeholder="Certificación" [multiple]="true"
-                                        [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
-                                        [(ngModel)]="selectedCertificacion">
-                                    </ng-select>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
+                                        [loadingIndicator]="isLoading" [scrollbarV]="true">
+
+                                        <ngx-datatable-column [sortable]="false" width="40">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger pt-0 pb-0"
+                                                        (click)="DeleteRowDetail(rowIndex)">-</button>
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="N° NOTA IP" prop="NroNotaIngresoPlanta"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-nroNotaIP="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="text" autofocus class="form-control form-control-sm"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'nroNotaIP')"
+                                                        value="{{nroNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="FEC. NOTA IP" prop="FechaNotaIngresoPlanta"
+                                            [sortable]="false" width="180">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-fecNotaIP="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="date" date autofocus
+                                                        class="form-control form-control-sm text-center"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'fecNotaIP')"
+                                                        value="{{fecNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="% RENDIMIENTO" prop="RendimientoPorcentaje"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row"
+                                                let-rendimiento="value" let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'rendimiento')"
+                                                        value="{{rendimiento}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="% HUMEDAD" prop="HumedadPorcentaje"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-humedad="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'humedad')"
+                                                        value="{{humedad}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="CANT. SACOS" prop="CantidadSacos"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-cantSacos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'cantSacos')"
+                                                        value="{{cantSacos}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="KL. BRUTOS" prop="KilosBrutos" [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klBrutos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'klBrutos')"
+                                                        value="{{klBrutos}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="TARA" prop="Tara" [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-tara="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'tara')"
+                                                        value="{{tara}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="KL. NETOS" prop="KilosNetos" [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klNetos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'klNetos')"
+                                                        value="{{klNetos}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                    </ngx-datatable>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="totalSacosUtilizar" class="col-lg-5 col-form-label">TOTAL SACOS A
-                                    UTILIZAR</label>
-                                <div class="col-lg-7">
-                                    <input type="number" class="form-control text-right"
-                                        formControlName="totalSacosUtilizar" id="totalSacosUtilizar"
-                                        name="totalSacosUtilizar" placeholder="Total de sacos a utilizar"
-                                        [ngClass]="{ 'is-invalid': f.totalSacosUtilizar.invalid, 'is-valid': !f.totalSacosUtilizar.invalid }" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="porcenRendimiento" class="col-lg-5 col-form-label pr-0">%
-                                    RENDIMIENTO</label>
-                                <div class="col-lg-7 pl-0">
-                                    <input type="number" class="form-control text-right"
-                                        formControlName="porcenRendimiento" id="porcenRendimiento"
-                                        name="porcenRendimiento" placeholder="Rendimiento"
-                                        [ngClass]="{ 'is-invalid': f.porcenRendimiento.invalid, 'is-valid': !f.porcenRendimiento.invalid }" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div class="form-row bg-primary align-middle mb-2">
                         <label for="" class="text-white">DETALLE DEL PRODUCTO TERMINADO</label>
@@ -321,31 +459,31 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <label for="totalKilosBrutos" class="col-lg-6 col-form-label">Cargar Liquidación de
+                                <label for="responsableComercial" class="col-lg-4 col-form-label">Responsable de
+                                    Comercial</label>
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control" formControlName="responsableComercial"
+                                        id="responsableComercial" name="responsableComercial"
+                                        placeholder="Responsable comercial" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group row">
+                                <label for="totalKilosBrutos" class="col-lg-5 col-form-label">Cargar Liquidación de
                                     Proceso</label>
                                 <div class="col-lg-6">
                                     <label class="custom-file">
                                         <input type="file" (change)="fileChange($event)" placeholder="Upload file"
                                             accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
                                     </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="form-row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="form-group row">
-                                <label for="responsableComercial" class="col-lg-2 col-form-label">Responsable de
-                                    Comercial</label>
-                                <div class="col-lg-4">
-                                    <input type="text" class="form-control" formControlName="responsableComercial"
-                                        id="responsableComercial" name="responsableComercial"
-                                        placeholder="Responsable comercial" [readonly]="true"
-                                        [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }" />
                                 </div>
                             </div>
                         </div>
