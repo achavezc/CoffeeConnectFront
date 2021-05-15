@@ -144,12 +144,10 @@
                                         <label for="tipoProduccion" class="col-lg-5 col-form-label">TIPO
                                             PRODUCCIÓN</label>
                                         <div class="col-lg-7">
-                                            <ng-select [items]="listTipoProduccion" formControlName="tipoProduccion"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo"
-                                                id="tipoProduccion" placeholder="Tipo de producción" [readonly]="true"
-                                                [ngClass]="{ 'is-invalid': f.tipoProduccion.invalid, 'is-valid': !f.tipoProduccion.invalid }"
-                                                [(ngModel)]="selectedTipoProduccion">
-                                            </ng-select>
+                                            <input type="text" class="form-control" formControlName="tipoProduccion"
+                                                id="tipoProduccion" name="tipoProduccion" placeholder="Tipo producción"
+                                                [readonly]="true"
+                                                [ngClass]="{ 'is-invalid': f.tipoProduccion.invalid, 'is-valid': !f.tipoProduccion.invalid }" />
                                         </div>
                                     </div>
                                 </div>
@@ -159,12 +157,10 @@
                                     <div class="form-group row">
                                         <label for="certificacion" class="col-lg-5 col-form-label">CERTIFICACIÓN</label>
                                         <div class="col-lg-7">
-                                            <ng-select [items]="listCertificacion" formControlName="certificacion"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo"
-                                                id="certificacion" placeholder="Certificación" [readonly]="true"
-                                                [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
-                                                [(ngModel)]="selectedCertificacion">
-                                            </ng-select>
+                                            <input type="text" class="form-control" formControlName="certificacion"
+                                                id="certificacion" name="certificacion" placeholder="Certificación"
+                                                [readonly]="true"
+                                                [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }" />
                                         </div>
                                     </div>
                                 </div>
@@ -180,20 +176,6 @@
                                                 [ngClass]="{ 'is-invalid': f.tipoProceso.invalid, 'is-valid': !f.tipoProceso.invalid }"
                                                 [(ngModel)]="selectedTipoProceso">
                                             </ng-select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group row">
-                                        <label for="totalSacosUtilizar" class="col-lg-5 col-form-label">TOTAL SACOS
-                                            UTILIZAR</label>
-                                        <div class="col-lg-7">
-                                            <input type="number" class="form-control text-right"
-                                                formControlName="totalSacosUtilizar" id="totalSacosUtilizar"
-                                                name="totalSacosUtilizar" placeholder="Total de sacos a utilizar"
-                                                [ngClass]="{ 'is-invalid': f.totalSacosUtilizar.invalid, 'is-valid': !f.totalSacosUtilizar.invalid }" />
                                         </div>
                                     </div>
                                 </div>
@@ -353,20 +335,63 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="form-row bg-primary align-middle mb-2">
                         <label for="" class="text-white">DETALLE DEL PRODUCTO TERMINADO</label>
                     </div>
                     <div class="form-row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="empaqueTipo" class="col-lg-4 col-form-label">EMPAQUE/TIPO</label>
-                                <div class="col-lg-8">
-                                    <input type="number" class="form-control text-right" formControlName="empaqueTipo"
+                                <label for="empaqueTipo" class="col-lg-5 col-form-label">EMPAQUE/TIPO</label>
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control text-right" formControlName="empaqueTipo"
                                         id="empaqueTipo" name="empaqueTipo" placeholder="Empaque / Tipo"
                                         [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.empaqueTipo.invalid, 'is-valid': !f.empaqueTipo.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="cantidad" class="col-lg-3 col-form-label pr-0">CANTIDAD</label>
+                                <div class="col-lg-9">
+                                    <input type="number" class="form-control text-right" formControlName="cantidad"
+                                        id="cantidad" name="cantidad" placeholder="Cantidad" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.cantidad.invalid, 'is-valid': !f.cantidad.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="pesoSacoKG" class="col-lg-5 col-form-label">PESO POR SACO KG</label>
+                                <div class="col-lg-7">
+                                    <input type="number" class="form-control text-right" formControlName="pesoSacoKG"
+                                        id="pesoSacoKG" name="pesoSacoKG" placeholder="Peso por saco KG"
+                                        [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.pesoSacoKG.invalid, 'is-valid': !f.pesoSacoKG.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="totalKilosNetos" class="col-lg-6 col-form-label">TOTAL KILOS NETOS</label>
+                                <div class="col-lg-6">
+                                    <input type="number" class="form-control text-right"
+                                        formControlName="totalKilosNetos" id="totalKilosNetos" name="totalKilosNetos"
+                                        placeholder="Total kilos netos" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.totalKilosNetos.invalid, 'is-valid': !f.totalKilosNetos.invalid }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="cantContenedores" class="col-lg-6 col-form-label">CANT. CONTENEDORES</label>
+                                <div class="col-lg-6">
+                                    <input type="number" class="form-control text-right"
+                                        formControlName="cantContenedores" id="cantContenedores" name="cantContenedores"
+                                        placeholder="Cantidad de contenedores"
+                                        [ngClass]="{ 'is-invalid': f.cantContenedores.invalid, 'is-valid': !f.cantContenedores.invalid }" />
                                 </div>
                             </div>
                         </div>
@@ -382,11 +407,11 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="cantidad" class="col-lg-3 col-form-label pr-0">CANTIDAD</label>
-                                <div class="col-lg-9">
-                                    <input type="number" class="form-control text-right" formControlName="cantidad"
-                                        id="cantidad" name="cantidad" placeholder="Cantidad" [readonly]="true"
-                                        [ngClass]="{ 'is-invalid': f.cantidad.invalid, 'is-valid': !f.cantidad.invalid }" />
+                                <label for="subProducto" class="col-lg-4 col-form-label pr-0">SUB PRODUCTO</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" formControlName="subProducto"
+                                        id="subProducto" name="subProducto" placeholder="Sub Producto" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.subProducto.invalid, 'is-valid': !f.subProducto.invalid }" />
                                 </div>
                             </div>
                         </div>
@@ -404,33 +429,11 @@
                     <div class="form-row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="pesoSacoKG" class="col-lg-5 col-form-label">PESO POR SACO KG</label>
-                                <div class="col-lg-7">
-                                    <input type="number" class="form-control text-right" formControlName="pesoSacoKG"
-                                        id="pesoSacoKG" name="pesoSacoKG" placeholder="Peso por saco KG"
-                                        [readonly]="true"
-                                        [ngClass]="{ 'is-invalid': f.pesoSacoKG.invalid, 'is-valid': !f.pesoSacoKG.invalid }" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="form-group row">
                                 <label for="grado" class="col-lg-3 col-form-label">GRADO</label>
                                 <div class="col-lg-9">
                                     <input type="text" class="form-control" formControlName="grado" id="grado"
                                         name="grado" placeholder="Grado" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.grado.invalid, 'is-valid': !f.grado.invalid }" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="form-group row">
-                                <label for="totalKilosBruto" class="col-lg-6 col-form-label">TOTAL KILOS BRUTOS</label>
-                                <div class="col-lg-6">
-                                    <input type="number" class="form-control text-right"
-                                        formControlName="totalKilosBruto" id="totalKilosBruto" name="totalKilosBruto"
-                                        placeholder="Total kilos brutos"
-                                        [ngClass]="{ 'is-invalid': f.totalKilosBruto.invalid, 'is-valid': !f.totalKilosBruto.invalid }" />
                                 </div>
                             </div>
                         </div>
@@ -446,16 +449,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
-                                <label for="cantContenedores" class="col-lg-6 col-form-label">CANT. CONTENEDORES</label>
-                                <div class="col-lg-6">
-                                    <input type="number" class="form-control text-right"
-                                        formControlName="cantContenedores" id="cantContenedores" name="cantContenedores"
-                                        placeholder="Cantidad de contenedores"
-                                        [ngClass]="{ 'is-invalid': f.cantContenedores.invalid, 'is-valid': !f.cantContenedores.invalid }" />
+                                <label for="observaciones" class="col-lg-3 col-form-label">OBSERVACIONES</label>
+                                <div class="col-lg-9 pl-0">
+                                    <textarea name="observaciones" id="observaciones" class="form-control"
+                                        [ngClass]="{ 'is-invalid': f.observaciones.invalid, 'is-valid': !f.observaciones.invalid }"
+                                        formControlName="observaciones" rows="2" cols=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -507,3 +507,6 @@
         </div>
     </div>
 </form>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>

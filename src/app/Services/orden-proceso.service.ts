@@ -37,7 +37,7 @@ export class OrdenProcesoService {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('request', JSON.stringify(request));
-    return this.http.post<any>(url, request, { headers }).catch(this.errorHandling.handleError);
+    return this.http.post<any>(url, formData, { headers }).catch(this.errorHandling.handleError);
   }
 
   SearchById(id: any): Observable<any> {
