@@ -1,0 +1,166 @@
+    
+       
+        <div class="mt-2" id="account" [formGroup]="pesadoFormGroup" >
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <ul class="list-group" id="multiple-list-group-a">
+                  <li class="list-group-item draggable">
+                    <div class="media">
+                      <div class="media-body">
+                        <h5 class="mt-0" style="text-align: center;">Pesado del Café</h5>
+                        <div class="form-group row"
+                          style="background-color: #F7F7F8; text-align: center; margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-6 col-form-label card-text-title" for="striped-form">DETALLE</label>
+                          <label class="col-md-6 col-form-label card-text-title" for="striped-form">VALORES</label>
+
+                        </div>
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;" >
+                          <label class="col-md-4 col-form-label card-text" for="validationTooltip08">Unidad
+                            Medida</label>
+                          <div class="col-md-8">
+                              <ng-select [items]="listaUnidadMedida" formControlName="unidadMedida" class="form-control"
+                              bindLabel="Label" bindValue="Codigo" id="validationTooltip05" placeholder="Unidad Medida"
+                             [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.unidadMedida.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.unidadMedida.invalid }"
+                              [(ngModel)]="selectedUnidadMedida" (change)="changeUnidadMedida($event)">
+                            </ng-select>
+                         
+                          </div>
+                        </div>
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text"
+                            for="horizontal-form-1">Cantidad</label>
+                          <div class="col-md-8">
+                            <input type="number"  maxlength="10" formControlName="cantidad" class="form-control"
+                              id="validationTooltip08" placeholder="Cantidad" (change)="changeCantidad()"
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }"
+                              >
+                             <small class="form-text text-muted danger" *ngIf="pesadoFormGroup.controls.cantidad.errors?.pattern">Solo números</small>
+                          </div>
+                        </div>
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Kilos
+                            Brutos</label>
+                          <div class="col-md-8">
+                            <input type="number"  maxlength="10" formControlName="kilosBruto" class="form-control"
+                              id="validationTooltip08" placeholder="Kilos Brutos"
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.kilosBruto.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBruto.invalid }"
+                              (change)="consultarSocioFinca()">
+                             <small class="form-text text-muted danger" *ngIf="pesadoFormGroup.controls.kilosBruto.errors?.pattern">Solo números</small> 
+                          </div>
+                        </div>
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text"
+                            for="horizontal-form-1">Tara</label>
+                          <div class="col-md-8">
+                              <input type="number"  maxlength="10" formControlName="tara" class="form-control"
+                              id="validationTooltip08" placeholder="Tara" 
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.tara.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tara.invalid }"
+                              disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row last mb-3">
+                          <label class="col-md-3 label-control card-text"
+                            for="bordered-form-6">Observaciones</label>
+                          <div class="col-md-9">
+                            <div class="position-relative has-icon-left">
+                              <textarea id="bordered-form-6" rows="4" class="form-control"  formControlName="observacionPesado" name="notes"
+                              [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.observacionPesado.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.observacionPesado.invalid }"
+                              ></textarea>
+                              <div class="form-control-position">
+                                <i class="ft-file"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+              </div>
+
+              <div class="col-12 col-md-6">
+                <ul class="list-group" id="multiple-list-group-a">
+                  <li class="list-group-item draggable">
+                    <div class="media">
+                      <div class="media-body">
+                        <h5 class="mt-0" style="text-align: center;">Analisis Fisico (Rendimiento Exportable)
+                        </h5>
+                        <div class="form-group row"
+                          style="background-color: #F7F7F8; text-align: center;margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text-title" for="horizontal-form-1">Detalle</label>
+                          <label class="col-md-4 col-form-label card-text-title" for="horizontal-form-1">Gramos</label>
+                          <label class="col-md-4 col-form-label card-text-title" for="horizontal-form-1">%</label>
+                        </div>
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text"
+                            for="horizontal-form-1">Exportable</label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="exportGramos" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="exportPorcentaje" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text"
+                            for="horizontal-form-1">Descarte</label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="descarteGramos" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="descartePorcentaje" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text"
+                            for="horizontal-form-1">Cascarilla</label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="cascarillaGramos" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="cascarillaPorcentaje" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                        </div>
+
+                        <div class="form-group row" style="background-color: #F7F7F8; text-align: center;margin-left: 1rem; margin-right: 1rem;">
+                          <label class="col-md-4 col-form-label card-text"
+                            for="horizontal-form-1">Total</label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="totalGramos" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="totalPorcentaje" class="form-control square" id="horizontal-form-1"
+                              name="first-name" disabled>
+                          </div>
+                        </div>
+
+                       
+                        <div class="form-group row last mb-3">
+                          <label class="col-md-3 label-control card-text"
+                            for="bordered-form-6">Observaciones</label>
+                          <div class="col-md-9">
+                            <div class="position-relative has-icon-left">
+                              <textarea id="bordered-form-6" rows="4"  formControlName="ObservacionAnalisisFisico" class="form-control"
+                                name="notes" disabled></textarea>
+                              <div class="form-control-position">
+                                <i class="ft-file"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+       

@@ -24,11 +24,13 @@ import { NotaIngresoListComponent } from "./operaciones/notaingreso/list/notaing
 import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaingreso-edit.component";
 import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
 import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
+import { PesadoCafePlantaComponent } from "./operaciones/notaingreso/edit/pesadocafe/pesadocafeplanta.component";
 import { ModalModule } from '../modals/modal.module'
 
 
 @NgModule({
   imports: [
+
     CommonModule,
     PlantaRoutingModule,
     FormsModule,
@@ -50,13 +52,15 @@ import { ModalModule } from '../modals/modal.module'
     ModalModule
   ],
   declarations: [
+
     NotaIngresoListComponent,
     NotaIngresoEditComponent,
     NotaIngresoAlmacenListComponent,
-    NotaIngresoAlmacenEditComponent
+    NotaIngresoAlmacenEditComponent,
+    PesadoCafePlantaComponent
   ],
   exports: [
-    
+    PesadoCafePlantaComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
