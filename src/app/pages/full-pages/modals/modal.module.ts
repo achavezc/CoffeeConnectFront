@@ -24,6 +24,7 @@ import { MConsultarContratoComponent } from './consultarcontrato/consultar-contr
 import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component';
 import { MListaDocumentosComponent } from './listadocumentos/lista-documentos.component';
 import { MAgregarArchivoComponent } from './agregararchivo/agregar-archivo.component';
+import {MConsultarOrganizacionComponent} from '../modals/consultarOrganizacion/consultar-organizacion.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { MAgregarArchivoComponent } from './agregararchivo/agregar-archivo.compo
     MListaDocumentosComponent,
     MConsultarClienteComponent,
     MConsultarContratoComponent,
-    MAgregarArchivoComponent
+    MAgregarArchivoComponent,
+    MConsultarOrganizacionComponent
   ],
   exports: [
     MConsultarLotesComponent,
@@ -61,7 +63,8 @@ import { MAgregarArchivoComponent } from './agregararchivo/agregar-archivo.compo
     MListaDocumentosComponent,
     MConsultarClienteComponent,
     MConsultarContratoComponent,
-    MAgregarArchivoComponent
+    MAgregarArchivoComponent,
+    MConsultarOrganizacionComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

@@ -176,7 +176,7 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   openModal(customContent) {
-    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
+    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl' });
     this.cargarProveedor();
     this.clear();
 
@@ -727,6 +727,14 @@ async cleanKilosBrutos()
  {
   //this.child.cleanKilosBrutos();
  }
+
+ GetDataEmpresa(event: any): void {
+  const obj = event[0];
+  if (obj) {
+    this.consultaMateriaPrimaFormEdit.controls.destino.setValue(`${obj.Direccion} - ${obj.Distrito} - ${obj.Provincia} - ${obj.Departamento}`);
+  }
+  this.modalService.dismissAll();
+}
 
 }
 

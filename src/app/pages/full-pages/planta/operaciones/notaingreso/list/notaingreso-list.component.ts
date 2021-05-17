@@ -3,7 +3,7 @@ import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { PlantaService } from '../../../../../../Services/planta.service';
+import { PlantaService } from '../../../../../../Services/nota-ingreso-planta.service';
 
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -25,6 +25,7 @@ import { MaestroService } from '../../../../../../services/maestro.service';
   })
 export class NotaIngresoListComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
   submitted = false;
   listaEstado: Observable<any[]>;
   listaTipoDocumento: Observable<any[]>;
@@ -44,7 +45,6 @@ export class NotaIngresoListComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estadoPesado = "01";
   estadoAnalizado = "02";
-  @ViewChild(DatatableComponent) table: DatatableComponent;
   vSessionUser: any;
 
   // row data

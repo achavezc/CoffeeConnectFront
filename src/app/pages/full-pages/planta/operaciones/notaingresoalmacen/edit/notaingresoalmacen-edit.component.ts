@@ -22,7 +22,7 @@ import { AnalisisSensorialDefectoDetalleList } from '../../../../../../services/
 
 export class NotaIngresoAlmacenEditComponent implements OnInit {
   esEdit = true;
-  consultaMateriaPrimaFormEdit: FormGroup;
+  consultaNotaIngresoAlmacenFormEdit: FormGroup;
   submittedEdit = false;
   login: ILogin;
   listaAlmacen: any[];
@@ -92,66 +92,38 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   }
 
   cargarForm() {
-    this.consultaMateriaPrimaFormEdit = this.fb.group(
+    this.consultaNotaIngresoAlmacenFormEdit = this.fb.group(
       {
-        tipoProveedorId: ['',],
-        socioId: ['',],
-        terceroId: ['',],
-        intermediarioId: ['',],
-        numGuia: ['',],
-        numReferencia: ['',],
-        producto: ['',],
-        subproducto: ['',],
-        tipoProduccion: ['',],
-        provNombre: ['',],
-        provDocumento: ['',],
-        provTipoSocio: new FormControl({ value: '', disabled: true }, []),
-        provCodigo: ['',],
-        provDepartamento: ['',],
-        provProvincia: ['',],
-        provDistrito: ['',],
-        provZona: ['',],
-        provFinca: ['',],
-        fechaCosecha: ['',],
-        guiaReferencia: new FormControl('', []),
-        fechaPesado: ['',],
-
-        unidadMedida: new FormControl('', []),
+        guiaremision: new FormControl('', []),
+        fecharemision: new FormControl('', []),
+        tipoProduccion: new FormControl('', []),
+        codigoOrganizacion: new FormControl('', []),
+        nombreOrganizacion: new FormControl('', []),
+        producto: new FormControl('', []),
+        direccion: new FormControl('', []),
+        ruc: new FormControl('', []),
+        subproducto: new FormControl('', []),
+        departamento: new FormControl('', []),
+        provincia: new FormControl('', []),
+        distrito: new FormControl('', []),
+        certificacion: new FormControl('', []),
+        certificadora: new FormControl('', []),
+        unidadMedidaDesc: new FormControl('', []),
         cantidad: new FormControl('', []),
-        kilosBruto: new FormControl('', []),
+        pesoBruto: new FormControl('', []),
+        calidad: new FormControl('', []),
         tara: new FormControl('', []),
-        observacionPesado: new FormControl('', []),
-        exportGramos: new FormControl('', []),
-        exportPorcentaje: new FormControl('', []),
-        descarteGramos: new FormControl('', []),
-        descartePorcentaje: new FormControl('', []),
-        cascarillaGramos: new FormControl('', []),
-        cascarillaPorcentaje: new FormControl('', []),
-        totalGramos: new FormControl('', []),
-        totalPorcentaje: new FormControl('', []),
-        humedad: new FormControl('', []),
-        ObservacionAnalisisFisico: new FormControl('', []),
-        ObservacionRegTostado: new FormControl('', []),
-        ObservacionAnalisisSensorial: new FormControl('', []),
-
-
-        estado: ['',],
-        socioFincaId: ['',],
-        terceroFincaId: ['',],
-
-        provTipoSocioDesc: ['',],
-        productoDesc: ['',],
-        subproductoDesc: ['',],
-        tipoProduccionDesc: ['',],
-        unidadMedidaDesc: ['',],
-        puntajeFinal: ['',],
-        almacen: ['', Validators.required]
+        grado: new FormControl('', []),
+        kilosNetos: new FormControl('', []),
+        cantidadDefectos: new FormControl('', []),
+        rendimiento: new FormControl('', []),
+        humedad: new FormControl('', [])
 
       });
   }
 
   get fedit() {
-    return this.consultaMateriaPrimaFormEdit.controls;
+    return this.consultaNotaIngresoAlmacenFormEdit.controls;
   }
 
   obtenerDetalle() {
@@ -181,66 +153,66 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
 
   async cargarDataFormulario(data: any) {
     await this.cargarDefectoSensorial();
-    this.consultaMateriaPrimaFormEdit.controls["producto"].setValue(data.ProductoId);
-    this.consultaMateriaPrimaFormEdit.controls["productoDesc"].setValue(data.Producto);
-    this.consultaMateriaPrimaFormEdit.controls["subproducto"].setValue(data.SubProductoId);
-    this.consultaMateriaPrimaFormEdit.controls["subproductoDesc"].setValue(data.SubProducto);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["producto"].setValue(data.ProductoId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["productoDesc"].setValue(data.Producto);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["subproducto"].setValue(data.SubProductoId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["subproductoDesc"].setValue(data.SubProducto);
 
-    this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
     this.numeroGuia = data.NumeroGuiaRecepcionMateriaPrima;
     this.numeroNota = data.Numero;
     this.usuario = data.UsuarioRegistro;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
-    this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-" + data.NumeroDocumento);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-" + data.NumeroDocumento);
 
 
-    this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
-    this.consultaMateriaPrimaFormEdit.controls["tipoProduccionDesc"].setValue(data.TipoProduccion);
-    this.consultaMateriaPrimaFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
-    this.consultaMateriaPrimaFormEdit.controls["provTipoSocioDesc"].setValue(data.TipoProveedor);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["tipoProduccionDesc"].setValue(data.TipoProduccion);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provTipoSocioDesc"].setValue(data.TipoProveedor);
 
-    this.consultaMateriaPrimaFormEdit.controls["provCodigo"].setValue(data.CodigoSocio);
-    this.consultaMateriaPrimaFormEdit.controls["provDepartamento"].setValue(data.Departamento);
-    this.consultaMateriaPrimaFormEdit.controls["provProvincia"].setValue(data.Provincia);
-    this.consultaMateriaPrimaFormEdit.controls["provDistrito"].setValue(data.Distrito);
-    this.consultaMateriaPrimaFormEdit.controls["provZona"].setValue(data.Zona);
-    this.consultaMateriaPrimaFormEdit.controls["provFinca"].setValue(data.Finca);
-    this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaCosecha, 'yyyy-MM-dd', 'en'));
-    this.consultaMateriaPrimaFormEdit.controls["unidadMedida"].setValue(data.UnidadMedidaIdPesado);
-    this.consultaMateriaPrimaFormEdit.controls["unidadMedidaDesc"].setValue(data.UnidadMedida);
-    this.consultaMateriaPrimaFormEdit.controls["cantidad"].setValue(data.CantidadPesado);
-    this.consultaMateriaPrimaFormEdit.controls["kilosBruto"].setValue(data.KilosBrutosPesado);
-    this.consultaMateriaPrimaFormEdit.controls["tara"].setValue(data.TaraPesado);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provCodigo"].setValue(data.CodigoSocio);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provDepartamento"].setValue(data.Departamento);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provProvincia"].setValue(data.Provincia);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provDistrito"].setValue(data.Distrito);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provZona"].setValue(data.Zona);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["provFinca"].setValue(data.Finca);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaCosecha, 'yyyy-MM-dd', 'en'));
+    this.consultaNotaIngresoAlmacenFormEdit.controls["unidadMedida"].setValue(data.UnidadMedidaIdPesado);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["unidadMedidaDesc"].setValue(data.UnidadMedida);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["cantidad"].setValue(data.CantidadPesado);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["kilosBruto"].setValue(data.KilosBrutosPesado);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["tara"].setValue(data.TaraPesado);
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaCosecha), "/");
     this.responsable = data.UsuarioPesado;
-    this.consultaMateriaPrimaFormEdit.controls['tipoProveedorId'].setValue(data.TipoProvedorId);
-    this.consultaMateriaPrimaFormEdit.controls['socioFincaId'].setValue(data.SocioFincaId);
-    this.consultaMateriaPrimaFormEdit.controls['terceroFincaId'].setValue(data.TerceroFincaId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls['tipoProveedorId'].setValue(data.TipoProvedorId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls['socioFincaId'].setValue(data.SocioFincaId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls['terceroFincaId'].setValue(data.TerceroFincaId);
 
-    this.consultaMateriaPrimaFormEdit.controls['socioId'].setValue(data.SocioId);
-    this.consultaMateriaPrimaFormEdit.controls['terceroId'].setValue(data.TerceroId);
-    this.consultaMateriaPrimaFormEdit.controls['intermediarioId'].setValue(data.IntermediarioId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls['socioId'].setValue(data.SocioId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls['terceroId'].setValue(data.TerceroId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls['intermediarioId'].setValue(data.IntermediarioId);
 
-    this.consultaMateriaPrimaFormEdit.controls["exportGramos"].setValue(data.ExportableGramosAnalisisFisico);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["exportGramos"].setValue(data.ExportableGramosAnalisisFisico);
     if (data.ExportablePorcentajeAnalisisFisico != null) {
-      this.consultaMateriaPrimaFormEdit.controls["exportPorcentaje"].setValue(data.ExportablePorcentajeAnalisisFisico + "%");
+      this.consultaNotaIngresoAlmacenFormEdit.controls["exportPorcentaje"].setValue(data.ExportablePorcentajeAnalisisFisico + "%");
     }
-    this.consultaMateriaPrimaFormEdit.controls["descarteGramos"].setValue(data.DescarteGramosAnalisisFisico);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["descarteGramos"].setValue(data.DescarteGramosAnalisisFisico);
     if (data.DescartePorcentajeAnalisisFisico != null) {
-      this.consultaMateriaPrimaFormEdit.controls["descartePorcentaje"].setValue(data.DescartePorcentajeAnalisisFisico + "%");
+      this.consultaNotaIngresoAlmacenFormEdit.controls["descartePorcentaje"].setValue(data.DescartePorcentajeAnalisisFisico + "%");
     }
-    this.consultaMateriaPrimaFormEdit.controls["cascarillaGramos"].setValue(data.CascarillaGramosAnalisisFisico);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["cascarillaGramos"].setValue(data.CascarillaGramosAnalisisFisico);
     if (data.CascarillaPorcentajeAnalisisFisico != null) {
-      this.consultaMateriaPrimaFormEdit.controls["cascarillaPorcentaje"].setValue(data.CascarillaPorcentajeAnalisisFisico + "%");
+      this.consultaNotaIngresoAlmacenFormEdit.controls["cascarillaPorcentaje"].setValue(data.CascarillaPorcentajeAnalisisFisico + "%");
     }
-    this.consultaMateriaPrimaFormEdit.controls["totalGramos"].setValue(data.TotalGramosAnalisisFisico);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["totalGramos"].setValue(data.TotalGramosAnalisisFisico);
     if (data.TotalPorcentajeAnalisisFisico != null) {
-      this.consultaMateriaPrimaFormEdit.controls["totalPorcentaje"].setValue(data.TotalPorcentajeAnalisisFisico + "%");
+      this.consultaNotaIngresoAlmacenFormEdit.controls["totalPorcentaje"].setValue(data.TotalPorcentajeAnalisisFisico + "%");
     }
-    this.consultaMateriaPrimaFormEdit.controls["humedad"].setValue(data.HumedadPorcentajeAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.controls["puntajeFinal"].setValue(data.TotalAnalisisSensorial);
-    this.consultaMateriaPrimaFormEdit.controls["almacen"].setValue(data.AlmacenId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["humedad"].setValue(data.HumedadPorcentajeAnalisisFisico);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["puntajeFinal"].setValue(data.TotalAnalisisSensorial);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["almacen"].setValue(data.AlmacenId);
 
 
     var form = this;
@@ -258,7 +230,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
 
 
   guardar() {
-    if (this.consultaMateriaPrimaFormEdit.invalid) {
+    if (this.consultaNotaIngresoAlmacenFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
@@ -277,7 +249,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   }
   actualizarService() {
 
-    this.notaIngresoAlmacenService.actualizar(Number(this.id), this.usuario, this.consultaMateriaPrimaFormEdit.controls["almacen"].value)
+    this.notaIngresoAlmacenService.actualizar(Number(this.id), this.usuario, this.consultaNotaIngresoAlmacenFormEdit.controls["almacen"].value)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

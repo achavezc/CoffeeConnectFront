@@ -1,4 +1,4 @@
-<form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit">
+<form class="needs-validation" [formGroup]="consultaNotaIngresoAlmacenFormEdit">
     <section id="tooltip-validation">
       <div class="row">
         <div class="col-12">
@@ -181,7 +181,7 @@
                               <label class="col-md-4 col-form-label card-text" for="validationTooltip08">Unidad
                                 Medida</label>
                               <div class="col-md-8">
-                                <input type="text" class="form-control" id="basicInput" formControlName="unidadMedidaDesc"
+                                <input type="text" class="form-control" id="basicInput" formControlName="unidadMedidaDesc" placeholder="Unidad de Medida"
                                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.unidadMedida.invalid, 'is-valid': submittedEdit && !fedit.unidadMedida.invalid }"
                                   disabled>
                               </div>
@@ -193,37 +193,80 @@
                                   id="validationTooltip08" placeholder="Cantidad"
                                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidad.invalid, 'is-valid': submittedEdit && !fedit.cantidad.invalid }"
                                   disabled>
-                                <small class="form-text text-muted danger" *ngIf="fedit.cantidad.errors?.pattern">Solo
-                                  números</small>
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                              <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Kilos
-                                Brutos</label>
+                              <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Peso x Saco</label>
                               <div class="col-md-8">
-                                <input type="number" maxlength="10" formControlName="kilosBruto" class="form-control"
+                                <input type="number" maxlength="10" formControlName="pesoxSaco" class="form-control"
                                   id="validationTooltip08" placeholder="Kilos Brutos"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.kilosBruto.invalid, 'is-valid': submittedEdit && !fedit.kilosBruto.invalid }"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.pesoxSaco.invalid, 'is-valid': submittedEdit && !fedit.pesoxSaco.invalid }"
                                   disabled>
-                                <small class="form-text text-muted danger" *ngIf="fedit.kilosBruto.errors?.pattern">Solo
-                                  números</small>
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                              <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Tara</label>
-                              <div class="col-md-8">
+                              <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Peso Bruto Kg</label>
+                              <div class="col-md-4">
+                                <input type="number" maxlength="10" formControlName="pesoBruto" class="form-control"
+                                  id="validationTooltip08" placeholder="Peso Bruto Kg"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.pesoBruto.invalid, 'is-valid': submittedEdit && !fedit.pesoBruto.invalid }"
+                                  disabled>
+                              </div>
+                              <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Calidad</label>
+                              <div class="col-md-4">
+                                <input type="number" maxlength="10" formControlName="calidad" class="form-control"
+                                  id="validationTooltip08" placeholder="Calidad"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.calidad.invalid, 'is-valid': submittedEdit && !fedit.calidad.invalid }"
+                                  disabled>
+                              </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                              <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Tara</label>
+                              <div class="col-md-4">
                                 <input type="number" maxlength="10" formControlName="tara" class="form-control"
                                   id="validationTooltip08" placeholder="Tara"
                                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.tara.invalid, 'is-valid': submittedEdit && !fedit.tara.invalid }"
                                   disabled>
                               </div>
+                              <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Grado</label>
+                              <div class="col-md-4">
+                                <input type="number" maxlength="10" formControlName="grado" class="form-control"
+                                  id="validationTooltip08" placeholder="Grado"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.grado.invalid, 'is-valid': submittedEdit && !fedit.grado.invalid }"
+                                  disabled>
+                              </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
-                              <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Kilos Netos</label>
+                              <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Kilos Netos</label>
+                              <div class="col-md-4">
+                                <input type="number" maxlength="10" formControlName="kilosNetos" class="form-control"
+                                  id="validationTooltip08" placeholder="Kilos Netos"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.kilosNetos.invalid, 'is-valid': submittedEdit && !fedit.kilosNetos.invalid }"
+                                  disabled>
+                              </div>
+                              <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Cantidad Defectos</label>
+                              <div class="col-md-4">
+                                <input type="number" maxlength="10" formControlName="cantidadDefectos" class="form-control"
+                                  id="validationTooltip08" placeholder="Cantidad Defectos"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidadDefectos.invalid, 'is-valid': submittedEdit && !fedit.cantidadDefectos.invalid }"
+                                  disabled>
+                              </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                              <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">% Rendimiento</label>
                               <div class="col-md-8">
-                                <input type="number" maxlength="10" formControlName="tara" class="form-control"
-                                  id="validationTooltip08" placeholder="Tara"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.tara.invalid, 'is-valid': submittedEdit && !fedit.tara.invalid }"
+                                <input type="number" maxlength="10" formControlName="rendimiento" class="form-control"
+                                  id="validationTooltip08" placeholder="Rendimiento"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.rendimiento.invalid, 'is-valid': submittedEdit && !fedit.rendimiento.invalid }"
+                                  disabled>
+                              </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
+                              <label class="col-md-4 col-form-label card-text" for="horizontal-form-1"> % Humedad</label>
+                              <div class="col-md-8">
+                                <input type="number" maxlength="10" formControlName="humedad" class="form-control"
+                                  id="validationTooltip08" placeholder="Humedad"
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.humedad.invalid, 'is-valid': submittedEdit && !fedit.humedad.invalid }"
                                   disabled>
                               </div>
                             </div>
@@ -328,11 +371,19 @@
                        
                       </li>
                     </ul>
+                    
                    
                   </div>
+                  <div  style="margin-top: 2rem;">
+                    <div class="col-8 d-flex flex-sm-row flex-column">
+                      <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                      <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
+                    </div>
+      
+                  </div>
                   <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" >Guardar</button>
-                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" >Cancelar</button>
+                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
+                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
                   </div>
                 </div>
               </div>
