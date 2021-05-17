@@ -274,7 +274,7 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['/operaciones/notaingreso-edit']);
+    this.router.navigate(['/planta/operaciones/notaingreso-edit']);
   }
 
   anular() {

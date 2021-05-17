@@ -18,7 +18,7 @@ import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 //import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
-//import {PesadoCafeComponent} from '../materiaprima-edit/pesadoCafe/pesadoCafe.component';
+import {PesadoCafePlantaComponent} from './pesadocafe/pesadocafeplanta.component';
 
 
 
@@ -68,7 +68,7 @@ export class NotaIngresoEditComponent implements OnInit {
   id: Number = 0;
   status: string = "";
   estado = "";
-  numeroGuia: "";
+  numeroNotaIngreso: "";
   fechaRegistro: any;
   fechaPesado: any;
   responsable: "";
@@ -79,7 +79,7 @@ export class NotaIngresoEditComponent implements OnInit {
   unidadMedidaPesado: any;
   form: string = "materiaprima"
   btnGuardar = true;
-  //@ViewChild(PesadoCafeComponent) child;
+  @ViewChild(PesadoCafePlantaComponent) child;
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
 
@@ -108,14 +108,14 @@ export class NotaIngresoEditComponent implements OnInit {
         if (Number(params.id)) {
           this.id = Number(params.id);
           this.esEdit = true;
-         // this.obtenerDetalle();
+          /* this.obtenerDetalle();
           if (this.status == "01") {
             this.disabledNota = 'disabled';
-          }
+          } */
         }
         else {
-          this.disabledNota = 'disabled';
-          this.disabledControl = 'disabled';
+          /* this.disabledNota = 'disabled';
+          this.disabledControl = 'disabled'; */
         }
       }
       );
@@ -125,28 +125,18 @@ export class NotaIngresoEditComponent implements OnInit {
     let x = this.selectSubProducto;
     this.consultaMateriaPrimaFormEdit = this.fb.group(
       {
-        tipoProveedorId: ['',],
-        socioId: ['',],
-        terceroId: ['',],
-        intermediarioId: ['',],
-        numGuia: ['',],
-        numReferencia: ['',],
-        producto: ['', Validators.required],
-        subproducto: ['', Validators.required],
-        tipoProduccion: ['', Validators.required],
-        provNombre: ['', Validators.required],
-        provDocumento: ['', Validators.required],
-        provTipoSocio: new FormControl({ value: '', disabled: true }, [Validators.required]),
-        provCodigo: ['',],
-        provDepartamento: ['', Validators.required],
-        provProvincia: ['', Validators.required],
-        provDistrito: ['', Validators.required],
-        provZona: ['', Validators.required],
-        provFinca: ['',],
-        provCertificacion: ['',],
-        fechaCosecha: ['', Validators.required],
-        guiaReferencia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
-        fechaPesado: ['',],
+       
+        guiaremision: ['',],
+        fecharemision: ['',],
+        tipoProduccion: ['',],
+        codigoOrganizacion: ['',],
+        nombreOrganizacion: ['',],
+        producto: ['',],
+        direccion: ['',],
+        ruc: ['',],
+        subproducto: ['',],
+        certificacion: ['',],
+        certificadora: ['',],
         pesado: this.fb.group({
           unidadMedida: new FormControl('', [Validators.required]),
           //cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
@@ -167,11 +157,7 @@ export class NotaIngresoEditComponent implements OnInit {
           ObservacionAnalisisFisico: new FormControl('', []),
           ObservacionRegTostado: new FormControl('', []),
           ObservacionAnalisisSensorial: new FormControl('', [])
-        }),
-        estado: ['',],
-        socioFincaId: ['',],
-        terceroFincaId: ['',]
-
+        })
       });
   }
 
@@ -578,7 +564,7 @@ export class NotaIngresoEditComponent implements OnInit {
 
 
   cancelar() {
-    this.router.navigate(['/operaciones/notaingreso-list']);
+    this.router.navigate(['/planta/operaciones/notaingreso-list']);
   }
 
   obtenerDetalle() {
@@ -615,7 +601,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.estado = data.Estado
     this.consultaMateriaPrimaFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
-    this.numeroGuia = data.Numero;
+    this.numeroNotaIngreso = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
     this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-" + data.NumeroDocumento);

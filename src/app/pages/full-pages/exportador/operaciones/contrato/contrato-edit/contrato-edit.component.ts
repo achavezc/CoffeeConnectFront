@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -36,6 +37,7 @@ export class ContratoEditComponent implements OnInit {
   listPaises = [];
   listCiudades = [];
   listProductos = [];
+  listSubProductos = [];
   listMonedas = [];
   listTipoProduccion = [];
   listUniMedida = [];
@@ -49,10 +51,12 @@ export class ContratoEditComponent implements OnInit {
   listEstadoSegMuestra = [];
   listEmpaques = [];
   listTipos = [];
+  listNavieras = [];
   selectedCondEmbarque: any;
   selectedPais: any;
   selectedCiudad: any;
   selectedProducto: any;
+  selectedSubProducto: any;
   selectedMoneda: any;
   selectedTipoProduccion: any;
   selectedUniMedida: any;
@@ -66,6 +70,7 @@ export class ContratoEditComponent implements OnInit {
   selectedEstadoSegMuestra: any;
   selectedEmpaque: any;
   selectedTipo: any;
+  selectedNaviera: any;
   vId: number;
   vSessionUser: any;
   private url = `${host}Contrato`;
@@ -78,13 +83,13 @@ export class ContratoEditComponent implements OnInit {
     this.LoadForm();
     this.LoadCombos();
     this.LoadDataInicial();
-    this.contratoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     if (this.vId > 0) {
       this.SearchById();
     } else if (this.vId <= 0) {
-      this.contratoEditForm.controls.fechaContrato.setValue(this.dateUtil.currentDate());
-      this.contratoEditForm.controls.fechaEmbarque.setValue(this.dateUtil.currentDate());
-      this.contratoEditForm.controls.fechaFactExp.setValue(this.dateUtil.currentDate());
+      this.contratoEditForm.controls.fechaRegistro.setValue(this.dateUtil.currentDate());
+      // this.contratoEditForm.controls.fechaContrato.setValue(this.dateUtil.currentDate());
+      // this.contratoEditForm.controls.fechaEmbarque.setValue(this.dateUtil.currentDate());
+      // this.contratoEditForm.controls.fechaFactExp.setValue(this.dateUtil.currentDate());
     }
   }
 
@@ -93,7 +98,7 @@ export class ContratoEditComponent implements OnInit {
       idContrato: [],
       razonSocial: [, Validators.required],
       direccionCabe: [, Validators.required],
-      fecha: [],
+      fechaRegistro: [],
       nroRucCabe: [, Validators.required],
       nroContrato: [],
       fechaContrato: [, Validators.required],
@@ -107,19 +112,17 @@ export class ContratoEditComponent implements OnInit {
       pais: [, Validators.required],
       ciudad: [, Validators.required],
       producto: [, Validators.required],
+      subProducto: [],
       moneda: [, Validators.required],
       precio: [, Validators.required],
       tipoProduccion: [, Validators.required],
       unidadMedida: [, Validators.required],
       certificadora: [, Validators.required],
-      sacosBulk: [, Validators.required],
       calidad: [, Validators.required],
       certificacion: [, Validators.required],
-      cantidad: [, Validators.required],
       grado: [, Validators.required],
       pesoSacoKG: [, Validators.required],
       cantidadDefectos: [, Validators.required],
-      cargaContrato: [],
       responsableComercial: [, Validators.required],
       estado: [],
       file: new FormControl('', []),
@@ -133,7 +136,10 @@ export class ContratoEditComponent implements OnInit {
       fecRecepcionDestino: [],
       empaque: [],
       tipo: [],
-      totalSacos69Kg: []
+      totalSacos69Kg: [],
+      naviera: [],
+      observaciones: [],
+      pesoKilos: []
     });
   }
 
@@ -147,30 +153,34 @@ export class ContratoEditComponent implements OnInit {
       this.contratoEditForm.controls.razonSocial.setValue(session.RazonSocialEmpresa);
       this.contratoEditForm.controls.direccionCabe.setValue(session.DireccionEmpresa);
       this.contratoEditForm.controls.nroRucCabe.setValue(session.RucEmpresa);
+      this.contratoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     }
   }
 
   LoadCombos(): void {
     this.spinner.show();
-    this.GetCondicionEmbarque();
-    this.GetPais();
-    this.GetCiudad();
-    this.GetProductos();
-    this.GetMonedas();
-    this.GetTipoProduccion();
-    this.GetUnidadMedida();
-    this.GetCertificadora();
-    this.GetSacosBulk();
-    this.GetCalidad();
-    this.GetCertificacion();
-    this.GetGradoPreparacion();
+    this.GetShipmentCondition();
+    this.GetCountries();
+    this.GetCities();
+    this.GetProducts();
+    this.GetByProducts();
+    this.GetCurrencies();
+    this.GetMeasurementUnit();
     this.GetCalculations();
+    this.GetPackaging();
+    this.GetQuality();
+    this.GetProductionType();
+    this.GetPackagingType();
+    this.GetDegreePreparation();
+    this.GetCertifiers();
+    this.GetCertifications();
     this.GetLaboratorys();
     this.GetStatusTrackingSamples();
+    this.GetShippingCompany();
     this.spinner.hide();
   }
 
-  async GetCondicionEmbarque() {
+  async GetShipmentCondition() {
     this.listCondicionEmbarque = [];
     const res = await this.maestroService.obtenerMaestros('CondicionEmbarque').toPromise();
     if (res.Result.Success) {
@@ -178,7 +188,7 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetPais() {
+  async GetCountries() {
     this.listPaises = [];
     const res = await this.maestroService.ConsultarPaisAsync().toPromise()
     if (res.Result.Success) {
@@ -186,7 +196,7 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetCiudad() {
+  async GetCities() {
     this.listCiudades = [];
     const res = await this.maestroUtil.GetDepartmentsAsync(this.selectedPais);
     if (res.Result.Success) {
@@ -194,7 +204,7 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetProductos() {
+  async GetProducts() {
     this.listProductos = [];
     const res = await this.maestroService.obtenerMaestros('Producto').toPromise();
     if (res.Result.Success) {
@@ -202,7 +212,15 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetMonedas() {
+  async GetByProducts() {
+    this.listSubProductos = [];
+    const res = await this.maestroService.obtenerMaestros('SubProducto').toPromise();
+    if (res.Result.Success) {
+      this.listSubProductos = res.Result.Data;
+    }
+  }
+
+  async GetCurrencies() {
     this.listMonedas = [];
     const res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
@@ -210,15 +228,7 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetTipoProduccion() {
-    this.listTipoProduccion = [];
-    const res = await this.maestroService.obtenerMaestros('TipoProduccion').toPromise();
-    if (res.Result.Success) {
-      this.listTipoProduccion = res.Result.Data;
-    }
-  }
-
-  async GetUnidadMedida() {
+  async GetMeasurementUnit() {
     this.listUniMedida = [];
     const res = await this.maestroService.obtenerMaestros('UnidadMedicion').toPromise();
     if (res.Result.Success) {
@@ -226,23 +236,23 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetCertificadora() {
-    this.listCertificadora = [];
-    const res = await this.maestroService.obtenerMaestros('EntidadCertificadora').toPromise();
+  async GetCalculations() {
+    this.listCalculos = [];
+    const res = await this.maestroService.obtenerMaestros('CalculoContrato').toPromise();
     if (res.Result.Success) {
-      this.listCertificadora = res.Result.Data;
+      this.listCalculos = res.Result.Data;
     }
   }
 
-  async GetSacosBulk() {
-    this.listSacosBulk = [];
-    const res = await this.maestroService.obtenerMaestros('UnidadMedida').toPromise();
+  async GetPackaging() {
+    this.listEmpaques = [];
+    const res = await this.maestroService.obtenerMaestros('Empaque').toPromise();
     if (res.Result.Success) {
-      this.listSacosBulk = res.Result.Data;
+      this.listEmpaques = res.Result.Data;
     }
   }
 
-  async GetCalidad() {
+  async GetQuality() {
     this.listCalidad = [];
     const res = await this.maestroService.obtenerMaestros('Calidad').toPromise();
     if (res.Result.Success) {
@@ -250,15 +260,23 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetCertificacion() {
-    this.listCertificacion = [];
-    const res = await this.maestroService.obtenerMaestros('TipoCertificacion').toPromise();
+  async GetProductionType() {
+    this.listTipoProduccion = [];
+    const res = await this.maestroService.obtenerMaestros('TipoProduccion').toPromise();
     if (res.Result.Success) {
-      this.listCertificacion = res.Result.Data;
+      this.listTipoProduccion = res.Result.Data;
     }
   }
 
-  async GetGradoPreparacion() {
+  async GetPackagingType() {
+    this.listTipos = [];
+    const res = await this.maestroService.obtenerMaestros('TipoEmpaque').toPromise();
+    if (res.Result.Success) {
+      this.listTipos = res.Result.Data;
+    }
+  }
+
+  async GetDegreePreparation() {
     this.listGrado = [];
     const res = await this.maestroService.obtenerMaestros('Grado').toPromise();
     if (res.Result.Success) {
@@ -266,10 +284,19 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetCalculations() {
-    const res = await this.maestroService.obtenerMaestros('Calculo').toPromise();
+  async GetCertifiers() {
+    this.listCertificadora = [];
+    const res = await this.maestroService.obtenerMaestros('EntidadCertificadora').toPromise();
     if (res.Result.Success) {
-      this.listCalculos = res.Result.Data;
+      this.listCertificadora = res.Result.Data;
+    }
+  }
+
+  async GetCertifications() {
+    this.listCertificacion = [];
+    const res = await this.maestroService.obtenerMaestros('TipoCertificacion').toPromise();
+    if (res.Result.Success) {
+      this.listCertificacion = res.Result.Data;
     }
   }
 
@@ -284,6 +311,13 @@ export class ContratoEditComponent implements OnInit {
     const res = await this.maestroService.obtenerMaestros('EstadoMuestra').toPromise();
     if (res.Result.Success) {
       this.listEstadoSegMuestra = res.Result.Data;
+    }
+  }
+
+  async GetShippingCompany() {
+    const res = await this.maestroService.obtenerMaestros('Naviera').toPromise();
+    if (res.Result.Success) {
+      this.listNavieras = res.Result.Data;
     }
   }
 
@@ -324,16 +358,18 @@ export class ContratoEditComponent implements OnInit {
       CalculoContratoId: form.calculo ? form.calculo : '',
       DepartamentoDestinoId: form.ciudad ? form.ciudad : '',
       ProductoId: form.producto ? form.producto : '',
+      SubProductoId: form.subProducto ? form.subProducto : '',
       TipoProduccionId: form.tipoProduccion ? form.tipoProduccion : '',
       MonedadId: form.moneda ? form.moneda : '',
       Monto: form.precio ? parseFloat(form.precio) : 0,
       UnidadMedicionId: form.unidadMedida ? form.unidadMedida : '',
-      UnidadMedidaId: form.sacosBulk ? form.sacosBulk : '',
+      UnidadMedidaId: '',//form.sacosBulk ? form.sacosBulk : '',
       EntidadCertificadoraId: form.certificadora ? form.certificadora : '',
       TipoCertificacionId: form.certificacion ? form.certificacion.join('|') : '',
       CalidadId: form.calidad ? form.calidad : '',
       GradoId: form.grado ? form.grado : '',
-      CantidadPorSaco: form.cantidad ? parseFloat(form.cantidad) : 0,
+      TotalSacos: form.totalSacos69Kg ? form.totalSacos69Kg : 0,
+      Peso: form.pesoKilos ? form.pesoKilos : 0,
       PesoPorSaco: form.pesoSacoKG ? parseFloat(form.pesoSacoKG) : 0,
       PreparacionCantidadDefectos: form.cantidadDefectos ? parseFloat(form.cantidadDefectos) : 0,
       LaboratorioId: form.laboratorio ? form.laboratorio : '',
@@ -341,6 +377,8 @@ export class ContratoEditComponent implements OnInit {
       EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
       FechaEnvioMuestra: form.fecRecojoEnvioCurier ? form.fecRecojoEnvioCurier : null,
       FechaRecepcionMuestra: form.fecRecepcionDestino ? form.fecRecepcionDestino : null,
+      ObservacionMuestra: form.observaciones ? form.observaciones : '',
+      NavieraId: form.naviera ? form.naviera : '',
       NombreArchivo: '',
       DescripcionArchivo: '',
       PathArchivo: '',
@@ -485,7 +523,7 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.floId.setValue(data.FloId);
       }
       if (data.CondicionEmbarqueId) {
-        await this.GetCondicionEmbarque();
+        await this.GetShipmentCondition();
         this.contratoEditForm.controls.condicionEmbarque.setValue(data.CondicionEmbarqueId);
       }
       if (data.FechaEmbarque) {
@@ -498,56 +536,56 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.fechaFactExp.setValue(data.FechaFacturacion.substring(0, 10));
       }
       if (data.PaisDestinoId) {
-        await this.GetPais();
+        await this.GetCountries();
         this.contratoEditForm.controls.pais.setValue(data.PaisDestinoId);
         this.onChangePais({ Codigo: this.selectedPais })
       }
       if (data.DepartamentoDestinoId) {
-        await this.GetCiudad();
+        await this.GetCities();
         this.contratoEditForm.controls.ciudad.setValue(data.DepartamentoDestinoId);
       }
       if (data.ProductoId) {
-        await this.GetProductos();
+        await this.GetProducts();
         this.contratoEditForm.controls.producto.setValue(data.ProductoId);
       }
       if (data.TipoProduccionId) {
-        await this.GetTipoProduccion();
+        await this.GetProductionType();
         this.contratoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
       }
       if (data.MonedadId) {
-        await this.GetMonedas();
+        await this.GetCurrencies();
         this.contratoEditForm.controls.moneda.setValue(data.MonedadId);
       }
       if (data.Monto) {
         this.contratoEditForm.controls.precio.setValue(data.Monto);
       }
       if (data.UnidadMedicionId) {
-        await this.GetUnidadMedida();
+        await this.GetMeasurementUnit();
         this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
       }
-      if (data.UnidadMedidaId) {
-        await this.GetSacosBulk();
-        this.contratoEditForm.controls.sacosBulk.setValue(data.UnidadMedidaId);
-      }
+      // if (data.UnidadMedidaId) {
+      //   await this.GetSacosBulk();
+      //   this.contratoEditForm.controls.sacosBulk.setValue(data.UnidadMedidaId);
+      // }
       if (data.EntidadCertificadoraId) {
-        await this.GetCertificadora();
+        await this.GetCertifiers();
         this.contratoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
       }
       if (data.TipoCertificacionId) {
-        await this.GetCertificacion();
+        await this.GetCertifications();
         this.contratoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
       }
       if (data.CalidadId) {
-        await this.GetCalidad();
+        await this.GetQuality();
         this.contratoEditForm.controls.calidad.setValue(data.CalidadId);
       }
       if (data.GradoId) {
-        await this.GetGradoPreparacion();
+        await this.GetDegreePreparation();
         this.contratoEditForm.controls.grado.setValue(data.GradoId);
       }
-      if (data.CantidadPorSaco) {
-        this.contratoEditForm.controls.cantidad.setValue(data.CantidadPorSaco);
-      }
+      // if (data.CantidadPorSaco) {
+      //   this.contratoEditForm.controls.cantidad.setValue(data.CantidadPorSaco);
+      // }
       if (data.PesoPorSaco) {
         this.contratoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
       }
@@ -566,7 +604,7 @@ export class ContratoEditComponent implements OnInit {
       // this.contratoEditForm.controls..setValue(data.NombreArchivo);
       // this.contratoEditForm.controls..setValue(data.PathArchivo);
       if (data.FechaRegistro) {
-        this.contratoEditForm.controls.fecha.setValue(data.FechaRegistro.substring(0, 10));
+        this.contratoEditForm.controls.fechaRegistro.setValue(data.FechaRegistro.substring(0, 10));
       }
       // this.contratoEditForm.controls..setValue(data.UsuarioRegistro);
       // this.contratoEditForm.controls..setValue(data.FechaUltimaActualizacion);
@@ -586,25 +624,35 @@ export class ContratoEditComponent implements OnInit {
 
       if (data.NumeroSeguimientoMuestra)
         this.contratoEditForm.controls.truckingNumber.setValue(data.NumeroSeguimientoMuestra);
+
       if (data.EstadoMuestraId) {
         this.GetStatusTrackingSamples();
         this.contratoEditForm.controls.estadoSegMuestras.setValue(data.EstadoMuestraId);
       }
+
       if (data.FechaRecepcionMuestra && data.FechaRecepcionMuestra.substring(0, 10) != "0001-01-01")
         this.contratoEditForm.controls.fecRecepcionDestino.setValue(data.FechaRecepcionMuestra.substring(0, 10));
+
+      if (data.ObservacionMuestra)
+        this.contratoEditForm.controls.observaciones.setValue(data.ObservacionMuestra);
+
+      if (data.NavieraId) {
+        await this.GetShippingCompany();
+        this.contratoEditForm.controls.naviera.setValue(data.NavieraId);
+      }
       this.spinner.hide();
     } else {
     }
     this.spinner.hide();
   }
+
   Descargar() {
     var nombreFile = this.contratoEditForm.value.fileName;
     var rutaFile = this.contratoEditForm.value.pathFile;
     window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
-
   }
-  fileChange(event) {
 
+  fileChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       //this.certificacionEditForm.get('profile').setValue(file);
@@ -612,9 +660,7 @@ export class ContratoEditComponent implements OnInit {
         file: file
       });
       this.contratoEditForm.get('file').updateValueAndValidity()
-
     }
-
   }
   Cancelar(): void {
     this.router.navigate(['/exportador/operaciones/contrato/list']);
