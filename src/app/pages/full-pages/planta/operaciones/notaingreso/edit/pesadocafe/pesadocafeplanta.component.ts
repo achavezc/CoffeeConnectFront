@@ -12,6 +12,17 @@ export class PesadoCafePlantaComponent implements OnInit {
   public pesadoFormGroup: FormGroup;
   listaUnidadMedida: any[];
   selectedUnidadMedida: any;
+  listaMotivo: any[];
+  selectedMotivo: any;
+
+  listaEmpaque: any[];
+  selectedEmpaque: any;
+  listaTipo: any[];
+  selectedTipo: any;
+  listaCalidad: any[];
+  selectedCalidad: any;
+  listaGrado: any[];
+  selectedGrado: any;
   @Input() unidadMedidaPesado;
   @Input() submittedEdit;
   @Output() miEvento = new EventEmitter<any>();
