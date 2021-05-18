@@ -49,6 +49,7 @@ export class NotaIngresoEditComponent implements OnInit {
   selectProducto: any;
   selectSubProducto: any;
   selectedTipoDocumento: any;
+  selectOrganizacion = [];
   listSub: any[];
   selected = [];
   popupModel;
@@ -715,9 +716,12 @@ async cleanKilosBrutos()
  }
 
  GetDataEmpresa(event: any): void {
-  const obj = event[0];
-  if (obj) {
-    this.consultaMateriaPrimaFormEdit.controls.destino.setValue(`${obj.Direccion} - ${obj.Distrito} - ${obj.Provincia} - ${obj.Departamento}`);
+  this.selectOrganizacion = event;
+  if (this.selectOrganizacion[0]) {
+    this.consultaMateriaPrimaFormEdit.controls['codigoOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
+    this.consultaMateriaPrimaFormEdit.controls['direccion'].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
+    this.consultaMateriaPrimaFormEdit.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
+    this.consultaMateriaPrimaFormEdit.controls['ruc'].setValue(this.selectOrganizacion[0].Ruc);
   }
   this.modalService.dismissAll();
 }

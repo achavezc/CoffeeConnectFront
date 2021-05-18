@@ -19,7 +19,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
   submittedE = false;
   listaClasificacion: any[];
   selectClasificacion: any;
-  selectedEmpresa = [];
+  selectedOrganizacion = [];
   errorEmpresa: any = { isError: false, errorMessage: '' };
   consultaOrganizacion: FormGroup;
   private tempData = [];
@@ -31,7 +31,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
   empresa: any[];
   login: ILogin;
   @Output() empresaEvent = new EventEmitter<any[]>();
-  @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
+  @ViewChild(DatatableComponent) tableOrganizacion: DatatableComponent;
 
   constructor(private maestroService: MaestroService,
     private organizacionService: OrganizacionService,
@@ -41,7 +41,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
   }
 
   singleSelectCheck(row: any) {
-    return this.selectedEmpresa.indexOf(row) === -1;
+    return this.selectedOrganizacion.indexOf(row) === -1;
   }
   ngOnInit(): void {
     this.cargarOrganizacion();
@@ -61,7 +61,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows = temp;
-    this.tableEmpresa.offset = 0;
+    this.tableOrganizacion.offset = 0;
   }
   buscar() {
 
@@ -150,9 +150,14 @@ export class MConsultarOrganizacionComponent implements OnInit {
     };
   }
 
-  seleccionarEmpresa(e) {
+ /* seleccionarOrganizacion(e) {
     this.empresa = e;
+    var x = this.selectedOrganizacion;
     this.empresaEvent.emit(this.empresa)
+  }*/
+
+  seleccionarOrganizacion(): void {
+    this.empresaEvent.emit(this.selectedOrganizacion);
   }
 }
 
