@@ -150,7 +150,21 @@
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
           [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selectedOrganizacion"
           [selectionType]="'single'" (dblclick)="seleccionarOrganizacion()">
+          <ngx-datatable-column name="Codigo" prop="Ruc" width="20">
+          </ngx-datatable-column>
           <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="40">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Clasificacion" prop="Clasificacion">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Direccion" prop="Direccion" width="60">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Departamento" prop="Departamento" width="25">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Provincia" prop="Provincia" width="25">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Distrito" prop="Distrito" width="25">
           </ngx-datatable-column>
         </ngx-datatable>
       </div>
