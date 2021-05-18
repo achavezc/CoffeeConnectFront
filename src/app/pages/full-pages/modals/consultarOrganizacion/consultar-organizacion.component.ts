@@ -44,7 +44,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
     return this.selectedEmpresa.indexOf(row) === -1;
   }
   ngOnInit(): void {
-    this.cargarEmpresas();
+    this.cargarOrganizacion();
     this.login = JSON.parse(localStorage.getItem("user"));
   }
 
@@ -112,7 +112,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
     return this.consultaOrganizacion.controls
   }
 
-  cargarEmpresas() {
+  cargarOrganizacion() {
     this.consultaOrganizacion = new FormGroup(
       {
         ruc: new FormControl('', []),
@@ -120,7 +120,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
         clasificacion: new FormControl('', []),
         codigo: new FormControl('', [])
       });
-    this.consultaOrganizacion.setValidators(this.comparisonValidatorEmpresa())
+    //this.consultaOrganizacion.setValidators(this.comparisonValidatorOrganizacion())
     this.maestroService.obtenerMaestros("ClasificacionEmpresaProveedoraAcreedora")
       .subscribe(res => {
         if (res.Result.Success) {
@@ -134,7 +134,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
 
   }
 
-  public comparisonValidatorEmpresa(): ValidatorFn {
+  public comparisonValidatorOrganizacion(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       let rzsocial = group.controls['rzsocial'].value;
       let ruc = group.controls['ruc'].value;

@@ -101,7 +101,11 @@
                   </div>
 
                   <div class="col-md-1 mb-1 form-group mb-2">
-                    <button type="button" class="btn btn-default" style="margin-top: 1.5rem;">
+                    <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
+                      <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
+                      </app-consultar-organizacion>
+                    </ng-template>
+                    <button type="button" class="btn btn-default" style="margin-top: 1.5rem;" (click)="openModal(mdlConsultarOrganizacion)">
                     <i class="fa fa-search"></i>
                     </button>
                   </div>
