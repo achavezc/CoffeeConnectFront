@@ -84,6 +84,49 @@
       </div>
     </div>
 
+   <!-- <div class="row">
+      <div class="col-12">
+        <fieldset class="form-group">
+          <label style="font-size: 0.6rem;">Show
+            <select name="users-list-select" style="font-size: 0.8rem;"
+              class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+              (click)="updateLimit($event)">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            entries</label>
+          <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
+            <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+              (keyup)="filterUpdate($event)" />
+          </label>
+        </fieldset>
+
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-empresa" #tableOrganizacion
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
+          [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selectedOrganizacion"
+          [selectionType]="'single'" (dblclick)="seleccionarOrganizacion(selectedOrganizacion)">
+          <ngx-datatable-column name="Coigo" prop="Ruc" width="20">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="40">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Clasificacion" prop="Clasificacion">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Direccion" prop="Direccion" width="60">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Departamento" prop="Departamento" width="25">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Provincia" prop="Provincia" width="25">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Distrito" prop="Distrito" width="25">
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>-->
+
     <div class="row">
       <div class="col-12">
         <fieldset class="form-group">
@@ -103,11 +146,11 @@
           </label>
         </fieldset>
 
-        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-empresa" #tableEmpresa
+        <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-empresa" #tableOrganizacion
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
-          [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selectedEmpresa"
-          [selectionType]="'single'" (dblclick)="seleccionarEmpresa(selectedEmpresa)">
-          <ngx-datatable-column name="Coigo" prop="Ruc" width="20">
+          [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selectedOrganizacion"
+          [selectionType]="'single'" (dblclick)="seleccionarOrganizacion()">
+          <ngx-datatable-column name="Codigo" prop="Ruc" width="20">
           </ngx-datatable-column>
           <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
           </ngx-datatable-column>

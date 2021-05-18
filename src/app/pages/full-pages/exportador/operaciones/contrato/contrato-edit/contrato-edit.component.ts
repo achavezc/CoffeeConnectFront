@@ -349,6 +349,7 @@ export class ContratoEditComponent implements OnInit {
       ContratoId: form.idContrato ? parseInt(form.idContrato) : 0,
       Numero: form.nroContrato ? form.nroContrato : '',
       ClienteId: form.idCliente ? parseInt(form.idCliente) : 0,
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       FloId: form.floId ? form.floId.toString() : '',
       CondicionEmbarqueId: form.condicionEmbarque ? form.condicionEmbarque : '',
       FechaEmbarque: form.fechaEmbarque ? form.fechaEmbarque : '',
@@ -363,7 +364,6 @@ export class ContratoEditComponent implements OnInit {
       MonedadId: form.moneda ? form.moneda : '',
       Monto: form.precio ? parseFloat(form.precio) : 0,
       UnidadMedicionId: form.unidadMedida ? form.unidadMedida : '',
-      UnidadMedidaId: '',//form.sacosBulk ? form.sacosBulk : '',
       EntidadCertificadoraId: form.certificadora ? form.certificadora : '',
       TipoCertificacionId: form.certificacion ? form.certificacion.join('|') : '',
       CalidadId: form.calidad ? form.calidad : '',
@@ -504,37 +504,28 @@ export class ContratoEditComponent implements OnInit {
 
   async AutocompleteForm(data: any) {
     if (data) {
-      if (data.ContratoId) {
+      if (data.ContratoId)
         this.contratoEditForm.controls.idContrato.setValue(data.ContratoId);
-      }
-      if (data.Numero) {
+      if (data.Numero)
         this.contratoEditForm.controls.nroContrato.setValue(data.Numero);
-      }
-      if (data.ClienteId) {
+      if (data.ClienteId)
         this.contratoEditForm.controls.idCliente.setValue(data.ClienteId);
-      }
-      if (data.NumeroCliente) {
+      if (data.NumeroCliente)
         this.contratoEditForm.controls.codCliente.setValue(data.NumeroCliente);
-      }
-      if (data.Cliente) {
+      if (data.Cliente)
         this.contratoEditForm.controls.cliente.setValue(data.Cliente);
-      }
-      if (data.FloId) {
+      if (data.FloId)
         this.contratoEditForm.controls.floId.setValue(data.FloId);
-      }
       if (data.CondicionEmbarqueId) {
         await this.GetShipmentCondition();
         this.contratoEditForm.controls.condicionEmbarque.setValue(data.CondicionEmbarqueId);
       }
-      if (data.FechaEmbarque) {
+      if (data.FechaEmbarque)
         this.contratoEditForm.controls.fechaEmbarque.setValue(data.FechaEmbarque.substring(0, 10));
-      }
-      if (data.FechaContrato) {
+      if (data.FechaContrato)
         this.contratoEditForm.controls.fechaContrato.setValue(data.FechaContrato.substring(0, 10));
-      }
-      if (data.FechaFacturacion) {
+      if (data.FechaFacturacion)
         this.contratoEditForm.controls.fechaFactExp.setValue(data.FechaFacturacion.substring(0, 10));
-      }
       if (data.PaisDestinoId) {
         await this.GetCountries();
         this.contratoEditForm.controls.pais.setValue(data.PaisDestinoId);
@@ -548,6 +539,12 @@ export class ContratoEditComponent implements OnInit {
         await this.GetProducts();
         this.contratoEditForm.controls.producto.setValue(data.ProductoId);
       }
+      if (data.SubProductoId) {
+        await this.GetByProducts();
+        this.contratoEditForm.controls.subProducto.setValue(data.SubProductoId);
+      }
+      if (data.PesoKilos)
+        this.contratoEditForm.controls.pesoKilos.setValue(data.PesoKilos);
       if (data.TipoProduccionId) {
         await this.GetProductionType();
         this.contratoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
@@ -556,20 +553,27 @@ export class ContratoEditComponent implements OnInit {
         await this.GetCurrencies();
         this.contratoEditForm.controls.moneda.setValue(data.MonedadId);
       }
-      if (data.Monto) {
+      if (data.Monto)
         this.contratoEditForm.controls.precio.setValue(data.Monto);
-      }
       if (data.UnidadMedicionId) {
         await this.GetMeasurementUnit();
         this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
       }
-      // if (data.UnidadMedidaId) {
-      //   await this.GetSacosBulk();
-      //   this.contratoEditForm.controls.sacosBulk.setValue(data.UnidadMedidaId);
-      // }
+      if (data.CalculoContratoId) {
+        await this.GetCalculations();
+        this.contratoEditForm.controls.calculo.setValue(data.CalculoContratoId);
+      }
       if (data.EntidadCertificadoraId) {
         await this.GetCertifiers();
         this.contratoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
+      }
+      if (data.EmpaqueId) {
+        await this.GetPackaging();
+        this.contratoEditForm.controls.empaque.setValue(data.EmpaqueId);
+      }
+      if (data.TipoId) {
+        await this.GetPackagingType();
+        this.contratoEditForm.controls.tipo.setValue(data.TipoId);
       }
       if (data.TipoCertificacionId) {
         await this.GetCertifications();
@@ -583,35 +587,14 @@ export class ContratoEditComponent implements OnInit {
         await this.GetDegreePreparation();
         this.contratoEditForm.controls.grado.setValue(data.GradoId);
       }
-      // if (data.CantidadPorSaco) {
-      //   this.contratoEditForm.controls.cantidad.setValue(data.CantidadPorSaco);
-      // }
-      if (data.PesoPorSaco) {
+      if (data.PesoPorSaco)
         this.contratoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
-      }
-      if (data.PreparacionCantidadDefectos) {
+      if (data.PreparacionCantidadDefectos)
         this.contratoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
-      }
-      if (data.RequiereAprobacionMuestra) {
-        // this.contratoEditForm.controls.sujetoAprobMuestra.setValue(data.RequiereAprobacionMuestra);
-      }
-      if (data.MuestraEnviadaCliente) {
-        // this.contratoEditForm.controls.muestraEnviadaCliente.setValue(data.MuestraEnviadaCliente);
-      }
-      if (data.MuestraEnviadaAnalisisGlifosato) {
-        // this.contratoEditForm.controls.muestraAnalisisGlifosato.setValue(data.MuestraEnviadaAnalisisGlifosato);
-      }
-      // this.contratoEditForm.controls..setValue(data.NombreArchivo);
-      // this.contratoEditForm.controls..setValue(data.PathArchivo);
-      if (data.FechaRegistro) {
+      if (data.FechaRegistro)
         this.contratoEditForm.controls.fechaRegistro.setValue(data.FechaRegistro.substring(0, 10));
-      }
-      // this.contratoEditForm.controls..setValue(data.UsuarioRegistro);
-      // this.contratoEditForm.controls..setValue(data.FechaUltimaActualizacion);
-      // this.contratoEditForm.controls..setValue(data.UsuarioUltimaActualizacion);
-      if (data.EstadoId) {
+      if (data.EstadoId)
         this.contratoEditForm.controls.estado.setValue(data.EstadoId);
-      }
       this.contratoEditForm.controls.fileName.setValue(data.NombreArchivo);
       this.contratoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.fileName = data.NombreArchivo
@@ -629,7 +612,8 @@ export class ContratoEditComponent implements OnInit {
         this.GetStatusTrackingSamples();
         this.contratoEditForm.controls.estadoSegMuestras.setValue(data.EstadoMuestraId);
       }
-
+      if (data.TotalSacos)
+        this.contratoEditForm.controls.totalSacos69Kg.setValue(data.TotalSacos);
       if (data.FechaRecepcionMuestra && data.FechaRecepcionMuestra.substring(0, 10) != "0001-01-01")
         this.contratoEditForm.controls.fecRecepcionDestino.setValue(data.FechaRecepcionMuestra.substring(0, 10));
 

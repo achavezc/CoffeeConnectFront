@@ -42,8 +42,10 @@ export class ContratoComponent implements OnInit {
   tempData = [];
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
+  userSession: any;
 
   ngOnInit(): void {
+    this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
@@ -118,6 +120,7 @@ export class ContratoComponent implements OnInit {
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
       EstadoId: this.contratoForm.value.estado ? this.contratoForm.value.estado : '',
+      EmpresaId: this.userSession.Result.Data.EmpresaId,
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : ''
     };

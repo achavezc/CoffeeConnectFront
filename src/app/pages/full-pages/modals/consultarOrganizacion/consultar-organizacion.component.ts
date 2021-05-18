@@ -19,7 +19,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
   submittedE = false;
   listaClasificacion: any[];
   selectClasificacion: any;
-  selectedEmpresa = [];
+  selectedOrganizacion = [];
   errorEmpresa: any = { isError: false, errorMessage: '' };
   consultaOrganizacion: FormGroup;
   private tempData = [];
@@ -31,7 +31,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
   empresa: any[];
   login: ILogin;
   @Output() empresaEvent = new EventEmitter<any[]>();
-  @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
+  @ViewChild(DatatableComponent) tableOrganizacion: DatatableComponent;
 
   constructor(private maestroService: MaestroService,
     private organizacionService: OrganizacionService,
@@ -41,7 +41,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
   }
 
   singleSelectCheck(row: any) {
-    return this.selectedEmpresa.indexOf(row) === -1;
+    return this.selectedOrganizacion.indexOf(row) === -1;
   }
   ngOnInit(): void {
     this.cargarOrganizacion();
@@ -61,7 +61,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
       return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows = temp;
-    this.tableEmpresa.offset = 0;
+    this.tableOrganizacion.offset = 0;
   }
   buscar() {
 
@@ -115,12 +115,12 @@ export class MConsultarOrganizacionComponent implements OnInit {
   cargarOrganizacion() {
     this.consultaOrganizacion = new FormGroup(
       {
-        ruc: new FormControl('', []),
-        rzsocial: new FormControl('', []),
+        ruc: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         clasificacion: new FormControl('', []),
-        codigo: new FormControl('', [])
+        codigo: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')])
       });
-    //this.consultaOrganizacion.setValidators(this.comparisonValidatorOrganizacion())
+    this.consultaOrganizacion.setValidators(this.comparisonValidatorOrganizacion())
     this.maestroService.obtenerMaestros("ClasificacionEmpresaProveedoraAcreedora")
       .subscribe(res => {
         if (res.Result.Success) {
@@ -138,7 +138,8 @@ export class MConsultarOrganizacionComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       let rzsocial = group.controls['rzsocial'].value;
       let ruc = group.controls['ruc'].value;
-      if (rzsocial == "" && ruc == "") {
+      let codigo = group.controls['codigo'].value;
+      if (rzsocial == "" && ruc == "" && codigo == "") {
         this.errorEmpresa = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
 
       }
@@ -150,9 +151,14 @@ export class MConsultarOrganizacionComponent implements OnInit {
     };
   }
 
-  seleccionarEmpresa(e) {
+ /* seleccionarOrganizacion(e) {
     this.empresa = e;
+    var x = this.selectedOrganizacion;
     this.empresaEvent.emit(this.empresa)
+  }*/
+
+  seleccionarOrganizacion(): void {
+    this.empresaEvent.emit(this.selectedOrganizacion);
   }
 }
 
