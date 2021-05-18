@@ -115,12 +115,12 @@ export class MConsultarOrganizacionComponent implements OnInit {
   cargarOrganizacion() {
     this.consultaOrganizacion = new FormGroup(
       {
-        ruc: new FormControl('', []),
-        rzsocial: new FormControl('', []),
+        ruc: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         clasificacion: new FormControl('', []),
-        codigo: new FormControl('', [])
+        codigo: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')])
       });
-    //this.consultaOrganizacion.setValidators(this.comparisonValidatorOrganizacion())
+    this.consultaOrganizacion.setValidators(this.comparisonValidatorOrganizacion())
     this.maestroService.obtenerMaestros("ClasificacionEmpresaProveedoraAcreedora")
       .subscribe(res => {
         if (res.Result.Success) {
@@ -138,7 +138,8 @@ export class MConsultarOrganizacionComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       let rzsocial = group.controls['rzsocial'].value;
       let ruc = group.controls['ruc'].value;
-      if (rzsocial == "" && ruc == "") {
+      let codigo = group.controls['codigo'].value;
+      if (rzsocial == "" && ruc == "" && codigo == "") {
         this.errorEmpresa = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
 
       }
