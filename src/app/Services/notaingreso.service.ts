@@ -6,8 +6,8 @@ import { ErrorHandling } from '../shared/util/error-handling';
 
 @Injectable({
   providedIn: 'root'
-})
-export class PlantaService {
+}) 
+export class NotaIngresoService {
 
   constructor(private http: HttpClient,
     private errorHandling: ErrorHandling) {
