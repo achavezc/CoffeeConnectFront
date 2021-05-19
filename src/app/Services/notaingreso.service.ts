@@ -6,54 +6,44 @@ import { ErrorHandling } from '../shared/util/error-handling';
 
 @Injectable({
   providedIn: 'root'
-})
-export class NotaIngresoAlmacenPlantaService {
-  private url = `${host}NotaIngresoAlmacenPlanta`;
+}) 
+export class NotaIngresoService {
 
   constructor(private http: HttpClient,
     private errorHandling: ErrorHandling) {
   }
 
-  enviarAlmacen(id: number, username: string): Observable<any> {
-    const url = `${this.url}/Registrar`;
-
-    const body: any = {
-      NotaIngresoPlantaId: id,
-      Usuario: username
-    };
-    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
-  }
+  private url = `${host}NotaIngresoPlanta`;
 
   Consultar(request: any): Observable<any> {
     const url = `${this.url}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Anular(notaIngresoAlmacenId: number, usuario: string): Observable<any> {
+  Anular(request: any): Observable<any> {
     const url = `${this.url}/Anular`;
-    let request = {
-      NotaIngresoAlmacenId: notaIngresoAlmacenId,
-      Usuario: usuario
-    }
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+  
+  Registrar(request: any): Observable<any> {
+    const url = `${this.url}/RegistrarPesado`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  obtenerDetalle(id: number): Observable<any> {
+  Actualizar(request: any): Observable<any> {
+    const url = `${this.url}/ActualizarPesado`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+  ConsultarPorId(request: any): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
-
     const body: any = {
-      NotaIngresoAlmacenPlantaId: id
+      NotaIngresoPlantaId: request
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
-  actualizar(notaIngresoAlmacenPlantaId: number, usuario: string, almacenId: string): Observable<any> {
-    const url = `${this.url}/Actualizar`;
-    let request = {
-      NotaIngresoAlmacenPlantaId: notaIngresoAlmacenPlantaId,
-      Usuario: usuario,
-      AlmacenId: almacenId
-    }
+  
+  ActualizarAnalisisCalidad(request: any): Observable<any> {
+    const url = `${this.url}/ActualizarAnalisisCalidad`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
-
 }

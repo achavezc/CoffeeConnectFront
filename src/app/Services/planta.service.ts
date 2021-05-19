@@ -6,7 +6,7 @@ import { ErrorHandling } from '../shared/util/error-handling';
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class PlantaService {
 
   constructor(private http: HttpClient,

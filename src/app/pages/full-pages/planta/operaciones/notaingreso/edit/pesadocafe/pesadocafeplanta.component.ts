@@ -23,7 +23,6 @@ export class PesadoCafePlantaComponent implements OnInit {
   selectedCalidad: any;
   listaGrado: any[];
   selectedGrado: any;
-  @Input() unidadMedidaPesado;
   @Input() submittedEdit;
   @Output() miEvento = new EventEmitter<any>();
   sacos = "01";
@@ -41,27 +40,40 @@ export class PesadoCafePlantaComponent implements OnInit {
     this.cargarForm();
     this.pesadoFormGroup = <FormGroup> this.controlContainer.control;
   }
-/*   get fedit() {
-    return this.consultaMateriaPrimaFormEdit.controls;
-  } */
+
   cargarcombos() {
     var form = this;
-    this.maestroUtil.obtenerMaestros("UnidadMedida", function (res) {
+    this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
       if (res.Result.Success) {
-        form.listaUnidadMedida = res.Result.Data;
-        form.pesadoFormGroup.controls['unidadMedida'].setValue(form.unidadMedidaPesado);  
+        form.listaMotivo = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("Empaque", function (res) {
+      if (res.Result.Success) {
+        form.listaEmpaque = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("TipoEmpaque", function (res) {
+      if (res.Result.Success) {
+        form.listaTipo = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("Calidad", function (res) {
+      if (res.Result.Success) {
+        form.listaCalidad = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("Grado", function (res) {
+      if (res.Result.Success) {
+        form.listaGrado = res.Result.Data;
       }
     });
   }
   cargarForm() {
-    /* this.consultaMateriaPrimaFormEdit = new FormGroup(
-      {
-        unidadMedida: new FormControl('', [Validators.required]),
-        cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
-        kilosBruto: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
-        tara: new FormControl('', []),
-        observacionPesado: new FormControl('', [])
-      }); */
   }
 
   changeUnidadMedida(e) {
@@ -74,6 +86,11 @@ export class PesadoCafePlantaComponent implements OnInit {
     this.changeCantidad();
   }
   changeCantidad(){
+    var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
+    var valor = cantidad * this.tara;
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
+    /*
     var unidadMedida = this.pesadoFormGroup.controls['unidadMedida'].value;
     var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
     if(unidadMedida == this.latas){
@@ -85,6 +102,7 @@ export class PesadoCafePlantaComponent implements OnInit {
       var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
       this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
     }
+    */
   }
 
   consultarSocioFinca()

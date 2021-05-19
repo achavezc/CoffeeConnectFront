@@ -1,4 +1,4 @@
-<form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit">
+<form class="needs-validation" [formGroup]="notaIngredoFormEdit">
     <section id="tooltip-validation">
       <div class="row">
         <div class="col-12">
@@ -19,7 +19,7 @@
                       </div>
     
                       <div class="col-md-6 form-group">
-                        <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numeroGuia}}</label>
+                        <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numeroNotaIngreso}}</label>
                       </div>
                     
                     </div> 
@@ -79,17 +79,24 @@
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">N° GUIA REMISION</label>
                     <input type="text" minlength="5" maxlength="20" formControlName="guiaremision" class="form-control"
-                      id="validationTooltip04" placeholder="Guia Remision">
+                      id="validationTooltip04" placeholder="Guia Remision"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.guiaremision.invalid, 'is-valid': submittedEdit && !fedit.guiaremision.invalid }"
+                      >
                   </div>
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">FEC. GUIA REMISION</label>
-                    <input type="text" minlength="8" maxlength="20" formControlName="fecharemision" class="form-control"
-                  id="validationTooltip08" placeholder="Fecha Remisión">
+                    <input type="date" class="form-control" formControlName="fecharemision" id="validationTooltip10"
+                    name="fecharemision" placeholder="date" date
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.fecharemision.invalid, 'is-valid': submittedEdit && !fedit.fecharemision.invalid }" />
                   </div>
                   <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">TIPO DE PRODUCCION</label>
-                    <input type="text" minlength="5" maxlength="20" formControlName="tipoProduccion" class="form-control"
-                    id="validationTooltip04" placeholder="Tipo Producción">
+                    <label for="validationTooltip09">TIPO PRODUCCION</label>
+                    <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
+                    formControlName="tipoProduccion" bindLabel="Label" bindValue="Codigo" class="form-control"
+                    placeholder="Seleccionar Tipo Producción" 
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }"
+                    >
+                  </ng-select>
                   </div>
                 </div>
   
@@ -97,7 +104,9 @@
                   <div class="col-md-3 mb-3 form-group mb-2">
                     <label for="validationTooltip04">CODIGO ORGANIZACION</label>
                     <input type="text" minlength="5" maxlength="20" formControlName="codigoOrganizacion" class="form-control"
-                      id="validationTooltip04" placeholder="Codigo Organización" readonly>
+                      id="validationTooltip04" placeholder="Codigo Organización" 
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.codigoOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.codigoOrganizacion.invalid }"
+                      readonly>
                   </div>
 
                   <div class="col-md-1 mb-1 form-group mb-2">
@@ -112,7 +121,9 @@
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">NOMBRE ORGANIZACION</label>
                     <input type="text" minlength="8" maxlength="20" formControlName="nombreOrganizacion" class="form-control"
-                  id="validationTooltip08" placeholder="Nombre Organizacion" readonly>
+                    id="validationTooltip08" placeholder="Nombre Organizacion" 
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.nombreOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.nombreOrganizacion.invalid }"
+                    readonly>
                   </div>
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip09">PRODUCTO</label>
@@ -127,13 +138,17 @@
                 <div class="form-row">
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">DIRECCION</label>
-                    <input type="text" minlength="5" maxlength="20" formControlName="direccion" class="form-control"
-                      id="validationTooltip04" placeholder="Dirección" readonly>
+                    <input type="text" minlength="5" maxlength="100" formControlName="direccion" class="form-control"
+                      id="validationTooltip04" placeholder="Dirección" 
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.direccion.invalid, 'is-valid': submittedEdit && !fedit.direccion.invalid }"
+                      readonly>
                   </div>
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">RUC</label>
                     <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
-                  id="validationTooltip08" placeholder="Ruc" readonly>
+                  id="validationTooltip08" placeholder="Ruc" 
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.ruc.invalid, 'is-valid': submittedEdit && !fedit.ruc.invalid }"
+                  readonly>
                 
                   </div>
                   <div class="col-md-4 mb-4 form-group mb-2">
@@ -148,30 +163,22 @@
                 </div>
 
                 <div class="form-row">
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">TIPO PRODUCCION</label>
-                    <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
-                    formControlName="tipoProduccion" bindLabel="Label" bindValue="Codigo" class="form-control"
-                    placeholder="Seleccionar Tipo Producción" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }"
-                    >
-                  </ng-select>
-                  </div>
+                 
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip09">CERTIFICACION</label>
-                    <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
+                    <ng-select [items]="listaCertificacion" bindLabel="name" [(ngModel)]="selectedCertificacion"
                     formControlName="certificacion" bindLabel="Label" bindValue="Codigo" class="form-control"
-                    placeholder="Seleccionar Tipo Producción" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }"
+                    placeholder="Seleccionar Certificacion" 
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.certificacion.invalid, 'is-valid': submittedEdit && !fedit.certificacion.invalid }"
                     >
                   </ng-select>
                   </div>
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip09">CERTIFICADORA</label>
-                    <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
+                    <ng-select [items]="listaCertificadora" bindLabel="name" [(ngModel)]="selectedCertificadora"
                     formControlName="certificadora" bindLabel="Label" bindValue="Codigo" class="form-control"
-                    placeholder="Seleccionar Tipo Producción" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }"
+                    placeholder="Seleccionar Certificadora" 
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.certificadora.invalid, 'is-valid': submittedEdit && !fedit.certificadora.invalid }"
                     >
                   </ng-select>
                   </div>
@@ -195,7 +202,7 @@
                       <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
                     </a>
                     <ng-template ngbNavContent>
-                      <app-pesadoCafePlanta (miEvento)="consultarSocioFinca()" formGroupName="pesado" [submittedEdit]="submittedEdit" [unidadMedidaPesado]="unidadMedidaPesado"></app-pesadoCafePlanta>
+                      <app-pesadoCafePlanta (miEvento)="consultarSocioFinca()" formGroupName="pesado" [submittedEdit]="submittedEdit"></app-pesadoCafePlanta>
                       <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                         <div class="col-8 d-flex flex-sm-row flex-column">
                           <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
@@ -255,5 +262,4 @@
     <div class="d-flex justify-content-between align-items-center">
       <ngx-spinner></ngx-spinner>
     </div>
-    
-    </form>
+</form>

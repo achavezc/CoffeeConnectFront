@@ -5,7 +5,7 @@ import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import {Router} from "@angular/router";
 import {OrdenservicioControlcalidadService} from '../../../../../../../services/ordenservicio-controlcalidad.service';
 import {LoteService} from '../../../../../../../services/lote.service';
-import {PlantaService} from  '../../../../../../../Services/nota-ingreso-planta.service';
+import {PlantaService} from  '../../../../../../../Services/planta.service';
 
 
 @Injectable({
