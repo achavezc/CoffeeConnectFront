@@ -25,7 +25,8 @@ import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaing
 import { NotaIngresoAlmacenListComponent } from "./operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component";
 import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
 import { PesadoCafePlantaComponent } from "./operaciones/notaingreso/edit/pesadocafe/pesadocafeplanta.component";
-import { ModalModule } from '../modals/modal.module'
+import { ModalModule } from '../modals/modal.module';
+import {AcopioModule} from '../acopio/acopio.module';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { ModalModule } from '../modals/modal.module'
     QuillModule,
     MatchHeightModule,
     NgxSpinnerModule,
-    ModalModule
+    ModalModule,
+    AcopioModule
   ],
   declarations: [
 

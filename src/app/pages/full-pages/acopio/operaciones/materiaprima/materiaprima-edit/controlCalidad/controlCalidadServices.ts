@@ -117,7 +117,7 @@ actualizarControlCalidadMateriaPrima(reqControlCalidad: any)
 
 actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any)
 {
-    this.notaIngresoPlantaService.Actualizar(reqControlCalidad)
+    this.notaIngresoPlantaService.ActualizarAnalisisCalidad(reqControlCalidad)
  .subscribe(res => {
    this.spinner.hide();
    if (res.Result.Success) {
@@ -125,7 +125,7 @@ actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any)
        var form = this;
      this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
        if(result.isConfirmed){
-         form.router.navigate(['/operaciones/notaingreso-list']);
+         form.router.navigate(['/planta/operaciones/notaingreso-list']);
        }
      }
      );

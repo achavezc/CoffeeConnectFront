@@ -77,7 +77,7 @@ export class NotaIngresoEditComponent implements OnInit {
   viewTagSeco: boolean = false;
   detalle: any;
   unidadMedidaPesado: any;
-  form: string = "materiaprima"
+  form: string = "notaingresoplanta"
   btnGuardar = true;
   productoOroVerde = '02';
   @ViewChild(PesadoCafePlantaComponent) child;
@@ -110,15 +110,8 @@ export class NotaIngresoEditComponent implements OnInit {
           this.id = Number(params.id);
           this.esEdit = true;
           this.obtenerDetalle()
-          /* this.obtenerDetalle();
-          if (this.status == "01") {
-            this.disabledNota = 'disabled';
-          } */
         }
-        else {
-          /* this.disabledNota = 'disabled';
-          this.disabledControl = 'disabled'; */
-        }
+        else { this.disabledControl = 'disabled'; }
       }
       );
   }
@@ -287,11 +280,11 @@ export class NotaIngresoEditComponent implements OnInit {
     } else {
       let request = new ReqRegistrarPesadoNotaIngreso(
        Number(this.id),
-       1,
+       this.login.Result.Data.EmpresaId,
        this.notaIngredoFormEdit.controls["guiaremision"].value,
        this.notaIngredoFormEdit.controls["guiaremision"].value,
        this.notaIngredoFormEdit.controls["fecharemision"].value,
-       1,
+       this.selectOrganizacion[0].Codigo,
        this.notaIngredoFormEdit.controls["tipoProduccion"].value,
        this.notaIngredoFormEdit.controls["producto"].value,
        this.notaIngredoFormEdit.controls["subproducto"].value,
@@ -318,7 +311,7 @@ export class NotaIngresoEditComponent implements OnInit {
        this.notaIngredoFormEdit.get('pesado').get("observacion").value,
        "01",
        new Date(),
-       "mruizb",
+       this.login.Result.Data.IdUsuario,
        new Date()
       );
       this.spinner.show(undefined,
@@ -430,6 +423,8 @@ export class NotaIngresoEditComponent implements OnInit {
       );
   }
   async cargarDataFormulario(data: any) {
+
+    this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.notaIngredoFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
     this.notaIngredoFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
     this.notaIngredoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
@@ -442,9 +437,6 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.controls["subproducto"].setValue(data.SubProductoId);
     this.notaIngredoFormEdit.controls["certificacion"].setValue(data.CertificacionId);
     this.notaIngredoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadoraId);
-  
-
-
     this.notaIngredoFormEdit.get('pesado').get("motivo").setValue(data.MotivoIngresoId);
     this.notaIngredoFormEdit.get('pesado').get("empaque").setValue(data.EmpaqueId);
     this.notaIngredoFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
