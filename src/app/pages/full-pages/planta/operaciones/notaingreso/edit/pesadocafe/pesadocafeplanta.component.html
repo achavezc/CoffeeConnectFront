@@ -41,14 +41,14 @@
                         <div class="form-row">
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Cantidad</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="cantidad" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="cantidad" class="form-control"
                               id="validationTooltip04" placeholder="Cantidad" (change)="changeCantidad()"
                               [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }"
                               >
                           </div>
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Peso x Saco</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="pesoSaco" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="pesoSaco" class="form-control"
                           id="validationTooltip08" placeholder="Peso x Saco"
                           [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.pesoSaco.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.pesoSaco.invalid }"
                           >
@@ -59,7 +59,7 @@
                         <div class="form-row">
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Peso Bruto KG</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="kilosBrutos" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="kilosBrutos" class="form-control"
                               id="validationTooltip04" placeholder="Peso Bruto KG"
                               [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosBrutos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBrutos.invalid }"
                               >
@@ -78,7 +78,7 @@
                         <div class="form-row">
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Tara</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="tara" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="tara" class="form-control"
                               id="validationTooltip04" placeholder="Tara" disabled
                               [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tara.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tara.invalid }"
                               >
@@ -97,14 +97,14 @@
                         <div class="form-row">
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Kilos Netos</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="kilosNetos" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="kilosNetos" class="form-control"
                               id="validationTooltip04" placeholder="Kilos Netos"
                               [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosNetos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosNetos.invalid }"
                               >
                           </div>
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Cantidad Defectos</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="cantidadDefectos" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="cantidadDefectos" class="form-control"
                           id="validationTooltip08" placeholder="Cantidad Defectos"
                           [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidadDefectos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidadDefectos.invalid }"
                           >
@@ -115,14 +115,14 @@
                         <div class="form-row">
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">% Rendimiento</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="porcentajeRendimiento" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="porcentajeRendimiento" class="form-control"
                               id="validationTooltip04" placeholder="% Rendimiento"
                               [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeRendimiento.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeRendimiento.invalid }"
                               >
                           </div>
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">% Humedad</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="porcentajeHumedad" class="form-control"
+                            <input type="number" minlength="1" maxlength="20" formControlName="porcentajeHumedad" class="form-control"
                           id="validationTooltip08" placeholder="% Humedad"
                           [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeHumedad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeHumedad.invalid }"
                           >
