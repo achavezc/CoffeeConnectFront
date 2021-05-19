@@ -4,6 +4,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { PlantaService } from '../../../../../../Services/planta.service';
+import { NotaIngresoAlmacenPlantaService } from '../../../../../../Services/nota-ingreso-almacen-planta-service';
 
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -60,7 +61,7 @@ export class NotaIngresoListComponent implements OnInit {
     private alertUtil: AlertUtil,
     private dateUtil: DateUtil,
     private plantaService: PlantaService,
-    
+    private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
@@ -336,7 +337,7 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   anularGuia() {
-    /*
+    
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -345,12 +346,16 @@ export class NotaIngresoListComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.notaIngresoPlantaService.anularMateriaPrima(this.selected[0].GuiaRecepcionMateriaPrimaId, this.vSessionUser.Result.Data.NombreUsuario)
+    this.plantaService.Anular(
+      {
+        "NotaIngresoPlantaId":this.selected[0].NotaIngresoPlantaId,
+        "Usuario": this.vSessionUser.Result.Data.NombreUsuario
+      })
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Anulado!', 'Guia Anulada.');
+            this.alertUtil.alertOk('Anulado!', 'Nota Ingreso Anulado.');
             this.buscar();
 
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -368,11 +373,11 @@ export class NotaIngresoListComponent implements OnInit {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
-      */
+      
   }
 
   enviarAlmacenGuia() {
-    /*
+    
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -381,7 +386,7 @@ export class NotaIngresoListComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.notaIngrersoService.enviarAlmacen(this.selected[0].GuiaRecepcionMateriaPrimaId, this.vSessionUser.Result.Data.NombreUsuario)
+    this.notaIngresoAlmacenPlantaService.enviarAlmacen(this.selected[0].NotaIngresoPlantaId, this.vSessionUser.Result.Data.NombreUsuario)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -405,7 +410,7 @@ export class NotaIngresoListComponent implements OnInit {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
-      */
+      
   }
 
   exportar() {

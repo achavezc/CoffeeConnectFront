@@ -18,7 +18,7 @@ export class NotaIngresoAlmacenPlantaService {
     const url = `${this.url}/Registrar`;
 
     const body: any = {
-      GuiaRecepcionMateriaPrimaId: id,
+      NotaIngresoPlantaId: id,
       Usuario: username
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
