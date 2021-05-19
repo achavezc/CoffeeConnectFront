@@ -79,6 +79,7 @@ export class NotaIngresoEditComponent implements OnInit {
   unidadMedidaPesado: any;
   form: string = "materiaprima"
   btnGuardar = true;
+  productoOroVerde = '02';
   @ViewChild(PesadoCafePlantaComponent) child;
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
@@ -108,6 +109,7 @@ export class NotaIngresoEditComponent implements OnInit {
         if (Number(params.id)) {
           this.id = Number(params.id);
           this.esEdit = true;
+          this.obtenerDetalle()
           /* this.obtenerDetalle();
           if (this.status == "01") {
             this.disabledNota = 'disabled';
@@ -122,40 +124,44 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   cargarForm() {
-    let x = this.selectSubProducto;
+    
     this.notaIngredoFormEdit = this.fb.group(
       {
        
-        guiaremision: ['',],
-        fecharemision: ['',],
-        tipoProduccion: ['',],
+        guiaremision: ['',Validators.required],
+        fecharemision: ['',Validators.required],
+        tipoProduccion: ['',Validators.required],
         codigoOrganizacion: ['',],
         nombreOrganizacion: ['',],
-        producto: ['',],
+        producto: ['',Validators.required],
         direccion: ['',],
         ruc: ['',],
-        subproducto: ['',],
-        certificacion: ['',],
-        certificadora: ['',],
+        subproducto: ['',Validators.required],
+        certificacion: ['',Validators.required],
+        certificadora: ['',Validators.required],
         pesado: this.fb.group({
-          empaque: new FormControl('', []),
-          tipo: new FormControl('', []),
-          cantidad: new FormControl('', []),
+          motivo: new FormControl('', [Validators.required]),
+          empaque: new FormControl('', [Validators.required]),
+          tipo: new FormControl('', [Validators.required]),
+          cantidad: new FormControl('', [Validators.required]),
+          kilosBrutos: new FormControl('', [Validators.required]),
           pesoSaco: new FormControl('', []),
           calidad: new FormControl('', []),
           tara: new FormControl('', []),
           kilosNetos: new FormControl('', []),
+          grado: new FormControl('', []),
           cantidadDefectos: new FormControl('', []),
           porcentajeRendimiento: new FormControl('', []),
           porcentajeHumedad: new FormControl('', []),
-          transportista: new FormControl('', []),
-          ruc: new FormControl('', []),
-          placaVehiculo: new FormControl('', []),
-          chofer: new FormControl('', []),
-          numeroBrevete: new FormControl('', []),
+          transportista: new FormControl('', [Validators.required]),
+          ruc: new FormControl('', [Validators.required]),
+          placaVehiculo: new FormControl('', [Validators.required]),
+          chofer: new FormControl('', [Validators.required]),
+          numeroBrevete: new FormControl('', [Validators.required]),
           observacion: new FormControl('', [])
         })
       });
+      this.desactivarControl("");
   }
 
   openModal(customContent) {
@@ -192,8 +198,27 @@ export class NotaIngresoEditComponent implements OnInit {
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
     this.cargarSubProducto(filterProducto);
+    this.desactivarControl(filterProducto);
   }
 
+  desactivarControl(codigo){
+    if(codigo != this.productoOroVerde){
+      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
+      this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
+      this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
+      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");
+    
+      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
+      this.notaIngredoFormEdit.get("pesado").get("calidad").disable();
+      this.notaIngredoFormEdit.get("pesado").get("grado").disable();
+      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").disable();
+    }else{
+      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").enable();
+      this.notaIngredoFormEdit.get("pesado").get("calidad").enable();
+      this.notaIngredoFormEdit.get("pesado").get("grado").enable();
+      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").enable();
+    }
+  }
   changeView(e) {
     let filterSubTipo = e.Codigo;
     if (filterSubTipo == "02") {
@@ -213,21 +238,6 @@ export class NotaIngresoEditComponent implements OnInit {
 
   }
  
-  async cargarTipoProveedor() {
-
-    var data = await this.maestroService.obtenerMaestros("TipoProveedor").toPromise();
-    if (data.Result.Success) {
-      this.listaTipoProveedor = data.Result.Data;
-      this.listTipoSocio = this.listaTipoProveedor;
-    }
-  }
-  async cargarTipoProduccion() {
-
-    var data = await this.maestroService.obtenerMaestros("TipoProduccion").toPromise();
-    if (data.Result.Success) {
-      this.listaTipoProduccion = data.Result.Data;
-    }
-  }
 
 
   get fedit() {
@@ -275,9 +285,8 @@ export class NotaIngresoEditComponent implements OnInit {
       this.submittedEdit = true;
       return;
     } else {
-      
       let request = new ReqRegistrarPesadoNotaIngreso(
-       0,
+       Number(this.id),
        1,
        this.notaIngredoFormEdit.controls["guiaremision"].value,
        this.notaIngredoFormEdit.controls["guiaremision"].value,
@@ -288,29 +297,29 @@ export class NotaIngresoEditComponent implements OnInit {
        this.notaIngredoFormEdit.controls["subproducto"].value,
        this.notaIngredoFormEdit.controls["certificacion"].value,
        this.notaIngredoFormEdit.controls["certificadora"].value,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null,
-       null
+       this.notaIngredoFormEdit.get('pesado').get("motivo").value,
+       this.notaIngredoFormEdit.get('pesado').get("empaque").value,
+       Number(this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").value),
+       Number(this.notaIngredoFormEdit.get('pesado').get("kilosNetos").value),
+       Number(this.notaIngredoFormEdit.get('pesado').get("tara").value),
+       this.notaIngredoFormEdit.get('pesado').get("calidad").value,
+       this.notaIngredoFormEdit.get('pesado').get("grado").value,
+       Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
+       Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
+       this.notaIngredoFormEdit.get('pesado').get("tipo").value,
+       Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
+       Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").value),
+       Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").value),
+       this.notaIngredoFormEdit.get('pesado').get("ruc").value,
+       this.notaIngredoFormEdit.get('pesado').get("transportista").value,
+       this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").value,
+       this.notaIngredoFormEdit.get('pesado').get("chofer").value,
+       this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").value,
+       this.notaIngredoFormEdit.get('pesado').get("observacion").value,
+       "01",
+       new Date(),
+       "mruizb",
+       new Date()
       );
       this.spinner.show(undefined,
         {
@@ -399,7 +408,11 @@ export class NotaIngresoEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;
-            this.cargarDataFormulario(res.Result.Data);
+            if(this.detalle!= null){
+              this.cargarDataFormulario(res.Result.Data);
+            }else{
+              this.spinner.hide();
+            }
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
@@ -415,69 +428,51 @@ export class NotaIngresoEditComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );
-    //this.child.obtenerDetalle();
   }
   async cargarDataFormulario(data: any) {
-    await this.cargarTipoProduccion();
+    this.notaIngredoFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
+    this.notaIngredoFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
+    this.notaIngredoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
+    this.notaIngredoFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
+    this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
+    this.notaIngredoFormEdit.controls["direccion"].setValue(data.Direccion);
+    this.notaIngredoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);
     this.notaIngredoFormEdit.controls["subproducto"].setValue(data.SubProductoId);
-    this.viewTagSeco = data.SubProductoId != "02" ? false : true;
+    this.notaIngredoFormEdit.controls["certificacion"].setValue(data.CertificacionId);
+    this.notaIngredoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadoraId);
+  
+
+
+    this.notaIngredoFormEdit.get('pesado').get("motivo").setValue(data.MotivoIngresoId);
+    this.notaIngredoFormEdit.get('pesado').get("empaque").setValue(data.EmpaqueId);
+    this.notaIngredoFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
+    this.notaIngredoFormEdit.get('pesado').get("cantidad").setValue(data.Cantidad);
+    this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").setValue(data.KilosBrutos);
+    this.notaIngredoFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
+    this.notaIngredoFormEdit.get('pesado').get("calidad").setValue(data.CalidadId);
+    this.notaIngredoFormEdit.get('pesado').get("tara").setValue(data.Tara);
+    this.notaIngredoFormEdit.get('pesado').get("kilosNetos").setValue(data.KilosNetos);
+    this.notaIngredoFormEdit.get('pesado').get("grado").setValue(data.GradoId);
+    this.notaIngredoFormEdit.get('pesado').get("cantidadDefectos").setValue(data.CantidadDefectos);
+    this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").setValue(data.RendimientoPorcentaje);
+    this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").setValue(data.HumedadPorcentaje);
+    this.notaIngredoFormEdit.get('pesado').get("transportista").setValue(data.RazonEmpresaTransporte);
+    this.notaIngredoFormEdit.get('pesado').get("ruc").setValue(data.RucEmpresaTransporte);
+    this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").setValue(data.PlacaTractorEmpresaTransporte);
+    this.notaIngredoFormEdit.get('pesado').get("chofer").setValue(data.ConductorEmpresaTransporte);
+    this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
+    this.notaIngredoFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
+    
+    
     this.estado = data.Estado
-    this.notaIngredoFormEdit.controls["guiaReferencia"].setValue(data.NumeroReferencia);
     this.numeroNotaIngreso = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.notaIngredoFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
-    this.notaIngredoFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-" + data.NumeroDocumento);
 
-
-    this.notaIngredoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
-    this.cargarTipoProveedor();
-    await this.cargarTipoProveedor();
-    this.notaIngredoFormEdit.controls["provTipoSocio"].setValue(data.TipoProvedorId);
-    this.notaIngredoFormEdit.controls["provCodigo"].setValue(data.CodigoSocio);
-    this.notaIngredoFormEdit.controls["provDepartamento"].setValue(data.Departamento);
-    this.notaIngredoFormEdit.controls["provProvincia"].setValue(data.Provincia);
-    this.notaIngredoFormEdit.controls["provDistrito"].setValue(data.Distrito);
-    this.notaIngredoFormEdit.controls["provCertificacion"].setValue(data.SocioFincaCertificacion);
-    this.notaIngredoFormEdit.controls["provZona"].setValue(data.Zona);
-    this.notaIngredoFormEdit.controls["provFinca"].setValue(data.Finca);
-    //this.notaIngredoFormEdit.controls["fechaCosecha"].setValue(this.dateUtil.formatDate(new Date(data.FechaPesado),"/"));
-    this.notaIngredoFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaPesado, 'yyyy-MM-dd', 'en'));
-    this.notaIngredoFormEdit.get('pesado').get("unidadMedida").setValue(data.UnidadMedidaIdPesado);
-    this.notaIngredoFormEdit.get('pesado').get("cantidad").setValue(data.CantidadPesado);
-    this.notaIngredoFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
-    this.notaIngredoFormEdit.get('pesado').get("tara").setValue(data.TaraPesado);
-    this.notaIngredoFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
-    this.notaIngredoFormEdit.controls['tipoProveedorId'].setValue(data.TipoProvedorId);
-    this.notaIngredoFormEdit.controls['socioFincaId'].setValue(data.SocioFincaId);
-    this.notaIngredoFormEdit.controls['terceroFincaId'].setValue(data.TerceroFincaId);
 
-    this.notaIngredoFormEdit.controls['socioId'].setValue(data.SocioId);
-    this.notaIngredoFormEdit.controls['terceroId'].setValue(data.TerceroId);
-    this.notaIngredoFormEdit.controls['intermediarioId'].setValue(data.IntermediarioId);
-
-    this.notaIngredoFormEdit.get('pesado').get("exportGramos").setValue(data.ExportableGramosAnalisisFisico);
-    if (data.ExportablePorcentajeAnalisisFisico != null) {
-      this.notaIngredoFormEdit.get('pesado').get("exportPorcentaje").setValue(data.ExportablePorcentajeAnalisisFisico + "%");
-    }
-    this.notaIngredoFormEdit.get('pesado').get("descarteGramos").setValue(data.DescarteGramosAnalisisFisico);
-    if (data.DescartePorcentajeAnalisisFisico != null) {
-      this.notaIngredoFormEdit.get('pesado').get("descartePorcentaje").setValue(data.DescartePorcentajeAnalisisFisico + "%");
-    }
-    this.notaIngredoFormEdit.get('pesado').get("cascarillaGramos").setValue(data.CascarillaGramosAnalisisFisico);
-    if (data.CascarillaPorcentajeAnalisisFisico != null) {
-      this.notaIngredoFormEdit.get('pesado').get("cascarillaPorcentaje").setValue(data.CascarillaPorcentajeAnalisisFisico + "%");
-    }
-    this.notaIngredoFormEdit.get('pesado').get("totalGramos").setValue(data.TotalGramosAnalisisFisico);
-    if (data.TotalPorcentajeAnalisisFisico != null) {
-      this.notaIngredoFormEdit.get('pesado').get("totalPorcentaje").setValue(data.TotalPorcentajeAnalisisFisico + "%");
-    }
-    this.notaIngredoFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
-
-    this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
     this.spinner.hide();
 
 

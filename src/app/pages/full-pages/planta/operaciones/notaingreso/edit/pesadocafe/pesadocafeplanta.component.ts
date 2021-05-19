@@ -23,7 +23,6 @@ export class PesadoCafePlantaComponent implements OnInit {
   selectedCalidad: any;
   listaGrado: any[];
   selectedGrado: any;
-  @Input() unidadMedidaPesado;
   @Input() submittedEdit;
   @Output() miEvento = new EventEmitter<any>();
   sacos = "01";
@@ -87,6 +86,11 @@ export class PesadoCafePlantaComponent implements OnInit {
     this.changeCantidad();
   }
   changeCantidad(){
+    var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
+    var valor = cantidad * this.tara;
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
+    /*
     var unidadMedida = this.pesadoFormGroup.controls['unidadMedida'].value;
     var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
     if(unidadMedida == this.latas){
@@ -98,6 +102,7 @@ export class PesadoCafePlantaComponent implements OnInit {
       var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
       this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
     }
+    */
   }
 
   consultarSocioFinca()

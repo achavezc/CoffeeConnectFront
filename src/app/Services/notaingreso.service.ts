@@ -37,7 +37,7 @@ export class NotaIngresoService {
   ConsultarPorId(request: any): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
     const body: any = {
-      OrdenServicioControlCalidadId: request
+      NotaIngresoPlantaId: request
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
