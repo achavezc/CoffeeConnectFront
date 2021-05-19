@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-12 col-md-4">
   
-                  <div class="form-row" *ngIf="esEdit">
+                  <div class="form-row">
                     <div class="col-md-6 form-group">
                       <label class="card-forms" for="users-edit-username">N° NOTA DE INGRESO</label>
                     </div>
@@ -25,7 +25,7 @@
                     </div>
   
                   </div>
-                  <div class="form-row" *ngIf="esEdit">
+                  <div class="form-row">
   
                     <div class="col-md-6 form-group">
                       <label class="card-forms" for="users-edit-email">FECHA</label>
@@ -121,36 +121,19 @@
                 </div>
               </div>
               <div class="form-row">
-                <div class="col-md-3 mb-4 form-group mb-2">
-                  <label for="validationTooltip04">DEPARTAMENTO</label>
-                  <input type="text" minlength="5" maxlength="20" formControlName="departamento" class="form-control"
-                    id="validationTooltip04" placeholder="Departamento">
                 
-                </div>
-                <div class="col-md-3 mb-4 form-group mb-2">
-                  <label for="validationTooltip04">PROVINCIA</label>
-                  <input type="text" minlength="8" maxlength="20" formControlName="provincia" class="form-control"
-                id="validationTooltip08" placeholder="Provincia">
-              
-                </div>
-                <div class="col-md-2 mb-4 form-group mb-2">
-                  <label for="validationTooltip09">DISTRITO</label>
-                  <input type="text" minlength="5" maxlength="20" formControlName="distrito" class="form-control"
-                  id="validationTooltip04" placeholder="Distrito">
-                </div>
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip09">CERTIFICACION</label>
                   <input type="text" minlength="5" maxlength="20" formControlName="certificacion" class="form-control"
                   id="validationTooltip04" placeholder="Certificacion">
                 </div>
-              </div>
-              <div class="form-row">                
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip09">CERTIFICADORA</label>
                   <input type="text" minlength="5" maxlength="20" formControlName="certificadora" class="form-control"
                   id="validationTooltip04" placeholder="Certificadora">
                 </div>
               </div>
+
              
             </div>
           </div>
@@ -182,8 +165,7 @@
                                 Medida</label>
                               <div class="col-md-8">
                                 <input type="text" class="form-control" id="basicInput" formControlName="unidadMedidaDesc" placeholder="Unidad de Medida"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.unidadMedida.invalid, 'is-valid': submittedEdit && !fedit.unidadMedida.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.unidadMedida.invalid, 'is-valid': submittedEdit && !fedit.unidadMedida.invalid }">
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -191,8 +173,7 @@
                               <div class="col-md-8">
                                 <input type="number" maxlength="10" formControlName="cantidad" class="form-control"
                                   id="validationTooltip08" placeholder="Cantidad"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidad.invalid, 'is-valid': submittedEdit && !fedit.cantidad.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidad.invalid, 'is-valid': submittedEdit && !fedit.cantidad.invalid }">
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -200,8 +181,7 @@
                               <div class="col-md-8">
                                 <input type="number" maxlength="10" formControlName="pesoxSaco" class="form-control"
                                   id="validationTooltip08" placeholder="Kilos Brutos"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.pesoxSaco.invalid, 'is-valid': submittedEdit && !fedit.pesoxSaco.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.pesoxSaco.invalid, 'is-valid': submittedEdit && !fedit.pesoxSaco.invalid }">
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -209,15 +189,13 @@
                               <div class="col-md-4">
                                 <input type="number" maxlength="10" formControlName="pesoBruto" class="form-control"
                                   id="validationTooltip08" placeholder="Peso Bruto Kg"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.pesoBruto.invalid, 'is-valid': submittedEdit && !fedit.pesoBruto.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.pesoBruto.invalid, 'is-valid': submittedEdit && !fedit.pesoBruto.invalid }" >
                               </div>
                               <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Calidad</label>
                               <div class="col-md-4">
                                 <input type="number" maxlength="10" formControlName="calidad" class="form-control"
                                   id="validationTooltip08" placeholder="Calidad"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.calidad.invalid, 'is-valid': submittedEdit && !fedit.calidad.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.calidad.invalid, 'is-valid': submittedEdit && !fedit.calidad.invalid }" >
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -225,15 +203,13 @@
                               <div class="col-md-4">
                                 <input type="number" maxlength="10" formControlName="tara" class="form-control"
                                   id="validationTooltip08" placeholder="Tara"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.tara.invalid, 'is-valid': submittedEdit && !fedit.tara.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.tara.invalid, 'is-valid': submittedEdit && !fedit.tara.invalid }" >
                               </div>
                               <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Grado</label>
                               <div class="col-md-4">
                                 <input type="number" maxlength="10" formControlName="grado" class="form-control"
                                   id="validationTooltip08" placeholder="Grado"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.grado.invalid, 'is-valid': submittedEdit && !fedit.grado.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.grado.invalid, 'is-valid': submittedEdit && !fedit.grado.invalid }" >
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -241,24 +217,22 @@
                               <div class="col-md-4">
                                 <input type="number" maxlength="10" formControlName="kilosNetos" class="form-control"
                                   id="validationTooltip08" placeholder="Kilos Netos"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.kilosNetos.invalid, 'is-valid': submittedEdit && !fedit.kilosNetos.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.kilosNetos.invalid, 'is-valid': submittedEdit && !fedit.kilosNetos.invalid }" >
                               </div>
                               <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Cantidad Defectos</label>
                               <div class="col-md-4">
                                 <input type="number" maxlength="10" formControlName="cantidadDefectos" class="form-control"
                                   id="validationTooltip08" placeholder="Cantidad Defectos"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidadDefectos.invalid, 'is-valid': submittedEdit && !fedit.cantidadDefectos.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.cantidadDefectos.invalid, 'is-valid': submittedEdit && !fedit.cantidadDefectos.invalid }" >
                               </div>
                             </div>
+                            <div *ngIf="viewCafeP">
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                               <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">% Rendimiento</label>
                               <div class="col-md-8">
                                 <input type="number" maxlength="10" formControlName="rendimiento" class="form-control"
                                   id="validationTooltip08" placeholder="Rendimiento"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.rendimiento.invalid, 'is-valid': submittedEdit && !fedit.rendimiento.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.rendimiento.invalid, 'is-valid': submittedEdit && !fedit.rendimiento.invalid }" >
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
@@ -266,9 +240,9 @@
                               <div class="col-md-8">
                                 <input type="number" maxlength="10" formControlName="humedad" class="form-control"
                                   id="validationTooltip08" placeholder="Humedad"
-                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.humedad.invalid, 'is-valid': submittedEdit && !fedit.humedad.invalid }"
-                                  disabled>
+                                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.humedad.invalid, 'is-valid': submittedEdit && !fedit.humedad.invalid }" >
                               </div>
+                            </div>
                             </div>
                           </div>
                         </div>
@@ -277,7 +251,7 @@
   
                   </div>
   
-                  <div class="col-12 col-md-6">
+                  <div class="col-12 col-md-6" *ngIf="viewCafeP">
                     <ul class="list-group" id="multiple-list-group-a">
                       <li class="list-group-item draggable">
                         <div class="media">
@@ -296,33 +270,33 @@
                               <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Exportable</label>
                               <div class="col-md-4">
                                 <input type="text" formControlName="exportGramos" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name">
                               </div>
                               <div class="col-md-4">
                                 <input type="text" formControlName="exportPorcentaje" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name">
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                               <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Descarte</label>
                               <div class="col-md-4">
                                 <input type="text" formControlName="descarteGramos" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name">
                               </div>
                               <div class="col-md-4">
                                 <input type="text" formControlName="descartePorcentaje" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name" >
                               </div>
                             </div>
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                               <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Cascarilla</label>
                               <div class="col-md-4">
                                 <input type="text" formControlName="cascarillaGramos" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name">
                               </div>
                               <div class="col-md-4">
                                 <input type="text" formControlName="cascarillaPorcentaje" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name" >
                               </div>
                             </div>
   
@@ -331,11 +305,11 @@
                               <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Total</label>
                               <div class="col-md-4">
                                 <input type="text" formControlName="totalGramos" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name">
                               </div>
                               <div class="col-md-4">
                                 <input type="text" formControlName="totalPorcentaje" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name" >
                               </div>
                             </div>
   
@@ -343,8 +317,8 @@
                             <div class="form-group row" style="margin-left: 1rem; margin-right: 1rem;">
                               <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">% HUMEDAD</label>
                               <div class="col-md-4">
-                                <input type="text" formControlName="humedad" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                <input type="text" formControlName="humedadAnalsisFisico" class="form-control square"
+                                  id="horizontal-form-1" name="first-name" >
                               </div>
   
                             </div>
@@ -358,7 +332,7 @@
                                 Final</label>
                               <div class="col-md-4">
                                 <input type="text" formControlName="puntajeFinal" class="form-control square"
-                                  id="horizontal-form-1" name="first-name" disabled>
+                                  id="horizontal-form-1" name="first-name" >
                               </div>
                             </div>
                             
@@ -374,13 +348,20 @@
                     
                    
                   </div>
-                  <div  style="margin-top: 2rem;">
+                  
+                </div>
+                <div class="row">
+                  <div class="col-12" style="margin-top: 2rem;">
                     <div class="col-8 d-flex flex-sm-row flex-column">
                       <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
                       <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
                     </div>
       
                   </div>
+                 
+
+                </div>
+                <div class="row">
                   <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
                     <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>

@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'planta',
-    loadChildren: () => import('../../pages/full-pages/planta/planta.module').then(m => m.PlantaModule)
+    loadChildren: () => import('./planta/planta.module').then(m => m.PlantaModule)
   },
   {
     path: 'exportador',

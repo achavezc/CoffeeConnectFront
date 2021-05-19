@@ -42,14 +42,14 @@ export class NotaIngresoAlmacenPlantaService {
     const url = `${this.url}/ConsultarPorId`;
 
     const body: any = {
-      NotaIngresoAlmacenId: id
+      NotaIngresoAlmacenPlantaId: id
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
-  actualizar(notaIngresoAlmacenId: number, usuario: string, almacenId: string): Observable<any> {
+  actualizar(notaIngresoAlmacenPlantaId: number, usuario: string, almacenId: string): Observable<any> {
     const url = `${this.url}/Actualizar`;
     let request = {
-      NotaIngresoAlmacenId: notaIngresoAlmacenId,
+      NotaIngresoAlmacenPlantaId: notaIngresoAlmacenPlantaId,
       Usuario: usuario,
       AlmacenId: almacenId
     }

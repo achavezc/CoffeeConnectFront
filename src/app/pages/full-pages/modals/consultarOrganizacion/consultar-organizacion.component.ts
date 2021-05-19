@@ -71,6 +71,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
     } else {
       this.submittedE = false;
       this.filtrosEmpresaProv.RazonSocial = this.consultaOrganizacion.controls['rzsocial'].value;
+      this.filtrosEmpresaProv.CodigoOrganizacion = this.consultaOrganizacion.controls['codigo'].value;
       this.filtrosEmpresaProv.Ruc = this.consultaOrganizacion.controls['ruc'].value;
       this.filtrosEmpresaProv.ClasificacionId = this.consultaOrganizacion.controls['clasificacion'].value == null || this.consultaOrganizacion.controls['clasificacion'].value == undefined ? "" : this.consultaOrganizacion.controls['clasificacion'].value;
       this.filtrosEmpresaProv.EmpresaId = Number(this.login.Result.Data.EmpresaId);
