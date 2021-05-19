@@ -633,7 +633,7 @@ export class ContratoEditComponent implements OnInit {
   Descargar() {
     var nombreFile = this.contratoEditForm.value.fileName;
     var rutaFile = this.contratoEditForm.value.pathFile;
-    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
+    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile /*+ "&name=" + nombreFile*/, '_blank');
   }
 
   fileChange(event) {
