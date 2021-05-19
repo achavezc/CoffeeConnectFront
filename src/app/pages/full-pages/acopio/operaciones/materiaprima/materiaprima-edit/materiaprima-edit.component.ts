@@ -178,7 +178,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarProveedor();
     this.clear();
-
+    this.selectTipoProveedor = this.tipoSocio;
   }
 
   clear() {
@@ -243,7 +243,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   cargarProveedor() {
     this.consultaProveedor = new FormGroup(
       {
-        tipoproveedor: new FormControl('', [Validators.required]),
+        tipoproveedor: new FormControl({ value: '', disabled: true }, [Validators.required]),
         tipoDocumento: new FormControl('', []),
         numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         socio: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
