@@ -60,7 +60,7 @@ export class MListaDocumentosComponent implements OnInit {
       this.subTitleModal = 'LISTA DE DOCUMENTOS';
     } else if (this.codeForm === 'frmMdlSocioDocuments') {
       this.titleModal = 'CARGA DE DOCUMENTOS DEL SOCIO';
-      this.subTitleModal = 'LISTA DE FINCAS DEL PROVEEDOR - DOCUMENTOS SOCIO';
+      this.subTitleModal = 'LISTA DE DOCUMENTOS SOCIO';
     }
     this.LoadFormAddFiles();
     this.LoadFiles();
@@ -222,21 +222,21 @@ export class MListaDocumentosComponent implements OnInit {
     if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
       let link = document.createElement('a');
       document.body.appendChild(link);
-      link.href = `${host}FincaFotoGeoreferenciada/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`;
+      link.href = `${host}FincaFotoGeoreferenciada/DescargarArchivo?path=${rutaFile}`;
       link.target = "_blank";
       link.click();
       link.remove();
     } else if (this.codeForm === 'frmMdlAttachments') {
       let link = document.createElement('a');
       document.body.appendChild(link);
-      link.href = `${host}FincaFotoGeoreferenciada/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`;
+      link.href = `${host}FincaFotoGeoreferenciada/DescargarArchivo?path=${rutaFile}`;
       link.target = "_blank";
       link.click();
       link.remove();
     } else if (this.codeForm === 'frmMdlSocioDocuments') {
       let link = document.createElement('a');
       document.body.appendChild(link);
-      link.href = `${host}SocioDocumento/DescargarArchivo?path=${rutaFile}&name=${nombreFile}`;
+      link.href = `${host}SocioDocumento/DescargarArchivo?path=${rutaFile}`;
       link.target = "_blank";
       link.click();
       link.remove();

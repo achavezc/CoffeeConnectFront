@@ -269,7 +269,7 @@ export class CertificacionEditComponent implements OnInit {
   Descargar() {
     var nombreFile = this.certificacionEditForm.value.fileName;
     var rutaFile = this.certificacionEditForm.value.pathFile;
-    window.open(this.url+'/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile , '_blank');
+    window.open(this.url+'/DescargarArchivo?' + "path=" + rutaFile /*+ "&name=" + nombreFile*/ , '_blank');
     /*
     this.certificacionService.DescargarArchivo(nombreFile,rutaFile)
     .subscribe((res: any) => {

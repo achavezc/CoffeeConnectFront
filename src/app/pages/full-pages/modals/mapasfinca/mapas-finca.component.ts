@@ -179,13 +179,13 @@ export class MapasFincaComponent implements OnInit {
   Descargar() {
     var nombreFile = this.mapaFileForm.value.fileName;
     var rutaFile = this.mapaFileForm.value.pathFile;
-    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
+    window.open(this.url + '/DescargarArchivo?'+ "path=" + rutaFile  /*+ "&name=" + nombreFile*/, '_blank');
 
   }
   DescargarDetalle(row) {
     var nombreFile = row.Nombre;
     var rutaFile = row.Path;
-    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile + "&name=" + nombreFile, '_blank');
+    window.open(this.url + '/DescargarArchivo?' + "path=" + rutaFile /*+ "&name=" + nombreFile*/, '_blank');
 
   }
 
