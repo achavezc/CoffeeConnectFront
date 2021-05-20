@@ -11,6 +11,7 @@ import { ExcelService } from '../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
+import { host } from '../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-orden-proceso',
@@ -27,9 +28,9 @@ export class OrdenProcesoComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private dateUtil: DateUtil,
     private maestroUtil: MaestroUtil,
-    private alertUtil: AlertUtil) { 
-      this.singleSelectCheck = this.singleSelectCheck.bind(this);
-    }
+    private alertUtil: AlertUtil) {
+    this.singleSelectCheck = this.singleSelectCheck.bind(this);
+  }
 
   ordenProcesoForm: FormGroup;
   @ViewChild(DatatableComponent) tblOrdenProceso: DatatableComponent;
@@ -201,6 +202,33 @@ export class OrdenProcesoComponent implements OnInit {
 
   Export(): void {
     this.Buscar(true);
+  }
+
+  Print(): void {
+    const form = this;
+    swal.fire({
+      title: '¿Estas Seguro?',
+      text: `¿Está seguro de realizar la impresión?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        let link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = `${host}OrdenProceso/Imprimir?id=${form.selected[0].OrdenProcesoId}`;
+        link.target = "_blank";
+        link.click();
+        link.remove();
+      }
+    });
   }
 
 }
