@@ -27,6 +27,7 @@ import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/
 import { PesadoCafePlantaComponent } from "./operaciones/notaingreso/edit/pesadocafe/pesadocafeplanta.component";
 import { ModalModule } from '../modals/modal.module';
 import {AcopioModule} from '../acopio/acopio.module';
+import {NotaSalidaAlmacenComponent} from '../planta/operaciones/notasalidaalmacen/list/notasalidaalmacen-list.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import {AcopioModule} from '../acopio/acopio.module';
     NotaIngresoEditComponent,
     NotaIngresoAlmacenListComponent,
     NotaIngresoAlmacenEditComponent,
-    PesadoCafePlantaComponent
+    PesadoCafePlantaComponent,
+    NotaSalidaAlmacenComponent
   ],
   exports: [
     PesadoCafePlantaComponent
