@@ -303,11 +303,15 @@
                     </td>
                     <td class="col-2"></td>
                 </tr> 
-           
-         
+               
             </div>
 
             <ngx-spinner></ngx-spinner>
+            <div class="col-md-10">
+                <small class="form-text text-muted danger"
+                  *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+            </div>
+     
             <button class="btn btn-primary mr-1 mb-1" type="submit" *ngIf="estadoId != estadoLiquidado" (click)="guardar()">Guardar</button>
 
             <button type="button" class="btn btn-primary mr-1 mb-1" (click)="Print()"

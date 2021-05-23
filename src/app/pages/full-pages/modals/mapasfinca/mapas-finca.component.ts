@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
-import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,ModalDismissReasons,NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../services/maestro.service';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MapaFincaService } from '../../../../services/mapafinca.service';
@@ -18,7 +18,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   encapsulation: ViewEncapsulation.None
 })
 export class MapasFincaComponent implements OnInit {
-  
+  modalReference: NgbModalRef;
   private url = `${host}FincaMapa`;
   @ViewChild('vform') validationForm: FormGroup;
   submittedE = false;
@@ -37,6 +37,7 @@ export class MapasFincaComponent implements OnInit {
   @Output() empresaEvent = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
   fileName = "";
+  closeResult: string;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -137,8 +138,16 @@ export class MapasFincaComponent implements OnInit {
       } else {
         if(this.mapaFileForm.get('file').value){
           this.guardarDocumento();
+          this.errorGeneral = {
+            isError: false,
+            msgError: ''
+          };
         }else {
           this.submittedE = true;
+          this.errorGeneral = {
+            isError: true,
+            msgError: 'Se debe agregar un archivo.'
+          };
           return;
         }
       }
@@ -152,7 +161,7 @@ export class MapasFincaComponent implements OnInit {
   openModal(customContent) {
     this.FincaMapaId = 0;
     this.fileName = "";
-    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg',centered: true });
+    this.modalReference = this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg',centered: true });
 
   }
 
@@ -258,15 +267,16 @@ export class MapasFincaComponent implements OnInit {
   }
 
   cancelarDocumento() {
-
+    
     this.cargarFiles();
-    this.modalService.dismissAll();
+    //this.modalService.dismissAll("Cross click Adjunto");
    // this.activeModal.dismiss();
+   this.modalReference.close();
   }
-
   eliminar() {
 
   }
+
 
 
 }

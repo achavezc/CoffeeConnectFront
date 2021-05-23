@@ -22,7 +22,7 @@
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Empaque</label>
                             <ng-select [items]="listaEmpaque" bindLabel="name" [(ngModel)]="selectedEmpaque" class="form-control"
-                            placeholder="Seleccionar Empaque" formControlName="empaque" 
+                            placeholder="Seleccionar Empaque" formControlName="empaque" (change)="changeEmpaque($event)"
                             bindLabel="Label" bindValue="Codigo"
                             [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.empaque.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.empaque.invalid }">
                           </ng-select>
@@ -30,7 +30,7 @@
                           <div class="col-md-6 mb-6 form-group mb-2">
                             <label for="validationTooltip04">Tipo</label>
                             <ng-select [items]="listaTipo" bindLabel="name" [(ngModel)]="selectedTipo" class="form-control"
-                            placeholder="Seleccionar Tipo" formControlName="tipo" 
+                            placeholder="Seleccionar Tipo" formControlName="tipo" (change)="changeTipo($event)"
                             bindLabel="Label" bindValue="Codigo"
                             [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tipo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tipo.invalid }">
                           </ng-select>
