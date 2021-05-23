@@ -228,20 +228,17 @@
                     </div>
                     <div class="form-row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <ng-select [items]="listRequirements" formControlName="requisitos"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="requisitos"
-                                        [multiple]="true" placeholder="Seleccionar Moneda"
-                                        [(ngModel)]="selectedRequirements" [readonly]="flagAgroBanco"
-                                        [ngClass]="{ 'is-invalid': f.requisitos.invalid, 'is-valid': !f.requisitos.invalid }">
-                                    </ng-select>
-                                </div>
+                            <div *ngFor="let item of arrRequirements; let i=index">
+                                <label>
+                                    <input type="checkbox" [value]="item.Codigo" (change)="ChangeRequirements($event)"
+                                        [disabled]="flagAgroBanco"
+                                        [checked]="selectedRequirements.includes(item.Codigo)" />
+                                    {{item.Label}}
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="form-row mb-2">
                         <div class="col-lg-12 bg-primary">

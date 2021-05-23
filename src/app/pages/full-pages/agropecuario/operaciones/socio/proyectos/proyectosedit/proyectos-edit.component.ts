@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -22,12 +22,11 @@ export class ProyectosEditComponent implements OnInit {
   listMonedas: any[];
   listUnidadMedida: any[];
   listTipos: any[];
-  listRequirements: any[];
   selectedProyecto: any;
   selectedEstado: any;
   selectedMoneda: any;
   selectedUnidadMedida: any;
-  selectedRequirements: any;
+  selectedRequirements = '';
   selectedTipo: any;
   flagAgroBanco = true;
   flagAgroRural = true;
@@ -39,6 +38,8 @@ export class ProyectosEditComponent implements OnInit {
   vSession: any;
   vMsgGenerico = 'Ocurrio un error interno.';
   vMsgGeneral = { isError: false, msgError: '' };
+  arrRequirements = [];
+
 
   constructor(private fb: FormBuilder,
     private dateUtil: DateUtil,
@@ -47,11 +48,13 @@ export class ProyectosEditComponent implements OnInit {
     private router: Router,
     private socioProyectoService: SocioProyectoService,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil) { }
-
-  ngOnInit(): void {
+    private alertUtil: AlertUtil) {
     this.vCodePartner = this.route.snapshot.params["partner"] ? Number(this.route.snapshot.params["partner"]) : 0;
     this.vCodeProject = this.route.snapshot.params["project"] ? Number(this.route.snapshot.params["project"]) : 0;
+    this.LoadRequirements();
+  }
+
+  ngOnInit(): void {
     this.vSession = JSON.parse(localStorage.getItem("user"));
     this.LoadForm();
     this.AddRequiredConditionals();
@@ -97,7 +100,7 @@ export class ProyectosEditComponent implements OnInit {
       fechaFinCapacitacion: [],
       obsCapacitacion: [],
       adopcionTecnologias: [],
-      requisitos: []
+      requirements: this.fb.array([])
     });
   }
 
@@ -111,7 +114,6 @@ export class ProyectosEditComponent implements OnInit {
     this.LoadCurrencys();
     this.LoadUnidadMedida();
     this.LoadTipos();
-    this.LoadRequirements();
   }
 
   async LoadProjects() {
@@ -152,11 +154,12 @@ export class ProyectosEditComponent implements OnInit {
     }
   }
 
-  async LoadRequirements() {
-    const res = await this.maestroServicio.obtenerMaestros('RequisitosProyecto').toPromise();
-    if (res.Result.Success) {
-      this.listRequirements = res.Result.Data;
-    }
+  LoadRequirements(): void {
+    this.maestroServicio.obtenerMaestros('RequisitosProyecto').subscribe((res: any) => {
+      if (res.Result.Success) {
+        this.arrRequirements = res.Result.Data;
+      }
+    });
   }
 
   ResetControlsForm(): void {
@@ -185,12 +188,29 @@ export class ProyectosEditComponent implements OnInit {
     this.proyectosEditForm.controls.fechaFinCapacitacion.reset();
     this.proyectosEditForm.controls.obsCapacitacion.reset();
     this.proyectosEditForm.controls.adopcionTecnologias.reset();
-    this.proyectosEditForm.controls.requisitos.reset();
+    this.proyectosEditForm.controls.requirements.reset();
   }
 
   ChangeProject(event: any): void {
     this.RefreshFlagsProjects(event.Codigo);
     this.ResetControlsForm();
+  }
+
+  ChangeRequirements(event: any): void {
+    const isArray: FormArray = this.proyectosEditForm.get('requirements') as FormArray;
+
+    if (event.target.checked) {
+      isArray.push(new FormControl(event.target.value));
+    } else {
+      let i: number = 0;
+      isArray.controls.forEach((item: FormControl) => {
+        if (item.value == event.target.value) {
+          isArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
   }
 
   RefreshFlagsProjects(Codigo: any): void {
@@ -384,8 +404,10 @@ export class ProyectosEditComponent implements OnInit {
         this.proyectosEditForm.controls.adopcionTecnologias.setValue(data.AdopcionTecnologias);
       }
       if (data.Requisitos) {
-        await this.LoadRequirements();
-        this.proyectosEditForm.controls.requisitos.setValue(data.Requisitos.split('|').map(String));
+        this.selectedRequirements = data.Requisitos;
+        data.Requisitos.split('|').forEach((x: string) => {
+          this.ChangeRequirements({ target: { checked: true, value: x } });
+        });
       }
     }
     this.spinner.hide();
@@ -424,7 +446,7 @@ export class ProyectosEditComponent implements OnInit {
       FechaInicioCapacitacion: form.fechaInicioCapacitacion ? form.fechaInicioCapacitacion : null,
       FechaFinCapacitacion: form.fechaFinCapacitacion ? form.fechaFinCapacitacion : null,
       AdopcionTecnologias: form.adopcionTecnologias == true ? true : false,
-      Requisitos: form.requisitos ? form.requisitos.join('|') : '',
+      Requisitos: form.requirements ? form.requirements.join('|') : '',
       Usuario: this.vSession.Result.Data.NombreUsuario,
       EstadoId: form.estado ? form.estado : ''
     }
