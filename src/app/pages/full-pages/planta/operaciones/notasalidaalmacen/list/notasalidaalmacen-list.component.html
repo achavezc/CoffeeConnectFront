@@ -1,0 +1,180 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">Bandeja de Notas de Salida</div>
+    </div>
+</div>
+
+<section id="tooltip-validation">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="notaSalidaForm">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nroNotaSalida" class="form-label">Número Nota Salida</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="nroNotaSalida"
+                                        class="form-control" id="nroNotaSalida" placeholder="Número de nota de salida"
+                                        [ngClass]="{ 'is-invalid': submitted && f.nroNotaSalida.invalid, 'is-valid': submitted &&  !f.nroNotaSalida.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroNotaSalida.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroNotaSalida.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroNotaSalida.errors?.pattern">Solo
+                                        letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="destinatario" class="form-label">Destinatario</label>
+                                    <ng-select [items]="listDestinatarios" formControlName="destinatario"
+                                        class="form-control" bindLabel="RazonSocial" bindValue="EmpresaId"
+                                        id="destinatario" placeholder="Destinatario"
+                                        [ngClass]="{ 'is-invalid': submitted && f.destinatario.invalid, 'is-valid': submitted && !f.destinatario.invalid }"
+                                        [(ngModel)]="selectedDestinatario">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="transportista" class="form-label">Transportista</label>
+                                    <ng-select [items]="listTransportistas" formControlName="transportista"
+                                        class="form-control" bindLabel="RazonSocial" bindValue="EmpresaTransporteId"
+                                        id="transportista" placeholder="Transportista"
+                                        [ngClass]="{ 'is-invalid': submitted && f.transportista.invalid, 'is-valid': submitted && !f.transportista.invalid }"
+                                        [(ngModel)]="selectedTransportista">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                        id="fechaInicio" name="fechaInicio" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaFin" class="form-label">Fecha Fin</label>
+                                    <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
+                                        name="fechaFin" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="almacen" class="form-label">Almacén</label>
+                                    <ng-select [items]="listAlmacenes" formControlName="almacen" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="almacen" placeholder="Almacén"
+                                        [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }"
+                                        [(ngModel)]="selectedAlmacen">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="motivo" class="form-label">Motivo</label>
+                                    <ng-select [items]="listMotivos" formControlName="motivo" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="motivo" placeholder="Motivo"
+                                        [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
+                                        [(ngModel)]="selectedMotivo">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
+                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <small class="form-text text-muted danger mb-1"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!notaSalidaForm.valid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
+                                [disabled]="!rows.length || !selected.length">Anular</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
+
+                            <ngx-datatable-column name="Nota Salida" prop="Numero" width="40">
+
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0" routerLink="/operaciones/notasalida-edit"
+                                                [queryParams]="{ id: row.NotaSalidaAlmacenId}">{{ name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Almacén" prop="Almacen" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Destinatario" prop="Destinatario" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Motivo" prop="Motivo" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Transportista" prop="Transportista" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Cant. Lotes" prop="CantidadLotes" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Total Peso Bruto KGS" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Ingresado', 'bg-light-danger': status == 'Anulado'}">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
