@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { Router, ActivatedRoute,NavigationExtras } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
@@ -10,6 +10,8 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { SocioService } from '../../../../../../services/socio.service';
 import { SocioFincaService } from '../../../../../../services/socio-finca.service';
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-finca',
@@ -27,7 +29,8 @@ export class FincaComponent implements OnInit {
     private socioService: SocioService,
     private router: Router,
     private socioFincaService: SocioFincaService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private excelService: ExcelService) { }
 
   fincaSocioForm: FormGroup;
   limitRef = 10;
@@ -95,18 +98,16 @@ export class FincaComponent implements OnInit {
 
   Certifications(): void {
     if (this.selected && this.selected.length > 0) {
-     
-      this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`], 
-      { 
-        queryParams: 
-        { 
-          SocioFincaId: this.selected[0].SocioFincaId,
-          ProductorId: this.selected[0].ProductorId,
-          SocioId: this.selected[0].SocioId
-        
-        }
 
-      }
+      this.router.navigate([`/agropecuario/operaciones/socio/finca/certificaciones`],
+        {
+          queryParams:
+          {
+            SocioFincaId: this.selected[0].SocioFincaId,
+            ProductorId: this.selected[0].ProductorId,
+            SocioId: this.selected[0].SocioId
+          }
+        }
       );
     }
   }
@@ -118,6 +119,43 @@ export class FincaComponent implements OnInit {
 
   Diagnosis(): void {
 
+  }
+
+  Export(): void {
+    this.spinner.show();
+    this.socioFincaService.SearchSocioById({ SocioId: this.vId })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          const vArrHeaderExcel: HeaderExcel[] = [
+            new HeaderExcel("Nombre"),
+            new HeaderExcel("Departamento"),
+            new HeaderExcel("Provincia"),
+            new HeaderExcel("Distrito"),
+            new HeaderExcel("Zona"),
+            new HeaderExcel("Estado")
+          ];
+
+          let vArrData: any[] = [];
+          for (let i = 0; i < res.Result.Data.length; i++) {
+            vArrData.push([
+              res.Result.Data[i].Nombre,
+              res.Result.Data[i].Departamento,
+              res.Result.Data[i].Provincia,
+              res.Result.Data[i].Distrito,
+              res.Result.Data[i].Zona,
+              res.Result.Data[i].Estado
+            ]);
+          }
+          this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Socio_Fincas');
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
+      });
   }
 
   Cancel(): void {

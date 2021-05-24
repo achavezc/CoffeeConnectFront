@@ -10,6 +10,8 @@ import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { SocioService } from '../../../../../services/socio.service';
+import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-socio',
@@ -26,7 +28,8 @@ export class SocioComponent implements OnInit {
     private alertUtil: AlertUtil,
     private socioService: SocioService,
     private router: Router,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private excelService: ExcelService) {
   }
 
   socioListForm: FormGroup;
@@ -200,5 +203,62 @@ export class SocioComponent implements OnInit {
 
   OpenModal(modal: any): void {
     this.modalService.open(modal, { size: 'xl', centered: true });
+  }
+
+  Export(): void {
+    this.spinner.show();
+    const request = {
+      Codigo: this.socioListForm.value.codSocio,
+      NombreRazonSocial: this.socioListForm.value.nombRazonSocial,
+      TipoDocumentoId: this.socioListForm.value.tipoDocumento ?? '',
+      NumeroDocumento: this.socioListForm.value.nroDocumento,
+      EstadoId: this.socioListForm.value.estado ?? '',
+      FechaInicio: new Date(this.socioListForm.value.fechaInicio),
+      FechaFin: new Date(this.socioListForm.value.fechaFin)
+    };
+
+    this.socioService.Consultar(request)
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (!res.Result.ErrCode) {
+            const vArrHeaderExcel: HeaderExcel[] = [
+              new HeaderExcel("Código", "center"),
+              new HeaderExcel("Código Productor", "center"),
+              new HeaderExcel("Tipo Documento", "center"),
+              new HeaderExcel("Número Documento"),
+              new HeaderExcel("Nombre o Razón Social"),
+              new HeaderExcel("Fecha Registro", "center", "dd/mm/yyyy"),
+              new HeaderExcel("Estado")
+            ];
+
+            let vArrData: any[] = [];
+            for (let i = 0; i < res.Result.Data.length; i++) {
+              vArrData.push([
+                res.Result.Data[i].Codigo,
+                res.Result.Data[i].NumeroProductor,
+                res.Result.Data[i].TipoDocumento,
+                res.Result.Data[i].NumeroDocumento,
+                res.Result.Data[i].NombreRazonSocial,
+                new Date(res.Result.Data[i].FechaRegistro),
+                res.Result.Data[i].Estado
+              ]);
+            }
+            this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Socios');
+          } else if (res.Result.Message && res.Result.ErrCode) {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        (err: any) => {
+          this.spinner.hide();
+          console.error(err);
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
   }
 }

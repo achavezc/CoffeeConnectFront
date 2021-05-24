@@ -14,6 +14,8 @@
                     (click)="Inspections()">Inspección</button>
                 <button class="btn btn-primary mr-1" type="button" [disabled]="selected.length <= 0"
                     (click)="Diagnosis()">Diagnostico</button>
+                <button class="btn btn-primary mr-1" type="button" [disabled]="!rows || rows.length <= 0"
+                    (click)="Export()">Exportar</button>
                 <button class="btn btn-danger" type="button" (click)="Cancel()">Cancelar</button>
             </div>
         </form>

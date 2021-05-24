@@ -6,6 +6,8 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 
 import { ProductorFincaService } from '../../../../../../services/productor-finca.service';
 import { ProductorService } from '../../../../../../services/productor.service';
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-finca',
@@ -20,7 +22,8 @@ export class FincaComponent implements OnInit {
     private productorFincaService: ProductorFincaService,
     private productorService: ProductorService,
     private fb: FormBuilder,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private excelService: ExcelService) { }
 
   fincaForm: FormGroup;
   vId: number;
@@ -79,6 +82,43 @@ export class FincaComponent implements OnInit {
   New(): void {
     this.router.navigate(['/productor/administracion/productor/finca/create'],
       { queryParams: { codProductor: this.vId } });
+  }
+
+  Export(): void {
+    this.spinner.show();
+    const request = { ProductorId: this.vId };
+    this.productorFincaService.SearchProducerById(request)
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          const vArrHeaderExcel: HeaderExcel[] = [
+            new HeaderExcel("Nombre"),
+            new HeaderExcel("Departamento"),
+            new HeaderExcel("Provincia"),
+            new HeaderExcel("Distrito"),
+            new HeaderExcel("Zona"),
+            new HeaderExcel("Estado")
+          ];
+
+          let vArrData: any[] = [];
+          for (let i = 0; i < res.Result.Data.length; i++) {
+            vArrData.push([
+              res.Result.Data[i].Nombre,
+              res.Result.Data[i].Departamento,
+              res.Result.Data[i].Provincia,
+              res.Result.Data[i].Distrito,
+              res.Result.Data[i].Zona,
+              res.Result.Data[i].Estado
+            ]);
+          }
+          this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Productor_Fincas');
+        } else {
+
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+      });
   }
 
   Cancel(): void {
