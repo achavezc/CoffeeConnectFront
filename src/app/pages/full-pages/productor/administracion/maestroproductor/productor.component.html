@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaInicio" class="form-label">Fecha Inicio</label>
-                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                    <input type="date" class="form-control text-center" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="Seleccionar fecha inicio" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
                                         (blur)="compareTwoDates()" />
@@ -72,8 +72,8 @@
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaFin" class="form-label">Fecha Fin</label>
-                                    <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
-                                        name="fechaFin" placeholder="Seleccionar Fecha Fín" date
+                                    <input type="date" class="form-control text-center" formControlName="fechaFin"
+                                        id="fechaFin" name="fechaFin" placeholder="Seleccionar Fecha Fín" date
                                         [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
                                         (blur)="compareTwoDates()" />
                                     <small class="form-text text-muted danger"
@@ -99,7 +99,14 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoFormListFinca()"
                                 [disabled]="!selected || selected.length <= 0">Fincas</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button">Documentos</button>
+                            <ng-template #mdlProducerDocuments let-c="close" let-d="dismiss">
+                                <app-lista-documentos [codeForm]="'frmMdlProducerDocuments'"
+                                    [code]="selected[0].ProductorId">
+                                </app-lista-documentos>
+                            </ng-template>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="!selected || selected.length <= 0"
+                                (click)="OpenModal(mdlProducerDocuments)">Documentos</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button">Proyectos</button>
                         </form>
                     </div>

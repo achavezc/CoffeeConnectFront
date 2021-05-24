@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
@@ -21,7 +22,8 @@ export class ProductorComponent implements OnInit {
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
     private productorService: ProductorService,
-    private router: Router) {
+    private router: Router,
+    private modalService: NgbModal) {
   }
 
   productorForm: FormGroup;
@@ -184,5 +186,9 @@ export class ProductorComponent implements OnInit {
     if (this.selected && this.selected.length > 0) {
       this.router.navigate([`/productor/administracion/productor/finca/list/${this.selected[0].ProductorId}`]);
     }
+  }
+
+  OpenModal(modal: any): void {
+    this.modalService.open(modal, { size: 'xl', centered: true });
   }
 }

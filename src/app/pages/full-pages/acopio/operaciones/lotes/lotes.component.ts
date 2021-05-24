@@ -74,7 +74,8 @@ export class LotesComponent implements OnInit {
       almacen: [],
       producto: [],
       certificacion: [],
-      subProducto: []
+      subProducto: [],
+      contractNumber: ['']
     });
     this.banLoteForm.setValidators(this.comparisonValidator());
   }
@@ -86,7 +87,7 @@ export class LotesComponent implements OnInit {
       let tipoDocumento = group.controls['tipoDocumento'].value;
       let codigoSocio = group.controls['codSocio'].value.trim();
       let nombre = group.controls['nombreRazonSocial'].value.trim();
-      let vProduct = group.controls['producto'].value;      
+      let vProduct = group.controls['producto'].value;
       let vByProduct = group.controls['subProducto'].value;
 
       if (nroLote && (!group.value.fechaInicio || !group.value.fechaFin)) {
@@ -211,7 +212,8 @@ export class LotesComponent implements OnInit {
         ProductoId: this.banLoteForm.value.producto,
         TipoCertificacionId: this.banLoteForm.value.certificacion,
         SubProductoId: this.banLoteForm.value.subProducto,
-        EmpresaId: 1
+        EmpresaId: 1,
+        NumeroContrato: this.banLoteForm.value.contractNumber
       }
 
       this.spinner.show();
