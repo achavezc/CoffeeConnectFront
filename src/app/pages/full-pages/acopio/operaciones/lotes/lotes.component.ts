@@ -221,10 +221,10 @@ export class LotesComponent implements OnInit {
       this.loteService.Consultar(request)
         .subscribe(res => {
           this.spinner.hide();
-          this.rows = [];
           if (res.Result.Success) {
             if (!res.Result.ErrCode) {
               if (!exportExcel) {
+                this.rows = [];
                 res.Result.Data.forEach((obj: any) => {
                   obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
                 });
@@ -233,10 +233,13 @@ export class LotesComponent implements OnInit {
               } else {
                 let vArrHeaderExcel: HeaderExcel[] = [
                   new HeaderExcel("Número lote", "center"),
+                  new HeaderExcel("Número Contrato", "center"),
                   new HeaderExcel("Almacen"),
                   new HeaderExcel("Certificación"),
                   new HeaderExcel("Fecha Lote", "center", "dd/mm/yyyy"),
+                  new HeaderExcel("Peso Bruto", "right", "#"),
                   new HeaderExcel("Peso Neto", "right", "#"),
+                  new HeaderExcel("Puntaje Final", "right", "#"),
                   new HeaderExcel("% Rendimiento Promedio", "center"),
                   new HeaderExcel("% Humedad Promedio", "center"),
                   new HeaderExcel("Estado", "center")
@@ -246,10 +249,13 @@ export class LotesComponent implements OnInit {
                 for (let i = 0; i < res.Result.Data.length; i++) {
                   vArrData.push([
                     res.Result.Data[i].Numero,
+                    res.Result.Data[i].NumeroContrato,
                     res.Result.Data[i].Almacen,
                     res.Result.Data[i].Certificacion,
                     new Date(res.Result.Data[i].FechaRegistro),
+                    res.Result.Data[i].TotalKilosBrutosPesado,
                     res.Result.Data[i].TotalKilosNetosPesado,
+                    res.Result.Data[i].TotalAnalisisSensorial,
                     res.Result.Data[i].PromedioRendimientoPorcentaje,
                     res.Result.Data[i].PromedioHumedadPorcentaje,
                     res.Result.Data[i].Estado

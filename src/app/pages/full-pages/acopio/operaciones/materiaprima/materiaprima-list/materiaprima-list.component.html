@@ -105,9 +105,12 @@
               </div>
               <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="anular()">Anular</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="enviar()">Enviar a Almacen</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="exportar()">Exportar</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0"
+                (click)="anular()">Anular</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0"
+                (click)="enviar()">Enviar a Almacen</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0"
+                (click)="exportar()">Exportar</button>
             </form>
           </div>
         </div>
@@ -149,29 +152,28 @@
             <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
               [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
               [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
-              <ngx-datatable-column name="Numero Guia" prop="Numero" width="40">
-
+              <ngx-datatable-column name="Numero Guia" prop="Numero" width="120">
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                   <div class="d-flex align-items-center">
                     <div class="cell-line-height">
-                      <a class="line-height-1 mb-0" routerLink="/operaciones/guiarecepcionmateriaprima-edit" [queryParams]="{ id: row.GuiaRecepcionMateriaPrimaId, status: row.EstadoId}" >{{ name }}</a>
+                      <a class="line-height-1 mb-0" routerLink="/operaciones/guiarecepcionmateriaprima-edit"
+                        [queryParams]="{ id: row.GuiaRecepcionMateriaPrimaId, status: row.EstadoId}">{{ name }}</a>
                     </div>
                   </div>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Codigo Socio" prop="CodigoSocio" width="30"></ngx-datatable-column>
-              <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="30"></ngx-datatable-column>
-              <ngx-datatable-column name="Numero Documento" prop="NumeroDocumento" width="50"></ngx-datatable-column>
-              <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="120">
+              <ngx-datatable-column name="Codigo Socio" prop="CodigoSocio" width="120"></ngx-datatable-column>
+              <ngx-datatable-column name="Tipo Documento" prop="TipoDocumento" width="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Numero Documento" prop="NumeroDocumento" width="170"></ngx-datatable-column>
+              <ngx-datatable-column name="Nombre o Razón Social" prop="NombreRazonSocial" width="250">
               </ngx-datatable-column>
-              <ngx-datatable-column name="Producto" prop="Producto" width="30"></ngx-datatable-column>
-              <ngx-datatable-column name="Unidad de Medida" prop="UnidadMedida" width="30"></ngx-datatable-column>
-              <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="30"></ngx-datatable-column>
-              <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutosPesado" width="30"></ngx-datatable-column>
-              <ngx-datatable-column name="Kilos Netos" prop="KilosNetosPesado" width="30"></ngx-datatable-column>
-
-              <ngx-datatable-column name="Fecha Registro" prop="FechaRegistroCadena" width="30"></ngx-datatable-column>
-              <ngx-datatable-column name="Estado" prop="Estado" width="40">
+              <ngx-datatable-column name="Producto" prop="Producto" width="200"></ngx-datatable-column>
+              <ngx-datatable-column name="Unidad de Medida" prop="UnidadMedida" width="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Cantidad" prop="CantidadPesado" width="80"></ngx-datatable-column>
+              <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutosPesado" width="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Kilos Netos" prop="KilosNetosPesado" width="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Fecha Registro" prop="FechaRegistroCadena" width="120"></ngx-datatable-column>
+              <ngx-datatable-column name="Estado" prop="Estado" width="120">
                 <ng-template let-status="value" ngx-datatable-cell-template>
                   <div class="badge" [ngClass]="{
                         'bg-light-success': status == 'Pesado',
