@@ -17,7 +17,7 @@ import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
-import {PesadoCafeComponent} from '../materiaprima-edit/pesadoCafe/pesadoCafe.component';
+import { PesadoCafeComponent } from '../materiaprima-edit/pesadoCafe/pesadoCafe.component';
 
 
 
@@ -89,7 +89,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-   private socioFinca : SocioFincaService
+    private socioFinca: SocioFincaService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -671,7 +671,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
 
   }
-  
+
 
   async consultarSocioFinca() {
     let request =
@@ -679,40 +679,36 @@ export class MateriaPrimaEditComponent implements OnInit {
       "SocioFincaId": Number(this.consultaMateriaPrimaFormEdit.controls["socioFincaId"].value)
     }
 
-   if ( this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
-   this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" && this.consultaMateriaPrimaFormEdit.controls["provCertificacion"].value != "")
-   {
-   this.socioFinca.SearchSocioFinca(request)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            if ( res.Result.Data != null )
-            {
-              if (res.Result.Data.SaldoPendiente <= 0)
-              {
-                this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue("02"); 
-                this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].disable();
+    if (this.consultaMateriaPrimaFormEdit.controls["producto"].value == "01" &&
+      this.consultaMateriaPrimaFormEdit.controls["subproducto"].value == "02" && this.consultaMateriaPrimaFormEdit.controls["provCertificacion"].value != "") {
+      this.socioFinca.SearchSocioFinca(request)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              if (res.Result.Data != null) {
+                if (res.Result.Data.SaldoPendiente <= 0) {
+                  this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue("02");
+                  this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].disable();
+                }
+                else if (res.Result.Data.SaldoPendiente < this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value) {
+                  this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
+                  this.btnGuardar = false;
+                }
+                else {
+                  this.btnGuardar = true;
+                }
               }
-              else if (res.Result.Data.SaldoPendiente < this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value)
-              {
-                this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
+              else if (res.Result.Data == null) {
+                this.alertUtil.alertWarning('Oops!', 'La finca no tiene registrado los estimados para el año actual');
                 this.btnGuardar = false;
               }
-              else{
-                this.btnGuardar = true;
-              }
+
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
-            else if (res.Result.Data == null )
-            {
-              this.alertUtil.alertWarning('Oops!', 'La finca no tiene registrado los estimados para el año actual');
-              this.btnGuardar = false;
-            }
-            
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        } },
+        },
           err => {
             this.spinner.hide();
             console.log(err);
@@ -722,10 +718,9 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
   }
 
-async cleanKilosBrutos()
- {
-  this.child.cleanKilosBrutos();
- }
+  async cleanKilosBrutos() {
+    this.child.cleanKilosBrutos();
+  }
 
 }
 

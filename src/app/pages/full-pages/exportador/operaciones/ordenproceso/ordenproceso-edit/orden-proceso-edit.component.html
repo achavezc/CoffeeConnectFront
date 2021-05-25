@@ -214,6 +214,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" type="button"
                                         (click)="addRowDetail()">+</button>
+                                    <label class="text-danger ml-2">*Todos los campos son obligatorios</label>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -237,6 +238,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="text" autofocus class="form-control form-control-sm"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'nroNotaIP')"
+                                                        [ngClass]="{ 'border-danger': !nroNotaIP, '': nroNotaIP }"
                                                         value="{{nroNotaIP}}">
                                                 </div>
                                             </ng-template>
@@ -249,6 +251,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="date" date autofocus
                                                         class="form-control form-control-sm text-center"
+                                                        [ngClass]="{ 'border-danger': !fecNotaIP, '': fecNotaIP }"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'fecNotaIP')"
                                                         value="{{fecNotaIP}}">
                                                 </div>
@@ -262,6 +265,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="number" autofocus
                                                         class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !rendimiento, '': rendimiento }"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'rendimiento')"
                                                         value="{{rendimiento}}">
                                                 </div>
@@ -275,6 +279,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="number" autofocus
                                                         class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !humedad, '': humedad }"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'humedad')"
                                                         value="{{humedad}}">
                                                 </div>
@@ -288,6 +293,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="number" autofocus
                                                         class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !cantSacos, '': cantSacos }"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'cantSacos')"
                                                         value="{{cantSacos}}">
                                                 </div>
@@ -300,6 +306,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="number" autofocus
                                                         class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !klBrutos, '': klBrutos }"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'klBrutos')"
                                                         value="{{klBrutos}}">
                                                 </div>
@@ -312,6 +319,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="number" autofocus
                                                         class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !tara, '': tara }"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'tara')"
                                                         value="{{tara}}">
                                                 </div>
@@ -324,6 +332,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input type="number" autofocus
                                                         class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !klNetos, '': klNetos }"
                                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'klNetos')"
                                                         value="{{klNetos}}">
                                                 </div>
@@ -479,11 +488,14 @@
                             <div class="form-group row">
                                 <label for="totalKilosBrutos" class="col-lg-5 col-form-label">Cargar Liquidación de
                                     Proceso</label>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <label class="custom-file">
                                         <input type="file" (change)="fileChange($event)" placeholder="Upload file"
                                             accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
                                     </label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
                                 </div>
                             </div>
                         </div>
@@ -496,6 +508,8 @@
                                         *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                                 </div>
                                 <div class="col-lg-6 text-right">
+                                    <button type="button" class="btn btn-primary mr-1" (click)="Print()"
+                                        *ngIf="codeProcessOrder > 0">Imprimir</button>
                                     <button type="button" class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
                                     <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                                 </div>

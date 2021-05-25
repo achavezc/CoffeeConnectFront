@@ -281,7 +281,6 @@ export class LoteEditComponent implements OnInit {
         let link = document.createElement('a');
         document.body.appendChild(link);
         link.href = `${host}lote/GenerarPDFEtiquetasLote?id=${form.vId}`;
-        // link.download = `EtiquetasLotes_${vDate}.pdf`
         link.target = "_blank";
         link.click();
         link.remove();
