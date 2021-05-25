@@ -219,45 +219,49 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   Save(): void {
     if (!this.ordenProcesoEditForm.invalid) {
-      const form = this;
-      if (this.codeProcessOrder <= 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con el registro?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
-            form.Create();
-          }
-        });
-      } else if (this.codeProcessOrder > 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la actualización?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
-            form.Update();
-          }
-        });
+      if (this.ValidateDataDetails() <= 0) {
+        const form = this;
+        if (this.codeProcessOrder <= 0) {
+          swal.fire({
+            title: 'Confirmación',
+            text: `¿Está seguro de continuar con el registro?.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then((result) => {
+            if (result.value) {
+              form.Create();
+            }
+          });
+        } else if (this.codeProcessOrder > 0) {
+          swal.fire({
+            title: 'Confirmación',
+            text: `¿Está seguro de continuar con la actualización?.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then((result) => {
+            if (result.value) {
+              form.Update();
+            }
+          });
+        }
+      } else {
+        this.alertUtil.alertWarning('ADVERTENCIA!', 'No pueden existir datos vacios en el detalle, por favor corregir.');
       }
     }
   }
@@ -475,6 +479,16 @@ export class OrdenProcesoEditComponent implements OnInit {
     link.target = "_blank";
     link.click();
     link.remove();
+  }
+
+  ValidateDataDetails(): number {
+    let result = [];
+    result = this.rowsDetails.filter(x => !x.NroNotaIngresoPlanta
+      || !x.FechaNotaIngresoPlanta || !x.RendimientoPorcentaje
+      || !x.HumedadPorcentaje || !x.CantidadSacos || !x.KilosBrutos
+      || !x.Tara || !x.KilosNetos)
+
+    return result.length;
   }
 
   Cancel(): void {
