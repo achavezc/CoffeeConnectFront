@@ -68,6 +68,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   filtrosTransportista: any = {};
   listaLotesDetalleId = [];
   valueMotivoSalidaTransf = '02';
+  estadoAnalizado = '02';
   esEdit = false;
   @Input() eventsNs: Observable<any>;
 
@@ -91,7 +92,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
 
     this.cargarformTagNotaSalida();
     this.tagNotadeSalida = <FormGroup>this.controlContainer.control;
-
+    this.login = JSON.parse(localStorage.getItem("user"));
     this.eventsNs.subscribe({
       next: (data) => this.cargarDatos(data)
 
@@ -105,11 +106,11 @@ export class TagNotaSalidaEditComponent implements OnInit {
         object.Producto = x.Producto
         object.SubProductoId = x.SubProductoId
       object.UnidadMedida = x.UnidadMedida
-      object.CantidadPesado = x.CantidadPesado
+      object.CantidadPesado = x.Cantidad
       object.RendimientoPorcentaje = x.RendimientoPorcentaje
-      object.KilosBrutos = x.KilosNetosPesado
+      object.KilosBrutos = x.TotalKilosBrutosPesado
       object.LoteId = x.LoteId
-      object.HumedadPorcentaje = x.HumedadPorcentaje
+      object.HumedadPorcentaje = x.HumedadPorcentajeAnalisisFisico
       this.listaLotesDetalleId.push(object);
 
     });
@@ -428,11 +429,11 @@ export class TagNotaSalidaEditComponent implements OnInit {
       this.filtrosLotes.Numero = this.consultaLotes.controls['numeroLote'].value;
       this.filtrosLotes.FechaInicio = this.consultaLotes.controls['fechaInicio'].value;
       this.filtrosLotes.FechaFin = this.consultaLotes.controls['fechaFinal'].value;
-      this.filtrosLotes.EstadoId = "01";
+      this.filtrosLotes.EstadoId = this.estadoAnalizado;
       this.filtrosLotes.ProductoId = this.consultaLotes.controls['producto'].value == null || this.consultaLotes.controls['producto'].value.length == 0 ? "" : this.consultaLotes.controls['producto'].value;
       this.filtrosLotes.SubProductoId = this.consultaLotes.controls['subproducto'].value == null || this.consultaLotes.controls['subproducto'].value.length == 0 ? "" : this.consultaLotes.controls['subproducto'].value;
       this.filtrosLotes.CodigoSocio = this.consultaLotes.controls['socio'].value;
-      this.filtrosLotes.EmpresaId = 1;
+      this.filtrosLotes.EmpresaId = this.login.Result.Data.EmpresaId;
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',

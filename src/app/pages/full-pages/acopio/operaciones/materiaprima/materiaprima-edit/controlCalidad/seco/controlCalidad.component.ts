@@ -308,7 +308,7 @@ export class ControlCalidadComponent implements OnInit {
     this.reqControlCalidad = new ReqControlCalidad(
       this.login.Result.Data.EmpresaId,
       Number(controlFormControlCalidad["humedad"].value),
-      this.login.Result.Data.NombreCompletoUsuario,
+      this.login.Result.Data.NombreUsuario,
       this.detalle.GuiaRecepcionMateriaPrimaId? Number(this.detalle.GuiaRecepcionMateriaPrimaId):  null,
       this.detalle.NotaSalidaAlmacenId? Number(this.detalle.NotaSalidaAlmacenId):  null,
       this.detalle.LoteId? Number(this.detalle.LoteId):  null,
@@ -500,7 +500,7 @@ export class ControlCalidadComponent implements OnInit {
   calcularTotalesRendExportable()
   {
     if(this.formControlCalidad.controls["exportGramos"].value == null && this.formControlCalidad.controls["descarteGramos"].value == null &&
-    this.formControlCalidad.controls["cascarillaGramos"].value == null)
+        this.formControlCalidad.controls["cascarillaGramos"].value == null)
     {
       this.formControlCalidad.controls['totalPorcentaje'].setValue(0+"%");
       this.formControlCalidad.controls['totalGramos'].setValue(0);
@@ -510,20 +510,27 @@ export class ControlCalidadComponent implements OnInit {
     }
     else
     {
-    const exportGramos= Number(this.formControlCalidad.controls["exportGramos"].value);
-    const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value)
-    const cascarillaGramos = Number(this.formControlCalidad.controls["cascarillaGramos"].value);
-    const totalRendExportable = exportGramos + descarteGramos  + cascarillaGramos;
-    this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
-    this.formControlCalidad.controls['cascarillaPorcentaje'].setValue(cascarillaGramos == 0 ? "0%": (Number(cascarillaGramos/totalRendExportable)*100).toFixed(2)+"%" );
-    this.formControlCalidad.controls['exportPorcentaje'].setValue(exportGramos == 0 ? "0%": (Number(exportGramos / totalRendExportable)*100).toFixed(2) + "%");
-    this.formControlCalidad.controls['descartePorcentaje'].setValue( descarteGramos==0? "0%": (Number(descarteGramos / totalRendExportable)*100).toFixed(2) + "%");
-    const cascarillaPorcentaje = this.formControlCalidad.controls["cascarillaPorcentaje"].value;
-    const exportPorcentaje = this.formControlCalidad.controls["exportPorcentaje"].value;
-    const descartePorcentaje = this.formControlCalidad.controls["descartePorcentaje"].value;
-    const totalPorcentaje = Number(cascarillaPorcentaje.slice(0,cascarillaPorcentaje.length-1)) + Number(exportPorcentaje.slice(0,exportPorcentaje.length-1)) + Number(descartePorcentaje.slice(0,descartePorcentaje.length-1));
-    this.formControlCalidad.controls['totalPorcentaje'].setValue( totalPorcentaje.toFixed(2)+ "%");
-    }
+      const exportGramos= Number(this.formControlCalidad.controls["exportGramos"].value);
+      const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value)
+      const cascarillaGramos = Number(this.formControlCalidad.controls["cascarillaGramos"].value);
+      const totalRendExportable = exportGramos + descarteGramos  + cascarillaGramos;
+      this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
+      this.formControlCalidad.controls['cascarillaPorcentaje'].setValue(cascarillaGramos == 0 ? "0%": (Number(cascarillaGramos/totalRendExportable)*100).toFixed(2)+"%" );
+      this.formControlCalidad.controls['exportPorcentaje'].setValue(exportGramos == 0 ? "0%": (Number(exportGramos / totalRendExportable)*100).toFixed(2) + "%");
+      this.formControlCalidad.controls['descartePorcentaje'].setValue( descarteGramos==0? "0%": (Number(descarteGramos / totalRendExportable)*100).toFixed(2) + "%");
+      const cascarillaPorcentaje = this.formControlCalidad.controls["cascarillaPorcentaje"].value;
+      const exportPorcentaje = this.formControlCalidad.controls["exportPorcentaje"].value;
+      const descartePorcentaje = this.formControlCalidad.controls["descartePorcentaje"].value;
+      const totalPorcentaje = Number(cascarillaPorcentaje.slice(0,cascarillaPorcentaje.length-1)) + Number(exportPorcentaje.slice(0,exportPorcentaje.length-1)) + Number(descartePorcentaje.slice(0,descartePorcentaje.length-1));
+      if (totalPorcentaje == 99.99)
+      {
+        this.formControlCalidad.controls['totalPorcentaje'].setValue( 100.00 + "%");
+      }
+      else
+      {
+        this.formControlCalidad.controls['totalPorcentaje'].setValue( totalPorcentaje.toFixed(2)+ "%");
+      }
+      }
   }
 
   mergeById (array1, array2) 

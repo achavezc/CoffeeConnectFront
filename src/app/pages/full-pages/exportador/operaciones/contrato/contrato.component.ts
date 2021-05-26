@@ -139,6 +139,9 @@ export class ContratoComponent implements OnInit {
         if (res.Result.Success) {
           this.errorGeneral = { isError: false, msgError: '' };
           if (!xls) {
+            res.Result.Data.forEach((obj: any) => {
+              obj.FechaEmbarqueString = this.dateUtil.formatDate(new Date(obj.FechaEmbarque));
+            });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
           } else {

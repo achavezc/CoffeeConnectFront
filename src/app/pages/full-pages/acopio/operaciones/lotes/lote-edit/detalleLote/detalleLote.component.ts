@@ -90,6 +90,8 @@ export class DetalleLoteComponent implements OnInit {
           object.TotalAnalisisSensorial = x.TotalAnalisisSensorial;
           object.RendimientoPorcentaje = x.RendimientoPorcentaje;
           object.HumedadPorcentaje = x.HumedadPorcentajeAnalisisFisico;
+          object.Certificadora = x.Certificadora;
+          object.Socio = x.NombreRazonSocial;
           object.Accion = 'N';
           totalKilosBrutosPesado = totalKilosBrutosPesado + x.KilosBrutosPesado
           totalPesoNeto = totalPesoNeto + x.KilosNetosPesado;

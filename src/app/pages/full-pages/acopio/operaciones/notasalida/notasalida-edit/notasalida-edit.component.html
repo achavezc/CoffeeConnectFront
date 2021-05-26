@@ -61,7 +61,7 @@
               <div class="card-subtitle-form">DATOS DEL PROVEEDOR</div>
             </div>-->
 
-            <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 4rem;">
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 1rem;">
               <div class="col-12 col-md-5">
                 <label for="basicInput">Destinatario</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="destinatario" disabled
@@ -105,12 +105,12 @@
           <div class="card-content">
             <div class="card-body">
               <!-- Nav-tabs -->
-              <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
+              <!-- <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
                 <li [ngbNavItem]="1">
                   <a ngbNavLink class="nav-link d-flex align-items-center">
                     <span class="d-none d-sm-block">Nota de Salida</span>
                   </a>
-                  <ng-template ngbNavContent>
+                  <ng-template ngbNavContent>-->
                     <app-tagNotasalida formGroupName="tagcalidad" [selectAlmacen]="selectAlmacen"
                       [submittedEdit]="submittedEdit"></app-tagNotasalida>
 
@@ -144,12 +144,10 @@
                       <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
                         (click)="cancelar()">Cancelar</button>
                     </div>
-                  </ng-template>
+               <!--   </ng-template>
                 </li>
-              </ul>
-              <div class="tab-content">
-                <div [ngbNavOutlet]="nav"></div>
-              </div>
+              </ul>-->
+              
 
             </div>
           </div>

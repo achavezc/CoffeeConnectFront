@@ -642,6 +642,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").setValue(data.CantidadPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").setValue(data.TaraPesado);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("humedad").setValue(data.HumedadPorcentajeAnalisisFisico);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
@@ -677,8 +678,6 @@ export class MateriaPrimaEditComponent implements OnInit {
 
 
   }
-
-
   desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
     var usuarioLogueado = this.login.Result.Data.NombreUsuario
     if(estado == this.estadoPesado && usuarioPesado == usuarioLogueado ){
