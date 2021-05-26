@@ -413,6 +413,11 @@ export class MateriaPrimaListComponent implements OnInit {
                   new HeaderExcel("Tipo Documento", "center"),
                   new HeaderExcel("Número Documento", "right", "#"),
                   new HeaderExcel("Nombre o Razón Social"),
+                  new HeaderExcel("Producto"),
+                  new HeaderExcel("Unidad de Medida"),
+                  new HeaderExcel("Cantidad", "right"),
+                  new HeaderExcel("Kilos Brutos", "right"),
+                  new HeaderExcel("Kilos Netos", "right"),
                   new HeaderExcel("Fecha Registro", "center", "dd/mm/yyyy"),
                   new HeaderExcel("Estado", "center")
                 ];
@@ -425,6 +430,11 @@ export class MateriaPrimaListComponent implements OnInit {
                     this.tempData[i].TipoDocumento,
                     this.tempData[i].NumeroDocumento,
                     this.tempData[i].NombreRazonSocial,
+                    this.tempData[i].Producto,
+                    this.tempData[i].UnidadMedida,
+                    this.tempData[i].CantidadPesado,
+                    this.tempData[i].KilosBrutosPesado,
+                    this.tempData[i].KilosNetosPesado,
                     new Date(this.tempData[i].FechaRegistro),
                     this.tempData[i].Estado
                   ]);

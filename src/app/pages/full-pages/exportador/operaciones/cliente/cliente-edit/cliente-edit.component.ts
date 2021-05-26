@@ -80,7 +80,8 @@ export class ClienteEditComponent implements OnInit {
       idGerente: [],
       descPresidente: [],
       idPresidente: [],
-      responsableComercial: []
+      responsableComercial: [],
+      floId: [, Validators.required]
     });
     this.clienteEditForm.setValidators(this.comparisonValidator());
   }
@@ -313,7 +314,8 @@ export class ClienteEditComponent implements OnInit {
       Presidente: this.clienteEditForm.value.descPresidente ?? '',
       PresidenteNumero: this.clienteEditForm.value.idPresidente ? this.clienteEditForm.value.idPresidente.toString() : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: '01'
+      EstadoId: '01',
+      FloId: this.clienteEditForm.value.floId ? this.clienteEditForm.value.floId : ''
     }
   }
 
@@ -429,7 +431,8 @@ export class ClienteEditComponent implements OnInit {
     if (data.PresidenteNumero) {
       this.clienteEditForm.controls.idPresidente.setValue(data.PresidenteNumero);
     }
-    // this.clienteEditForm.controls.responsableComercial.setValue(data.);
+    if (data.FloId)
+      this.clienteEditForm.controls.floId.setValue(data.FloId);
     this.spinner.hide();
   }
 

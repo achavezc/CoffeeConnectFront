@@ -10,6 +10,8 @@ import { AlertUtil } from '../../../../../services/util/alert-util';
 import { NotaSalidaAlmacenService } from '../../../../../services/nota-salida-almacen.service';
 import { EmpresaService } from '../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../services/empresa-transporte.service';
+import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-nota-salida',
@@ -27,7 +29,8 @@ export class NotaSalidaComponent implements OnInit {
     private alertUtil: AlertUtil,
     private empresaService: EmpresaService,
     private empTransporteService: EmpresaTransporteService,
-    private router: Router) { }
+    private router: Router,
+    private excelService: ExcelService) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -164,7 +167,7 @@ export class NotaSalidaComponent implements OnInit {
     } else {
       this.selected = [];
       this.submitted = false;
-      let request = {
+      const request = {
         Numero: this.notaSalidaForm.value.nroNotaSalida,
         EmpresaIdDestino: this.notaSalidaForm.value.destinatario ?? null,
         EmpresaTransporteId: this.notaSalidaForm.value.transportista ?? null,
@@ -172,7 +175,7 @@ export class NotaSalidaComponent implements OnInit {
         MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
         FechaInicio: this.notaSalidaForm.value.fechaInicio,
         FechaFin: this.notaSalidaForm.value.fechaFin,
-        EmpresaId: 1
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
       }
 
       this.spinner.show();
@@ -265,6 +268,65 @@ export class NotaSalidaComponent implements OnInit {
 
   nuevo() {
     this.router.navigate(['/operaciones/notasalida-edit']);
+  }
+
+  Export(): void {
+    this.spinner.show();
+    const request = {
+      Numero: this.notaSalidaForm.value.nroNotaSalida,
+      EmpresaIdDestino: this.notaSalidaForm.value.destinatario ?? null,
+      EmpresaTransporteId: this.notaSalidaForm.value.transportista ?? null,
+      AlmacenId: this.notaSalidaForm.value.almacen ?? '',
+      MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
+      FechaInicio: this.notaSalidaForm.value.fechaInicio,
+      FechaFin: this.notaSalidaForm.value.fechaFin,
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+    }
+
+    this.notaSalidaService.Consultar(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (!res.Result.ErrCode) {
+            const vArrHeaderExcel: HeaderExcel[] = [
+              new HeaderExcel("Nota Salida", "center"),
+              new HeaderExcel("Almacén"),
+              new HeaderExcel("Destinatario"),
+              new HeaderExcel("Motivo"),
+              new HeaderExcel("Transportista"),
+              new HeaderExcel("Cant. Lotes", "right"),
+              new HeaderExcel("Total Peso Bruto KGS", "right"),
+              new HeaderExcel("Estado")
+            ];
+            let vArrData: any[] = [];
+            for (let i = 0; i < res.Result.Data.length; i++) {
+              vArrData.push([
+                res.Result.Data[i].Numero,
+                res.Result.Data[i].Almacen,
+                res.Result.Data[i].Destinatario,
+                res.Result.Data[i].Motivo,
+                res.Result.Data[i].Transportista,
+                res.Result.Data[i].CantidadLotes,
+                res.Result.Data[i].PesoKilosBrutos,
+                res.Result.Data[i].Estado
+              ]);
+            }
+            this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosNotaSalida');
+          } else if (res.Result.Message && res.Result.ErrCode) {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.error(err);
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
   }
 
 }

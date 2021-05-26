@@ -58,7 +58,14 @@
                           accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx" >
                       </label>
                     </div>
+                    
                   </div>
+                  
+                </div>
+                <div class="form-row">
+                  <small class="form-text danger text-muted" *ngIf="errorGeneral.isError">
+                      {{errorGeneral.msgError}}
+                  </small>
                 </div>
               </div>
               <div class="form-row">
@@ -73,7 +80,7 @@
             </div>
           </div>
           <button class="btn btn-primary mr-1 mb-1" (click)="onSubmit()">Guardar</button>
-          <button class="btn btn-primary mr-1 mb-1" (click)="d('Cross click')">Cancelar</button>
+          <button class="btn btn-primary mr-1 mb-1" (click)="cancelarDocumento()">Cancelar</button>
         </form>
       </div>
     </ng-template>

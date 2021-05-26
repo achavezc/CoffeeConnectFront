@@ -126,11 +126,20 @@
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="certificacion" class="form-label">Certificación</label>
-                                    <ng-select [items]="listCertificacion" formControlName="certificacion" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="certificacion" placeholder="Certificación"
+                                    <ng-select [items]="listCertificacion" formControlName="certificacion"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="certificacion"
+                                        placeholder="Certificación"
                                         [ngClass]="{ 'is-invalid': submitted && f.certificacion.invalid, 'is-valid': submitted && !f.certificacion.invalid }"
-                                        [(ngModel)]="selectedCertificacion" >
+                                        [(ngModel)]="selectedCertificacion">
                                     </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="contractNumber" class="form-label">Número Contrato</label>
+                                    <input type="text" formControlName="contractNumber" class="form-control"
+                                        id="contractNumber" placeholder="Número de contrato"
+                                        [ngClass]="{ 'is-invalid': submitted && f.contractNumber.invalid, 'is-valid': submitted && !f.contractNumber.invalid }">
                                 </div>
                             </div>
                             <small class="form-text text-muted danger mb-1"
@@ -192,12 +201,14 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
+                            <ngx-datatable-column name="Número Contrato" prop="NumeroContrato">
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Almacén" prop="Almacen">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Certificación" prop="Certificacion">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Lote" prop="FechaRegistroCadena">
-                            </ngx-datatable-column>                            
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Peso Bruto" prop="TotalKilosBrutosPesado">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Peso Neto" prop="TotalKilosNetosPesado">

@@ -31,6 +31,7 @@ export class MConsultarContratoComponent implements OnInit {
   msgMdlMsgGenerico = "Ocurrio un error interno.";
   @Output() responseContrato = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) dgConsultaContratos: DatatableComponent;
+  userSession: any;
 
   constructor(private fb: FormBuilder,
     private modalService: NgbModal,
@@ -42,6 +43,7 @@ export class MConsultarContratoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
   }
 
@@ -128,7 +130,7 @@ export class MConsultarContratoComponent implements OnInit {
       EstadoId: '01',
       FechaInicio: this.mContratoForm.value.mFechaInicial ? this.mContratoForm.value.mFechaInicial : '',
       FechaFin: this.mContratoForm.value.mFechaFinal ? this.mContratoForm.value.mFechaFinal : '',
-      EmpresaId: 1
+      EmpresaId: this.userSession.Result.Data.EmpresaId
     };
   }
 

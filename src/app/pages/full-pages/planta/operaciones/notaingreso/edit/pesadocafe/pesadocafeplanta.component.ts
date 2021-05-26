@@ -25,10 +25,11 @@ export class PesadoCafePlantaComponent implements OnInit {
   selectedGrado: any;
   @Input() submittedEdit;
   @Output() miEvento = new EventEmitter<any>();
-  sacos = "01";
-  latas = "02";
+  CodigoSacao = "01";
+  CodigoTipoYute = "01";
   kilos = 7;
   tara = 0.2;
+  taraYute = 0.7
   mensaje = "";
   constructor(private maestroUtil: MaestroUtil,
     private controlContainer: ControlContainer
@@ -76,35 +77,31 @@ export class PesadoCafePlantaComponent implements OnInit {
   cargarForm() {
   }
 
-  changeUnidadMedida(e) {
-    let unidadMedida = e.Codigo;
-    if(unidadMedida == this.sacos){
-      this.pesadoFormGroup.controls['kilosBruto'].enable();
-    }else if(unidadMedida == this.latas){
-      this.pesadoFormGroup.controls['kilosBruto'].disable();
-    }
-    this.changeCantidad();
+  changeEmpaque(e) {
+    this.calcularTara();
+  }
+  changeTipo(e) {
+    this.calcularTara();
   }
   changeCantidad(){
-    var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
-    var valor = cantidad * this.tara;
-    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
-    this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
-    /*
-    var unidadMedida = this.pesadoFormGroup.controls['unidadMedida'].value;
-    var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
-    if(unidadMedida == this.latas){
-      var valor = cantidad * this.kilos;
-      this.pesadoFormGroup.controls['kilosBruto'].setValue(valor);
-      this.pesadoFormGroup.controls['tara'].setValue("");
-    }else if(unidadMedida == this.sacos){
-      var valor = cantidad * this.tara;
-      var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
-      this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
-    }
-    */
+    this.calcularTara();
   }
 
+  calcularTara(){
+    var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
+    var empaque = this.pesadoFormGroup.controls['empaque'].value;
+    var tipo = this.pesadoFormGroup.controls['tipo'].value;
+    var valor = 0;
+    if(empaque == this.CodigoSacao && tipo == this.CodigoTipoYute){
+      var valor = cantidad * this.taraYute;
+    }else if(empaque == this.CodigoSacao && tipo != this.CodigoTipoYute){
+      var valor = cantidad * this.tara;
+    }
+   
+
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
+  }
   consultarSocioFinca()
   {
   this.miEvento.emit(this.mensaje);

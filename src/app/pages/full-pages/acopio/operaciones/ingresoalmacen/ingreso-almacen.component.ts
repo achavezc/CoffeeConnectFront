@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -66,34 +66,30 @@ export class IngresoAlmacenComponent implements OnInit {
     this.ingresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ingresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.userSession = JSON.parse(localStorage.getItem('user'));
-    
+
   }
 
-  async LoadFormPopup()
-  {
-    if (this.popUp)
-    {
-     
+  async LoadFormPopup() {
+    if (this.popUp) {
+
       this.ingresoAlmacenForm.controls['estado'].disable();
       this.ingresoAlmacenForm.controls['estado'].setValue("01");
       this.ingresoAlmacenForm.controls['producto'].disable();
       this.ingresoAlmacenForm.controls['producto'].setValue(this.lote.ProductoId);
-      let producto :any ={};
+      let producto: any = {};
       producto.Codigo = this.lote.ProductoId;
       this.changeProduct(producto);
       this.cargarsubProducto();
-      if (this.lote.TipoCertificacionId != "")
-      {
-      this.ingresoAlmacenForm.controls['certificacion'].disable();
-      this.ingresoAlmacenForm.controls['certificacion'].setValue(this.lote.TipoCertificacionId);
-    
+      if (this.lote.TipoCertificacionId != "") {
+        this.ingresoAlmacenForm.controls['certificacion'].disable();
+        this.ingresoAlmacenForm.controls['certificacion'].setValue(this.lote.TipoCertificacionId);
+
       }
-      
+
     }
   }
 
-  async cargarsubProducto()
-  {
+  async cargarsubProducto() {
     this.ingresoAlmacenForm.controls['subProducto'].setValue(this.lote.SubProductoId);
     this.ingresoAlmacenForm.controls['subProducto'].disable();
   }
@@ -130,7 +126,7 @@ export class IngresoAlmacenComponent implements OnInit {
 
   async LoadCombos() {
     let form = this;
-   await this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
+    await this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
       if (res.Result.Success) {
         form.listTypeDocuments = res.Result.Data;
       }
@@ -155,29 +151,12 @@ export class IngresoAlmacenComponent implements OnInit {
         form.listProducts = res.Result.Data;
       }
     });
-    
+
     await this.LoadFormPopup();
   }
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      // let numeroGuia = group.controls['nroIngreso'].value.trim();
-      // let numeroDocumento = group.controls['numeroDocumento'].value.trim();
-      // let tipoDocumento = group.controls['tipoDocumento'].value;
-      // let codigoSocio = group.controls['codigoSocio'].value.trim();
-      // let nombre = group.controls['nombreRazonSocial'].value.trim();
-      // let vProduct = group.controls['producto'].value;
-      // let vByProduct = group.controls['subProducto'].value;
-
-      // if (!numeroGuia && !numeroDocumento && !codigoSocio && !nombre && !tipoDocumento) {
-      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      // } else if (numeroDocumento && !tipoDocumento) {
-      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      // } else if (!numeroDocumento && tipoDocumento) {
-      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
-      // } else if (vByProduct && !vProduct) {
-      //   this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
-      // } else 
       if ((group.value.rendimientoInicio && !group.value.rendimientoFin)
         || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores de rendimiento.' };
@@ -302,7 +281,7 @@ export class IngresoAlmacenComponent implements OnInit {
         NombreRazonSocial: this.ingresoAlmacenForm.value.nombreRazonSocial,
         TipoDocumentoId: this.ingresoAlmacenForm.value.tipoDocumento,
         ProductoId: this.ingresoAlmacenForm.controls["producto"].value,
-        TipoCertificacionId:this.ingresoAlmacenForm.controls["certificacion"].value,
+        TipoCertificacionId: this.ingresoAlmacenForm.controls["certificacion"].value,
         SubProductoId: this.ingresoAlmacenForm.controls["subProducto"].value,
         NumeroDocumento: this.ingresoAlmacenForm.value.numeroDocumento,
         CodigoSocio: this.ingresoAlmacenForm.value.codigoSocio,
@@ -347,6 +326,11 @@ export class IngresoAlmacenComponent implements OnInit {
                   new HeaderExcel("Producto"),
                   new HeaderExcel("Sub Producto"),
                   new HeaderExcel("Certificación"),
+                  new HeaderExcel("Unidad de Medida"),
+                  new HeaderExcel("Cantidad"),
+                  new HeaderExcel("% Rendimiento"),
+                  new HeaderExcel("Puntaje Final (Analisis)"),
+                  new HeaderExcel("Desc. Defectos"),
                   new HeaderExcel("Almacén"),
                   new HeaderExcel("Fecha", "center", "dd/mm/yyyy"),
                   new HeaderExcel("Estado", "center"),
@@ -363,6 +347,11 @@ export class IngresoAlmacenComponent implements OnInit {
                     res.Result.Data[i].Producto,
                     res.Result.Data[i].SubProducto,
                     res.Result.Data[i].Certificacion,
+                    res.Result.Data[i].UnidadMedida,
+                    res.Result.Data[i].CantidadPesado,
+                    res.Result.Data[i].RendimientoPorcentaje,
+                    res.Result.Data[i].TotalAnalisisSensorial,
+                    res.Result.Data[i].DefectosAnalisisSensorial,
                     res.Result.Data[i].Almacen,
                     new Date(res.Result.Data[i].FechaRegistro),
                     res.Result.Data[i].Estado
@@ -589,8 +578,7 @@ export class IngresoAlmacenComponent implements OnInit {
     return result;
   }
 
-  Agregar(selected : any)
-  {
+  Agregar(selected: any) {
     this.agregarEvent.emit(selected)
   }
 

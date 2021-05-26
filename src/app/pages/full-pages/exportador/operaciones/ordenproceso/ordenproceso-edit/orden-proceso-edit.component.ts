@@ -12,6 +12,7 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ContratoService } from '../../../../../../services/contrato.service';
+import { host } from '../../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-orden-proceso-edit',
@@ -34,10 +35,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     private contratoService: ContratoService) { }
 
   ordenProcesoEditForm: FormGroup;
-  // listTipoProduccion = [];
-  // listCertificacion = [];
   listTipoProcesos = [];
-  // selectedTipoProduccion: any;
   selectedCertificacion: any;
   selectedTipoProceso: any;
   userSession: any;
@@ -47,6 +45,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   rowsDetails = [];
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   isLoading = false;
+  fileName = "";
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -77,14 +76,14 @@ export class OrdenProcesoEditComponent implements OnInit {
       idContrato: [, Validators.required],
       nroContrato: [, Validators.required],
       idCliente: [, Validators.required],
-      codCliente: [],
-      cliente: [],
+      codCliente: [, Validators.required],
+      cliente: [, Validators.required],
       idDestino: [, Validators.required],
       destino: [, Validators.required],
       fecFinProcesoPlanta: [],
       tipoProduccion: [],
       certificacion: [],
-      porcenRendimiento: [],
+      porcenRendimiento: [, Validators.required],
       empaqueTipo: [],
       producto: [],
       cantidad: [],
@@ -93,12 +92,13 @@ export class OrdenProcesoEditComponent implements OnInit {
       grado: [],
       totalKilosNetos: [],
       cantidadDefectos: [],
-      cantContenedores: [],
+      cantContenedores: [, Validators.required],
       responsableComercial: [],
       file: [],
-      tipoProceso: [],
+      tipoProceso: [, Validators.required],
       subProducto: [],
-      observaciones: []
+      observaciones: [],
+      pathFile: []
     });
   }
 
@@ -219,45 +219,49 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   Save(): void {
     if (!this.ordenProcesoEditForm.invalid) {
-      const form = this;
-      if (this.codeProcessOrder <= 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con el registro?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
-            form.Create();
-          }
-        });
-      } else if (this.codeProcessOrder > 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la actualización?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
-            form.Update();
-          }
-        });
+      if (this.ValidateDataDetails() <= 0) {
+        const form = this;
+        if (this.codeProcessOrder <= 0) {
+          swal.fire({
+            title: 'Confirmación',
+            text: `¿Está seguro de continuar con el registro?.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then((result) => {
+            if (result.value) {
+              form.Create();
+            }
+          });
+        } else if (this.codeProcessOrder > 0) {
+          swal.fire({
+            title: 'Confirmación',
+            text: `¿Está seguro de continuar con la actualización?.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2F8BE6',
+            cancelButtonColor: '#F55252',
+            confirmButtonText: 'Si',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-danger ml-1'
+            },
+            buttonsStyling: false,
+          }).then((result) => {
+            if (result.value) {
+              form.Update();
+            }
+          });
+        }
+      } else {
+        this.alertUtil.alertWarning('ADVERTENCIA!', 'No pueden existir datos vacios en el detalle, por favor corregir.');
       }
     }
   }
@@ -392,6 +396,10 @@ export class OrdenProcesoEditComponent implements OnInit {
       if (data.Observacion)
         this.ordenProcesoEditForm.controls.observaciones.setValue(data.Observacion);
       data.detalle.forEach(x => x.FechaNotaIngresoPlanta = x.FechaNotaIngresoPlanta.substring(0, 10));
+      if (data.NombreArchivo)
+        this.fileName = data.NombreArchivo;
+      if (data.PathArchivo)
+        this.ordenProcesoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.rowsDetails = data.detalle;
     }
     this.spinner.hide();
@@ -434,6 +442,53 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.rowsDetails[index].Tara = parseFloat(event.target.value)
     else if (prop === 'klNetos')
       this.rowsDetails[index].KilosNetos = parseFloat(event.target.value)
+  }
+
+  Print(): void {
+    const form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `¿Está seguro de continuar con impresión?.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.value) {
+        let link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = `${host}OrdenProceso/Imprimir?id=${form.codeProcessOrder}`;
+        link.target = "_blank";
+        link.click();
+        link.remove();
+      }
+    });
+  }
+
+  Descargar(): void {
+    const rutaFile = this.ordenProcesoEditForm.value.pathFile;
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}OrdenProceso/DescargarArchivo?path=${rutaFile}`;
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
+
+  ValidateDataDetails(): number {
+    let result = [];
+    result = this.rowsDetails.filter(x => !x.NroNotaIngresoPlanta
+      || !x.FechaNotaIngresoPlanta || !x.RendimientoPorcentaje
+      || !x.HumedadPorcentaje || !x.CantidadSacos || !x.KilosBrutos
+      || !x.Tara || !x.KilosNetos)
+
+    return result.length;
   }
 
   Cancel(): void {

@@ -98,6 +98,8 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
                                 [disabled]="!rows.length || !selected.length">Anular</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Export()"
+                                [disabled]="!rows.length">Exportar</button>
                         </form>
                     </div>
                 </div>

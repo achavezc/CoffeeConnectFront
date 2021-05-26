@@ -203,56 +203,61 @@ export class NotaCompraComponent implements OnInit {
 
 
  guardar(){
-    
-  if (this.notaCompraForm.invalid) {
-    this.subedit = true;
-    return;
-  } else {
-   
-     this.spinner.show(undefined,
-      {
-        type: 'ball-triangle-path',
-        size: 'medium',
-        bdColor: 'rgba(0, 0, 0, 0.8)',
-        color: '#fff',
-        fullScreen: true
-      });
-      var request = {
-        NotaCompraId: this.id,
-        GuiaRecepcionMateriaPrimaId: this.detalle.GuiaRecepcionMateriaPrimaId,
-        EmpresaId: this.login.Result.Data.EmpresaId,
-        Numero:this.notaCompraForm.controls['numero'].value,
-        UnidadMedidaIdPesado: this.notaCompraForm.controls['unidadMedida'].value,
-        CantidadPesado: this.notaCompraForm.controls['cantidadPC'].value,
-        KilosBrutosPesado: this.notaCompraForm.controls['kilosBrutosPC'].value,
-        TaraPesado: this.notaCompraForm.controls['taraPC'].value,
-        KilosNetosPesado: this.notaCompraForm.controls['kilosNetosPC'].value,
-        DescuentoPorHumedad: this.notaCompraForm.controls['dsctoHumedadPC'].value,
-        KilosNetosDescontar: this.notaCompraForm.controls['kilosNetosDescontarPC'].value,
-        KilosNetosPagar: this.notaCompraForm.controls['kiloNetoPagarPC'].value,
-        QQ55: this.notaCompraForm.controls['qqKgPC'].value,
-        ExportableGramosAnalisisFisico: this.notaCompraForm.controls['exportableAT'].value,
-        DescarteGramosAnalisisFisico: this.notaCompraForm.controls['descarteAT'].value,
-        CascarillaGramosAnalisisFisico: this.notaCompraForm.controls['cascarillaAT'].value,
-        TotalGramosAnalisisFisico: this.notaCompraForm.controls['totalAT'].value,
-        HumedadPorcentajeAnalisisFisico: this.notaCompraForm.controls['humedadAT'].value,
-        TipoId : this.notaCompraForm.controls['tipo'].value,
-        MonedaId: this.notaCompraForm.controls['monedaAT'].value,
-        PrecioGuardado: this.notaCompraForm.controls['precioGuardadoAT'].value,
-        PrecioPagado: this.notaCompraForm.controls['precioPagadoAT'].value,
-        Importe: this.notaCompraForm.controls['importeAT'].value,
-        UsuarioNotaCompra: this.detalle.UsuarioPesado,
-        Observaciones : this.notaCompraForm.controls['observacionNotaCompra'].value
-      };
-      
-      if(this.id != 0){
-        this.actualizarService(request);
-      }else{
-        this.guardarService(request);
-      }
-      
-   
+  var precioDia = this.notaCompraForm.controls['precioDiaAT'].value;
+
+  if(precioDia == 0 || precioDia == undefined || precioDia == ""){
+    this.errorGeneral = { isError: true, errorMessage: 'No se tiene registrado el Precio para el dia actual.' };
+  }else{
+    this.errorGeneral = { isError: false, errorMessage: '' };
+    if (this.notaCompraForm.invalid) {
+      this.subedit = true;
+      return;
+    } else {
+        
+          this.spinner.show(undefined,
+            {
+              type: 'ball-triangle-path',
+              size: 'medium',
+              bdColor: 'rgba(0, 0, 0, 0.8)',
+              color: '#fff',
+              fullScreen: true
+            });
+            var request = {
+              NotaCompraId: this.id,
+              GuiaRecepcionMateriaPrimaId: this.detalle.GuiaRecepcionMateriaPrimaId,
+              EmpresaId: this.login.Result.Data.EmpresaId,
+              Numero:this.notaCompraForm.controls['numero'].value,
+              UnidadMedidaIdPesado: this.notaCompraForm.controls['unidadMedida'].value,
+              CantidadPesado: this.notaCompraForm.controls['cantidadPC'].value,
+              KilosBrutosPesado: this.notaCompraForm.controls['kilosBrutosPC'].value,
+              TaraPesado: this.notaCompraForm.controls['taraPC'].value,
+              KilosNetosPesado: this.notaCompraForm.controls['kilosNetosPC'].value,
+              DescuentoPorHumedad: this.notaCompraForm.controls['dsctoHumedadPC'].value,
+              KilosNetosDescontar: this.notaCompraForm.controls['kilosNetosDescontarPC'].value,
+              KilosNetosPagar: this.notaCompraForm.controls['kiloNetoPagarPC'].value,
+              QQ55: this.notaCompraForm.controls['qqKgPC'].value,
+              ExportableGramosAnalisisFisico: this.notaCompraForm.controls['exportableAT'].value,
+              DescarteGramosAnalisisFisico: this.notaCompraForm.controls['descarteAT'].value,
+              CascarillaGramosAnalisisFisico: this.notaCompraForm.controls['cascarillaAT'].value,
+              TotalGramosAnalisisFisico: this.notaCompraForm.controls['totalAT'].value,
+              HumedadPorcentajeAnalisisFisico: this.notaCompraForm.controls['humedadAT'].value,
+              TipoId : this.notaCompraForm.controls['tipo'].value,
+              MonedaId: this.notaCompraForm.controls['monedaAT'].value,
+              PrecioGuardado: this.notaCompraForm.controls['precioGuardadoAT'].value,
+              PrecioPagado: this.notaCompraForm.controls['precioPagadoAT'].value,
+              Importe: this.notaCompraForm.controls['importeAT'].value,
+              UsuarioNotaCompra: this.detalle.UsuarioPesado,
+              Observaciones : this.notaCompraForm.controls['observacionNotaCompra'].value
+            };
+            
+            if(this.id != 0){
+              this.actualizarService(request);
+            }else{
+              this.guardarService(request);
+            }
+    }
   }
+
  }
  
  guardarService(request: any){

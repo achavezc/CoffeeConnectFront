@@ -3,10 +3,13 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { ProductorService } from '../../../../../services/productor.service';
+import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-productor',
@@ -21,7 +24,9 @@ export class ProductorComponent implements OnInit {
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
     private productorService: ProductorService,
-    private router: Router) {
+    private router: Router,
+    private modalService: NgbModal,
+    private excelService: ExcelService) {
   }
 
   productorForm: FormGroup;
@@ -184,5 +189,72 @@ export class ProductorComponent implements OnInit {
     if (this.selected && this.selected.length > 0) {
       this.router.navigate([`/productor/administracion/productor/finca/list/${this.selected[0].ProductorId}`]);
     }
+  }
+
+  OpenModal(modal: any): void {
+    this.modalService.open(modal, { size: 'xl', centered: true });
+  }
+
+  Export(): void {
+    this.spinner.show();
+    const request = {
+      Numero: this.productorForm.value.codProductor,
+      NombreRazonSocial: this.productorForm.value.nombRazonSocial,
+      TipoDocumentoId: this.productorForm.value.tipoDocumento ?? '',
+      NumeroDocumento: this.productorForm.value.nroDocumento,
+      EstadoId: this.productorForm.value.estado ?? '',
+      FechaInicio: new Date(this.productorForm.value.fechaInicio),
+      FechaFin: new Date(this.productorForm.value.fechaFin)
+    };
+
+    this.productorService.Search(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (!res.Result.ErrCode) {
+            const vArrHeaderExcel: HeaderExcel[] = [
+              new HeaderExcel("Código", "center"),
+              new HeaderExcel("Tipo Documento", "center"),
+              new HeaderExcel("Número Documento", "center"),
+              new HeaderExcel("Nombre o Razón Social"),
+              new HeaderExcel("Departamento"),
+              new HeaderExcel("Provincia"),
+              new HeaderExcel("Distrito"),
+              new HeaderExcel("Zona"),
+              new HeaderExcel("Fecha Registro", "center", "dd/mm/yyyy"),
+              new HeaderExcel("Estado")
+            ];
+
+            let vArrData: any[] = [];
+            for (let i = 0; i < res.Result.Data.length; i++) {
+              vArrData.push([
+                res.Result.Data[i].Numero,
+                res.Result.Data[i].TipoDocumento,
+                res.Result.Data[i].NumeroDocumento,
+                res.Result.Data[i].NombreRazonSocial,
+                res.Result.Data[i].Departamento,
+                res.Result.Data[i].Provincia,
+                res.Result.Data[i].Distrito,
+                res.Result.Data[i].Zona,
+                new Date(res.Result.Data[i].FechaRegistro),
+                res.Result.Data[i].Estado
+              ]);
+            }
+            this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Productores');
+          } else if (res.Result.Message && res.Result.ErrCode) {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.error(err);
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
   }
 }
