@@ -152,6 +152,7 @@ export class LoteEditComponent implements OnInit {
     this.loteEditForm.controls.razonSocial.setValue(row.RazonSocial);
     this.loteEditForm.controls.nroLote.setValue(row.Numero);
     this.loteEditForm.controls.direccion.setValue(row.Direccion);
+    
     if (row.FechaRegistro && row.FechaRegistro.substring(0, 10) != "0001-01-01") {
       this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
     }
@@ -168,11 +169,9 @@ export class LoteEditComponent implements OnInit {
     else {
       this.viewTagSeco = false;
     }
-
     if (row.AlmacenId && this.listAlmacenes.find(x => x.Codigo == row.AlmacenId)) {
       this.loteEditForm.controls.almacen.setValue(row.AlmacenId);
     }
-
     this.loteEditForm.controls.detalleLote.controls.unidadMedida.setValue(row.UnidadMedida);
     this.loteEditForm.controls.detalleLote.controls.totalSacos.setValue(row.Cantidad);
     this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.setValue(row.TotalKilosNetosPesado);
@@ -180,7 +179,17 @@ export class LoteEditComponent implements OnInit {
     this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);
     this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);
     this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.TotalAnalisisSensorial);
-
+    if(row.ContratoId)
+    {
+      this.loteEditForm.controls.idContrato.setValue(row.ContratoId);
+      this.loteEditForm.controls.cliente.setValue(row.Cliente);
+      this.loteEditForm.controls.cantidad.setValue(row.TotalSacos);
+      this.loteEditForm.controls.unidadMedida.setValue(row.Empaque);
+      this.loteEditForm.controls.kilosNetos.setValue(row.PesoKilos);
+      this.loteEditForm.controls.contrato.setValue(row.NumeroContrato); 
+      this.KilosNetos = row.PesoKilos;
+      this.calculoKilosPendiente();     
+    }
     this.child.cargarDatos(row);
     this.spinner.hide();
   }
@@ -309,13 +318,13 @@ export class LoteEditComponent implements OnInit {
       if (data.Cliente) {
         this.loteEditForm.controls.cliente.setValue(data.Cliente);
       }
-      this.loteEditForm.controls.cantidad.setValue(data.Cantidad);
-      if (data.UnidadMedida) {
-        this.loteEditForm.controls.unidadMedida.setValue(data.UnidadMedida);
+      this.loteEditForm.controls.cantidad.setValue(data.TotalSacos);
+      if (data.Empaque) {
+        this.loteEditForm.controls.unidadMedida.setValue(data.Empaque);
       }
-      this.loteEditForm.controls.kilosNetos.setValue(data.KilosNetos);
+      this.loteEditForm.controls.kilosNetos.setValue(data.PesoKilos);
 
-      this.KilosNetos = data.KilosNetos;
+      this.KilosNetos = data.PesoKilos;
       this.calculoKilosPendiente();
     }
     this.modalService.dismissAll();

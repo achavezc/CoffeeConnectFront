@@ -127,7 +127,8 @@ export class MConsultarContratoComponent implements OnInit {
       CalidadId: '',
       EstadoId: '01',
       FechaInicio: this.mContratoForm.value.mFechaInicial ? this.mContratoForm.value.mFechaInicial : '',
-      FechaFin: this.mContratoForm.value.mFechaFinal ? this.mContratoForm.value.mFechaFinal : ''
+      FechaFin: this.mContratoForm.value.mFechaFinal ? this.mContratoForm.value.mFechaFinal : '',
+      EmpresaId: 1
     };
   }
 
