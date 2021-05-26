@@ -54,7 +54,11 @@ export class ControlCalidadComponent implements OnInit {
    mensajeErrorGenerico = "Ocurrio un error interno.";
    responsable: string;
    fechaCalidad: string;
-
+   estadoPesado = "01";
+   estadoAnalizado = "02";
+   estadoAnulado = "00";
+   estadoEnviadoAlmacen = "03";
+ 
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router, private dateUtil: DateUtil,
@@ -174,7 +178,8 @@ export class ControlCalidadComponent implements OnInit {
         PuntajeFinal:  new FormControl('',[])
         
       });
-      this.formControlCalidad.setValidators(this.comparisonValidator())
+      this.formControlCalidad.setValidators(this.comparisonValidator());
+      this.login = JSON.parse(localStorage.getItem("user"));
     }
     
   valorMinMax()
@@ -276,7 +281,7 @@ export class ControlCalidadComponent implements OnInit {
 }
   actualizarAnalisisControlCalidad (e)
   {
-    this.login = JSON.parse(localStorage.getItem("user"));
+   
     if (this.formControlCalidad.invalid || this.errorGeneral.isError || this.tableSensorialRanking.invalid) 
     {
       this.submitted = true;
@@ -634,7 +639,41 @@ export class ControlCalidadComponent implements OnInit {
   });
   }
   controlFormControlCalidad["PuntajeFinal"].setValue(puntajeFinal);
+  this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioPesado, this.detalle.UsuarioCalidad);
  }
+
+ desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+  var usuarioLogueado = this.login.Result.Data.NombreUsuario
+  if(estado == this.estadoPesado && usuarioPesado == usuarioLogueado ){
+
+
+    //Calidad Editable
+    //NotaCompra ReadOnly
+    
+  }else if(estado == this.estadoPesado && usuarioPesado != usuarioLogueado ){
+
+    //Calidad Editable
+    //NotaCompra ReadOnly
+  }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+
+
+    //Calidad Editable
+    //NotaCompra Editable
+  }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
+
+
+    //Calidad ReadOnly
+    this.formControlCalidad.disable();
+    //NotaCompra Editable
+  }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
+
+
+    //Calidad ReadOnly
+    this.formControlCalidad.disable();
+    //NotaCompra ReadOnly
+  }
+
+}
 
  cancelar()
  {
