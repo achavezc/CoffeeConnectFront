@@ -21,4 +21,9 @@ export class ProductorDocumentoService {
     let url = `${this.url}/ConsultarPorProductorId`;
     return this.http.post<any>(url, { ProductorId: id }).catch(this.errorHandling.handleError)
   }
+
+  Eliminar(id: any) {
+    let url = `${this.url}/Eliminar`;
+    return this.http.post<any>(url, { ProductorDocumentoId: id }).catch(this.errorHandling.handleError)
+  }
 }
