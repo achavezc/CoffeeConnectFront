@@ -457,6 +457,9 @@ export class TagNotaSalidaEditComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
+              res.Result.Data.array.forEach(x => {
+                x.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro));
+              });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
