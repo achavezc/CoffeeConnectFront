@@ -44,6 +44,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   submittedT = false;
   closeResult: string;
   tagNotadeSalida: FormGroup;
+  notaSalidaFormEdit : FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   error: any = { isError: false, errorMessage: '' };
   errorTransportista: any = { isError: false, errorMessage: '' };
@@ -92,6 +93,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
 
     this.cargarformTagNotaSalida();
     this.tagNotadeSalida = <FormGroup>this.controlContainer.control;
+    this.notaSalidaFormEdit =  <FormGroup>this.controlContainer.control;
     this.login = JSON.parse(localStorage.getItem("user"));
     this.eventsNs.subscribe({
       next: (data) => this.cargarDatos(data)
@@ -128,12 +130,20 @@ export class TagNotaSalidaEditComponent implements OnInit {
     }
   }
   openModal(modalLotes) {
-    this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });    
-    this.cargarLotes();
-    this.clear();
-    this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-    this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+    if (this.selectAlmacen == '' || this.selectAlmacen == undefined)
+    {
+      this.alertUtil.alertWarning('', 'Debe seleccionar Tipo Almacen');
+      
+    }
+    else{
 
+      this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });    
+      this.cargarLotes();
+      this.clear();
+      this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+      this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+    }
+   
   }
 
   eliminarLote(select) {
