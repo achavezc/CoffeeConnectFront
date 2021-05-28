@@ -108,7 +108,7 @@
                                 <app-consultar-contrato (responseContrato)="GetDataMdlContrato($event)">
                                 </app-consultar-contrato>
                             </ng-template>
-                            <button type="button" (click)="OpenModal(mdlConsultarContrato)" class="btn btn-primary">
+                            <button type="button" (click)="OpenModal(mdlConsultarContrato)"  [disabled]="!btnContrato" class="btn btn-primary">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>

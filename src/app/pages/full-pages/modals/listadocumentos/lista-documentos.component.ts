@@ -4,7 +4,7 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import swal from 'sweetalert2';
 import { FincaFotoGeoreferenciadaService } from '../../../../services/finca-foto-georeferenciada.service';
 import { FincaDocumentoAdjuntoService } from '../../../../services/finca-documento-adjunto.service';
 import { host } from '../../../../shared/hosts/main.host';
@@ -114,6 +114,169 @@ export class MListaDocumentosComponent implements OnInit {
     }
   }
 
+  eliminar() {
+    if (this.selected && this.selected.length > 0) {
+      const data = this.selected[0];
+      var form = this;
+      swal.fire({
+        title: '¿Estas seguro?',
+        text: "¿Estas seguro de eliminar el documento?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          if (form.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
+            form.eliminarFotoGereferenciadas(data.FincaFotoGeoreferenciadaId);
+          } else if (form.codeForm === 'frmMdlAttachments') {
+            form.eliminarDocumentosAdjuntos(data.FincaDocumentoAdjuntoId);
+          } else if (form.codeForm === 'frmMdlSocioDocuments') {
+            form.eliminarDocumentosSocio(data.SocioDocumentoId);
+          } else if (form.codeForm === 'frmMdlProducerDocuments') {
+            form.eliminarDocumento(data.ProductorDocumentoId);
+          }
+        }
+      });
+      
+    } else {
+      this.errorGeneral = { isError: true, errorMessage: "Por favor seleccionar un elemento del listado." };
+    }
+  }
+  eliminarDocumento(id: any){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.productorDocumentoService.Eliminar(id)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.LoadFiles();
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+  eliminarFotoGereferenciadas(id: any){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.fotoGeoreferenciadaService.Eliminar(id)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.LoadFiles();
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+  eliminarDocumentosAdjuntos(id: any){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.documentoAdjuntoService.Eliminar(id)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.LoadFiles();
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+  eliminarDocumentosSocio(id: any){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.productorDocumentoService.Eliminar(id)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.LoadFiles();
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
   modalResponse(event) {
     this.modalService.dismissAll();
   }

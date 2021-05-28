@@ -14,7 +14,7 @@ import { host } from '../../../../../../shared/hosts/main.host';
 import { DetalleLoteComponent } from '../lote-edit/detalleLote/detalleLote.component';
 import { ReqActualizarLote, IdsAccion } from '../../../../../../services/models/req-actualizar-lote';
 
-
+import { ILogin } from '../../../../../../services/models/login';
 @Component({
   selector: 'app-lote-edit',
   templateUrl: './lote-edit.component.html',
@@ -51,7 +51,11 @@ export class LoteEditComponent implements OnInit {
   form: string = "lote"
   @ViewChild(DetalleLoteComponent) child;
   KilosNetos: any;
+  estadoAnalizado = "02";
+  estadoAnulado = "00";
+  btnContrato = true;
 
+  login: ILogin;
   ngOnInit(): void {
     this.vId = parseInt(this.route.snapshot.params['id']);
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -99,6 +103,7 @@ export class LoteEditComponent implements OnInit {
       kilosNetos: [],
       kilosPendientes: []
     });
+    this.login = JSON.parse(localStorage.getItem("user"));
   }
   get f() {
     return this.loteEditForm.controls;
@@ -191,7 +196,44 @@ export class LoteEditComponent implements OnInit {
       this.calculoKilosPendiente();     
     }
     this.child.cargarDatos(row);
+    this.desactivarControles(row.EstadoId,row.UsuarioRegistro,row.UsuarioCalidad);
     this.spinner.hide();
+
+  }
+
+  desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+    var usuarioLogueado = this.login.Result.Data.NombreUsuario
+    if(usuarioPesado == usuarioLogueado ){
+      //Cabecera Editable
+      //Calidad Editable
+      
+    }else if(usuarioPesado != usuarioLogueado ){
+      //Cabecera ReadOnly
+      this.loteEditForm.disable();
+      this.btnContrato = false;
+      //Calidad Editable
+
+    }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+      //Cabecera ReadOnly
+      this.loteEditForm.disable();
+      this.btnContrato = false;
+      //Calidad Editable
+
+
+      //NotaCompra Editable
+    }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
+      //Cabecera ReadOnly
+      this.loteEditForm.disable();
+      this.btnContrato = false;
+      //Calidad ReadOnly
+
+    }else if(estado == this.estadoAnulado ){
+      //Cabecera ReadOnly
+      this.loteEditForm.disable();
+      this.btnContrato = false;
+      //Calidad ReadOnly
+    }
+
   }
 
   Save(): void {

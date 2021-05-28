@@ -21,4 +21,8 @@ export class FincaFotoGeoreferenciadaService {
     let url = `${this.url}/ConsultarPorFincaId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+  Eliminar(id: any) {
+    let url = `${this.url}/Eliminar`;
+    return this.http.post<any>(url, { FincaFotoGeoreferenciadaId: id }).catch(this.errorHandling.handleError)
+  }
 }

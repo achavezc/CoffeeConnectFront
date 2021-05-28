@@ -78,6 +78,12 @@ export class MateriaPrimaEditComponent implements OnInit {
   unidadMedidaPesado: any;
   form: string = "materiaprima"
   btnGuardar = true;
+  btnProveedor = true;
+  estadoPesado = "01";
+  estadoAnalizado = "02";
+  estadoAnulado = "00";
+  estadoEnviadoAlmacen = "03";
+
   @ViewChild(PesadoCafeComponent) child;
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
@@ -668,12 +674,61 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
     this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
+    this.desactivarControles(data.EstadoId,data.UsuarioPesado,data.UsuarioCalidad);
     this.spinner.hide();
 
 
   }
+  desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+    var usuarioLogueado = this.login.Result.Data.NombreUsuario
+    if(estado == this.estadoPesado && usuarioPesado == usuarioLogueado ){
+      //Cabecera Editable
+      //Pesado Editable
 
 
+      //Calidad Editable
+      //NotaCompra ReadOnly
+      
+    }else if(estado == this.estadoPesado && usuarioPesado != usuarioLogueado ){
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
+      this.consultaMateriaPrimaFormEdit.disable();
+
+      //Calidad Editable
+      //NotaCompra ReadOnly
+    }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
+      this.consultaMateriaPrimaFormEdit.disable();
+
+      //Calidad Editable
+      //NotaCompra Editable
+    }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
+      this.consultaMateriaPrimaFormEdit.disable();
+
+      //Calidad ReadOnly
+      //NotaCompra Editable
+    }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
+      this.consultaMateriaPrimaFormEdit.disable();
+
+      //Calidad ReadOnly
+      //NotaCompra ReadOnly
+    }
+
+  }
+  
   async consultarSocioFinca() {
     let request =
     {
@@ -724,6 +779,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
 }
+
+
 
 
 

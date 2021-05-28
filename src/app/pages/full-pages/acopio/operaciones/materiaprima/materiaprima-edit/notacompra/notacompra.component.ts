@@ -34,6 +34,10 @@ export class NotaCompraComponent implements OnInit {
   estado = "";
   estadoId = "";
   estadoLiquidado = "02"
+  estadoPesado = "01";
+  estadoAnalizado = "02";
+  estadoAnulado = "00";
+  estadoEnviadoAlmacen = "03";
 
   constructor(
     private maestroService: MaestroService,
@@ -198,9 +202,43 @@ export class NotaCompraComponent implements OnInit {
 
       this.notaCompraForm.controls['observacionNotaCompra'].setValue(data.NotaCompra.Observaciones);
   }
+
+  this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioPesado, this.detalle.UsuarioCalidad);
  }
 
+ desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+  var usuarioLogueado = this.login.Result.Data.NombreUsuario
+  if(estado == this.estadoPesado && usuarioPesado == usuarioLogueado ){
 
+
+    //Calidad Editable
+    //NotaCompra ReadOnly
+    this.notaCompraForm.disable();
+    
+  }else if(estado == this.estadoPesado && usuarioPesado != usuarioLogueado ){
+
+    //Calidad Editable
+    //NotaCompra ReadOnly
+    this.notaCompraForm.disable();
+  }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+
+
+    //Calidad Editable
+    //NotaCompra Editable
+  }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
+
+
+    //Calidad ReadOnly
+    //NotaCompra Editable
+  }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
+
+
+    //Calidad ReadOnly
+    //NotaCompra ReadOnly
+    this.notaCompraForm.disable();
+  }
+
+}
 
  guardar(){
   var precioDia = this.notaCompraForm.controls['precioDiaAT'].value;

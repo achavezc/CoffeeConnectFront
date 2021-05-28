@@ -31,8 +31,11 @@ export class ControlCalidadComponentHumedo implements OnInit {
   submitted = false;
   reqControlCalidad: ReqControlCalidad;
   mensajeErrorGenerico = "Ocurrio un error interno.";
-
-
+  estadoPesado = "01";
+  estadoAnalizado = "02";
+  estadoAnulado = "00";
+  estadoEnviadoAlmacen = "03";
+  btnGuardarCalidad = true;
   ngOnInit(): void {
     this.cargarForm()
     this.cargarCombos();
@@ -106,7 +109,32 @@ export class ControlCalidadComponentHumedo implements OnInit {
       });
     }
 
+    this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioCalidad);
+  }
 
+  desactivarControles(estado: string,  usuarioAnalizado:string) {
+    var usuarioLogueado = this.login.Result.Data.NombreUsuario
+    if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+  
+  
+      //Calidad Editable
+      //NotaCompra Editable
+    }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
+  
+  
+      //Calidad ReadOnly
+      this.formControlCalidadHumedo.disable();
+      this.btnGuardarCalidad = false;
+      //NotaCompra Editable
+    }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
+  
+  
+      //Calidad ReadOnly
+      this.formControlCalidadHumedo.disable();
+      this.btnGuardarCalidad = false;
+      //NotaCompra ReadOnly
+    }
+  
   }
   actualizarAnalisisControlCalidad(e) {
     this.login = JSON.parse(localStorage.getItem("user"));
@@ -188,6 +216,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
     }
     return listDetalleOlor;
   }
+
 
   mergeById(array1, array2) {
     return array1.map(itm => ({
