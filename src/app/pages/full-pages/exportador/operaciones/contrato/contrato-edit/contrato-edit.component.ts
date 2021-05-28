@@ -374,7 +374,7 @@ export class ContratoEditComponent implements OnInit {
       CalidadId: form.calidad ? form.calidad : '',
       GradoId: form.grado ? form.grado : '',
       TotalSacos: form.totalSacos69Kg ? form.totalSacos69Kg : 0,
-      Peso: form.pesoKilos ? form.pesoKilos : 0,
+      PesoKilos: form.pesoKilos ? form.pesoKilos : 0,
       PesoPorSaco: form.pesoSacoKG ? parseFloat(form.pesoSacoKG) : 0,
       PreparacionCantidadDefectos: form.cantidadDefectos ? parseFloat(form.cantidadDefectos) : 0,
       LaboratorioId: form.laboratorio ? form.laboratorio : '',
