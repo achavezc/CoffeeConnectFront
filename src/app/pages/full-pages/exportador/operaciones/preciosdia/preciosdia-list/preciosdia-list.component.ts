@@ -3,13 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import swal from 'sweetalert2';
-
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { ProductoPrecioDiaService } from '../../../../../../services/preciosdia.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
-import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 
 @Component({
@@ -49,8 +46,8 @@ export class PreciosDiaComponent implements OnInit {
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    this.preciosdiaform.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
-    this.preciosdiaform.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+    this.preciosdiaform.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.preciosdiaform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
   }
 
   LoadForm(): void {
@@ -59,7 +56,7 @@ export class PreciosDiaComponent implements OnInit {
       fechaFin: [''],
       producto: ['', ''],
       subproducto: ['', ''],
-      estado: ['', Validators.required]
+      estado: ['', '']
     });
   }
 
@@ -73,6 +70,7 @@ export class PreciosDiaComponent implements OnInit {
    
   }
 
+ 
   async GetListProducto() {
     let form = this;
     let res = await this.maestroService.obtenerMaestros('Producto').toPromise();
@@ -169,7 +167,9 @@ export class PreciosDiaComponent implements OnInit {
       this.preciodia.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
-           
+          res.Result.Data.forEach(x => {
+          x.FechaRegistro =  this.dateUtil.formatDate(new Date(x.FechaRegistro));
+          });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
           this.errorGeneral = { isError: false, msgError: '' };
@@ -191,7 +191,7 @@ export class PreciosDiaComponent implements OnInit {
   }
   
   Nuevo(): void {
-    this.router.navigate(['/exportador/operaciones/cliente/create']);
+    this.router.navigate(['/exportador/operaciones/preciosdia/create']);
   }
 
 }
