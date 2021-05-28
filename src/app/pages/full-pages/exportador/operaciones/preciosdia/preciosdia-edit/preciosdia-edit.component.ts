@@ -154,7 +154,7 @@ export class PrecioDiaEditComponent implements OnInit {
   }
   async GetEstados() {
 
-    var data = await this.maestroService.obtenerMaestros("EstadoNotaCompra").toPromise();
+    var data = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
     if (data.Result.Success) {
       this.listEstado = data.Result.Data;
     }

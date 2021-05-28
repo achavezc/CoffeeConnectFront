@@ -262,6 +262,10 @@
         "OrdenProceso":
 				{
 					"Label":"Orden de Proceso"
+				},
+		"PreciosDia":
+				{
+					"Label":"Precio del Día"
 				}
 
 		},

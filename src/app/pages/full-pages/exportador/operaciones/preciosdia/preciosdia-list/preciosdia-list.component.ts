@@ -97,7 +97,7 @@ export class PreciosDiaComponent implements OnInit {
 
 
   async GetListEstado() {
-    let res = await this.maestroService.obtenerMaestros('EstadoGuiaRecepcion').toPromise();
+    let res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
       this.listEstado= res.Result.Data;
     }
