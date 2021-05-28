@@ -10,6 +10,7 @@ import { AlertUtil } from '../../../../services/util/alert-util';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { host } from '../../../../shared/hosts/main.host';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mapas-finca',
@@ -275,8 +276,64 @@ export class MapasFincaComponent implements OnInit {
   }
   eliminar() {
 
+    if (this.selected && this.selected.length > 0) {
+      const data = this.selected[0];
+      var form = this;
+      swal.fire({
+        title: '¿Estas seguro?',
+        text: "¿Estas seguro de eliminar el documento?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+            form.eliminarMapa(data.FincaMapaId)
+        }
+      });
+      
+    } else {
+      this.errorGeneral = { isError: true, errorMessage: "Por favor seleccionar un elemento del listado." };
+    }
   }
-
+  eliminarMapa(id: any){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.mapaFincaService.Eliminar(id)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.cargarFiles();
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
 
 
 }

@@ -22,4 +22,8 @@ export class FincaDocumentoAdjuntoService {
     let url = `${this.url}/ConsultarPorFincaId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
   }
+  Eliminar(id: any) {
+    let url = `${this.url}/Eliminar`;
+    return this.http.post<any>(url, { FincaDocumentoAdjuntoId: id }).catch(this.errorHandling.handleError)
+  }
 }

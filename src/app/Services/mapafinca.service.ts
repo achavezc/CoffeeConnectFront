@@ -19,4 +19,8 @@ export class MapaFincaService {
     const url = `${this.url}/ConsultarPorFincaId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+  Eliminar(id: any) {
+    let url = `${this.url}/Eliminar`;
+    return this.http.post<any>(url, { FincaMapaId: id }).catch(this.errorHandling.handleError)
+  }
 }
