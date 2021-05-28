@@ -19,6 +19,20 @@ export class ProductoPrecioDiaService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  Registrar(request: any): Observable<any> {
+    const url = `${this.url}/Registrar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  ConsultarPorId(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarPorId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  Actualizar(request: any): Observable<any> {
+    const url = `${this.url}/Actualizar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
   
 
 }

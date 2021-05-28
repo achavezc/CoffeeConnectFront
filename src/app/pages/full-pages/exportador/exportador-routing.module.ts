@@ -8,6 +8,7 @@ import { ContratoEditComponent } from './operaciones/contrato/contrato-edit/cont
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproceso-edit/orden-proceso-edit.component';
 import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.component';
 import {PreciosDiaComponent} from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
+import {PrecioDiaEditComponent} from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
 
 const routes: Routes = [
   {
@@ -82,7 +83,17 @@ const routes: Routes = [
         data: {
           title: 'Precios del día'
         }
+      },
+      {
+        path: 'preciosdia/create',
+        component: PrecioDiaEditComponent,
+        data: {
+          title: 'Precios del día'
+        }
       }
+
+
+      
     ]
   }
 ];
