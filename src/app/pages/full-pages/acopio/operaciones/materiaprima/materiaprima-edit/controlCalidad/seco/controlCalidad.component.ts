@@ -58,7 +58,7 @@ export class ControlCalidadComponent implements OnInit {
    estadoAnalizado = "02";
    estadoAnulado = "00";
    estadoEnviadoAlmacen = "03";
- 
+   btnGuardarCalidad = true;
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router, private dateUtil: DateUtil,
@@ -646,22 +646,12 @@ export class ControlCalidadComponent implements OnInit {
   });
   }
   controlFormControlCalidad["PuntajeFinal"].setValue(puntajeFinal);
-  this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioPesado, this.detalle.UsuarioCalidad);
+  this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioCalidad);
  }
 
- desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+ desactivarControles(estado: string, usuarioAnalizado:string) {
   var usuarioLogueado = this.login.Result.Data.NombreUsuario
-  if(estado == this.estadoPesado && usuarioPesado == usuarioLogueado ){
-
-
-    //Calidad Editable
-    //NotaCompra ReadOnly
-    
-  }else if(estado == this.estadoPesado && usuarioPesado != usuarioLogueado ){
-
-    //Calidad Editable
-    //NotaCompra ReadOnly
-  }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+  if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
 
 
     //Calidad Editable
@@ -671,12 +661,14 @@ export class ControlCalidadComponent implements OnInit {
 
     //Calidad ReadOnly
     this.formControlCalidad.disable();
+    this.btnGuardarCalidad = false;
     //NotaCompra Editable
   }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
 
 
     //Calidad ReadOnly
     this.formControlCalidad.disable();
+    this.btnGuardarCalidad = false;
     //NotaCompra ReadOnly
   }
 

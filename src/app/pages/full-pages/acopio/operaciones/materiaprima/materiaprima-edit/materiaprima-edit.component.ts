@@ -78,6 +78,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   unidadMedidaPesado: any;
   form: string = "materiaprima"
   btnGuardar = true;
+  btnProveedor = true;
   estadoPesado = "01";
   estadoAnalizado = "02";
   estadoAnulado = "00";
@@ -691,6 +692,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     }else if(estado == this.estadoPesado && usuarioPesado != usuarioLogueado ){
       //Cabecera ReadOnly
       //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
       this.consultaMateriaPrimaFormEdit.disable();
 
       //Calidad Editable
@@ -698,6 +701,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
       //Cabecera ReadOnly
       //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
       this.consultaMateriaPrimaFormEdit.disable();
 
       //Calidad Editable
@@ -705,6 +710,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
       //Cabecera ReadOnly
       //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
       this.consultaMateriaPrimaFormEdit.disable();
 
       //Calidad ReadOnly
@@ -712,6 +719,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
       //Cabecera ReadOnly
       //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.btnProveedor = false;
       this.consultaMateriaPrimaFormEdit.disable();
 
       //Calidad ReadOnly
