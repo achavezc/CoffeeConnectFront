@@ -40,6 +40,7 @@ export class PrecioDiaEditComponent implements OnInit {
   selectedProducto: any;
   selectedEstado: any;
   selectedSubProducto: any;
+  activo  = "01";
   
   vId: number = 0;
   errorGeneral = { isError: false, errorMessage: '' };
@@ -50,16 +51,16 @@ export class PrecioDiaEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoadForm();
-   
+    
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.route.queryParams
-      .subscribe(params => {
-        if (Number(params.id)) {
-          this.vId = Number(params.id);
-          this.ConsultarPorId();
-          this.esEdit= true;
-        }
-      });
+    .subscribe(params => {
+      if (Number(params.id)) {
+        this.vId = Number(params.id);
+        this.ConsultarPorId();
+        this.esEdit= true;
+      }
+    });
   }
 
   ConsultarPorId() {
@@ -103,14 +104,14 @@ export class PrecioDiaEditComponent implements OnInit {
     this.spinner.hide();
   }
 
- async LoadForm() {
+ LoadForm() {
     this.precioDiaEditForm = this.fb.group({
-      moneda: [],
-      producto: [''],
-      subproducto: [''],
-      precioDia: [''],
-      estado: [''],
-      fecRegistro: ['','']
+      moneda: ['',Validators.required],
+      producto: ['', Validators.required],
+      subproducto: ['', Validators.required],
+      precioDia: ['',Validators.required],
+      estado: ['',Validators.required],
+      fecRegistro: ['',Validators.required]
     });
     this.LoadCombos();
   }
@@ -119,10 +120,10 @@ export class PrecioDiaEditComponent implements OnInit {
     return this.precioDiaEditForm.controls;
   }
 
-  LoadCombos() {
-     this.GetMoneda();
-     this.GetProducto();
-     this.GetEstados();
+  async LoadCombos() {
+   await  this.GetMoneda();
+   await this.GetProducto();
+   await  this.GetEstados();
   }
 
   async GetMoneda() {
@@ -159,12 +160,22 @@ export class PrecioDiaEditComponent implements OnInit {
       this.listEstado = data.Result.Data;
     }
 
+    this.route.queryParams
+    .subscribe(params => {
+      if (!Number(params.id)) {
+        this.precioDiaEditForm.controls.estado.setValue("01");
+        this.precioDiaEditForm.controls.estado.disable();
+      }
+    });
+   
+
   }
 
   Save(): void {
     const form = this;
     if (this.precioDiaEditForm.invalid) {
       this.submittedEdit = true;
+      this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
       return;
       } 
     else 
@@ -231,7 +242,7 @@ export class PrecioDiaEditComponent implements OnInit {
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       ProductoId: this.precioDiaEditForm.value.producto ? this.precioDiaEditForm.value.producto : '',
       SubProductoId: this.precioDiaEditForm.value.subproducto ? this.precioDiaEditForm.value.subproducto : '',
-      EstadoId: this.precioDiaEditForm.value.estado ? this.precioDiaEditForm.value.estado : '',
+      EstadoId: this.precioDiaEditForm.controls["estado"].value ? this.precioDiaEditForm.controls["estado"].value: '',
       PrecioDia: this.precioDiaEditForm.value.precioDia ? this.precioDiaEditForm.value.precioDia : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       Fecha: this.precioDiaEditForm.value.fecRegistro ? this.precioDiaEditForm.value.fecRegistro : '',

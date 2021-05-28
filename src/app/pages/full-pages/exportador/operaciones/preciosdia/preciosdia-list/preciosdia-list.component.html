@@ -112,7 +112,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="false"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Id" prop="ProductoPrecioDiaId" width="90">
+                            <ngx-datatable-column name="Producto" prop="Producto" width="90">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -124,11 +124,9 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Producto" prop="Producto" width="100">
-                            </ngx-datatable-column>
                             <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Moneda" prop="RazonSocial" width="150">
+                            <ngx-datatable-column name="Moneda" prop="Moneda" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Precio del Dia" prop="PrecioDia" width="100">
                             </ngx-datatable-column>

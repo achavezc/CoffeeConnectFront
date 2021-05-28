@@ -14,7 +14,8 @@
                         <div class="col-md-8">
                             <ng-select [items]="listMoneda" formControlName="moneda" class="form-control"
                                 bindLabel="Label" bindValue="Codigo" id="moneda"
-                                placeholder="Seleccionar Moneda" [(ngModel)]="selectedMoneda">
+                                placeholder="Seleccionar Moneda" [(ngModel)]="selectedMoneda"
+                                [ngClass]="{ 'is-invalid': f.moneda.invalid, 'is-valid': !f.moneda.invalid }">
                             </ng-select>
                         </div>
                     </div>
@@ -25,7 +26,8 @@
                         <div class="col-md-8">
                             <ng-select [items]="listProducto" formControlName="producto" class="form-control"
                                 bindLabel="Label" bindValue="Codigo" id="listProducto"
-                                placeholder="Seleccionar Producto" [(ngModel)]="selectedProducto" (change)="changeSubProducto($event.Codigo)">
+                                placeholder="Seleccionar Producto" [(ngModel)]="selectedProducto" (change)="changeSubProducto($event.Codigo)"
+                                [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }">
                             </ng-select>
                         </div>
                     </div>
@@ -36,7 +38,8 @@
                         <div class="col-md-8">
                             <ng-select [items]="listEstado" formControlName="estado" class="form-control"
                                 bindLabel="Label" bindValue="Codigo" id="estado" 
-                                placeholder="Seleccionar Estado" [(ngModel)]="selectedEstado">
+                                placeholder="Seleccionar Estado" [(ngModel)]="selectedEstado"
+                                [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }">
                             </ng-select>
                         </div>
                     </div>
@@ -48,7 +51,8 @@
                         <label for="codSocio" class="col-4 col-form-label pr-0">Precio del Dia</label>
                         <div class="col-8">
                             <input type="number" name="precioDia" id="precioDia" formControlName="precioDia"
-                                class="form-control" placeholder="Ingresar Precio del Dia" >
+                                class="form-control" placeholder="Ingresar Precio del Dia" 
+                                [ngClass]="{ 'is-invalid': f.precioDia.invalid, 'is-valid': !f.precioDia.invalid }">
                         </div>
                     </div>
                 </div>
@@ -58,7 +62,8 @@
                         <div class="col-md-8">
                             <ng-select [items]="listSubProducto" formControlName="subproducto" class="form-control"
                                 bindLabel="Label" bindValue="Codigo" id="subproducto"
-                                placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedSubProducto">
+                                placeholder="Seleccionar tipo de documento" [(ngModel)]="selectedSubProducto"
+                                [ngClass]="{ 'is-invalid': f.subproducto.invalid, 'is-valid': !f.subproducto.invalid }">
                             </ng-select>
                         </div>
                     </div>
@@ -69,7 +74,8 @@
                             Registro</label>
                         <div class="col-8 pl-0">
                             <input type="date" date name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
-                                class="form-control" placeholder="Seleccionar fecha de registro" >
+                                class="form-control" placeholder="Seleccionar fecha de registro" 
+                                [ngClass]="{ 'is-invalid': f.fecRegistro.invalid, 'is-valid': !f.fecRegistro.invalid }">
                         </div>
                     </div>
                 </div>
@@ -83,9 +89,9 @@
                
 
               </div>
-            <div class="form-row">
-                <small *ngIf="errorGenerico.isError" class="form-text danger text-muted">
-                    {{errorGenerico.msgError}}
+            <div class="row">
+                <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
+                    {{errorGeneral.errorMessage}}
                 </small>
             </div>
         </div>
