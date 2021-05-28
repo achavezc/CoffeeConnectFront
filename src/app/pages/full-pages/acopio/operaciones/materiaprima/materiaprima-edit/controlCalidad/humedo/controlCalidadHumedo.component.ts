@@ -35,7 +35,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
   estadoAnalizado = "02";
   estadoAnulado = "00";
   estadoEnviadoAlmacen = "03";
-
+  btnGuardarCalidad = true;
   ngOnInit(): void {
     this.cargarForm()
     this.cargarCombos();
@@ -109,22 +109,12 @@ export class ControlCalidadComponentHumedo implements OnInit {
       });
     }
 
-    this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioPesado, this.detalle.UsuarioCalidad);
+    this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioCalidad);
   }
 
-  desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+  desactivarControles(estado: string,  usuarioAnalizado:string) {
     var usuarioLogueado = this.login.Result.Data.NombreUsuario
-    if(estado == this.estadoPesado && usuarioPesado == usuarioLogueado ){
-  
-  
-      //Calidad Editable
-      //NotaCompra ReadOnly
-      
-    }else if(estado == this.estadoPesado && usuarioPesado != usuarioLogueado ){
-  
-      //Calidad Editable
-      //NotaCompra ReadOnly
-    }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+    if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
   
   
       //Calidad Editable
@@ -134,12 +124,14 @@ export class ControlCalidadComponentHumedo implements OnInit {
   
       //Calidad ReadOnly
       this.formControlCalidadHumedo.disable();
+      this.btnGuardarCalidad = false;
       //NotaCompra Editable
     }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
   
   
       //Calidad ReadOnly
       this.formControlCalidadHumedo.disable();
+      this.btnGuardarCalidad = false;
       //NotaCompra ReadOnly
     }
   

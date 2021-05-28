@@ -505,7 +505,7 @@
             <div class="col-12">
                
                     <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
-                        <button class="btn btn-primary mr-1 mb-1" type="submit"
+                        <button class="btn btn-primary mr-1 mb-1" type="submit"  [disabled]="!btnGuardarCalidad"
                             (click)="actualizarAnalisisControlCalidad($event)">Guardar</button>
                         <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="cancelar()">Cancelar</button>
                     </div>
