@@ -140,7 +140,7 @@ export class ContratoComponent implements OnInit {
           this.errorGeneral = { isError: false, msgError: '' };
           if (!xls) {
             res.Result.Data.forEach((obj: any) => {
-              obj.FechaEmbarqueString = this.dateUtil.formatDate(new Date(obj.FechaEmbarque));
+              obj.FechaContratoString = this.dateUtil.formatDate(new Date(obj.FechaContrato));
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
