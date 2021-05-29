@@ -304,7 +304,7 @@ export class ClienteEditComponent implements OnInit {
       RazonSocial: this.clienteEditForm.value.cliente ?? '',
       Direccion: this.clienteEditForm.value.direccion ?? '',
       PaisId: this.clienteEditForm.value.pais ?? 0,
-      DepartamentoId: this.clienteEditForm.value.departamento ?? '',
+      DepartamentoId: this.clienteEditForm.value.departamento ?? this.clienteEditForm.value.ciudad ?? '',
       ProvinciaId: this.clienteEditForm.value.provincia ?? '',
       DistritoId: this.clienteEditForm.value.distrito ?? '',
       NumeroTelefono: this.clienteEditForm.value.telefono ? this.clienteEditForm.value.telefono.toString() : '',
