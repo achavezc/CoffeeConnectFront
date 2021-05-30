@@ -81,14 +81,6 @@
                                         [(ngModel)]="selectedMotivo">
                                     </ng-select>
                                 </div>
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
-                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
-                                        [(ngModel)]="selectedEstado">
-                                    </ng-select>
-                                </div>
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
@@ -159,9 +151,9 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Transportista" prop="Transportista" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Cant. Lotes" prop="CantidadLotes" width="100">
+                            <ngx-datatable-column name="Cant. Sacos" prop="CantidadLotes" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Total Peso Bruto KGS" prop="PesoKilosBrutos" width="150">
+                            <ngx-datatable-column name="Total Kilos Bruto" prop="PesoKilosBrutos" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="100">
                                 <ng-template let-status="value" ngx-datatable-cell-template>

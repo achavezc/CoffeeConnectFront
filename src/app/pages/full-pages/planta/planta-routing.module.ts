@@ -5,7 +5,8 @@ import { NotaIngresoListComponent } from './operaciones/notaingreso/list/notaing
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
 import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
-import {NotaSalidaAlmacenComponent} from '../planta/operaciones/notasalidaalmacen/list/notasalidaalmacen-list.component';
+import {NotaSalidaAlmacenComponent} from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
+import {NotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
 
 
 const routes: Routes = [
@@ -41,10 +42,17 @@ const routes: Routes = [
         }
       },
       {
-        path: 'notasalidaalmacen-list',
+        path: 'notasalidaplanta-list',
         component: NotaSalidaAlmacenComponent,
         data: {
           title: 'List'
+        }
+      },
+      {
+        path: 'notasalidaplanta-edit',
+        component: NotaSalidaPlantaEditComponent,
+        data: {
+          title: 'Edit'
         }
       }
 
