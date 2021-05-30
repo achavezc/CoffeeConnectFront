@@ -229,6 +229,10 @@
 				"NotaIngresoAlmacen":
 				{
 					"Label":"Nota de Ingreso Almacen"
+				},
+				"NotaSalida":
+				{
+					"Label":"Nota de Salida"
 				}
 		},
 		"Administracion":

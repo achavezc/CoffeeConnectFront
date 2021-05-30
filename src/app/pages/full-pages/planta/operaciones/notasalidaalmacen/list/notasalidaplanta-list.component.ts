@@ -13,8 +13,8 @@ import { EmpresaTransporteService } from '../../../../../../services/empresa-tra
 
 @Component({
   selector: 'app-nota-salida-almacen',
-  templateUrl: './notasalidaalmacen-list.component.html',
-  styleUrls: ['./notasalidaalmacen-list.component.scss', '/assets/sass/libs/datatables.scss'],
+  templateUrl: './notasalidaplanta-list.component.html',
+  styleUrls: ['./notasalidaplanta-list.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class NotaSalidaAlmacenComponent implements OnInit {
@@ -34,12 +34,10 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   listTransportistas: [] = [];
   listAlmacenes: [] = [];
   listMotivos: [] = [];
-  listEstados: [] = [];
   selectedDestinatario: any;
   selectedTransportista: any;
   selectedAlmacen: any;
   selectedMotivo: any;
-  selectedEstado: any;
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
@@ -72,8 +70,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
       fechaInicio: [, [Validators.required]],
       fechaFin: [, [Validators.required]],
       almacen: [''],
-      motivo: [''],
-      estado: ['']
+      motivo: ['']
     });
     this.notaSalidaForm.setValidators(this.comparisonValidator());
   }
@@ -105,21 +102,17 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         form.listTransportistas = res.Result.Data;
       }
     })
-    this.maestroUtil.obtenerMaestros("Almacen", function (res) {
+    this.maestroUtil.obtenerMaestros("AlmacenSalidaPlanta", function (res) {
       if (res.Result.Success) {
         form.listAlmacenes = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("MotivoSalida", function (res) {
+    this.maestroUtil.obtenerMaestros("MotivoSalidaPlanta", function (res) {
       if (res.Result.Success) {
         form.listMotivos = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("EstadoNotaSalidaAlmacen", function (res) {
-      if (res.Result.Success) {
-        form.listEstados = res.Result.Data;
-      }
-    });
+    
   }
 
   compareTwoDates(): void {
@@ -264,7 +257,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['/operaciones/notasalida-edit']);
+    this.router.navigate(['planta/operaciones/notasalidaplanta-edit']);
   }
 
 }

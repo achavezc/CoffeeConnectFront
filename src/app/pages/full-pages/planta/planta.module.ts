@@ -27,7 +27,9 @@ import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/
 import { PesadoCafePlantaComponent } from "./operaciones/notaingreso/edit/pesadocafe/pesadocafeplanta.component";
 import { ModalModule } from '../modals/modal.module';
 import {AcopioModule} from '../acopio/acopio.module';
-import {NotaSalidaAlmacenComponent} from '../planta/operaciones/notasalidaalmacen/list/notasalidaalmacen-list.component';
+import {NotaSalidaAlmacenComponent} from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
+import {NotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
+import{TagNotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/tags/notasalidaplanta-tag.component';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import {NotaSalidaAlmacenComponent} from '../planta/operaciones/notasalidaalmace
     NotaIngresoAlmacenListComponent,
     NotaIngresoAlmacenEditComponent,
     PesadoCafePlantaComponent,
-    NotaSalidaAlmacenComponent
+    NotaSalidaAlmacenComponent,
+    NotaSalidaPlantaEditComponent,
+    TagNotaSalidaPlantaEditComponent
   ],
   exports: [
     PesadoCafePlantaComponent
