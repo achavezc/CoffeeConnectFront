@@ -522,14 +522,9 @@ export class ControlCalidadComponent implements OnInit {
       const exportPorcentaje = this.formControlCalidad.controls["exportPorcentaje"].value;
       const descartePorcentaje = this.formControlCalidad.controls["descartePorcentaje"].value;
       const totalPorcentaje = Number(cascarillaPorcentaje.slice(0,cascarillaPorcentaje.length-1)) + Number(exportPorcentaje.slice(0,exportPorcentaje.length-1)) + Number(descartePorcentaje.slice(0,descartePorcentaje.length-1));
-      if (totalPorcentaje == 99.99)
-      {
-        this.formControlCalidad.controls['totalPorcentaje'].setValue( 100.00 + "%");
-      }
-      else
-      {
-        this.formControlCalidad.controls['totalPorcentaje'].setValue( totalPorcentaje.toFixed(2)+ "%");
-      }
+    
+        this.formControlCalidad.controls['totalPorcentaje'].setValue( Math.round(totalPorcentaje)+ "%");
+      
       }
   }
 

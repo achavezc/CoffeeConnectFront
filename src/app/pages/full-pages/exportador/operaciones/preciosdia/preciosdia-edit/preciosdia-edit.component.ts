@@ -35,13 +35,11 @@ export class PrecioDiaEditComponent implements OnInit {
   listSubProducto: [];
   responsable: any = '';
   esEdit = false;
-  
   selectedMoneda: any;
   selectedProducto: any;
   selectedEstado: any;
   selectedSubProducto: any;
   activo  = "01";
-  
   vId: number = 0;
   errorGeneral = { isError: false, errorMessage: '' };
   vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
@@ -51,7 +49,7 @@ export class PrecioDiaEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoadForm();
-    
+    this.LoadCombos();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.route.queryParams
     .subscribe(params => {
@@ -66,7 +64,7 @@ export class PrecioDiaEditComponent implements OnInit {
   ConsultarPorId() {
     this.spinner.show();
     this.precioDiaService.ConsultarPorId({ ProductoPrecioDiaId: this.vId }).subscribe((res: any) => {
-      this.spinner.hide();
+     
       if (res.Result.Success) {
          this.CompletarFormulario(res.Result.Data);
       } else {
@@ -104,7 +102,7 @@ export class PrecioDiaEditComponent implements OnInit {
     this.spinner.hide();
   }
 
- LoadForm() {
+  LoadForm() {
     this.precioDiaEditForm = this.fb.group({
       moneda: ['',Validators.required],
       producto: ['', Validators.required],
@@ -113,17 +111,17 @@ export class PrecioDiaEditComponent implements OnInit {
       estado: ['',Validators.required],
       fecRegistro: ['',Validators.required]
     });
-    this.LoadCombos();
+    
   }
 
   get f() {
     return this.precioDiaEditForm.controls;
   }
 
-  async LoadCombos() {
-   await  this.GetMoneda();
-   await this.GetProducto();
-   await  this.GetEstados();
+   LoadCombos() {
+   this.GetMoneda();
+   this.GetProducto();
+   this.GetEstados();
   }
 
   async GetMoneda() {
