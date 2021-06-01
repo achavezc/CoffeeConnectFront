@@ -3,12 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 import { DateUtil } from '../../../../../services/util/date-util';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
+import { AlertUtil } from '../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-contrato',
@@ -24,7 +26,8 @@ export class ContratoComponent implements OnInit {
     private excelService: ExcelService,
     private maestroUtil: MaestroUtil,
     private contratoService: ContratoService,
-    private router: Router) { }
+    private router: Router,
+    private alertUtil: AlertUtil) { }
 
   contratoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -175,5 +178,49 @@ export class ContratoComponent implements OnInit {
 
   Nuevo(): void {
     this.router.navigate(['/exportador/operaciones/contrato/create'])
+  }
+
+  Cancel(): void {
+    if (this.selected.length > 0) {
+      const form = this;
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Está seguro de continuar con la anulación del contrato?.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.value) {
+          form.CancelContract();
+        }
+      });
+    }
+  }
+
+  CancelContract(): void {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, msgError: '' };
+    this.contratoService.Cancel({ ContratoId: this.selected[0].ContratoId, Usuario: this.userSession.Result.Data.NombreUsuario })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('CONFIRMACIÓN', 'Contrato anulado correctamente.', () => {
+            this.Buscar();
+          });
+        } else {
+          this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+      })
   }
 }

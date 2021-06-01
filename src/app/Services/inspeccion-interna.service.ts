@@ -7,13 +7,13 @@ import { ErrorHandling } from '../shared/util/error-handling';
 @Injectable({
   providedIn: 'root'
 })
-export class ClienteService {
+export class InspeccionInternaService {
+
+  private url = `${host}InspeccionInterna`;
 
   constructor(private http: HttpClient,
     private errorHandling: ErrorHandling) {
   }
-
-  private url = `${host}Cliente`;
 
   Search(request: any): Observable<any> {
     const url = `${this.url}/Consultar`;
@@ -35,8 +35,4 @@ export class ClienteService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Cancel(request: any): Observable<any> {
-    const url = `${this.url}/Anular`;
-    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
-  }
 }
