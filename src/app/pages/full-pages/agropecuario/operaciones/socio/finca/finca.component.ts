@@ -114,7 +114,7 @@ export class FincaComponent implements OnInit {
 
 
   Inspections(): void {
-
+    this.router.navigate(['/agropecuario/operaciones/socio/finca/inspeccion/list']);
   }
 
   Diagnosis(): void {

@@ -11,6 +11,7 @@ import { MaestroService } from '../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
+import { AlertUtil } from '../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-cliente',
@@ -26,7 +27,8 @@ export class ClienteComponent implements OnInit {
     private maestroService: MaestroService,
     private router: Router,
     private excelService: ExcelService,
-    private maestroUtil: MaestroUtil) { }
+    private maestroUtil: MaestroUtil,
+    private alertUtil: AlertUtil) { }
 
   clienteForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -42,8 +44,10 @@ export class ClienteComponent implements OnInit {
   tempData = [];
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
+  userSession: any;
 
   ngOnInit(): void {
+    this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
     this.clienteForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
@@ -190,29 +194,50 @@ export class ClienteComponent implements OnInit {
   }
 
   Anular(): void {
-    const form = this;
-    swal.fire({
-      title: 'Confirmación',
-      text: `¿Está seguro de anular el cliente "${form.selected[0].RazonSocial}"?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2F8BE6',
-      cancelButtonColor: '#F55252',
-      confirmButtonText: 'Si',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        form.Buscar();
-      }
-    });
+    if (this.selected.length > 0) {
+      const form = this;
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Está seguro de anular el cliente "${form.selected[0].RazonSocial}"?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.CancelClient();
+        }
+      });
+    }
   }
 
   Nuevo(): void {
     this.router.navigate(['/exportador/operaciones/cliente/create']);
   }
 
+  CancelClient(): void {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, msgError: '' };
+    this.clienteService.Cancel({ ClienteId: this.selected[0].ClienteId, Usuario: this.userSession.Result.Data.NombreUsuario })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('CONFIRMACIÓN', 'Cliente anulado correctamente.', () => {
+            this.Buscar();
+          });
+        } else {
+          this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        }
+      }, (err: any) => {
+        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+        console.log(err);
+        this.spinner.hide();
+      })
+  }
 }
