@@ -1,8 +1,240 @@
-<div class="card">
-    <div class="card-header text-center bg-primary align-middle text-white">
-        FICHA DE INSPECCIÓN INTERNA
+<form class="needs-validation" [formGroup]="frmFincaInspeccionEdit">
+    <div class="card">
+        <div class="card-header text-center bg-primary align-middle text-white">
+            FICHA DE INSPECCIÓN INTERNA
+        </div>
+        <!-- <h5 class="card-body text-center bg-primary text-white">FICHA DE INSPECCIÓN INTERNA</h5> -->
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>I. DATOS GENERALES</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="form-group row">
+                        <label for="producer" class="col-md-2 col-form-label">Productor</label>
+                        <div class="col-md-10">
+                            <input type="text" name="producer" id="producer" formControlName="producer"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.producer.invalid, 'is-valid': !f.producer.invalid }"
+                                placeholder="Productor" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="codigo" class="col-md-3 col-form-label">Código</label>
+                        <div class="col-md-8">
+                            <input type="text" name="codigo" id="codigo" formControlName="codigo" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.codigo.invalid, 'is-valid': !f.codigo.invalid }"
+                                placeholder="Código" [readonly]="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="numberDocument" class="col-md-4 col-form-label">N° Documento</label>
+                        <div class="col-md-8">
+                            <input type="text" name="numberDocument" id="numberDocument"
+                                formControlName="numberDocument" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.numberDocument.invalid, 'is-valid': !f.numberDocument.invalid }"
+                                placeholder="Número de documento" [readonly]="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="status" class="col-md-3 col-form-label">Estatus</label>
+                        <div class="col-md-9">
+                            <input type="text" name="status" id="status" formControlName="status" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.status.invalid, 'is-valid': !f.status.invalid }"
+                                placeholder="Estatus" [readonly]="true" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="form-group row">
+                        <label for="organization" class="col-md-2 col-form-label">Organización</label>
+                        <div class="col-md-10">
+                            <input type="text" name="organization" id="organization" formControlName="organization"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.organization.invalid, 'is-valid': !f.organization.invalid }"
+                                placeholder="Organización" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="zone" class="col-md-3 col-form-label">Zona</label>
+                        <div class="col-md-9">
+                            <input type="text" name="zone" id="zone" formControlName="zone" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.zone.invalid, 'is-valid': !f.zone.invalid }"
+                                placeholder="Zona" [readonly]="true" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="department" class="col-md-4 col-form-label">Departamento</label>
+                        <div class="col-md-8">
+                            <input type="text" name="department" id="department" formControlName="department"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.department.invalid, 'is-valid': !f.department.invalid }"
+                                placeholder="Departamento" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="province" class="col-md-4 col-form-label">Provincia</label>
+                        <div class="col-md-8">
+                            <input type="text" name="province" id="province" formControlName="province"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.province.invalid, 'is-valid': !f.province.invalid }"
+                                placeholder="Provincia" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="district" class="col-md-3 col-form-label">Distrito</label>
+                        <div class="col-md-9">
+                            <input type="text" name="district" id="district" formControlName="district"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.district.invalid, 'is-valid': !f.district.invalid }"
+                                placeholder="Provincia" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="form-group row">
+                        <label for="internalInspector" class="col-md-2 col-form-label pr-0">Inspector Interno</label>
+                        <div class="col-md-10">
+                            <input type="text" name="internalInspector" id="internalInspector"
+                                formControlName="internalInspector" class="form-control"
+                                [ngClass]="{ 'is-invalid': f.internalInspector.invalid, 'is-valid': !f.internalInspector.invalid }"
+                                placeholder="Departamento" [readonly]="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="inspectionDate" class="col-md-4 col-form-label">Fecha Inspección</label>
+                        <div class="col-md-8">
+                            <input type="date" date name="inspectionDate" id="inspectionDate"
+                                formControlName="inspectionDate" class="form-control text-center"
+                                [ngClass]="{ 'is-invalid': f.inspectionDate.invalid, 'is-valid': !f.inspectionDate.invalid }"
+                                placeholder="Provincia" [readonly]="true" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="latitude" class="col-md-3 col-form-label">Latitud</label>
+                        <div class="col-md-9">
+                            <input type="text" name="latitude" id="latitude" formControlName="latitude"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.latitude.invalid, 'is-valid': !f.latitude.invalid }"
+                                placeholder="Latitud" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="longitude" class="col-md-4 col-form-label">Longitud</label>
+                        <div class="col-md-8">
+                            <input type="text" name="longitude" id="longitude" formControlName="longitude"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.longitude.invalid, 'is-valid': !f.longitude.invalid }"
+                                placeholder="Longitud" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="altitude" class="col-md-3 col-form-label">Altitud</label>
+                        <div class="col-md-9">
+                            <input type="text" name="altitude" id="altitude" formControlName="altitude"
+                                class="form-control" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.altitude.invalid, 'is-valid': !f.altitude.invalid }"
+                                placeholder="Altitud" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- II. ESTANDARES A CUMPLIR - ORGANICOS, SOCIALES Y SOSTENIBLES -->
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>II. ESTANDARES A CUMPLIR - ORGANICOS, SOCIALES Y SOSTENIBLES
+                    </span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngFor="let item of arrStandards; let i=index">
+                    <div class="form-group row">
+                        <label class="col-md-9 col-form-label">{{item.Label}}</label>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label>
+                                <input type="checkbox" [value]="item.Codigo" (change)="ChangeStandards($event)"
+                                    [checked]="selectedStandards.includes(item.Codigo)" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- III. DATOS DE LA(S) PARCELA(S) DE CAFE -->
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>III. DATOS DE LA(S) PARCELA(S) DE CAFE
+                    </span>
+                </div>
+            </div>
+            <div class="form-row">
+                
+            </div>
+
+            <!-- IV. VERIFICACION DE CONFORMIDAD CON LAS NORMAS -->
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>IV. VERIFICACION DE CONFORMIDAD CON LAS NORMAS
+                    </span>
+                </div>
+            </div>
+
+            <!-- V. RESÚMEN DE NO CONFORMIDADES Y ACCIONES PROPUESTAS POR EL PRODUCTOR -->
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>V. RESÚMEN DE NO CONFORMIDADES Y ACCIONES PROPUESTAS POR EL PRODUCTOR
+                    </span>
+                </div>
+            </div>
+
+            <!-- VI. DECLARACION -->
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>VI. DECLARACION</span>
+                </div>
+            </div>
+
+            <!-- VI. LEVANTAMIENTO DE LAS NO CONFORMIDADES -->
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>VI. LEVANTAMIENTO DE LAS NO CONFORMIDADES</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- <h5 class="card-body text-center bg-primary text-white">FICHA DE INSPECCIÓN INTERNA</h5> -->
-    <div class="card-body">
-    </div>
-</div>
+</form>
