@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
+import { EmpresaTransporteListComponent } from './operaciones/empresatransporte/list/empresatransporte-list.component';
+import { EmpresaTransporteEditComponent } from './operaciones/empresatransporte/edit/empresatransporte-edit.component';
 import { MateriaPrimaEditComponent } from './operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component';
 import { NotaSalidaEditComponent } from "./operaciones/notasalida/notasalida-edit/notaSalida-edit.component";
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list.component';
@@ -101,6 +103,20 @@ const routes: Routes = [
         data: {
           title: 'Ordenes de Servicio Edit- Control de Calidad Externa'
         }
+      },
+      {
+        path: 'empresatransporte-list',
+        component: EmpresaTransporteListComponent,
+        data: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'empresatransporte-edit',
+        component: EmpresaTransporteEditComponent,
+        data: {
+          title: 'Edit'
+        }
       }
     ]
   }
@@ -111,3 +127,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AcopioRoutingModule { }
+
