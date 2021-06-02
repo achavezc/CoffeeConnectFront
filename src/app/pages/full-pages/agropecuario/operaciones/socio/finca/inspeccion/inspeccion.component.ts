@@ -98,7 +98,7 @@ export class InspeccionComponent implements OnInit {
   }
 
   New() {
-    this.router.navigate([`/socio/finca/inspeccion/create`]);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/create`]);
   }
 
   Cancel() {

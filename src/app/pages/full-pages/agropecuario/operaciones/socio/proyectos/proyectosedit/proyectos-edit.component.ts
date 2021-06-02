@@ -220,12 +220,12 @@ export class ProyectosEditComponent implements OnInit {
     this.flagAgroideas = true;
     this.flagInia = true;
 
-    if (Codigo === '01') {
+    if (Codigo === '03') {
       this.flagAgroRural = false;
       this.flagDevida = false;
     } else if (Codigo === '02') {
       this.flagAgroideas = false;
-    } else if (Codigo === '03') {
+    } else if (Codigo === '01') {
       this.flagAgroBanco = false;
     } else if (Codigo === '05') {
       this.flagAgroRural = false;
@@ -257,13 +257,13 @@ export class ProyectosEditComponent implements OnInit {
       periodoHasta.clearValidators();
       cantHectareas.clearValidators();
 
-      if (p === '03') {
+      if (p === '01') {
         money.setValidators(Validators.required);
         monto.setValidators(Validators.required);
         periodoDesde.setValidators(Validators.required);
         periodoHasta.setValidators(Validators.required);
         cantHectareas.setValidators(Validators.required);
-      } else if (p === '01' || p === '05') {
+      } else if (p === '03' || p === '05') {
         uniMedida.setValidators(Validators.required);
         tipo.setValidators(Validators.required);
         totalEntregar.setValidators(Validators.required);
