@@ -70,7 +70,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
 
     ConsultarPorId() {
         this.spinner.show();
-        this.empresaProveedoraService.ConsultarPorId({ EmpresaTransporteId: this.vId }).subscribe((res: any) => {
+        this.empresaProveedoraService.ConsultarPorId({ EmpresaProveedoraAcreedoraId: this.vId }).subscribe((res: any) => {
 
             if (res.Result.Success) {
                 this.CompletarFormulario(res.Result.Data);
