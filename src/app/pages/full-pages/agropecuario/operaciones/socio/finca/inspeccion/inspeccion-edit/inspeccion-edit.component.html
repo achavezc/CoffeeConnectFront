@@ -203,7 +203,50 @@
                 </div>
             </div>
             <div class="form-row">
-                
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table table-sm table-response">
+                        <thead>
+                            <th>Lotes</th>
+                            <th>Variedad de Café</th>
+                            <th>Meses de cosecha</th>
+                            <th>Año y mes de sombra</th>
+                            <th>Edad</th>
+                            <th>Área Total</th>
+                            <th>Cosecha Pergamino 2020</th>
+                            <th>Estimado Pergamino 2021</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                </td>
+                                <td>
+                                    <select class="form-control form-control-sm">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control form-control-sm">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- IV. VERIFICACION DE CONFORMIDAD CON LAS NORMAS -->
@@ -213,12 +256,165 @@
                     </span>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr class="text-center">
+                                <th rowspan="2" class="align-middle">Acción a verificar</th>
+                                <th colspan="4" class="align-middle">CUMPLIMIENTO</th>
+                                <th rowspan="2" class="align-middle">Observaciones</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th class="align-middle">Crítico para</th>
+                                <th class="align-middle">No Aplica</th>
+                                <th class="align-middle">SI</th>
+                                <th class="align-middle">NO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th colspan="6">SISTEMA DE GESTIÓN DOCUMENTADO</th>
+                            </tr>
+                            <tr *ngFor="let item of arrInspectionManagementSystemStandards; let i=index">
+                                <td>{{item.Label}}</td>
+                                <td class="align-middle">
+                                    <select name="listCriticalFor" id="" class="form-control form-control-sm">
+                                        <option *ngFor="let item of arrCriticalFor; let i=index" [value]="item.Codigo">
+                                            {{item.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th colspan="6">BIENESTAR SOCIAL Y LABORAL</th>
+                            </tr>
+                            <tr *ngFor="let item of arrSocialWelfare; let i=index">
+                                <td>{{item.Label}}</td>
+                                <td class="align-middle">
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option *ngFor="let item of arrCriticalFor; let i=index" [value]="item.Codigo">
+                                            {{item.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th colspan="6">CONSERVACIÓN DE ECOSISTEMAS, AGUA, SUELOS Y VIDA SILVESTRE</th>
+                            </tr>
+                            <tr *ngFor="let item of arrEcosystemConservation; let i=index">
+                                <td>{{item.Label}}</td>
+                                <td class="align-middle">
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option *ngFor="let item of arrCriticalFor; let i=index" [value]="item.Codigo">
+                                            {{item.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th colspan="6">MANEJO INTEGRADO DE CULTIVO Y RESIDUOS</th>
+                            </tr>
+                            <tr *ngFor="let item of arrIntegratedCropManagement; let i=index">
+                                <td>{{item.Label}}</td>
+                                <td class="align-middle">
+                                    <select name="" id="" class="form-control form-control-sm">
+                                        <option *ngFor="let item of arrCriticalFor; let i=index" [value]="item.Codigo">
+                                            {{item.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <!-- V. RESÚMEN DE NO CONFORMIDADES Y ACCIONES PROPUESTAS POR EL PRODUCTOR -->
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
                     <span>V. RESÚMEN DE NO CONFORMIDADES Y ACCIONES PROPUESTAS POR EL PRODUCTOR
                     </span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>N° DE ITEM</th>
+                                    <th>MANIFIESTO DEL PRODUCTOR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -233,6 +429,134 @@
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
                     <span>VI. LEVANTAMIENTO DE LAS NO CONFORMIDADES</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Punto de Control</th>
+                                    <th>No Conformidad</th>
+                                    <th>Acción Correctiva</th>
+                                    <th>Plazo del levantamiento</th>
+                                    <th>¿Cumplio?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>DECISION DEL COMITÉ DE APROBACIÓN Y SANCIONES
+                    </span>
                 </div>
             </div>
         </div>

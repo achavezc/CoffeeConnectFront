@@ -11,11 +11,21 @@ export class InspeccionEditComponent implements OnInit {
 
   frmFincaInspeccionEdit: FormGroup;
   arrStandards = [];
+  arrInspectionManagementSystemStandards = [];
+  arrSocialWelfare = [];
+  arrEcosystemConservation = [];
+  arrIntegratedCropManagement = [];
+  arrCriticalFor = [];
   selectedStandards = '';
 
   constructor(private fb: FormBuilder,
     private maestroServicio: MaestroService) {
     this.LoadStandards();
+    this.LoadInspectionManagementSystemStandards();
+    this.LoadSocialWelfare();
+    this.LoadEcosystemConservation();
+    this.LoadIntegratedCropManagement();
+    this.LoadCriticalFor();
   }
 
   ngOnInit(): void {
@@ -50,6 +60,46 @@ export class InspeccionEditComponent implements OnInit {
     this.maestroServicio.obtenerMaestros('InspeccionEstandares').subscribe((res: any) => {
       if (res.Result.Success) {
         this.arrStandards = res.Result.Data;
+      }
+    });
+  }
+
+  LoadInspectionManagementSystemStandards(): void {
+    this.maestroServicio.obtenerMaestros('InspeccionNormasSistemaGerstion').subscribe((res: any) => {
+      if (res.Result.Success) {
+        this.arrInspectionManagementSystemStandards = res.Result.Data;
+      }
+    });
+  }
+
+  LoadSocialWelfare(): void {
+    this.maestroServicio.obtenerMaestros('InspeccionNormasBienestarSocial').subscribe((res: any) => {
+      if (res.Result.Success) {
+        this.arrSocialWelfare = res.Result.Data;
+      }
+    });
+  }
+
+  LoadEcosystemConservation(): void {
+    this.maestroServicio.obtenerMaestros('InspeccionNormasConservacionEcosistema').subscribe((res: any) => {
+      if (res.Result.Success) {
+        this.arrEcosystemConservation = res.Result.Data;
+      }
+    });
+  }
+
+  LoadIntegratedCropManagement(): void {
+    this.maestroServicio.obtenerMaestros('InspeccionNormasManejoIntegradoCultivo').subscribe((res: any) => {
+      if (res.Result.Success) {
+        this.arrIntegratedCropManagement = res.Result.Data;
+      }
+    });
+  }
+
+  LoadCriticalFor(): void {
+    this.maestroServicio.obtenerMaestros('InspeccionNormasCriticoPara').subscribe((res: any) => {
+      if (res.Result.Success) {
+        this.arrCriticalFor = res.Result.Data;
       }
     });
   }
