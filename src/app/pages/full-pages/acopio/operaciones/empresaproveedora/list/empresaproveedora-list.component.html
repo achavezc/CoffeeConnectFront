@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <div class="content-header">BANDEJA DE EMPRESAS DE TRANSPORTE </div>
+        <div class="content-header">BANDEJA DE EMPRESAS PROVEEDORA ACREEDORA </div>
     </div>
 </div>
 
@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="needs-validation" [formGroup]="empresaTransporteform" novalidate>
+                        <form class="needs-validation" [formGroup]="empresaProveedoraform" novalidate>
                              <div class="form-row">
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="nombreRazonSocial" class="form-label">Razon Social</label>
@@ -38,12 +38,22 @@
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
                                 </div>
-                               
+                                <div class="col-md-6 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Clasificacion</label>
+                                    <ng-select [items]="listClasificacion" formControlName="clasificacion"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar Clasificacion"
+                                        [ngClass]="{ 'is-invalid': f.clasificacion.invalid, 'is-valid': !f.clasificacion.invalid }"
+                                        [(ngModel)]="selectedClasificacion">
+                                    </ng-select>
+                                </div>
                             </div>
+
+                            
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="empresaTransporteform.invalid"
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="empresaProveedoraform.invalid"
                                 (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
                             
@@ -92,8 +102,8 @@
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
-                                                routerLink="/acopio/operaciones/empresatransporte-edit"
-                                                [queryParams]="{ id: row.EmpresaTransporteId}">{{
+                                                routerLink="/acopio/operaciones/empresaproveedora-edit"
+                                                [queryParams]="{ id: row.EmpresaProveedoraAcreedoraId}">{{
                                                 name }}</a>
                                         </div>
                                     </div>

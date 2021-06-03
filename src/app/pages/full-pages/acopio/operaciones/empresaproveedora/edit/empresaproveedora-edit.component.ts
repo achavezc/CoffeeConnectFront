@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, ViewChild, TemplateRef } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
-import { EmpresaTransporteService } from '../../../../../../services/empresatransporte.service';
+import { EmpresaProveedoraService } from '../../../../../../services/empresaproveedora.service';
 
 import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
@@ -12,12 +12,12 @@ import { formatCurrency } from '@angular/common';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 @Component({
-    selector: 'app-empresatransporte-edit',
-    templateUrl: './empresatransporte-edit.component.html',
-    styleUrls: ['./empresatransporte-edit.component.scss', '/assets/sass/libs/datatables.scss'],
+    selector: 'app-empresaproveedora-edit',
+    templateUrl: './empresaproveedora-edit.component.html',
+    styleUrls: ['./empresaproveedora-edit.component.scss', '/assets/sass/libs/datatables.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class EmpresaTransporteEditComponent implements OnInit {
+export class EmpresaProveedoraEditComponent implements OnInit {
 
     constructor(
         private maestroUtil: MaestroUtil,
@@ -28,25 +28,20 @@ export class EmpresaTransporteEditComponent implements OnInit {
         private alertUtil: AlertUtil,
         private spinner: NgxSpinnerService,
         private maestroService: MaestroService,
-        private empresaTransporteService: EmpresaTransporteService) { }
+        private empresaProveedoraService: EmpresaProveedoraService) { }
 
-    empresaTransporteEditForm: FormGroup;
-    listMoneda: [];
-    listProducto: [];
+    empresaProveedoraEditForm: FormGroup;
+
     listEstado: [];
-    listSubProducto: [];
-
+    listClasificacion: [];
     listDepartamento: [];
     listProvincia: [];
     listDistrito: [];
 
     responsable: any = '';
     esEdit = false;
-    selectedMoneda: any;
-    selectedProducto: any;
     selectedEstado: any;
-    selectedSubProducto: any;
-
+    selectedClasificacion: any;
     selectedDepartamento: any;
     selectedProvincia: any;
     selectedDistrito: any;
@@ -75,7 +70,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
 
     ConsultarPorId() {
         this.spinner.show();
-        this.empresaTransporteService.ConsultarPorId({ EmpresaTransporteId: this.vId }).subscribe((res: any) => {
+        this.empresaProveedoraService.ConsultarPorId({ EmpresaTransporteId: this.vId }).subscribe((res: any) => {
 
             if (res.Result.Success) {
                 this.CompletarFormulario(res.Result.Data);
@@ -92,31 +87,35 @@ export class EmpresaTransporteEditComponent implements OnInit {
         this.responsable = data.UsuarioRegistro;
         
         if (data.DepartamentoId) {
-            this.empresaTransporteEditForm.controls.departamento.setValue(data.DepartamentoId);
+            this.empresaProveedoraEditForm.controls.departamento.setValue(data.DepartamentoId);
             this.GetProvincias(data.DepartamentoId);
           
         }
         if (data.ProvinciaId) {
-            this.empresaTransporteEditForm.controls.provincia.setValue(data.ProvinciaId);
+            this.empresaProveedoraEditForm.controls.provincia.setValue(data.ProvinciaId);
             this.GetDistritos(data.DepartamentoId,data.ProvinciaId)
         }
         if (data.DistritoId) {
-            this.empresaTransporteEditForm.controls.distrito.setValue(data.DistritoId);
+            this.empresaProveedoraEditForm.controls.distrito.setValue(data.DistritoId);
         }
-        this.empresaTransporteEditForm.controls.nombreRazonSocial.setValue(data.RazonSocial);
-        this.empresaTransporteEditForm.controls.ruc.setValue(data.Ruc);
-        this.empresaTransporteEditForm.controls.direccion.setValue(data.Direccion);
+        if (data.ClasificacionId) {
+            this.empresaProveedoraEditForm.controls.clasificacion.setValue(data.ClasificacionId);
+        }
+        this.empresaProveedoraEditForm.controls.nombreRazonSocial.setValue(data.RazonSocial);
+        this.empresaProveedoraEditForm.controls.ruc.setValue(data.Ruc);
+        this.empresaProveedoraEditForm.controls.direccion.setValue(data.Direccion);
         this.spinner.hide();
     }
 
     LoadForm() {
-        this.empresaTransporteEditForm = this.fb.group({
+        this.empresaProveedoraEditForm = this.fb.group({
             nombreRazonSocial: ['', Validators.required],
             ruc: ['', Validators.required],
             direccion: ['', Validators.required],
             departamento: ['', Validators.required],
             provincia: ['', Validators.required],
             distrito: ['', Validators.required],
+            clasificacion: ['', Validators.required],
             estado: ['', ],
             fecRegistro: ['', ]
         });
@@ -124,14 +123,21 @@ export class EmpresaTransporteEditComponent implements OnInit {
     }
 
     get f() {
-        return this.empresaTransporteEditForm.controls;
+        return this.empresaProveedoraEditForm.controls;
     }
 
     LoadCombos() {
         this.GetDepartments();
+        this.GetClasificacion();
     }
 
-  
+    async GetClasificacion() {
+        let res = await this.maestroService.obtenerMaestros('ClasificacionEmpresaProveedoraAcreedora').toPromise();
+        if (res.Result.Success) {
+          this.listClasificacion= res.Result.Data;
+        }
+      }
+    
     async GetDepartments() {
         this.listDepartamento = [];
         const res: any = await this.maestroUtil.GetDepartmentsAsync('PE');
@@ -165,8 +171,8 @@ export class EmpresaTransporteEditComponent implements OnInit {
         this.route.queryParams
             .subscribe(params => {
                 if (!Number(params.id)) {
-                    this.empresaTransporteEditForm.controls.estado.setValue("01");
-                    this.empresaTransporteEditForm.controls.estado.disable();
+                    this.empresaProveedoraEditForm.controls.estado.setValue("01");
+                    this.empresaProveedoraEditForm.controls.estado.disable();
                 }
             });
 
@@ -177,7 +183,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
   onChangeDepartament(event: any): void {
     const form = this;
     this.listProvincia = [];
-    this.empresaTransporteEditForm.controls.provincia.reset();
+    this.empresaProveedoraEditForm.controls.provincia.reset();
     this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, (res: any) => {
       if (res.Result.Success) {
         form.listProvincia = res.Result.Data;
@@ -188,7 +194,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
   onChangeProvince(event: any): void {
     const form = this;
     this.listDistrito = [];
-    this.empresaTransporteEditForm.controls.distrito.reset();
+    this.empresaProveedoraEditForm.controls.distrito.reset();
     this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais,
       (res: any) => {
         if (res.Result.Success) {
@@ -201,7 +207,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
 
     Save(): void {
         const form = this;
-        if (this.empresaTransporteEditForm.invalid) {
+        if (this.empresaProveedoraEditForm.invalid) {
             this.submitted = true;
             this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
             return;
@@ -221,7 +227,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
     ActualizarPrecioDia(): void {
 
         var request = this.getRequest();
-        this.empresaTransporteService.Actualizar(request)
+        this.empresaProveedoraService.Actualizar(request)
             .subscribe((res: any) => {
                 this.spinner.hide();
                 if (res.Result.Success) {
@@ -242,7 +248,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
     CreatePrecioDia(): void {
 
         var request = this.getRequest();
-        this.empresaTransporteService.Registrar(request)
+        this.empresaProveedoraService.Registrar(request)
             .subscribe((res: any) => {
                 this.spinner.hide();
                 if (res.Result.Success) {
@@ -263,21 +269,22 @@ export class EmpresaTransporteEditComponent implements OnInit {
 
     getRequest(): any {
         return {
-            EmpresaTransporteId: this.vId,
-            RazonSocial: this.empresaTransporteEditForm.value.nombreRazonSocial ? this.empresaTransporteEditForm.value.nombreRazonSocial : '',
-            Ruc: this.empresaTransporteEditForm.value.ruc ? this.empresaTransporteEditForm.value.ruc : '',
-            Direccion: this.empresaTransporteEditForm.value.direccion ? this.empresaTransporteEditForm.value.direccion : '',
-            DepartamentoId: this.empresaTransporteEditForm.controls["departamento"].value ? this.empresaTransporteEditForm.controls["departamento"].value : '',
-            ProvinciaId: this.empresaTransporteEditForm.controls["provincia"].value ? this.empresaTransporteEditForm.controls["provincia"].value : '',
-            DistritoId: this.empresaTransporteEditForm.controls["distrito"].value ? this.empresaTransporteEditForm.controls["distrito"].value : '',
+            EmpresaProveedoraAcreedoraId: this.vId,
+            RazonSocial: this.empresaProveedoraEditForm.value.nombreRazonSocial ? this.empresaProveedoraEditForm.value.nombreRazonSocial : '',
+            Ruc: this.empresaProveedoraEditForm.value.ruc ? this.empresaProveedoraEditForm.value.ruc : '',
+            Direccion: this.empresaProveedoraEditForm.value.direccion ? this.empresaProveedoraEditForm.value.direccion : '',
+            DepartamentoId: this.empresaProveedoraEditForm.controls["departamento"].value ? this.empresaProveedoraEditForm.controls["departamento"].value : '',
+            ProvinciaId: this.empresaProveedoraEditForm.controls["provincia"].value ? this.empresaProveedoraEditForm.controls["provincia"].value : '',
+            DistritoId: this.empresaProveedoraEditForm.controls["distrito"].value ? this.empresaProveedoraEditForm.controls["distrito"].value : '',
             EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
             Usuario:  this.vSessionUser.Result.Data.NombreUsuario,
-            EstadoId: '01'
+            EstadoId: '01',
+            ClasificacionId:this.empresaProveedoraEditForm.controls["clasificacion"].value ? this.empresaProveedoraEditForm.controls["clasificacion"].value : ''
         };
     }
 
     Cancel(): void {
-        this.router.navigate(['/acopio/operaciones/empresatransporte-list']);
+        this.router.navigate(['/acopio/operaciones/empresaproveedora-list']);
     }
 
 

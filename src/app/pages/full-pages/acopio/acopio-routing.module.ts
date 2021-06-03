@@ -3,7 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
 import { EmpresaTransporteListComponent } from './operaciones/empresatransporte/list/empresatransporte-list.component';
+import { EmpresaProveedoraListComponent } from './operaciones/empresaproveedora/list/empresaproveedora-list.component';
 import { EmpresaTransporteEditComponent } from './operaciones/empresatransporte/edit/empresatransporte-edit.component';
+import { EmpresaProveedoraEditComponent } from './operaciones/empresaproveedora/edit/empresaproveedora-edit.component';
 import { MateriaPrimaEditComponent } from './operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component';
 import { NotaSalidaEditComponent } from "./operaciones/notasalida/notasalida-edit/notaSalida-edit.component";
 import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list.component';
@@ -114,6 +116,20 @@ const routes: Routes = [
       {
         path: 'empresatransporte-edit',
         component: EmpresaTransporteEditComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+      {
+        path: 'empresaproveedora-list',
+        component: EmpresaProveedoraListComponent,
+        data: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'empresaproveedora-edit',
+        component: EmpresaProveedoraEditComponent,
         data: {
           title: 'Edit'
         }
