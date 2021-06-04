@@ -92,10 +92,11 @@ export class CertificacionListComponent implements OnInit {
   }
 
   Cancelar(){
-    const navigationExtras: NavigationExtras = {
-      queryParams: { idProductor: this.ProductorId }
-    }
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.SocioId}`], navigationExtras);
+    // const navigationExtras: NavigationExtras = {
+    //   queryParams: { idProductor: this.ProductorId }
+    // }
+    // this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.SocioId}`], navigationExtras);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.SocioId}/${this.ProductorId}`]);
   }
   
 }

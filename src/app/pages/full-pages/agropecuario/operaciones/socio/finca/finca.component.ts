@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -35,24 +34,30 @@ export class FincaComponent implements OnInit {
   fincaSocioForm: FormGroup;
   limitRef = 10;
   rows = [];
-  vId: number;
+  codePartner: number;
   tempRows = [];
-  objParams: any;
+  // objParams: any;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
   selected = [];
   @ViewChild(DatatableComponent) table: DatatableComponent;
+  codeProducer: any;
 
   ngOnInit(): void {
-    this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
-    this.route.queryParams.subscribe((params) => {
-      if (params) {
-        this.LoadForm();
-        if (this.vId > 0) {
-          this.objParams = params;
-          this.SearchSocioById();
-        }
-      }
-    });
+    this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0
+    this.codeProducer = this.route.snapshot.params['producer'] ? parseInt(this.route.snapshot.params['producer']) : 0
+    if (this.codePartner) {
+      this.LoadForm();
+      this.SearchSocioById();
+    }
+    // this.route.queryParams.subscribe((params) => {
+    //   if (params) {
+    //     this.LoadForm();
+    //     if (this.codePartner > 0) {
+    //       this.objParams = params;
+    //       this.SearchSocioById();
+    //     }
+    //   }
+    // });
   }
 
   LoadForm(): void {
@@ -76,7 +81,7 @@ export class FincaComponent implements OnInit {
 
   SearchSocioById(): void {
     this.spinner.show();
-    this.socioFincaService.SearchSocioById({ SocioId: this.vId })
+    this.socioFincaService.SearchSocioById({ SocioId: this.codePartner })
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -93,7 +98,8 @@ export class FincaComponent implements OnInit {
   }
 
   New(): void {
-    this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.objParams.idProductor, idSocio: this.vId } });
+    // this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.objParams.idProductor, idSocio: this.codePartner } });
+    this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.codeProducer, idSocio: this.codePartner } });
   }
 
   Certifications(): void {
@@ -114,7 +120,7 @@ export class FincaComponent implements OnInit {
 
 
   Inspections(): void {
-    this.router.navigate(['/agropecuario/operaciones/socio/finca/inspeccion/list']);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/list/${this.codePartner}/${this.codePartner}/${this.selected[0].SocioFincaId}`]);
   }
 
   Diagnosis(): void {
@@ -123,7 +129,7 @@ export class FincaComponent implements OnInit {
 
   Export(): void {
     this.spinner.show();
-    this.socioFincaService.SearchSocioById({ SocioId: this.vId })
+    this.socioFincaService.SearchSocioById({ SocioId: this.codePartner })
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
