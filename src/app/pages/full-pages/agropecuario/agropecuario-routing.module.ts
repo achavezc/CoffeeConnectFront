@@ -109,7 +109,14 @@ const routes: Routes = [
                 }
             },
             {
-                path: 'socio/finca/inspeccion/create/:fincapartner',
+                path: 'socio/finca/inspeccion/create/:partner/:producer/:fincapartner',
+                component: InspeccionEditComponent,
+                data: {
+                    title: 'Socio Finca - Inspecciones'
+                }
+            },
+            {
+                path: 'socio/finca/inspeccion/update/:partner/:producer/:fincapartner/:internalinspection',
                 component: InspeccionEditComponent,
                 data: {
                     title: 'Socio Finca - Inspecciones'

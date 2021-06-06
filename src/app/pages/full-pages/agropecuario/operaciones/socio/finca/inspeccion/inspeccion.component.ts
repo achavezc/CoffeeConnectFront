@@ -105,7 +105,7 @@ export class InspeccionComponent implements OnInit {
   }
 
   New() {
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/create/${this.codeFincaPartner}`]);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/create/${this.codePartner}/${this.codeProducer}/${this.codeFincaPartner}`]);
   }
 
   Cancel() {
