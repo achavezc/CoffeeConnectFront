@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation,Input, EventEmitter,Output} from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
@@ -45,6 +45,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     estadoAnalizado = "02";
     vSessionUser: any;
     listaAlmacen: Observable<any[]>;
+    @Input() popUp = false;
+    @Output() agregarEvent = new EventEmitter<any>();
   
     // row data
     public rows = [];
@@ -270,5 +272,9 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         } else {
           form.listaSubProducto = [];
         }
+      }
+
+      Agregar(selected: any) {
+        this.agregarEvent.emit(selected)
       }
 }

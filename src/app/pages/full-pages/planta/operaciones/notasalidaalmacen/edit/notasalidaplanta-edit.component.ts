@@ -10,10 +10,10 @@ import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { EmpresaService } from '../../../../../../services/empresa.service';
-import { ReqNotaSalida, NotaSalidaAlmacenDetalleDTO } from '../../../../../../services/models/req-salidaalmacen-actualizar';
-import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
+import { ReqNotaSalidaPlanta, NotaSalidaAlmacenPlantaDetalleDTO } from '../../../../../../services/models/req-salidaalmaceplanta';
 import { TagNotaSalidaPlantaEditComponent } from './tags/notasalidaplanta-tag.component';
 import { host } from '../../../../../../shared/hosts/main.host';
+import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
 
 @Component({
   selector: 'app-notasalidaplanta-edit',
@@ -36,7 +36,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  selectedE = [];
+  selectOrganizacion = [];
   popupModel;
   login: ILogin;
   private tempData = [];
@@ -67,7 +67,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private empresaService: EmpresaService,
-    private notaSalidaAlmacenService: NotaSalidaAlmacenService
+    private notaSalidaAlmacenPlantaService: NotaSalidaAlmacenPlantaService
 
   ) {
 
@@ -94,13 +94,13 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
 
   obtenerDetalle() {
     this.spinner.show();
-    this.notaSalidaAlmacenService.obtenerDetalle(Number(this.id))
+    this.notaSalidaAlmacenPlantaService.obtenerDetalle(Number(this.id))
       .subscribe(res => {
 
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.cargarDataFormulario(res.Result.Data);
-            this.child.cargarDatos(res.Result.Data.DetalleLotes);
+            this.child.cargarDatos(res.Result.Data.Detalle);
             this.selectAlmacen = res.Result.Data.AlmacenId;
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -135,12 +135,12 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaTractor);
     this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaTractor);
     this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
-    this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoTrasladoId);
-    this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.Observacion);
+    this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoSalidaId);
+    this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.MotivoSalidaReferencia);
     this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
     let objectDestino: any = {};
-    objectDestino.EmpresaProveedoraAcreedoraId = data.EmpresaIdDestino;
-    this.selectedE.push(objectDestino);
+    objectDestino.OrganizacionId = data.EmpresaIdDestino;
+    this.selectOrganizacion.push(objectDestino);
     let objectTransporte: any = {};
     objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
     objectTransporte.TransporteId = data.TransporteId;
@@ -210,20 +210,13 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     return this.notaSalidaFormEdit.controls;
   }
 
-  receiveMessage($event) {
-    this.selectedE = $event
-    this.notaSalidaFormEdit.get('destinatario').setValue(this.selectedE[0].RazonSocial);
-    this.notaSalidaFormEdit.get('ruc').setValue(this.selectedE[0].Ruc);
-    this.notaSalidaFormEdit.get('dirDestino').setValue(this.selectedE[0].Direccion + " - " + this.selectedE[0].Distrito + " - " + this.selectedE[0].Provincia + " - " + this.selectedE[0].Departamento);
-    this.modalService.dismissAll();
-  }
 
   cancelar() {
     this.router.navigate(['/acopio/operaciones/notasalida-list']);
   }
 
   guardar() {
-    if (this.child.listaLotesDetalleId.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' }; }
+    if (this.child.listaNotaIngreso.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' }; }
     else {
       this.errorGeneral = { isError: false, errorMessage: '' };
     }
@@ -233,28 +226,48 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       return;
     } else {
       this.submittedEdit = false;
-
-      let list: NotaSalidaAlmacenDetalleDTO[] = [];
-      this.child.listaLotesDetalleId.forEach(x => {
+      var TotalKilosBrutos = 0;
+      var TotalKilosNetos = 0;
+      var Totaltara = 0;
+      var Totalcantidad = 0;
+      let list: NotaSalidaAlmacenPlantaDetalleDTO[] = [];
+      if(this.child.listaNotaIngreso.length!=0)
+      {
+        this.child.listaNotaIngreso.forEach(x => {
+             let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
+              TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutosPesado;
+              TotalKilosNetos = TotalKilosNetos + x.KilosNetosPesado;
+              Totaltara = Totaltara + x.TaraPesado;
+              Totalcantidad = Totalcantidad + x.CantidadPesado;
+              list.push( object)
+            });
+      }
+      /*this.child.listaNotaIngreso.forEach(x => {
         if (list.length != 0) {
-          if ((list.filter(y => y.LoteId == x.LoteId)).length == 0) {
-            let object = new NotaSalidaAlmacenDetalleDTO(x.LoteId);
+          if ((list.filter(y => y.NotaIngresoAlmacenPlantaId == x.NotaIngresoAlmacenPlantaId)).length == 0) {
+            let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
+            TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutos;
+            TotalKilosNetos = TotalKilosNetos + x.KilosNetos;
+            Totaltara = Totaltara + x.Tara;
             list.push(object)
           }
         } else {
-          let object = new NotaSalidaAlmacenDetalleDTO(x.LoteId);
+          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
+          TotalKilosBrutos = x.KilosBrutos;
+            TotalKilosNetos = TotalKilosNetos + x.KilosNetos;
+            Totaltara = Totaltara + x.Tara;
           list.push(object)
         }
       }
-      );
-      let request = new ReqNotaSalida(
+      );*/
+      let request = new ReqNotaSalidaPlanta(
         Number(this.id),
         Number(this.login.Result.Data.EmpresaId),
         this.notaSalidaFormEdit.get("almacen").value,
         this.numero,
         this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").value,
         this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").value,
-        Number(this.selectedE[0].EmpresaProveedoraAcreedoraId),
+        Number(this.selectOrganizacion[0].OrganizacionId), //Org
         Number(this.child.selectedT[0].EmpresaTransporteId),
         Number(this.child.selectedT[0].TransporteId),
         this.child.selectedT[0].NumeroConstanciaMTC,
@@ -265,12 +278,14 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         this.child.selectedT[0].Conductor,
         this.child.selectedT[0].Licencia,
         this.notaSalidaFormEdit.get('tagcalidad').get("observacion").value,
-        1,
-        this.child.listaLotesDetalleId[0].KilosBrutos,
-        null,
+        TotalKilosBrutos,
+        TotalKilosNetos,
+        Totaltara,
+        this.child.listaNotaIngreso[0].CantidadPesado,
+        "01",
         this.login.Result.Data.NombreUsuario,
-        list,
-        this.child.listaLotesDetalleId[0].CantidadPesado
+        list
+        
       );
       let json = JSON.stringify(request);
       this.spinner.show(undefined,
@@ -291,8 +306,8 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     }
   }
 
-  registrarNotaSalidaService(request: ReqNotaSalida) {
-    this.notaSalidaAlmacenService.Registrar(request)
+  registrarNotaSalidaService(request: ReqNotaSalidaPlanta) {
+    this.notaSalidaAlmacenPlantaService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -320,8 +335,8 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         }
       );
   }
-  actualizarNotaSalidaService(request: ReqNotaSalida) {
-    this.notaSalidaAlmacenService.Actualizar(request)
+  actualizarNotaSalidaService(request: ReqNotaSalidaPlanta) {
+    this.notaSalidaAlmacenPlantaService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -378,5 +393,15 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     link.target = "_blank";
     link.click();
     link.remove();
+  }
+  GetDataEmpresa(event: any): void {
+    this.selectOrganizacion = event;
+    if (this.selectOrganizacion[0]) {
+    this.notaSalidaFormEdit.controls["destinatario"].setValue(this.selectOrganizacion[0].RazonSocial);
+    this.notaSalidaFormEdit.controls["ruc"].setValue(this.selectOrganizacion[0].Ruc);
+    this.notaSalidaFormEdit.controls["dirDestino"].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
+    
+    }
+    this.modalService.dismissAll();
   }
 }

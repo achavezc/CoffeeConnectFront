@@ -485,6 +485,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
       
         this.filtrosLotesID.LoteId = Number(e[0].LoteId);
         let object: any = {};
+        
         object.Producto = e[0].Producto
         object.UnidadMedida = e[0].UnidadMedida 
         object.CantidadPesado = e[0].Cantidad 

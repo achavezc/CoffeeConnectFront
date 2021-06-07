@@ -8,6 +8,7 @@ import { ClienteService } from '../../../../../../services/cliente.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-cliente-edit',
@@ -42,6 +43,7 @@ export class ClienteEditComponent implements OnInit {
   vSessionUser: any;
   errorGeneral = { isError: false, msgError: '' };
   vMsgErrorGenerico = 'Ocurrio un error interno.';
+  login: ILogin;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -315,7 +317,8 @@ export class ClienteEditComponent implements OnInit {
       PresidenteNumero: this.clienteEditForm.value.idPresidente ? this.clienteEditForm.value.idPresidente.toString() : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: '01',
-      FloId: this.clienteEditForm.value.floId ? this.clienteEditForm.value.floId : ''
+      FloId: this.clienteEditForm.value.floId ? this.clienteEditForm.value.floId : '',
+      EmpresaId: this.login.Result.Data.EmpresaId
     }
   }
 

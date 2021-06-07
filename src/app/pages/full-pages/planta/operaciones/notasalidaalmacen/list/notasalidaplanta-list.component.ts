@@ -10,6 +10,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../../services/empresa-transporte.service';
+import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
 
 @Component({
   selector: 'app-nota-salida-almacen',
@@ -27,7 +28,8 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     private alertUtil: AlertUtil,
     private empresaService: EmpresaService,
     private empTransporteService: EmpresaTransporteService,
-    private router: Router) { }
+    private router: Router,
+    private notaSalidaPlantaService : NotaSalidaAlmacenPlantaService) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -165,12 +167,12 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
         FechaInicio: this.notaSalidaForm.value.fechaInicio,
         FechaFin: this.notaSalidaForm.value.fechaFin,
-        EmpresaId: 1
+        EmpresaId: 2
       }
 
       this.spinner.show();
 
-      this.notaSalidaService.Consultar(request)
+      this.notaSalidaPlantaService.Consultar(request)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {

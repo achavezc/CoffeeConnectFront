@@ -11,6 +11,7 @@ import { MaestroService } from '../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
+import { ILogin } from '../../../../../services/models/login';
 
 @Component({
   selector: 'app-cliente',
@@ -42,10 +43,12 @@ export class ClienteComponent implements OnInit {
   tempData = [];
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
+  login: ILogin;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
+    this.login = JSON.parse(localStorage.getItem("user"));
     this.clienteForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.clienteForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
   }
@@ -118,7 +121,8 @@ export class ClienteComponent implements OnInit {
       EstadoId: this.clienteForm.value.estado ?? '',
       PaisId: this.clienteForm.value.pais ?? 0,
       FechaInicio: this.clienteForm.value.fechaInicial ?? '',
-      FechaFin: this.clienteForm.value.fechaFinal ?? ''
+      FechaFin: this.clienteForm.value.fechaFinal ?? '',
+      EmpresaId: this.login.Result.Data.EmpresaId
     };
   }
 
