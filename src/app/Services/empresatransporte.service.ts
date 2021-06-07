@@ -7,36 +7,32 @@ import { ErrorHandling } from '../shared/util/error-handling';
 @Injectable({
   providedIn: 'root'
 })
-export class ClienteService {
+export class EmpresaTransporteService {
 
   constructor(private http: HttpClient,
-    private errorHandling: ErrorHandling) {
-  }
+    private errorHandling: ErrorHandling) { }
 
-  private url = `${host}Cliente`;
+  private url = `${host}EmpresaTransporte`;
 
-  Search(request: any): Observable<any> {
+  Consultar(request: any): Observable<any> {
     const url = `${this.url}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Create(request: any): Observable<any> {
+  Registrar(request: any): Observable<any> {
     const url = `${this.url}/Registrar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Update(request: any): Observable<any> {
-    const url = `${this.url}/Actualizar`;
-    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
-  }
-
-  SearchById(request: any): Observable<any> {
+  ConsultarPorId(request: any): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Cancel(request: any): Observable<any> {
-    const url = `${this.url}/Anular`;
+  Actualizar(request: any): Observable<any> {
+    const url = `${this.url}/Actualizar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+  
+
 }

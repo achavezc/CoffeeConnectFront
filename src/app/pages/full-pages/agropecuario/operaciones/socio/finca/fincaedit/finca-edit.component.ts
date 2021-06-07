@@ -273,7 +273,7 @@ export class FincaEditComponent implements OnInit {
   }
 
   addRow(): void {
-    this.rows = [...this.rows, { Anio: 0, Estimado: 0, ProductoId: '',Consumido:0 }];
+    this.rows = [...this.rows, { Anio: 0, Estimado: 0, ProductoId: '', Consumido: 0 }];
   }
 
   EliminarFila(index: any): void {

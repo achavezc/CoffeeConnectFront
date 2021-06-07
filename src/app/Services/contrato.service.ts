@@ -34,4 +34,9 @@ export class ContratoService {
     const url = `${this.url}/ConsultarPorId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  Cancel(request: any): Observable<any> {
+    const url = `${this.url}/Anular`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }
