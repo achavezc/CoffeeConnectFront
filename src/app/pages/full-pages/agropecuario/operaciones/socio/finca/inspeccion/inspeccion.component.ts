@@ -23,15 +23,22 @@ export class InspeccionComponent implements OnInit {
   limitRef = 10;
   msgErrGenerico = "Ha ocurrido un error interno.";
   userSession: any;
+  codeFincaPartner: any;
+  codePartner: any;
+  codeProducer: any;
 
   constructor(private fb: FormBuilder,
     private dateUtil: DateUtil,
     private inspeccionInternaService: InspeccionInternaService,
     private spinner: NgxSpinnerService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
+    this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0
+    this.codeProducer = this.route.snapshot.params['producer'] ? parseInt(this.route.snapshot.params['producer']) : 0
+    this.codeFincaPartner = this.route.snapshot.params['fincapartner'] ? parseInt(this.route.snapshot.params['fincapartner']) : 0
     this.LoadForm();
     this.socioFincaInspeccionForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.socioFincaInspeccionForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
@@ -98,10 +105,10 @@ export class InspeccionComponent implements OnInit {
   }
 
   New() {
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/create`]);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/create/${this.codePartner}/${this.codeProducer}/${this.codeFincaPartner}`]);
   }
 
   Cancel() {
-
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.codePartner}/${this.codeProducer}`]);
   }
 }

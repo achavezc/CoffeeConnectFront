@@ -21,6 +21,10 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
+import { EmpresaTransporteListComponent } from "./operaciones/empresatransporte/list/empresatransporte-list.component";
+import { EmpresaProveedoraListComponent } from './operaciones/empresaproveedora/list/empresaproveedora-list.component';
+import { EmpresaProveedoraEditComponent } from './operaciones/empresaproveedora/edit/empresaproveedora-edit.component';
+import { EmpresaTransporteEditComponent } from './operaciones/empresatransporte/edit/empresatransporte-edit.component';
 import { MateriaPrimaEditComponent } from "./operaciones/materiaprima/materiaprima-edit/materiaprima-edit.component";
 import { NotaSalidaEditComponent } from "./operaciones/notasalida/notasalida-edit/notaSalida-edit.component";
 import { PesadoCafeComponent } from "./operaciones/materiaprima/materiaprima-edit/pesadoCafe/pesadoCafe.component";
@@ -69,6 +73,10 @@ import { DetalleLoteComponent } from "./operaciones/lotes/lote-edit/detalleLote/
   ],
   declarations: [
     MateriaPrimaListComponent,
+    EmpresaTransporteListComponent,
+    EmpresaProveedoraListComponent,
+    EmpresaProveedoraEditComponent,
+    EmpresaTransporteEditComponent,
     MateriaPrimaEditComponent,
     NotaSalidaEditComponent,
     NotacompraListComponent,

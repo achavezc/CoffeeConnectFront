@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">MAESTRO DE EMPRESAS DE TRANSPORTE</div>
+    </div>
+</div>
+<form class="needs-validation" novalidate [formGroup]="empresaTransporteEditForm">
+   
+    <div class="card border-dark mb-3">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="nombreRazonSocial" class="col-4 col-form-label pr-0">Razon Social</label>
+                        <div class="col-8">
+                            <input type="text" minlength="5" maxlength="100" formControlName="nombreRazonSocial"
+                                    class="form-control" id="nombreRazonSocial" placeholder="Nombre / Razón Social"
+                                    [ngClass]="{ 'is-invalid': submitted && f.nombreRazonSocial.invalid, 'is-valid': submitted && !f.nombreRazonSocial.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="validationTooltip04" class="col-4 col-form-label pr-0">Ruc</label>
+                        <div class="col-8">
+                            <input type="text" minlength="5" maxlength="100" formControlName="ruc"
+                            class="form-control" id="ruc" placeholder="Ruc"
+                            [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="direccion" class="col-md-4 col-form-label pr-0">Direccion</label>
+                        <div class="col-8">
+                            <input type="text" minlength="5" maxlength="100" formControlName="direccion"
+                            class="form-control" id="direccion" placeholder="Direccion"
+                            [ngClass]="{ 'is-invalid': submitted && f.direccion.invalid, 'is-valid': submitted && !f.direccion.invalid }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="departamento" class="col-4 col-form-label pr-0">Departamento</label>
+                        <div class="col-8">
+                            <ng-select [items]="listDepartamento" formControlName="departamento" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="departamento"
+                                placeholder="Seleccionar Departamento" [(ngModel)]="selectedDepartamento"
+                                (change)="onChangeDepartament($event)"
+                                [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="provincia" class="col-md-4 col-form-label pr-0">Provincia</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listProvincia" formControlName="provincia" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="provincia"
+                                (change)="onChangeProvince($event)"
+                                placeholder="Seleccionar Provincia" [(ngModel)]="selectedProvincia"
+                                [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="distrito" class="col-md-4 col-form-label pr-0">Distrito</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listDistrito" formControlName="distrito" class="form-control"
+                                bindLabel="Descripcion" bindValue="Codigo" id="distrito"
+                                placeholder="Seleccionar Distrito" [(ngModel)]="selectedDistrito"
+                                [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                <div class="col-8 d-flex flex-sm-row flex-column">
+                  <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                  <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
+                    for="horizontal-form-1">{{responsable}}</label>
+                </div>
+               
+
+              </div>
+            <div class="row">
+                <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
+                    {{errorGeneral.errorMessage}}
+                </small>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <button class="btn btn-primary" (click)="Save()">Guardar</button>
+            <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
+        </div>
+    </div>
+</form>
+<div class="d-flex justify-content-center">
+    <ngx-spinner></ngx-spinner>
+</div>

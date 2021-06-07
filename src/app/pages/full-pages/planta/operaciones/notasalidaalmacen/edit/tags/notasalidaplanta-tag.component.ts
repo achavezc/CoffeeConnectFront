@@ -61,16 +61,18 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   private tempDataLoteDetalle = [];
   public rows = [];
   public rowsLotesDetalle = []
+  private tempDataNotaIngreso = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   public limitRefT = 10;
   filtrosLotes: any = {};
   filtrosLotesID: any = {};
   filtrosTransportista: any = {};
-  listaLotesDetalleId = [];
+  listaNotaIngreso = [];
   valueMotivoSalidaTransf = '02';
   estadoAnalizado = '02';
   esEdit = false;
+  popUp = true;
   @Input() eventsNs: Observable<any>;
 
   @ViewChild(DatatableComponent) tableLotes: DatatableComponent;
@@ -101,22 +103,22 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     });
   }
 
-  cargarDatos(detalleLotes: any) {
-    detalleLotes.forEach(x => {
+  cargarDatos(detalle: any) {
+    detalle.forEach(x => {
       let object: any = {};
-      object.Numero = x.NumeroLote,
-        object.Producto = x.Producto
-        object.SubProductoId = x.SubProductoId
-      object.UnidadMedida = x.UnidadMedida
-      object.CantidadPesado = x.Cantidad
-      object.RendimientoPorcentaje = x.RendimientoPorcentaje
-      object.KilosBrutos = x.TotalKilosBrutosPesado
-      object.LoteId = x.LoteId
-      object.HumedadPorcentaje = x.HumedadPorcentajeAnalisisFisico
-      this.listaLotesDetalleId.push(object);
-
+      object.NotaIngresoAlmacenPlantaId = x.NotaIngresoAlmacenPlantaId
+      object.NumeroIngresoPlanta = x.NumeroNotaIngresoAlmacenPlanta
+      object.Numero = x.NumeroNotaIngreso 
+      object.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro), "/")
+      object.RendimientoPorcentaje = x.RendimientoPorcentaje 
+      object.HumedadPorcentaje = x.HumedadPorcentaje 
+      object.CantidadPesado = x.CantidadPesado
+      object.KilosBrutosPesado = x.KilosBrutosPesado
+      object.TaraPesado = x.TaraPesado
+      object.KilosNetosPesado = x.KilosNetosPesado
+      this.listaNotaIngreso.push(object);
     });
-    this.tempDataLoteDetalle = this.listaLotesDetalleId;
+    this.tempDataLoteDetalle = this.listaNotaIngreso;
     this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
   }
 
@@ -129,6 +131,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
       this.visibleNumReferencia = false;
     }
   }
+
   openModal(modalLotes) {
     if (this.selectAlmacen == '' || this.selectAlmacen == undefined)
     {
@@ -136,33 +139,30 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
       
     }
     else{
-
-      this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'lg' });    
+      this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'xl' });    
       this.cargarLotes();
       this.clear();
       this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
       this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
     }
-   
   }
 
   eliminarLote(select) {
     let form = this;
-    this.alertUtil.alertSiNoCallback('Está seguro?', 'El lote ' + select[0].Numero + ' se eliminará de su lista.', function (result) {
+    this.alertUtil.alertSiNoCallback('Está seguro?', 'El lote ' + select[0].NumeroIngresoPlanta + ' se eliminará de su lista.', function (result) {
       if (result.isConfirmed) {
-        form.listaLotesDetalleId = form.listaLotesDetalleId.filter(x => x.LoteId != select[0].LoteId)
-        form.tempDataLoteDetalle = form.listaLotesDetalleId;
+        form.listaNotaIngreso = form.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId != select[0].NotaIngresoAlmacenPlantaId)
+        form.tempDataLoteDetalle = form.listaNotaIngreso;
         form.rowsLotesDetalle = [...form.tempDataLoteDetalle];
         form.selectLoteDetalle = [];
       }
     }
     );
-
   }
+
   openModalTransportista(modalTransportista) {
     this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'lg' });
     this.cargarTransportista();
-    //this.clear();
   }
 
   clear() {
@@ -189,6 +189,8 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     );
     this.consultaTransportistas.setValidators(this.comparisonValidatorTransportista())
   }
+
+
   public comparisonValidatorTransportista(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       let rzsocial = group.controls['rzsocial'].value;
@@ -480,29 +482,33 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     }
   }
 
-  agregar(e) {
-    if (this.listaLotesDetalleId.length == 0) {
-      
+  agregarNotaIngreso(e) {
+
+    var listFilter=[];
+      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId == e[0].NotaIngresoAlmacenPlantaId);
+      if (listFilter.length == 0)
+      {
         this.filtrosLotesID.LoteId = Number(e[0].LoteId);
         let object: any = {};
-        object.Producto = e[0].Producto
-        object.UnidadMedida = e[0].UnidadMedida 
-        object.CantidadPesado = e[0].Cantidad 
-        object.Numero = e[0].Numero
-        object.LoteId = e[0].LoteId
-         object.SubProductoId = e[0].SubProductoId 
-        object.HumedadPorcentaje = e[0].HumedadPorcentajeAnalisisFisico
-        object.RendimientoPorcentaje = e[0].RendimientoPorcentaje
-        object.KilosBrutos = e[0].TotalKilosBrutosPesado
-        this.listaLotesDetalleId.push(object);
-        this.tempDataLoteDetalle = this.listaLotesDetalleId;
+        object.NotaIngresoAlmacenPlantaId = e[0].NotaIngresoAlmacenPlantaId
+        object.NumeroIngresoPlanta = e[0].NumeroIngresoPlanta
+        object.Numero = e[0].Numero 
+        object.FechaRegistro = this.dateUtil.formatDate(new Date(e[0].FechaRegistro), "/")
+        object.RendimientoPorcentaje = e[0].RendimientoPorcentaje 
+        object.HumedadPorcentaje= e[0].HumedadPorcentajeAnalisisFisico
+         object.CantidadPesado = e[0].CantidadPesado 
+        object.KilosBrutosPesado = e[0].KilosBrutosPesado
+        object.TaraPesado = e[0].TaraPesado
+        object.KilosNetosPesado = e[0].KilosNetosPesado
+        this.listaNotaIngreso.push(object);
+        this.tempDataLoteDetalle = this.listaNotaIngreso;
         this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
         this.modalService.dismissAll();     
-
-    }
-    else {
-      this.alertUtil.alertWarning("Oops...!","Solo puede Agregar 1 Lote");
-    }
+      }
+      else 
+      {
+        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroNotaIngresoAlmacenPlanta + ".");
+      }
   }
 
 }

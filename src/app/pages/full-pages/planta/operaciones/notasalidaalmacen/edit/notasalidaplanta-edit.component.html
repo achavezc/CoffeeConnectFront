@@ -76,7 +76,8 @@
                 </div>
                 <div class="col-12 col-md-2" style="padding-left: 0cm;">
                   <ng-template #modalEmpresa let-c="close" let-d="dismiss">
-                    <app-consultar-empresa (empresaEvent)="receiveMessage($event)"></app-consultar-empresa>
+                    <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
+                    </app-consultar-organizacion>
                   </ng-template>
                   <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
                     style="margin-top: 1.5rem;">

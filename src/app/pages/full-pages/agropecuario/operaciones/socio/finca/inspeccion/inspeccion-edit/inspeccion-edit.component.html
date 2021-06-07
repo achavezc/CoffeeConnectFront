@@ -1,9 +1,42 @@
 <form class="needs-validation" [formGroup]="frmFincaInspeccionEdit">
     <div class="card">
-        <div class="card-header text-center bg-primary align-middle text-white">
-            FICHA DE INSPECCIÓN INTERNA
+        <div class="card-header bg-primary">
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-center align-middle">
+                    <h3 class="text-white">FICHA DE INSPECCIÓN INTERNA</h3>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label for="tokenNumber" class="col-md-3 col-form-label text-white">N° de
+                                    Ficha</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="tokenNumber" id="tokenNumber" formControlName="tokenNumber"
+                                        class="form-control form-control-sm text-center" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.tokenNumber.invalid, 'is-valid': !f.tokenNumber.invalid }"
+                                        placeholder="Número ficha" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label for="registrationDate" class="col-md-3 col-form-label text-white">Fecha</label>
+                                <div class="col-md-9">
+                                    <input type="date" date name="registrationDate" id="registrationDate"
+                                        formControlName="registrationDate"
+                                        class="form-control text-center form-control-sm" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.registrationDate.invalid, 'is-valid': !f.registrationDate.invalid }"
+                                        placeholder="Fecha Registro" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- <h5 class="card-body text-center bg-primary text-white">FICHA DE INSPECCIÓN INTERNA</h5> -->
         <div class="card-body">
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
@@ -16,7 +49,7 @@
                         <label for="producer" class="col-md-2 col-form-label">Productor</label>
                         <div class="col-md-10">
                             <input type="text" name="producer" id="producer" formControlName="producer"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.producer.invalid, 'is-valid': !f.producer.invalid }"
                                 placeholder="Productor" />
                         </div>
@@ -27,8 +60,9 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
                         <label for="codigo" class="col-md-3 col-form-label">Código</label>
-                        <div class="col-md-8">
-                            <input type="text" name="codigo" id="codigo" formControlName="codigo" class="form-control"
+                        <div class="col-md-9">
+                            <input type="text" name="codigo" id="codigo" formControlName="codigo"
+                                class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.codigo.invalid, 'is-valid': !f.codigo.invalid }"
                                 placeholder="Código" [readonly]="true" />
                         </div>
@@ -39,7 +73,7 @@
                         <label for="numberDocument" class="col-md-4 col-form-label">N° Documento</label>
                         <div class="col-md-8">
                             <input type="text" name="numberDocument" id="numberDocument"
-                                formControlName="numberDocument" class="form-control"
+                                formControlName="numberDocument" class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.numberDocument.invalid, 'is-valid': !f.numberDocument.invalid }"
                                 placeholder="Número de documento" [readonly]="true" />
                         </div>
@@ -49,7 +83,8 @@
                     <div class="form-group row">
                         <label for="status" class="col-md-3 col-form-label">Estatus</label>
                         <div class="col-md-9">
-                            <input type="text" name="status" id="status" formControlName="status" class="form-control"
+                            <input type="text" name="status" id="status" formControlName="status"
+                                class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.status.invalid, 'is-valid': !f.status.invalid }"
                                 placeholder="Estatus" [readonly]="true" />
                         </div>
@@ -62,7 +97,7 @@
                         <label for="organization" class="col-md-2 col-form-label">Organización</label>
                         <div class="col-md-10">
                             <input type="text" name="organization" id="organization" formControlName="organization"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.organization.invalid, 'is-valid': !f.organization.invalid }"
                                 placeholder="Organización" />
                         </div>
@@ -72,7 +107,8 @@
                     <div class="form-group row">
                         <label for="zone" class="col-md-3 col-form-label">Zona</label>
                         <div class="col-md-9">
-                            <input type="text" name="zone" id="zone" formControlName="zone" class="form-control"
+                            <input type="text" name="zone" id="zone" formControlName="zone"
+                                class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.zone.invalid, 'is-valid': !f.zone.invalid }"
                                 placeholder="Zona" [readonly]="true" />
                         </div>
@@ -85,7 +121,7 @@
                         <label for="department" class="col-md-4 col-form-label">Departamento</label>
                         <div class="col-md-8">
                             <input type="text" name="department" id="department" formControlName="department"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.department.invalid, 'is-valid': !f.department.invalid }"
                                 placeholder="Departamento" />
                         </div>
@@ -96,7 +132,7 @@
                         <label for="province" class="col-md-4 col-form-label">Provincia</label>
                         <div class="col-md-8">
                             <input type="text" name="province" id="province" formControlName="province"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.province.invalid, 'is-valid': !f.province.invalid }"
                                 placeholder="Provincia" />
                         </div>
@@ -107,7 +143,7 @@
                         <label for="district" class="col-md-3 col-form-label">Distrito</label>
                         <div class="col-md-9">
                             <input type="text" name="district" id="district" formControlName="district"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.district.invalid, 'is-valid': !f.district.invalid }"
                                 placeholder="Provincia" />
                         </div>
@@ -117,10 +153,11 @@
             <div class="form-row">
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <div class="form-group row">
-                        <label for="internalInspector" class="col-md-2 col-form-label pr-0">Inspector Interno</label>
+                        <label for="internalInspector" class="col-md-2 col-form-label pr-0">Inspector
+                            Interno</label>
                         <div class="col-md-10">
                             <input type="text" name="internalInspector" id="internalInspector"
-                                formControlName="internalInspector" class="form-control"
+                                formControlName="internalInspector" class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.internalInspector.invalid, 'is-valid': !f.internalInspector.invalid }"
                                 placeholder="Departamento" [readonly]="true" />
                         </div>
@@ -131,7 +168,7 @@
                         <label for="inspectionDate" class="col-md-4 col-form-label">Fecha Inspección</label>
                         <div class="col-md-8">
                             <input type="date" date name="inspectionDate" id="inspectionDate"
-                                formControlName="inspectionDate" class="form-control text-center"
+                                formControlName="inspectionDate" class="form-control text-center form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.inspectionDate.invalid, 'is-valid': !f.inspectionDate.invalid }"
                                 placeholder="Provincia" [readonly]="true" />
                         </div>
@@ -144,7 +181,7 @@
                         <label for="latitude" class="col-md-3 col-form-label">Latitud</label>
                         <div class="col-md-9">
                             <input type="text" name="latitude" id="latitude" formControlName="latitude"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm text-right" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.latitude.invalid, 'is-valid': !f.latitude.invalid }"
                                 placeholder="Latitud" />
                         </div>
@@ -155,7 +192,7 @@
                         <label for="longitude" class="col-md-4 col-form-label">Longitud</label>
                         <div class="col-md-8">
                             <input type="text" name="longitude" id="longitude" formControlName="longitude"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm text-right" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.longitude.invalid, 'is-valid': !f.longitude.invalid }"
                                 placeholder="Longitud" />
                         </div>
@@ -166,7 +203,7 @@
                         <label for="altitude" class="col-md-3 col-form-label">Altitud</label>
                         <div class="col-md-9">
                             <input type="text" name="altitude" id="altitude" formControlName="altitude"
-                                class="form-control" [readonly]="true"
+                                class="form-control form-control-sm text-right" [readonly]="true"
                                 [ngClass]="{ 'is-invalid': f.altitude.invalid, 'is-valid': !f.altitude.invalid }"
                                 placeholder="Altitud" />
                         </div>
@@ -181,15 +218,13 @@
                     </span>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row mb-2">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngFor="let item of arrStandards; let i=index">
-                    <div class="form-group row">
+                    <div class="form-group row mb-0">
                         <label class="col-md-9 col-form-label">{{item.Label}}</label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>
-                                <input type="checkbox" [value]="item.Codigo" (change)="ChangeStandards($event)"
-                                    [checked]="selectedStandards.includes(item.Codigo)" />
-                            </label>
+                            <input type="checkbox" [value]="item.Codigo" (change)="ChangeStandards($event)"
+                                [checked]="selectedStandards.includes(item.Codigo)" />
                         </div>
                     </div>
                 </div>
@@ -203,7 +238,105 @@
                 </div>
             </div>
             <div class="form-row">
-                
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <th class="text-center align-middle">Lotes</th>
+                                <th class="text-center align-middle">Variedad<br />de Café</th>
+                                <th class="text-center align-middle">Meses de<br />cosecha</th>
+                                <th class="text-center align-middle">Año y mes<br />de sombra</th>
+                                <th class="text-center align-middle">Edad</th>
+                                <th class="text-center align-middle">Área Total</th>
+                                <th class="text-center align-middle">Cosecha Pergamino<br />2020</th>
+                                <th class="text-center align-middle">Estimado Pergamino<br />2021</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of arrCoffeePitches; let i = index;">
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            placeholder="Lote" [value]="item.NumeroLote"
+                                            (blur)="UpdateValuesCoffeePitches($event, i, 'NumeroLote')">
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm"
+                                            (change)="UpdateValuesCoffeePitches($event, i, 'VariedadCafeId')">
+                                            <option *ngFor="let itemcv of arrCoffeeVarieties; let i=index"
+                                                [value]="itemcv.Codigo"
+                                                [selected]="itemcv.Codigo == item.VariedadCafeId">
+                                                {{itemcv.Label}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            placeholder="Meses de Cosecha" [value]="item.MesesCosecha"
+                                            (blur)="UpdateValuesCoffeePitches($event, i, 'MesesCosecha')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            placeholder="Año y Mes de Sombra" [value]="item.AnioMesSiembra"
+                                            (blur)="UpdateValuesCoffeePitches($event, i, 'AnioMesSiembra')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            placeholder="Edad" [value]="item.Edad"
+                                            (blur)="UpdateValuesCoffeePitches($event, i, 'Edad')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            placeholder="Área Total" [value]="item.AreaActual"
+                                            (blur)="UpdateValuesCoffeePitches($event, i, 'AreaActual')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            placeholder="Cosecha Pergamino 2020"
+                                            [value]="item.CosechaPergaminoAnioAnterior"
+                                            (blur)="UpdateValuesCoffeePitches($event, i, 'CosechaPergaminoAnioAnterior')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            placeholder="Estimado Pergamino 2021"
+                                            [value]="item.CosechaPergaminoAnioActual"
+                                            (blur)="UpdateValuesCoffeePitches($event, i, 'CosechaPergaminoAnioActual')">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text"
+                                            class="form-control form-control-sm text-center bg-primary text-white"
+                                            value="TOTAL" [readonly]="true">
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            formControlName="totalMonthsHarvest" [readonly]="true">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            formControlName="totalYearMonth" [readonly]="true">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            formControlName="totalAge" [readonly]="true">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            formControlName="totalArea" [readonly]="true">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            formControlName="totalParchmentHarvest" [readonly]="true">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            formControlName="totalEstimatedParchment" [readonly]="true">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- IV. VERIFICACION DE CONFORMIDAD CON LAS NORMAS -->
@@ -211,6 +344,158 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
                     <span>IV. VERIFICACION DE CONFORMIDAD CON LAS NORMAS
                     </span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr class="text-center">
+                                <th rowspan="2" class="align-middle">Acción a verificar</th>
+                                <th colspan="4" class="align-middle">CUMPLIMIENTO</th>
+                                <th rowspan="2" class="align-middle">Observaciones</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th class="align-middle">Crítico para</th>
+                                <th class="align-middle">No Aplica</th>
+                                <th class="align-middle">SI</th>
+                                <th class="align-middle">NO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th colspan="6">SISTEMA DE GESTIÓN DOCUMENTADO</th>
+                            </tr>
+                            <tr *ngFor="let item of arrDocumentManagement; let i=index">
+                                <td class="align-middle">{{item.Pregunta}}</td>
+                                <td class="align-middle">
+                                    <select class="form-control form-control-sm"
+                                        (change)="UpdateValuesDocumentsManagement($event, i, 'criticopara')">
+                                        <option *ngFor="let itemcf of arrCriticalFor; let i=index" [value]="itemcf.Codigo"
+                                            [selected]="itemcf.Codigo == item.CriticoPara">
+                                            {{itemcf.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                        (blur)="UpdateValuesDocumentsManagement($event, i, 'noaplica')"
+                                        [checked]="item.NoAplica">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (blur)="UpdateValuesDocumentsManagement($event, i, 'SI')"
+                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (blur)="UpdateValuesDocumentsManagement($event, i, 'NO')"
+                                        [checked]="item.No">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <textarea cols="50" rows="1" class="form-control"
+                                        (blur)="UpdateValuesDocumentsManagement($event, i, 'obs')"
+                                        [value]="item.Observaciones"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="6">BIENESTAR SOCIAL Y LABORAL</th>
+                            </tr>
+                            <tr *ngFor="let item of arrSocialWelfare; let i=index">
+                                <td class="align-middle">{{item.Pregunta}}</td>
+                                <td class="align-middle">
+                                    <select class="form-control form-control-sm"
+                                        (change)="UpdateValuesSocialWelfare($event, i, 'criticopara')">
+                                        <option *ngFor="let item of arrCriticalFor; let i=index" [value]="item.Codigo">
+                                            {{item.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                        (blur)="UpdateValuesSocialWelfare($event, i, 'noaplica')"
+                                        [checked]="item.NoAplica">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (blur)="UpdateValuesSocialWelfare($event, i, 'SI')"
+                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (blur)="UpdateValuesSocialWelfare($event, i, 'NO')"
+                                        [checked]="item.No">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <textarea cols="50" rows="1" class="form-control"
+                                        (blur)="UpdateValuesSocialWelfare($event, i, 'obs')"
+                                        [value]="item.Observaciones"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="6">CONSERVACIÓN DE ECOSISTEMAS, AGUA, SUELOS Y VIDA SILVESTRE</th>
+                            </tr>
+                            <tr *ngFor="let item of arrEcosystemConservation; let i=index">
+                                <td class="align-middle">{{item.Pregunta}}</td>
+                                <td class="align-middle">
+                                    <select class="form-control form-control-sm"
+                                        (change)="UpdateValuesEcosystemConservation($event, i, 'criticopara')">
+                                        <option *ngFor="let item of arrCriticalFor; let i=index" [value]="item.Codigo">
+                                            {{item.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                        (blur)="UpdateValuesEcosystemConservation($event, i, 'noaplica')"
+                                        [checked]="item.NoAplica">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (blur)="UpdateValuesEcosystemConservation($event, i, 'SI')"
+                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (blur)="UpdateValuesEcosystemConservation($event, i, 'NO')"
+                                        [checked]="item.No">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <textarea cols="50" rows="1" class="form-control"
+                                        (blur)="UpdateValuesEcosystemConservation($event, i, 'obs')"
+                                        [value]="item.Observaciones"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="6">MANEJO INTEGRADO DE CULTIVO Y RESIDUOS</th>
+                            </tr>
+                            <tr *ngFor="let item of arrIntegratedCropManagement; let i=index">
+                                <td class="align-middle">{{item.Pregunta}}</td>
+                                <td class="align-middle">
+                                    <select class="form-control form-control-sm"
+                                        (change)="UpdateValuesIntegratedCropManagement($event, i, 'criticopara')">
+                                        <option *ngFor="let item of arrCriticalFor; let i=index" [value]="item.Codigo">
+                                            {{item.Label}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                        (blur)="UpdateValuesIntegratedCropManagement($event, i, 'noaplica')"
+                                        [checked]="item.NoAplica">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox"
+                                        (blur)="UpdateValuesIntegratedCropManagement($event, i, 'SI')"
+                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <input type="checkbox"
+                                        (blur)="UpdateValuesIntegratedCropManagement($event, i, 'NO')"
+                                        [checked]="item.No">
+                                </td>
+                                <td class="align-middle text-center">
+                                    <textarea cols="50" rows="1" class="form-control"
+                                        (blur)="UpdateValuesIntegratedCropManagement($event, i, 'obs')"
+                                        [value]="item.Observaciones"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -221,11 +506,79 @@
                     </span>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>N° DE ITEM</th>
+                                    <th>MANIFIESTO DEL PRODUCTOR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of arrSummaryNonConformities; let i=index">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            [value]="item.NumeroItem"
+                                            (blur)="UpdateValuesSummaryNonConformities($event, i, 'ni')">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            [value]="item.ManifiestoProductor"
+                                            (blur)="UpdateValuesSummaryNonConformities($event, i, 'mp')">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
             <!-- VI. DECLARACION -->
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
                     <span>VI. DECLARACION</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                    <span>Como productor/a declaro mi conformidad con lo expresado en esta ficha y afirmo que no
+                        aplico
+                        procedimientos</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td class="align-middle">
+                                        <span>PORCENTAJE DE CUMPLIMIENTO</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span># Ítem cumplidos</span><br />
+                                        <input type="number" [readonly]="true"
+                                            class="form-control form-control-sm text-right"
+                                            formControlName="itemsComply">
+                                        <hr class="m-1">
+                                        <span># Ítems que aplican</span><br />
+                                        <input type="number" [readonly]="true"
+                                            class="form-control form-control-sm text-right"
+                                            formControlName="itemsthatapply">
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="mr-1">=
+                                            <input type="number" [readonly]="true"
+                                                class="form-control form-control-sm text-right"
+                                                formControlName="totalItemsComplyApply">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -235,6 +588,137 @@
                     <span>VI. LEVANTAMIENTO DE LAS NO CONFORMIDADES</span>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Punto de Control</th>
+                                    <th>No Conformidad</th>
+                                    <th>Acción Correctiva</th>
+                                    <th>Plazo del levantamiento</th>
+                                    <th>¿Cumplio?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of arrSurveyNonConformities; let i=index">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            [value]="item.PuntoControl"
+                                            (blur)="UpdateValuesSurveyNonConformities($event, i, 'pc')">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            [value]="item.NoConformidad"
+                                            (blur)="UpdateValuesSurveyNonConformities($event, i, 'nc')">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            [value]="item.AccionCorrectiva"
+                                            (blur)="UpdateValuesSurveyNonConformities($event, i, 'ac')">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            [value]="item.PlazoLevantamiento"
+                                            (blur)="UpdateValuesSurveyNonConformities($event, i, 'pl')">
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <input type="checkbox" [checked]="item.Cumplio"
+                                            (blur)="UpdateValuesSurveyNonConformities($event, i, 'cumplio')">
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <input type="text" class="form-control form-control-sm mb-1">
+                    <input type="text" class="form-control form-control-sm" [readonly]="true"
+                        [value]="userSession.Result.Data.NombreCompletoUsuario">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            </div>
+
+            <!-- DECISION DEL COMITÉ DE APROBACIÓN Y SANCIONES -->
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 bg-primary text-white">
+                    <span>DECISION DEL COMITÉ DE APROBACIÓN Y SANCIONES
+                    </span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span>
+                                <input type="checkbox" name="programExclusion" id="programExclusion"
+                                    formControlName="programExclusion">
+                                Exclusión del Programa
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <span>
+                                <input type="checkbox" name="suspensionTime" id="suspensionTime"
+                                    formControlName="suspensionTime">
+                                Suspensión por un tiempo de
+                            </span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <input type="text" name="countSuspensionTime" id="countSuspensionTime"
+                                formControlName="countSuspensionTime" class="form-control form-control-sm text-right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span>
+                                <input type="checkbox" name="nonConformitiesObservations"
+                                    id="nonConformitiesObservations" formControlName="nonConformitiesObservations">
+                                No conformidades y observaciones deben ser levantadas hasta la próxima inspección
+                                interna
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span>
+                                <input type="checkbox" name="approveWithoutConditions" id="approveWithoutConditions"
+                                    formControlName="approveWithoutConditions">
+                                Aprueba sin condiciones
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                    <button type="button" class="btn btn-danger mr-1" (click)="Cancel()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="Save()">Guardar</button>
+                </div>
+            </div>
         </div>
     </div>
 </form>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>

@@ -46,7 +46,7 @@ const routes: Routes = [
                 }
             },
             {
-                path: 'socio/finca/list/:id',
+                path: 'socio/finca/list/:partner/:producer',
                 component: FincaComponent,
                 data: {
                     title: 'Listar Socio - Finca'
@@ -102,14 +102,21 @@ const routes: Routes = [
                 }
             },
             {
-                path: 'socio/finca/inspeccion/list',
+                path: 'socio/finca/inspeccion/list/:partner/:producer/:fincapartner',
                 component: InspeccionComponent,
                 data: {
                     title: 'Socio Finca - Inspecciones'
                 }
             },
             {
-                path: 'socio/finca/inspeccion/create',
+                path: 'socio/finca/inspeccion/create/:partner/:producer/:fincapartner',
+                component: InspeccionEditComponent,
+                data: {
+                    title: 'Socio Finca - Inspecciones'
+                }
+            },
+            {
+                path: 'socio/finca/inspeccion/update/:partner/:producer/:fincapartner/:internalinspection',
                 component: InspeccionEditComponent,
                 data: {
                     title: 'Socio Finca - Inspecciones'
