@@ -22,6 +22,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
 import { EmpresaTransporteListComponent } from "./operaciones/empresatransporte/list/empresatransporte-list.component";
+import { TransporteListComponent } from './operaciones/transporte/list/transporte-list.component';
+import { TransporteEditComponent } from './operaciones/transporte/edit/transporte-edit.component';
 import { EmpresaProveedoraListComponent } from './operaciones/empresaproveedora/list/empresaproveedora-list.component';
 import { EmpresaProveedoraEditComponent } from './operaciones/empresaproveedora/edit/empresaproveedora-edit.component';
 import { EmpresaTransporteEditComponent } from './operaciones/empresatransporte/edit/empresatransporte-edit.component';
@@ -74,6 +76,8 @@ import { DetalleLoteComponent } from "./operaciones/lotes/lote-edit/detalleLote/
   declarations: [
     MateriaPrimaListComponent,
     EmpresaTransporteListComponent,
+    TransporteListComponent,
+    TransporteEditComponent,
     EmpresaProveedoraListComponent,
     EmpresaProveedoraEditComponent,
     EmpresaTransporteEditComponent,

@@ -1,0 +1,262 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">MAESTRO DE TRANSPORTISTAS & VEHICULOS</div>
+    </div>
+</div>
+<form class="needs-validation" novalidate [formGroup]="transporteEditForm">
+   
+    <div class="card border-dark mb-3">
+        <div class="row"
+            style="margin-right: 1rem; margin-left: 1rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+            <div class="card-subtitle-form">DATOS DEL VEHICULO</div>
+        </div>
+        <div class="card-body">
+            
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="nombreRazonSocial" class="col-4 col-form-label pr-0">Propietario</label>
+                        <div class="col-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="propietario"
+                                    class="form-control" id="propietario" placeholder="Propietario"
+                                    [ngClass]="{ 'is-invalid': submitted && f.propietario.invalid, 'is-valid': submitted && !f.propietario.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="estado" class="col-4 col-form-label pr-0">Estado</label>
+                        <div class="col-8">
+                            <ng-select [items]="listEstado" formControlName="estado" class="form-control"
+                            bindLabel="Label" bindValue="Codigo" id="estado"
+                            placeholder="Seleccionar Estado" [(ngModel)]="selectedEstado"
+                            [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="marcaTractor" class="col-md-4 col-form-label pr-0">Marca Tractor</label>
+                        <div class="col-8">
+                            <ng-select [items]="listMarcaTractor" formControlName="marcaTractor" class="form-control"
+                            bindLabel="Label" bindValue="Codigo" id="marcaTractor"
+                            placeholder="Seleccionar Marca Tractor" [(ngModel)]="selectedMarcaTractor"
+                            [ngClass]="{ 'is-invalid': f.marcaTractor.invalid, 'is-valid': !f.marcaTractor.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="placaTractor" class="col-4 col-form-label pr-0">Placa Tractor</label>
+                        <div class="col-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="placaTractor"
+                                    class="form-control" id="placaTractor" placeholder="Placa Tractor"
+                                    [ngClass]="{ 'is-invalid': submitted && f.placaTractor.invalid, 'is-valid': submitted && !f.placaTractor.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="configVehicular" class="col-md-4 col-form-label pr-0">Config. Vehicular</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listConfigVehicular" formControlName="configVehicular" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="configVehicular"
+                                placeholder="Seleccionar Config. Vehicular" [(ngModel)]="selectedConfigVehicular"
+                                [ngClass]="{ 'is-invalid': f.configVehicular.invalid, 'is-valid': !f.configVehicular.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="marcaCarreta" class="col-md-4 col-form-label pr-0">Marca Carreta</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listMarcaCarreta" formControlName="marcaCarreta" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="marcaCarreta"
+                                placeholder="Seleccionar Marca Carreta" [(ngModel)]="selectedMarcaCarreta"
+                                [ngClass]="{ 'is-invalid': f.marcaCarreta.invalid, 'is-valid': !f.marcaCarreta.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="placaCarreta" class="col-4 col-form-label pr-0">Placa Carreta</label>
+                        <div class="col-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="placaCarreta"
+                                    class="form-control" id="placaCarreta" placeholder="Placa Carreta"
+                                    [ngClass]="{ 'is-invalid': submitted && f.placaCarreta.invalid, 'is-valid': submitted && !f.placaCarreta.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="color" class="col-md-4 col-form-label pr-0">Color</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="color"
+                                    class="form-control" id="color" placeholder="Color"
+                                    [ngClass]="{ 'is-invalid': submitted && f.color.invalid, 'is-valid': submitted && !f.color.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="pesoBruto" class="col-md-4 col-form-label pr-0">Peso Bruto</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="pesoBruto"
+                                    class="form-control" id="pesoBruto" placeholder="Peso Bruto"
+                                    [ngClass]="{ 'is-invalid': submitted && f.pesoBruto.invalid, 'is-valid': submitted && !f.pesoBruto.invalid }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="altura" class="col-4 col-form-label pr-0">Altura</label>
+                        <div class="col-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="altura"
+                                    class="form-control" id="altura" placeholder="Altura"
+                                    [ngClass]="{ 'is-invalid': submitted && f.altura.invalid, 'is-valid': submitted && !f.altura.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="cargaUtil" class="col-md-4 col-form-label pr-0">Carga Util</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="cargaUtil"
+                                    class="form-control" id="cargaUtil" placeholder="Carga Util"
+                                    [ngClass]="{ 'is-invalid': submitted && f.cargaUtil.invalid, 'is-valid': submitted && !f.cargaUtil.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="pesoNeto" class="col-md-4 col-form-label pr-0">Peso Neto</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="pesoNeto"
+                                    class="form-control" id="pesoNeto" placeholder="Peso Neto"
+                                    [ngClass]="{ 'is-invalid': submitted && f.pesoNeto.invalid, 'is-valid': submitted && !f.pesoNeto.invalid }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="ancho" class="col-4 col-form-label pr-0">Ancho</label>
+                        <div class="col-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="ancho"
+                                    class="form-control" id="ancho" placeholder="Ancho"
+                                    [ngClass]="{ 'is-invalid': submitted && f.ancho.invalid, 'is-valid': submitted && !f.ancho.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="longitud" class="col-md-4 col-form-label pr-0">Longitud</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="longitud"
+                                    class="form-control" id="longitud" placeholder="Longitud"
+                                    [ngClass]="{ 'is-invalid': submitted && f.longitud.invalid, 'is-valid': submitted && !f.longitud.invalid }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"
+            style="margin-right: 1rem; margin-left: 1rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+            <div class="card-subtitle-form">DATOS DEL TRANSPORTISTA</div>
+        </div>
+        <div class="card-body">
+            
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="conductor" class="col-4 col-form-label pr-0">Conductor</label>
+                        <div class="col-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="conductor"
+                                    class="form-control" id="conductor" placeholder="Conductor"
+                                    [ngClass]="{ 'is-invalid': submitted && f.conductor.invalid, 'is-valid': submitted && !f.conductor.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="numeroDni" class="col-md-4 col-form-label pr-0">DNI</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="numeroDni"
+                                    class="form-control" id="numeroDni" placeholder="DNI"
+                                    [ngClass]="{ 'is-invalid': submitted && f.numeroDni.invalid, 'is-valid': submitted && !f.numeroDni.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="licencia" class="col-md-4 col-form-label pr-0">Licencia</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="licencia"
+                                    class="form-control" id="licencia" placeholder="Licencia"
+                                    [ngClass]="{ 'is-invalid': submitted && f.licencia.invalid, 'is-valid': submitted && !f.licencia.invalid }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="soat" class="col-4 col-form-label pr-0">Soat</label>
+                        <div class="col-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="soat"
+                                    class="form-control" id="soat" placeholder="Soat"
+                                    [ngClass]="{ 'is-invalid': submitted && f.soat.invalid, 'is-valid': submitted && !f.soat.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="constanciaMTC" class="col-md-4 col-form-label pr-0">Constancia MTC</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="constanciaMTC"
+                                    class="form-control" id="constanciaMTC" placeholder="Constancia MTC"
+                                    [ngClass]="{ 'is-invalid': submitted && f.constanciaMTC.invalid, 'is-valid': submitted && !f.constanciaMTC.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="numeroCelular" class="col-md-4 col-form-label pr-0">Nro Celular</label>
+                        <div class="col-md-8">
+                            <input type="text" minlength="1" maxlength="100" formControlName="numeroCelular"
+                                    class="form-control" id="numeroCelular" placeholder="Nro Celular"
+                                    [ngClass]="{ 'is-invalid': submitted && f.numeroCelular.invalid, 'is-valid': submitted && !f.numeroCelular.invalid }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+        <div class="row">
+            <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
+                {{errorGeneral.errorMessage}}
+            </small>
+        </div>
+        <div class="card-footer text-right">
+            <button class="btn btn-primary" (click)="Save()">Guardar</button>
+            <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
+        </div>
+    </div>
+</form>
+<div class="d-flex justify-content-center">
+    <ngx-spinner></ngx-spinner>
+</div>
