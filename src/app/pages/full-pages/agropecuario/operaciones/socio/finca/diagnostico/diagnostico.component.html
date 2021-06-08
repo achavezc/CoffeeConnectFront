@@ -1,1 +1,115 @@
-<p>diagnostico works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">BANDEJA DE FICHA DE DIAGNOSTICO</div>
+    </div>
+</div>
+
+<section>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="socioFincaDiagnosticoForm" novalidate>
+                            <div class="form-row">
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="nroFicha" class="form-label">N° Ficha</label>
+                                    <input type="text" minlength="5" maxlength="25" formControlName="nroFicha"
+                                        class="form-control" id="nroFicha" placeholder="Número de ficha"
+                                        [ngClass]="{ 'is-invalid': f.nroFicha.invalid, 'is-valid': !f.nroFicha.invalid }">
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                                    <input type="date" date minlength="5" maxlength="25" formControlName="fechaInicio"
+                                        class="form-control" id="fechaInicio" placeholder="Número de ficha"
+                                        [ngClass]="{ 'is-invalid': f.fechaInicio.invalid, 'is-valid': !f.fechaInicio.invalid }">
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="fechaFinal" class="form-label">Fecha Final</label>
+                                    <input type="date" date minlength="5" maxlength="25" formControlName="fechaFinal"
+                                        class="form-control" id="fechaFinal" placeholder="Número de ficha"
+                                        [ngClass]="{ 'is-invalid': f.fechaFinal.invalid, 'is-valid': !f.fechaFinal.invalid }">
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
+                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <small class="form-text text-muted danger mb-1"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Cancel()">Cancelar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'single'">
+                            <ngx-datatable-column name="N° Ficha" prop="Numero" width="60">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0"
+                                                [routerLink]="['/agropecuario/operaciones/socio/finca/inspeccion/update', row.SocioId, row.ProductorFincaId, row.SocioFincaId, row.InspeccionInternaId]">{{
+                                                name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fec. Registro" prop="FechaRegistroString" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="40">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Activo','bg-light-warning': status == 'Inactivo'}">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
