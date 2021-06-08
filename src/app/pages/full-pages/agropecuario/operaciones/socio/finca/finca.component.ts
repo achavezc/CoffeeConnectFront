@@ -124,7 +124,7 @@ export class FincaComponent implements OnInit {
   }
 
   Diagnosis(): void {
-
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/diagnostico/list/${this.codePartner}/${this.codePartner}/${this.selected[0].SocioFincaId}`]);
   }
 
   Export(): void {

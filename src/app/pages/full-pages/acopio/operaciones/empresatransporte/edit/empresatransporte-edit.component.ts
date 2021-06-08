@@ -280,7 +280,10 @@ export class EmpresaTransporteEditComponent implements OnInit {
         this.router.navigate(['/acopio/operaciones/empresatransporte-list']);
     }
 
-
+    Transportista(): void {
+        this.router.navigate(['/acopio/operaciones/transporte-list'], { queryParams: { idEmpresaTransporte: this.vId } });
+    }
+    
 
     comparisonValidator(): ValidatorFn {
         return (group: FormGroup): ValidationErrors => {
