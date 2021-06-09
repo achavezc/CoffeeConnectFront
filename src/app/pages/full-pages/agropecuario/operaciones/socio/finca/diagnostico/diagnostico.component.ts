@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -10,7 +10,8 @@ import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 @Component({
   selector: 'app-diagnostico',
   templateUrl: './diagnostico.component.html',
-  styleUrls: ['./diagnostico.component.scss']
+  styleUrls: ['./diagnostico.component.scss', '/assets/sass/libs/datatables.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DiagnosticoComponent implements OnInit {
 

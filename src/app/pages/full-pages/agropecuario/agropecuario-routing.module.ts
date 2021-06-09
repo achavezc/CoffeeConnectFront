@@ -135,7 +135,14 @@ const routes: Routes = [
                 path: 'socio/finca/diagnostico/create/:partner/:producer/:fincapartner',
                 component: DiagnosticoEditComponent,
                 data: {
-                    title: 'Socio Finca - Inspecciones'
+                    title: 'Socio Finca - Diagnostico'
+                }
+            },
+            {
+                path: 'socio/finca/diagnostico/update/:partner/:producer/:fincapartner/:diagnostic',
+                component: DiagnosticoEditComponent,
+                data: {
+                    title: 'Socio Finca - Diagnostico'
                 }
             }
         ]
