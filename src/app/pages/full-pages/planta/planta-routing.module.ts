@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotaIngresoListComponent } from './operaciones/notaingreso/list/notaingreso-list.component';
+import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
+import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
 import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
@@ -51,6 +53,20 @@ const routes: Routes = [
       {
         path: 'notasalidaplanta-edit',
         component: NotaSalidaPlantaEditComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+      {
+        path: 'ordenproceso-list',
+        component: OrdenProcesoListComponent,
+        data: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'ordenproceso-edit',
+        component: OrdenProcesoEditComponent,
         data: {
           title: 'Edit'
         }
