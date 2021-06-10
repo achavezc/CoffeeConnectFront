@@ -1,0 +1,206 @@
+<form class="needs-validation" [formGroup]="liquidacionProcesoFormEdit">
+    <section id="tooltip-validation">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 2rem;">
+              <div class="row">
+                <div class="col-12 col-md-8">
+                  <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                  <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                  <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+  
+                  <div class="form-row">
+  
+                    <div class="col-md-6 form-group" *ngIf="esEdit">
+                      <label class="card-forms" for="users-edit-name">N° NOTA DE SALIDA</label>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
+                    </div>
+                  </div>
+                  <div class="form-row">
+  
+                    <div class="col-md-6 form-group" *ngIf="esEdit">
+                      <label class="card-forms" for="users-edit-email">FECHA</label>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms" for="users-edit-username"
+                        style="font-weight: bold;">{{fechaRegistro}}</label>
+                    </div>
+                  </div>
+  
+                </div>
+  
+              </div>
+  
+              <!-- <div class="row"
+                style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                <div class="card-subtitle-form">DATOS DEL PROVEEDOR</div>
+              </div>-->
+  
+              <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 1rem;">
+                <div class="col-12 col-md-5">
+                  <label for="basicInput">Tipo de Proceso</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="tipoProceso" disabled
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fns.tipoProceso.invalid, 'is-valid': submittedEdit && !fns.tipoProceso.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="fns.tipoProceso.errors?.required">Ingrese
+                    Tipo de Proceso</small>
+  
+                  <label for="basicInput">Cod. Organizacion</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="codigoOrganizacion" disabled>
+
+                  <label for="basicInput">Tipo de Produccion</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="tipoProduccion" disabled>
+                  <label for="basicInput">Producto</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="producto" disabled>
+
+                  <label for="basicInput">Sub Producto</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="subproducto" disabled>
+  
+                </div>
+                <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                  <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                    <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
+                    </app-consultar-organizacion>
+                  </ng-template>
+                  <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                    style="margin-top: 1.5rem;">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+                <div class="col-12 col-md-5">
+                  <label for="basicInput">Numero de Orden de Proceso</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="numOrdenProceso" disabled>
+                  <label for="basicInput"></label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="razonSocial" disabled>
+
+                  <label for="basicInput">Certificacion</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="certificacion" disabled>
+                  <label for="basicInput">Certificadora</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="certificadora" disabled>
+                </div>
+              </div>
+  
+              <!--           </form> -->
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </section>
+    <section class="users-edit">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body">
+                
+               <div class="row">
+                <div class="col-md-5">
+                              <ngx-datatable #tblOrdenProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
+                                  [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
+                                  [scrollbarH]="true"  [selectionType]="'single'">
+                                  <ngx-datatable-column name="Descripcion" prop="Numero" width="100">
+                                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                          <div class="d-flex align-items-center">
+                                              <div class="cell-line-height">
+                                                  <a class="line-height-1 mb-0"
+                                                      [routerLink]="['/exportador/operaciones/ordenproceso/update', row.OrdenProcesoId]">{{
+                                                      name }}</a>
+                                              </div>
+                                          </div>
+                                      </ng-template>
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="Sacos" prop="NumeroContrato" width="50">
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="Humedad %" prop="RucOrganizacion" width="50">
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="Kilos Netos" prop="RazonOrganizacion" width="80">
+                                  </ngx-datatable-column>
+                              </ngx-datatable>
+
+                            </div>
+
+                            <div class="col-md-7">
+                              <ngx-datatable #tblOrdenProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
+                                  [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
+                                  [scrollbarH]="true"  [selectionType]="'single'">
+                                  <ngx-datatable-column name="Referencia" prop="Numero" width="100">
+                                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                          <div class="d-flex align-items-center">
+                                              <div class="cell-line-height">
+                                                  <a class="line-height-1 mb-0"
+                                                      [routerLink]="['/exportador/operaciones/ordenproceso/update', row.OrdenProcesoId]">{{
+                                                      name }}</a>
+                                              </div>
+                                          </div>
+                                      </ng-template>
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="Sacos" prop="NumeroContrato" width="50">
+                                    <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                      <input type="text" class="form-control" id="basicInput" formControlName="sacos">
+                                  </ng-template>
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="Kg. N" prop="RucOrganizacion" width="50">
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="Kilos Netos" prop="RazonOrganizacion" width="50">
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="%" prop="FechaRegistro" width="50">
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column name="QQ/46 Kg. N" prop="TipoProceso" width="50">
+                                  </ngx-datatable-column>
+                              </ngx-datatable>
+
+                            </div>
+                </div>
+                      <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                        <div class="col-8 d-flex flex-sm-row flex-column">
+                          <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                          <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                            for="horizontal-form-1">{{responsable}}</label>
+                        </div>
+                        <div class="col-8 d-flex flex-sm-row flex-column">
+                          <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Nota
+                            Salida</label>
+                          <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                            for="horizontal-form-1">{{fechaRegistro}}</label>
+                        </div>
+  
+                      </div>
+                      <div class="col-md-10">
+                        <small class="form-text text-muted danger"
+                          *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                      </div>
+                      <div class="col-md-12 justify-content-end !important" style="margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
+                          [disabled]="!id || id <= 0">Guia Remisión</button>
+                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="ListaProductores()"
+                          [disabled]="!id || id <= 0">Lista Productores</button>
+                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="RegistroSeguridad()"
+                          [disabled]="!id || id <= 0">Registro de Seguridad</button>
+                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
+                          (click)="guardar()">Guardar</button>
+                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
+                          (click)="cancelar()">Cancelar</button>
+                      </div>
+                 <!--   </ng-template>
+                  </li>
+                </ul>-->
+                
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="d-flex justify-content-between align-items-center">
+      <ngx-spinner></ngx-spinner>
+    </div>
+  
+  </form>

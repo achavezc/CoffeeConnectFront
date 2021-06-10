@@ -233,6 +233,10 @@
 				"NotaSalida":
 				{
 					"Label":"Nota de Salida"
+				},
+				"LiquidacionProceso":
+				{
+					"Label":"Liquidacion de Proceso"
 				}
 		},
 		"Administracion":

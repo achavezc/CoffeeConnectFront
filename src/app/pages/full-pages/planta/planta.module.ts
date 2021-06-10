@@ -30,6 +30,8 @@ import {AcopioModule} from '../acopio/acopio.module';
 import {NotaSalidaAlmacenComponent} from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
 import {NotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
 import{TagNotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/tags/notasalidaplanta-tag.component';
+import {LiquidacionProcesoComponent} from './operaciones/liquidacionproceso/list/liquidacionproceso-list.component';
+import{LiquidacionProcesoEditComponent} from './operaciones/liquidacionproceso/edit/liquidacionproceso-edit.component';
 
 
 @NgModule({
@@ -56,8 +58,8 @@ import{TagNotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/e
     ModalModule,
     AcopioModule
   ],
-  declarations: [
-
+  declarations: 
+  [
     NotaIngresoListComponent,
     NotaIngresoEditComponent,
     NotaIngresoAlmacenListComponent,
@@ -65,10 +67,12 @@ import{TagNotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/e
     PesadoCafePlantaComponent,
     NotaSalidaAlmacenComponent,
     NotaSalidaPlantaEditComponent,
-    TagNotaSalidaPlantaEditComponent
+    TagNotaSalidaPlantaEditComponent,
+    LiquidacionProcesoComponent,
+    LiquidacionProcesoEditComponent
   ],
   exports: [
-    PesadoCafePlantaComponent
+    PesadoCafePlantaComponent,
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
