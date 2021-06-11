@@ -104,7 +104,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         form.listTransportistas = res.Result.Data;
       }
     })
-    this.maestroUtil.obtenerMaestros("AlmacenSalidaPlanta", function (res) {
+    this.maestroUtil.obtenerMaestros("AlmacenPlanta", function (res) {
       if (res.Result.Success) {
         form.listAlmacenes = res.Result.Data;
       }
@@ -164,10 +164,10 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         EmpresaIdDestino: this.notaSalidaForm.value.destinatario ?? null,
         EmpresaTransporteId: this.notaSalidaForm.value.transportista ?? null,
         AlmacenId: this.notaSalidaForm.value.almacen ?? '',
-        MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
+        MotivoSalidaId: this.notaSalidaForm.value.motivo ?? '',
         FechaInicio: this.notaSalidaForm.value.fechaInicio,
         FechaFin: this.notaSalidaForm.value.fechaFin,
-        EmpresaId: 2
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
       }
 
       this.spinner.show();

@@ -135,7 +135,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   
     cargarcombos() {
       var form = this;
-      this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
+      this.maestroUtil.obtenerMaestros("EstadoNotaIngresoAlmacenPlanta", function (res) {
         if (res.Result.Success) {
           form.listaEstado = res.Result.Data;
         }
@@ -146,12 +146,12 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         }
       });
 
-      this.maestroUtil.obtenerMaestros("AlmacenNotaIngresoPlanta", function (res) {
+      this.maestroUtil.obtenerMaestros("TipoCertificacionPlanta", function (res) {
         if (res.Result.Success) {
           form.listaCertificacion = res.Result.Data;
         }
       });
-      this.maestroUtil.obtenerMaestros("EntidadCertificadoraPlanta", function (res) {
+      this.maestroUtil.obtenerMaestros("AlmacenPlanta", function (res) {
         if (res.Result.Success) {
           form.listaAlmacen = res.Result.Data;
         }
@@ -198,8 +198,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     
           this.submitted = false;
           var objRequest = {
-            "Numero": this.notaIngresoAlmacenForm.controls['numeroIngresoPlanta'].value,
-            "NumeroNotaIngresoPlanta": this.notaIngresoAlmacenForm.controls['numeroIngresoAlmacen'].value,
+            "Numero": this.notaIngresoAlmacenForm.controls['numeroIngresoAlmacen'].value,
+            "NumeroNotaIngresoPlanta": this.notaIngresoAlmacenForm.controls['numeroIngresoPlanta'].value,
             "NumeroOrganizacion": this.notaIngresoAlmacenForm.controls['codigoOrganizacion'].value,
             "RazonSocialOrganizacion": this.notaIngresoAlmacenForm.controls['rzsocial'].value,
             "RucOrganizacion": this.notaIngresoAlmacenForm.controls['ruc'].value,
