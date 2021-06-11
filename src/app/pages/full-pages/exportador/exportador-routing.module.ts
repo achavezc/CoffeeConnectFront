@@ -7,8 +7,8 @@ import { ContratoComponent } from './operaciones/contrato/contrato.component';
 import { ContratoEditComponent } from './operaciones/contrato/contrato-edit/contrato-edit.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproceso-edit/orden-proceso-edit.component';
 import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.component';
-import {PreciosDiaComponent} from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
-import {PrecioDiaEditComponent} from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
+import { PreciosDiaComponent } from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
+import { PrecioDiaEditComponent } from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
 
 const routes: Routes = [
   {
@@ -93,7 +93,7 @@ const routes: Routes = [
       }
 
 
-      
+
     ]
   }
 ];

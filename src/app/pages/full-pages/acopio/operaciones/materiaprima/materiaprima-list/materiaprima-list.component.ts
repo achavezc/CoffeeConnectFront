@@ -85,13 +85,11 @@ export class MateriaPrimaListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.cargarForm();
     this.cargarcombos();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.consultaMateriaPrimaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.consultaMateriaPrimaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-
   }
 
   cargarForm() {
@@ -102,7 +100,7 @@ export class MateriaPrimaListComponent implements OnInit {
         nombre: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
         fechaInicio: new FormControl('', [Validators.required]),
         numeroDocumento: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
-        estado: new FormControl('', []),
+        estado: new FormControl('', [Validators.required]),
         fechaFin: new FormControl('', [Validators.required,]),
         codigoSocio: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         producto: new FormControl('', [])
@@ -214,32 +212,15 @@ export class MateriaPrimaListComponent implements OnInit {
     }
   }
 
-
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      const numeroGuia = group.controls['numeroGuia'];
-      const numeroDocumento = group.controls['numeroDocumento'];
-      const codigoSocio = group.controls['codigoSocio'];
-      const nombre = group.controls['nombre'];
-      const tipoDocumento = group.controls['tipoDocumento'];
-      if (numeroGuia.value == "" && numeroDocumento.value == "" && codigoSocio.value == "" && nombre.value == "") {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
-
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
-
-      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
-
-      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
-
-      }
-
       return;
     };
   }
@@ -459,7 +440,5 @@ export class MateriaPrimaListComponent implements OnInit {
       alert('Ha ocurrio un error en la descarga delExcel.');
     }
   }
-
-
 }
 

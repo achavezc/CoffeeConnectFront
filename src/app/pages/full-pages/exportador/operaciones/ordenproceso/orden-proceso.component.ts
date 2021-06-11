@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
@@ -60,12 +60,12 @@ export class OrdenProcesoComponent implements OnInit {
       ruc: [],
       nroContrato: [],
       empProcesadora: [],
-      fechaInicial: [],
-      fechaFinal: [],
+      fechaInicial: ['', Validators.required],
+      fechaFinal: ['', Validators.required],
       codCliente: [],
       cliente: [],
       tipoProceso: [],
-      estado: []
+      estado: ['', Validators.required]
     });
   }
 

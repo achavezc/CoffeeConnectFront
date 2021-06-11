@@ -28,8 +28,7 @@ export class ClienteComponent implements OnInit {
     private router: Router,
     private excelService: ExcelService,
     private maestroUtil: MaestroUtil,
-    private alertUtil: AlertUtil) 
-    { }
+    private alertUtil: AlertUtil) { }
 
   clienteForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;

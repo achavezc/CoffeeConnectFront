@@ -65,7 +65,7 @@ export class ContratoComponent implements OnInit {
       producto: [],
       tipoProduccion: [],
       calidad: [],
-      estado: []
+      estado: ['', Validators.required]
     });
   }
 

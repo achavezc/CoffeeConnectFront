@@ -60,7 +60,7 @@ export class OrdenServicioComponent implements OnInit {
       ruc: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: [],
+      estado: ['', [Validators.required]],
       producto: [],
       subProducto: []
     });
@@ -87,16 +87,10 @@ export class OrdenServicioComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nroOrdenServicio = group.value.nroOrdenServicio;
-      let razonSocial = group.controls['razonSocial'].value.trim();
-      let ruc = group.value.ruc;
-      let producto = group.controls['producto'].value;
-      let subProducto = group.controls['subProducto'].value;
-
-      if (!razonSocial && !nroOrdenServicio && !ruc) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
-      } else if (subProducto && !producto) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }

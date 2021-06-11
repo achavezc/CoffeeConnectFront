@@ -60,19 +60,19 @@ export class ProductorComponent implements OnInit {
       nombRazonSocial: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: []
+      estado: [, [Validators.required]]
     });
     this.productorForm.setValidators(this.comparisonValidator());
   }
 
   LoadCombos(): void {
     let form = this;
-    this.maestroUtil.obtenerMaestros("EstadoMaestro", function (res) {
+    this.maestroUtil.obtenerMaestros("EstadoMaestro", (res: any) => {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
+    this.maestroUtil.obtenerMaestros("TipoDocumento", (res: any) => {
       if (res.Result.Success) {
         form.listTiposDocumentos = res.Result.Data;
       }
@@ -85,13 +85,10 @@ export class ProductorComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-
-      if (!group.value.codProductor && !group.value.nombRazonSocial && !group.value.tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
-      } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
-      } else if (!group.value.nroDocumento && group.value.tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un número de documento.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }

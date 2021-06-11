@@ -63,7 +63,7 @@ export class SocioComponent implements OnInit {
       nombRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: []
+      estado: ['', [Validators.required]]
     });
     this.socioListForm.setValidators(this.comparisonValidator());
   }
@@ -88,13 +88,10 @@ export class SocioComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-
-      if (!group.value.codSocio && !group.value.nombRazonSocial && !group.value.tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
-      } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
-      } else if (!group.value.nroDocumento && group.value.tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un número de documento.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }

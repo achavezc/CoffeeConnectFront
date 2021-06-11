@@ -13,14 +13,14 @@ import { Router } from "@angular/router"
 import { MaestroService } from '../../../../../../services/maestro.service';
 
 @Component({
-    selector: "app-notaingreso-list",
-    templateUrl: "./notaingreso-list.component.html",
-    styleUrls: [
-      "./notaingreso-list.component.scss",
-      "/assets/sass/libs/datatables.scss",
-    ],
-    encapsulation: ViewEncapsulation.None
-  })
+  selector: "app-notaingreso-list",
+  templateUrl: "./notaingreso-list.component.html",
+  styleUrls: [
+    "./notaingreso-list.component.scss",
+    "/assets/sass/libs/datatables.scss",
+  ],
+  encapsulation: ViewEncapsulation.None
+})
 export class NotaIngresoListComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -63,31 +63,33 @@ export class NotaIngresoListComponent implements OnInit {
     private maestroService: MaestroService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
-    ngOnInit(): void {
-      this.cargarForm();
-      this.buscar();
-      this.cargarcombos();
-    }
+  ngOnInit(): void {
+    this.cargarForm();
+    this.buscar();
+    this.cargarcombos();
+    this.consultaNotaIngresoPlantaForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.consultaNotaIngresoPlantaForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
+  }
 
-    get f() {
-      return this.consultaNotaIngresoPlantaForm.controls;
-    }
-    
-    filterUpdate(event) {
-      /*
-      const val = event.target.value.toLowerCase();
-      const temp = this.tempData.filter(function (d) {
-        return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
-      });
-      this.rows = temp;
-      this.table.offset = 0;
-      */
-    }
-    singleSelectCheck(row: any) {
-      return this.selected.indexOf(row) === -1;
-    }
+  get f() {
+    return this.consultaNotaIngresoPlantaForm.controls;
+  }
 
-    
+  filterUpdate(event) {
+    /*
+    const val = event.target.value.toLowerCase();
+    const temp = this.tempData.filter(function (d) {
+      return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    this.rows = temp;
+    this.table.offset = 0;
+    */
+  }
+  singleSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
+  }
+
+
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
@@ -104,7 +106,7 @@ export class NotaIngresoListComponent implements OnInit {
         ruc: new FormControl('', []),
         tipoProducto: new FormControl('', []),
         subProducto: new FormControl('', []),
-        estado: new FormControl('', []),
+        estado: new FormControl('', [Validators.required]),
         motivo: new FormControl('', [])
       });
     this.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
@@ -145,8 +147,6 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   buscar() {
-
-    
     if (this.consultaNotaIngresoPlantaForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -206,9 +206,6 @@ export class NotaIngresoListComponent implements OnInit {
           }
         );
     }
-    
-    
-    
   }
 
   compareTwoDates() {
@@ -243,30 +240,13 @@ export class NotaIngresoListComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      /*
-      const numeroGuia = group.controls['notaIngreso'];
-      const numeroDocumento = group.controls['numeroDocumento'];
-      const codigoSocio = group.controls['codigoSocio'];
-      const nombre = group.controls['nombre'];
-      const tipoDocumento = group.controls['tipoDocumento'];
-      if (numeroGuia.value == "" && numeroDocumento.value == "" && codigoSocio.value == "" && nombre.value == "") {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
-
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
-
-      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
-
-      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
-
-      }
-      */
       return;
     };
   }
@@ -301,8 +281,6 @@ export class NotaIngresoListComponent implements OnInit {
         this.alertUtil.alertError("Error", "Solo se puede anular guias con estado pesado")
       }
     }
-
-
   }
 
   enviar() {
@@ -334,7 +312,6 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   anularGuia() {
-    
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -345,7 +322,7 @@ export class NotaIngresoListComponent implements OnInit {
       });
     this.plantaService.Anular(
       {
-        "NotaIngresoPlantaId":this.selected[0].NotaIngresoPlantaId,
+        "NotaIngresoPlantaId": this.selected[0].NotaIngresoPlantaId,
         "Usuario": this.vSessionUser.Result.Data.NombreUsuario
       })
       .subscribe(res => {
@@ -370,11 +347,10 @@ export class NotaIngresoListComponent implements OnInit {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
-      
   }
 
   enviarAlmacenGuia() {
-    
+
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -407,7 +383,7 @@ export class NotaIngresoListComponent implements OnInit {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
       );
-      
+
   }
 
   exportar() {

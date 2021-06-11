@@ -10,7 +10,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../../services/empresa-transporte.service';
-import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
+import { NotaSalidaAlmacenPlantaService } from '../../../../../../services/nota-salida-almacen-planta.service';
 
 @Component({
   selector: 'app-nota-salida-almacen',
@@ -29,7 +29,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     private empresaService: EmpresaService,
     private empTransporteService: EmpresaTransporteService,
     private router: Router,
-    private notaSalidaPlantaService : NotaSalidaAlmacenPlantaService) { }
+    private notaSalidaPlantaService: NotaSalidaAlmacenPlantaService) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -79,12 +79,8 @@ export class NotaSalidaAlmacenComponent implements OnInit {
 
   comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nroLote = group.controls['nroNotaSalida'].value.trim();
-      let destinatario = group.controls['destinatario'].value;
-      let transportista = group.controls['transportista'].value;
-
-      if (!nroLote && !destinatario && !transportista) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -114,7 +110,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         form.listMotivos = res.Result.Data;
       }
     });
-    
+
   }
 
   compareTwoDates(): void {
