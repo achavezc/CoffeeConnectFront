@@ -8,6 +8,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import { InspeccionInternaService } from '../../../../../../../../services/inspeccion-interna.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-inspeccion-edit',
@@ -66,12 +67,8 @@ export class InspeccionEditComponent implements OnInit {
     this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0;
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
+    this.frmFincaInspeccionEdit.controls.organization.setValue(this.userSession.Result.Data.RazonSocialEmpresa);
     this.SearchPartnerProducerByFincaPartnerId();
-    if (this.codeInternalInspection <= 0) {
-
-    } else if (this.codeInternalInspection > 0) {
-
-    }
   }
 
   LoadForm(): void {
@@ -248,7 +245,7 @@ export class InspeccionEditComponent implements OnInit {
     for (let i = 0; i < (6 - rows); i++) {
       this.arrCoffeePitches.push({
         InspeccionInternaId: this.codeInternalInspection,
-        NumeroLote: 0,
+        NumeroLote: i + 1,
         VariedadCafeId: '',
         MesesCosecha: '',
         AnioMesSiembra: '',
@@ -375,17 +372,27 @@ export class InspeccionEditComponent implements OnInit {
       this.arrSurveyNonConformities[i].Cumplio = event.target.checked;
   }
 
-  CountRowsApply(e: any): void {
-    let count = this.frmFincaInspeccionEdit.value.itemsthatapply;
-    if (e.target.checked) {
-      count = count + 1;
-    } else {
-      count = count - 1;
-    }
-    this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(count);
-  }
+  // CountRowsApply(e: any): void {
+  //   let count = this.frmFincaInspeccionEdit.value.itemsthatapply;
+  //   if (e.target.checked) {
+  //     count = count + 1;
+  //   } else {
+  //     count = count - 1;
+  //   }
+  //   this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(count);
+  // }
 
-  CountRowsYes(e: any): void {
+  // CountRowsYes(e: any): void {
+  //   let count = this.frmFincaInspeccionEdit.value.itemsComply;
+  //   if (e.target.checked) {
+  //     count = count + 1;
+  //   } else {
+  //     count = count - 1;
+  //   }
+  //   this.frmFincaInspeccionEdit.controls.itemsComply.setValue(count);
+  // }
+
+  CountRowsItemsComply(e: any): void {
     let count = this.frmFincaInspeccionEdit.value.itemsComply;
     if (e.target.checked) {
       count = count + 1;
@@ -403,7 +410,6 @@ export class InspeccionEditComponent implements OnInit {
           this.frmFincaInspeccionEdit.controls.codigo.setValue(res.Result.Data.Numero);
           this.frmFincaInspeccionEdit.controls.numberDocument.setValue(res.Result.Data.NumeroDocumento);
           // this.frmFincaInspeccionEdit.controls.status.setValue(res.Result.Data.);
-          // this.frmFincaInspeccionEdit.controls.organization.setValue(res.Result.Data.);
           this.frmFincaInspeccionEdit.controls.zone.setValue(res.Result.Data.Zona);
           this.frmFincaInspeccionEdit.controls.department.setValue(res.Result.Data.Departamento);
           this.frmFincaInspeccionEdit.controls.province.setValue(res.Result.Data.Provincia);
@@ -421,6 +427,11 @@ export class InspeccionEditComponent implements OnInit {
 
   GetRequest(): any {
     const form = this.frmFincaInspeccionEdit.value;
+    this.arrCoffeePitches.forEach(x => {
+      if (!x.VariedadCafeId) {
+        x.VariedadCafeId = this.arrCoffeeVarieties[0].Codigo;
+      }
+    });
     const coffeePitches = this.arrCoffeePitches.filter(x => x.NumeroLote && x.VariedadCafeId && x.MesesCosecha
       && x.AnioMesSiembra && x.Edad && x.AreaActual && x.CosechaPergaminoAnioActual && x.CosechaPergaminoAnioAnterior);
     const documentsManagement = this.arrDocumentManagement.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
@@ -438,6 +449,8 @@ export class InspeccionEditComponent implements OnInit {
       Certificaciones: form.standards ? form.standards.join('|') : '',
       ExclusionPrograma: form.programExclusion,
       SuspencionTiempo: form.suspensionTime,
+      Inspector: form.internalInspector,
+      FechaInspeccion: form.inspectionDate ? form.inspectionDate : '',
       DuracionSuspencionTiempo: form.countSuspensionTime ? form.countSuspensionTime : '',
       NoConformidadObservacionLevantada: form.nonConformitiesObservations,
       ApruebaSinCondicion: form.approveWithoutConditions,
@@ -562,6 +575,16 @@ export class InspeccionEditComponent implements OnInit {
       this.frmFincaInspeccionEdit.controls.programExclusion.setValue(data.ExclusionPrograma);
       this.frmFincaInspeccionEdit.controls.suspensionTime.setValue(data.SuspencionTiempo);
       this.frmFincaInspeccionEdit.controls.countSuspensionTime.setValue(data.DuracionSuspencionTiempo);
+      
+      if (data.FechaInspeccion)
+      this.frmFincaInspeccionEdit.controls.inspectionDate.setValue(data.FechaInspeccion.substring(0, 10));
+      
+
+
+     
+      this.frmFincaInspeccionEdit.controls.internalInspector.setValue(data.Inspector);
+
+
       this.frmFincaInspeccionEdit.controls.approveWithoutConditions.setValue(data.ApruebaSinCondicion);
       this.frmFincaInspeccionEdit.controls.nonConformitiesObservations.setValue(data.NoConformidadObservacionLevantada);
       this.arrCoffeePitches = data.InspeccionInternaParcela;
@@ -661,17 +684,18 @@ export class InspeccionEditComponent implements OnInit {
 
   CalculateComplimentsRowsThatApply(): void {
     let compliments = this.arrDocumentManagement.filter(x => x.Si == true).length;
-    let rowsThatApply = this.arrDocumentManagement.filter(x => x.NoAplica == false).length;
-    rowsThatApply = rowsThatApply + this.arrSocialWelfare.filter(x => x.NoAplica == false).length;
+    let rowsThatApply = this.arrDocumentManagement.filter(x => x.NoAplica == true).length;
+    rowsThatApply = rowsThatApply + this.arrSocialWelfare.filter(x => x.NoAplica == true).length;
     compliments = compliments + this.arrSocialWelfare.filter(x => x.Si == true).length;
-    rowsThatApply = rowsThatApply + this.arrEcosystemConservation.filter(x => x.NoAplica == false).length;
+    rowsThatApply = rowsThatApply + this.arrEcosystemConservation.filter(x => x.NoAplica == true).length;
     compliments = compliments + this.arrEcosystemConservation.filter(x => x.Si == true).length;
-    rowsThatApply = rowsThatApply + this.arrIntegratedCropManagement.filter(x => x.NoAplica == false).length;
+    rowsThatApply = rowsThatApply + this.arrIntegratedCropManagement.filter(x => x.NoAplica == true).length;
     compliments = compliments + this.arrIntegratedCropManagement.filter(x => x.Si == true).length;
 
-    this.frmFincaInspeccionEdit.controls.itemsComply.setValue(compliments);
-    this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(rowsThatApply);
-    this.frmFincaInspeccionEdit.controls.totalItemsComplyApply.setValue(((compliments * 100) / rowsThatApply).toFixed(2));
+    const total = this.arrDocumentManagement.length + this.arrSocialWelfare.length + this.arrEcosystemConservation.length + this.arrIntegratedCropManagement.length;
+    this.frmFincaInspeccionEdit.controls.itemsComply.setValue(compliments + rowsThatApply);
+    this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(total);
+    this.frmFincaInspeccionEdit.controls.totalItemsComplyApply.setValue(((this.frmFincaInspeccionEdit.value.itemsComply * 100) / total).toFixed(2));
   }
 
   Cancel(): void {

@@ -8,7 +8,6 @@ import { ClienteService } from '../../../../../../services/cliente.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-cliente-edit',
@@ -43,7 +42,6 @@ export class ClienteEditComponent implements OnInit {
   vSessionUser: any;
   errorGeneral = { isError: false, msgError: '' };
   vMsgErrorGenerico = 'Ocurrio un error interno.';
-  login: ILogin;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -61,28 +59,28 @@ export class ClienteEditComponent implements OnInit {
 
   LoadForm(): void {
     this.clienteEditForm = this.fb.group({
-      idCliente: [],
-      razonSocial: [, Validators.required],
-      direccionCabe: [, Validators.required],
-      fecha: [],
-      nroRucCabe: [, Validators.required],
-      tipoCliente: [, Validators.required],
-      codCliente: [],
-      cliente: [],
-      nroRuc: [],
-      telefono: [],
-      email: [],
-      direccion: [, Validators.required],
+      idCliente: [0],
+      razonSocial: ['', Validators.required],
+      direccionCabe: ['', Validators.required],
+      fecha: [''],
+      nroRucCabe: ['', Validators.required],
+      tipoCliente: ['', Validators.required],
+      codCliente: [''],
+      cliente: [''],
+      nroRuc: [0],
+      telefono: [0],
+      email: [''],
+      direccion: ['', Validators.required],
       pais: [, Validators.required],
-      departamento: [],
-      provincia: [],
-      distrito: [],
-      ciudad: [],
-      descGerente: [],
-      idGerente: [],
-      descPresidente: [],
-      idPresidente: [],
-      responsableComercial: [],
+      departamento: [''],
+      provincia: [''],
+      distrito: [''],
+      ciudad: [''],
+      descGerente: [''],
+      idGerente: [0],
+      descPresidente: [''],
+      idPresidente: [0],
+      responsableComercial: [''],
       floId: [, Validators.required]
     });
     this.clienteEditForm.setValidators(this.comparisonValidator());
@@ -298,27 +296,32 @@ export class ClienteEditComponent implements OnInit {
   }
 
   GetRequest(): any {
-    return {
-      ClienteId: this.clienteEditForm.value.idCliente ?? 0,
-      Numero: this.clienteEditForm.value.codCliente ?? '',
-      TipoClienteId: this.clienteEditForm.value.tipoCliente ?? '',
-      Ruc: this.clienteEditForm.value.nroRuc ? this.clienteEditForm.value.nroRuc.toString() : '',
-      RazonSocial: this.clienteEditForm.value.cliente ?? '',
-      Direccion: this.clienteEditForm.value.direccion ?? '',
-      PaisId: this.clienteEditForm.value.pais ?? 0,
-      DepartamentoId: this.clienteEditForm.value.departamento ?? this.clienteEditForm.value.ciudad ?? '',
-      ProvinciaId: this.clienteEditForm.value.provincia ?? '',
-      DistritoId: this.clienteEditForm.value.distrito ?? '',
-      NumeroTelefono: this.clienteEditForm.value.telefono ? this.clienteEditForm.value.telefono.toString() : '',
-      CorreoElectronico: this.clienteEditForm.value.email ?? '',
-      GerenteGeneral: this.clienteEditForm.value.descGerente ?? '',
-      GerenteGeneralNumero: this.clienteEditForm.value.idGerente ? this.clienteEditForm.value.idGerente.toString() : '',
-      Presidente: this.clienteEditForm.value.descPresidente ?? '',
-      PresidenteNumero: this.clienteEditForm.value.idPresidente ? this.clienteEditForm.value.idPresidente.toString() : '',
-      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: '01',
-      FloId: this.clienteEditForm.value.floId ? this.clienteEditForm.value.floId : '',
-      EmpresaId: this.login.Result.Data.EmpresaId
+    try {
+      return {
+        ClienteId: this.clienteEditForm.value.idCliente ? this.clienteEditForm.value.idCliente : 0,
+        Numero: this.clienteEditForm.value.codCliente ? this.clienteEditForm.value.codCliente : '',
+        TipoClienteId: this.clienteEditForm.value.tipoCliente ? this.clienteEditForm.value.tipoCliente : '',
+        Ruc: this.clienteEditForm.value.nroRuc ? this.clienteEditForm.value.nroRuc.toString() : '',
+        RazonSocial: this.clienteEditForm.value.cliente ? this.clienteEditForm.value.cliente : '',
+        Direccion: this.clienteEditForm.value.direccion ? this.clienteEditForm.value.direccion : '',
+        PaisId: this.clienteEditForm.value.pais ? this.clienteEditForm.value.pais : 0,
+        DepartamentoId: this.clienteEditForm.value.departamento ? this.clienteEditForm.value.departamento : this.clienteEditForm.value.ciudad ? this.clienteEditForm.value.ciudad : '',
+        ProvinciaId: this.clienteEditForm.value.provincia ? this.clienteEditForm.value.provincia : '',
+        DistritoId: this.clienteEditForm.value.distrito ? this.clienteEditForm.value.distrito : '',
+        NumeroTelefono: this.clienteEditForm.value.telefono ? this.clienteEditForm.value.telefono.toString() : '',
+        CorreoElectronico: this.clienteEditForm.value.email ? this.clienteEditForm.value.email : '',
+        GerenteGeneral: this.clienteEditForm.value.descGerente ? this.clienteEditForm.value.descGerente : '',
+        GerenteGeneralNumero: this.clienteEditForm.value.idGerente ? this.clienteEditForm.value.idGerente.toString() : '',
+        Presidente: this.clienteEditForm.value.descPresidente ? this.clienteEditForm.value.descPresidente : '',
+        PresidenteNumero: this.clienteEditForm.value.idPresidente ? this.clienteEditForm.value.idPresidente.toString() : '',
+        Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+        EstadoId: '01',
+        FloId: this.clienteEditForm.value.floId ? this.clienteEditForm.value.floId : '',
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+      }
+    }
+    catch (ex) {
+      console.log(ex);
     }
   }
 
