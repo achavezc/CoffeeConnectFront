@@ -135,8 +135,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaTractor);
     this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaTractor);
     this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
-    this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoSalidaId);
-    this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").setValue(data.MotivoSalidaReferencia);
+    this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").setValue(data.MotivoSalidaId);
     this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
     let objectDestino: any = {};
     objectDestino.OrganizacionId = data.EmpresaIdDestino;
@@ -183,8 +182,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
           marca: new FormControl('', []),
           placa: new FormControl('', []),
           numconstanciamtc: new FormControl('', []),
-          motivotranslado: new FormControl('', [Validators.required]),
-          numreferencia: new FormControl('', []),
+          motivoSalida: new FormControl('', [Validators.required]),
           observacion: new FormControl('', [])
         }),
       });
@@ -265,9 +263,9 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         Number(this.login.Result.Data.EmpresaId),
         this.notaSalidaFormEdit.get("almacen").value,
         this.numero,
-        this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").value,
-        this.notaSalidaFormEdit.get('tagcalidad').get("numreferencia").value,
-        Number(this.selectOrganizacion[0].OrganizacionId), //Org
+        this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").value,
+        "",
+        Number(this.selectOrganizacion[0].OrganizacionId),
         Number(this.child.selectedT[0].EmpresaTransporteId),
         Number(this.child.selectedT[0].TransporteId),
         this.child.selectedT[0].NumeroConstanciaMTC,
@@ -315,7 +313,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
             var form = this;
             this.alertUtil.alertOkCallback('Registrado!', 'Nota Salida', function (result) {
               if (result.isConfirmed) {
-                form.router.navigate(['/operaciones/notasalida-list']);
+                form.router.navigate(['/planta/operaciones/notasalidaplanta-list']);
               }
             }
             );
@@ -344,7 +342,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
             var form = this;
             this.alertUtil.alertOkCallback('Actualizado!', 'Nota Salida', function (result) {
               if (result.isConfirmed) {
-                form.router.navigate(['/operaciones/notasalida-list']);
+                form.router.navigate(['/planta/operaciones/notasalidaplanta-list']);
               }
             }
             );

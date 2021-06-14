@@ -150,17 +150,20 @@
           <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
             [rows]="rowsLotesDetalle" [selected]="selectLoteDetalle" [selectionType]="'single'">
-            <ngx-datatable-column name="N° Nota Ingreso a Planta" prop="NumeroIngresoPlanta">
+            
+            <ngx-datatable-column name="N° Nota Ingreso a Almacen" prop="NumeroNotaIngresoAlmacenPlanta">
             </ngx-datatable-column>
-            <ngx-datatable-column name="N° Nota Ingreso a Almacen" prop="Numero">
+            <ngx-datatable-column name="Producto" prop="Producto">
             </ngx-datatable-column>
-            <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistro">
+            <ngx-datatable-column name="Sub Producto" prop="SubProducto">
             </ngx-datatable-column>
-            <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="% Humedad" prop="HumedadPorcentaje">
+            <ngx-datatable-column name="Calidad" prop="Calidad">
             </ngx-datatable-column>
             
+            <ngx-datatable-column name="Grado" prop="Grado">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="N° Defectos" prop="CantidadDefectos">
+            </ngx-datatable-column>
             <ngx-datatable-column name="Sacos" prop="CantidadPesado">
             </ngx-datatable-column>
             <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutosPesado">
@@ -175,22 +178,14 @@
   
       <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
         <div class="col-12 col-md-6">
-          <label for="basicInput">Motivo de Translado</label>
-          <ng-select [items]="listaMotivoTranslado" formControlName="motivotranslado" bindLabel="Label" bindValue="Codigo"
-            id="validationTooltip01" placeholder="Seleccionar Motivo Translado" class="form-control"
-            [(ngModel)]="selectedMotivoTranslado" (change)="changeMotivo($event)"
-            [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.motivotranslado.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.motivotranslado.invalid }">
+          <label for="basicInput">Motivo de Salida</label>
+          <ng-select [items]="listaMotivoTranslado" formControlName="motivoSalida" bindLabel="Label" bindValue="Codigo"
+            id="validationTooltip01" placeholder="Seleccionar Motivo Salida" class="form-control"
+            [(ngModel)]="selectedMotivoSalida"
+            [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.motivoSalida.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.motivoSalida.invalid }">
           </ng-select>
           <small class="form-text text-muted danger"
-            *ngIf="tagNotadeSalida.controls.motivotranslado.errors?.required">Seleccione Motivo</small>
-        </div>
-  
-  
-        <div class="col-12 col-md-6" *ngIf="visibleNumReferencia">
-          <label for="basicInput"> Numero de Referencia </label>
-  
-          <input type="text" formControlName="numreferencia" class="form-control" id="validationTooltip08"
-            placeholder="Numero de Referencia">
+            *ngIf="tagNotadeSalida.controls.motivoSalida.errors?.required">Seleccione Motivo</small>
         </div>
   
       </div>

@@ -38,8 +38,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   selectedTipoDocumento: any;
   listaTipoDocumento: any[];
   listaMotivoTranslado: any[];
-  selectedMotivoTranslado: any;
-  visibleNumReferencia = false;
+  selectedMotivoSalida: any;
   submitted = false;
   submittedT = false;
   closeResult: string;
@@ -107,29 +106,21 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     detalle.forEach(x => {
       let object: any = {};
       object.NotaIngresoAlmacenPlantaId = x.NotaIngresoAlmacenPlantaId
-      object.NumeroIngresoPlanta = x.NumeroNotaIngresoAlmacenPlanta
-      object.Numero = x.NumeroNotaIngreso 
-      object.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro), "/")
-      object.RendimientoPorcentaje = x.RendimientoPorcentaje 
-      object.HumedadPorcentaje = x.HumedadPorcentaje 
+      object.NumeroNotaIngresoAlmacenPlanta = x.NumeroNotaIngresoAlmacenPlanta
+      object.Producto = x.Producto
+      object.SubProducto = x.SubProducto 
+      object.Calidad = x.Calidad
+      object.Grado = x.Grado 
+      object.CantidadDefectos = x.CantidadDefectos 
       object.CantidadPesado = x.CantidadPesado
       object.KilosBrutosPesado = x.KilosBrutosPesado
       object.TaraPesado = x.TaraPesado
       object.KilosNetosPesado = x.KilosNetosPesado
+      object.CantidadPesado = x.CantidadPesado
       this.listaNotaIngreso.push(object);
     });
     this.tempDataLoteDetalle = this.listaNotaIngreso;
     this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-  }
-
-  changeMotivo(e) {
-    if (e.Codigo == this.valueMotivoSalidaTransf) {
-
-      this.visibleNumReferencia = true;
-    }
-    else {
-      this.visibleNumReferencia = false;
-    }
   }
 
   openModal(modalLotes) {
@@ -491,15 +482,17 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
         this.filtrosLotesID.LoteId = Number(e[0].LoteId);
         let object: any = {};
         object.NotaIngresoAlmacenPlantaId = e[0].NotaIngresoAlmacenPlantaId
-        object.NumeroIngresoPlanta = e[0].NumeroIngresoPlanta
-        object.Numero = e[0].Numero 
-        object.FechaRegistro = this.dateUtil.formatDate(new Date(e[0].FechaRegistro), "/")
-        object.RendimientoPorcentaje = e[0].RendimientoPorcentaje 
-        object.HumedadPorcentaje= e[0].HumedadPorcentajeAnalisisFisico
-         object.CantidadPesado = e[0].CantidadPesado 
+        object.NumeroNotaIngresoAlmacenPlanta = e[0].NumeroIngresoPlanta
+        object.Producto = e[0].Producto
+        object.SubProducto = e[0].SubProducto
+        object.Calidad = e[0].Calidad
+        object.Grado = e[0].Grado 
+        object.CantidadDefectos = e[0].CantidadDefectos 
+        object.CantidadPesado = e[0].CantidadPesado
         object.KilosBrutosPesado = e[0].KilosBrutosPesado
         object.TaraPesado = e[0].TaraPesado
         object.KilosNetosPesado = e[0].KilosNetosPesado
+        object.CantidadPesado = e[0].CantidadPesado
         this.listaNotaIngreso.push(object);
         this.tempDataLoteDetalle = this.listaNotaIngreso;
         this.rowsLotesDetalle = [...this.tempDataLoteDetalle];

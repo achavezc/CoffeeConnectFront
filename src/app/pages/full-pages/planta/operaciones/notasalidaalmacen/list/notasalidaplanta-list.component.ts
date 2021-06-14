@@ -11,6 +11,8 @@ import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../../services/empresa-transporte.service';
 import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
+import { ILogin } from '../../../../../../services/models/login';
+
 
 @Component({
   selector: 'app-nota-salida-almacen',
@@ -50,7 +52,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
-  vSessionUser: any;
+  vSessionUser: ILogin;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -167,7 +169,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
         FechaInicio: this.notaSalidaForm.value.fechaInicio,
         FechaFin: this.notaSalidaForm.value.fechaFin,
-        EmpresaId: 2
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
       }
 
       this.spinner.show();

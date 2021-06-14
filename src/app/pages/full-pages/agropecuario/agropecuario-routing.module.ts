@@ -11,6 +11,8 @@ import { ProyectosComponent } from './operaciones/socio/proyectos/proyectos.comp
 import { ProyectosEditComponent } from './operaciones/socio/proyectos/proyectosedit/proyectos-edit.component';
 import { InspeccionComponent } from './operaciones/socio/finca/inspeccion/inspeccion.component';
 import { InspeccionEditComponent } from './operaciones/socio/finca/inspeccion/inspeccion-edit/inspeccion-edit.component';
+import { DiagnosticoComponent } from './operaciones/socio/finca/diagnostico/diagnostico.component';
+import { DiagnosticoEditComponent } from './operaciones/socio/finca/diagnostico/diagnostico-edit/diagnostico-edit.component';
 
 const routes: Routes = [
     {
@@ -120,6 +122,27 @@ const routes: Routes = [
                 component: InspeccionEditComponent,
                 data: {
                     title: 'Socio Finca - Inspecciones'
+                }
+            },
+            {
+                path: 'socio/finca/diagnostico/list/:partner/:producer/:fincapartner',
+                component: DiagnosticoComponent,
+                data: {
+                    title: 'Socio Finca - Diagnostico'
+                }
+            },
+            {
+                path: 'socio/finca/diagnostico/create/:partner/:producer/:fincapartner',
+                component: DiagnosticoEditComponent,
+                data: {
+                    title: 'Socio Finca - Diagnostico'
+                }
+            },
+            {
+                path: 'socio/finca/diagnostico/update/:partner/:producer/:fincapartner/:diagnostic',
+                component: DiagnosticoEditComponent,
+                data: {
+                    title: 'Socio Finca - Diagnostico'
                 }
             }
         ]

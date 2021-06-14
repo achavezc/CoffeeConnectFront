@@ -1,0 +1,934 @@
+<form class="needs-validation" [formGroup]="frmFincaDiagnosticoEdit">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <div class="form-row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-center align-middle">
+                    <h3 class="text-white">FICHA DE DIAGNOSTICO</h3>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label for="tokenNumber" class="col-md-3 col-form-label text-white">N° de
+                                    Ficha</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="tokenNumber" id="tokenNumber" formControlName="tokenNumber"
+                                        class="form-control form-control-sm text-center" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.tokenNumber.invalid, 'is-valid': !f.tokenNumber.invalid }"
+                                        placeholder="Número ficha" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label for="registrationDate" class="col-md-3 col-form-label text-white">Fecha</label>
+                                <div class="col-md-9">
+                                    <input type="date" date name="registrationDate" id="registrationDate"
+                                        formControlName="registrationDate"
+                                        class="form-control text-center form-control-sm" [readonly]="true"
+                                        [ngClass]="{ 'is-invalid': f.registrationDate.invalid, 'is-valid': !f.registrationDate.invalid }"
+                                        placeholder="Fecha Registro" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-row pt-2 pb-2 bg-primary">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center text-white">
+                    <span>Evaluación de las Normas:</span>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-center text-white">
+                    <span>ORGANICAS, SOCIALES Y SOSTENIBLES</span>
+                </div>
+            </div>
+            <div class="form-row bg-primary mt-1 pt-2 pb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center text-white font-weight-bolder">
+                    <span>DATOS GENERALES DEL SOCIO</span>
+                </div>
+            </div>
+            <div class="form-row mt-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="organization" class="col-md-2 col-form-label text-center">ORGANIZACIÓN</label>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <input type="text" name="organization" id="organization" formControlName="organization"
+                                class="form-control form-control-sm" placeholder="Organización" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.organization.invalid, 'is-valid': !f.organization.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="surnamesFirstnames" class="col-md-2 col-form-label text-center">APELLIDOS Y
+                            NOMBRES</label>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <input type="text" name="surnamesFirstnames" id="surnamesFirstnames"
+                                formControlName="surnamesFirstnames" class="form-control form-control-sm"
+                                placeholder="Apellidos y Nombres" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.surnamesFirstnames.invalid, 'is-valid': !f.surnamesFirstnames.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="documentNumber" class="col-md-4 col-form-label">N° Documento</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="documentNumber" id="documentNumber"
+                                formControlName="documentNumber" class="form-control form-control-sm"
+                                placeholder="Número de documento" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.documentNumber.invalid, 'is-valid': !f.documentNumber.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="cellPhoneNumber" class="col-md-4 col-form-label">N° Celular</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="cellPhoneNumber" id="cellPhoneNumber"
+                                formControlName="cellPhoneNumber" class="form-control form-control-sm"
+                                placeholder="Número de celular" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.cellPhoneNumber.invalid, 'is-valid': !f.cellPhoneNumber.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="age" class="col-md-4 col-form-label">Edad</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="age" id="age" formControlName="age"
+                                class="form-control form-control-sm" placeholder="Edad" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.age.invalid, 'is-valid': !f.age.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="language" class="col-md-4 col-form-label">Idioma</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="language" id="language" formControlName="language"
+                                class="form-control form-control-sm" placeholder="Idioma" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.language.invalid, 'is-valid': !f.language.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="numberChildren" class="col-md-4 col-form-label">N° de Hijos</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="numberChildren" id="numberChildren"
+                                formControlName="numberChildren" class="form-control form-control-sm"
+                                placeholder="Número de hijos" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.numberChildren.invalid, 'is-valid': !f.numberChildren.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="gender" class="col-md-4 col-form-label">Género</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="gender" id="gender" formControlName="gender"
+                                class="form-control form-control-sm" placeholder="Género" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.gender.invalid, 'is-valid': !f.gender.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="degreeStudies" class="col-md-4 col-form-label">Grado de Estudios</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="degreeStudies" id="degreeStudies" formControlName="degreeStudies"
+                                class="form-control form-control-sm" placeholder="Grado de estudios" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.degreeStudies.invalid, 'is-valid': !f.degreeStudies.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="birthPlace" class="col-md-4 col-form-label">Lugar de Nacimiento</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="birthPlace" id="birthPlace" formControlName="birthPlace"
+                                class="form-control form-control-sm" placeholder="Lugar de nacimiento" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.birthPlace.invalid, 'is-valid': !f.birthPlace.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="yearEntryZone" class="col-md-4 col-form-label">Año de ingreso a la Zona</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="yearEntryZone" id="yearEntryZone" formControlName="yearEntryZone"
+                                class="form-control form-control-sm" placeholder="Año de ingreso a la zona"
+                                [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.yearEntryZone.invalid, 'is-valid': !f.yearEntryZone.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="religion" class="col-md-4 col-form-label">Religión</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="religion" id="religion" formControlName="religion"
+                                class="form-control form-control-sm" placeholder="Religión" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.religion.invalid, 'is-valid': !f.religion.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="civilStatus" class="col-md-4 col-form-label">Estado Civil</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="civilStatus" id="civilStatus" formControlName="civilStatus"
+                                class="form-control form-control-sm" placeholder="Estado civil" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.civilStatus.invalid, 'is-valid': !f.civilStatus.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="surnameNamesSpouse" class="col-md-3 col-form-label text-center">APELLIDOS Y
+                            NOMBRES CONYUGUE</label>
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                            <input type="text" name="surnameNamesSpouse" id="surnameNamesSpouse"
+                                formControlName="surnameNamesSpouse" class="form-control form-control-sm"
+                                placeholder="Apellidos y Nombres del cónyugue" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.surnameNamesSpouse.invalid, 'is-valid': !f.surnameNamesSpouse.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="degreeStudiesSpouse" class="col-md-4 col-form-label">Grado de Estudios</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="degreeStudiesSpouse" id="degreeStudiesSpouse"
+                                formControlName="degreeStudiesSpouse" class="form-control form-control-sm"
+                                placeholder="Grado de estudios del cónyugue" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.degreeStudiesSpouse.invalid, 'is-valid': !f.degreeStudiesSpouse.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="placeBirthSpouse" class="col-md-4 col-form-label">Lugar de Nacimiento</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="placeBirthSpouse" id="placeBirthSpouse"
+                                formControlName="placeBirthSpouse" class="form-control form-control-sm"
+                                placeholder="Lugar de nacimiento del cónyugue" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.placeBirthSpouse.invalid, 'is-valid': !f.placeBirthSpouse.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="documentNumberSpouse" class="col-md-4 col-form-label">N° Documento</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="documentNumberSpouse" id="documentNumberSpouse"
+                                formControlName="documentNumberSpouse" class="form-control form-control-sm"
+                                placeholder="Número de documento" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.documentNumberSpouse.invalid, 'is-valid': !f.documentNumberSpouse.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="cellPhoneNumberSpouse" class="col-md-4 col-form-label">N° Celular</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="cellPhoneNumberSpouse" id="cellPhoneNumberSpouse"
+                                formControlName="cellPhoneNumberSpouse" class="form-control form-control-sm"
+                                placeholder="Número de celular" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.cellPhoneNumberSpouse.invalid, 'is-valid': !f.cellPhoneNumberSpouse.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="ageSpouse" class="col-md-4 col-form-label">Edad</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="ageSpouse" id="ageSpouse" formControlName="ageSpouse"
+                                class="form-control form-control-sm" placeholder="Edad" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.ageSpouse.invalid, 'is-valid': !f.ageSpouse.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row bg-primary mt-1 pt-2 pb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center text-white font-weight-bolder">
+                    <span>DATOS DE LA UNIDAD PRODUCTIVA</span>
+                </div>
+            </div>
+            <div class="form-row mt-2">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="department" class="col-md-4 col-form-label">Departamento</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="department" id="department" formControlName="department"
+                                class="form-control form-control-sm" placeholder="Departamento" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.department.invalid, 'is-valid': !f.department.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="latitude" class="col-md-4 col-form-label">Latitud</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="latitude" id="latitude" formControlName="latitude"
+                                class="form-control form-control-sm" placeholder="Latitud" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.latitude.invalid, 'is-valid': !f.latitude.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="province" class="col-md-4 col-form-label">Provincia</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="province" id="province" formControlName="province"
+                                class="form-control form-control-sm" placeholder="Provincia" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.province.invalid, 'is-valid': !f.province.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="longitude" class="col-md-4 col-form-label">Longitud</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="longitude" id="longitude" formControlName="longitude"
+                                class="form-control form-control-sm" placeholder="Longitud" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.longitude.invalid, 'is-valid': !f.longitude.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="district" class="col-md-4 col-form-label">Distrito</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="district" id="district" formControlName="district"
+                                class="form-control form-control-sm" placeholder="Distrito" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.district.invalid, 'is-valid': !f.district.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="altitude" class="col-md-4 col-form-label">Altitud</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="altitude" id="altitude" formControlName="altitude"
+                                class="form-control form-control-sm" placeholder="Altitud" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.altitude.invalid, 'is-valid': !f.altitude.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="zone" class="col-md-4 col-form-label">Zona</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="zone" id="zone" formControlName="zone"
+                                class="form-control form-control-sm" placeholder="Zona" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.zone.invalid, 'is-valid': !f.zone.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="crop" class="col-md-4 col-form-label">Cultivo</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="crop" id="crop" formControlName="crop"
+                                class="form-control form-control-sm" placeholder="Cultivo" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.crop.invalid, 'is-valid': !f.crop.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="fund" class="col-md-4 col-form-label">Fundo</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="fund" id="fund" formControlName="fund"
+                                class="form-control form-control-sm" placeholder="Fundo" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.fund.invalid, 'is-valid': !f.fund.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="precipitation" class="col-md-4 col-form-label">Presipitación</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="precipitation" id="precipitation" formControlName="precipitation"
+                                class="form-control form-control-sm" placeholder="Presipitación" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.precipitation.invalid, 'is-valid': !f.precipitation.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="powerSource" class="col-md-4 col-form-label">Fuente de Energía</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="powerSource" id="powerSource" formControlName="powerSource"
+                                class="form-control form-control-sm" placeholder="Fuente de Energía" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.powerSource.invalid, 'is-valid': !f.powerSource.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="personalNumberHarvest" class="col-md-4 col-form-label">N° personal en
+                            cosecha</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="personalNumberHarvest" id="personalNumberHarvest"
+                                formControlName="personalNumberHarvest" class="form-control form-control-sm"
+                                placeholder="N° personal en cosecha" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.personalNumberHarvest.invalid, 'is-valid': !f.personalNumberHarvest.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="waterSource" class="col-md-4 col-form-label">Fuente de Agua</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="waterSource" id="waterSource" formControlName="waterSource"
+                                class="form-control form-control-sm" placeholder="Fuente de Agua" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.waterSource.invalid, 'is-valid': !f.waterSource.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="numberSmallerAnimals" class="col-md-4 col-form-label">N° Animales menores</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="numberSmallerAnimals" id="numberSmallerAnimals"
+                                formControlName="numberSmallerAnimals" class="form-control form-control-sm"
+                                placeholder="N° Animales menores" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.numberSmallerAnimals.invalid, 'is-valid': !f.numberSmallerAnimals.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="internet" class="col-md-4 col-form-label">Internet</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="internet" id="internet" formControlName="internet"
+                                class="form-control form-control-sm" placeholder="Internet" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.internet.invalid, 'is-valid': !f.internet.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="housingMaterial" class="col-md-4 col-form-label">Material de vivienda</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="housingMaterial" id="housingMaterial"
+                                formControlName="housingMaterial" class="form-control form-control-sm"
+                                placeholder="Material de vivienda" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.housingMaterial.invalid, 'is-valid': !f.housingMaterial.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="phoneSignal" class="col-md-4 col-form-label">Señal telefónica</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="phoneSignal" id="phoneSignal" formControlName="phoneSignal"
+                                class="form-control form-control-sm" placeholder="Señal telefónica" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.phoneSignal.invalid, 'is-valid': !f.phoneSignal.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label for="ground" class="col-md-4 col-form-label">Suelo</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="ground" id="ground" formControlName="ground"
+                                class="form-control form-control-sm" placeholder="Suelo" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.ground.invalid, 'is-valid': !f.ground.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="healthEstablishment" class="col-md-6 col-form-label">Establecimiento de
+                            Salud</label>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <input type="text" name="healthEstablishment" id="healthEstablishment"
+                                formControlName="healthEstablishment" class="form-control form-control-sm"
+                                placeholder="Señal telefónica" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.healthEstablishment.invalid, 'is-valid': !f.healthEstablishment.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="form-group row">
+                        <label for="timeUnitHealthCenter" class="col-md-4 col-form-label">Tiempo de la unidad al centro
+                            de salud</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="timeUnitHealthCenter" id="timeUnitHealthCenter"
+                                formControlName="timeUnitHealthCenter" class="form-control form-control-sm"
+                                placeholder="Señal telefónica" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.timeUnitHealthCenter.invalid, 'is-valid': !f.timeUnitHealthCenter.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="school" class="col-md-5 col-form-label">Centro Educativo</label>
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                            <input type="text" name="school" id="school" formControlName="school"
+                                class="form-control form-control-sm" placeholder="Señal telefónica" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.school.invalid, 'is-valid': !f.school.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="accessRoadsCollectionCenterProductiveUnit" class="col-md-6 col-form-label">Vias de
+                            acceso del centro de acopio hasta la
+                            unidad productiva</label>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <input type="text" name="accessRoadsCollectionCenterProductiveUnit"
+                                id="accessRoadsCollectionCenterProductiveUnit"
+                                formControlName="accessRoadsCollectionCenterProductiveUnit"
+                                class="form-control form-control-sm" placeholder="Señal telefónica" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.accessRoadsCollectionCenterProductiveUnit.invalid, 'is-valid': !f.accessRoadsCollectionCenterProductiveUnit.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="distanceKilometers" class="col-md-4 col-form-label">Distancia KM</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="distanceKilometers" id="distanceKilometers"
+                                formControlName="distanceKilometers" class="form-control form-control-sm"
+                                placeholder="Número de documento" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.distanceKilometers.invalid, 'is-valid': !f.distanceKilometers.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="totalTime" class="col-md-4 col-form-label">Tiempo Total</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="totalTime" id="totalTime" formControlName="totalTime"
+                                class="form-control form-control-sm" placeholder="Número de celular" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.totalTime.invalid, 'is-valid': !f.totalTime.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group row">
+                        <label for="transportationWay" class="col-md-5 col-form-label">Medio de transporte</label>
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                            <input type="text" name="transportationWay" id="transportationWay"
+                                formControlName="transportationWay" class="form-control form-control-sm"
+                                placeholder="Edad" [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.transportationWay.invalid, 'is-valid': !f.transportationWay.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row bg-primary mt-1 pt-2 pb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center text-white font-weight-bolder">
+                    <span>INFRAESTRUCTURA DE LA UNIDAD PRODUCTIVA</span>
+                </div>
+            </div>
+            <div class="form-row mt-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr *ngFor="let item of arrInfrastructureTitles; let i = index;">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm text-center"
+                                            [readonly]="true" [value]="item.Text">
+                                    </td>
+                                    <td *ngFor="let val of arrInfrastructureValues; let ival = index;"
+                                        class="text-center">
+                                        <label>
+                                            {{val.Label}}
+                                            <input type="radio" [name]="i" [value]="val.Codigo"
+                                                (change)="ChangeInfraStatus($event, i)"
+                                                [checked]="val.Codigo == item.EstadoInfraestructuraId">
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <textarea cols="30" rows="1" [value]="item.Observaciones"
+                                            (blur)="MapInfraProductiveUnit($event, i)"
+                                            class="form-control form-control-sm"></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row bg-primary mt-1 pt-2 pb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-white font-weight-bolder">
+                    <span>OBSERVACIONES O DETALLES (Herramientas u otra infraestructura, estado, etc.)</span>
+                </div>
+            </div>
+            <div class="form-row mt-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="observationsDetails" id="observationsDetails" cols="80" rows="3"
+                        formControlName="observationsDetails" class="form-control form-control-sm"></textarea>
+                </div>
+            </div>
+            <div class="form-row bg-primary mt-1 pt-2 pb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center text-white font-weight-bolder">
+                    <span>DATOS DE CAMPO</span>
+                </div>
+            </div>
+            <div class="form-row mt-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <th class="text-center align-middle">Área Total</th>
+                                <th class="text-center align-middle">Área de Café<br />en Producción</th>
+                                <th class="text-center align-middle">Crecimiento</th>
+                                <th class="text-center align-middle">Bosque</th>
+                                <th class="text-center align-middle">Purma</th>
+                                <th class="text-center align-middle">Pan Llevar</th>
+                                <th class="text-center align-middle">Vivienda</th>
+                            </thead>
+                            <tbody>
+                                <td>
+                                    <input type="number" name="totalFieldArea" id="totalFieldArea"
+                                        formControlName="totalFieldArea" class="form-control form-control-sm text-right"
+                                        placeholder="Área Total" />
+                                </td>
+                                <td>
+                                    <input type="number" name="coffeeProductionFieldArea" id="coffeeProductionFieldArea"
+                                        formControlName="coffeeProductionFieldArea"
+                                        class="form-control form-control-sm text-right"
+                                        placeholder="Área de café en producción" />
+                                </td>
+                                <td>
+                                    <input type="number" name="fieldGrowth" id="fieldGrowth"
+                                        formControlName="fieldGrowth" class="form-control form-control-sm text-right"
+                                        placeholder="Crecimiento" />
+                                </td>
+                                <td>
+                                    <input type="number" name="forestField" id="forestField"
+                                        formControlName="forestField" class="form-control form-control-sm text-right"
+                                        placeholder="Bosque" />
+                                </td>
+                                <td>
+                                    <input type="number" name="purmaField" id="purmaField" formControlName="purmaField"
+                                        class="form-control form-control-sm text-right" placeholder="Purma" />
+                                </td>
+                                <td>
+                                    <input type="number" name="breadCarryField" id="breadCarryField"
+                                        formControlName="breadCarryField"
+                                        class="form-control form-control-sm text-right" placeholder="Pan Llevar" />
+                                </td>
+                                <td>
+                                    <input type="number" name="countryHouse" id="countryHouse"
+                                        formControlName="countryHouse" class="form-control form-control-sm"
+                                        placeholder="Vivienda" />
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <th class="text-center align-middle">Lote</th>
+                                <th class="text-center align-middle">Hectáreas</th>
+                                <th class="text-center align-middle">Variedad</th>
+                                <th class="text-center align-middle">Edad</th>
+                                <th class="text-center align-middle">Cosecha<br />(Meses)</th>
+                                <th class="text-center align-middle">Cosecha<br />20__</th>
+                                <th class="text-center align-middle">Cosecha<br />20__</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of arrDataFields; let i = index;">
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.NumeroLote" (blur)="MapDataFields($event, i, 'NL')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.Hectarea" (blur)="MapDataFields($event, i, 'H')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.Variedad" (blur)="MapDataFields($event, i, 'V')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.Edad" (blur)="MapDataFields($event, i, 'E')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.CosechaMeses" (blur)="MapDataFields($event, i, 'CM')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.CosechaPergaminoAnioAnterior"
+                                            (blur)="MapDataFields($event, i, 'CPAANT')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.CosechaPergaminoAnioActual"
+                                            (blur)="MapDataFields($event, i, 'CPAACT')">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" [readonly]="true"
+                                            value="TOTAL">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalHectares">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalVariety">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalAge">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalHarvestMonths">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalHarvestPreviousYear">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalHarvestCurrentYear">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row bg-primary mt-1 pt-2 pb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-white font-weight-bolder">
+                    <span>OBSERVACIONES</span>
+                </div>
+            </div>
+            <div class="form-row mt-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea name="observationsField" id="observationsField" cols="80" rows="3"
+                        formControlName="observationsField" class="form-control form-control-sm"></textarea>
+                </div>
+            </div>
+            <div class="form-row bg-primary mt-1 pt-2 pb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-white font-weight-bolder">
+                    <span>COSTO DE PRODUCCIÓN</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <th class="text-center align-middle">ACTIVIDADES</th>
+                                <th class="text-center align-middle">Hectáreas</th>
+                                <th class="text-center align-middle">Costo/Has</th>
+                                <th class="text-center align-middle">Costo/Total</th>
+                                <th class="text-center align-middle">Observaciones</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of arrProductionCost; let i = index;">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm text-center"
+                                            [value]="item.Text" [readonly]="true">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.Hectarea" (blur)="MapDataCostProduction($event, i, 'h')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.CostoHectarea"
+                                            (blur)="MapDataCostProduction($event, i, 'ch')">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            [value]="item.CostoTotal" (blur)="MapDataCostProduction($event, i, 'ct')">
+                                    </td>
+                                    <td>
+                                        <textarea cols="30" rows="1" class="form-control form-control-sm"
+                                            [value]="item.Observaciones"
+                                            (blur)="MapDataCostProduction($event, i, 'o')"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm text-center"
+                                            [readonly]="true" value="TOTAL">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalHectaresProduction">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalCostProduction">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm text-right"
+                                            [readonly]="true" formControlName="totalCostTotalProduction">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="questions1" class="col-md-8 col-form-label">¿Cuánto es el ingreso promedio
+                            mensual del socio incluyendo todos los conceptos?</label>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <input type="number" name="questions1" id="questions1" formControlName="questions1"
+                                class="form-control form-control-sm"
+                                [ngClass]="{ 'is-invalid': f.questions1.invalid, 'is-valid': !f.questions1.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label">Concepto de Ingreso</label>
+                        <label for="agricultureIncome" class="col-md-4 col-form-label">Agricultura</label>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <input type="number" name="agricultureIncome" id="agricultureIncome"
+                                formControlName="agricultureIncome" class="form-control form-control-sm"
+                                placeholder="Agricultura"
+                                [ngClass]="{ 'is-invalid': f.agricultureIncome.invalid, 'is-valid': !f.agricultureIncome.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="form-group row">
+                        <label for="store" class="col-md-4 col-form-label">Bodega</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="number" name="store" id="store" formControlName="store"
+                                class="form-control form-control-sm" placeholder="Bodega"
+                                [ngClass]="{ 'is-invalid': f.store.invalid, 'is-valid': !f.store.invalid }" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="form-group row">
+                        <label for="transport" class="col-md-4 col-form-label">Transporte</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="number" name="transport" id="transport" formControlName="transport"
+                                class="form-control form-control-sm" placeholder="Transporte"
+                                [ngClass]="{ 'is-invalid': f.transport.invalid, 'is-valid': !f.transport.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="other" class="col-md-2 col-form-label">Otro</label>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <input type="number" name="other" id="other" formControlName="other"
+                                class="form-control form-control-sm" placeholder="Otro"
+                                [ngClass]="{ 'is-invalid': f.other.invalid, 'is-valid': !f.other.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="question2" class="col-md-4 col-form-label">Cuenta con préstamos ¿Qué
+                            entidades?</label>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <input type="text" name="question2" id="question2" formControlName="question2"
+                                class="form-control form-control-sm" placeholder="Cuenta con préstamos ¿Qué entidades?"
+                                [ngClass]="{ 'is-invalid': f.question2.invalid, 'is-valid': !f.question2.invalid }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                    <input type="text" name="responsable" id="responsable" formControlName="responsable"
+                        class="form-control form-control-sm" placeholder="Responsable"
+                        [ngClass]="{ 'is-invalid': f.responsable.invalid, 'is-valid': !f.responsable.invalid }" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <input type="text" name="technical" id="technical" formControlName="technical"
+                        class="form-control form-control-sm" placeholder="Responsable"
+                        [ngClass]="{ 'is-invalid': f.technical.invalid, 'is-valid': !f.technical.invalid }" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                    <button type="button" class="btn btn-danger mr-1" (click)="Cancel()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="Save()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>

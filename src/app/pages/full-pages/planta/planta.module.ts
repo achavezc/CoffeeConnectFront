@@ -21,6 +21,8 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { NotaIngresoListComponent } from "./operaciones/notaingreso/list/notaingreso-list.component";
+import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
+import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaingreso-edit.component";
 import { NotaIngresoAlmacenListComponent } from "./operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component";
 import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
@@ -58,8 +60,10 @@ import{LiquidacionProcesoEditComponent} from './operaciones/liquidacionproceso/e
     ModalModule,
     AcopioModule
   ],
-  declarations: 
-  [
+
+  declarations: [
+    OrdenProcesoListComponent,
+    OrdenProcesoEditComponent,
     NotaIngresoListComponent,
     NotaIngresoEditComponent,
     NotaIngresoAlmacenListComponent,

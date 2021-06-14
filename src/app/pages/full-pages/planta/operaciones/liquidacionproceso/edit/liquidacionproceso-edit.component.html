@@ -64,11 +64,22 @@
   
                 </div>
                 <div class="col-12 col-md-2" style="padding-left: 0cm;">
-                  <ng-template #modalEmpresa let-c="close" let-d="dismiss">
-                    <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
-                    </app-consultar-organizacion>
+                  <ng-template #modalOrdenProceso let-c="close" let-d="dismiss">
+                    <div class="modal-header" style="text-align: center;">
+  
+                      <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Orden de Proceso</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                     <!-- <app-notaingresoalmacen-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-notaingresoalmacen-list>-->
+                      <app-ordenproceso-list  [popUp] = "popUp" (seleccionarEvent)="agregarOrdenProceso($event)">
+                      </app-ordenproceso-list>
+                     </div>
+                   
                   </ng-template>
-                  <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                  <button type="button" (click)="openModal(modalOrdenProceso)" class="btn btn-default"
                     style="margin-top: 1.5rem;">
                     <i class="fa fa-search"></i>
                   </button>
@@ -104,7 +115,7 @@
                 <div class="col-md-5">
                               <ngx-datatable #tblOrdenProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
                                   [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                                  [scrollbarH]="true"  [selectionType]="'single'">
+                                  [scrollbarH]="true">
                                   <ngx-datatable-column name="Descripcion" prop="Numero" width="100">
                                       <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                           <div class="d-flex align-items-center">
@@ -127,32 +138,35 @@
                             </div>
 
                             <div class="col-md-7">
-                              <ngx-datatable #tblOrdenProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
-                                  [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                                  [scrollbarH]="true"  [selectionType]="'single'">
-                                  <ngx-datatable-column name="Referencia" prop="Numero" width="100">
-                                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                                          <div class="d-flex align-items-center">
-                                              <div class="cell-line-height">
-                                                  <a class="line-height-1 mb-0"
-                                                      [routerLink]="['/exportador/operaciones/ordenproceso/update', row.OrdenProcesoId]">{{
-                                                      name }}</a>
-                                              </div>
-                                          </div>
-                                      </ng-template>
+                              <ngx-datatable #tblResultProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
+                                  [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rowsResultProceso"
+                                  [scrollbarH]="false"  >
+                                  <ngx-datatable-column name="Referencia" prop="Label" width="100">
                                   </ngx-datatable-column>
-                                  <ngx-datatable-column name="Sacos" prop="NumeroContrato" width="50">
-                                    <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                                      <input type="text" class="form-control" id="basicInput" formControlName="sacos">
+                                  <ngx-datatable-column name="Sacos" prop="Sacos" width="50" [formGroup]="formGroupSacos">
+                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                      <input type="text" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%sacos'">
                                   </ng-template>
                                   </ngx-datatable-column>
-                                  <ngx-datatable-column name="Kg. N" prop="RucOrganizacion" width="50">
+                                  <ngx-datatable-column name="Kg. N" prop="Kg" width="50">
+                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                      <input type="text" class="form-control" id="basicInput" formControlName="Kg">
+                                  </ng-template>
                                   </ngx-datatable-column>
-                                  <ngx-datatable-column name="Kilos Netos" prop="RazonOrganizacion" width="50">
+                                  <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="50">
+                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                      <input type="text" class="form-control" id="basicInput" formControlName="KilosNetos">
+                                  </ng-template>
                                   </ngx-datatable-column>
-                                  <ngx-datatable-column name="%" prop="FechaRegistro" width="50">
+                                  <ngx-datatable-column name="%" prop="Porcentaje" width="50">
+                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                      <input type="text" class="form-control" id="basicInput" formControlName="Porcentaje">
+                                  </ng-template>
                                   </ngx-datatable-column>
-                                  <ngx-datatable-column name="QQ/46 Kg. N" prop="TipoProceso" width="50">
+                                  <ngx-datatable-column name="QQ/46 Kg. N" prop="QQKg" width="50">
+                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                      <input type="text" class="form-control" id="basicInput" formControlName="Porcentaje">
+                                  </ng-template>
                                   </ngx-datatable-column>
                               </ngx-datatable>
 

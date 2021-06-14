@@ -13,6 +13,7 @@ import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ReqNotaSalidaPlanta, NotaSalidaAlmacenPlantaDetalleDTO } from '../../../../../../services/models/req-salidaalmaceplanta';
 import { host } from '../../../../../../shared/hosts/main.host';
 import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
+import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 
 @Component({
   selector: 'app-liquidacionproceso-edit',
@@ -24,36 +25,32 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
-  selectClasificacion: any;
-  consultaEmpresas: FormGroup;
   submitted = false;
   submittedE = false;
   submittedEdit = false;
   closeResult: string;
   liquidacionProcesoFormEdit: FormGroup;
+  formGroupSacos: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  selectOrganizacion = [];
   popupModel;
   login: ILogin;
-  private tempData = [];
+  private tempDataResultProceso = [];
+  public rowsResultProceso = [];
   public rows = [];
   public ColumnMode = ColumnMode;
-  public limitRef = 10;
-  filtrosEmpresaProv: any = {};
-  listaClasificacion = [];
+  public limitRef = 20;
   numero = "";
   esEdit = false;
-  ReqNotaSalida;
   id: Number = 0;
   fechaRegistro: any;
-  almacen: "";
   responsable: "";
-  empresa: any;
+  listResultProceso = [];
+  popUp = true;
 
 
-  @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
+  @ViewChild(DatatableComponent) tblResultProceso: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
     private alertUtil: AlertUtil,
@@ -63,20 +60,17 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private empresaService: EmpresaService,
-    private notaSalidaAlmacenPlantaService: NotaSalidaAlmacenPlantaService
+    private notaSalidaAlmacenPlantaService: NotaSalidaAlmacenPlantaService,
+    private maestroUtil: MaestroUtil,
 
   ) {
 
   }
 
-
-  seleccionarTipoAlmacen() {
-   // this.child.selectAlmacenLote = this.selectAlmacen;
-  }
-
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
+    this.Load();
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {
@@ -135,7 +129,6 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
     let objectDestino: any = {};
     objectDestino.OrganizacionId = data.EmpresaIdDestino;
-    this.selectOrganizacion.push(objectDestino);
     let objectTransporte: any = {};
     objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
     objectTransporte.TransporteId = data.TransporteId;
@@ -149,7 +142,6 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     //this.child.selectedT.push(objectTransporte);
     this.numero = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.almacen = data.Almacen;
     this.responsable = data.UsuarioRegistro;
     this.spinner.hide();
 
@@ -163,33 +155,34 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit = this.fb.group(
       {
         tipoProceso: new FormControl('', []),
-        codigoOrganizacion: new FormControl('', [Validators.required]),
-        tipoProduccion: ['', [Validators.required]],
+        codigoOrganizacion: new FormControl('', []),
+        tipoProduccion: ['', []],
         producto: new FormControl('', []),
         subproducto: new FormControl('', []),
         numOrdenProceso: new FormControl('', []),
         razonSocial: new FormControl('', []),
         certificacion: new FormControl('', []),
         certificadora: new FormControl('', []),
-        tagcalidad: this.fb.group({
-          propietario: new FormControl('', [Validators.required]),
-          domiciliado: new FormControl('', []),
-          ruc: new FormControl('', []),
-          conductor: new FormControl('', []),
-          brevete: new FormControl('', []),
-          codvehicular: new FormControl('', []),
-          marca: new FormControl('', []),
-          placa: new FormControl('', []),
-          numconstanciamtc: new FormControl('', []),
-          motivotranslado: new FormControl('', [Validators.required]),
-          numreferencia: new FormControl('', []),
-          observacion: new FormControl('', [])
-        }),
       });
   }
+  Load()
+  {
+    this.maestroUtil.obtenerMaestros('TiposCafeProcesado', (res: any) => {
+      if (res.Result.Success) {
+        this.listResultProceso = res.Result.Data;
+        this.tempDataResultProceso = this.listResultProceso;
+        this.rowsResultProceso = [... this.tempDataResultProceso];
+        let group={}    
+        this.listResultProceso.forEach(input_template=>{
+          group[input_template.Codigo+'%sacos']=new FormControl('',[]);  
+        })
+        this.formGroupSacos = new FormGroup(group);
+      }
+    }); 
+  }
 
-  openModal(modalEmpresa) {
-    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg' });
+  openModal(modalOrdenProceso) {
+    this.modalService.open(modalOrdenProceso, { windowClass: 'dark-modal', size: 'xl' });
 
   }
 
@@ -213,6 +206,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       this.submittedEdit = true;
       return;
     } else {
+      var y = this.formGroupSacos;
+      var x = this.tblResultProceso;
       this.submittedEdit = false;
       var TotalKilosBrutos = 0;
       var TotalKilosNetos = 0;
@@ -255,7 +250,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.numero,
         this.liquidacionProcesoFormEdit.get('tagcalidad').get("motivotranslado").value,
         this.liquidacionProcesoFormEdit.get('tagcalidad').get("numreferencia").value,
-        Number(this.selectOrganizacion[0].OrganizacionId), //Org
+        0,//Number(this.selectOrganizacion[0].OrganizacionId), //Org
         0,//Number(this.child.selectedT[0].EmpresaTransporteId),
         0,//Number(this.child.selectedT[0].TransporteId),
         '0',//this.child.selectedT[0].NumeroConstanciaMTC,
@@ -353,6 +348,12 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       );
   }
 
+  agregarOrdenProceso(e)
+  {
+    var x = e;
+
+  }
+
   imprimir(): void {
     let link = document.createElement('a');
     document.body.appendChild(link);
@@ -382,14 +383,5 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     link.click();
     link.remove();
   }
-  GetDataEmpresa(event: any): void {
-    this.selectOrganizacion = event;
-    if (this.selectOrganizacion[0]) {
-    this.liquidacionProcesoFormEdit.controls["destinatario"].setValue(this.selectOrganizacion[0].RazonSocial);
-    this.liquidacionProcesoFormEdit.controls["ruc"].setValue(this.selectOrganizacion[0].Ruc);
-    this.liquidacionProcesoFormEdit.controls["dirDestino"].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
-    
-    }
-    this.modalService.dismissAll();
-  }
+
 }
