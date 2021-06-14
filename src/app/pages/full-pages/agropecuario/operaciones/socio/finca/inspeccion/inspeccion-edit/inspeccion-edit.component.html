@@ -159,7 +159,7 @@
                             <input type="text" name="internalInspector" id="internalInspector"
                                 formControlName="internalInspector" class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.internalInspector.invalid, 'is-valid': !f.internalInspector.invalid }"
-                                placeholder="Departamento" [readonly]="true" />
+                                placeholder="Inspector" [readonly]="false" />
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                             <input type="date" date name="inspectionDate" id="inspectionDate"
                                 formControlName="inspectionDate" class="form-control text-center form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.inspectionDate.invalid, 'is-valid': !f.inspectionDate.invalid }"
-                                placeholder="Provincia" [readonly]="true" />
+                                placeholder="Fecha Inspección" [readonly]="false" />
                         </div>
                     </div>
                 </div>
@@ -636,11 +636,11 @@
             </div>
             <div class="form-row mb-2">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <input type="text" class="form-control form-control-sm mb-1">
                     <input type="text" class="form-control form-control-sm" [readonly]="true"
                         [value]="userSession.Result.Data.NombreCompletoUsuario">
-                </div>
+                </div> -->
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
             </div>
 

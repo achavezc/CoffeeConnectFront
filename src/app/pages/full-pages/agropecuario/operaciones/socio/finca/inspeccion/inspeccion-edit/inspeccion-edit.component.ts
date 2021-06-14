@@ -449,6 +449,8 @@ export class InspeccionEditComponent implements OnInit {
       Certificaciones: form.standards ? form.standards.join('|') : '',
       ExclusionPrograma: form.programExclusion,
       SuspencionTiempo: form.suspensionTime,
+      Inspector: form.internalInspector,
+      FechaInspeccion: form.inspectionDate ? form.inspectionDate : '',
       DuracionSuspencionTiempo: form.countSuspensionTime ? form.countSuspensionTime : '',
       NoConformidadObservacionLevantada: form.nonConformitiesObservations,
       ApruebaSinCondicion: form.approveWithoutConditions,
@@ -573,6 +575,16 @@ export class InspeccionEditComponent implements OnInit {
       this.frmFincaInspeccionEdit.controls.programExclusion.setValue(data.ExclusionPrograma);
       this.frmFincaInspeccionEdit.controls.suspensionTime.setValue(data.SuspencionTiempo);
       this.frmFincaInspeccionEdit.controls.countSuspensionTime.setValue(data.DuracionSuspencionTiempo);
+      
+      if (data.FechaInspeccion)
+      this.frmFincaInspeccionEdit.controls.inspectionDate.setValue(data.FechaInspeccion.substring(0, 10));
+      
+
+
+     
+      this.frmFincaInspeccionEdit.controls.internalInspector.setValue(data.Inspector);
+
+
       this.frmFincaInspeccionEdit.controls.approveWithoutConditions.setValue(data.ApruebaSinCondicion);
       this.frmFincaInspeccionEdit.controls.nonConformitiesObservations.setValue(data.NoConformidadObservacionLevantada);
       this.arrCoffeePitches = data.InspeccionInternaParcela;
