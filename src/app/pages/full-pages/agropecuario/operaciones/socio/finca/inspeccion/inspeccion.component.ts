@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { InspeccionInternaService } from '../../../../../../../services/inspeccion-interna.service';
+import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 
 @Component({
   selector: 'app-inspeccion',
@@ -32,7 +33,8 @@ export class InspeccionComponent implements OnInit {
     private inspeccionInternaService: InspeccionInternaService,
     private spinner: NgxSpinnerService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private maestroUtil: MaestroUtil) { }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -42,19 +44,28 @@ export class InspeccionComponent implements OnInit {
     this.LoadForm();
     this.socioFincaInspeccionForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.socioFincaInspeccionForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
+    this.LoadState();
   }
 
   LoadForm() {
     this.socioFincaInspeccionForm = this.fb.group({
-      nroFicha: ['', Validators.required],
-      fechaInicio: [, Validators.required],
-      fechaFinal: [, Validators.required],
-      estado: []
+      nroFicha: [''],
+      fechaInicio: ['', Validators.required],
+      fechaFinal: ['', Validators.required],
+      estado: ['', Validators.required]
     });
   }
 
   get f() {
     return this.socioFincaInspeccionForm.controls;
+  }
+
+  LoadState(): void {
+    this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
+      if (res.Result.Success) {
+        this.listEstados = res.Result.Data;
+      }
+    });
   }
 
   GetRequestSearch(): any {
