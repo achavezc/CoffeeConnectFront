@@ -69,7 +69,7 @@ export class NotacompraListComponent implements OnInit {
       nroNotaCompra: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: [],
+      estado: ['', [Validators.required]],
       nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       codigoSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       tipo: []
@@ -102,19 +102,10 @@ export class NotacompraListComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let numeroGuia = group.controls['nroGuiaRecepcion'].value.trim();
-      let nroNotaCompra = group.controls['nroNotaCompra'].value.trim();
-      let numeroDocumento = group.controls['numeroDocumento'].value.trim();
-      let tipoDocumento = group.controls['tipoDocumento'].value;
-      let codigoSocio = group.controls['codigoSocio'].value.trim();
-      let nombre = group.controls['nombreRazonSocial'].value.trim();
-
-      if (!numeroGuia && !numeroDocumento && !codigoSocio && !nombre && !nroNotaCompra && !tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      } else if (numeroDocumento && !tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      } else if (!numeroDocumento && tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }

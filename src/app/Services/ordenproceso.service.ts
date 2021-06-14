@@ -24,9 +24,9 @@ export class OrdenProcesoService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  ConsultarPorId(request: any): Observable<any> {
+  ConsultarPorId(id: any): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
-    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+    return this.http.post<any>(url, { OrdenProcesoPlantaId: id }).catch(this.errorHandling.handleError);
   }
 
   Actualizar(request: any): Observable<any> {

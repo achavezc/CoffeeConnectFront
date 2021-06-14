@@ -14,8 +14,8 @@
                             <div class="form-row">
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="producto" class="form-label">Producto</label>
-                                    <ng-select [items]="listProducto" formControlName="producto"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="producto"
+                                    <ng-select [items]="listProducto" formControlName="producto" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="producto"
                                         placeholder="Seleccionar tipo producto"
                                         [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }"
                                         [(ngModel)]="selectedProducto" (change)="changeProduct($event)">
@@ -24,13 +24,13 @@
 
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="validationTooltip04">Fecha Inicio</label>
-                                    <input type="date" class="form-control" formControlName="fechaInicio" id="validationTooltip07"
-                                      name="fechaInicio" placeholder="date" date
-                                      [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
-                                      (blur)="compareFechas()" />
+                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                        id="validationTooltip07" name="fechaInicio" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
+                                        (blur)="compareFechas()" />
                                     <small class="form-text text-muted danger"
-                                      *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                                  </div>
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-6 mb-4 form-group mb-2">
@@ -44,25 +44,26 @@
                                 </div>
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="validationTooltip10">Fecha Fin</label>
-                                    <input type="date" class="form-control" formControlName="fechaFin" id="validationTooltip10"
-                                      name="fechaFin" placeholder="date" date
-                                      [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
-                                      (blur)="compareTwoDates()" />
-                                    <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
-                                  </div>
-                               
+                                    <input type="date" class="form-control" formControlName="fechaFin"
+                                        id="validationTooltip10" name="fechaFin" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>
+
                             </div>
                             <div class="form-row">
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="estado" class="form-label">Estado</label>
-                                    <ng-select [items]="listEstado" formControlName="estado"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
+                                    <ng-select [items]="listEstado" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
                                         placeholder="Seleccionar tipo cliente"
                                         [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
                                 </div>
-                               
+
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
@@ -70,7 +71,7 @@
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="preciosdiaform.invalid"
                                 (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
-                            
+
                         </form>
                     </div>
                 </div>

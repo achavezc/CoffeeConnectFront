@@ -96,21 +96,17 @@ export class IngresoAlmacenComponent implements OnInit {
 
   LoadForm(): void {
     this.ingresoAlmacenForm = this.fb.group({
-      //nroIngreso: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       nroIngreso: ['',],
       tipoDocumento: [],
-      //numeroDocumento: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       numeroDocumento: ['',],
       fechaInicio: [, [Validators.required]],
       fechaFin: [, [Validators.required]],
-      //codigoSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       codigoSocio: ['',],
       estado: ['', Validators.required],
-      //nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       nombreRazonSocial: ['',],
       almacen: [],
       certificacion: [],
-      producto: ['', Validators.required],
+      producto: [''],
       subProducto: [],
       rendimientoInicio: [],
       rendimientoFin: [],
@@ -157,16 +153,10 @@ export class IngresoAlmacenComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      if ((group.value.rendimientoInicio && !group.value.rendimientoFin)
-        || (!group.value.rendimientoInicio && group.value.rendimientoFin)) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores de rendimiento.' };
-      } else if (group.value.rendimientoInicio && group.value.rendimientoFin && group.value.rendimientoFin <= group.value.rendimientoInicio) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido para rendimiento.' };
-      } else if ((group.value.puntajeFinalIni && !group.value.puntajeFinalFin)
-        || (!group.value.puntajeFinalIni && group.value.puntajeFinalFin)) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambos valores de puntaje final.' };
-      } else if (group.value.puntajeFinalIni && group.value.puntajeFinalFin && group.value.puntajeFinalFin <= group.value.puntajeFinalIni) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un rango valido para puntaje final.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -222,51 +212,8 @@ export class IngresoAlmacenComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  // singleSelectCheck(row: any) {
-  //   return this.selected.indexOf(row) === -1;
-  // }
-
   onSelect(event: any): void {
     this.selected = event.selected;
-    // if (event && event.selected.length > 0) {
-    //   let obj: any = {};
-    //   for (let i = 0; i < event.selected.length; i++) {
-    //     obj = event.selected[i];
-    //     if (obj.EstadoId == "01" && obj.AlmacenId) {
-    //       if (this.selected && this.selected.length > 0) {
-    //         if (!this.selected.find(x => x.NotaIngresoAlmacenId == obj.NotaIngresoAlmacenId)) {
-    //           this.selected.push(obj);
-    //         }
-    //       } else {
-    //         this.selected.push(obj);
-    //       }
-    //     }
-    //   }
-    //   if (event.selected.length > 1 && this.selected.length <= 0) {
-    //     this.alertUtil.alertError("Advertencia", "Ninguna de las filas seleccionadas tiene asignado un ALMACEN y/o se encuentra en estado INGRESADO.");
-    //     this.selected = [];
-    //   }
-    // }
-  }
-
-  onActive(event): void {
-    // if (event.type == "click" && event.column.name.trim() == "Lote" && event.event.target.checked && this.selected.length > 0) {
-    //   if (event.row.EstadoId != "01" || !event.row.AlmacenId) {
-    //     let obj: any = {};
-    //     for (let i = 0; i < this.selected.length; i++) {
-    //       obj = this.selected[i];
-    //       if (obj.NotaIngresoAlmacenId == event.row.NotaIngresoAlmacenId) {
-    //         this.selected.splice(i, 1);
-    //         this.alertUtil.alertError("Advertencia", "La fila seleccionada no tiene asignado un ALMACEN y/o su estado no es INGRESADO.");
-    //         break;
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   if (this.selected.length <= 0) {
-    //     this.selected = [];
-    //   }
-    // }
   }
 
   Buscar(exportExcel?: boolean): void {

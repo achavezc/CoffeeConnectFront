@@ -10,10 +10,11 @@ import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { EmpresaService } from '../../../../../../services/empresa.service';
-import { ReqNotaSalidaPlanta, NotaSalidaAlmacenPlantaDetalleDTO } from '../../../../../../services/models/req-salidaalmaceplanta';
+import { ReqLiquidacionProceso, LiquidacionProcesoPlantaDetalle, LiquidacionProcesoPlantaResultado } from '../../../../../../services/models/req-liquidacion-proceso';
 import { host } from '../../../../../../shared/hosts/main.host';
-import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import {OrdenProcesoService} from '../../../../../../services/ordenproceso.service';
+import{LiquidacionProcesoPlantaService} from '../../../../../../services/liquidacionproceso-planta.service';
 
 @Component({
   selector: 'app-liquidacionproceso-edit',
@@ -31,6 +32,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   closeResult: string;
   liquidacionProcesoFormEdit: FormGroup;
   formGroupSacos: FormGroup;
+  formGroupKg: FormGroup;
+  formGroupKilosNetos: FormGroup;
+  formGroupPorcentaje: FormGroup;
+  formGroupQqkg: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
@@ -39,6 +44,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   private tempDataResultProceso = [];
   public rowsResultProceso = [];
   public rows = [];
+  rowsMateriaPrima = [];
+  tempMateriaPrima = [];
+  listMateriaPrima = [];
   public ColumnMode = ColumnMode;
   public limitRef = 20;
   numero = "";
@@ -60,9 +68,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private empresaService: EmpresaService,
-    private notaSalidaAlmacenPlantaService: NotaSalidaAlmacenPlantaService,
     private maestroUtil: MaestroUtil,
-
+    private ordenProcesoService : OrdenProcesoService,
+    private liquidacionProcesoPlantaService : LiquidacionProcesoPlantaService
   ) {
 
   }
@@ -84,7 +92,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   obtenerDetalle() {
     this.spinner.show();
-    this.notaSalidaAlmacenPlantaService.obtenerDetalle(Number(this.id))
+    this.ordenProcesoService.ConsultarPorId(Number(this.id))
       .subscribe(res => {
 
         if (res.Result.Success) {
@@ -155,7 +163,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit = this.fb.group(
       {
         tipoProceso: new FormControl('', []),
-        codigoOrganizacion: new FormControl('', []),
+        ruc: new FormControl('', []),
         tipoProduccion: ['', []],
         producto: new FormControl('', []),
         subproducto: new FormControl('', []),
@@ -163,6 +171,15 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         razonSocial: new FormControl('', []),
         certificacion: new FormControl('', []),
         certificadora: new FormControl('', []),
+        ordenProcesoPlantaId:  new FormControl('', []),
+        totalSacos:  new FormControl('', []),
+        totalKg:  new FormControl('', []),
+        totalKilosNetos:  new FormControl('', []),
+        totalPorcentaje:  new FormControl('', []),
+        totalQqkg:  new FormControl('', []),
+        observacion:  new FormControl('', []),
+        envases:  new FormControl('', []),
+        trabajos:  new FormControl('', [])
       });
   }
   Load()
@@ -172,11 +189,23 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.listResultProceso = res.Result.Data;
         this.tempDataResultProceso = this.listResultProceso;
         this.rowsResultProceso = [... this.tempDataResultProceso];
-        let group={}    
+        let groupsSacos={}   
+        let groupKg={} 
+        let groupKilosNetos={} 
+        let groupPorcentaje={} 
+        let groupQqkg={}
         this.listResultProceso.forEach(input_template=>{
-          group[input_template.Codigo+'%sacos']=new FormControl('',[]);  
+          groupsSacos[input_template.Codigo+'%sacos']=new FormControl('',[]);  
+          groupKg[input_template.Codigo+'%Kg']=new FormControl('',[]);
+          groupKilosNetos[input_template.Codigo+'%kilosNetos']=new FormControl('',[]);
+          groupPorcentaje[input_template.Codigo+'%porcentaje']=new FormControl('',[]);
+          groupQqkg[input_template.Codigo+'%qqkg']=new FormControl('',[]);
         })
-        this.formGroupSacos = new FormGroup(group);
+        this.formGroupSacos = new FormGroup(groupsSacos);
+        this.formGroupKg = new FormGroup(groupKg);
+        this.formGroupKilosNetos = new FormGroup(groupKilosNetos)
+        this.formGroupPorcentaje = new FormGroup(groupPorcentaje);
+        this.formGroupQqkg = new FormGroup(groupQqkg);
       }
     }); 
   }
@@ -186,89 +215,95 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   }
 
+  calcularSacos()
+  {
+    var totalSacos = this.calcularTotalSacos();
+    this.rowsResultProceso.forEach(x => {
+      var valueSacos = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
+      if (valueSacos != 0)
+      {
+      var porcentajeSacos =  ((valueSacos/totalSacos)*100).toFixed(2);
+      var qqKg =  (valueSacos/46).toFixed(2);
+      this.formGroupQqkg.get( x.Codigo + '%qqkg').setValue(qqKg);
+      this.formGroupPorcentaje.get( x.Codigo + '%porcentaje').setValue(porcentajeSacos);
+      }
+    });
+    this.calcularTotalPorcentaje(); 
+  }
+  calcularTotalPorcentaje()
+  {
+    var totalPorcentaje = 0;
+    this.rowsResultProceso.forEach(x => {
+      totalPorcentaje = totalPorcentaje + Number(this.formGroupPorcentaje.get( x.Codigo + '%porcentaje').value);
+    }); 
+    this.liquidacionProcesoFormEdit.get('totalPorcentaje').setValue(Math.round(totalPorcentaje)); 
+  }
+  calcularTotalSacos ()
+  {
+    var totalSacos = 0;
+    this.rowsResultProceso.forEach(x => {
+      totalSacos = totalSacos + Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
+    });
+    this.liquidacionProcesoFormEdit.get('totalSacos').setValue(totalSacos); 
+    return totalSacos;
+  }
+  calcularTotalKilosNetos()
+  {
+    var totalKilosNetos = 0;
+    this.rowsResultProceso.forEach(x => {
+      totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
+    });
+    this.liquidacionProcesoFormEdit.get('totalKilosNetos').setValue(totalKilosNetos); 
+  }
 
   get fedit() {
     return this.liquidacionProcesoFormEdit.controls;
   }
-
 
   cancelar() {
     this.router.navigate(['/acopio/operaciones/notasalida-list']);
   }
 
   guardar() {
-   /* if (this.child.listaNotaIngreso.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' }; }
-    else {
-      this.errorGeneral = { isError: false, errorMessage: '' };
-    }*/
     if (this.liquidacionProcesoFormEdit.invalid || this.errorGeneral.isError) {
-
       this.submittedEdit = true;
       return;
     } else {
-      var y = this.formGroupSacos;
-      var x = this.tblResultProceso;
-      this.submittedEdit = false;
-      var TotalKilosBrutos = 0;
-      var TotalKilosNetos = 0;
-      var Totaltara = 0;
-      var Totalcantidad = 0;
-      let list: NotaSalidaAlmacenPlantaDetalleDTO[] = [];
-     /* if(this.child.listaNotaIngreso.length!=0)
-      {
-        this.child.listaNotaIngreso.forEach(x => {
-             let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
-              TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutosPesado;
-              TotalKilosNetos = TotalKilosNetos + x.KilosNetosPesado;
-              Totaltara = Totaltara + x.TaraPesado;
-              Totalcantidad = Totalcantidad + x.CantidadPesado;
-              list.push( object)
-            });
-      }
-      this.child.listaNotaIngreso.forEach(x => {
-        if (list.length != 0) {
-          if ((list.filter(y => y.NotaIngresoAlmacenPlantaId == x.NotaIngresoAlmacenPlantaId)).length == 0) {
-            let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
-            TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutos;
-            TotalKilosNetos = TotalKilosNetos + x.KilosNetos;
-            Totaltara = Totaltara + x.Tara;
-            list.push(object)
-          }
-        } else {
-          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
-          TotalKilosBrutos = x.KilosBrutos;
-            TotalKilosNetos = TotalKilosNetos + x.KilosNetos;
-            Totaltara = Totaltara + x.Tara;
-          list.push(object)
+      
+      let liquidacionProcesoPlantaResultado : LiquidacionProcesoPlantaResultado[] =[];
+      this.rowsResultProceso.forEach(x=>
+        {
+          let objectResultProceso = new LiquidacionProcesoPlantaResultado(
+            x.Codigo,
+            Number(this.formGroupSacos.get(x.Codigo + '%sacos').value),
+            Number(this.formGroupKg.get(x.Codigo + '%Kg').value),
+            Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value) ,
+          );
+          liquidacionProcesoPlantaResultado.push(objectResultProceso);
         }
-      }
-      );*/
-      let request = new ReqNotaSalidaPlanta(
+      );
+
+       let liquidacionProcesoPlantaDetalle: LiquidacionProcesoPlantaDetalle[] = [] ;
+      this.listMateriaPrima.forEach(x=>{
+        let ObjectProcesoPlantaDetalle = new LiquidacionProcesoPlantaDetalle(
+         String(x.NotaIngresoPlantaId)
+        );
+        liquidacionProcesoPlantaDetalle.push(ObjectProcesoPlantaDetalle);
+      });
+     
+      let request = new ReqLiquidacionProceso(
         Number(this.id),
-        Number(this.login.Result.Data.EmpresaId),
-        this.liquidacionProcesoFormEdit.get("almacen").value,
+        this.liquidacionProcesoFormEdit.get("ordenProcesoPlantaId").value,
         this.numero,
-        this.liquidacionProcesoFormEdit.get('tagcalidad').get("motivotranslado").value,
-        this.liquidacionProcesoFormEdit.get('tagcalidad').get("numreferencia").value,
-        0,//Number(this.selectOrganizacion[0].OrganizacionId), //Org
-        0,//Number(this.child.selectedT[0].EmpresaTransporteId),
-        0,//Number(this.child.selectedT[0].TransporteId),
-        '0',//this.child.selectedT[0].NumeroConstanciaMTC,
-        '0',//this.child.selectedT[0].MarcaTractorId,
-        '0',//this.child.selectedT[0].PlacaTractor,
-        '0',//this.child.selectedT[0].MarcaCarretaId,
-        '0',//this.child.selectedT[0].PlacaCarreta,
-        '0',//this.child.selectedT[0].Conductor,
-        '0',//this.child.selectedT[0].Licencia,
-        this.liquidacionProcesoFormEdit.get('tagcalidad').get("observacion").value,
-        TotalKilosBrutos,
-        TotalKilosNetos,
-        Totaltara,
-        0,//this.child.listaNotaIngreso[0].CantidadPesado,
-        "01",
+        this.login.Result.Data.EmpresaId,
+        this.liquidacionProcesoFormEdit.get("observacion").value,
+        this.liquidacionProcesoFormEdit.get("envases").value,
+        this.liquidacionProcesoFormEdit.get("trabajos").value,
+        '01',
         this.login.Result.Data.NombreUsuario,
-        list
-        
+        liquidacionProcesoPlantaDetalle,
+        liquidacionProcesoPlantaResultado
+      
       );
       let json = JSON.stringify(request);
       this.spinner.show(undefined,
@@ -280,25 +315,25 @@ export class LiquidacionProcesoEditComponent implements OnInit {
           fullScreen: true
         });
       if (this.esEdit && this.id != 0) {
-        this.actualizarNotaSalidaService(request);
+        this.actualizarLiquidacionProcesoService(request);
       } else {
-        this.registrarNotaSalidaService(request);
+        this.registrarLiquidacionProcesoService(request);
       }
 
 
     }
   }
 
-  registrarNotaSalidaService(request: ReqNotaSalidaPlanta) {
-    this.notaSalidaAlmacenPlantaService.Registrar(request)
+  registrarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
+    this.liquidacionProcesoPlantaService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             var form = this;
-            this.alertUtil.alertOkCallback('Registrado!', 'Nota Salida', function (result) {
+            this.alertUtil.alertOkCallback('Registrado!', 'Liquidacion Proceso', function (result) {
               if (result.isConfirmed) {
-                form.router.navigate(['/operaciones/notasalida-list']);
+                form.router.navigate(['/planta/operaciones/liquidacionProceso-list']);
               }
             }
             );
@@ -318,16 +353,16 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         }
       );
   }
-  actualizarNotaSalidaService(request: ReqNotaSalidaPlanta) {
-    this.notaSalidaAlmacenPlantaService.Actualizar(request)
+  actualizarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
+    this.ordenProcesoService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             var form = this;
-            this.alertUtil.alertOkCallback('Actualizado!', 'Nota Salida', function (result) {
+            this.alertUtil.alertOkCallback('Actualizado!', 'Liquidacion Proceso', function (result) {
               if (result.isConfirmed) {
-                form.router.navigate(['/operaciones/notasalida-list']);
+                form.router.navigate(['/planta/operaciones/liquidacionProceso-list']);
               }
             }
             );
@@ -350,8 +385,47 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   agregarOrdenProceso(e)
   {
-    var x = e;
+    
+    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(e[0].OrdenProcesoPlantaId);
+    this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(e[0].TipoProceso);
+    this.liquidacionProcesoFormEdit.controls["ruc"].setValue(e[0].RucOrganizacion);
+    this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(e[0].TipoProduccion);
+    this.liquidacionProcesoFormEdit.controls["producto"].setValue(e[0].Producto);
+    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(e[0].Numero);
+    this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(e[0].SubProducto);
+    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonOrganizacion);
+    this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(e[0].TipoCertificacion);
+    this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
+    this.consultarDetalleporId(e[0].OrdenProcesoPlantaId)
+  }
 
+  consultarDetalleporId(OrdenProcesoPlantaId : number)
+  {
+    this.ordenProcesoService.ConsultarPorId(OrdenProcesoPlantaId)
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.listMateriaPrima = res.Result.Data.detalle;
+          this.tempMateriaPrima = this.listMateriaPrima;
+          this.rowsMateriaPrima = [...this.tempMateriaPrima]
+
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );
+    this.modalService.dismissAll();    
   }
 
   imprimir(): void {

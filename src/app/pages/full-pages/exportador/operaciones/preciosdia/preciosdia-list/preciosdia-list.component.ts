@@ -25,7 +25,7 @@ export class PreciosDiaComponent implements OnInit {
     private excelService: ExcelService,
     private maestroUtil: MaestroUtil) { }
 
- preciosdiaform: FormGroup;
+  preciosdiaform: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   listSubProducto: [] = [];
   listEstado: [] = [];
@@ -52,11 +52,11 @@ export class PreciosDiaComponent implements OnInit {
 
   LoadForm(): void {
     this.preciosdiaform = this.fb.group({
-        fechaInicio: [''],
-      fechaFin: [''],
+      fechaInicio: ['', Validators.required],
+      fechaFin: ['', Validators.required],
       producto: ['', ''],
       subproducto: ['', ''],
-      estado: ['', '']
+      estado: ['', Validators.required]
     });
   }
 
@@ -67,10 +67,9 @@ export class PreciosDiaComponent implements OnInit {
   LoadCombos(): void {
     this.GetListProducto();
     this.GetListEstado();
-   
+
   }
 
- 
   async GetListProducto() {
     let form = this;
     let res = await this.maestroService.obtenerMaestros('Producto').toPromise();
@@ -95,11 +94,10 @@ export class PreciosDiaComponent implements OnInit {
     }
   }
 
-
   async GetListEstado() {
     let res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
-      this.listEstado= res.Result.Data;
+      this.listEstado = res.Result.Data;
     }
   }
 
@@ -151,12 +149,12 @@ export class PreciosDiaComponent implements OnInit {
 
   getRequest(): any {
     return {
-        ProductoId: this.preciosdiaform.value.producto ?? '',
-        SubProductoId: this.preciosdiaform.value.subproducto ?? '',
-        EstadoId: this.preciosdiaform.value.estado ?? '',
-        FechaInicio: this.preciosdiaform.value.fechaInicio ?? '',
-        FechaFin: this.preciosdiaform.value.fechaFin ?? '',
-        EmpresaId: 1
+      ProductoId: this.preciosdiaform.value.producto ?? '',
+      SubProductoId: this.preciosdiaform.value.subproducto ?? '',
+      EstadoId: this.preciosdiaform.value.estado ?? '',
+      FechaInicio: this.preciosdiaform.value.fechaInicio ?? '',
+      FechaFin: this.preciosdiaform.value.fechaFin ?? '',
+      EmpresaId: 1
     };
   }
 
@@ -168,10 +166,10 @@ export class PreciosDiaComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
-          x.FechaRegistro =  this.dateUtil.formatDate(new Date(x.FechaRegistro));
+            x.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro));
           });
-            this.tempData = res.Result.Data;
-            this.rows = [...this.tempData];
+          this.tempData = res.Result.Data;
+          this.rows = [...this.tempData];
           this.errorGeneral = { isError: false, msgError: '' };
         } else {
           this.errorGeneral = { isError: true, msgError: res.Result.Message };
@@ -189,7 +187,7 @@ export class PreciosDiaComponent implements OnInit {
   Buscar(): void {
     this.Search();
   }
-  
+
   Nuevo(): void {
     this.router.navigate(['/exportador/operaciones/preciosdia/create']);
   }

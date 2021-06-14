@@ -69,7 +69,7 @@ export class LotesComponent implements OnInit {
       fechaInicio: [, [Validators.required]],
       fechaFin: [, [Validators.required]],
       codSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      estado: [],
+      estado: ['', [Validators.required]],
       nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       almacen: [],
       producto: [],
@@ -82,24 +82,10 @@ export class LotesComponent implements OnInit {
 
   comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nroLote = group.controls['nroLote'].value.trim();
-      let nroDocumento = group.controls['nroDoc'].value.trim();
-      let tipoDocumento = group.controls['tipoDocumento'].value;
-      let codigoSocio = group.controls['codSocio'].value.trim();
-      let nombre = group.controls['nombreRazonSocial'].value.trim();
-      let vProduct = group.controls['producto'].value;
-      let vByProduct = group.controls['subProducto'].value;
-
-      if (nroLote && (!group.value.fechaInicio || !group.value.fechaFin)) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar ambas fechas.' };
-      } else if (!nroLote && (!group.value.fechaInicio || !group.value.fechaFin || !group.value.estado || !group.value.producto)) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar los siguientes filtros: rango de fechas, estado y producto.' };
-      } else if (nroDocumento && !tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo documento.' };
-      } else if (!nroDocumento && tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar un numero documento.' };
-      } else if (vByProduct && !vProduct) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un producto.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }

@@ -14,14 +14,9 @@ export class LiquidacionProcesoPlantaService {
     private errorHandling: ErrorHandling) {
   }
 
-  Registrar(id: number, username: string): Observable<any> {
+  Registrar(request: any): Observable<any> {
     const url = `${this.url}/Registrar`;
-
-    const body: any = {
-      NotaIngresoPlantaId: id,
-      Usuario: username
-    };
-    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
   Consultar(request: any): Observable<any> {

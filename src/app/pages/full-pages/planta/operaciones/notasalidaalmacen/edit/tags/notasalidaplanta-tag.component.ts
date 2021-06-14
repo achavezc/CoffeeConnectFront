@@ -244,7 +244,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
           console.error(err);
         }
       );
-    this.maestroService.obtenerMaestros("Almacen")
+    this.maestroService.obtenerMaestros("AlmacenPlanta")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaAlmacen = res.Result.Data;
@@ -254,7 +254,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
           console.error(err);
         }
       );
-    this.maestroService.obtenerMaestros("Producto")
+    this.maestroService.obtenerMaestros("ProductoPlanta")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaProducto = res.Result.Data;
@@ -276,7 +276,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
 
   async cargarSubProducto(codigo: any) {
 
-    var data = await this.maestroService.obtenerMaestros("SubProducto").toPromise();
+    var data = await this.maestroService.obtenerMaestros("SubProductoPlanta").toPromise();
     if (data.Result.Success) {
       this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }

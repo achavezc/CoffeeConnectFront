@@ -10,6 +10,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../../services/empresa-transporte.service';
+
 import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
 import { ILogin } from '../../../../../../services/models/login';
 
@@ -31,7 +32,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     private empresaService: EmpresaService,
     private empTransporteService: EmpresaTransporteService,
     private router: Router,
-    private notaSalidaPlantaService : NotaSalidaAlmacenPlantaService) { }
+    private notaSalidaPlantaService: NotaSalidaAlmacenPlantaService) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -81,12 +82,8 @@ export class NotaSalidaAlmacenComponent implements OnInit {
 
   comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nroLote = group.controls['nroNotaSalida'].value.trim();
-      let destinatario = group.controls['destinatario'].value;
-      let transportista = group.controls['transportista'].value;
-
-      if (!nroLote && !destinatario && !transportista) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -106,7 +103,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         form.listTransportistas = res.Result.Data;
       }
     })
-    this.maestroUtil.obtenerMaestros("AlmacenSalidaPlanta", function (res) {
+    this.maestroUtil.obtenerMaestros("AlmacenPlanta", function (res) {
       if (res.Result.Success) {
         form.listAlmacenes = res.Result.Data;
       }
@@ -116,7 +113,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         form.listMotivos = res.Result.Data;
       }
     });
-    
+
   }
 
   compareTwoDates(): void {
@@ -166,7 +163,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         EmpresaIdDestino: this.notaSalidaForm.value.destinatario ?? null,
         EmpresaTransporteId: this.notaSalidaForm.value.transportista ?? null,
         AlmacenId: this.notaSalidaForm.value.almacen ?? '',
-        MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
+        MotivoSalidaId: this.notaSalidaForm.value.motivo ?? '',
         FechaInicio: this.notaSalidaForm.value.fechaInicio,
         FechaFin: this.notaSalidaForm.value.fechaFin,
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId

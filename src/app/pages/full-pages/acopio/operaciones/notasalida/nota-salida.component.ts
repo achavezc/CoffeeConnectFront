@@ -76,19 +76,17 @@ export class NotaSalidaComponent implements OnInit {
       fechaFin: [, [Validators.required]],
       almacen: [''],
       motivo: [''],
-      estado: ['']
+      estado: ['', [Validators.required]]
     });
     this.notaSalidaForm.setValidators(this.comparisonValidator());
   }
 
   comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      let nroLote = group.controls['nroNotaSalida'].value.trim();
-      let destinatario = group.controls['destinatario'].value;
-      let transportista = group.controls['transportista'].value;
-
-      if (!nroLote && !destinatario && !transportista) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.estado) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -175,7 +173,8 @@ export class NotaSalidaComponent implements OnInit {
         MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
         FechaInicio: this.notaSalidaForm.value.fechaInicio,
         FechaFin: this.notaSalidaForm.value.fechaFin,
-        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
+        EstadoId: this.notaSalidaForm.value.estado
       }
 
       this.spinner.show();

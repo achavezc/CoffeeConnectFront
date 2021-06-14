@@ -140,7 +140,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="false"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Nro Orden" prop="Numero" width="90">
+                            <ngx-datatable-column name="Nro Orden" prop="Numero" width="90" *ngIf="!popUp">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -151,6 +151,8 @@
                                         </div>
                                     </div>
                                 </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro Orden" prop="Numero" width="90" *ngIf="popUp">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nro Contrato" prop="NumeroContrato" width="150">
                             </ngx-datatable-column>
