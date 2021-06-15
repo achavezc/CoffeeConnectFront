@@ -7,6 +7,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { DiagnosticoService } from '../../../../../../../../services/diagnostico.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
+import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
 
 @Component({
   selector: 'app-diagnostico-edit',
@@ -32,7 +33,8 @@ export class DiagnosticoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private diagnosticoService: DiagnosticoService,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil) {
+    private alertUtil: AlertUtil,
+    private socioFincaService: SocioFincaService) {
     this.codeDiagnostic = this.route.snapshot.params['diagnostic'] ? parseInt(this.route.snapshot.params['diagnostic']) : 0;
     this.LoadInfrastructureTitles();
     this.LoadInfrastructureValues();
@@ -177,7 +179,7 @@ export class DiagnosticoEditComponent implements OnInit {
         DiagnosticoId: this.codeDiagnostic,
         Edad: 0,
         Hectarea: 0,
-        NumeroLote: 0,
+        NumeroLote: i + 1,
         Variedad: 0
       });
     }
@@ -391,6 +393,7 @@ export class DiagnosticoEditComponent implements OnInit {
     this.diagnosticoService.SearchById({ DiagnosticoId: this.codeDiagnostic })
       .subscribe((res: any) => {
         if (res.Result.Success) {
+          this.SearchPartnerProducerByFincaPartnerId();
           this.MapDataEdition(res.Result.Data);
         } else {
 
@@ -466,6 +469,60 @@ export class DiagnosticoEditComponent implements OnInit {
       }
     }
     this.spinner.hide();
+  }
+
+  SearchPartnerProducerByFincaPartnerId(): void {
+    this.socioFincaService.SearchPartnerProducerByFincaPartnerId({ SocioFincaId: this.codeFincaPartner })
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          // this.frmFincaDiagnosticoEdit.controls.organization.setValue(res.Result.Data.);
+          this.frmFincaDiagnosticoEdit.controls.surnamesFirstnames.setValue(`${res.Result.Data.Apellidos} ${res.Result.Data.Nombres}`);
+          this.frmFincaDiagnosticoEdit.controls.documentNumber.setValue(res.Result.Data.NumeroDocumento);
+          this.frmFincaDiagnosticoEdit.controls.cellPhoneNumber.setValue(res.Result.Data.NumeroTelefonoCelular);
+          // this.frmFincaDiagnosticoEdit.controls.age.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.language.setValue(res.Result.Data.);
+          this.frmFincaDiagnosticoEdit.controls.numberChildren.setValue(res.Result.Data.CantidadHijos);
+          this.frmFincaDiagnosticoEdit.controls.gender.setValue(res.Result.Data.Genero);
+          this.frmFincaDiagnosticoEdit.controls.degreeStudies.setValue(res.Result.Data.GradoEstudios);
+          this.frmFincaDiagnosticoEdit.controls.birthPlace.setValue(res.Result.Data.LugarNacimiento);
+          this.frmFincaDiagnosticoEdit.controls.yearEntryZone.setValue(res.Result.Data.AnioIngresoZona);
+          this.frmFincaDiagnosticoEdit.controls.religion.setValue(res.Result.Data.Religion);
+          this.frmFincaDiagnosticoEdit.controls.civilStatus.setValue(res.Result.Data.EstadoCivil);
+          this.frmFincaDiagnosticoEdit.controls.surnameNamesSpouse.setValue(`${res.Result.Data.ApellidosConyuge} ${res.Result.Data.NombresConyuge}`);
+          this.frmFincaDiagnosticoEdit.controls.degreeStudiesSpouse.setValue(res.Result.Data.GradoEstudiosConyuge);
+          this.frmFincaDiagnosticoEdit.controls.placeBirthSpouse.setValue(res.Result.Data.LugarNacimientoConyuge);
+          this.frmFincaDiagnosticoEdit.controls.documentNumberSpouse.setValue(res.Result.Data.NumeroDocumentoConyuge);
+          this.frmFincaDiagnosticoEdit.controls.cellPhoneNumberSpouse.setValue(res.Result.Data.NumeroTelefonoCelularConyuge);
+          // this.frmFincaDiagnosticoEdit.controls.ageSpouse.setValue(res.Result.Data.);
+          this.frmFincaDiagnosticoEdit.controls.department.setValue(res.Result.Data.Departamento);
+          this.frmFincaDiagnosticoEdit.controls.latitude.setValue(res.Result.Data.Latitud);
+          this.frmFincaDiagnosticoEdit.controls.province.setValue(res.Result.Data.Provincia);
+          this.frmFincaDiagnosticoEdit.controls.longitude.setValue(res.Result.Data.Longuitud);
+          this.frmFincaDiagnosticoEdit.controls.district.setValue(res.Result.Data.Distrito);
+          this.frmFincaDiagnosticoEdit.controls.altitude.setValue(res.Result.Data.Altitud);
+          this.frmFincaDiagnosticoEdit.controls.zone.setValue(res.Result.Data.Zona);
+          // this.frmFincaDiagnosticoEdit.controls.crop.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.fund.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.precipitation.setValue(res.Result.Data.);
+          this.frmFincaDiagnosticoEdit.controls.powerSource.setValue(res.Result.Data.FuenteEnergia);
+          // this.frmFincaDiagnosticoEdit.controls.personalNumberHarvest.setValue(res.Result.Data.);
+          this.frmFincaDiagnosticoEdit.controls.waterSource.setValue(res.Result.Data.FuenteAgua);
+          this.frmFincaDiagnosticoEdit.controls.numberSmallerAnimals.setValue(res.Result.Data.CantidadAnimalesMenores);
+          // this.frmFincaDiagnosticoEdit.controls.internet.setValue(res.Result.Data.);
+          this.frmFincaDiagnosticoEdit.controls.housingMaterial.setValue(res.Result.Data.MaterialVivienda);
+          // this.frmFincaDiagnosticoEdit.controls.phoneSignal.setValue(res.Result.Data.);
+          this.frmFincaDiagnosticoEdit.controls.ground.setValue(res.Result.Data.Suelo);
+          // this.frmFincaDiagnosticoEdit.controls.healthEstablishment.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.timeUnitHealthCenter.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.school.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.accessRoadsCollectionCenterProductiveUnit.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.distanceKilometers.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.totalTime.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.transportationWay.setValue(res.Result.Data.);
+        }
+      }, (err: any) => {
+        console.log(err);
+      });
   }
 
   Cancel(): void {
