@@ -70,7 +70,7 @@ export class TransporteEditComponent implements OnInit {
 
     ConsultarPorId() {
         this.spinner.show();
-        this.transporteService.ConsultarPorId({ EmpresaTransporteId: this.vId }).subscribe((res: any) => {
+        this.transporteService.ConsultarPorId({ TransporteId: this.vId }).subscribe((res: any) => {
 
             if (res.Result.Success) {
                 this.CompletarFormulario(res.Result.Data);
@@ -110,21 +110,23 @@ export class TransporteEditComponent implements OnInit {
             marcaTractor: ['', Validators.required],
             placaTractor: ['', Validators.required],
             configVehicular: ['', Validators.required],
-            marcaCarreta: ['', Validators.required],
-            placaCarreta: ['', Validators.required],
+            marcaCarreta: ['', ],
+            placaCarreta: ['', ],
             color: ['', Validators.required],
-            pesoBruto: ['', Validators.required],
-            altura: ['', Validators.required],
-            cargaUtil: ['', Validators.required],
-            pesoNeto: ['', Validators.required],
-            ancho: ['', Validators.required],
-            longitud: ['', Validators.required],
+            pesoBruto: ['', ],
+            altura: ['', ],
+            cargaUtil: ['', ],
+            pesoNeto: ['', ],
+            ancho: ['', ],
+            longitud: ['', ],
             conductor: ['', Validators.required],
             numeroDni: ['', Validators.required],
             licencia: ['', Validators.required],
             soat: ['', Validators.required],
             constanciaMTC: ['', Validators.required],
-            numeroCelular: ['', Validators.required]
+            numeroCelular: ['', ]
+
+            
         });
 
     }
