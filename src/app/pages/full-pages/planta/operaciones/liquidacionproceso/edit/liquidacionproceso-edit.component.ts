@@ -92,7 +92,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   obtenerDetalle() {
     this.spinner.show();
-    this.ordenProcesoService.ConsultarPorId(Number(this.id))
+    this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id))
       .subscribe(res => {
 
         if (res.Result.Success) {
@@ -117,37 +117,19 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   cargarDataFormulario(data: any) {
-
-    this.liquidacionProcesoFormEdit.controls["destinatario"].setValue(data.Destinatario);
-    this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucEmpresa);
-    this.liquidacionProcesoFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
-    this.liquidacionProcesoFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
-    this.liquidacionProcesoFormEdit.controls["almacen"].setValue(data.AlmacenId);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("propietario").setValue(data.Transportista);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("domiciliado").setValue(data.DireccionTransportista);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("conductor").setValue(data.Conductor);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("brevete").setValue(data.LicenciaConductor);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("codvehicular").setValue(data.ConfiguracionVehicular);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaTractor);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaTractor);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("motivotranslado").setValue(data.MotivoSalidaId);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("numreferencia").setValue(data.MotivoSalidaReferencia);
-    this.liquidacionProcesoFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
-    let objectDestino: any = {};
-    objectDestino.OrganizacionId = data.EmpresaIdDestino;
-    let objectTransporte: any = {};
-    objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
-    objectTransporte.TransporteId = data.TransporteId;
-    objectTransporte.NumeroConstanciaMTC = data.NumeroConstanciaMTC;
-    objectTransporte.MarcaTractorId = data.MarcaTractorId;
-    objectTransporte.PlacaTractor = data.PlacaTractor;
-    objectTransporte.MarcaCarretaId = data.MarcaCarretaId;
-    objectTransporte.PlacaCarreta = data.PlacaCarreta;
-    objectTransporte.Conductor = data.Conductor;
-    objectTransporte.Licencia = data.Licencia;
-    //this.child.selectedT.push(objectTransporte);
+    this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(data.TipoProceso);
+    this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
+    this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
+    this.liquidacionProcesoFormEdit.controls["producto"].setValue(data.Producto);
+    this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(data.SubProducto);
+    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
+    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocial);
+    this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);
+    this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadora);
+    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(data.OrdenProcesoPlantaId);
+    this.liquidacionProcesoFormEdit.controls["observacion"].setValue(data.Observacion);
+    this.liquidacionProcesoFormEdit.controls["envases"].setValue(data.EnvasesProductos);
+    this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
     this.numero = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.responsable = data.UsuarioRegistro;
@@ -261,7 +243,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   cancelar() {
-    this.router.navigate(['/acopio/operaciones/notasalida-list']);
+    this.router.navigate(['/planta/operaciones/liquidacionproceso-list']);
   }
 
   guardar() {
@@ -333,7 +315,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
             var form = this;
             this.alertUtil.alertOkCallback('Registrado!', 'Liquidacion Proceso', function (result) {
               if (result.isConfirmed) {
-                form.router.navigate(['/planta/operaciones/liquidacionProceso-list']);
+                form.router.navigate(['/planta/operaciones/liquidacionproceso-list']);
               }
             }
             );
@@ -354,7 +336,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       );
   }
   actualizarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
-    this.ordenProcesoService.Actualizar(request)
+    this.liquidacionProcesoPlantaService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -362,7 +344,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
             var form = this;
             this.alertUtil.alertOkCallback('Actualizado!', 'Liquidacion Proceso', function (result) {
               if (result.isConfirmed) {
-                form.router.navigate(['/planta/operaciones/liquidacionProceso-list']);
+                form.router.navigate(['/planta/operaciones/liquidacionproceso-list']);
               }
             }
             );

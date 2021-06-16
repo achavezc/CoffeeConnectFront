@@ -120,7 +120,8 @@
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
-                                                [routerLink]="['/exportador/operaciones/ordenproceso/update', row.OrdenProcesoId]">{{
+                                                routerLink="/planta/operaciones/liquidacionproceso-edit"
+                                                [queryParams]="{ id: row.LiquidacionProcesoPlantaId}">{{
                                                 name }}</a>
                                         </div>
                                     </div>

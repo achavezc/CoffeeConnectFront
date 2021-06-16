@@ -33,21 +33,16 @@ export class LiquidacionProcesoPlantaService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  obtenerDetalle(id: number): Observable<any> {
+  ConsultaPorId(id: number): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
 
     const body: any = {
-      NotaIngresoAlmacenPlantaId: id
+      LiquidacionProcesoPlantaId: id
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
-  actualizar(notaIngresoAlmacenPlantaId: number, usuario: string, almacenId: string): Observable<any> {
+  Actualizar(request:any): Observable<any> {
     const url = `${this.url}/Actualizar`;
-    let request = {
-      NotaIngresoAlmacenPlantaId: notaIngresoAlmacenPlantaId,
-      Usuario: usuario,
-      AlmacenId: almacenId
-    }
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 

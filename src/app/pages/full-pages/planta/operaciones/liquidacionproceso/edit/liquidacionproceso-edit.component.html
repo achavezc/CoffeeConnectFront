@@ -16,7 +16,7 @@
                   <div class="form-row">
   
                     <div class="col-md-6 form-group" *ngIf="esEdit">
-                      <label class="card-forms" for="users-edit-name">N° NOTA DE SALIDA</label>
+                      <label class="card-forms" for="users-edit-name">N° LIQUIDACION DE PROCESO</label>
                     </div>
                     <div class="col-md-6 form-group">
                       <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
@@ -198,14 +198,13 @@
               </div>
                       <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                         <div class="col-8 d-flex flex-sm-row flex-column">
-                          <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                          <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                          <label class="col-md-5 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                          <label class="col-md-7 col-form-label card-text" style="font-weight: bold;"
                             for="horizontal-form-1">{{responsable}}</label>
                         </div>
                         <div class="col-8 d-flex flex-sm-row flex-column">
-                          <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Nota
-                            Salida</label>
-                          <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                          <label class="col-md-5 col-form-label card-text" for="horizontal-form-1">Fecha Liquidacion de Proceso</label>
+                          <label class="col-md-7 col-form-label card-text" style="font-weight: bold;"
                             for="horizontal-form-1">{{fechaRegistro}}</label>
                         </div>
   
