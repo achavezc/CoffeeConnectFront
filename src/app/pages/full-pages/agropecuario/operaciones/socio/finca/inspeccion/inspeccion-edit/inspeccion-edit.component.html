@@ -170,6 +170,7 @@
                             <input type="date" date name="inspectionDate" id="inspectionDate"
                                 formControlName="inspectionDate" class="form-control text-center form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.inspectionDate.invalid, 'is-valid': !f.inspectionDate.invalid }"
+                                
                                 placeholder="Fecha Inspección" [readonly]="false" />
                         </div>
                     </div>
@@ -269,39 +270,39 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Meses de Cosecha" [value]="item.MesesCosecha"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'MesesCosecha')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Año y Mes de Sombra" [value]="item.AnioMesSiembra"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'AnioMesSiembra')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Edad" [value]="item.Edad"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'Edad')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Área Total" [value]="item.AreaActual"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'AreaActual')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Cosecha Pergamino 2020"
                                             [value]="item.CosechaPergaminoAnioAnterior"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'CosechaPergaminoAnioAnterior')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Estimado Pergamino 2021"
                                             [value]="item.CosechaPergaminoAnioActual"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'CosechaPergaminoAnioActual')">
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>
                                         <input type="text"
                                             class="form-control form-control-sm text-center bg-primary text-white"
@@ -332,7 +333,7 @@
                                         <input type="number" class="form-control form-control-sm text-right"
                                             formControlName="totalEstimatedParchment" [readonly]="true">
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
