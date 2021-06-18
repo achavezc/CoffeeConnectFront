@@ -159,7 +159,7 @@
                             <input type="text" name="internalInspector" id="internalInspector"
                                 formControlName="internalInspector" class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.internalInspector.invalid, 'is-valid': !f.internalInspector.invalid }"
-                                placeholder="Departamento" [readonly]="true" />
+                                placeholder="Inspector" [readonly]="false" />
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,8 @@
                             <input type="date" date name="inspectionDate" id="inspectionDate"
                                 formControlName="inspectionDate" class="form-control text-center form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.inspectionDate.invalid, 'is-valid': !f.inspectionDate.invalid }"
-                                placeholder="Provincia" [readonly]="true" />
+                                
+                                placeholder="Fecha Inspección" [readonly]="false" />
                         </div>
                     </div>
                 </div>
@@ -255,13 +256,13 @@
                                 <tr *ngFor="let item of arrCoffeePitches; let i = index;">
                                     <td>
                                         <input type="number" class="form-control form-control-sm text-right"
-                                            placeholder="Lote" [value]="item.NumeroLote"
+                                            placeholder="Lote" [value]="item.NumeroLote" [readonly]="true"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'NumeroLote')">
                                     </td>
                                     <td>
                                         <select class="form-control form-control-sm"
                                             (change)="UpdateValuesCoffeePitches($event, i, 'VariedadCafeId')">
-                                            <option *ngFor="let itemcv of arrCoffeeVarieties; let i=index"
+                                            <option *ngFor="let itemcv of arrCoffeeVarieties; let icv=index"
                                                 [value]="itemcv.Codigo"
                                                 [selected]="itemcv.Codigo == item.VariedadCafeId">
                                                 {{itemcv.Label}}
@@ -269,39 +270,39 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Meses de Cosecha" [value]="item.MesesCosecha"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'MesesCosecha')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Año y Mes de Sombra" [value]="item.AnioMesSiembra"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'AnioMesSiembra')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Edad" [value]="item.Edad"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'Edad')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Área Total" [value]="item.AreaActual"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'AreaActual')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Cosecha Pergamino 2020"
                                             [value]="item.CosechaPergaminoAnioAnterior"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'CosechaPergaminoAnioAnterior')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             placeholder="Estimado Pergamino 2021"
                                             [value]="item.CosechaPergaminoAnioActual"
                                             (blur)="UpdateValuesCoffeePitches($event, i, 'CosechaPergaminoAnioActual')">
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>
                                         <input type="text"
                                             class="form-control form-control-sm text-center bg-primary text-white"
@@ -332,7 +333,7 @@
                                         <input type="number" class="form-control form-control-sm text-right"
                                             formControlName="totalEstimatedParchment" [readonly]="true">
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -371,20 +372,20 @@
                                 <td class="align-middle">
                                     <select class="form-control form-control-sm"
                                         (change)="UpdateValuesDocumentsManagement($event, i, 'criticopara')">
-                                        <option *ngFor="let itemcf of arrCriticalFor; let i=index" [value]="itemcf.Codigo"
-                                            [selected]="itemcf.Codigo == item.CriticoPara">
+                                        <option *ngFor="let itemcf of arrCriticalFor; let i=index"
+                                            [value]="itemcf.Codigo" [selected]="itemcf.Codigo == item.CriticoPara">
                                             {{itemcf.Label}}
                                         </option>
                                     </select>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                    <input type="checkbox" (change)="CountRowsItemsComply($event)"
                                         (blur)="UpdateValuesDocumentsManagement($event, i, 'noaplica')"
                                         [checked]="item.NoAplica">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox" (blur)="UpdateValuesDocumentsManagement($event, i, 'SI')"
-                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                        [checked]="item.Si" (change)="CountRowsItemsComply($event)">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox" (blur)="UpdateValuesDocumentsManagement($event, i, 'NO')"
@@ -410,13 +411,13 @@
                                     </select>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                    <input type="checkbox" (change)="CountRowsItemsComply($event)"
                                         (blur)="UpdateValuesSocialWelfare($event, i, 'noaplica')"
                                         [checked]="item.NoAplica">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox" (blur)="UpdateValuesSocialWelfare($event, i, 'SI')"
-                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                        [checked]="item.Si" (change)="CountRowsItemsComply($event)">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox" (blur)="UpdateValuesSocialWelfare($event, i, 'NO')"
@@ -442,13 +443,13 @@
                                     </select>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                    <input type="checkbox" (change)="CountRowsItemsComply($event)"
                                         (blur)="UpdateValuesEcosystemConservation($event, i, 'noaplica')"
                                         [checked]="item.NoAplica">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox" (blur)="UpdateValuesEcosystemConservation($event, i, 'SI')"
-                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                        [checked]="item.Si" (change)="CountRowsItemsComply($event)">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox" (blur)="UpdateValuesEcosystemConservation($event, i, 'NO')"
@@ -474,14 +475,14 @@
                                     </select>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <input type="checkbox" (change)="CountRowsApply($event)"
+                                    <input type="checkbox" (change)="CountRowsItemsComply($event)"
                                         (blur)="UpdateValuesIntegratedCropManagement($event, i, 'noaplica')"
                                         [checked]="item.NoAplica">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox"
                                         (blur)="UpdateValuesIntegratedCropManagement($event, i, 'SI')"
-                                        [checked]="item.Si" (change)="CountRowsYes($event)">
+                                        [checked]="item.Si" (change)="CountRowsItemsComply($event)">
                                 </td>
                                 <td class="align-middle text-center">
                                     <input type="checkbox"
@@ -636,11 +637,11 @@
             </div>
             <div class="form-row mb-2">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <input type="text" class="form-control form-control-sm mb-1">
                     <input type="text" class="form-control form-control-sm" [readonly]="true"
                         [value]="userSession.Result.Data.NombreCompletoUsuario">
-                </div>
+                </div> -->
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
             </div>
 
@@ -712,8 +713,8 @@
         <div class="card-footer">
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
-                    <button type="button" class="btn btn-danger mr-1" (click)="Cancel()">Cancelar</button>
-                    <button type="button" class="btn btn-primary" (click)="Save()">Guardar</button>
+                    <button type="button" class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
+                    <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                 </div>
             </div>
         </div>

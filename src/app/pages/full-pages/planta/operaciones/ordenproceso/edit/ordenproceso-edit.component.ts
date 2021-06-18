@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -79,6 +80,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   listaNotaIngreso = [];
   private tempDataLoteDetalle = [];
   filtrosLotesID: any = {};
+
 
 
   ngOnInit(): void {

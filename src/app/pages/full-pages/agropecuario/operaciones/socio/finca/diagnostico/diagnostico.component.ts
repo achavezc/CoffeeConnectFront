@@ -17,7 +17,7 @@ export class DiagnosticoComponent implements OnInit {
 
   socioFincaDiagnosticoForm: FormGroup;
   listEstados = [];
-  selectedEstado = '';
+  selectedEstado: any;
   errorGeneral = { isError: false, errorMessage: '' };
   limitRef = 10;
   rows = [];
@@ -48,10 +48,10 @@ export class DiagnosticoComponent implements OnInit {
 
   LoadForm(): void {
     this.socioFincaDiagnosticoForm = this.fb.group({
-      nroFicha: ['', Validators.required],
+      nroFicha: [''],
       fechaInicio: ['', Validators.required],
       fechaFinal: ['', Validators.required],
-      estado: ['']
+      estado: ['', Validators.required]
     });
     this.LoadStatus();
   }

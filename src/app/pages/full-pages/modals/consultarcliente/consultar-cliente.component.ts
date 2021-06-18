@@ -31,6 +31,7 @@ export class MConsultarClienteComponent implements OnInit {
   msgMdlMsgGenerico = "Ocurrio un error interno.";
   @Output() responseCliente = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) dgModalCLientes: DatatableComponent;
+  vSessionUser: any;
 
   constructor(private modalService: NgbModal,
     private spinner: NgxSpinnerService,
@@ -39,6 +40,7 @@ export class MConsultarClienteComponent implements OnInit {
     private dateUtil: DateUtil,
     private fb: FormBuilder) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
@@ -123,7 +125,8 @@ export class MConsultarClienteComponent implements OnInit {
       EstadoId: '01',
       PaisId: this.mdlClienteForm.value.mpais ?? 0,
       FechaInicio: this.mdlClienteForm.value.mfechaInicial ?? '',
-      FechaFin: this.mdlClienteForm.value.mfechaFinal ?? ''
+      FechaFin: this.mdlClienteForm.value.mfechaFinal ?? '',
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     };
   }
 

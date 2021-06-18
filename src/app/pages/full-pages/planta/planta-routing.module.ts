@@ -9,7 +9,8 @@ import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmace
 import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
 import {NotaSalidaAlmacenComponent} from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
 import {NotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
-
+import {LiquidacionProcesoComponent} from './operaciones/liquidacionproceso/list/liquidacionproceso-list.component';
+import{LiquidacionProcesoEditComponent} from './operaciones/liquidacionproceso/edit/liquidacionproceso-edit.component';
 
 const routes: Routes = [
   {
@@ -58,20 +59,34 @@ const routes: Routes = [
         }
       },
       {
-        path: 'ordenproceso-list',
-        component: OrdenProcesoListComponent,
-        data: {
-          title: 'List'
+        path: 'liquidacionproceso-list',
+        component: LiquidacionProcesoComponent,
+        data:
+        {
+          title: 'list'
         }
       },
       {
-        path: 'ordenproceso-edit',
-        component: OrdenProcesoEditComponent,
+        path: 'liquidacionproceso-edit',
+        component: LiquidacionProcesoEditComponent,
         data: {
           title: 'Edit'
         }
+      },
+      {
+      path: 'ordenproceso-list',
+      component: OrdenProcesoListComponent,
+      data: {
+        title: 'List'
       }
-
+    },
+    {
+      path: 'ordenproceso-edit',
+      component: OrdenProcesoEditComponent,
+      data: {
+        title: 'Edit'
+      }
+    }
     ]
   }
 ];

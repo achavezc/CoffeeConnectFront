@@ -10,7 +10,10 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../../services/empresa-transporte.service';
-import { NotaSalidaAlmacenPlantaService } from '../../../../../../services/nota-salida-almacen-planta.service';
+
+import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
+import { ILogin } from '../../../../../../services/models/login';
+
 
 @Component({
   selector: 'app-nota-salida-almacen',
@@ -50,7 +53,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
-  vSessionUser: any;
+  vSessionUser: ILogin;
 
   ngOnInit(): void {
     this.LoadForm();

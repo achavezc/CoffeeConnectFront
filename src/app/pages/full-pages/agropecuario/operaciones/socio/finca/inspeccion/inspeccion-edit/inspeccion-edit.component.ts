@@ -8,6 +8,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import { InspeccionInternaService } from '../../../../../../../../services/inspeccion-interna.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-inspeccion-edit',
@@ -66,12 +67,8 @@ export class InspeccionEditComponent implements OnInit {
     this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0;
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
+    this.frmFincaInspeccionEdit.controls.organization.setValue(this.userSession.Result.Data.RazonSocialEmpresa);
     this.SearchPartnerProducerByFincaPartnerId();
-    if (this.codeInternalInspection <= 0) {
-
-    } else if (this.codeInternalInspection > 0) {
-
-    }
   }
 
   LoadForm(): void {
@@ -248,7 +245,7 @@ export class InspeccionEditComponent implements OnInit {
     for (let i = 0; i < (6 - rows); i++) {
       this.arrCoffeePitches.push({
         InspeccionInternaId: this.codeInternalInspection,
-        NumeroLote: 0,
+        NumeroLote: i + 1,
         VariedadCafeId: '',
         MesesCosecha: '',
         AnioMesSiembra: '',
@@ -375,17 +372,27 @@ export class InspeccionEditComponent implements OnInit {
       this.arrSurveyNonConformities[i].Cumplio = event.target.checked;
   }
 
-  CountRowsApply(e: any): void {
-    let count = this.frmFincaInspeccionEdit.value.itemsthatapply;
-    if (e.target.checked) {
-      count = count + 1;
-    } else {
-      count = count - 1;
-    }
-    this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(count);
-  }
+  // CountRowsApply(e: any): void {
+  //   let count = this.frmFincaInspeccionEdit.value.itemsthatapply;
+  //   if (e.target.checked) {
+  //     count = count + 1;
+  //   } else {
+  //     count = count - 1;
+  //   }
+  //   this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(count);
+  // }
 
-  CountRowsYes(e: any): void {
+  // CountRowsYes(e: any): void {
+  //   let count = this.frmFincaInspeccionEdit.value.itemsComply;
+  //   if (e.target.checked) {
+  //     count = count + 1;
+  //   } else {
+  //     count = count - 1;
+  //   }
+  //   this.frmFincaInspeccionEdit.controls.itemsComply.setValue(count);
+  // }
+
+  CountRowsItemsComply(e: any): void {
     let count = this.frmFincaInspeccionEdit.value.itemsComply;
     if (e.target.checked) {
       count = count + 1;
@@ -403,7 +410,6 @@ export class InspeccionEditComponent implements OnInit {
           this.frmFincaInspeccionEdit.controls.codigo.setValue(res.Result.Data.Numero);
           this.frmFincaInspeccionEdit.controls.numberDocument.setValue(res.Result.Data.NumeroDocumento);
           // this.frmFincaInspeccionEdit.controls.status.setValue(res.Result.Data.);
-          // this.frmFincaInspeccionEdit.controls.organization.setValue(res.Result.Data.);
           this.frmFincaInspeccionEdit.controls.zone.setValue(res.Result.Data.Zona);
           this.frmFincaInspeccionEdit.controls.department.setValue(res.Result.Data.Departamento);
           this.frmFincaInspeccionEdit.controls.province.setValue(res.Result.Data.Provincia);
@@ -421,15 +427,20 @@ export class InspeccionEditComponent implements OnInit {
 
   GetRequest(): any {
     const form = this.frmFincaInspeccionEdit.value;
-    const coffeePitches = this.arrCoffeePitches.filter(x => x.NumeroLote && x.VariedadCafeId && x.MesesCosecha
-      && x.AnioMesSiembra && x.Edad && x.AreaActual && x.CosechaPergaminoAnioActual && x.CosechaPergaminoAnioAnterior);
-    const documentsManagement = this.arrDocumentManagement.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    const socialsWelfare = this.arrSocialWelfare.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    const ecosystems = this.arrEcosystemConservation.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    const cropsManagement = this.arrIntegratedCropManagement.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    const surveyNonConformities = this.arrSurveyNonConformities.filter(x => x.PuntoControl && x.NoConformidad
-      && x.AccionCorrectiva && x.PlazoLevantamiento && x.Cumplio);
-    const summaryNonConformities = this.arrSummaryNonConformities.filter(x => x.NumeroItem && x.ManifiestoProductor);
+    this.arrCoffeePitches.forEach(x => {
+      if (!x.VariedadCafeId) {
+        x.VariedadCafeId = this.arrCoffeeVarieties[0].Codigo;
+      }
+    });
+    // const coffeePitches = this.arrCoffeePitches.filter(x => x.NumeroLote && x.VariedadCafeId && x.MesesCosecha
+    //   && x.AnioMesSiembra && x.Edad && x.AreaActual && x.CosechaPergaminoAnioActual && x.CosechaPergaminoAnioAnterior);
+    // const documentsManagement = this.arrDocumentManagement.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
+    // const socialsWelfare = this.arrSocialWelfare.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
+    // const ecosystems = this.arrEcosystemConservation.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
+    // const cropsManagement = this.arrIntegratedCropManagement.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
+    // const surveyNonConformities = this.arrSurveyNonConformities.filter(x => x.PuntoControl && x.NoConformidad
+    //   && x.AccionCorrectiva && x.PlazoLevantamiento && x.Cumplio);
+    // const summaryNonConformities = this.arrSummaryNonConformities.filter(x => x.NumeroItem && x.ManifiestoProductor);
 
     const request = {
       InspeccionInternaId: this.codeInternalInspection,
@@ -438,16 +449,19 @@ export class InspeccionEditComponent implements OnInit {
       Certificaciones: form.standards ? form.standards.join('|') : '',
       ExclusionPrograma: form.programExclusion,
       SuspencionTiempo: form.suspensionTime,
+      Inspector: form.internalInspector,
+      FechaInspeccion: form.inspectionDate ? form.inspectionDate : null,
+
       DuracionSuspencionTiempo: form.countSuspensionTime ? form.countSuspensionTime : '',
       NoConformidadObservacionLevantada: form.nonConformitiesObservations,
       ApruebaSinCondicion: form.approveWithoutConditions,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       EstadoId: '01',
       Usuario: this.userSession.Result.Data.NombreUsuario,
-      InspeccionInternaParcelaList: [...coffeePitches],
-      InspeccionInternaNormaList: [...documentsManagement, ...socialsWelfare, ...ecosystems, ...cropsManagement],
-      InspeccionInternaLevantamientoNoConformidadList: [...surveyNonConformities],
-      InspeccionInternaNoConformidadList: [...summaryNonConformities]
+      InspeccionInternaParcelaList: [...this.arrCoffeePitches],
+      InspeccionInternaNormaList: [...this.arrDocumentManagement, ...this.arrSocialWelfare, ...this.arrIntegratedCropManagement, ...this.arrIntegratedCropManagement],
+      InspeccionInternaLevantamientoNoConformidadList: [...this.arrSurveyNonConformities],
+      InspeccionInternaNoConformidadList: [...this.arrSummaryNonConformities]
     }
     return request;
   }
@@ -562,6 +576,16 @@ export class InspeccionEditComponent implements OnInit {
       this.frmFincaInspeccionEdit.controls.programExclusion.setValue(data.ExclusionPrograma);
       this.frmFincaInspeccionEdit.controls.suspensionTime.setValue(data.SuspencionTiempo);
       this.frmFincaInspeccionEdit.controls.countSuspensionTime.setValue(data.DuracionSuspencionTiempo);
+
+      if (data.FechaInspeccion)
+        this.frmFincaInspeccionEdit.controls.inspectionDate.setValue(data.FechaInspeccion.substring(0, 10));
+
+
+
+
+      this.frmFincaInspeccionEdit.controls.internalInspector.setValue(data.Inspector);
+
+
       this.frmFincaInspeccionEdit.controls.approveWithoutConditions.setValue(data.ApruebaSinCondicion);
       this.frmFincaInspeccionEdit.controls.nonConformitiesObservations.setValue(data.NoConformidadObservacionLevantada);
       this.arrCoffeePitches = data.InspeccionInternaParcela;
@@ -603,31 +627,33 @@ export class InspeccionEditComponent implements OnInit {
 
       for (let i = 0; i < data.InspeccionInternaNorma.length; i++) {
         for (let y = 0; y < this.arrEcosystemConservation.length; y++) {
-          if (this.arrEcosystemConservation[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
-            && this.arrEcosystemConservation[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) {
-            this.arrEcosystemConservation[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
-            this.arrEcosystemConservation[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
-            this.arrEcosystemConservation[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
-            this.arrEcosystemConservation[y].Si = data.InspeccionInternaNorma[i].Si;
-            this.arrEcosystemConservation[y].No = data.InspeccionInternaNorma[i].No;
-            this.arrEcosystemConservation[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
-            break;
-          }
+          // if (this.arrEcosystemConservation[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
+          //   && this.arrEcosystemConservation[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) 
+          //   {
+          this.arrEcosystemConservation[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
+          this.arrEcosystemConservation[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
+          this.arrEcosystemConservation[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
+          this.arrEcosystemConservation[y].Si = data.InspeccionInternaNorma[i].Si;
+          this.arrEcosystemConservation[y].No = data.InspeccionInternaNorma[i].No;
+          this.arrEcosystemConservation[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
+          break;
+          //}
         }
       }
 
       for (let i = 0; i < data.InspeccionInternaNorma.length; i++) {
         for (let y = 0; y < this.arrIntegratedCropManagement.length; y++) {
-          if (this.arrIntegratedCropManagement[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
-            && this.arrIntegratedCropManagement[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) {
-            this.arrIntegratedCropManagement[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
-            this.arrIntegratedCropManagement[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
-            this.arrIntegratedCropManagement[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
-            this.arrIntegratedCropManagement[y].Si = data.InspeccionInternaNorma[i].Si;
-            this.arrIntegratedCropManagement[y].No = data.InspeccionInternaNorma[i].No;
-            this.arrIntegratedCropManagement[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
-            break;
-          }
+          // if (this.arrIntegratedCropManagement[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
+          //   && this.arrIntegratedCropManagement[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) 
+          //   {
+          this.arrIntegratedCropManagement[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
+          this.arrIntegratedCropManagement[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
+          this.arrIntegratedCropManagement[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
+          this.arrIntegratedCropManagement[y].Si = data.InspeccionInternaNorma[i].Si;
+          this.arrIntegratedCropManagement[y].No = data.InspeccionInternaNorma[i].No;
+          this.arrIntegratedCropManagement[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
+          break;
+          // }
         }
       }
       this.CalculateTotales();
@@ -637,7 +663,7 @@ export class InspeccionEditComponent implements OnInit {
   }
 
   CalculateTotales(): void {
-    let sumTotalMonthsHarvest = 0;
+    /* let sumTotalMonthsHarvest = 0;
     let sumTotalYearMonth = 0;
     let sumTotalAge = 0;
     let sumTotalArea = 0;
@@ -656,22 +682,23 @@ export class InspeccionEditComponent implements OnInit {
     this.frmFincaInspeccionEdit.controls.totalAge.setValue(sumTotalAge);
     this.frmFincaInspeccionEdit.controls.totalArea.setValue(sumTotalArea);
     this.frmFincaInspeccionEdit.controls.totalParchmentHarvest.setValue(sumTotalParchmentHarvest);
-    this.frmFincaInspeccionEdit.controls.totalEstimatedParchment.setValue(sumTotalEstimatedParchment);
+    this.frmFincaInspeccionEdit.controls.totalEstimatedParchment.setValue(sumTotalEstimatedParchment); */
   }
 
   CalculateComplimentsRowsThatApply(): void {
     let compliments = this.arrDocumentManagement.filter(x => x.Si == true).length;
-    let rowsThatApply = this.arrDocumentManagement.filter(x => x.NoAplica == false).length;
-    rowsThatApply = rowsThatApply + this.arrSocialWelfare.filter(x => x.NoAplica == false).length;
+    let rowsThatApply = this.arrDocumentManagement.filter(x => x.NoAplica == true).length;
+    rowsThatApply = rowsThatApply + this.arrSocialWelfare.filter(x => x.NoAplica == true).length;
     compliments = compliments + this.arrSocialWelfare.filter(x => x.Si == true).length;
-    rowsThatApply = rowsThatApply + this.arrEcosystemConservation.filter(x => x.NoAplica == false).length;
+    rowsThatApply = rowsThatApply + this.arrEcosystemConservation.filter(x => x.NoAplica == true).length;
     compliments = compliments + this.arrEcosystemConservation.filter(x => x.Si == true).length;
-    rowsThatApply = rowsThatApply + this.arrIntegratedCropManagement.filter(x => x.NoAplica == false).length;
+    rowsThatApply = rowsThatApply + this.arrIntegratedCropManagement.filter(x => x.NoAplica == true).length;
     compliments = compliments + this.arrIntegratedCropManagement.filter(x => x.Si == true).length;
 
-    this.frmFincaInspeccionEdit.controls.itemsComply.setValue(compliments);
-    this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(rowsThatApply);
-    this.frmFincaInspeccionEdit.controls.totalItemsComplyApply.setValue(((compliments * 100) / rowsThatApply).toFixed(2));
+    const total = this.arrDocumentManagement.length + this.arrSocialWelfare.length + this.arrEcosystemConservation.length + this.arrIntegratedCropManagement.length;
+    this.frmFincaInspeccionEdit.controls.itemsComply.setValue(compliments + rowsThatApply);
+    this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(total);
+    this.frmFincaInspeccionEdit.controls.totalItemsComplyApply.setValue(((this.frmFincaInspeccionEdit.value.itemsComply * 100) / total).toFixed(2));
   }
 
   Cancel(): void {

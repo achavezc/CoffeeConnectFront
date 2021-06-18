@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild,Output,EventEmitter , Input} from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
@@ -42,6 +42,8 @@ export class OrdenProcesoListComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
   ordenProcesoform: FormGroup;
+  @Output() seleccionarEvent = new EventEmitter<any>();
+  @Input() popUp = false;
   
   ngOnInit(): void {
     this.LoadForm();
@@ -154,6 +156,7 @@ export class OrdenProcesoListComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
+          x.FechaInicioProceso = this.dateUtil.formatDate(new Date(x.FechaInicioProceso))
           x.FechaRegistro =  this.dateUtil.formatDate(new Date(x.FechaRegistro));
           });
             this.tempData = res.Result.Data;
@@ -209,4 +212,8 @@ export class OrdenProcesoListComponent implements OnInit {
     this.router.navigate(['/planta/operaciones/ordenproceso-edit']);
   }
 
+  Seleccionar(selected)
+  {
+    this.seleccionarEvent.emit(selected)
+  }
 }

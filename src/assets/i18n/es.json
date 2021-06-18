@@ -233,6 +233,10 @@
 				"NotaSalida":
 				{
 					"Label":"Nota de Salida"
+				},
+				"LiquidacionProceso":
+				{
+					"Label":"Liquidacion de Proceso"
 				}
 		},
 		"Administracion":
@@ -308,6 +312,21 @@
 				{
 				  "Label":"Maestros Generales"
 				}	
+		}
+	},
+
+	"Maestros":
+	{
+		"Label":"Maestros",
+		"EmpresaTransporte":
+		{
+			"Label":"Empresa Transporte"
+			
+		},
+		"EmpresaProveedora":
+		{
+			"Label":"Empresa Proveedora"
+			
 		}
 	}
 }

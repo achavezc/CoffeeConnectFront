@@ -7,16 +7,11 @@ import { ErrorHandling } from '../shared/util/error-handling';
 @Injectable({
   providedIn: 'root'
 })
-export class OrdenProcesoService {
+export class LiquidacionProcesoPlantaService {
+  private url = `${host}LiquidacionProcesoPlanta`;
 
   constructor(private http: HttpClient,
-    private errorHandling: ErrorHandling) { }
-
-  private url = `${host}OrdenProcesoPlanta`;
-
-  Consultar(request: any): Observable<any> {
-    const url = `${this.url}/Consultar`;
-    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+    private errorHandling: ErrorHandling) {
   }
 
   Registrar(request: any): Observable<any> {
@@ -24,15 +19,31 @@ export class OrdenProcesoService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  ConsultarPorId(id: any): Observable<any> {
-    const url = `${this.url}/ConsultarPorId`;
-    return this.http.post<any>(url, { OrdenProcesoPlantaId: id }).catch(this.errorHandling.handleError);
+  Consultar(request: any): Observable<any> {
+    const url = `${this.url}/Consultar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Actualizar(request: any): Observable<any> {
+  Anular(notaIngresoAlmacenId: number, usuario: string): Observable<any> {
+    const url = `${this.url}/Anular`;
+    let request = {
+      NotaIngresoAlmacenId: notaIngresoAlmacenId,
+      Usuario: usuario
+    }
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  ConsultaPorId(id: number): Observable<any> {
+    const url = `${this.url}/ConsultarPorId`;
+
+    const body: any = {
+      LiquidacionProcesoPlantaId: id
+    };
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
+  Actualizar(request:any): Observable<any> {
     const url = `${this.url}/Actualizar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
-  
 
 }
