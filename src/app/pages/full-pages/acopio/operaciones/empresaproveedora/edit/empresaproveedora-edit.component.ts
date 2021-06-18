@@ -130,7 +130,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     LoadCombos() {
         this.GetDepartments();
         this.GetClasificacion();
-        this. GetEstados();
+        this.GetEstados();
     }
 
     async GetClasificacion() {
