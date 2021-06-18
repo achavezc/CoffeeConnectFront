@@ -101,6 +101,19 @@
                     </div>
                 </div>
               
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="departamento" class="col-4 col-form-label pr-0">Estado</label>
+                        <div class="col-8">
+                            <ng-select [items]="listEstado" formControlName="estado"
+                            class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
+                            placeholder="Seleccionar Estado"
+                            [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                            [(ngModel)]="selectedEstado">
+                        </ng-select>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                 <div class="col-8 d-flex flex-sm-row flex-column">
