@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, Input} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
-
+import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -34,9 +34,35 @@ export class OrdenProcesoEditComponent implements OnInit {
     private empresaService: EmpresaService,
     private contratoService: ContratoService) { }
 
+
+  error: any = { isError: false, errorMessage: '' };
+  errorFecha: any = { isError: false, errorMessage: '' };
   ordenProcesoEditForm: FormGroup;
+  listEstado = [];
   listTipoProcesos = [];
+  listTipoProduccion = [];
+  listCertificacion = [];
+  listProducto = [];
+  listCertificadora= [];
+  listSubProducto = [];
+  listEmpaque = [];
+  listTipo = [];
+  listProductoTerminado = [];
+  listSubProductoTerminado  = [];
+  listCalidad = [];
+  listGrado = [];
+  selectedGrado : any;
+  selectedCalidad : any;
+  selectedProductoTerminado : any;
+  selectedSubProductoTerminado : any;
+  selectedTipo : any;
+  selectedEmpaque : any;
+  selectedSubProducto : any;
+  selectedCertificadora: any;
+  selectedProducto : any;
+  selectedTipoProduccion: any;
   selectedCertificacion: any;
+  selectedEstado: any;
   selectedTipoProceso: any;
   userSession: any;
   codeProcessOrder: Number;
@@ -44,9 +70,18 @@ export class OrdenProcesoEditComponent implements OnInit {
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
+  @ViewChild(DatatableComponent) tableLotesDetalle: DatatableComponent;
   isLoading = false;
   fileName = "";
-  
+  popUp = true;
+  public rowsLotesDetalle = [];
+  selectLoteDetalle = [];
+  public ColumnMode = ColumnMode;
+  listaNotaIngreso = [];
+  private tempDataLoteDetalle = [];
+  filtrosLotesID: any = {};
+
+
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -57,6 +92,16 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.userSession.Result.Data.RucEmpresa);
     this.ordenProcesoEditForm.controls.responsableComercial.setValue(this.userSession.Result.Data.NombreCompletoUsuario);
     this.GetTipoProcesos();
+    this.GetEstado();
+    this.GetTipoProduccion();
+    this.GetCertificacion();
+    this.GetProducto();
+    this.GetCertificadora();
+    this.GetEmpaque();
+    this.GetTipo();
+    this.GetProductoTerminado();
+    this.GetCalidad();
+    this.GetGrado();
     if (this.codeProcessOrder <= 0) {
       this.ordenProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
       this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
@@ -66,6 +111,11 @@ export class OrdenProcesoEditComponent implements OnInit {
     }
   }
 
+  agregarOrdenProceso(e) {
+    this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(e[0].Numero);
+    this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(e[0].OrdenProcesoId);
+    this.modalService.dismissAll();     
+  }
   LoadForm(): void {
     this.ordenProcesoEditForm = this.fb.group({
       idOrdenProceso: [],
@@ -85,21 +135,33 @@ export class OrdenProcesoEditComponent implements OnInit {
       tipoProduccion: [],
       certificacion: [],
       porcenRendimiento: [, Validators.required],
-      empaqueTipo: [],
       producto: [],
       cantidad: [],
       calidad: [],
-      pesoSacoKG: [],
       grado: [],
-      totalKilosNetos: [],
       cantidadDefectos: [],
-      cantContenedores: [, Validators.required],
+      cantidadContenedores: [, Validators.required],
       responsableComercial: [],
       file: [],
       tipoProceso: [, Validators.required],
       subProducto: [],
       observaciones: [],
-      pathFile: []
+      pathFile: [],
+      estado: [],
+      ordenProcesoComercial: [],
+      idOrdenProcesoComercial: [],
+      codigoOrganizacion: [],
+      nombreOrganizacion:[],
+      certificadora: [],
+      empaque: [],
+      tipo: [],
+      productoTerminando: [],
+      subProductoTerminado: [],
+      pesoSaco : [],
+      totalKilosBrutos: [],
+      fechaInicio: [],
+      fechaFin: []
+
     });
   }
 
@@ -113,12 +175,96 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.listTipoProcesos = res.Result.Data;
     }
   }
+  async GetEstado() {
+    const res = await this.maestroService.obtenerMaestros('EstadoOrdenProceso').toPromise();
+    if (res.Result.Success) {
+      this.listEstado = res.Result.Data;
+    }
+  }
+
+  async GetTipoProduccion() {
+    const res = await this.maestroService.obtenerMaestros('TipoProduccionPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoProduccion = res.Result.Data;
+    }
+  }
+  async GetCertificacion() {
+    const res = await this.maestroService.obtenerMaestros('TipoCertificacionPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listCertificacion= res.Result.Data;
+    }
+  }
+  async GetProducto() {
+    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listProducto= res.Result.Data;
+    }
+  }
+  async GetCertificadora() {
+    const res = await this.maestroService.obtenerMaestros('EntidadCertificadoraPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listCertificadora= res.Result.Data;
+    }
+  }
+
+  async GetEmpaque() {
+    const res = await this.maestroService.obtenerMaestros('Empaque').toPromise();
+    if (res.Result.Success) {
+      this.listEmpaque= res.Result.Data;
+    }
+  }
+  async GetTipo() {
+    const res = await this.maestroService.obtenerMaestros('TipoEmpaque').toPromise();
+    if (res.Result.Success) {
+      this.listTipo= res.Result.Data;
+    }
+  }
+  async GetCalidad() {
+    const res = await this.maestroService.obtenerMaestros('Calidad').toPromise();
+    if (res.Result.Success) {
+      this.listCalidad= res.Result.Data;
+    }
+  }
+  async GetGrado() {
+    const res = await this.maestroService.obtenerMaestros('Grado').toPromise();
+    if (res.Result.Success) {
+      this.listGrado= res.Result.Data;
+    }
+  }
+  async GetProductoTerminado() {
+    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listProductoTerminado= res.Result.Data;
+    }
+  }
+  async cargarSubProductoTerminado(codigo: any) {
+    var data = await this.maestroService.obtenerMaestros("SubProductoPlanta").toPromise();
+    if (data.Result.Success) {
+      this.listSubProductoTerminado = data.Result.Data.filter(obj => obj.Val1 == codigo);
+    }
+  }
+  changeSubProductoTerminado(e) {
+    let filterProducto = e.Codigo;
+    this.cargarSubProductoTerminado(filterProducto);
+  }
+  changeSubProducto(e) {
+    let filterProducto = e.Codigo;
+    this.cargarSubProducto(filterProducto);
+  }
+  async cargarSubProducto(codigo: any) {
+    var data = await this.maestroService.obtenerMaestros("SubProductoPlanta").toPromise();
+    if (data.Result.Success) {
+      this.listSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
+    }
+  }
 
   GetDataModal(event: any): void {
+    /*
     const obj = event[0];
     if (obj) {
       this.AutocompleteDataContrato(obj);
     }
+    */
     this.modalService.dismissAll();
   }
 
@@ -182,14 +328,15 @@ export class OrdenProcesoEditComponent implements OnInit {
   GetDataEmpresa(event: any): void {
     const obj = event[0];
     if (obj) {
-      this.ordenProcesoEditForm.controls.idDestino.setValue(obj.EmpresaProveedoraAcreedoraId);
-      this.ordenProcesoEditForm.controls.destino.setValue(`${obj.Direccion} - ${obj.Distrito} - ${obj.Provincia} - ${obj.Departamento}`);
+      this.ordenProcesoEditForm.controls.codigoOrganizacion.setValue(obj.Codigo);
+      this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(obj.RazonSocial);
     }
     this.modalService.dismissAll();
   }
 
-  openModal(modalEmpresa: any): void {
-    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl', centered: true });
+  openModal(modal: any): void {
+    this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl' });    
+    //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
   GetRequest(): any {
@@ -495,4 +642,95 @@ export class OrdenProcesoEditComponent implements OnInit {
   Cancel(): void {
     this.router.navigate(['/planta/operaciones/ordenproceso-list']);
   }
+
+  compareFechas() {
+    var anioFechaInicio = new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value).getFullYear()
+    var anioFechaFin = new Date(this.ordenProcesoEditForm.controls['fechaFin'].value).getFullYear()
+    if (new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value) > new Date(this.ordenProcesoEditForm.controls['fechaFin'].value)) {
+      this.errorFecha = { isError: true, errorMessage: 'La fecha inicio no puede ser mayor a la fecha fin' };
+      this.ordenProcesoEditForm.controls['fechaInicio'].setErrors({ isError: true })
+    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+      this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
+      this.ordenProcesoEditForm.controls['fechaInicio'].setErrors({ isError: true })
+    } else {
+      this.errorFecha = { isError: false, errorMessage: '' };
+    }
+  }
+  
+  compareTwoDates() {
+    var anioFechaInicio = new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value).getFullYear()
+    var anioFechaFin = new Date(this.ordenProcesoEditForm.controls['fechaFin'].value).getFullYear()
+
+    if (new Date(this.ordenProcesoEditForm.controls['fechaFin'].value) < new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value)) {
+      this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
+      this.ordenProcesoEditForm.controls['fechaFin'].setErrors({ isError: true })
+    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+      this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
+      this.ordenProcesoEditForm.controls['fechaFin'].setErrors({ isError: true })
+    } else {
+      this.error = { isError: false, errorMessage: '' };
+    }
+  }
+  
+  cargarDatos(detalle: any) {
+    detalle.forEach(x => {
+      let object: any = {};
+      object.NotaIngresoAlmacenPlantaId = x.NotaIngresoAlmacenPlantaId
+      object.NumeroIngresoPlanta = x.NumeroNotaIngresoAlmacenPlanta
+      object.Numero = x.NumeroNotaIngreso 
+      object.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro), "/")
+      object.RendimientoPorcentaje = x.RendimientoPorcentaje 
+      object.HumedadPorcentaje = x.HumedadPorcentaje 
+      object.CantidadPesado = x.CantidadPesado
+      object.KilosBrutosPesado = x.KilosBrutosPesado
+      object.TaraPesado = x.TaraPesado
+      object.KilosNetosPesado = x.KilosNetosPesado
+      this.listaNotaIngreso.push(object);
+    });
+    this.tempDataLoteDetalle = this.listaNotaIngreso;
+    this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+  }
+  agregarNotaIngreso(e) {
+
+    var listFilter=[];
+      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == e[0].NotaIngresoPlantaId);
+      if (listFilter.length == 0)
+      {
+        this.filtrosLotesID.NotaIngresoPlantaId = Number(e[0].NotaIngresoPlantaId);
+        let object: any = {};
+        object.NotaIngresoPlantaId = e[0].NotaIngresoPlantaId
+        object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
+        object.NumeroIngresoPlanta = e[0].Numero 
+        object.FechaRegistro = this.dateUtil.formatDate(new Date(e[0].FechaRegistro), "/")
+        object.RendimientoPorcentaje = "";// e[0].RendimientoPorcentaje 
+        object.HumedadPorcentaje=  "";//e[0].HumedadPorcentajeAnalisisFisico
+         object.CantidadPesado =  "";//e[0].CantidadPesado 
+        object.KilosBrutosPesado =  "";//e[0].KilosBrutosPesado
+        object.TaraPesado =  "";//e[0].TaraPesado
+        object.KilosNetosPesado = "";//e[0].KilosNetosPesado
+        this.listaNotaIngreso.push(object);
+        this.tempDataLoteDetalle = this.listaNotaIngreso;
+        this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+        this.modalService.dismissAll();     
+      }
+      else 
+      {
+        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroNotaIngresoAlmacenPlanta + ".");
+      }
+  }
+
+
+  eliminarLote(select) {
+    let form = this;
+    this.alertUtil.alertSiNoCallback('Está seguro?', 'El lote ' + select[0].NumeroIngresoPlanta + ' se eliminará de su lista.', function (result) {
+      if (result.isConfirmed) {
+        form.listaNotaIngreso = form.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId != select[0].NotaIngresoAlmacenPlantaId)
+        form.tempDataLoteDetalle = form.listaNotaIngreso;
+        form.rowsLotesDetalle = [...form.tempDataLoteDetalle];
+        form.selectLoteDetalle = [];
+      }
+    }
+    );
+  }
 }
+

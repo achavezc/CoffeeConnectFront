@@ -87,13 +87,16 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
                                 [disabled]="ordenProcesoForm.invalid">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                                <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
+                                data-placement="top" (click)="Agregar(selected)"
+                                [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()"  *ngIf="!popUp" >Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!selected || selected.length <= 0" (click)="Anular()">Anular</button>
+                                [disabled]="!selected || selected.length <= 0" (click)="Anular()" *ngIf="!popUp">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!rows || rows.length <= 0" (click)="Export()">Exportar</button>
+                                [disabled]="!rows || rows.length <= 0" (click)="Export()" *ngIf="!popUp" >Exportar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!selected || selected.length <= 0" (click)="Print()">Impresión</button>
+                                [disabled]="!selected || selected.length <= 0" (click)="Print()"  *ngIf="!popUp">Impresión</button>
                         </form>
                     </div>
                 </div>

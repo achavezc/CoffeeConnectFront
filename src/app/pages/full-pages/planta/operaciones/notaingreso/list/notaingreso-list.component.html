@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="!popUp">
     <div class="col-12">
       <div class="content-header">Bandeja de Nota de Ingreso / Ticket de Pesaje</div>
     </div>
@@ -121,10 +121,13 @@
                     *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                 </div>
                 <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
-                <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
-                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="anular()">Anular</button>
-                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="enviar()">Enviar a Almacen</button>
-                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="exportar()">Exportar</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
+                (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
+                *ngIf="popUp">Seleccionar</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" *ngIf="!popUp">Nuevo</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="anular()" *ngIf="!popUp">Anular</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="enviar()" *ngIf="!popUp">Enviar a Almacen</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="exportar()" *ngIf="!popUp">Exportar</button>
               </form>
             </div>
           </div>

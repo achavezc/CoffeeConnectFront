@@ -64,6 +64,7 @@ import { ModalModule } from '../modals/modal.module'
   ],
   exports: [
     ContratoEditComponent,
+    OrdenProcesoComponent,
     OrdenProcesoEditComponent,
     PreciosDiaComponent,
     PrecioDiaEditComponent
