@@ -20,6 +20,7 @@ import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustom
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+import { ExportadorModule } from "../exportador/exportador.module";
 import { NotaIngresoListComponent } from "./operaciones/notaingreso/list/notaingreso-list.component";
 import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
@@ -56,7 +57,8 @@ import{TagNotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/e
     MatchHeightModule,
     NgxSpinnerModule,
     ModalModule,
-    AcopioModule
+    AcopioModule,
+    ExportadorModule
   ],
   declarations: [
     OrdenProcesoListComponent,

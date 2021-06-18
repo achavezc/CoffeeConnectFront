@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, Output } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -45,6 +45,8 @@ export class OrdenProcesoComponent implements OnInit {
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   userSession: any;
+  @Input() popUp = false;
+  @Output() agregarEvent = new EventEmitter<any>();
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -231,4 +233,7 @@ export class OrdenProcesoComponent implements OnInit {
     });
   }
 
+  Agregar(selected: any) {
+    this.agregarEvent.emit(selected)
+  }
 }
