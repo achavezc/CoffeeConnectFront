@@ -5,12 +5,14 @@ import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } fro
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
+
 import { FincaFotoGeoreferenciadaService } from '../../../../services/finca-foto-georeferenciada.service';
 import { FincaDocumentoAdjuntoService } from '../../../../services/finca-documento-adjunto.service';
 import { host } from '../../../../shared/hosts/main.host';
 import { AlertUtil } from '../../../../services/util/alert-util';
 import { SocioDocumentoService } from '../../../../services/socio-documento.service';
 import { ProductorDocumentoService } from '../../../../services/productor-documento.service';
+import { NotaIngresoPlantaDocumentoAdjuntoService } from '../../../../services/nota-ingreso-planta-documento-adjunto.service';
 
 @Component({
   selector: 'app-lista-documentos',
@@ -39,6 +41,7 @@ export class MListaDocumentosComponent implements OnInit {
   idFincaDocumentoAdjunto = 0;
   idSocioDocumento = 0;
   idProducerDocument = 0;
+  idPlantEntryNoteDocument = 0;
   fileName = '';
 
   constructor(private spinner: NgxSpinnerService,
@@ -49,7 +52,8 @@ export class MListaDocumentosComponent implements OnInit {
     private httpClient: HttpClient,
     private alertUtil: AlertUtil,
     private socioDocumentoService: SocioDocumentoService,
-    private productorDocumentoService: ProductorDocumentoService) {
+    private productorDocumentoService: ProductorDocumentoService,
+    private notaIngresoPlantaDocumentoAdjuntoService: NotaIngresoPlantaDocumentoAdjuntoService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -67,6 +71,9 @@ export class MListaDocumentosComponent implements OnInit {
     } else if (this.codeForm === 'frmMdlProducerDocuments') {
       this.titleModal = 'CARGA DE DOCUMENTOS DEL PRODUCTOR';
       this.subTitleModal = 'LISTA DE DOCUMENTOS DEL PRODUCTOR';
+    } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
+      this.titleModal = 'CARGA DE DOCUMENTOS';
+      this.subTitleModal = 'LISTA DE DOCUMENTOS';
     }
     this.LoadFormAddFiles();
     this.LoadFiles();
@@ -85,6 +92,7 @@ export class MListaDocumentosComponent implements OnInit {
     this.fileName = '';
     this.idFincaFotoGeoreferenciada = 0;
     this.idFincaDocumentoAdjunto = 0;
+    this.idPlantEntryNoteDocument = 0;
     this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true });
   }
 
@@ -100,6 +108,8 @@ export class MListaDocumentosComponent implements OnInit {
         this.idSocioDocumento = data.SocioDocumentoId;
       } else if (data.ProductorDocumentoId) {
         this.idProducerDocument = data.ProductorDocumentoId;
+      } else if (data.NotaIngresoPlantaDocumentoAdjuntoId) {
+        this.idPlantEntryNoteDocument = data.NotaIngresoPlantaDocumentoAdjuntoId;
       }
       this.agregarArchivoForm.controls.estado.setValue(data.EstadoId);
       this.agregarArchivoForm.controls.fileName.setValue(data.Nombre);
@@ -141,15 +151,18 @@ export class MListaDocumentosComponent implements OnInit {
             form.eliminarDocumentosSocio(data.SocioDocumentoId);
           } else if (form.codeForm === 'frmMdlProducerDocuments') {
             form.eliminarDocumento(data.ProductorDocumentoId);
+          } else if (form.codeForm === 'frmMdlListDocumentsNoteIncome') {
+            form.DeleteDocumentPlantEntryNote(data.NotaIngresoPlantaId);
           }
         }
       });
-      
+
     } else {
       this.errorGeneral = { isError: true, errorMessage: "Por favor seleccionar un elemento del listado." };
     }
   }
-  eliminarDocumento(id: any){
+
+  eliminarDocumento(id: any) {
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -181,7 +194,8 @@ export class MListaDocumentosComponent implements OnInit {
         }
       );
   }
-  eliminarFotoGereferenciadas(id: any){
+
+  eliminarFotoGereferenciadas(id: any) {
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -213,7 +227,8 @@ export class MListaDocumentosComponent implements OnInit {
         }
       );
   }
-  eliminarDocumentosAdjuntos(id: any){
+
+  eliminarDocumentosAdjuntos(id: any) {
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -245,7 +260,8 @@ export class MListaDocumentosComponent implements OnInit {
         }
       );
   }
-  eliminarDocumentosSocio(id: any){
+
+  eliminarDocumentosSocio(id: any) {
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -277,6 +293,40 @@ export class MListaDocumentosComponent implements OnInit {
         }
       );
   }
+
+  DeleteDocumentPlantEntryNote(id: any) {
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.notaIngresoPlantaDocumentoAdjuntoService.Delete(id)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.LoadFiles();
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+
   modalResponse(event) {
     this.modalService.dismissAll();
   }
@@ -290,6 +340,8 @@ export class MListaDocumentosComponent implements OnInit {
       this.GetDocumentsPartner();
     } else if (this.codeForm === 'frmMdlProducerDocuments') {
       this.GetDocumentsProducer();
+    } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
+      this.GetDocumentsPlantEntryNote();
     }
   }
 
@@ -361,6 +413,23 @@ export class MListaDocumentosComponent implements OnInit {
     });
   }
 
+  GetDocumentsPlantEntryNote(): void {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, errorMessage: '' };
+    this.notaIngresoPlantaDocumentoAdjuntoService.SearchForPlantEntryNoteById(this.code).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.rows = res.Result.Data;
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.spinner.hide();
+      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    });
+  }
+
   LoadFormAddFiles(): void {
     this.agregarArchivoForm = this.fb.group({
       descripcion: ['', Validators.required],
@@ -419,6 +488,8 @@ export class MListaDocumentosComponent implements OnInit {
       link.href = `${host}SocioDocumento/DescargarArchivo?path=${rutaFile}`;
     } else if (this.codeForm === 'frmMdlProducerDocuments') {
       link.href = `${host}ProductorDocumento/DescargarArchivo?path=${rutaFile}`;
+    } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
+      link.href = `${host}NotaIngresoPlantaDocumentoAdjunto/DescargarArchivo?path=${rutaFile}`;
     }
     link.target = "_blank";
     link.click();
@@ -427,9 +498,11 @@ export class MListaDocumentosComponent implements OnInit {
 
   SaveFile(): void {
     if (!this.agregarArchivoForm.invalid) {
-      if (this.idFincaFotoGeoreferenciada > 0 || this.idFincaDocumentoAdjunto > 0 || this.idSocioDocumento > 0 || this.idProducerDocument > 0) {
+      if (this.idFincaFotoGeoreferenciada > 0 || this.idFincaDocumentoAdjunto > 0 || this.idSocioDocumento > 0
+        || this.idProducerDocument > 0 || this.idPlantEntryNoteDocument > 0) {
         this.UpdateFile();
-      } else if (this.idFincaFotoGeoreferenciada <= 0 || this.idFincaDocumentoAdjunto <= 0 || this.idSocioDocumento <= 0 || this.idProducerDocument <= 0) {
+      } else if (this.idFincaFotoGeoreferenciada <= 0 || this.idFincaDocumentoAdjunto <= 0
+        || this.idSocioDocumento <= 0 || this.idProducerDocument <= 0 || this.idPlantEntryNoteDocument <= 0) {
         this.CreateFile();
       }
     }
@@ -483,6 +556,18 @@ export class MListaDocumentosComponent implements OnInit {
     }
   }
 
+  GetRequestPlantEntryNoteDocument(): any {
+    return {
+      NotaIngresoPlantaDocumentoAdjuntoId: Number(this.idPlantEntryNoteDocument),
+      NotaIngresoPlantaId: Number(this.code),
+      Nombre: this.agregarArchivoForm.value.fileName,
+      Descripcion: this.agregarArchivoForm.value.descripcion,
+      Path: this.agregarArchivoForm.value.pathFile,
+      Usuario: this.userSession.Result.Data.NombreUsuario,
+      EstadoId: "01"
+    }
+  }
+
   CreateFile(): void {
     if (this.agregarArchivoForm.value.fileName || this.agregarArchivoForm.value.file) {
       this.spinner.show();
@@ -500,6 +585,9 @@ export class MListaDocumentosComponent implements OnInit {
       } else if (this.codeForm === 'frmMdlProducerDocuments') {
         url = `${host}ProductorDocumento`;
         request = this.GetRequestProducerDocument();
+      } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
+        url = `${host}NotaIngresoPlantaDocumentoAdjunto`;
+        request = this.GetRequestPlantEntryNoteDocument();
       }
 
       const formData = new FormData();
@@ -546,6 +634,9 @@ export class MListaDocumentosComponent implements OnInit {
       } else if (this.codeForm === 'frmMdlProducerDocuments') {
         url = `${host}ProductorDocumento`;
         request = this.GetRequestProducerDocument();
+      } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
+        url = `${host}NotaIngresoPlantaDocumentoAdjunto`;
+        request = this.GetRequestPlantEntryNoteDocument();
       }
 
       const formData = new FormData();

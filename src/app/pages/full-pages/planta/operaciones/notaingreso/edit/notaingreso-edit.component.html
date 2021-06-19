@@ -1,29 +1,30 @@
 <form class="needs-validation" [formGroup]="notaIngredoFormEdit">
-    <section id="tooltip-validation">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header" style="margin-bottom: 2rem;">
-                <div class="row">
-                  <div class="col-12 col-md-8">
-                    <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
-                    <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
-                    <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
-                    </div>
+  <section id="tooltip-validation">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header" style="margin-bottom: 2rem;">
+            <div class="row">
+              <div class="col-12 col-md-8">
+                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+
+                <div class="form-row" *ngIf="esEdit">
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-username">N° NOTA DE INGRESO </label>
                   </div>
-                  <div class="col-12 col-md-4">
-    
-                    <div class="form-row"  *ngIf="esEdit" >
-                      <div class="col-md-6 form-group">
-                        <label class="card-forms" for="users-edit-username">N° NOTA DE INGRESO  </label>
-                      </div>
-    
-                      <div class="col-md-6 form-group">
-                        <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numeroNotaIngreso}}</label>
-                      </div>
-                    
-                    </div> 
-                    <!--<div class="form-row" >
+
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-username"
+                      style="font-weight: bold;">{{numeroNotaIngreso}}</label>
+                  </div>
+
+                </div>
+                <!--<div class="form-row" >
                      
                       <div class="col-md-6 form-group">
                         <label class="card-forms" for="users-edit-name">N° GUIA REFERENCIA</label>
@@ -47,195 +48,204 @@
     
                       </div>
                     </div> -->
-                    <div class="form-row"  *ngIf="esEdit"  >
-                      
-                      <div class="col-md-6 form-group">
-                        <label class="card-forms" for="users-edit-email">FECHA</label>
-                      </div>
-    
-                      <div class="col-md-4 form-group">
-                        <label class="card-forms" for="users-edit-username"  style="font-weight: bold;" >{{fechaRegistro}}</label>
-                      </div>
-                    </div>
-    
-                    <div class="form-row"  *ngIf="esEdit"  >
-                      
-                      <div class="col-md-6 form-group">
-                        <label class="card-forms" for="users-edit-email">ESTADO</label>
-                      </div>
-    
-                      <div class="col-md-4 form-group">
-                        <label class="card-forms" for="users-edit-username"  style="font-weight: bold;">{{estado}}</label>
-                      </div>
-                    </div>
-    
-                  </div>
-           
-                </div>
-                <br>
-                <br>
+                <div class="form-row" *ngIf="esEdit">
 
-                <div class="form-row">
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip04">N° GUIA REMISION</label>
-                    <input type="text" minlength="5" maxlength="20" formControlName="guiaremision" class="form-control"
-                      id="validationTooltip04" placeholder="Guia Remision"
-                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.guiaremision.invalid, 'is-valid': submittedEdit && !fedit.guiaremision.invalid }"
-                      >
-                  </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip04">FEC. GUIA REMISION</label>
-                    <input type="date" class="form-control" formControlName="fecharemision" id="validationTooltip10"
-                    name="fecharemision" placeholder="date" date
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.fecharemision.invalid, 'is-valid': submittedEdit && !fedit.fecharemision.invalid }" />
-                  </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">TIPO PRODUCCION</label>
-                    <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
-                    formControlName="tipoProduccion" bindLabel="Label" bindValue="Codigo" class="form-control"
-                    placeholder="Seleccionar Tipo Producción" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }"
-                    >
-                  </ng-select>
-                  </div>
-                </div>
-  
-                <div class="form-row">
-                  <div class="col-md-3 mb-3 form-group mb-2">
-                    <label for="validationTooltip04">CODIGO ORGANIZACION</label>
-                    <input type="text" minlength="5" maxlength="20" formControlName="codigoOrganizacion" class="form-control"
-                      id="validationTooltip04" placeholder="Codigo Organización" 
-                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.codigoOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.codigoOrganizacion.invalid }"
-                      readonly>
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-email">FECHA</label>
                   </div>
 
-                  <div class="col-md-1 mb-1 form-group mb-2">
-                    <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
-                      <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
-                      </app-consultar-organizacion>
-                    </ng-template>
-                    <button type="button" class="btn btn-default" style="margin-top: 1.5rem;" (click)="openModal(mdlConsultarOrganizacion)">
-                    <i class="fa fa-search"></i>
-                    </button>
-                  </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip04">NOMBRE ORGANIZACION</label>
-                    <input type="text" minlength="8" maxlength="20" formControlName="nombreOrganizacion" class="form-control"
-                    id="validationTooltip08" placeholder="Nombre Organizacion" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.nombreOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.nombreOrganizacion.invalid }"
-                    readonly>
-                  </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">PRODUCTO</label>
-                    <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
-                      placeholder="Seleccionar Producto" formControlName="producto" (change)="changeSubProducto($event)" 
-                      bindLabel="Label" bindValue="Codigo"
-                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.producto.invalid, 'is-valid': submittedEdit && !fedit.producto.invalid }">
-                    </ng-select>
+                  <div class="col-md-4 form-group">
+                    <label class="card-forms" for="users-edit-username"
+                      style="font-weight: bold;">{{fechaRegistro}}</label>
                   </div>
                 </div>
 
-                <div class="form-row">
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip04">DIRECCION</label>
-                    <input type="text" minlength="5" maxlength="100" formControlName="direccion" class="form-control"
-                      id="validationTooltip04" placeholder="Dirección" 
-                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.direccion.invalid, 'is-valid': submittedEdit && !fedit.direccion.invalid }"
-                      readonly>
+                <div class="form-row" *ngIf="esEdit">
+
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-email">ESTADO</label>
                   </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip04">RUC</label>
-                    <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
-                  id="validationTooltip08" placeholder="Ruc" 
+
+                  <div class="col-md-4 form-group">
+                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{estado}}</label>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <br>
+            <br>
+
+            <div class="form-row">
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip04">N° GUIA REMISION</label>
+                <input type="text" minlength="5" maxlength="20" formControlName="guiaremision" class="form-control"
+                  id="validationTooltip04" placeholder="Guia Remision"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.guiaremision.invalid, 'is-valid': submittedEdit && !fedit.guiaremision.invalid }">
+              </div>
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip04">FEC. GUIA REMISION</label>
+                <input type="date" class="form-control" formControlName="fecharemision" id="validationTooltip10"
+                  name="fecharemision" placeholder="date" date
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.fecharemision.invalid, 'is-valid': submittedEdit && !fedit.fecharemision.invalid }" />
+              </div>
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip09">TIPO PRODUCCION</label>
+                <ng-select [items]="listaTipoProduccion" bindLabel="name" [(ngModel)]="selectTipoProduccion"
+                  formControlName="tipoProduccion" bindLabel="Label" bindValue="Codigo" class="form-control"
+                  placeholder="Seleccionar Tipo Producción"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }">
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-3 mb-3 form-group mb-2">
+                <label for="validationTooltip04">CODIGO ORGANIZACION</label>
+                <input type="text" minlength="5" maxlength="20" formControlName="codigoOrganizacion"
+                  class="form-control" id="validationTooltip04" placeholder="Codigo Organización"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.codigoOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.codigoOrganizacion.invalid }"
+                  readonly>
+              </div>
+
+              <div class="col-md-1 mb-1 form-group mb-2">
+                <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
+                  <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
+                  </app-consultar-organizacion>
+                </ng-template>
+                <button type="button" class="btn btn-default" style="margin-top: 1.5rem;"
+                  (click)="openModal(mdlConsultarOrganizacion)">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip04">NOMBRE ORGANIZACION</label>
+                <input type="text" minlength="8" maxlength="20" formControlName="nombreOrganizacion"
+                  class="form-control" id="validationTooltip08" placeholder="Nombre Organizacion"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.nombreOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.nombreOrganizacion.invalid }"
+                  readonly>
+              </div>
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip09">PRODUCTO</label>
+                <ng-select [items]="listaProducto" bindLabel="name" [(ngModel)]="selectProducto" class="form-control"
+                  placeholder="Seleccionar Producto" formControlName="producto" (change)="changeSubProducto($event)"
+                  bindLabel="Label" bindValue="Codigo"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.producto.invalid, 'is-valid': submittedEdit && !fedit.producto.invalid }">
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip04">DIRECCION</label>
+                <input type="text" minlength="5" maxlength="100" formControlName="direccion" class="form-control"
+                  id="validationTooltip04" placeholder="Dirección"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.direccion.invalid, 'is-valid': submittedEdit && !fedit.direccion.invalid }"
+                  readonly>
+              </div>
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip04">RUC</label>
+                <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
+                  id="validationTooltip08" placeholder="Ruc"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.ruc.invalid, 'is-valid': submittedEdit && !fedit.ruc.invalid }"
                   readonly>
-                
-                  </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">SUB PRODUCTO</label>
-                    <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto" 
-                    formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
-                    placeholder="Seleccionar Tipo Producto" (change)="changeView($event)" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }"
-                    >
-                  </ng-select>
-                  </div>
-                </div>
 
-                <div class="form-row">
-                 
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">CERTIFICACION</label>
-                    <ng-select [items]="listaCertificacion" bindLabel="name" [(ngModel)]="selectedCertificacion"
-                    formControlName="certificacion" bindLabel="Label" bindValue="Codigo" class="form-control"
-                    placeholder="Seleccionar Certificacion" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.certificacion.invalid, 'is-valid': submittedEdit && !fedit.certificacion.invalid }"
-                    >
-                  </ng-select>
-                  </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">CERTIFICADORA</label>
-                    <ng-select [items]="listaCertificadora" bindLabel="name" [(ngModel)]="selectedCertificadora"
-                    formControlName="certificadora" bindLabel="Label" bindValue="Codigo" class="form-control"
-                    placeholder="Seleccionar Certificadora" 
-                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.certificadora.invalid, 'is-valid': submittedEdit && !fedit.certificadora.invalid }"
-                    >
-                  </ng-select>
-                  </div>
-                </div>
+              </div>
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip09">SUB PRODUCTO</label>
+                <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
+                  formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
+                  placeholder="Seleccionar Tipo Producto" (change)="changeView($event)"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.subproducto.invalid, 'is-valid': submittedEdit && !fedit.subproducto.invalid }">
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="form-row">
+
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip09">CERTIFICACION</label>
+                <ng-select [items]="listaCertificacion" bindLabel="name" [(ngModel)]="selectedCertificacion"
+                  formControlName="certificacion" bindLabel="Label" bindValue="Codigo" class="form-control"
+                  placeholder="Seleccionar Certificacion"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.certificacion.invalid, 'is-valid': submittedEdit && !fedit.certificacion.invalid }">
+                </ng-select>
+              </div>
+              <div class="col-md-4 mb-4 form-group mb-2">
+                <label for="validationTooltip09">CERTIFICADORA</label>
+                <ng-select [items]="listaCertificadora" bindLabel="name" [(ngModel)]="selectedCertificadora"
+                  formControlName="certificadora" bindLabel="Label" bindValue="Codigo" class="form-control"
+                  placeholder="Seleccionar Certificadora"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.certificadora.invalid, 'is-valid': submittedEdit && !fedit.certificadora.invalid }">
+                </ng-select>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    
-    </section>
-    <section class="users-edit">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-body">
-                <!-- Nav-tabs -->
-                <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
-                  <li [ngbNavItem]="1" [destroyOnHide]="true">
-                    <a ngbNavLink class="nav-link d-flex align-items-center">
-                      <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
-                    </a>
-                    <ng-template ngbNavContent>
-                      <app-pesadoCafePlanta (miEvento)="consultarSocioFinca()" formGroupName="pesado" [submittedEdit]="submittedEdit"></app-pesadoCafePlanta>
-                      <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
-                        <div class="col-8 d-flex flex-sm-row flex-column">
-                          <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                          <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
-                        </div>
-                        <div class="col-8 d-flex flex-sm-row flex-column">
-                          <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
-                          <label class="col-md-8 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaPesado}}</label>
-                        </div>
-          
+    </div>
+
+  </section>
+  <section class="users-edit">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <!-- Nav-tabs -->
+              <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
+                <li [ngbNavItem]="1" [destroyOnHide]="true">
+                  <a ngbNavLink class="nav-link d-flex align-items-center">
+                    <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <app-pesadoCafePlanta (miEvento)="consultarSocioFinca()" formGroupName="pesado"
+                      [submittedEdit]="submittedEdit"></app-pesadoCafePlanta>
+                    <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                      <div class="col-8 d-flex flex-sm-row flex-column">
+                        <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                        <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
+                          for="horizontal-form-1">{{responsable}}</label>
                       </div>
-                      <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
-                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"  [disabled]="!btnGuardar" (click)="guardar()">Guardar</button>
-                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
+                      <div class="col-8 d-flex flex-sm-row flex-column">
+                        <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
+                        <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
+                          for="horizontal-form-1">{{fechaPesado}}</label>
                       </div>
-                    </ng-template>
-                   
-                  </li>
-                  <li [ngbNavItem]="2"  >
-                    <a  ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'" >
-                      <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
-                    </a>
-                      <ng-template ngbNavContent *ngIf="viewTagSeco">
-                      <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadSeco>
+
+                    </div>
+                    <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
+                      <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+                        <app-lista-documentos [codeForm]="'frmMdlListDocumentsNoteIncome'" [code]="idPlantEntryNote">
+                        </app-lista-documentos>
                       </ng-template>
-    
-                     <ng-template ngbNavContent *ngIf="!viewTagSeco" >
-                        <app-controlCalidadHumedo  *ngIf="detalle" [detalle]="detalle" [form] = "form" ></app-controlCalidadHumedo>
-                        </ng-template>
-                        
-    
-                  </li>
-                  <!-- <li [ngbNavItem]="3">
+                      <button type="button" class="btn btn-primary mr-1" (click)="openModal(mdlListDocuments)"
+                        *ngIf="esEdit">Documentos</button>
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar"
+                        (click)="guardar()">Guardar</button>
+                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
+                        (click)="cancelar()">Cancelar</button>
+                    </div>
+                  </ng-template>
+
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'">
+                    <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
+                  </a>
+                  <ng-template ngbNavContent *ngIf="viewTagSeco">
+                    <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form]="form"></app-controlCalidadSeco>
+                  </ng-template>
+
+                  <ng-template ngbNavContent *ngIf="!viewTagSeco">
+                    <app-controlCalidadHumedo *ngIf="detalle" [detalle]="detalle" [form]="form">
+                    </app-controlCalidadHumedo>
+                  </ng-template>
+
+
+                </li>
+                <!-- <li [ngbNavItem]="3">
                     <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
                       <span class="d-none d-sm-block" style="font-size: 1.1rem;">Nota de Compra</span>
                     </a>
@@ -243,21 +253,21 @@
                       <app-notacompra *ngIf = "detalle" [detalle]="detalle"></app-notacompra>
                     </ng-template>
                   </li> -->
-                </ul>
-                <div class="tab-content">
-                  <div [ngbNavOutlet]="nav"></div>
-                </div>
+              </ul>
+              <div class="tab-content">
+                <div [ngbNavOutlet]="nav"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    
-    </section>
-    
-    
-    
-    <div class="d-flex justify-content-between align-items-center">
-      <ngx-spinner></ngx-spinner>
     </div>
+
+  </section>
+
+
+
+  <div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+  </div>
 </form>

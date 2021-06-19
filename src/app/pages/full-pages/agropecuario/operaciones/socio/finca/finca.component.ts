@@ -99,7 +99,8 @@ export class FincaComponent implements OnInit {
 
   New(): void {
     // this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.objParams.idProductor, idSocio: this.codePartner } });
-    this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.codeProducer, idSocio: this.codePartner } });
+    // this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.codeProducer, idSocio: this.codePartner } });
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/create/${this.codePartner}/${this.codeProducer}`]);
   }
 
   Certifications(): void {
@@ -120,11 +121,11 @@ export class FincaComponent implements OnInit {
 
 
   Inspections(): void {
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/list/${this.codePartner}/${this.codePartner}/${this.selected[0].SocioFincaId}`]);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/list/${this.codePartner}/${this.codeProducer}/${this.selected[0].SocioFincaId}`]);
   }
 
   Diagnosis(): void {
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/diagnostico/list/${this.codePartner}/${this.codePartner}/${this.selected[0].SocioFincaId}`]);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/diagnostico/list/${this.codePartner}/${this.codeProducer}/${this.selected[0].SocioFincaId}`]);
   }
 
   Export(): void {

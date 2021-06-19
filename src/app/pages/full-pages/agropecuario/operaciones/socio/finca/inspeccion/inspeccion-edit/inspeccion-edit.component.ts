@@ -8,7 +8,6 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import { InspeccionInternaService } from '../../../../../../../../services/inspeccion-interna.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
-import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-inspeccion-edit',
@@ -451,7 +450,6 @@ export class InspeccionEditComponent implements OnInit {
       SuspencionTiempo: form.suspensionTime,
       Inspector: form.internalInspector,
       FechaInspeccion: form.inspectionDate ? form.inspectionDate : null,
-
       DuracionSuspencionTiempo: form.countSuspensionTime ? form.countSuspensionTime : '',
       NoConformidadObservacionLevantada: form.nonConformitiesObservations,
       ApruebaSinCondicion: form.approveWithoutConditions,
@@ -580,12 +578,7 @@ export class InspeccionEditComponent implements OnInit {
       if (data.FechaInspeccion)
         this.frmFincaInspeccionEdit.controls.inspectionDate.setValue(data.FechaInspeccion.substring(0, 10));
 
-
-
-
       this.frmFincaInspeccionEdit.controls.internalInspector.setValue(data.Inspector);
-
-
       this.frmFincaInspeccionEdit.controls.approveWithoutConditions.setValue(data.ApruebaSinCondicion);
       this.frmFincaInspeccionEdit.controls.nonConformitiesObservations.setValue(data.NoConformidadObservacionLevantada);
       this.arrCoffeePitches = data.InspeccionInternaParcela;

@@ -26,15 +26,15 @@ import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/orden
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaingreso-edit.component";
 import { NotaIngresoAlmacenListComponent } from "./operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component";
-import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
+import { NotaIngresoAlmacenEditComponent } from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
 import { PesadoCafePlantaComponent } from "./operaciones/notaingreso/edit/pesadocafe/pesadocafeplanta.component";
 import { ModalModule } from '../modals/modal.module';
-import {AcopioModule} from '../acopio/acopio.module';
-import {NotaSalidaAlmacenComponent} from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
-import {NotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
-import{TagNotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/tags/notasalidaplanta-tag.component';
-import {LiquidacionProcesoComponent} from './operaciones/liquidacionproceso/list/liquidacionproceso-list.component';
-import{LiquidacionProcesoEditComponent} from './operaciones/liquidacionproceso/edit/liquidacionproceso-edit.component';
+import { AcopioModule } from '../acopio/acopio.module';
+import { NotaSalidaAlmacenComponent } from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
+import { NotaSalidaPlantaEditComponent } from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
+import { TagNotaSalidaPlantaEditComponent } from './operaciones/notasalidaalmacen/edit/tags/notasalidaplanta-tag.component';
+import { LiquidacionProcesoComponent } from './operaciones/liquidacionproceso/list/liquidacionproceso-list.component';
+import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproceso/edit/liquidacionproceso-edit.component';
 
 
 @NgModule({

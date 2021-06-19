@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
@@ -15,11 +14,8 @@ import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
-import { Subject } from 'rxjs';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
-import {PesadoCafePlantaComponent} from './pesadocafe/pesadocafeplanta.component';
-
-
+import { PesadoCafePlantaComponent } from './pesadocafe/pesadocafeplanta.component';
 
 @Component({
   selector: 'app-notaingreso-edit',
@@ -44,7 +40,6 @@ export class NotaIngresoEditComponent implements OnInit {
   listaCertificadora: any[];
   selectedCertificacion: any;
   selectedCertificadora: any;
-
   selectTipoSocio: any;
   selectTipoProveedor: any;
   selectTipoProduccion: any;
@@ -81,20 +76,24 @@ export class NotaIngresoEditComponent implements OnInit {
   btnGuardar = true;
   productoOroVerde = '02';
   @ViewChild(PesadoCafePlantaComponent) child;
-
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
+  idPlantEntryNote = 0;
 
-  constructor(private modalService: NgbModal, private maestroService: MaestroService,
+  constructor(private modalService: NgbModal,
+    private maestroService: MaestroService,
     private alertUtil: AlertUtil,
     private router: Router,
-    private spinner: NgxSpinnerService, private notaIngresoService: NotaIngresoService, private maestroUtil: MaestroUtil,
+    private spinner: NgxSpinnerService,
+    private notaIngresoService: NotaIngresoService,
+    private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-   private socioFinca : SocioFincaService
+    private socioFinca: SocioFincaService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
+
   singleSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
@@ -117,21 +116,21 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   cargarForm() {
-    
+
     this.notaIngredoFormEdit = this.fb.group(
       {
-       
-        guiaremision: ['',Validators.required],
-        fecharemision: ['',Validators.required],
-        tipoProduccion: ['',Validators.required],
+
+        guiaremision: ['', Validators.required],
+        fecharemision: ['', Validators.required],
+        tipoProduccion: ['', Validators.required],
         codigoOrganizacion: ['',],
         nombreOrganizacion: ['',],
-        producto: ['',Validators.required],
+        producto: ['', Validators.required],
         direccion: ['',],
         ruc: ['',],
-        subproducto: ['',Validators.required],
-        certificacion: ['',Validators.required],
-        certificadora: ['',Validators.required],
+        subproducto: ['', Validators.required],
+        certificacion: ['', Validators.required],
+        certificadora: ['', Validators.required],
         pesado: this.fb.group({
           motivo: new FormControl('', [Validators.required]),
           empaque: new FormControl('', [Validators.required]),
@@ -154,11 +153,11 @@ export class NotaIngresoEditComponent implements OnInit {
           observacion: new FormControl('', [])
         })
       });
-      this.desactivarControl("");
+    this.desactivarControl("");
   }
 
   openModal(customContent) {
-    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl' });
+    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
   cargarcombos() {
@@ -194,24 +193,25 @@ export class NotaIngresoEditComponent implements OnInit {
     this.desactivarControl(filterProducto);
   }
 
-  desactivarControl(codigo){
-    if(codigo != this.productoOroVerde){
+  desactivarControl(codigo) {
+    if (codigo != this.productoOroVerde) {
       this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
       this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");
-    
+
       this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
       this.notaIngredoFormEdit.get("pesado").get("calidad").disable();
       this.notaIngredoFormEdit.get("pesado").get("grado").disable();
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").disable();
-    }else{
+    } else {
       this.notaIngredoFormEdit.get("pesado").get("pesoSaco").enable();
       this.notaIngredoFormEdit.get("pesado").get("calidad").enable();
       this.notaIngredoFormEdit.get("pesado").get("grado").enable();
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").enable();
     }
   }
+
   changeView(e) {
     let filterSubTipo = e.Codigo;
     if (filterSubTipo == "02") {
@@ -223,19 +223,16 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   async cargarSubProducto(codigo: any) {
-
     var data = await this.maestroService.obtenerMaestros("SubProductoPlanta").toPromise();
     if (data.Result.Success) {
       this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
-
   }
- 
-
 
   get fedit() {
     return this.notaIngredoFormEdit.controls;
   }
+
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       const tipoproveedor = group.controls['tipoproveedor'];
@@ -243,21 +240,18 @@ export class NotaIngresoEditComponent implements OnInit {
       const numeroDocumento = group.controls['numeroDocumento'];
       const socio = group.controls['socio'];
       const rzsocial = group.controls['rzsocial'];
-      if ((tipoproveedor.value != "" && tipoproveedor.value != undefined) && numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
-
+      if ((tipoproveedor.value != "" && tipoproveedor.value != undefined) && numeroDocumento.value == ""
+        && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
-
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
-      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
-
+      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)
+        && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
         this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
-
-      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
-
+      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)
+        && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
         this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
-
       }
       return;
     };
@@ -272,6 +266,7 @@ export class NotaIngresoEditComponent implements OnInit {
     link.click();
     link.remove();
   }
+
   guardar() {
 
     if (this.notaIngredoFormEdit.invalid) {
@@ -279,40 +274,40 @@ export class NotaIngresoEditComponent implements OnInit {
       return;
     } else {
       let request = new ReqRegistrarPesadoNotaIngreso(
-       Number(this.id),
-       this.login.Result.Data.EmpresaId,
-       this.notaIngredoFormEdit.controls["guiaremision"].value,
-       this.notaIngredoFormEdit.controls["guiaremision"].value,
-       this.notaIngredoFormEdit.controls["fecharemision"].value,
-       this.selectOrganizacion[0].Codigo,
-       this.notaIngredoFormEdit.controls["tipoProduccion"].value,
-       this.notaIngredoFormEdit.controls["producto"].value,
-       this.notaIngredoFormEdit.controls["subproducto"].value,
-       this.notaIngredoFormEdit.controls["certificacion"].value,
-       this.notaIngredoFormEdit.controls["certificadora"].value,
-       this.notaIngredoFormEdit.get('pesado').get("motivo").value,
-       this.notaIngredoFormEdit.get('pesado').get("empaque").value,
-       Number(this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").value),
-       Number(this.notaIngredoFormEdit.get('pesado').get("kilosNetos").value),
-       Number(this.notaIngredoFormEdit.get('pesado').get("tara").value),
-       this.notaIngredoFormEdit.get('pesado').get("calidad").value,
-       this.notaIngredoFormEdit.get('pesado').get("grado").value,
-       Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
-       Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
-       this.notaIngredoFormEdit.get('pesado').get("tipo").value,
-       Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
-       Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").value),
-       Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").value),
-       this.notaIngredoFormEdit.get('pesado').get("ruc").value,
-       this.notaIngredoFormEdit.get('pesado').get("transportista").value,
-       this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").value,
-       this.notaIngredoFormEdit.get('pesado').get("chofer").value,
-       this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").value,
-       this.notaIngredoFormEdit.get('pesado').get("observacion").value,
-       "01",
-       new Date(),
-       this.login.Result.Data.IdUsuario,
-       new Date()
+        Number(this.id),
+        this.login.Result.Data.EmpresaId,
+        this.notaIngredoFormEdit.controls["guiaremision"].value,
+        this.notaIngredoFormEdit.controls["guiaremision"].value,
+        this.notaIngredoFormEdit.controls["fecharemision"].value,
+        this.selectOrganizacion[0].Codigo,
+        this.notaIngredoFormEdit.controls["tipoProduccion"].value,
+        this.notaIngredoFormEdit.controls["producto"].value,
+        this.notaIngredoFormEdit.controls["subproducto"].value,
+        this.notaIngredoFormEdit.controls["certificacion"].value,
+        this.notaIngredoFormEdit.controls["certificadora"].value,
+        this.notaIngredoFormEdit.get('pesado').get("motivo").value,
+        this.notaIngredoFormEdit.get('pesado').get("empaque").value,
+        Number(this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").value),
+        Number(this.notaIngredoFormEdit.get('pesado').get("kilosNetos").value),
+        Number(this.notaIngredoFormEdit.get('pesado').get("tara").value),
+        this.notaIngredoFormEdit.get('pesado').get("calidad").value,
+        this.notaIngredoFormEdit.get('pesado').get("grado").value,
+        Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
+        Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
+        this.notaIngredoFormEdit.get('pesado').get("tipo").value,
+        Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
+        Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").value),
+        Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").value),
+        this.notaIngredoFormEdit.get('pesado').get("ruc").value,
+        this.notaIngredoFormEdit.get('pesado').get("transportista").value,
+        this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").value,
+        this.notaIngredoFormEdit.get('pesado').get("chofer").value,
+        this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").value,
+        this.notaIngredoFormEdit.get('pesado').get("observacion").value,
+        "01",
+        new Date(),
+        this.login.Result.Data.IdUsuario,
+        new Date()
       );
       this.spinner.show(undefined,
         {
@@ -327,8 +322,6 @@ export class NotaIngresoEditComponent implements OnInit {
       } else {
         this.guardarService(request);
       }
-
-
     }
   }
 
@@ -401,9 +394,9 @@ export class NotaIngresoEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;
-            if(this.detalle!= null){
+            if (this.detalle != null) {
               this.cargarDataFormulario(res.Result.Data);
-            }else{
+            } else {
               this.spinner.hide();
             }
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -422,8 +415,9 @@ export class NotaIngresoEditComponent implements OnInit {
         }
       );
   }
-  async cargarDataFormulario(data: any) {
 
+  async cargarDataFormulario(data: any) {
+    this.idPlantEntryNote = data.NotaIngresoPlantaId;
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.notaIngredoFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
     this.notaIngredoFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
@@ -456,60 +450,51 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.get('pesado').get("chofer").setValue(data.ConductorEmpresaTransporte);
     this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
     this.notaIngredoFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
-    
-    
     this.estado = data.Estado
     this.numeroNotaIngreso = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
 
     this.spinner.hide();
-
-
   }
-  
+
   async consultarSocioFinca() {
     let request =
     {
       "SocioFincaId": Number(this.notaIngredoFormEdit.controls["socioFincaId"].value)
     }
 
-   if ( this.notaIngredoFormEdit.controls["producto"].value == "01" &&
-   this.notaIngredoFormEdit.controls["subproducto"].value == "02" && this.notaIngredoFormEdit.controls["provCertificacion"].value != "")
-   {
-   this.socioFinca.SearchSocioFinca(request)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            if ( res.Result.Data != null )
-            {
-              if (res.Result.Data.SaldoPendiente == 0)
-              {
-                this.notaIngredoFormEdit.controls["tipoProduccion"].setValue("02"); 
-                this.notaIngredoFormEdit.controls["tipoProduccion"].disable();
+    if (this.notaIngredoFormEdit.controls["producto"].value == "01" &&
+      this.notaIngredoFormEdit.controls["subproducto"].value == "02" && this.notaIngredoFormEdit.controls["provCertificacion"].value != "") {
+      this.socioFinca.SearchSocioFinca(request)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              if (res.Result.Data != null) {
+                if (res.Result.Data.SaldoPendiente == 0) {
+                  this.notaIngredoFormEdit.controls["tipoProduccion"].setValue("02");
+                  this.notaIngredoFormEdit.controls["tipoProduccion"].disable();
+                }
+                else if (res.Result.Data.SaldoPendiente < this.notaIngredoFormEdit.get('pesado').get("kilosBruto").value) {
+                  this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
+                  this.btnGuardar = false;
+                }
+                else {
+                  this.btnGuardar = true;
+                }
               }
-              else if (res.Result.Data.SaldoPendiente < this.notaIngredoFormEdit.get('pesado').get("kilosBruto").value)
-              {
-                this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
+              else if (res.Result.Data == null) {
+                this.alertUtil.alertWarning('Oops!', 'La finca no tiene registrado los estimados para el año actual');
                 this.btnGuardar = false;
               }
-              else{
-                this.btnGuardar = true;
-              }
+
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
-            else if (res.Result.Data == null )
-            {
-              this.alertUtil.alertWarning('Oops!', 'La finca no tiene registrado los estimados para el año actual');
-              this.btnGuardar = false;
-            }
-            
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        } },
+        },
           err => {
             this.spinner.hide();
             console.log(err);
@@ -530,9 +515,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
+  Documents(): void {
+
+  }
 }
-
-
-
-
-
