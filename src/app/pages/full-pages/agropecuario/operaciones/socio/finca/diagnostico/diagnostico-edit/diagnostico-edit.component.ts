@@ -8,6 +8,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import { DiagnosticoService } from '../../../../../../../../services/diagnostico.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
+import { host } from '../../../../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-diagnostico-edit',
@@ -26,6 +27,7 @@ export class DiagnosticoEditComponent implements OnInit {
   codeFincaPartner: Number;
   userSession: any;
   codeDiagnostic: Number;
+  fileName = '';
 
   constructor(private fb: FormBuilder,
     private maestroService: MaestroService,
@@ -126,7 +128,10 @@ export class DiagnosticoEditComponent implements OnInit {
       transport: [],
       agricultureIncome: [],
       responsable: [],
-      technical: []
+      technical: [],
+      file: [],
+      fileName: [],
+      pathFile: []
     });
   }
 
@@ -353,7 +358,8 @@ export class DiagnosticoEditComponent implements OnInit {
   Create(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.diagnosticoService.Create(request)
+    const file = this.frmFincaDiagnosticoEdit.value.file;
+    this.diagnosticoService.Create(file, request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -372,7 +378,8 @@ export class DiagnosticoEditComponent implements OnInit {
   Update(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.diagnosticoService.Update(request)
+    const file = this.frmFincaDiagnosticoEdit.value.file;
+    this.diagnosticoService.Update(file, request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -424,6 +431,9 @@ export class DiagnosticoEditComponent implements OnInit {
       this.frmFincaDiagnosticoEdit.controls.responsable.setValue(data.Responsable);
       this.frmFincaDiagnosticoEdit.controls.technical.setValue(data.TecnicoCampo);
       this.frmFincaDiagnosticoEdit.controls.countryHouse.setValue(data.Vivienda);
+      this.fileName = data.NombreArchivo;
+      this.frmFincaDiagnosticoEdit.controls.fileName.setValue(data.NombreArchivo);
+      this.frmFincaDiagnosticoEdit.controls.pathFile.setValue(data.PathArchivo);
 
       if (data.DiagnosticoInfraestructura) {
         for (let i = 0; i < data.DiagnosticoInfraestructura.length; i++) {
@@ -527,6 +537,21 @@ export class DiagnosticoEditComponent implements OnInit {
 
   Cancel(): void {
     this.router.navigate([`/agropecuario/operaciones/socio/finca/diagnostico/list/${this.codePartner}/${this.codeProducer}/${this.codeFincaPartner}`]);
+  }
+
+  fileChange(event: any): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.frmFincaDiagnosticoEdit.patchValue({
+        file: file
+      });
+      this.frmFincaDiagnosticoEdit.get('file').updateValueAndValidity()
+    }
+  }
+
+  DownloadFile(): void {
+    var rutaFile = this.frmFincaDiagnosticoEdit.value.pathFile;
+    window.open(`${host}Diagnostico/DescargarArchivo?path=${rutaFile}`, '_blank');
   }
 
 }
