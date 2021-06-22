@@ -457,15 +457,17 @@ export class SocioEditComponent implements OnInit {
         await this.GetProvincias();
         this.socioEditForm.controls.provincia.setValue(row.ProvinciaId);
       }
-      if (row.NumeroTelefonoFijo) {
-        this.socioEditForm.controls.telefonoFijo.setValue(row.NumeroTelefonoFijo);
-      }
+      
       if (row.DistritoId) {
         await this.GetDistritos();
         this.socioEditForm.controls.distrito.setValue(row.DistritoId);
       }
       if (row.NumeroTelefonoCelular) {
         this.socioEditForm.controls.telefCelular.setValue(row.NumeroTelefonoCelular);
+      }
+      
+      if (row.NumeroTelefonoFijo) {
+        this.socioEditForm.controls.telefonoFijo.setValue(row.NumeroTelefonoFijo);
       }
       if (row.ZonaId) {
         await this.GetZonas();

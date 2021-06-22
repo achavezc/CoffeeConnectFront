@@ -38,6 +38,7 @@ export class FincaEditComponent implements OnInit {
   listFuentesEnergia: any[];
   listDistritos: any[];
   listFuentesAgua: any[];
+  listMaterialVivienda: any[];
   listZonas: any[];
   listInternet: any[];
   listSenialTelefonica: any[];
@@ -50,6 +51,8 @@ export class FincaEditComponent implements OnInit {
   selectedFuenteEnergia: any;
   selectedDistrito: any;
   selectedFuenteAgua: any;
+  selectedMaterialVivienda: any;
+  
   selectedZona: any;
   selectedInternet: any;
   selectedSenialTelefonica: any;
@@ -171,9 +174,14 @@ export class FincaEditComponent implements OnInit {
       this.listFuentesEnergia = res.Result.Data;
     }
 
-    res = await this.maestroService.obtenerMaestros('FuenteAgua').toPromise();
+    res = await this.maestroService.obtenerMaestros('FuenteEnergia').toPromise();
     if (res.Result.Success) {
-      this.listFuentesAgua = res.Result.Data;
+      this.listFuentesEnergia = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('MaterialVivienda').toPromise();
+    if (res.Result.Success) {
+      this.listMaterialVivienda = res.Result.Data;
     }
 
     res = await this.maestroService.obtenerMaestros('SiNo').toPromise();
