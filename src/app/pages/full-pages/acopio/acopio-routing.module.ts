@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
+import { DetalleCatalogoEditComponent }from './operaciones/detallecatalogo/edit/detallecatalogo-edit.component';
+import { DetalleCatalogoComponent } from './operaciones/detallecatalogo/list/detallecatalogo-list.component';
 import { EmpresaTransporteListComponent } from './operaciones/empresatransporte/list/empresatransporte-list.component';
 import { TransporteListComponent } from './operaciones/transporte/list/transporte-list.component';
 import { TransporteEditComponent } from './operaciones/transporte/edit/transporte-edit.component';
@@ -146,6 +148,20 @@ const routes: Routes = [
       {
         path: 'transporte-edit',
         component: TransporteEditComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+      {
+        path: 'detallecatalogo-list',
+        component: DetalleCatalogoComponent,
+        data: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'detallecatalogo-edit',
+        component: DetalleCatalogoEditComponent,
         data: {
           title: 'Edit'
         }

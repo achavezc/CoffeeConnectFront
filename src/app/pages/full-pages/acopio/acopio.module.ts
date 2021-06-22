@@ -20,6 +20,8 @@ import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustom
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+import { DetalleCatalogoEditComponent }from './operaciones/detallecatalogo/edit/detallecatalogo-edit.component';
+import { DetalleCatalogoComponent } from './operaciones/detallecatalogo/list/detallecatalogo-list.component';
 import { MateriaPrimaListComponent } from "./operaciones/materiaprima/materiaprima-list/materiaprima-list.component";
 import { EmpresaTransporteListComponent } from "./operaciones/empresatransporte/list/empresatransporte-list.component";
 import { TransporteListComponent } from './operaciones/transporte/list/transporte-list.component';
@@ -74,6 +76,8 @@ import { DetalleLoteComponent } from "./operaciones/lotes/lote-edit/detalleLote/
     ModalModule
   ],
   declarations: [
+    DetalleCatalogoEditComponent,
+    DetalleCatalogoComponent,
     MateriaPrimaListComponent,
     EmpresaTransporteListComponent,
     TransporteListComponent,
