@@ -88,7 +88,7 @@ export class InspeccionEditComponent implements OnInit {
       producer: [],
       codigo: [],
       numberDocument: [],
-      status: [, Validators.required],
+      status: [],
       organization: [],
       zone: [],
       department: [],
