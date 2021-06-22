@@ -53,10 +53,10 @@ export class ZonaListComponent implements OnInit {
 
   LoadForm(): void {
     this.zonasform = this.fb.group({
-      departamento: ['', ''],
-      provincia: ['', ''],
-      distrito: ['', ''],
-      estado: ['','']
+      departamento: ['',  Validators.required],
+      provincia: ['',  Validators.required],
+      distrito: ['',  Validators.required],
+      estado: ['', Validators.required]
     });
   }
 

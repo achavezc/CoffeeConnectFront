@@ -108,7 +108,7 @@ export class ZonaEditComponent implements OnInit {
             departamento: ['', Validators.required],
             provincia: ['', Validators.required],
             distrito: ['', Validators.required],
-            estado: ['', ],
+            estado: ['', ''],
             fecRegistro: ['', ]
         });
 
@@ -258,10 +258,10 @@ export class ZonaEditComponent implements OnInit {
         return {
             ZonaId: this.vId,
             Nombre: this.zonaEditForm.value.nombre,
-            DistritoId: this.zonaEditForm.controls["distrito"].value ? this.zonaEditForm.controls["distrito"].value : '',
+            DistritoId: this.zonaEditForm.controls["distrito"].value,
             EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
             Usuario:  this.vSessionUser.Result.Data.NombreUsuario,
-            EstadoId: this.zonaEditForm.value.estado,
+            EstadoId: this.zonaEditForm.controls["estado"].value,
         };
     }
 
@@ -274,7 +274,7 @@ export class ZonaEditComponent implements OnInit {
     comparisonValidator(): ValidatorFn {
         return (group: FormGroup): ValidationErrors => {
 
-            if (!group.value.mCodProductor && !group.value.mNombRazonSocial && !group.value.mTipoDocumento) {
+            if (!group.value.nombre) {
                 this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
             } else if (group.value.mNroDocumento && !group.value.mTipoDocumento) {
                 this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
