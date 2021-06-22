@@ -26,7 +26,7 @@
                                 bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar estado"
                                 [(ngModel)]="selectedEstado"
                                 [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                [readonly]="!vId || vId <= 0">
+                                [readonly]="!codeFincaPartner || codeFincaPartner <= 0">
                             </ng-select>
                         </div>
                     </div>
@@ -176,6 +176,9 @@
     </div>
     <div class="card-footer text-right">
         <button class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
-        <button class="btn btn-secondary" (click)="Cancel()">Cancelar</button>
+        <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
     </div>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
 </div>

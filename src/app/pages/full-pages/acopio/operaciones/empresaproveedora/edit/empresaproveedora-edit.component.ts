@@ -88,12 +88,12 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         
         if (data.DepartamentoId) {
             this.empresaProveedoraEditForm.controls.departamento.setValue(data.DepartamentoId);
-            this.GetProvincias(data.DepartamentoId);
+           await this.GetProvincias(data.DepartamentoId);
           
         }
         if (data.ProvinciaId) {
             this.empresaProveedoraEditForm.controls.provincia.setValue(data.ProvinciaId);
-            this.GetDistritos(data.DepartamentoId,data.ProvinciaId)
+            await this.GetDistritos(data.DepartamentoId,data.ProvinciaId)
         }
         if (data.DistritoId) {
             this.empresaProveedoraEditForm.controls.distrito.setValue(data.DistritoId);
@@ -104,12 +104,13 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         this.empresaProveedoraEditForm.controls.nombreRazonSocial.setValue(data.RazonSocial);
         this.empresaProveedoraEditForm.controls.ruc.setValue(data.Ruc);
         this.empresaProveedoraEditForm.controls.direccion.setValue(data.Direccion);
+        this.empresaProveedoraEditForm.controls.estado.setValue(data.EstadoId);
         this.spinner.hide();
     }
 
     LoadForm() {
         this.empresaProveedoraEditForm = this.fb.group({
-            nombreRazonSocial: ['', Validators.required],
+            nombreRazonSocial: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
             ruc: ['', Validators.required],
             direccion: ['', Validators.required],
             departamento: ['', Validators.required],
@@ -129,6 +130,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     LoadCombos() {
         this.GetDepartments();
         this.GetClasificacion();
+        this.GetEstados();
     }
 
     async GetClasificacion() {

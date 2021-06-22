@@ -3,12 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { TransporteService } from '../../../../../../services/transporte.service';
-
 import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ILogin } from '../../../../../../services/models/login';
-import { formatCurrency } from '@angular/common';
 
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 @Component({
@@ -51,9 +49,9 @@ export class TransporteEditComponent implements OnInit {
     submitted
     vSessionUser: ILogin;
 
-    ngOnInit(): void {
-        this.LoadForm();
-        this.LoadCombos();
+    ngOnInit() {
+       this.LoadForm();
+        
         this.vSessionUser = JSON.parse(localStorage.getItem('user'));
         this.route.queryParams
             .subscribe(params => {
@@ -64,6 +62,7 @@ export class TransporteEditComponent implements OnInit {
                     this.vId = Number(params.id);
                     this.ConsultarPorId();
                     this.esEdit = true;
+                    
                 }
             });
     }
@@ -84,26 +83,30 @@ export class TransporteEditComponent implements OnInit {
 
     async CompletarFormulario(data: any) {
 
-        
-        if (data.DepartamentoId) {
-            this.transporteEditForm.controls.departamento.setValue(data.DepartamentoId);
-           
-          
-        }
-        if (data.ProvinciaId) {
-            this.transporteEditForm.controls.provincia.setValue(data.ProvinciaId);
-           
-        }
-        if (data.DistritoId) {
-            this.transporteEditForm.controls.distrito.setValue(data.DistritoId);
-        }
-        this.transporteEditForm.controls.nombreRazonSocial.setValue(data.RazonSocial);
-        this.transporteEditForm.controls.ruc.setValue(data.Ruc);
-        this.transporteEditForm.controls.direccion.setValue(data.Direccion);
+        this.transporteEditForm.controls.propietario.setValue(data.Propietario);
+        this.transporteEditForm.controls.estado.setValue(data.EstadoId);
+        this.transporteEditForm.controls.marcaTractor.setValue(data.MarcaTractorId);
+        this.transporteEditForm.controls.placaTractor.setValue(data.PlacaTractor);
+        this.transporteEditForm.controls.configVehicular.setValue(data.ConfiguracionVehicularId);
+        this.transporteEditForm.controls.marcaCarreta.setValue(data.MarcaCarretaId);
+        this.transporteEditForm.controls.placaCarreta.setValue(data.PlacaCarreta);
+        this.transporteEditForm.controls.color.setValue(data.Color);
+        this.transporteEditForm.controls.pesoBruto.setValue(data.PesoBruto);
+        this.transporteEditForm.controls.altura.setValue(data.Altura);
+        this.transporteEditForm.controls.cargaUtil.setValue(data.CargaUtil);
+        this.transporteEditForm.controls.pesoNeto.setValue(data.PesoNeto);
+        this.transporteEditForm.controls.ancho.setValue(data.Ancho);
+        this.transporteEditForm.controls.longitud.setValue(data.Longitud);
+        this.transporteEditForm.controls.conductor.setValue(data.Conductor);
+        this.transporteEditForm.controls.numeroDni.setValue(data.Dni);
+        this.transporteEditForm.controls.licencia.setValue(data.Licencia);
+        this.transporteEditForm.controls.soat.setValue(data.Soat);
+        this.transporteEditForm.controls.constanciaMTC.setValue(data.NumeroConstanciaMTC);
+        this.transporteEditForm.controls.numeroCelular.setValue(data.NroCelular);
         this.spinner.hide();
     }
 
-    LoadForm() {
+   async LoadForm() {
         this.transporteEditForm = this.fb.group({
             propietario: ['', Validators.required],
             estado: ['', Validators.required],
@@ -128,35 +131,37 @@ export class TransporteEditComponent implements OnInit {
 
             
         });
-
+       await this.LoadCombos();
     }
 
     get f() {
         return this.transporteEditForm.controls;
     }
 
-    LoadCombos() {
+   async LoadCombos() {
         var form = this;
-        this.maestroUtil.obtenerMaestros("MarcaVehiculo", function (res) {
-          if (res.Result.Success) {
-            form.listMarcaTractor = res.Result.Data;
+        var dataMarcaVehiculo = await this.maestroService.obtenerMaestros("MarcaVehiculo").toPromise();
+        if (dataMarcaVehiculo) {
+            form.listMarcaTractor = dataMarcaVehiculo.Result.Data;
           }
-        });
-        this.maestroUtil.obtenerMaestros("MarcaVehiculo", function (res) {
-            if (res.Result.Success) {
-              form.listMarcaCarreta = res.Result.Data;
+          var dataMarcaCarreta = await this.maestroService.obtenerMaestros("MarcaVehiculo").toPromise();
+          if (dataMarcaCarreta) {
+              form.listMarcaCarreta = dataMarcaVehiculo.Result.Data;
             }
-        });
-        this.maestroUtil.obtenerMaestros("EstadoMaestro", function (res) {
-            if (res.Result.Success) {
-              form.listEstado = res.Result.Data;
+            var dataEstado = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
+          if (dataEstado) {
+              form.listEstado = dataEstado.Result.Data;
             }
-        });
-        this.maestroUtil.obtenerMaestros("ConfiguracionVehiculo", function (res) {
-            if (res.Result.Success) {
-              form.listConfigVehicular = res.Result.Data;
+            if(!this.vId)
+            {
+                this.transporteEditForm.controls.estado.setValue(this.activo);
             }
-        });
+            var dataConfVehiculo = await this.maestroService.obtenerMaestros("ConfiguracionVehiculo").toPromise();
+          if (dataConfVehiculo) {
+              form.listConfigVehicular = dataConfVehiculo.Result.Data;
+            }
+        
+       
 
     }
 

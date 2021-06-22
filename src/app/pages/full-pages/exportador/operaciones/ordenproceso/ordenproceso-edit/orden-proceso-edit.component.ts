@@ -59,7 +59,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     if (this.codeProcessOrder <= 0) {
       this.ordenProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
       this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
-      this.addRowDetail();
+      // this.addRowDetail();
     } else if (this.codeProcessOrder > 0) {
       this.SearchByid();
     }

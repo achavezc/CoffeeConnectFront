@@ -6,11 +6,11 @@ import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/orden
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
-import {NotaIngresoAlmacenEditComponent} from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
-import {NotaSalidaAlmacenComponent} from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
-import {NotaSalidaPlantaEditComponent} from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
-import {LiquidacionProcesoComponent} from './operaciones/liquidacionproceso/list/liquidacionproceso-list.component';
-import{LiquidacionProcesoEditComponent} from './operaciones/liquidacionproceso/edit/liquidacionproceso-edit.component';
+import { NotaIngresoAlmacenEditComponent } from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
+import { NotaSalidaAlmacenComponent } from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
+import { NotaSalidaPlantaEditComponent } from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
+import { LiquidacionProcesoComponent } from './operaciones/liquidacionproceso/list/liquidacionproceso-list.component';
+import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproceso/edit/liquidacionproceso-edit.component';
 
 const routes: Routes = [
   {
@@ -74,19 +74,19 @@ const routes: Routes = [
         }
       },
       {
-      path: 'ordenproceso-list',
-      component: OrdenProcesoListComponent,
-      data: {
-        title: 'List'
+        path: 'ordenproceso-list',
+        component: OrdenProcesoListComponent,
+        data: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'ordenproceso-edit',
+        component: OrdenProcesoEditComponent,
+        data: {
+          title: 'Edit'
+        }
       }
-    },
-    {
-      path: 'ordenproceso-edit',
-      component: OrdenProcesoEditComponent,
-      data: {
-        title: 'Edit'
-      }
-    }
     ]
   }
 ];

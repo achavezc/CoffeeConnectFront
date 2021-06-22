@@ -93,12 +93,12 @@ export class EmpresaTransporteEditComponent implements OnInit {
         
         if (data.DepartamentoId) {
             this.empresaTransporteEditForm.controls.departamento.setValue(data.DepartamentoId);
-            this.GetProvincias(data.DepartamentoId);
+            await this.GetProvincias(data.DepartamentoId);
           
         }
         if (data.ProvinciaId) {
             this.empresaTransporteEditForm.controls.provincia.setValue(data.ProvinciaId);
-            this.GetDistritos(data.DepartamentoId,data.ProvinciaId)
+            await this.GetDistritos(data.DepartamentoId,data.ProvinciaId)
         }
         if (data.DistritoId) {
             this.empresaTransporteEditForm.controls.distrito.setValue(data.DistritoId);
@@ -106,6 +106,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
         this.empresaTransporteEditForm.controls.nombreRazonSocial.setValue(data.RazonSocial);
         this.empresaTransporteEditForm.controls.ruc.setValue(data.Ruc);
         this.empresaTransporteEditForm.controls.direccion.setValue(data.Direccion);
+        this.empresaTransporteEditForm.controls.estado.setValue(data.EstadoId);
         this.spinner.hide();
     }
 
@@ -129,6 +130,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
 
     LoadCombos() {
         this.GetDepartments();
+        this.GetEstados();
     }
 
   

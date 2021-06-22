@@ -55,14 +55,14 @@ const routes: Routes = [
                 }
             },
             {
-                path: 'socio/finca/create',
+                path: 'socio/finca/create/:partner/:producer',
                 component: FincaEditComponent,
                 data: {
                     title: 'Crear Socio - Finca'
                 }
             },
             {
-                path: 'socio/finca/update/:id',
+                path: 'socio/finca/update/:partner/:producer/:fincapartner',
                 component: FincaEditComponent,
                 data: {
                     title: 'Actualizar Socio - Finca'
