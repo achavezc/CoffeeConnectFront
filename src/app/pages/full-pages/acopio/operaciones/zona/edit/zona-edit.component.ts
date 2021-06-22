@@ -67,7 +67,7 @@ export class ZonaEditComponent implements OnInit {
             });
     }
 
-    ConsultarPorId() {
+     ConsultarPorId() {
         this.spinner.show();
         this.zonasService.ConsultarPorId({ ZonaId: this.vId }).subscribe((res: any) => {
 
@@ -97,14 +97,14 @@ export class ZonaEditComponent implements OnInit {
         if (data.DistritoId) {
             this.zonaEditForm.controls.distrito.setValue(data.DistritoId);
         }
-        this.zonaEditForm.controls.nombre.setValue(data.Nombre);
+        this.zonaEditForm.get('nombre').setValue(data.Nombre);
         this.zonaEditForm.controls.estado.setValue(data.EstadoId);
         this.spinner.hide();
     }
 
     LoadForm() {
         this.zonaEditForm = this.fb.group({
-            nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+            nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
             departamento: ['', Validators.required],
             provincia: ['', Validators.required],
             distrito: ['', Validators.required],
