@@ -153,7 +153,7 @@ export class ZonaListComponent implements OnInit {
   getRequest(): any {
       
     return {
-        CodigoDistrito: '120303',//this.zonasform.value.distrito,
+        CodigoDistrito: this.zonasform.value.distrito,
         EstadoId: this.zonasform.value.estado,
         EmpresaId: 1
     };

@@ -174,9 +174,9 @@ export class FincaEditComponent implements OnInit {
       this.listFuentesEnergia = res.Result.Data;
     }
 
-    res = await this.maestroService.obtenerMaestros('FuenteEnergia').toPromise();
+    res = await this.maestroService.obtenerMaestros('FuenteAgua').toPromise();
     if (res.Result.Success) {
-      this.listFuentesEnergia = res.Result.Data;
+      this.listFuentesAgua = res.Result.Data;
     }
 
     res = await this.maestroService.obtenerMaestros('MaterialVivienda').toPromise();
