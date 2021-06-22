@@ -328,5 +328,17 @@
 			"Label":"Empresa Proveedora"
 			
 		}
+		,
+		"Zona":
+		{
+			"Label":"Zona"
+			
+		}
+		,
+		"TablaTablas":
+		{
+			"Label":"Tabla de Tablas"
+			
+		}
 	}
 }
