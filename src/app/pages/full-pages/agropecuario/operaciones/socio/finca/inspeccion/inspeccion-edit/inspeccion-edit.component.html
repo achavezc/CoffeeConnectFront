@@ -79,14 +79,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" *ngIf="isEdit">
                     <div class="form-group row">
                         <label for="status" class="col-md-3 col-form-label">Estatus</label>
                         <div class="col-md-9">
-                            <input type="text" name="status" id="status" formControlName="status"
-                                class="form-control form-control-sm"
+                            <ng-select [items]="listStatus" formControlName="status" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="status" placeholder="Estado"
                                 [ngClass]="{ 'is-invalid': f.status.invalid, 'is-valid': !f.status.invalid }"
-                                placeholder="Estatus" [readonly]="true" />
+                                [(ngModel)]="selectedStatus" [readonly]="!isEdit">
+                            </ng-select>
                         </div>
                     </div>
                 </div>

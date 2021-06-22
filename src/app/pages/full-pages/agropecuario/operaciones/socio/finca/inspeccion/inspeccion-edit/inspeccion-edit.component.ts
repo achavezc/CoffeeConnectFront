@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router, ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import { InspeccionInternaService } from '../../../../../../../../services/inspeccion-interna.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
-import { zip } from 'rxjs';
+import { host } from '../../../../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-inspeccion-edit',
@@ -35,6 +35,10 @@ export class InspeccionEditComponent implements OnInit {
   userSession: any;
   codeInternalInspection: any;
   msgErrorGenerico = 'Ha ocurrido un error interno.';
+  fileName = '';
+  listStatus = [];
+  selectedStatus: any;
+  isEdit = false;
 
   constructor(private fb: FormBuilder,
     private maestroServicio: MaestroService,
@@ -67,8 +71,14 @@ export class InspeccionEditComponent implements OnInit {
     this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0;
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
+    this.LoadStatus();
     this.frmFincaInspeccionEdit.controls.organization.setValue(this.userSession.Result.Data.RazonSocialEmpresa);
     this.SearchPartnerProducerByFincaPartnerId();
+    if (this.codeInternalInspection > 0) {
+      this.isEdit = true;
+    } else if (this.codeInternalInspection <= 0) {
+      this.isEdit = false;
+    }
   }
 
   LoadForm(): void {
@@ -78,7 +88,7 @@ export class InspeccionEditComponent implements OnInit {
       producer: [],
       codigo: [],
       numberDocument: [],
-      status: [],
+      status: [, Validators.required],
       organization: [],
       zone: [],
       department: [],
@@ -103,7 +113,10 @@ export class InspeccionEditComponent implements OnInit {
       totalAge: [0],
       totalArea: [0],
       totalParchmentHarvest: [0],
-      totalEstimatedParchment: [0]
+      totalEstimatedParchment: [0],
+      file: [],
+      fileName: [''],
+      pathFile: ['']
     });
   }
 
@@ -127,6 +140,17 @@ export class InspeccionEditComponent implements OnInit {
     });
   }
 
+  async LoadStatus() {
+    const res = await this.maestroServicio.obtenerMaestros('EstadoMaestro').toPromise();
+    if (res.Result.Success) {
+      this.listStatus = res.Result.Data;
+      if (!this.isEdit) {
+        this.frmFincaInspeccionEdit.controls.status.setValue('01');
+        this.selectedStatus = '01';
+      }
+    }
+  }
+
   LoadInspectionManagementSystemStandards(): void {
     this.maestroServicio.obtenerMaestros('InspeccionNormasSistemaGerstion')
       .subscribe((res: any) => {
@@ -145,6 +169,7 @@ export class InspeccionEditComponent implements OnInit {
               Pregunta: res.Result.Data[i].Label
             });
           }
+          this.CalculateComplimentsRowsThatApply();
         }
       });
   }
@@ -167,6 +192,7 @@ export class InspeccionEditComponent implements OnInit {
               Pregunta: res.Result.Data[i].Label
             });
           }
+          this.CalculateComplimentsRowsThatApply();
         }
       });
   }
@@ -189,6 +215,7 @@ export class InspeccionEditComponent implements OnInit {
               Pregunta: res.Result.Data[i].Label
             });
           }
+          this.CalculateComplimentsRowsThatApply();
         }
       });
   }
@@ -211,6 +238,7 @@ export class InspeccionEditComponent implements OnInit {
               Pregunta: res.Result.Data[i].Label
             });
           }
+          this.CalculateComplimentsRowsThatApply();
         }
       });
   }
@@ -409,7 +437,7 @@ export class InspeccionEditComponent implements OnInit {
           this.frmFincaInspeccionEdit.controls.producer.setValue(`${res.Result.Data.Nombres} ${res.Result.Data.Apellidos}`);
           this.frmFincaInspeccionEdit.controls.codigo.setValue(res.Result.Data.Numero);
           this.frmFincaInspeccionEdit.controls.numberDocument.setValue(res.Result.Data.NumeroDocumento);
-          // this.frmFincaInspeccionEdit.controls.status.setValue(res.Result.Data.);
+          this.frmFincaInspeccionEdit.controls.status.setValue(res.Result.Data.EstadoId);
           this.frmFincaInspeccionEdit.controls.zone.setValue(res.Result.Data.Zona);
           this.frmFincaInspeccionEdit.controls.department.setValue(res.Result.Data.Departamento);
           this.frmFincaInspeccionEdit.controls.province.setValue(res.Result.Data.Provincia);
@@ -451,12 +479,11 @@ export class InspeccionEditComponent implements OnInit {
       SuspencionTiempo: form.suspensionTime,
       Inspector: form.internalInspector,
       FechaInspeccion: form.inspectionDate ? form.inspectionDate : null,
-
       DuracionSuspencionTiempo: form.countSuspensionTime ? form.countSuspensionTime : '',
       NoConformidadObservacionLevantada: form.nonConformitiesObservations,
       ApruebaSinCondicion: form.approveWithoutConditions,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
-      EstadoId: '01',
+      EstadoId: form.status ? form.status : '01',
       Usuario: this.userSession.Result.Data.NombreUsuario,
       InspeccionInternaParcelaList: [...this.arrCoffeePitches],
       InspeccionInternaNormaList: [...this.arrDocumentManagement, ...this.arrSocialWelfare, ...this.arrIntegratedCropManagement, ...this.arrIntegratedCropManagement],
@@ -514,7 +541,8 @@ export class InspeccionEditComponent implements OnInit {
   Create(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.inspeccionInternaService.Create(request)
+    const file = this.frmFincaInspeccionEdit.value.file;
+    this.inspeccionInternaService.Create(file, request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -534,7 +562,8 @@ export class InspeccionEditComponent implements OnInit {
   Update(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.inspeccionInternaService.Update(request)
+    const file = this.frmFincaInspeccionEdit.value.file;
+    this.inspeccionInternaService.Update(file, request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -576,16 +605,18 @@ export class InspeccionEditComponent implements OnInit {
       this.frmFincaInspeccionEdit.controls.programExclusion.setValue(data.ExclusionPrograma);
       this.frmFincaInspeccionEdit.controls.suspensionTime.setValue(data.SuspencionTiempo);
       this.frmFincaInspeccionEdit.controls.countSuspensionTime.setValue(data.DuracionSuspencionTiempo);
+      this.fileName = data.NombreArchivo;
+      this.frmFincaInspeccionEdit.controls.fileName.setValue(data.NombreArchivo);
+      this.frmFincaInspeccionEdit.controls.pathFile.setValue(data.PathArchivo);
+      if (data.EstadoId) {
+        await this.LoadStatus();
+        this.frmFincaInspeccionEdit.controls.status.setValue(data.EstadoId);
+      }
 
       if (data.FechaInspeccion)
         this.frmFincaInspeccionEdit.controls.inspectionDate.setValue(data.FechaInspeccion.substring(0, 10));
 
-
-
-
       this.frmFincaInspeccionEdit.controls.internalInspector.setValue(data.Inspector);
-
-
       this.frmFincaInspeccionEdit.controls.approveWithoutConditions.setValue(data.ApruebaSinCondicion);
       this.frmFincaInspeccionEdit.controls.nonConformitiesObservations.setValue(data.NoConformidadObservacionLevantada);
       this.arrCoffeePitches = data.InspeccionInternaParcela;
@@ -656,7 +687,7 @@ export class InspeccionEditComponent implements OnInit {
           // }
         }
       }
-      this.CalculateTotales();
+      // this.CalculateTotales();
       this.CalculateComplimentsRowsThatApply();
     }
     this.spinner.hide();
@@ -696,12 +727,31 @@ export class InspeccionEditComponent implements OnInit {
     compliments = compliments + this.arrIntegratedCropManagement.filter(x => x.Si == true).length;
 
     const total = this.arrDocumentManagement.length + this.arrSocialWelfare.length + this.arrEcosystemConservation.length + this.arrIntegratedCropManagement.length;
-    this.frmFincaInspeccionEdit.controls.itemsComply.setValue(compliments + rowsThatApply);
-    this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(total);
-    this.frmFincaInspeccionEdit.controls.totalItemsComplyApply.setValue(((this.frmFincaInspeccionEdit.value.itemsComply * 100) / total).toFixed(2));
+    const sumItemsComply = compliments + rowsThatApply;
+    if (sumItemsComply > 0)
+      this.frmFincaInspeccionEdit.controls.itemsComply.setValue(sumItemsComply);
+    if (total > 0)
+      this.frmFincaInspeccionEdit.controls.itemsthatapply.setValue(total);
+    if (sumItemsComply > 0 && total > 0)
+      this.frmFincaInspeccionEdit.controls.totalItemsComplyApply.setValue(((sumItemsComply * 100) / total).toFixed(2));
   }
 
   Cancel(): void {
     this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/list/${this.codePartner}/${this.codeProducer}/${this.codeFincaPartner}`])
+  }
+
+  fileChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.frmFincaInspeccionEdit.patchValue({
+        file: file
+      });
+      this.frmFincaInspeccionEdit.get('file').updateValueAndValidity();
+    }
+  }
+
+  DownloadFile() {
+    var rutaFile = this.frmFincaInspeccionEdit.value.pathFile;
+    window.open(`${host}InspeccionInterna/DescargarArchivo?path=${rutaFile}`, '_blank');
   }
 }
