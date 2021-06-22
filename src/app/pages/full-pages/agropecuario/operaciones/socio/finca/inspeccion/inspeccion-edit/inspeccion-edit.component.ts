@@ -8,7 +8,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import { InspeccionInternaService } from '../../../../../../../../services/inspeccion-interna.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
-import { host } from '../../../../../../../../shared/hosts/main.host';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-inspeccion-edit',
@@ -35,7 +35,6 @@ export class InspeccionEditComponent implements OnInit {
   userSession: any;
   codeInternalInspection: any;
   msgErrorGenerico = 'Ha ocurrido un error interno.';
-  fileName = '';
 
   constructor(private fb: FormBuilder,
     private maestroServicio: MaestroService,
@@ -104,10 +103,7 @@ export class InspeccionEditComponent implements OnInit {
       totalAge: [0],
       totalArea: [0],
       totalParchmentHarvest: [0],
-      totalEstimatedParchment: [0],
-      file: [],
-      fileName: [],
-      pathFile: []
+      totalEstimatedParchment: [0]
     });
   }
 
@@ -455,6 +451,7 @@ export class InspeccionEditComponent implements OnInit {
       SuspencionTiempo: form.suspensionTime,
       Inspector: form.internalInspector,
       FechaInspeccion: form.inspectionDate ? form.inspectionDate : null,
+
       DuracionSuspencionTiempo: form.countSuspensionTime ? form.countSuspensionTime : '',
       NoConformidadObservacionLevantada: form.nonConformitiesObservations,
       ApruebaSinCondicion: form.approveWithoutConditions,
@@ -517,8 +514,7 @@ export class InspeccionEditComponent implements OnInit {
   Create(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    const file = this.frmFincaInspeccionEdit.value.file;
-    this.inspeccionInternaService.Create(file, request)
+    this.inspeccionInternaService.Create(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -538,8 +534,7 @@ export class InspeccionEditComponent implements OnInit {
   Update(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    const file = this.frmFincaInspeccionEdit.value.file;
-    this.inspeccionInternaService.Update(file, request)
+    this.inspeccionInternaService.Update(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -581,14 +576,16 @@ export class InspeccionEditComponent implements OnInit {
       this.frmFincaInspeccionEdit.controls.programExclusion.setValue(data.ExclusionPrograma);
       this.frmFincaInspeccionEdit.controls.suspensionTime.setValue(data.SuspencionTiempo);
       this.frmFincaInspeccionEdit.controls.countSuspensionTime.setValue(data.DuracionSuspencionTiempo);
-      this.fileName = data.NombreArchivo;
-      this.frmFincaInspeccionEdit.controls.fileName.setValue(data.NombreArchivo);
-      this.frmFincaInspeccionEdit.controls.pathFile.setValue(data.PathArchivo);
 
       if (data.FechaInspeccion)
         this.frmFincaInspeccionEdit.controls.inspectionDate.setValue(data.FechaInspeccion.substring(0, 10));
 
+
+
+
       this.frmFincaInspeccionEdit.controls.internalInspector.setValue(data.Inspector);
+
+
       this.frmFincaInspeccionEdit.controls.approveWithoutConditions.setValue(data.ApruebaSinCondicion);
       this.frmFincaInspeccionEdit.controls.nonConformitiesObservations.setValue(data.NoConformidadObservacionLevantada);
       this.arrCoffeePitches = data.InspeccionInternaParcela;
@@ -706,20 +703,5 @@ export class InspeccionEditComponent implements OnInit {
 
   Cancel(): void {
     this.router.navigate([`/agropecuario/operaciones/socio/finca/inspeccion/list/${this.codePartner}/${this.codeProducer}/${this.codeFincaPartner}`])
-  }
-
-  fileChange(event: any): void {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.frmFincaInspeccionEdit.patchValue({
-        file: file
-      });
-      this.frmFincaInspeccionEdit.get('file').updateValueAndValidity()
-    }
-  }
-
-  DownloadFile(): void {
-    var rutaFile = this.frmFincaInspeccionEdit.value.pathFile;
-    window.open(`${host}InspeccionInterna/DescargarArchivo?path=${rutaFile}`, '_blank');
   }
 }
