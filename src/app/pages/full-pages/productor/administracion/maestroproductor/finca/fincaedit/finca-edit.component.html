@@ -167,10 +167,16 @@
                     <div class="form-group row">
                         <label for="materialVivienda" class="col-4 col-form-label pr-0">Material de vivienda</label>
                         <div class="col-8">
-                            <input type="text" name="materialVivienda" id="materialVivienda"
+                            <!-- <input type="text" name="materialVivienda" id="materialVivienda"
                                 formControlName="materialVivienda" class="form-control"
                                 [ngClass]="{ 'is-invalid': f.materialVivienda.invalid, 'is-valid': !f.materialVivienda.invalid }"
-                                placeholder="Ingresar material de vivienda">
+                                placeholder="Ingresar material de vivienda"> -->
+
+                                <ng-select [items]="listMaterialVivienda" formControlName="materialVivienda" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="materialVivienda"
+                                [ngClass]="{ 'is-invalid': f.materialVivienda.invalid, 'is-valid': !f.materialVivienda.invalid }"
+                                placeholder="Seleccionar material de la vivienda" [(ngModel)]="selectedMaterialVivienda">
+                            </ng-select> 
                         </div>
                     </div>
                 </div>
@@ -277,7 +283,7 @@
             <div class="form-row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group row">
-                        <div class="col-4 text-center"  *ngIf="esEdit">
+                        <div class="col-4 text-center" *ngIf="esEdit">
                             <label for="" class="mr-1">Mapa de la finca</label>
                             <ng-template #modalMapasFinca let-c="close" let-d="dismiss">
                                 <app-mapas-finca [FincaId]="FincaId" (empresaEvent)="receiveMessage($event)">
@@ -286,21 +292,21 @@
                             <button type="button" class="btn btn-sm btn-primary text-right"
                                 (click)="openModal(modalMapasFinca)">...</button>
                         </div>
-                        <div class="col-4 text-center" *ngIf="esEdit"> 
+                        <div class="col-4 text-center" *ngIf="esEdit">
                             <label for="" class="mr-1">FOTO GEOREFERENCIADAS</label>
                             <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
                                 <app-lista-documentos [codeForm]="'frmMdlListaFotosGeoreferenciadas'" [code]="FincaId">
                                 </app-lista-documentos>
                             </ng-template>
-                            <button class="btn btn-sm btn-primary"  (click)="openModal(mdlListDocuments)"
+                            <button class="btn btn-sm btn-primary" (click)="openModal(mdlListDocuments)"
                                 type="button">...</button>
                         </div>
-                        <div class="col-4 text-center" *ngIf="esEdit" >
+                        <div class="col-4 text-center" *ngIf="esEdit">
                             <label for="" class="mr-1">DOCUMENTOS ADJUNTOS</label>
                             <ng-template #mdlAttachments let-c="close" let-d="dismiss">
                                 <app-lista-documentos [codeForm]="'frmMdlAttachments'" [code]="FincaId">
                                 </app-lista-documentos>
-                            </ng-template> 
+                            </ng-template>
                             <button class="btn btn-sm btn-primary" (click)="openModal(mdlAttachments)"
                                 type="button">...</button>
                         </div>

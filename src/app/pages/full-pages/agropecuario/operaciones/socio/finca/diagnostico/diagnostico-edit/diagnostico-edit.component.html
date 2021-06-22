@@ -641,32 +641,30 @@
                                         placeholder="Área Total" />
                                 </td>
                                 <td>
-                                    <input type="number" name="coffeeProductionFieldArea" id="coffeeProductionFieldArea"
+                                    <input type="text" name="coffeeProductionFieldArea" id="coffeeProductionFieldArea"
                                         formControlName="coffeeProductionFieldArea"
                                         class="form-control form-control-sm text-right"
                                         placeholder="Área de café en producción" />
                                 </td>
                                 <td>
-                                    <input type="number" name="fieldGrowth" id="fieldGrowth"
-                                        formControlName="fieldGrowth" class="form-control form-control-sm text-right"
-                                        placeholder="Crecimiento" />
+                                    <input type="text" name="fieldGrowth" id="fieldGrowth" formControlName="fieldGrowth"
+                                        class="form-control form-control-sm text-right" placeholder="Crecimiento" />
                                 </td>
                                 <td>
-                                    <input type="number" name="forestField" id="forestField"
-                                        formControlName="forestField" class="form-control form-control-sm text-right"
-                                        placeholder="Bosque" />
+                                    <input type="text" name="forestField" id="forestField" formControlName="forestField"
+                                        class="form-control form-control-sm text-right" placeholder="Bosque" />
                                 </td>
                                 <td>
-                                    <input type="number" name="purmaField" id="purmaField" formControlName="purmaField"
+                                    <input type="text" name="purmaField" id="purmaField" formControlName="purmaField"
                                         class="form-control form-control-sm text-right" placeholder="Purma" />
                                 </td>
                                 <td>
-                                    <input type="number" name="breadCarryField" id="breadCarryField"
+                                    <input type="text" name="breadCarryField" id="breadCarryField"
                                         formControlName="breadCarryField"
                                         class="form-control form-control-sm text-right" placeholder="Pan Llevar" />
                                 </td>
                                 <td>
-                                    <input type="number" name="countryHouse" id="countryHouse"
+                                    <input type="text" name="countryHouse" id="countryHouse"
                                         formControlName="countryHouse" class="form-control form-control-sm"
                                         placeholder="Vivienda" />
                                 </td>
@@ -700,24 +698,24 @@
                                             [value]="item.Hectarea" (blur)="MapDataFields($event, i, 'H')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             [value]="item.Variedad" (blur)="MapDataFields($event, i, 'V')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             [value]="item.Edad" (blur)="MapDataFields($event, i, 'E')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             [value]="item.CosechaMeses" (blur)="MapDataFields($event, i, 'CM')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             [value]="item.CosechaPergaminoAnioAnterior"
                                             (blur)="MapDataFields($event, i, 'CPAANT')">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control form-control-sm text-right"
+                                        <input type="text" class="form-control form-control-sm text-right"
                                             [value]="item.CosechaPergaminoAnioActual"
                                             (blur)="MapDataFields($event, i, 'CPAACT')">
                                     </td>
@@ -838,7 +836,7 @@
                         <label for="questions1" class="col-md-8 col-form-label">¿Cuánto es el ingreso promedio
                             mensual del socio incluyendo todos los conceptos?</label>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="number" name="questions1" id="questions1" formControlName="questions1"
+                            <input type="text" name="questions1" id="questions1" formControlName="questions1"
                                 class="form-control form-control-sm"
                                 [ngClass]="{ 'is-invalid': f.questions1.invalid, 'is-valid': !f.questions1.invalid }" />
                         </div>
@@ -851,7 +849,7 @@
                         <label class="col-md-4 col-form-label">Concepto de Ingreso</label>
                         <label for="agricultureIncome" class="col-md-4 col-form-label">Agricultura</label>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="number" name="agricultureIncome" id="agricultureIncome"
+                            <input type="text" name="agricultureIncome" id="agricultureIncome"
                                 formControlName="agricultureIncome" class="form-control form-control-sm"
                                 placeholder="Agricultura"
                                 [ngClass]="{ 'is-invalid': f.agricultureIncome.invalid, 'is-valid': !f.agricultureIncome.invalid }" />
@@ -862,7 +860,7 @@
                     <div class="form-group row">
                         <label for="store" class="col-md-4 col-form-label">Bodega</label>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <input type="number" name="store" id="store" formControlName="store"
+                            <input type="text" name="store" id="store" formControlName="store"
                                 class="form-control form-control-sm" placeholder="Bodega"
                                 [ngClass]="{ 'is-invalid': f.store.invalid, 'is-valid': !f.store.invalid }" />
                         </div>
@@ -872,7 +870,7 @@
                     <div class="form-group row">
                         <label for="transport" class="col-md-4 col-form-label">Transporte</label>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <input type="number" name="transport" id="transport" formControlName="transport"
+                            <input type="text" name="transport" id="transport" formControlName="transport"
                                 class="form-control form-control-sm" placeholder="Transporte"
                                 [ngClass]="{ 'is-invalid': f.transport.invalid, 'is-valid': !f.transport.invalid }" />
                         </div>
@@ -922,7 +920,17 @@
         </div>
         <div class="card-footer">
             <div class="form-row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="form-group row">
+                        <label class="mr-2 col-form-label col-lg-3">Carga de diagnostico</label>
+                        <label class="custom-file col-lg-4">
+                            <input type="file" (change)="fileChange($event)" placeholder="Upload file"
+                                accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+                        </label>
+                        <a role="button" (click)="DownloadFile()" style="color: blue;">{{fileName}}</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                     <button type="button" class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
                     <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                 </div>

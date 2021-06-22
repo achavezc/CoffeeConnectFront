@@ -459,7 +459,10 @@ export class ProductorEditComponent implements OnInit {
       this.productorEditForm.controls.gradoEstudioCyg.setValue(data.GradoEstudiosIdConyuge);
     }
     this.productorEditForm.controls.nroCelularCyg.setValue(data.NumeroTelefonoCelularConyuge);
-    if (data.FechaNacimientoConyuge && data.FechaNacimientoConyuge.substring(0, 10) == "0001-01-01") {
+
+    
+
+    if (data.FechaNacimientoConyuge && data.FechaNacimientoConyuge.substring(0, 10) != "0001-01-01") {
       this.productorEditForm.controls.fecNacimientoCyg.setValue(data.FechaNacimientoConyuge.substring(0, 10));
     }
     if (data.Idiomas) {

@@ -51,7 +51,7 @@ export class DiagnosticoComponent implements OnInit {
       nroFicha: [''],
       fechaInicio: ['', Validators.required],
       fechaFinal: ['', Validators.required],
-      estado: ['', Validators.required]
+      estado: [, Validators.required]
     });
     this.LoadStatus();
   }
@@ -88,25 +88,27 @@ export class DiagnosticoComponent implements OnInit {
   }
 
   Buscar(): void {
-    this.spinner.show();
-    this.errorGeneral = { isError: false, errorMessage: '' };
-    const request = this.GetRequest();
-    this.diagnosticoService.Search(request)
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          res.Result.Data.forEach((obj: any) => {
-            obj.FechaRegistroString = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
-          });
-          this.rows = res.Result.Data;
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-        }
-      }, (err: any) => {
-        console.log(err);
-        this.errorGeneral = { isError: true, errorMessage: this.msgErrGenerico };
-        this.spinner.hide();
-      });
+    if (!this.socioFincaDiagnosticoForm.invalid) {
+      this.spinner.show();
+      this.errorGeneral = { isError: false, errorMessage: '' };
+      const request = this.GetRequest();
+      this.diagnosticoService.Search(request)
+        .subscribe((res: any) => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            res.Result.Data.forEach((obj: any) => {
+              obj.FechaRegistroString = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
+            });
+            this.rows = res.Result.Data;
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          }
+        }, (err: any) => {
+          console.log(err);
+          this.errorGeneral = { isError: true, errorMessage: this.msgErrGenerico };
+          this.spinner.hide();
+        });
+    }
   }
 
   New(): void {

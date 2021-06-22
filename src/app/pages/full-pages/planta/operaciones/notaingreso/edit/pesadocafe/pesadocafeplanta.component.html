@@ -1,215 +1,194 @@
-    
-       
-        <div class="mt-2" id="account" [formGroup]="pesadoFormGroup" >
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <ul class="list-group" id="multiple-list-group-a">
-                  <li class="list-group-item draggable">
-                    <div class="media">
-                      <div class="media-body">
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Motivo Ingreso</label>
-                            <ng-select [items]="listaMotivo" bindLabel="name" [(ngModel)]="selectedMotivo" class="form-control"
-                            placeholder="Seleccionar Motivo" formControlName="motivo" 
-                            bindLabel="Label" bindValue="Codigo"
-                            [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.motivo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.motivo.invalid }">
-                          </ng-select>
-                          </div>
-                        </div>
+<div class="mt-2" id="account" [formGroup]="pesadoFormGroup">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <ul class="list-group" id="multiple-list-group-a">
+        <li class="list-group-item draggable">
+          <div class="media">
+            <div class="media-body">
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Motivo Ingreso</label>
+                  <ng-select [items]="listaMotivo" bindLabel="name" [(ngModel)]="selectedMotivo" class="form-control"
+                    placeholder="Seleccionar Motivo" formControlName="motivo" bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.motivo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.motivo.invalid }">
+                  </ng-select>
+                </div>
+              </div>
 
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Empaque</label>
-                            <ng-select [items]="listaEmpaque" bindLabel="name" [(ngModel)]="selectedEmpaque" class="form-control"
-                            placeholder="Seleccionar Empaque" formControlName="empaque" (change)="changeEmpaque($event)"
-                            bindLabel="Label" bindValue="Codigo"
-                            [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.empaque.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.empaque.invalid }">
-                          </ng-select>
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Tipo</label>
-                            <ng-select [items]="listaTipo" bindLabel="name" [(ngModel)]="selectedTipo" class="form-control"
-                            placeholder="Seleccionar Tipo" formControlName="tipo" (change)="changeTipo($event)"
-                            bindLabel="Label" bindValue="Codigo"
-                            [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tipo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tipo.invalid }">
-                          </ng-select>
-                          </div>
-                         
-                        </div>
-
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Cantidad</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="cantidad" class="form-control"
-                              id="validationTooltip04" placeholder="Cantidad" (change)="changeCantidad()"
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }"
-                              >
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Peso x Saco</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="pesoSaco" class="form-control"
-                          id="validationTooltip08" placeholder="Peso x Saco"
-                          [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.pesoSaco.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.pesoSaco.invalid }"
-                          >
-                          </div>
-                         
-                        </div>
-
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Peso Bruto KG</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="kilosBrutos" class="form-control"
-                              id="validationTooltip04" placeholder="Peso Bruto KG"
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosBrutos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBrutos.invalid }"
-                              >
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Calidad</label>
-                            <ng-select [items]="listaCalidad" bindLabel="name" [(ngModel)]="selectedCalidad" class="form-control"
-                            placeholder="Seleccionar Calidad" formControlName="calidad" 
-                            bindLabel="Label" bindValue="Codigo"
-                            [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.calidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.calidad.invalid }">
-                          </ng-select>
-                          </div>
-                         
-                        </div>
-                        
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Tara</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="tara" class="form-control"
-                              id="validationTooltip04" placeholder="Tara" disabled
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tara.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tara.invalid }"
-                              >
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Grado</label>
-                            <ng-select [items]="listaGrado" bindLabel="name" [(ngModel)]="selectedGrado" class="form-control"
-                            placeholder="Seleccionar Grado" formControlName="grado" 
-                            bindLabel="Label" bindValue="Codigo"
-                            [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.grado.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.grado.invalid }">
-                          </ng-select>
-                          </div>
-                         
-                        </div>
-                        
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Kilos Netos</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="kilosNetos" class="form-control"
-                              id="validationTooltip04" placeholder="Kilos Netos"
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosNetos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosNetos.invalid }"
-                              >
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Cantidad Defectos</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="cantidadDefectos" class="form-control"
-                          id="validationTooltip08" placeholder="Cantidad Defectos"
-                          [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidadDefectos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidadDefectos.invalid }"
-                          >
-                          </div>
-                         
-                        </div>
-                        
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">% Rendimiento</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="porcentajeRendimiento" class="form-control"
-                              id="validationTooltip04" placeholder="% Rendimiento"
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeRendimiento.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeRendimiento.invalid }"
-                              >
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">% Humedad</label>
-                            <input type="number" minlength="1" maxlength="20" formControlName="porcentajeHumedad" class="form-control"
-                          id="validationTooltip08" placeholder="% Humedad"
-                          [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeHumedad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeHumedad.invalid }"
-                          >
-                          </div>
-                         
-                        </div>
-
-                      </div>
-                    </div>
-                    
-                  </li>
-                </ul>
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Empaque</label>
+                  <ng-select [items]="listaEmpaque" bindLabel="name" [(ngModel)]="selectedEmpaque" class="form-control"
+                    placeholder="Seleccionar Empaque" formControlName="empaque" (change)="changeEmpaque($event)"
+                    bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.empaque.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.empaque.invalid }">
+                  </ng-select>
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Tipo</label>
+                  <ng-select [items]="listaTipo" bindLabel="name" [(ngModel)]="selectedTipo" class="form-control"
+                    placeholder="Seleccionar Tipo" formControlName="tipo" (change)="changeTipo($event)"
+                    bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tipo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tipo.invalid }">
+                  </ng-select>
+                </div>
 
               </div>
 
-              <div class="col-12 col-md-6">
-                <ul class="list-group" id="multiple-list-group-a">
-                  <li class="list-group-item draggable">
-                    <div class="media">
-                      <div class="media-body">
-                   
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Transportista</label>
-                            <input type="text" minlength="1" maxlength="30" formControlName="transportista" class="form-control"
-                              id="validationTooltip04" placeholder="Transportista"
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.transportista.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.transportista.invalid }"
-                              >
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Ruc</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="ruc" class="form-control"
-                          id="validationTooltip08" placeholder="Ruc"
-                          [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.ruc.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.ruc.invalid }"
-                          >
-                          </div>
-                         
-                        </div>
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Cantidad</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="cantidad" class="form-control"
+                    id="validationTooltip04" placeholder="Cantidad" (change)="changeCantidad()"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }">
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Peso x Saco</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="pesoSaco" class="form-control"
+                    id="validationTooltip08" placeholder="Peso x Saco"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.pesoSaco.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.pesoSaco.invalid }">
+                </div>
 
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Placa Vehiculo</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="placaVehiculo" class="form-control"
-                              id="validationTooltip04" placeholder="Placa Vehiculo"
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.placaVehiculo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.placaVehiculo.invalid }"
-                              >
-                          </div>
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Chofer</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="chofer" class="form-control"
-                          id="validationTooltip08" placeholder="Chofer"
-                          [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.chofer.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.chofer.invalid }"
-                          >
-                          </div>
-                         
-                        </div>
+              </div>
 
-                        <div class="form-row">
-                          <div class="col-md-6 mb-6 form-group mb-2">
-                            <label for="validationTooltip04">Nro Brevete</label>
-                            <input type="text" minlength="1" maxlength="20" formControlName="numeroBrevete" class="form-control"
-                              id="validationTooltip04" placeholder="Nro Brevete"
-                              [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.numeroBrevete.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.numeroBrevete.invalid }"
-                              >
-                          </div>
-                         
-                        </div>
-                        <div class="form-group row last mb-3">
-                          <label class="col-md-3 label-control card-text"
-                            for="bordered-form-6">Observaciones</label>
-                          <div class="col-md-9">
-                            <div class="position-relative has-icon-left">
-                              <textarea id="bordered-form-6" rows="4"  formControlName="observacion" class="form-control"
-                                name="notes" 
-                                [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.observacion.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.observacion.invalid }"
-                                ></textarea>
-                              <div class="form-control-position">
-                                <i class="ft-file"></i>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Peso Bruto KG</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="kilosBrutos" class="form-control"
+                    id="validationTooltip04" placeholder="Peso Bruto KG"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosBrutos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBrutos.invalid }">
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Calidad</label>
+                  <ng-select [items]="listaCalidad" bindLabel="name" [(ngModel)]="selectedCalidad" class="form-control"
+                    placeholder="Seleccionar Calidad" formControlName="calidad" bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.calidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.calidad.invalid }">
+                  </ng-select>
+                </div>
+
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Tara</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="tara" class="form-control"
+                    id="validationTooltip04" placeholder="Tara" disabled
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tara.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tara.invalid }">
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Grado</label>
+                  <ng-select [items]="listaGrado" bindLabel="name" [(ngModel)]="selectedGrado" class="form-control"
+                    placeholder="Seleccionar Grado" formControlName="grado" bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.grado.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.grado.invalid }">
+                  </ng-select>
+                </div>
+
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Kilos Netos</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="kilosNetos" class="form-control"
+                    id="validationTooltip04" placeholder="Kilos Netos"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosNetos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosNetos.invalid }">
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Cantidad Defectos</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="cantidadDefectos"
+                    class="form-control" id="validationTooltip08" placeholder="Cantidad Defectos"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidadDefectos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidadDefectos.invalid }">
+                </div>
+
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">% Rendimiento</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="porcentajeRendimiento"
+                    class="form-control" id="validationTooltip04" placeholder="% Rendimiento"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeRendimiento.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeRendimiento.invalid }">
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">% Humedad</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="porcentajeHumedad"
+                    class="form-control" id="validationTooltip08" placeholder="% Humedad"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeHumedad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeHumedad.invalid }">
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="col-12 col-md-6">
+      <ul class="list-group" id="multiple-list-group-a">
+        <li class="list-group-item draggable">
+          <div class="media">
+            <div class="media-body">
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Transportista</label>
+                  <input type="text" minlength="1" maxlength="30" formControlName="transportista" class="form-control"
+                    id="validationTooltip04" placeholder="Transportista"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.transportista.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.transportista.invalid }">
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Ruc</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="ruc" class="form-control"
+                    id="validationTooltip08" placeholder="Ruc"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.ruc.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.ruc.invalid }">
+                </div>
+
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Placa Vehiculo</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="placaVehiculo" class="form-control"
+                    id="validationTooltip04" placeholder="Placa Vehiculo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.placaVehiculo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.placaVehiculo.invalid }">
+                </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Chofer</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="chofer" class="form-control"
+                    id="validationTooltip08" placeholder="Chofer"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.chofer.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.chofer.invalid }">
+                </div>
+
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Nro Brevete</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="numeroBrevete" class="form-control"
+                    id="validationTooltip04" placeholder="Nro Brevete"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.numeroBrevete.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.numeroBrevete.invalid }">
+                </div>
+
+              </div>
+              <div class="form-group row last mb-3">
+                <label class="col-md-3 label-control card-text" for="bordered-form-6">Observaciones</label>
+                <div class="col-md-9">
+                  <div class="position-relative has-icon-left">
+                    <textarea id="bordered-form-6" rows="4" formControlName="observacion" class="form-control"
+                      name="notes"
+                      [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.observacion.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.observacion.invalid }"></textarea>
+                    <div class="form-control-position">
+                      <i class="ft-file"></i>
                     </div>
-                  </li>
-                </ul>
+                  </div>
+                </div>
               </div>
             </div>
-        </div>
-       
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

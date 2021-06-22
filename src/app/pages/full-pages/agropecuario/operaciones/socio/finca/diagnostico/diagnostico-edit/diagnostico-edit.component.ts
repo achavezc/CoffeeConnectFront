@@ -8,6 +8,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import { DiagnosticoService } from '../../../../../../../../services/diagnostico.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../../services/socio-finca.service';
+import { host } from '../../../../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-diagnostico-edit',
@@ -26,6 +27,7 @@ export class DiagnosticoEditComponent implements OnInit {
   codeFincaPartner: Number;
   userSession: any;
   codeDiagnostic: Number;
+  fileName = '';
 
   constructor(private fb: FormBuilder,
     private maestroService: MaestroService,
@@ -51,6 +53,7 @@ export class DiagnosticoEditComponent implements OnInit {
     this.codeProducer = this.route.snapshot.params['producer'] ? parseInt(this.route.snapshot.params['producer']) : 0;
     this.codeFincaPartner = this.route.snapshot.params['fincapartner'] ? parseInt(this.route.snapshot.params['fincapartner']) : 0;
     this.LoadForm();
+    this.SearchPartnerProducerByFincaPartnerId();
   }
 
   LoadForm(): void {
@@ -103,12 +106,12 @@ export class DiagnosticoEditComponent implements OnInit {
       transportationWay: [],
       observationsDetails: [],
       totalFieldArea: [],
-      coffeeProductionFieldArea: [],
-      fieldGrowth: [],
-      forestField: [],
-      purmaField: [],
-      breadCarryField: [],
-      countryHouse: [],
+      coffeeProductionFieldArea: [''],
+      fieldGrowth: [''],
+      forestField: [''],
+      purmaField: [''],
+      breadCarryField: [''],
+      countryHouse: [''],
       totalHectares: [0],
       totalVariety: [0],
       totalAge: [0],
@@ -119,14 +122,17 @@ export class DiagnosticoEditComponent implements OnInit {
       totalHectaresProduction: [0],
       totalCostProduction: [0],
       totalCostTotalProduction: [0],
-      questions1: [],
-      other: [],
+      questions1: [''],
+      other: [''],
       question2: [],
-      store: [],
-      transport: [],
-      agricultureIncome: [],
+      store: [''],
+      transport: [''],
+      agricultureIncome: [''],
       responsable: [],
-      technical: []
+      technical: [],
+      file: [],
+      fileName: [],
+      pathFile: []
     });
   }
 
@@ -191,15 +197,15 @@ export class DiagnosticoEditComponent implements OnInit {
     else if (col == 'H')
       this.arrDataFields[i].Hectarea = parseFloat(e.target.value);
     else if (col == 'V')
-      this.arrDataFields[i].Variedad = parseFloat(e.target.value);
+      this.arrDataFields[i].Variedad = e.target.value;
     else if (col == 'E')
-      this.arrDataFields[i].Edad = parseFloat(e.target.value);
+      this.arrDataFields[i].Edad = e.target.value;
     else if (col == 'CM')
-      this.arrDataFields[i].CosechaMeses = parseFloat(e.target.value);
+      this.arrDataFields[i].CosechaMeses = e.target.value;
     else if (col == 'CPAANT')
-      this.arrDataFields[i].CosechaPergaminoAnioAnterior = parseFloat(e.target.value);
+      this.arrDataFields[i].CosechaPergaminoAnioAnterior = e.target.value;
     else if (col == 'CPAACT')
-      this.arrDataFields[i].CosechaPergaminoAnioActual = parseFloat(e.target.value);
+      this.arrDataFields[i].CosechaPergaminoAnioActual = e.target.value;
     this.SumDataFields();
   }
 
@@ -284,17 +290,17 @@ export class DiagnosticoEditComponent implements OnInit {
       TecnicoCampo: form.technical ? form.technical : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       AreaTotal: form.totalFieldArea ? form.totalFieldArea : 0,
-      AreaCafeEnProduccion: form.coffeeProductionFieldArea ? form.coffeeProductionFieldArea : 0,
-      Crecimiento: form.fieldGrowth ? form.fieldGrowth : 0,
-      Bosque: form.forestField ? form.forestField : 0,
-      Purma: form.purmaField ? form.purmaField : 0,
-      PanLlevar: form.breadCarryField ? form.breadCarryField : 0,
-      Vivienda: form.countryHouse ? form.countryHouse : 0,
-      IngresoPromedioMensual: form.questions1 ? form.questions1 : 0,
-      IngresoAgricultura: form.agricultureIncome ? form.agricultureIncome : 0,
-      IngresoBodega: form.store ? form.store : 0,
-      IngresoTransporte: form.transport ? form.transport : 0,
-      IngresoOtro: form.other ? form.other : 0,
+      AreaCafeEnProduccion: form.coffeeProductionFieldArea ? form.coffeeProductionFieldArea : '',
+      Crecimiento: form.fieldGrowth ? form.fieldGrowth : '',
+      Bosque: form.forestField ? form.forestField : '',
+      Purma: form.purmaField ? form.purmaField : '',
+      PanLlevar: form.breadCarryField ? form.breadCarryField : '',
+      Vivienda: form.countryHouse ? form.countryHouse : '',
+      IngresoPromedioMensual: form.questions1 ? form.questions1 : '',
+      IngresoAgricultura: form.agricultureIncome ? form.agricultureIncome : '',
+      IngresoBodega: form.store ? form.store : '',
+      IngresoTransporte: form.transport ? form.transport : '',
+      IngresoOtro: form.other ? form.other : '',
       PrestamoEntidades: form.question2 ? form.question2 : '',
       EstadoId: '01',
       Usuario: this.userSession.Result.Data.NombreUsuario,
@@ -353,7 +359,8 @@ export class DiagnosticoEditComponent implements OnInit {
   Create(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.diagnosticoService.Create(request)
+    const file = this.frmFincaDiagnosticoEdit.value.file;
+    this.diagnosticoService.Create(file, request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -372,7 +379,8 @@ export class DiagnosticoEditComponent implements OnInit {
   Update(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.diagnosticoService.Update(request)
+    const file = this.frmFincaDiagnosticoEdit.value.file;
+    this.diagnosticoService.Update(file, request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -393,10 +401,10 @@ export class DiagnosticoEditComponent implements OnInit {
     this.diagnosticoService.SearchById({ DiagnosticoId: this.codeDiagnostic })
       .subscribe((res: any) => {
         if (res.Result.Success) {
-          this.SearchPartnerProducerByFincaPartnerId();
           this.MapDataEdition(res.Result.Data);
         } else {
-
+          this.spinner.hide();
+          this.alertUtil.alertError('ERROR!', res.Result.Message);
         }
       }, (err: any) => {
         this.spinner.hide();
@@ -424,6 +432,9 @@ export class DiagnosticoEditComponent implements OnInit {
       this.frmFincaDiagnosticoEdit.controls.responsable.setValue(data.Responsable);
       this.frmFincaDiagnosticoEdit.controls.technical.setValue(data.TecnicoCampo);
       this.frmFincaDiagnosticoEdit.controls.countryHouse.setValue(data.Vivienda);
+      this.fileName = data.NombreArchivo;
+      this.frmFincaDiagnosticoEdit.controls.fileName.setValue(data.NombreArchivo);
+      this.frmFincaDiagnosticoEdit.controls.pathFile.setValue(data.PathArchivo);
 
       if (data.DiagnosticoInfraestructura) {
         for (let i = 0; i < data.DiagnosticoInfraestructura.length; i++) {
@@ -527,6 +538,21 @@ export class DiagnosticoEditComponent implements OnInit {
 
   Cancel(): void {
     this.router.navigate([`/agropecuario/operaciones/socio/finca/diagnostico/list/${this.codePartner}/${this.codeProducer}/${this.codeFincaPartner}`]);
+  }
+
+  fileChange(event: any): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.frmFincaDiagnosticoEdit.patchValue({
+        file: file
+      });
+      this.frmFincaDiagnosticoEdit.get('file').updateValueAndValidity()
+    }
+  }
+
+  DownloadFile(): void {
+    var rutaFile = this.frmFincaDiagnosticoEdit.value.pathFile;
+    window.open(`${host}Diagnostico/DescargarArchivo?path=${rutaFile}`, '_blank');
   }
 
 }
