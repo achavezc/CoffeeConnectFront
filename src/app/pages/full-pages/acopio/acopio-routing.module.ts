@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
 import { EmpresaTransporteListComponent } from './operaciones/empresatransporte/list/empresatransporte-list.component';
 import { TransporteListComponent } from './operaciones/transporte/list/transporte-list.component';
@@ -19,6 +18,8 @@ import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servic
 import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenservicio-edit/ordenservicio-edit.component';
 import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
+import{ZonaListComponent} from './operaciones/zona/list/zona-list.component';
+import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
 
 const routes: Routes = [
   {
@@ -146,6 +147,20 @@ const routes: Routes = [
       {
         path: 'transporte-edit',
         component: TransporteEditComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+      {
+        path: 'zona-list',
+        component: ZonaListComponent,
+        data: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'zona-edit',
+        component: ZonaEditComponent,
         data: {
           title: 'Edit'
         }

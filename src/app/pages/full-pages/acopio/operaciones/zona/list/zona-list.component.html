@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">BANDEJA DE ZONAS</div>
+    </div>
+</div>
+
+<section id="tooltip-validation">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="zonasform" novalidate>
+                             <div class="form-row">
+                                <div class="col-md-6 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Departamento</label>
+                                    <ng-select [items]="listDepartamentos" formControlName="departamento"
+                                        class="form-control" bindLabel="Descripcion" bindValue="Codigo" id="departamento"
+                                        placeholder="Seleccionar Departamento" (change)="onChangeDepartament($event)"
+                                        [ngClass]="{ 'is-invalid': f.departamento.invalid, 'is-valid': !f.departamento.invalid }"
+                                        [(ngModel)]="selectedDepartamento">
+                                    </ng-select>
+                                </div>
+                             
+
+                                <div class="col-md-6 mb-4 form-group mb-2">
+                                    <label for="provincia" class="form-label">Provincia</label>
+                                    <ng-select [items]="listProvincias" formControlName="provincia"
+                                        class="form-control" bindLabel="Descripcion" bindValue="Codigo" id="provincia"
+                                        placeholder="Seleccionar Provincia"  (change)="onChangeProvince($event)"
+                                        [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }"
+                                        [(ngModel)]="selectedProvincia">
+                                    </ng-select>
+                                </div>
+                            </div> 
+
+                            <div class="form-row">
+                                <div class="col-md-6 mb-4 form-group mb-2">
+                                    <label for="distrito" class="form-label">Distrito</label>
+                                    <ng-select [items]="listDistritos" formControlName="distrito"
+                                        class="form-control" bindLabel="Descripcion" bindValue="Codigo" id="distrito"
+                                        placeholder="Seleccionar Distrito"
+                                        [ngClass]="{ 'is-invalid': f.distrito.invalid, 'is-valid': !f.distrito.invalid }"
+                                        [(ngModel)]="selectedDistrito">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-6 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstado" formControlName="estado"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar Estado"
+                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                               
+                            </div>
+
+                            
+
+                            <small class="form-text text-muted danger mb-1"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="zonasform.invalid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="false"
+                            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
+                            <ngx-datatable-column name="Nombre" prop="Nombre" width="90">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0"
+                                                routerLink="/acopio/operaciones/zona-edit"
+                                                [queryParams]="{ id: row.ZonaId}">{{
+                                                name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="70">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Activo', 'bg-light-warning': status == 'Inactivo' }">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>  
