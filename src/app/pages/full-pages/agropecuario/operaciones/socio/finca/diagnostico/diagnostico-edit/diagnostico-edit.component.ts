@@ -307,6 +307,8 @@ export class DiagnosticoEditComponent implements OnInit {
       DiagnosticoCostoProduccionList: this.arrProductionCost,
       DiagnosticoDatosCampoList: this.arrDataFields,
       DiagnosticoInfraestructuraList: this.arrInfrastructureTitles,
+      NombreArchivo: form.fileName ? form.fileName : '',
+      PathArchivo: form.pathFile ? form.pathFile : ''
     }
     return request;
   }
