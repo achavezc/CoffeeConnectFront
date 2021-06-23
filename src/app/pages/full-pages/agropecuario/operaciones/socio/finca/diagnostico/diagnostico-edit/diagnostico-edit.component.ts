@@ -113,11 +113,11 @@ export class DiagnosticoEditComponent implements OnInit {
       breadCarryField: [''],
       countryHouse: [''],
       totalHectares: [0],
-      totalVariety: [0],
-      totalAge: [0],
-      totalHarvestMonths: [0],
-      totalHarvestPreviousYear: [0],
-      totalHarvestCurrentYear: [0],
+      // totalVariety: [0],
+      // totalAge: [0],
+      // totalHarvestMonths: [0],
+      // totalHarvestPreviousYear: [0],
+      // totalHarvestCurrentYear: [0],
       observationsField: [],
       totalHectaresProduction: [0],
       totalCostProduction: [0],
@@ -178,15 +178,15 @@ export class DiagnosticoEditComponent implements OnInit {
   LoadDataFields(): void {
     for (let i = 0; i < 6; i++) {
       this.arrDataFields.push({
-        CosechaMeses: 0,
-        CosechaPergaminoAnioActual: 0,
-        CosechaPergaminoAnioAnterior: 0,
+        CosechaMeses: '',
+        CosechaPergaminoAnioActual: '',
+        CosechaPergaminoAnioAnterior: '',
         DiagnosticoDatosCampoId: 0,
         DiagnosticoId: this.codeDiagnostic,
-        Edad: 0,
+        Edad: '',
         Hectarea: 0,
         NumeroLote: i + 1,
-        Variedad: 0
+        Variedad: ''
       });
     }
   }
@@ -211,25 +211,25 @@ export class DiagnosticoEditComponent implements OnInit {
 
   SumDataFields(): void {
     let sumHectareas = 0;
-    let sumVariedades = 0;
-    let sumEdades = 0;
-    let sumCosechMeses = 0;
-    let sumAnioAnterior = 0;
-    let sumAnioActual = 0;
+    // let sumVariedades = 0;
+    // let sumEdades = 0;
+    // let sumCosechMeses = 0;
+    // let sumAnioAnterior = 0;
+    // let sumAnioActual = 0;
     for (let i = 0; i < this.arrDataFields.length; i++) {
       sumHectareas += this.arrDataFields[i].Hectarea;
-      sumVariedades += this.arrDataFields[i].Variedad;
-      sumEdades += this.arrDataFields[i].Edad;
-      sumCosechMeses += this.arrDataFields[i].CosechaMeses;
-      sumAnioAnterior += this.arrDataFields[i].CosechaPergaminoAnioAnterior;
-      sumAnioActual += this.arrDataFields[i].CosechaPergaminoAnioActual;
+      // sumVariedades += this.arrDataFields[i].Variedad;
+      // sumEdades += this.arrDataFields[i].Edad;
+      // sumCosechMeses += this.arrDataFields[i].CosechaMeses;
+      // sumAnioAnterior += this.arrDataFields[i].CosechaPergaminoAnioAnterior;
+      // sumAnioActual += this.arrDataFields[i].CosechaPergaminoAnioActual;
     }
     this.frmFincaDiagnosticoEdit.controls.totalHectares.setValue(sumHectareas);
-    this.frmFincaDiagnosticoEdit.controls.totalVariety.setValue(sumVariedades);
-    this.frmFincaDiagnosticoEdit.controls.totalAge.setValue(sumEdades);
-    this.frmFincaDiagnosticoEdit.controls.totalHarvestMonths.setValue(sumCosechMeses);
-    this.frmFincaDiagnosticoEdit.controls.totalHarvestPreviousYear.setValue(sumAnioAnterior);
-    this.frmFincaDiagnosticoEdit.controls.totalHarvestCurrentYear.setValue(sumAnioActual);
+    // this.frmFincaDiagnosticoEdit.controls.totalVariety.setValue(sumVariedades);
+    // this.frmFincaDiagnosticoEdit.controls.totalAge.setValue(sumEdades);
+    // this.frmFincaDiagnosticoEdit.controls.totalHarvestMonths.setValue(sumCosechMeses);
+    // this.frmFincaDiagnosticoEdit.controls.totalHarvestPreviousYear.setValue(sumAnioAnterior);
+    // this.frmFincaDiagnosticoEdit.controls.totalHarvestCurrentYear.setValue(sumAnioActual);
   }
 
   LoadProductionCost(): void {
