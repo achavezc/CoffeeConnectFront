@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
                                 <label for="fechaFactExp" class="col-lg-4 col-form-label pr-0">FEC. FACT./EXP.</label>
                                 <div class="col-lg-8">
@@ -149,7 +149,7 @@
                                         [ngClass]="{ 'is-invalid': f.fechaFactExp.invalid, 'is-valid': !f.fechaFactExp.invalid }" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -176,31 +176,6 @@
                         <label class="text-white">DETALLE DE LA COMPRA</label>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <div class="form-group row">
-                                <label for="producto" class="col-lg-4 col-form-label">PRODUCTO</label>
-                                <div class="col-lg-8">
-                                    <ng-select [items]="listProductos" formControlName="producto" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="producto" placeholder="Producto"
-                                        [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }"
-                                        [(ngModel)]="selectedProducto" (change)="ChangeProduct($event)">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <div class="form-group row">
-                                <label for="subProducto" class="col-lg-5 col-form-label">SUB PRODUCTO</label>
-                                <div class="col-lg-7">
-                                    <ng-select [items]="listSubProductos" formControlName="subProducto"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="subProducto"
-                                        placeholder="Sub Producto"
-                                        [ngClass]="{ 'is-invalid': f.subProducto.invalid, 'is-valid': !f.subProducto.invalid }"
-                                        [(ngModel)]="selectedSubProducto">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <div class="form-group row">
                                 <label for="moneda" class="col-lg-5 col-form-label">MONEDA</label>
@@ -235,9 +210,51 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="form-group row">
+                                <label for="contractWeight" class="col-lg-6 col-form-label">PESO EN
+                                    CONTRATO</label>
+                                <div class="col-lg-6">
+                                    <input type="number" name="contractWeight" id="contractWeight"
+                                        formControlName="contractWeight" class="form-control text-right"
+                                        placeholder="Peso"
+                                        [ngClass]="{ 'is-invalid': f.contractWeight.invalid, 'is-valid': !f.contractWeight.invalid }">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="form-group row">
+                                <label for="unidadMedida" class="col-lg-4 col-form-label pr-0">UNI.
+                                    MEDIDA</label>
+                                <div class="col-lg-8">
+                                    <ng-select [items]="listUniMedida" formControlName="unidadMedida"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="unidadMedida"
+                                        placeholder="Unidad de medida"
+                                        [ngClass]="{ 'is-invalid': f.unidadMedida.invalid, 'is-valid': !f.unidadMedida.invalid }"
+                                        [(ngModel)]="selectedUniMedida">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="harvestPeriod" class="col-lg-3 col-form-label pr-0">PERIODO
+                                            COSECHA</label>
+                                        <div class="col-lg-5">
+                                            <ng-select [items]="listHarvestPeriod" formControlName="harvestPeriod"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="harvestPeriod" placeholder="Tipo de producción"
+                                                [ngClass]="{ 'is-invalid': f.harvestPeriod.invalid, 'is-valid': !f.harvestPeriod.invalid }"
+                                                [(ngModel)]="selectedHarvestPeriod">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group row">
@@ -249,6 +266,36 @@
                                                 id="tipoProduccion" placeholder="Tipo de producción"
                                                 [ngClass]="{ 'is-invalid': f.tipoProduccion.invalid, 'is-valid': !f.tipoProduccion.invalid }"
                                                 [(ngModel)]="selectedTipoProduccion">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="producto" class="col-lg-3 col-form-label">PRODUCTO</label>
+                                        <div class="col-lg-9">
+                                            <ng-select [items]="listProductos" formControlName="producto"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="producto"
+                                                placeholder="Producto"
+                                                [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }"
+                                                [(ngModel)]="selectedProducto" (change)="ChangeProduct($event)">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="subProducto" class="col-lg-3 col-form-label">SUB PRODUCTO</label>
+                                        <div class="col-lg-9">
+                                            <ng-select [items]="listSubProductos" formControlName="subProducto"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="subProducto" placeholder="Sub Producto"
+                                                [ngClass]="{ 'is-invalid': f.subProducto.invalid, 'is-valid': !f.subProducto.invalid }"
+                                                [(ngModel)]="selectedSubProducto">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -286,36 +333,21 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="form-row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group row">
-                                        <label for="contractWeight" class="col-lg-6 col-form-label">PESO EN
-                                            CONTRATO</label>
-                                        <div class="col-lg-6">
-                                            <input type="number" name="contractWeight" id="contractWeight"
-                                                formControlName="contractWeight" class="form-control text-right"
-                                                placeholder="Peso"
-                                                [ngClass]="{ 'is-invalid': f.contractWeight.invalid, 'is-valid': !f.contractWeight.invalid }">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div class="form-group row">
-                                        <label for="unidadMedida" class="col-lg-4 col-form-label pr-0">UNI.
-                                            MEDIDA</label>
-                                        <div class="col-lg-8">
-                                            <ng-select [items]="listUniMedida" formControlName="unidadMedida"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo"
-                                                id="unidadMedida" placeholder="Unidad de medida"
-                                                [ngClass]="{ 'is-invalid': f.unidadMedida.invalid, 'is-valid': !f.unidadMedida.invalid }"
-                                                [(ngModel)]="selectedUniMedida">
-                                            </ng-select>
+                                        <label for="observaciones" class="col-lg-3 col-form-label">OBSERVACIONES</label>
+                                        <div class="col-lg-9">
+                                            <textarea class="form-control" id="observaciones"
+                                                formControlName="observaciones" rows="3" placeholder="Observaciones"
+                                                maxlength="50"
+                                                [ngClass]="{ 'is-invalid': f.observaciones.invalid, 'is-valid': !f.observaciones.invalid }"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="form-row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group row">
@@ -407,19 +439,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div class="form-group row">
-                                        <label for="validationTooltip09" class="col-lg-6 col-form-label">CARGAR
-                                            CONTRATO</label>
-                                        <div class="col-md-6">
-                                            <label class="custom-file">
-                                                <input type="file" (change)="fileChange($event)"
-                                                    placeholder="Upload file"
-                                                    accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -433,17 +452,32 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="form-group row">
+                                        <label for="validationTooltip09" class="col-lg-6 col-form-label">CARGAR
+                                            CONTRATO</label>
+                                        <div class="col-md-6">
+                                            <label class="custom-file">
+                                                <input type="file" (change)="fileChange($event)"
+                                                    placeholder="Upload file"
+                                                    accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group row">
                                         <div class="col-md-12">
-                                            <a role="button" (click)="Descargar()" style="color: blue;">{{fileName}}</a>
+                                            <a role="button" (click)="Descargar()" style="color: blue;" class="ml-3">{{fileName}}</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <!-- <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 bg-primary text-white">
@@ -536,21 +570,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group row mb-0">
-                                        <label for="observaciones" class="col-lg-5 col-form-label">OBSERVACIONES</label>
-                                        <div class="col-lg-7">
-                                            <textarea class="form-control" id="observaciones"
-                                                formControlName="observaciones" rows="3" placeholder="Observaciones"
-                                                maxlength="50"
-                                                [ngClass]="{ 'is-invalid': f.observaciones.invalid, 'is-valid': !f.observaciones.invalid }"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
