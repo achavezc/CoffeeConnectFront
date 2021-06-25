@@ -13,7 +13,7 @@ import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ReqNotaSalidaPlanta, NotaSalidaAlmacenPlantaDetalleDTO } from '../../../../../../services/models/req-salidaalmaceplanta';
 import { TagNotaSalidaPlantaEditComponent } from './tags/notasalidaplanta-tag.component';
 import { host } from '../../../../../../shared/hosts/main.host';
-import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
+import { NotaSalidaAlmacenPlantaService } from '../../../../../../services/nota-salida-almacen-planta.service';
 
 @Component({
   selector: 'app-notasalidaplanta-edit',
@@ -25,7 +25,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
- @ViewChild(TagNotaSalidaPlantaEditComponent) child;
+  @ViewChild(TagNotaSalidaPlantaEditComponent) child;
   selectClasificacion: any;
   consultaEmpresas: FormGroup;
   submitted = false;
@@ -73,7 +73,6 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
 
   }
 
-
   seleccionarTipoAlmacen() {
     this.child.selectAlmacenLote = this.selectAlmacen;
   }
@@ -96,7 +95,6 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     this.spinner.show();
     this.notaSalidaAlmacenPlantaService.obtenerDetalle(Number(this.id))
       .subscribe(res => {
-
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.cargarDataFormulario(res.Result.Data);
@@ -120,49 +118,54 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   }
 
   cargarDataFormulario(data: any) {
-
-    this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
-    this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
-    this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
-    this.notaSalidaFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
-    this.notaSalidaFormEdit.controls["almacen"].setValue(data.AlmacenId);
-    this.notaSalidaFormEdit.get('tagcalidad').get("propietario").setValue(data.Transportista);
-    this.notaSalidaFormEdit.get('tagcalidad').get("domiciliado").setValue(data.DireccionTransportista);
-    this.notaSalidaFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
-    this.notaSalidaFormEdit.get('tagcalidad').get("conductor").setValue(data.Conductor);
-    this.notaSalidaFormEdit.get('tagcalidad').get("brevete").setValue(data.LicenciaConductor);
-    this.notaSalidaFormEdit.get('tagcalidad').get("codvehicular").setValue(data.ConfiguracionVehicular);
-    this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaTractor);
-    this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaTractor);
-    this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
-    this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").setValue(data.MotivoSalidaId);
-    this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
-    let objectDestino: any = {};
-    objectDestino.OrganizacionId = data.EmpresaIdDestino;
-    this.selectOrganizacion.push(objectDestino);
-    let objectTransporte: any = {};
-    objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
-    objectTransporte.TransporteId = data.TransporteId;
-    objectTransporte.NumeroConstanciaMTC = data.NumeroConstanciaMTC;
-    objectTransporte.MarcaTractorId = data.MarcaTractorId;
-    objectTransporte.PlacaTractor = data.PlacaTractor;
-    objectTransporte.MarcaCarretaId = data.MarcaCarretaId;
-    objectTransporte.PlacaCarreta = data.PlacaCarreta;
-    objectTransporte.Conductor = data.Conductor;
-    objectTransporte.Licencia = data.Licencia;
-    this.child.selectedT.push(objectTransporte);
-    this.numero = data.Numero;
-    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.almacen = data.Almacen;
-    this.responsable = data.UsuarioRegistro;
-    this.spinner.hide();
-
+    if (data) {
+      this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
+      this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
+      this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
+      this.notaSalidaFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
+      this.notaSalidaFormEdit.controls["almacen"].setValue(data.AlmacenId);
+      this.notaSalidaFormEdit.get('tagcalidad').get("propietario").setValue(data.Transportista);
+      this.notaSalidaFormEdit.get('tagcalidad').get("domiciliado").setValue(data.DireccionTransportista);
+      this.notaSalidaFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
+      this.notaSalidaFormEdit.get('tagcalidad').get("conductor").setValue(data.Conductor);
+      this.notaSalidaFormEdit.get('tagcalidad').get("brevete").setValue(data.LicenciaConductor);
+      this.notaSalidaFormEdit.get('tagcalidad').get("codvehicular").setValue(data.ConfiguracionVehicular);
+      this.notaSalidaFormEdit.get('tagcalidad').get("marca").setValue(data.MarcaTractor);
+      this.notaSalidaFormEdit.get('tagcalidad').get("placa").setValue(data.PlacaTractor);
+      this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
+      this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").setValue(data.MotivoSalidaId);
+      this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
+      let objectDestino: any = {};
+      objectDestino.OrganizacionId = data.EmpresaIdDestino;
+      this.selectOrganizacion.push(objectDestino);
+      let objectTransporte: any = {};
+      objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
+      objectTransporte.TransporteId = data.TransporteId;
+      objectTransporte.NumeroConstanciaMTC = data.NumeroConstanciaMTC;
+      objectTransporte.MarcaTractorId = data.MarcaTractorId;
+      objectTransporte.PlacaTractor = data.PlacaTractor;
+      objectTransporte.MarcaCarretaId = data.MarcaCarretaId;
+      objectTransporte.PlacaCarreta = data.PlacaCarreta;
+      objectTransporte.Conductor = data.Conductor;
+      objectTransporte.Licencia = data.Licencia;
+      this.child.selectedT.push(objectTransporte);
+      this.numero = data.Numero;
+      this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
+      this.almacen = data.Almacen;
+      this.responsable = data.UsuarioRegistro;
+      this.spinner.hide();
+    } else {
+      this.alertUtil.alertOkCallback('ADVERTENCIA', 'No existe la nota de salida de planta.', () => {
+        this.spinner.hide();
+        this.cancelar();
+      });
+    }
   }
-
 
   get fns() {
     return this.notaSalidaFormEdit.controls;
   }
+
   cargarForm() {
     this.notaSalidaFormEdit = this.fb.group(
       {
@@ -203,14 +206,12 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
 
   }
 
-
   get fedit() {
     return this.notaSalidaFormEdit.controls;
   }
 
-
   cancelar() {
-    this.router.navigate(['/acopio/operaciones/notasalida-list']);
+    this.router.navigate(['/planta/operaciones/notasalidaplanta-list']);
   }
 
   guardar() {
@@ -229,16 +230,15 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       var Totaltara = 0;
       var Totalcantidad = 0;
       let list: NotaSalidaAlmacenPlantaDetalleDTO[] = [];
-      if(this.child.listaNotaIngreso.length!=0)
-      {
+      if (this.child.listaNotaIngreso.length != 0) {
         this.child.listaNotaIngreso.forEach(x => {
-             let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
-              TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutosPesado;
-              TotalKilosNetos = TotalKilosNetos + x.KilosNetosPesado;
-              Totaltara = Totaltara + x.TaraPesado;
-              Totalcantidad = Totalcantidad + x.CantidadPesado;
-              list.push( object)
-            });
+          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
+          TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutosPesado;
+          TotalKilosNetos = TotalKilosNetos + x.KilosNetosPesado;
+          Totaltara = Totaltara + x.TaraPesado;
+          Totalcantidad = Totalcantidad + x.CantidadPesado;
+          list.push(object)
+        });
       }
       /*this.child.listaNotaIngreso.forEach(x => {
         if (list.length != 0) {
@@ -283,7 +283,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         "01",
         this.login.Result.Data.NombreUsuario,
         list
-        
+
       );
       let json = JSON.stringify(request);
       this.spinner.show(undefined,
@@ -333,6 +333,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         }
       );
   }
+
   actualizarNotaSalidaService(request: ReqNotaSalidaPlanta) {
     this.notaSalidaAlmacenPlantaService.Actualizar(request)
       .subscribe(res => {
@@ -392,13 +393,14 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     link.click();
     link.remove();
   }
+
   GetDataEmpresa(event: any): void {
     this.selectOrganizacion = event;
     if (this.selectOrganizacion[0]) {
-    this.notaSalidaFormEdit.controls["destinatario"].setValue(this.selectOrganizacion[0].RazonSocial);
-    this.notaSalidaFormEdit.controls["ruc"].setValue(this.selectOrganizacion[0].Ruc);
-    this.notaSalidaFormEdit.controls["dirDestino"].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
-    
+      this.notaSalidaFormEdit.controls["destinatario"].setValue(this.selectOrganizacion[0].RazonSocial);
+      this.notaSalidaFormEdit.controls["ruc"].setValue(this.selectOrganizacion[0].Ruc);
+      this.notaSalidaFormEdit.controls["dirDestino"].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
+
     }
     this.modalService.dismissAll();
   }
