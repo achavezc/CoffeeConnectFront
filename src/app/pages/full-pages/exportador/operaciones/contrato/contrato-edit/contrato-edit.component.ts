@@ -99,7 +99,7 @@ export class ContratoEditComponent implements OnInit {
       direccionCabe: [, Validators.required],
       fechaRegistro: [],
       nroRucCabe: [, Validators.required],
-      nroContrato: [],
+      nroContrato: [, Validators.required],
       fechaContrato: [, Validators.required],
       idCliente: [, Validators.required],
       codCliente: [, Validators.required],
