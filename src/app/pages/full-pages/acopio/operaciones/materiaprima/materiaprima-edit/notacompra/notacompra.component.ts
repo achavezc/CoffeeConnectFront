@@ -213,7 +213,7 @@ export class NotaCompraComponent implements OnInit {
     this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
   
 
-    if(this.estadoId = this.estadoLiquidado){    
+    if(this.estadoId == this.estadoLiquidado){    
       this.notaCompraForm.controls['tipo'].disable();
       this.notaCompraForm.controls['dsctoHumedadPC'].disable();
       }
