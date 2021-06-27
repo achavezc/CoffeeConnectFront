@@ -32,6 +32,15 @@
                       class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> This is required
                     </div>
                   </div>
+                  <div class="d-sm-flex justify-content-center mb-3">
+                    <div class="remember-me mb-2 mb-sm-0">
+                    
+                        <small class="form-text text-muted danger" style="font-size: 0.8rem;"
+                            *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                      
+                    </div>
+                   <!--<a [routerLink]="['/pages/forgotpassword']">Forgot Password?</a>--> 
+                  </div>
                   <div class="d-sm-flex justify-content-center mb-3 font-small-2">
                     <div class="remember-me mb-2 mb-sm-0">
                       <div class="checkbox auth-checkbox">

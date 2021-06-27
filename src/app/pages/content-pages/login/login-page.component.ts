@@ -16,7 +16,8 @@ export class LoginPageComponent {
   loginModel: ILogin;
   loginFormSubmitted = false;
   isLoginFailed = false;
-
+  errorGeneral: any = { isError: true, errorMessage: '' };
+  mensajeErrorGenerico = 'Usuario/password incorrecto.';
   loginForm = new FormGroup({
     username: new FormControl('manuelruiz11@gmail.com', [Validators.required]),
     password: new FormControl('p@ssw0rd', [Validators.required]),
@@ -54,9 +55,15 @@ export class LoginPageComponent {
         console.log(res);
         this.loginModel = res;
         if (res.Result.Success) {
+          if(res.Result.ErrCode == "")
+          {
           this.spinner.hide();
           localStorage.setItem("user", JSON.stringify(this.loginModel));
           this.router.navigate(['/home']);
+          }
+          else{
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
         }
       },
         err => {

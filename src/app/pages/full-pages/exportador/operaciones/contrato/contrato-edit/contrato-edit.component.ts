@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { ILogin } from '../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -32,6 +32,7 @@ export class ContratoEditComponent implements OnInit {
     private alertUtil: AlertUtil,
     private httpClient: HttpClient) { }
 
+  login: ILogin;
   contratoEditForm: FormGroup;
   listCondicionEmbarque = [];
   listPaises = [];
@@ -76,17 +77,19 @@ export class ContratoEditComponent implements OnInit {
   private url = `${host}Contrato`;
   mensajeErrorGenerico = "Ocurrio un error interno.";
   fileName = "";
+  fechaRegistro: any;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
-    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    //this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.login = JSON.parse(localStorage.getItem("user"));
     this.LoadForm();
     this.LoadCombos();
     this.LoadDataInicial();
     if (this.vId > 0) {
       this.SearchById();
     } else if (this.vId <= 0) {
-      this.contratoEditForm.controls.fechaRegistro.setValue(this.dateUtil.currentDate());
+      this.fechaRegistro = this.dateUtil.currentDate();
     }
   }
 

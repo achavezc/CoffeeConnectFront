@@ -272,10 +272,7 @@
                                         [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }"
                                         placeholder="Responsable de comercial">
                                 </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
-                                    <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -285,6 +282,10 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                         </div>
                     </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
+                    <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@
                                             <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">% Humedad</label>
                                             <div class="col-md-8">
                                               <input type="text" class="form-control square" id="horizontal-form-1"
-                                                name="first-name" formControlName = "humedad">
+                                                name="first-name" formControlName = "humedad"  [ngClass]="{ 'is-invalid': submitted && f.humedad.invalid, 'is-valid': submitted && !f.humedad.invalid }">
                                             </div>
                                     </div>
                                 </div>

@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card mb-0">
-                <div class="card-body pb-0">
+               <!--<div class="card-body pb-0">
                     <div class="form-row">
                         <div class="col-lg-9 col-md-9 col-sm-9">
                             <div class="form-group row">
@@ -51,7 +51,39 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
+
+
+
+                <div class="card-body pb-0">
+                    <div class="col-12 col-md-8">
+                      <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                      <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                      <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}</div>
+                    </div>
+                    <div class="col-12 col-md-4">
+      
+                      
+                      <div class="form-row">
+      
+                        <div class="col-md-6 form-group">
+                          <label class="card-forms" for="users-edit-email">FECHA</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                          <label class="card-forms" for="users-edit-username"
+                            style="font-weight: bold;">{{fechaRegistro}}</label>
+                        </div>
+                      </div>
+                     
+      
+                    </div>
+      
+                  </div>
+
+
+
+
+
             </div>
             <div class="card mt-0">
                 <h5 class="card-header bg-primary text-white text-center align-middle p-0">MAESTRO DE CONTRATOS</h5>

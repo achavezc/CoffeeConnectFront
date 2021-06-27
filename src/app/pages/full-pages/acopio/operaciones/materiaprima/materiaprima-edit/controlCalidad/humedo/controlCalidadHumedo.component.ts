@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateUtil } from '../../../../../../../../services/util/date-util';
 import { ReqControlCalidad, AnalisisFisicoColorDetalleList, AnalisisFisicoOlorDetalleList } from '../../../../../../../../services/models/req-controlcalidad-actualizar'
 import { ILogin } from '../../../../../../../../services/models/login';
@@ -52,10 +52,14 @@ export class ControlCalidadComponentHumedo implements OnInit {
   cargarForm() {
     this.formControlCalidadHumedo = new FormGroup(
       {
-        humedad: new FormControl('', []),
+        humedad: new FormControl('', Validators.required),
         ObservacionAnalisisFisico: new FormControl('', [])
       });
   }
+
+  get f() {
+    return this.formControlCalidadHumedo.controls;
+}
   async cargarCombos() {
     var form = this;
     var dataOlor = await this.maestroService.obtenerMaestros("Olor").toPromise();
@@ -88,7 +92,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
   obtenerDetalle() {
     var form = this;
     var controlFormControlCalidad = this.formControlCalidadHumedo.controls;
-    controlFormControlCalidad["humedad"].setValue(this.detalle.HumedadPorcentajeAnalisisFisico);
+    controlFormControlCalidad["humedad"].setValue(this.detalle.HumedadPorcentajeAnalisisFisico == null || this.detalle.HumedadPorcentajeAnalisisFisico == 0 ? null: this.detalle.HumedadPorcentajeAnalisisFisico );
     controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalle.ObservacionAnalisisFisico);
     form.responsable = this.detalle.UsuarioCalidad;
     if (this.detalle.FechaCalidad) {
@@ -117,8 +121,6 @@ export class ControlCalidadComponentHumedo implements OnInit {
     if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
   
   
-      //Calidad Editable
-      //NotaCompra Editable
     }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
   
   
@@ -236,4 +238,5 @@ export class ControlCalidadComponentHumedo implements OnInit {
   cancelar() {
     this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
   }
+ 
 }
