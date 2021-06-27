@@ -47,12 +47,13 @@ export class ContratoEditComponent implements OnInit {
   listCalidad = [];
   listCertificacion = [];
   listGrado = [];
-  listLaboratorios: any[];
+  // listLaboratorios: any[];
   listCalculos = [];
   listEstadoSegMuestra = [];
   listEmpaques = [];
   listTipos = [];
-  listNavieras = [];
+  // listNavieras = [];
+  listHarvestPeriod = [];
   selectedCondEmbarque: any;
   selectedPais: any;
   selectedCiudad: any;
@@ -66,12 +67,13 @@ export class ContratoEditComponent implements OnInit {
   selectedCalidad: any;
   selectedCertificacion: any;
   selectedGrado: any;
-  selectedLaboratorio: any;
+  // selectedLaboratorio: any;
   selectedCalculo: any;
-  selectedEstadoSegMuestra: any;
+  // selectedEstadoSegMuestra: any;
   selectedEmpaque: any;
   selectedTipo: any;
-  selectedNaviera: any;
+  // selectedNaviera: any;
+  selectedHarvestPeriod: any;
   vId: number;
   vSessionUser: any;
   private url = `${host}Contrato`;
@@ -100,7 +102,7 @@ export class ContratoEditComponent implements OnInit {
       direccionCabe: [, Validators.required],
       fechaRegistro: [],
       nroRucCabe: [, Validators.required],
-      nroContrato: [],
+      nroContrato: [, Validators.required],
       fechaContrato: [, Validators.required],
       idCliente: [, Validators.required],
       codCliente: [, Validators.required],
@@ -108,7 +110,7 @@ export class ContratoEditComponent implements OnInit {
       floId: [, Validators.required],
       condicionEmbarque: [, Validators.required],
       fechaEmbarque: [],
-      fechaFactExp: [],
+      // fechaFactExp: [],
       pais: [],
       ciudad: [],
       producto: [, Validators.required],
@@ -128,19 +130,20 @@ export class ContratoEditComponent implements OnInit {
       file: new FormControl('', []),
       fileName: new FormControl('', []),
       pathFile: new FormControl('', []),
-      laboratorio: [],
+      // laboratorio: [],
       calculo: [],
-      fecRecojoEnvioCurier: [],
-      truckingNumber: [],
-      estadoSegMuestras: [],
-      fecRecepcionDestino: [],
+      // fecRecojoEnvioCurier: [],
+      // truckingNumber: [],
+      // estadoSegMuestras: [],
+      // fecRecepcionDestino: [],
       empaque: [, Validators.required],
       tipo: [, Validators.required],
       totalSacos69Kg: [, Validators.required],
-      naviera: [],
+      // naviera: [],
       observaciones: [],
       pesoKilos: [, Validators.required],
-      contractWeight: []
+      contractWeight: [],
+      harvestPeriod: []
     });
   }
 
@@ -174,9 +177,9 @@ export class ContratoEditComponent implements OnInit {
     this.GetDegreePreparation();
     this.GetCertifiers();
     this.GetCertifications();
-    this.GetLaboratorys();
-    this.GetStatusTrackingSamples();
-    this.GetShippingCompany();
+    // this.GetLaboratorys();
+    // this.GetStatusTrackingSamples();
+    // this.GetShippingCompany();
     this.spinner.hide();
   }
 
@@ -292,26 +295,26 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
-  async GetLaboratorys() {
-    const res = await this.maestroService.obtenerMaestros('Laboratorio').toPromise();
-    if (res.Result.Success) {
-      this.listLaboratorios = res.Result.Data;
-    }
-  }
+  // async GetLaboratorys() {
+  //   const res = await this.maestroService.obtenerMaestros('Laboratorio').toPromise();
+  //   if (res.Result.Success) {
+  //     this.listLaboratorios = res.Result.Data;
+  //   }
+  // }
 
-  async GetStatusTrackingSamples() {
-    const res = await this.maestroService.obtenerMaestros('EstadoMuestra').toPromise();
-    if (res.Result.Success) {
-      this.listEstadoSegMuestra = res.Result.Data;
-    }
-  }
+  // async GetStatusTrackingSamples() {
+  //   const res = await this.maestroService.obtenerMaestros('EstadoMuestra').toPromise();
+  //   if (res.Result.Success) {
+  //     this.listEstadoSegMuestra = res.Result.Data;
+  //   }
+  // }
 
-  async GetShippingCompany() {
-    const res = await this.maestroService.obtenerMaestros('Naviera').toPromise();
-    if (res.Result.Success) {
-      this.listNavieras = res.Result.Data;
-    }
-  }
+  // async GetShippingCompany() {
+  //   const res = await this.maestroService.obtenerMaestros('Naviera').toPromise();
+  //   if (res.Result.Success) {
+  //     this.listNavieras = res.Result.Data;
+  //   }
+  // }
 
   onChangePais(event: any): void {
     const form = this;
@@ -362,7 +365,8 @@ export class ContratoEditComponent implements OnInit {
       CondicionEmbarqueId: form.condicionEmbarque ? form.condicionEmbarque : '',
       FechaEmbarque: form.fechaEmbarque ? form.fechaEmbarque : '',
       FechaContrato: form.fechaContrato ? form.fechaContrato : '',
-      FechaFacturacion: form.fechaFactExp ? form.fechaFactExp : '',
+      // FechaFacturacion: form.fechaFactExp ? form.fechaFactExp : '',
+      FechaFacturacion: null,
       PaisDestinoId: form.pais ? form.pais : '',
       CalculoContratoId: form.calculo ? form.calculo : '',
       DepartamentoDestinoId: form.ciudad ? form.ciudad : '',
@@ -377,24 +381,30 @@ export class ContratoEditComponent implements OnInit {
       CalidadId: form.calidad ? form.calidad : '',
       GradoId: form.grado ? form.grado : '',
       TotalSacos: form.totalSacos69Kg ? form.totalSacos69Kg : 0,
+      PesoEnContrato: form.contractWeight ? form.contractWeight : null,
       PesoKilos: form.pesoKilos ? form.pesoKilos : 0,
       PesoPorSaco: form.pesoSacoKG ? parseFloat(form.pesoSacoKG) : 0,
       PreparacionCantidadDefectos: form.cantidadDefectos ? parseFloat(form.cantidadDefectos) : 0,
-      LaboratorioId: form.laboratorio ? form.laboratorio : '',
-      NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
-      EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
-      FechaEnvioMuestra: form.fecRecojoEnvioCurier ? form.fecRecojoEnvioCurier : null,
-      FechaRecepcionMuestra: form.fecRecepcionDestino ? form.fecRecepcionDestino : null,
+      // LaboratorioId: form.laboratorio ? form.laboratorio : '',
+      LaboratorioId: '',
+      // NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
+      NumeroSeguimientoMuestra: '',
+      // EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
+      EstadoMuestraId: '',
+      // FechaEnvioMuestra: form.fecRecojoEnvioCurier ? form.fecRecojoEnvioCurier : null,
+      FechaEnvioMuestra: null,
+      // FechaRecepcionMuestra: form.fecRecepcionDestino ? form.fecRecepcionDestino : null,
+      FechaRecepcionMuestra: null,
       ObservacionMuestra: form.observaciones ? form.observaciones : '',
-      NavieraId: form.naviera ? form.naviera : '',
-      NombreArchivo: '',
+      // NavieraId: form.naviera ? form.naviera : '',
+      NavieraId: '',
+      NombreArchivo: form.fileName ? form.fileName : '',
       DescripcionArchivo: '',
-      PathArchivo: '',
+      PathArchivo: form.pathFile ? form.pathFile : '',
       EmpaqueId: form.empaque ? form.empaque : '',
       TipoId: form.tipo ? form.tipo : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: '01',
-      PesoEnContrato: form.contractWeight ? form.contractWeight : null
+      EstadoId: '01'
     }
   }
 
@@ -533,8 +543,8 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.fechaEmbarque.setValue(data.FechaEmbarque.substring(0, 10));
       if (data.FechaContrato)
         this.contratoEditForm.controls.fechaContrato.setValue(data.FechaContrato.substring(0, 10));
-      if (data.FechaFacturacion)
-        this.contratoEditForm.controls.fechaFactExp.setValue(data.FechaFacturacion.substring(0, 10));
+      // if (data.FechaFacturacion)
+      //   this.contratoEditForm.controls.fechaFactExp.setValue(data.FechaFacturacion.substring(0, 10));
       if (data.PaisDestinoId) {
         await this.GetCountries();
         this.contratoEditForm.controls.pais.setValue(data.PaisDestinoId);
@@ -608,32 +618,32 @@ export class ContratoEditComponent implements OnInit {
       this.contratoEditForm.controls.fileName.setValue(data.NombreArchivo);
       this.contratoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.fileName = data.NombreArchivo
-      if (data.LaboratorioId) {
-        await this.GetLaboratorys();
-        this.contratoEditForm.controls.laboratorio.setValue(data.LaboratorioId);
-      }
-      if (data.FechaEnvioMuestra && data.FechaEnvioMuestra.substring(0, 10) != "0001-01-01")
-        this.contratoEditForm.controls.fecRecojoEnvioCurier.setValue(data.FechaEnvioMuestra.substring(0, 10));
+      // if (data.LaboratorioId) {
+      //   await this.GetLaboratorys();
+      //   this.contratoEditForm.controls.laboratorio.setValue(data.LaboratorioId);
+      // }
+      // if (data.FechaEnvioMuestra && data.FechaEnvioMuestra.substring(0, 10) != "0001-01-01")
+      //   this.contratoEditForm.controls.fecRecojoEnvioCurier.setValue(data.FechaEnvioMuestra.substring(0, 10));
 
-      if (data.NumeroSeguimientoMuestra)
-        this.contratoEditForm.controls.truckingNumber.setValue(data.NumeroSeguimientoMuestra);
+      // if (data.NumeroSeguimientoMuestra)
+      //   this.contratoEditForm.controls.truckingNumber.setValue(data.NumeroSeguimientoMuestra);
 
-      if (data.EstadoMuestraId) {
-        this.GetStatusTrackingSamples();
-        this.contratoEditForm.controls.estadoSegMuestras.setValue(data.EstadoMuestraId);
-      }
+      // if (data.EstadoMuestraId) {
+      //   this.GetStatusTrackingSamples();
+      //   this.contratoEditForm.controls.estadoSegMuestras.setValue(data.EstadoMuestraId);
+      // }
       if (data.TotalSacos)
         this.contratoEditForm.controls.totalSacos69Kg.setValue(data.TotalSacos);
-      if (data.FechaRecepcionMuestra && data.FechaRecepcionMuestra.substring(0, 10) != "0001-01-01")
-        this.contratoEditForm.controls.fecRecepcionDestino.setValue(data.FechaRecepcionMuestra.substring(0, 10));
+      // if (data.FechaRecepcionMuestra && data.FechaRecepcionMuestra.substring(0, 10) != "0001-01-01")
+      //   this.contratoEditForm.controls.fecRecepcionDestino.setValue(data.FechaRecepcionMuestra.substring(0, 10));
 
       if (data.ObservacionMuestra)
         this.contratoEditForm.controls.observaciones.setValue(data.ObservacionMuestra);
 
-      if (data.NavieraId) {
-        await this.GetShippingCompany();
-        this.contratoEditForm.controls.naviera.setValue(data.NavieraId);
-      }
+      // if (data.NavieraId) {
+      //   await this.GetShippingCompany();
+      //   this.contratoEditForm.controls.naviera.setValue(data.NavieraId);
+      // }
       if (data.PesoEnContrato)
         this.contratoEditForm.controls.contractWeight.setValue(data.PesoEnContrato);
       this.spinner.hide();

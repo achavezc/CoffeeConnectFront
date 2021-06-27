@@ -88,7 +88,7 @@ export class InspeccionEditComponent implements OnInit {
       producer: [],
       codigo: [],
       numberDocument: [],
-      status: [, Validators.required],
+      status: [],
       organization: [],
       zone: [],
       department: [],
@@ -316,6 +316,7 @@ export class InspeccionEditComponent implements OnInit {
       this.arrDocumentManagement[i].No = event.target.checked;
     else if (col == 'obs')
       this.arrDocumentManagement[i].Observaciones = event.target.value;
+    this.CalculateComplimentsRowsThatApply();
   }
 
   UpdateValuesSocialWelfare(event: any, i: any, col: any): void {
@@ -329,6 +330,7 @@ export class InspeccionEditComponent implements OnInit {
       this.arrSocialWelfare[i].No = event.target.checked;
     else if (col == 'obs')
       this.arrSocialWelfare[i].Observaciones = event.target.value;
+    this.CalculateComplimentsRowsThatApply();
   }
 
   UpdateValuesEcosystemConservation(event: any, i: any, col: any): void {
@@ -342,6 +344,7 @@ export class InspeccionEditComponent implements OnInit {
       this.arrEcosystemConservation[i].No = event.target.checked;
     else if (col == 'obs')
       this.arrEcosystemConservation[i].Observaciones = event.target.value;
+    this.CalculateComplimentsRowsThatApply();
   }
 
   UpdateValuesIntegratedCropManagement(event: any, i: any, col: any): void {
@@ -355,6 +358,7 @@ export class InspeccionEditComponent implements OnInit {
       this.arrIntegratedCropManagement[i].No = event.target.checked;
     else if (col == 'obs')
       this.arrIntegratedCropManagement[i].Observaciones = event.target.value;
+    this.CalculateComplimentsRowsThatApply();
   }
 
   LoadSummaryNonConformities(rows: any = 0): void {
@@ -460,15 +464,6 @@ export class InspeccionEditComponent implements OnInit {
         x.VariedadCafeId = this.arrCoffeeVarieties[0].Codigo;
       }
     });
-    // const coffeePitches = this.arrCoffeePitches.filter(x => x.NumeroLote && x.VariedadCafeId && x.MesesCosecha
-    //   && x.AnioMesSiembra && x.Edad && x.AreaActual && x.CosechaPergaminoAnioActual && x.CosechaPergaminoAnioAnterior);
-    // const documentsManagement = this.arrDocumentManagement.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    // const socialsWelfare = this.arrSocialWelfare.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    // const ecosystems = this.arrEcosystemConservation.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    // const cropsManagement = this.arrIntegratedCropManagement.filter(x => x.CriticoPara || x.NoAplica || x.Si || x.No || x.Observaciones);
-    // const surveyNonConformities = this.arrSurveyNonConformities.filter(x => x.PuntoControl && x.NoConformidad
-    //   && x.AccionCorrectiva && x.PlazoLevantamiento && x.Cumplio);
-    // const summaryNonConformities = this.arrSummaryNonConformities.filter(x => x.NumeroItem && x.ManifiestoProductor);
 
     const request = {
       InspeccionInternaId: this.codeInternalInspection,
@@ -486,9 +481,11 @@ export class InspeccionEditComponent implements OnInit {
       EstadoId: form.status ? form.status : '01',
       Usuario: this.userSession.Result.Data.NombreUsuario,
       InspeccionInternaParcelaList: [...this.arrCoffeePitches],
-      InspeccionInternaNormaList: [...this.arrDocumentManagement, ...this.arrSocialWelfare, ...this.arrIntegratedCropManagement, ...this.arrIntegratedCropManagement],
+      InspeccionInternaNormaList: [...this.arrDocumentManagement, ...this.arrSocialWelfare, ...this.arrEcosystemConservation, ...this.arrIntegratedCropManagement],
       InspeccionInternaLevantamientoNoConformidadList: [...this.arrSurveyNonConformities],
-      InspeccionInternaNoConformidadList: [...this.arrSummaryNonConformities]
+      InspeccionInternaNoConformidadList: [...this.arrSummaryNonConformities],
+      NombreArchivo: form.fileName ? form.fileName : '',
+      PathArchivo: form.pathFile ? form.pathFile : ''
     }
     return request;
   }
@@ -658,33 +655,31 @@ export class InspeccionEditComponent implements OnInit {
 
       for (let i = 0; i < data.InspeccionInternaNorma.length; i++) {
         for (let y = 0; y < this.arrEcosystemConservation.length; y++) {
-          // if (this.arrEcosystemConservation[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
-          //   && this.arrEcosystemConservation[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) 
-          //   {
-          this.arrEcosystemConservation[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
-          this.arrEcosystemConservation[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
-          this.arrEcosystemConservation[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
-          this.arrEcosystemConservation[y].Si = data.InspeccionInternaNorma[i].Si;
-          this.arrEcosystemConservation[y].No = data.InspeccionInternaNorma[i].No;
-          this.arrEcosystemConservation[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
-          break;
-          //}
+          if (this.arrEcosystemConservation[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
+            && this.arrEcosystemConservation[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) {
+            this.arrEcosystemConservation[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
+            this.arrEcosystemConservation[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
+            this.arrEcosystemConservation[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
+            this.arrEcosystemConservation[y].Si = data.InspeccionInternaNorma[i].Si;
+            this.arrEcosystemConservation[y].No = data.InspeccionInternaNorma[i].No;
+            this.arrEcosystemConservation[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
+            break;
+          }
         }
       }
 
       for (let i = 0; i < data.InspeccionInternaNorma.length; i++) {
         for (let y = 0; y < this.arrIntegratedCropManagement.length; y++) {
-          // if (this.arrIntegratedCropManagement[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
-          //   && this.arrIntegratedCropManagement[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) 
-          //   {
-          this.arrIntegratedCropManagement[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
-          this.arrIntegratedCropManagement[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
-          this.arrIntegratedCropManagement[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
-          this.arrIntegratedCropManagement[y].Si = data.InspeccionInternaNorma[i].Si;
-          this.arrIntegratedCropManagement[y].No = data.InspeccionInternaNorma[i].No;
-          this.arrIntegratedCropManagement[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
-          break;
-          // }
+          if (this.arrIntegratedCropManagement[y].ClaseTipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].ClaseTipoInspeccionInternaNormasId
+            && this.arrIntegratedCropManagement[y].TipoInspeccionInternaNormasId == data.InspeccionInternaNorma[i].TipoInspeccionInternaNormasId) {
+            this.arrIntegratedCropManagement[y].InspeccionInternaNormasId = data.InspeccionInternaNorma[i].InspeccionInternaNormasId;
+            this.arrIntegratedCropManagement[y].CriticoPara = data.InspeccionInternaNorma[i].CriticoPara;
+            this.arrIntegratedCropManagement[y].NoAplica = data.InspeccionInternaNorma[i].NoAplica;
+            this.arrIntegratedCropManagement[y].Si = data.InspeccionInternaNorma[i].Si;
+            this.arrIntegratedCropManagement[y].No = data.InspeccionInternaNorma[i].No;
+            this.arrIntegratedCropManagement[y].Observaciones = data.InspeccionInternaNorma[i].Observaciones;
+            break;
+          }
         }
       }
       // this.CalculateTotales();

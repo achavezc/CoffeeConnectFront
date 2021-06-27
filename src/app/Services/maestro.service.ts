@@ -26,6 +26,12 @@ export class MaestroService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  ConsultarProductoPrecioDia(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarProductoPrecioDia`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+
   ConsultarDepartamentoAsync(request: any) {
     const url = `${this.url}/ConsultarDepartamento`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
@@ -70,5 +76,7 @@ export class MaestroService {
     const url = `${this.url}/ConsultarPais`;
     return this.http.post<any>(url, {}).catch(this.errorHandling.handleError);
   }
+
+  
 
 }

@@ -98,7 +98,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       tipoProceso: [, Validators.required],
       subProducto: [],
       observaciones: [],
-      pathFile: []
+      pathFile: [],
+      fileName: []
     });
   }
 
@@ -212,7 +213,9 @@ export class OrdenProcesoEditComponent implements OnInit {
       OrdenProcesoDetalle: this.rowsDetails.filter(x => x.NroNotaIngresoPlanta
         && x.FechaNotaIngresoPlanta && x.RendimientoPorcentaje
         && x.HumedadPorcentaje && x.CantidadSacos && x.KilosBrutos
-        && x.Tara && x.KilosNetos)
+        && x.Tara && x.KilosNetos),
+      NombreArchivo: form.fileName ? form.fileName : '',
+      PathArchivo: form.pathFile ? form.pathFile : ''
     }
     return request;
   }
@@ -396,8 +399,10 @@ export class OrdenProcesoEditComponent implements OnInit {
       if (data.Observacion)
         this.ordenProcesoEditForm.controls.observaciones.setValue(data.Observacion);
       data.detalle.forEach(x => x.FechaNotaIngresoPlanta = x.FechaNotaIngresoPlanta.substring(0, 10));
-      if (data.NombreArchivo)
+      if (data.NombreArchivo) {
         this.fileName = data.NombreArchivo;
+        this.ordenProcesoEditForm.controls.fileName.setValue(data.NombreArchivo);
+      }
       if (data.PathArchivo)
         this.ordenProcesoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.rowsDetails = data.detalle;

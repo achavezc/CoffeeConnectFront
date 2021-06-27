@@ -8,6 +8,7 @@ import { NotaCompraService } from '../../../../../../services/nota-compra.servic
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
+import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-nota-compra-edit',
@@ -42,6 +43,9 @@ export class NotaCompraEditComponent implements OnInit {
   vId: number;
   vUserSession: any;
   vMensajeGenerico = "Ha ocurrido un error interno.";
+  CodigoSubProducto = "";
+  precioDia = 0;
+  login: ILogin;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'];
@@ -151,7 +155,27 @@ export class NotaCompraEditComponent implements OnInit {
       });
   }
 
+  async cargarPrecioDia() {
+    let res: any;
+  
+    var req = {
+      SubProductoId: this.CodigoSubProducto,
+      EmpresaId: this.login.Result.Data.EmpresaId
+    }
+    res = await this.maestroService.ConsultarProductoPrecioDia(req).toPromise();
+    if (res.Result.Success) {
+      if(res.Result.Data){
+        this.precioDia = res.Result.Data[0].PrecioDia;
+      }
+      
+    }
+    
+  }
+
   async AutocompleteForm(data: any) {
+    this.login = JSON.parse(localStorage.getItem("user"));
+    this.CodigoSubProducto = data.SubProductoId;
+    await this.cargarPrecioDia();
     await this.LoadCombos();
     this.notaCompraEditForm.controls.idGuiaRecepcion.setValue(data.GuiaRecepcionMateriaPrimaId);
     this.notaCompraEditForm.controls.nombre.setValue(data.RazonSocial);
@@ -204,6 +228,7 @@ export class NotaCompraEditComponent implements OnInit {
     this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioPagado);
     this.notaCompraEditForm.controls.importeAT.setValue(data.Importe);
 
+    /*
     if (this.vUserSession && this.vUserSession.Result && this.vUserSession.Result.Data
       && this.vUserSession.Result.Data.ProductoPreciosDia && this.vUserSession.Result.Data.ProductoPreciosDia.length > 0) {
       const precioDia = this.vUserSession.Result.Data.ProductoPreciosDia
@@ -215,6 +240,15 @@ export class NotaCompraEditComponent implements OnInit {
         } else {
           this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
         }
+      }
+    }
+    */
+    if (this.precioDia) {
+      this.notaCompraEditForm.controls.precioDiaAT.setValue(this.precioDia);
+      if (this.precioDia > data.PrecioGuardado) {
+        this.notaCompraEditForm.controls.precioPagadoAT.setValue(this.precioDia);
+      } else {
+        this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
       }
     }
 
