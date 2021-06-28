@@ -164,7 +164,7 @@ export class NotaCompraEditComponent implements OnInit {
     }
     res = await this.maestroService.ConsultarProductoPrecioDia(req).toPromise();
     if (res.Result.Success) {
-      if(res.Result.Data){
+      if(res.Result.Data.length > 0){
         this.precioDia = res.Result.Data[0].PrecioDia;
       }
       
@@ -243,14 +243,14 @@ export class NotaCompraEditComponent implements OnInit {
       }
     }
     */
-    if (this.precioDia) {
-      this.notaCompraEditForm.controls.precioDiaAT.setValue(this.precioDia);
-      if (this.precioDia > data.PrecioGuardado) {
-        this.notaCompraEditForm.controls.precioPagadoAT.setValue(this.precioDia);
-      } else {
-        this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
-      }
+    
+    this.notaCompraEditForm.controls.precioDiaAT.setValue(this.precioDia);
+    if (this.precioDia > data.PrecioGuardado) {
+      this.notaCompraEditForm.controls.precioPagadoAT.setValue(this.precioDia);
+    } else {
+      this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
     }
+    
 
     this.notaCompraEditForm.controls.observacionNotaCompra.setValue(data.Observaciones);
     this.spinner.hide();
