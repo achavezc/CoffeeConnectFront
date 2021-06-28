@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-//import { CiudadesListComponent } from './operaciones/ciudades/ciudades-list/ciudades-list.component';
+import { CiudadesListComponent } from './operaciones/ciudades/list/ciudades-list.component';
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
 import { DetalleCatalogoEditComponent }from './operaciones/detallecatalogo/edit/detallecatalogo-edit.component';
 import { DetalleCatalogoComponent } from './operaciones/detallecatalogo/list/detallecatalogo-list.component';
@@ -182,7 +182,7 @@ const routes: Routes = [
         data: {
           title: 'Edit'
         }
-      }/*,
+      },
       {
         path: 'ciudades-list',
         component: CiudadesListComponent,
@@ -190,7 +190,7 @@ const routes: Routes = [
         data: {
           title: 'List'
         }
-      }*/
+      }
     ]
   }
 ];

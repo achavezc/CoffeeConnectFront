@@ -38,7 +38,7 @@ import { NotacompraListComponent } from './operaciones/notacompra/notacompra-lis
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
-
+import { CiudadesListComponent } from './operaciones/ciudades/list/ciudades-list.component';
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
 
 import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenservicio-edit/ordenservicio-edit.component';
@@ -78,6 +78,7 @@ import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
     ModalModule
   ],
   declarations: [
+    CiudadesListComponent,
     DetalleCatalogoEditComponent,
     DetalleCatalogoComponent,
     MateriaPrimaListComponent,
