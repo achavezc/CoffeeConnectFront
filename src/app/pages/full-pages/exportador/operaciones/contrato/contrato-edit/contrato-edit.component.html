@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card mb-0">
-               <!--<div class="card-body pb-0">
+                <!--<div class="card-body pb-0">
                     <div class="form-row">
                         <div class="col-lg-9 col-md-9 col-sm-9">
                             <div class="form-group row">
@@ -57,28 +57,28 @@
 
                 <div class="card-body pb-0">
                     <div class="col-12 col-md-8">
-                      <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
-                      <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
-                      <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}</div>
+                        <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                        <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                        <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}</div>
                     </div>
                     <div class="col-12 col-md-4">
-      
-                      
-                      <div class="form-row">
-      
-                        <div class="col-md-6 form-group">
-                          <label class="card-forms" for="users-edit-email">FECHA</label>
+
+
+                        <div class="form-row">
+
+                            <div class="col-md-6 form-group">
+                                <label class="card-forms" for="users-edit-email">FECHA</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="card-forms" for="users-edit-username"
+                                    style="font-weight: bold;">{{fechaRegistro}}</label>
+                            </div>
                         </div>
-                        <div class="col-md-6 form-group">
-                          <label class="card-forms" for="users-edit-username"
-                            style="font-weight: bold;">{{fechaRegistro}}</label>
-                        </div>
-                      </div>
-                     
-      
+
+
                     </div>
-      
-                  </div>
+
+                </div>
 
 
 
@@ -97,7 +97,7 @@
                                 <label for="nroContrato" class="col-lg-2 col-form-label">N° CONTRATO</label>
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <input type="text" name="nroContrato" id="nroContrato" formControlName="nroContrato"
-                                        class="form-control" placeholder="Número de contrato" 
+                                        class="form-control" placeholder="Número de contrato"
                                         [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
@@ -502,7 +502,8 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group row">
                                         <div class="col-md-12">
-                                            <a role="button" (click)="Descargar()" style="color: blue;" class="ml-3">{{fileName}}</a>
+                                            <a role="button" (click)="Descargar()" style="color: blue;"
+                                                class="ml-3">{{fileName}}</a>
                                         </div>
                                     </div>
                                 </div>
