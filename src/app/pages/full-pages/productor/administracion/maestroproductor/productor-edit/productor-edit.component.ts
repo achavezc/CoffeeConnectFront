@@ -345,7 +345,7 @@ export class ProductorEditComponent implements OnInit {
       NumeroTelefonoFijo: this.productorEditForm.value.telefonoFijo ? this.productorEditForm.value.telefonoFijo.toString() : '',
       NumeroTelefonoCelular: this.productorEditForm.value.telefCelular ? this.productorEditForm.value.telefCelular.toString() : '',
       CorreoElectronico: '',
-      FechaNacimiento: this.productorEditForm.value.fecNacimiento ?? null,
+      FechaNacimiento: this.productorEditForm.value.fecNacimiento ? this.productorEditForm.value.fecNacimiento : null,
       LugarNacimiento: this.productorEditForm.value.lugarNacimiento,
       EstadoCivilId: this.productorEditForm.value.estadoCivil ?? '',
       ReligionId: this.productorEditForm.value.religion ?? '',
@@ -360,7 +360,7 @@ export class ProductorEditComponent implements OnInit {
       NombresConyuge: this.productorEditForm.value.nombresCyg ?? '',
       ApellidosConyuge: this.productorEditForm.value.apellidosCyg ?? '',
       NumeroTelefonoCelularConyuge: this.productorEditForm.value.nroCelularCyg ?? '',
-      FechaNacimientoConyuge: this.productorEditForm.value.fecNacimientoCyg ?? null,
+      FechaNacimientoConyuge: this.productorEditForm.value.fecNacimientoCyg ? this.productorEditForm.value.fecNacimientoCyg : null,
       GradoEstudiosIdConyuge: this.productorEditForm.value.gradoEstudioCyg ?? '',
       LugarNacimientoConyuge: this.productorEditForm.value.lugarNacimientoCyg ?? '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
@@ -460,7 +460,7 @@ export class ProductorEditComponent implements OnInit {
     }
     this.productorEditForm.controls.nroCelularCyg.setValue(data.NumeroTelefonoCelularConyuge);
 
-    
+
 
     if (data.FechaNacimientoConyuge && data.FechaNacimientoConyuge.substring(0, 10) != "0001-01-01") {
       this.productorEditForm.controls.fecNacimientoCyg.setValue(data.FechaNacimientoConyuge.substring(0, 10));

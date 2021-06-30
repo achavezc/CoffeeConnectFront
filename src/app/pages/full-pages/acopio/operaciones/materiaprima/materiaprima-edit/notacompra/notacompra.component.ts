@@ -117,7 +117,7 @@ export class NotaCompraComponent implements OnInit {
     }
     res = await this.maestroService.ConsultarProductoPrecioDia(req).toPromise();
     if (res.Result.Success) {
-      if(res.Result.Data){
+      if(res.Result.Data.length > 0){
         this.precioDia = res.Result.Data[0].PrecioDia;
       }
       

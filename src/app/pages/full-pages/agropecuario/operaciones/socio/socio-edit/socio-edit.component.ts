@@ -341,10 +341,8 @@ export class SocioEditComponent implements OnInit {
   comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
 
-      if (!group.value.mCodProductor && !group.value.mNombRazonSocial && !group.value.mTipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
-      } else if (group.value.mNroDocumento && !group.value.mTipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
+      if (!group.value.mFechaInicio || !group.value.mFechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
@@ -457,7 +455,7 @@ export class SocioEditComponent implements OnInit {
         await this.GetProvincias();
         this.socioEditForm.controls.provincia.setValue(row.ProvinciaId);
       }
-      
+
       if (row.DistritoId) {
         await this.GetDistritos();
         this.socioEditForm.controls.distrito.setValue(row.DistritoId);
@@ -465,7 +463,7 @@ export class SocioEditComponent implements OnInit {
       if (row.NumeroTelefonoCelular) {
         this.socioEditForm.controls.telefCelular.setValue(row.NumeroTelefonoCelular);
       }
-      
+
       if (row.NumeroTelefonoFijo) {
         this.socioEditForm.controls.telefonoFijo.setValue(row.NumeroTelefonoFijo);
       }

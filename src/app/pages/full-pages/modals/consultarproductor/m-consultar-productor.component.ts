@@ -58,11 +58,8 @@ export class MConsultarProductorComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-
-      if (!group.value.tipoDocumento && !group.value.nombRazonSocial && !group.value.codProductor) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor ingresar al menos un filtro.' };
-      } else if (group.value.nroDocumento && !group.value.tipoDocumento) {
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un tipo de documento.' };
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }

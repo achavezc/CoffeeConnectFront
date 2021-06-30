@@ -78,7 +78,7 @@ export class LoteEditComponent implements OnInit {
       ruc: [],
       producto: [],
       subproducto: [],
-      tipoProduccion:[],
+      tipoProduccion: [],
       certificacion: [],
       almacen: ['', [Validators.required]],
       totalPesoNeto: [],
@@ -157,7 +157,7 @@ export class LoteEditComponent implements OnInit {
     this.loteEditForm.controls.razonSocial.setValue(row.RazonSocial);
     this.loteEditForm.controls.nroLote.setValue(row.Numero);
     this.loteEditForm.controls.direccion.setValue(row.Direccion);
-    
+
     if (row.FechaRegistro && row.FechaRegistro.substring(0, 10) != "0001-01-01") {
       this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
     }
@@ -184,36 +184,35 @@ export class LoteEditComponent implements OnInit {
     this.loteEditForm.controls.detalleLote.controls.promedioRendimiento.setValue(row.RendimientoPorcentaje);
     this.loteEditForm.controls.detalleLote.controls.promedioHumedad.setValue(row.HumedadPorcentajeAnalisisFisico);
     this.loteEditForm.controls.detalleLote.controls.promedioPuntajeFinal.setValue(row.TotalAnalisisSensorial);
-    if(row.ContratoId)
-    {
+    if (row.ContratoId) {
       this.loteEditForm.controls.idContrato.setValue(row.ContratoId);
       this.loteEditForm.controls.cliente.setValue(row.Cliente);
       this.loteEditForm.controls.cantidad.setValue(row.TotalSacos);
       this.loteEditForm.controls.unidadMedida.setValue(row.Empaque);
       this.loteEditForm.controls.kilosNetos.setValue(row.PesoKilos);
-      this.loteEditForm.controls.contrato.setValue(row.NumeroContrato); 
+      this.loteEditForm.controls.contrato.setValue(row.NumeroContrato);
       this.KilosNetos = row.PesoKilos;
-      this.calculoKilosPendiente();     
+      this.calculoKilosPendiente();
     }
     this.child.cargarDatos(row);
-    this.desactivarControles(row.EstadoId,row.UsuarioRegistro,row.UsuarioCalidad);
+    this.desactivarControles(row.EstadoId, row.UsuarioRegistro, row.UsuarioCalidad);
     this.spinner.hide();
 
   }
 
-  desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+  desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
     var usuarioLogueado = this.login.Result.Data.NombreUsuario
-    if(usuarioPesado == usuarioLogueado ){
+    if (usuarioPesado == usuarioLogueado) {
       //Cabecera Editable
       //Calidad Editable
-      
-    }else if(usuarioPesado != usuarioLogueado ){
+
+    } else if (usuarioPesado != usuarioLogueado) {
       //Cabecera ReadOnly
       this.loteEditForm.disable();
       this.btnContrato = false;
       //Calidad Editable
 
-    }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+    } else if (estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado) {
       //Cabecera ReadOnly
       this.loteEditForm.disable();
       this.btnContrato = false;
@@ -221,13 +220,13 @@ export class LoteEditComponent implements OnInit {
 
 
       //NotaCompra Editable
-    }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
+    } else if (estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado) {
       //Cabecera ReadOnly
       this.loteEditForm.disable();
       this.btnContrato = false;
       //Calidad ReadOnly
 
-    }else if(estado == this.estadoAnulado ){
+    } else if (estado == this.estadoAnulado) {
       //Cabecera ReadOnly
       this.loteEditForm.disable();
       this.btnContrato = false;

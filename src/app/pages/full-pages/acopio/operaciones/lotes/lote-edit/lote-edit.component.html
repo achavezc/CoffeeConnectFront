@@ -88,8 +88,9 @@
                     <div class="form-group row">
                         <label for="tipoProduccion" class="col-4 col-form-label">TIPO DE PRODUCCION</label>
                         <div class="col-8">
-                            <input type="text" name="tipoProduccion" id="tipoProduccion" formControlName="tipoProduccion"
-                                class="form-control" placeholder="Tipo de Produccion" [readonly]="true">
+                            <input type="text" name="tipoProduccion" id="tipoProduccion"
+                                formControlName="tipoProduccion" class="form-control" placeholder="Tipo de Produccion"
+                                [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -108,7 +109,8 @@
                                 <app-consultar-contrato (responseContrato)="GetDataMdlContrato($event)">
                                 </app-consultar-contrato>
                             </ng-template>
-                            <button type="button" (click)="OpenModal(mdlConsultarContrato)"  [disabled]="!btnContrato" class="btn btn-primary">
+                            <button type="button" (click)="OpenModal(mdlConsultarContrato)" [disabled]="!btnContrato"
+                                class="btn btn-primary">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -161,8 +163,8 @@
                         <label for="kilosPendientes" class="col-4 col-form-label">KILOS PENDIENTES</label>
                         <div class="col-7">
                             <input type="text" name="kilosPendientes" id="kilosPendientes"
-                                formControlName="kilosPendientes" class="form-control text-right" placeholder="Kilos Netos"
-                                [readonly]="true">
+                                formControlName="kilosPendientes" class="form-control text-right"
+                                placeholder="Kilos Netos" [readonly]="true">
                         </div>
                     </div>
                 </div>
@@ -193,7 +195,7 @@
                                                             {{errorGeneral.msgError}}
                                                         </small>
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <div class="card-footer text-right">
                                                     <button class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
