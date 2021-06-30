@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { ProductoPrecioDiaService } from '../../../../../../services/preciosdia.service';
+import { UbigeoService } from '../../../../../../services/ubigeo.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
@@ -18,7 +18,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 export class CiudadesListComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private dateUtil: DateUtil,
-    private preciodia: ProductoPrecioDiaService,
+    private ubigeoService: UbigeoService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
@@ -46,16 +46,13 @@ export class CiudadesListComponent implements OnInit {
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    this.preciosdiaform.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-    this.preciosdiaform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
+    
   }
 
   LoadForm(): void {
     this.preciosdiaform = this.fb.group({
-      fechaInicio: ['', Validators.required],
-      fechaFin: ['', Validators.required],
-      producto: ['', ''],
-      subproducto: ['', ''],
+      
+      producto: ['', Validators.required],
       estado: ['', Validators.required]
     });
   }
@@ -65,68 +62,27 @@ export class CiudadesListComponent implements OnInit {
   }
 
   LoadCombos(): void {
-    this.GetListProducto();
+    this.GetPaises();
     this.GetListEstado();
 
   }
 
-  async GetListProducto() {
-    let form = this;
-    let res = await this.maestroService.obtenerMaestros('Producto').toPromise();
+
+
+  
+  async GetPaises() {
+    const res: any = await this.maestroService.ConsultarPaisAsync().toPromise();
     if (res.Result.Success) {
-      form.listProducto = res.Result.Data;
+      this.listProducto = res.Result.Data;
     }
   }
-  changeProduct(event: any): void {
-    let form = this;
-    if (event) {
-      this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
-        if (res.Result.Success) {
-          if (res.Result.Data.length > 0) {
-            form.listSubProducto = res.Result.Data.filter(x => x.Val1 == event.Codigo);
-          } else {
-            form.listSubProducto = [];
-          }
-        }
-      });
-    } else {
-      form.listSubProducto = [];
-    }
-  }
+
+
 
   async GetListEstado() {
     let res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
       this.listEstado = res.Result.Data;
-    }
-  }
-
-  compareTwoDates() {
-    var anioFechaInicio = new Date(this.preciosdiaform.controls['fechaInicio'].value).getFullYear()
-    var anioFechaFin = new Date(this.preciosdiaform.controls['fechaFin'].value).getFullYear()
-
-    if (new Date(this.preciosdiaform.controls['fechaFin'].value) < new Date(this.preciosdiaform.controls['fechaInicio'].value)) {
-      this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
-      this.preciosdiaform.controls['fechaFin'].setErrors({ isError: true })
-    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
-      this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.preciosdiaform.controls['fechaFin'].setErrors({ isError: true })
-    } else {
-      this.error = { isError: false, errorMessage: '' };
-    }
-  }
-
-  compareFechas() {
-    var anioFechaInicio = new Date(this.preciosdiaform.controls['fechaInicio'].value).getFullYear()
-    var anioFechaFin = new Date(this.preciosdiaform.controls['fechaFin'].value).getFullYear()
-    if (new Date(this.preciosdiaform.controls['fechaInicio'].value) > new Date(this.preciosdiaform.controls['fechaFin'].value)) {
-      this.errorFecha = { isError: true, errorMessage: 'La fecha inicio no puede ser mayor a la fecha fin' };
-      this.preciosdiaform.controls['fechaInicio'].setErrors({ isError: true })
-    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
-      this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.preciosdiaform.controls['fechaInicio'].setErrors({ isError: true })
-    } else {
-      this.errorFecha = { isError: false, errorMessage: '' };
     }
   }
 
@@ -149,11 +105,7 @@ export class CiudadesListComponent implements OnInit {
 
   getRequest(): any {
     return {
-      ProductoId: this.preciosdiaform.value.producto ?? '',
-      SubProductoId: this.preciosdiaform.value.subproducto ?? '',
-      EstadoId: this.preciosdiaform.value.estado ?? '',
-      FechaInicio: this.preciosdiaform.value.fechaInicio ?? '',
-      FechaFin: this.preciosdiaform.value.fechaFin ?? '',
+      CodigoPais: this.preciosdiaform.value.producto ?? '',
       EmpresaId: 1
     };
   }
@@ -162,12 +114,12 @@ export class CiudadesListComponent implements OnInit {
     if (!this.preciosdiaform.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
       const request = this.getRequest();
-      this.preciodia.Consultar(request).subscribe((res: any) => {
+      this.ubigeoService.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
-          res.Result.Data.forEach(x => {
+          /*res.Result.Data.forEach(x => {
             x.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro));
-          });
+          });*/
           this.tempData = res.Result.Data;
           this.rows = [...this.tempData];
           this.errorGeneral = { isError: false, msgError: '' };
@@ -189,7 +141,7 @@ export class CiudadesListComponent implements OnInit {
   }
 
   Nuevo(): void {
-    this.router.navigate(['/exportador/operaciones/preciosdia/create']);
+    this.router.navigate(['/acopio/operaciones/ciudades-edit']);
   }
 
 }
