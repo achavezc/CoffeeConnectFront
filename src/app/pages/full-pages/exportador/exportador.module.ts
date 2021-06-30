@@ -28,6 +28,7 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproce
 import {PreciosDiaComponent} from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
 import {PrecioDiaEditComponent} from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component'; 
 import { ModalModule } from '../modals/modal.module'
+import {AduanasComponent} from './operaciones/aduanas/aduanas.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ModalModule } from '../modals/modal.module'
     OrdenProcesoComponent,
     OrdenProcesoEditComponent,
     PreciosDiaComponent,
-    PrecioDiaEditComponent
+    PrecioDiaEditComponent,
+    AduanasComponent
   ],
   imports: [
     CommonModule,
@@ -67,7 +69,8 @@ import { ModalModule } from '../modals/modal.module'
     OrdenProcesoComponent,
     OrdenProcesoEditComponent,
     PreciosDiaComponent,
-    PrecioDiaEditComponent
+    PrecioDiaEditComponent,
+    AduanasComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

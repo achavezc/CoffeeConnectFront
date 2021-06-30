@@ -9,6 +9,7 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproce
 import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.component';
 import { PreciosDiaComponent } from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
 import { PrecioDiaEditComponent } from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
+import {AduanasComponent} from './operaciones/aduanas/aduanas.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,16 @@ const routes: Routes = [
           title: 'Precios del día'
         }
       }
+      ,
+      {
+        path: 'aduanas/list',
+        component: AduanasComponent,
+        data: {
+          title: 'Aduanas'
+        }
+      }
+
+      
 
 
 

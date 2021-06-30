@@ -62,7 +62,7 @@ export class IngresoAlmacenComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoadForm();
-    this.LoadCombos();
+    
     this.ingresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ingresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -85,6 +85,7 @@ export class IngresoAlmacenComponent implements OnInit {
         this.ingresoAlmacenForm.controls['certificacion'].setValue(this.lote.TipoCertificacionId);
 
       }
+     // this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
 
     }
   }
@@ -94,7 +95,7 @@ export class IngresoAlmacenComponent implements OnInit {
     this.ingresoAlmacenForm.controls['subProducto'].disable();
   }
 
-  LoadForm(): void {
+  async LoadForm() {
     this.ingresoAlmacenForm = this.fb.group({
       nroIngreso: ['',],
       tipoDocumento: [],
@@ -114,6 +115,9 @@ export class IngresoAlmacenComponent implements OnInit {
       puntajeFinalFin: []
     });
     this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
+   await this.LoadCombos();
+   
+    
   }
 
   get f() {
@@ -147,15 +151,19 @@ export class IngresoAlmacenComponent implements OnInit {
         form.listProducts = res.Result.Data;
       }
     });
-
+   
     await this.LoadFormPopup();
+   
   }
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      if (!group.value.fechaInicio || !group.value.fechaFin) {
+     const fechaInicio = group.controls['fechaInicio'];
+     const fechaFin = group.controls['fechaFin'];
+     const estado = group.controls['estado'];
+      if (!fechaInicio.value || !fechaFin.value) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
-      } else if (!group.value.estado) {
+      } else if (estado.value == null) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -217,6 +225,7 @@ export class IngresoAlmacenComponent implements OnInit {
   }
 
   Buscar(exportExcel?: boolean): void {
+    
     if (this.ingresoAlmacenForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
