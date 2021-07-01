@@ -81,6 +81,15 @@ export class OrdenProcesoComponent implements OnInit {
         this.listEstados = res.Result.Data;
       }
     });
+
+    this.maestroUtil.obtenerMaestros('TipoProceso', (res: any) => {
+      if (res.Result.Success) {
+        this.listTiposProcesos = res.Result.Data;
+      }
+    });
+
+    
+
   }
 
   singleSelectCheck(row: any) {

@@ -279,7 +279,7 @@
                                         <div class="col-lg-5">
                                             <ng-select [items]="listHarvestPeriod" formControlName="harvestPeriod"
                                                 class="form-control" bindLabel="Label" bindValue="Codigo"
-                                                id="harvestPeriod" placeholder="Tipo de producción"
+                                                id="harvestPeriod" placeholder="Periodo Cosecha"
                                                 [ngClass]="{ 'is-invalid': f.harvestPeriod.invalid, 'is-valid': !f.harvestPeriod.invalid }"
                                                 [(ngModel)]="selectedHarvestPeriod">
                                             </ng-select>
@@ -615,7 +615,7 @@
                                 <div class="col-lg-5">
                                     <input type="text" name="responsableComercial" id="responsableComercial"
                                         formControlName="responsableComercial" class="form-control"
-                                        placeholder="Cantidad" [readonly]="true"
+                                        placeholder="Responsable Comercial" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.responsableComercial.invalid, 'is-valid': !f.responsableComercial.invalid }">
                                 </div>
                             </div>

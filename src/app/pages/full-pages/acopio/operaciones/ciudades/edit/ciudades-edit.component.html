@@ -10,20 +10,20 @@
             <div class="form-row">
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="codigo" class="col-md-4 col-form-label pr-0">Codigo</label>
+                        <label for="codigo" class="col-md-4 col-form-label pr-0">Código</label>
                         <div class="col-md-8">
                             <input type="text" name="codigo" id="codigo" formControlName="codigo"
-                                class="form-control" placeholder="Ingresar Codigo" 
-                                [ngClass]="{ 'is-invalid': f.codigo.invalid, 'is-valid': !f.codigo.invalid }">
+                                class="form-control" placeholder="Ingresar Código" 
+                                [ngClass]="{ 'is-invalid': f.codigo.invalid, 'is-valid': !f.codigo.invalid }" [readonly]="true">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="descripcion" class="col-md-4 col-form-label pr-0">Descripcion</label>
+                        <label for="descripcion" class="col-md-4 col-form-label pr-0">Descripción</label>
                         <div class="col-md-8">
                             <input type="text" name="descripcion" id="descripcion" formControlName="descripcion"
-                                class="form-control" placeholder="Ingresar Descripcion" 
+                                class="form-control" placeholder="Ingresar Descripción" 
                                 [ngClass]="{ 'is-invalid': f.descripcion.invalid, 'is-valid': !f.descripcion.invalid }">
                         </div>
                     </div>

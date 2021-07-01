@@ -95,7 +95,7 @@ export class CiudadesEditComponent implements OnInit {
 
   LoadForm() {
     this.precioDiaEditForm = this.fb.group({
-      codigo: ['',Validators.required],
+      codigo: ['', ],
       descripcion: ['',Validators.required],
       producto: ['', Validators.required],
       estado: ['',Validators.required]
@@ -165,7 +165,7 @@ export class CiudadesEditComponent implements OnInit {
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
-          this.alertUtil.alertOkCallback("Se Actualizo!", "Se completo correctamente!",
+          this.alertUtil.alertOkCallback("Se Actualizó!", "Se completó correctamente!",
             () => {
               this.Cancel();
             });
@@ -186,7 +186,7 @@ export class CiudadesEditComponent implements OnInit {
         .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
-            this.alertUtil.alertOkCallback("Registrado!", "Se completo el registro correctamente!",
+            this.alertUtil.alertOkCallback("Registrado!", "Se completó el registro correctamente!",
               () => {
                 this.Cancel();
               });
