@@ -183,7 +183,7 @@ export class TagNotaSalidaEditComponent implements OnInit {
   cargarTransportista() {
     this.consultaTransportistas = new FormGroup(
       {
-        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(20)]),
+        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
         ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20)])
       }
     );

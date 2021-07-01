@@ -117,7 +117,7 @@ export class MConsultarOrganizacionComponent implements OnInit {
     this.consultaOrganizacion = new FormGroup(
       {
         ruc: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
-        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         clasificacion: new FormControl('', []),
         codigo: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')])
       });

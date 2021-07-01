@@ -33,12 +33,12 @@
                 <div class="form-group row">
                   <label for="validationTooltip08" class="col-md-4 col-form-label card-text2">Razón Social</label>
                   <div class="col-md-8">
-                    <input type="text" minlength="5" maxlength="20" formControlName="rzsocial" class="form-control"
+                    <input type="text" minlength="5" maxlength="100" formControlName="rzsocial" class="form-control"
                       id="validationTooltip08" placeholder="Razon Social"
                       [ngClass]="{ 'is-invalid': submittedT && fT.rzsocial.invalid, 'is-valid': submittedT && !fT.rzsocial.invalid }">
-                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.minlength">Ingrese 5 a 20
+                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.minlength">Ingrese 5 a 100
                       letras</small>
-                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.maxlength">Ingrese 5 a 20
+                    <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.maxlength">Ingrese 5 a 100
                       letras</small>
                   </div>
                 </div>

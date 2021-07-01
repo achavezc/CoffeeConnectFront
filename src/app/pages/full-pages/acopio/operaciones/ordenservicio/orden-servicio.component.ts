@@ -166,7 +166,8 @@ export class OrdenServicioComponent implements OnInit {
         EstadoId: this.ordenServConCalExtForm.value.estado ?? '',
         FechaInicio: new Date(this.ordenServConCalExtForm.value.fechaInicio),
         FechaFin: new Date(this.ordenServConCalExtForm.value.fechaFin),
-        EmpresaId: 1
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+        
       };
 
       this.spinner.show();
