@@ -45,7 +45,7 @@ export class OrdenServicioEditComponent implements OnInit {
   selectTipoProveedor: any;
   rows: any[];
   errorGeneral: any = { isError: false, errorMessage: '' };
-  selectEmpresa: any[];
+  selectEmpresa: any[] =[];
   responsable: "";
   id: Number = 0;
   mensajeErrorGenerico = "Ocurrio un error interno.";
@@ -122,13 +122,13 @@ export class OrdenServicioEditComponent implements OnInit {
   }
   async cargarDataFormulario(data: any)
   {
-
+    this.selectEmpresa[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaProcesadoraId};
     this.numero = data.Numero;
     this.estado = data.Estado;
     this.responsable = data.UsuarioRegistro;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.ordenServicioFormEdit.get('destinatario').setValue(data.RazonSocialEmpresa);
-    this.ordenServicioFormEdit.get('ruc').setValue(data.RucEmpresa);
+    this.ordenServicioFormEdit.get('destinatario').setValue(data.RazonSocialEmpresaProcesadora);
+    this.ordenServicioFormEdit.get('ruc').setValue(data.RucEmpresaProcesadora);
     this.ordenServicioFormEdit.get('dirDestino').setValue(data.DireccionEmpresaProcesadora);
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.ordenServicioFormEdit.get('tagordenservicio').get('producto').setValue(data.ProductoId);

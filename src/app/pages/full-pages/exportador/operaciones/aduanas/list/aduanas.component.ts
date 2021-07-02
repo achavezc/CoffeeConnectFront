@@ -4,10 +4,10 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 import { Router } from "@angular/router"
-import { MaestroUtil } from './../../../../../services/util/maestro-util';
-import { DateUtil } from './../../../../../services/util/date-util';
-import { AlertUtil } from './../../../../../services/util/alert-util';
-import { OrdenservicioControlcalidadService } from './../../../../../services/ordenservicio-controlcalidad.service';
+import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { DateUtil } from '../../../../../../services/util/date-util';
+import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { AduanaService } from '../../../../../../services/aduanas.service';
 
 @Component({
   selector: 'app-aduanas',
@@ -22,17 +22,13 @@ export class AduanasComponent implements OnInit {
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private ordenSerContCalidService: OrdenservicioControlcalidadService,
+    private aduanaService: AduanaService,
     private router: Router) {
   }
 
-  ordenServConCalExtForm: FormGroup;
+  aduanasForm: FormGroup;
   listEstados: [] = [];
-  listProductos: [] = [];
-  listSubProductos: [] = [];
   selectedEstado: any;
-  selectedProducto: any;
-  selectedSubProducto: any;
   submitted: boolean = false;
   error: any = { isError: false, errorMessage: '' };
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -48,41 +44,37 @@ export class AduanasComponent implements OnInit {
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    this.ordenServConCalExtForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
-    this.ordenServConCalExtForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.aduanasForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
+    this.aduanasForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   LoadForm(): void {
-    this.ordenServConCalExtForm = this.fb.group({
-      nroOrdenServicio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      razonSocial: [''],
+    this.aduanasForm = this.fb.group({
+      numeroContrato: [''],
+      codigo: [''],
       ruc: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
       estado: ['', [Validators.required]],
-      producto: [],
-      subProducto: []
+      agenciaAduanera: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      clienteFinal: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]]
     });
-    this.ordenServConCalExtForm.setValidators(this.comparisonValidator());
+    this.aduanasForm.setValidators(this.comparisonValidator());
   }
 
   LoadCombos(): void {
     let form = this;
-    this.maestroUtil.obtenerMaestros("EstadoOrdenServicioControlCalidad", function (res) {
+    this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion", function (res) {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("Producto", function (res) {
-      if (res.Result.Success) {
-        form.listProductos = res.Result.Data;
-      }
-    });
+    
   }
 
   get f() {
-    return this.ordenServConCalExtForm.controls;
+    return this.aduanasForm.controls;
   }
 
   public comparisonValidator(): ValidatorFn {
@@ -98,36 +90,21 @@ export class AduanasComponent implements OnInit {
     };
   }
 
-  changeProduct(event: any): void {
-    let form = this;
-    if (event) {
-      this.maestroUtil.obtenerMaestros("SubProducto", function (res) {
-        if (res.Result.Success) {
-          if (res.Result.Data.length > 0) {
-            form.listSubProductos = res.Result.Data.filter(x => x.Val1 == event.Codigo);
-          } else {
-            form.listSubProductos = [];
-          }
-        }
-      });
-    } else {
-      form.listSubProductos = [];
-    }
-  }
+ 
 
   compareTwoDates(): void {
-    let vBeginDate = new Date(this.ordenServConCalExtForm.value.fechaInicio);
-    let vEndDate = new Date(this.ordenServConCalExtForm.value.fechaFin);
+    let vBeginDate = new Date(this.aduanasForm.value.fechaInicio);
+    let vEndDate = new Date(this.aduanasForm.value.fechaFin);
 
     var anioFechaInicio = vBeginDate.getFullYear()
     var anioFechaFin = vEndDate.getFullYear()
 
     if (vEndDate < vBeginDate) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
-      this.ordenServConCalExtForm.value.fechaInicio.setErrors({ isError: true });
+      this.aduanasForm.value.fechaInicio.setErrors({ isError: true });
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.ordenServConCalExtForm.value.fechaFin.setErrors({ isError: true });
+      this.aduanasForm.value.fechaFin.setErrors({ isError: true });
     }
     else {
       this.error = { isError: false, errorMessage: '' };
@@ -152,26 +129,29 @@ export class AduanasComponent implements OnInit {
   }
 
   Buscar(): void {
-    if (this.ordenServConCalExtForm.invalid || this.errorGeneral.isError) {
+    if (this.aduanasForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
     } else {
       this.submitted = false;
       let request = {
-        Numero: this.ordenServConCalExtForm.value.nroOrdenServicio,
-        RazonSocial: this.ordenServConCalExtForm.value.razonSocial,
-        Ruc: this.ordenServConCalExtForm.value.ruc,
-        ProductoId: this.ordenServConCalExtForm.value.producto ?? '',
-        SubProductoId: this.ordenServConCalExtForm.value.subProducto ?? '',
-        EstadoId: this.ordenServConCalExtForm.value.estado ?? '',
-        FechaInicio: new Date(this.ordenServConCalExtForm.value.fechaInicio),
-        FechaFin: new Date(this.ordenServConCalExtForm.value.fechaFin),
+        Numero: this.aduanasForm.value.codigo,
+        NumeroContrato: this.aduanasForm.value.numeroContrato,
+        RucEmpresaExportadora: this.aduanasForm.value.ruc,
+        RazonSocial: this.aduanasForm.value.razonSocial,
+        FechaInicio: new Date(this.aduanasForm.value.fechaInicio),
+        FechaFin: new Date(this.aduanasForm.value.fechaFin),
+        RazonSocialEmpresaExportadora:  this.aduanasForm.value.agenciaAduanera,
+        RazonSocialCliente: this.aduanasForm.value.clienteFinal,
+        
+        EstadoId: this.aduanasForm.value.estado ?? '',
+       
         EmpresaId: 1
       };
 
       this.spinner.show();
 
-      this.ordenSerContCalidService.Consultar(request)
+      this.aduanaService.Consultar(request)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -228,10 +208,7 @@ export class AduanasComponent implements OnInit {
   }
 
   AnularOSSelected(): void {
-    this.ordenSerContCalidService.Anular({
-      OrdenServicioControlCalidadId: this.selected[0].OrdenServicioControlCalidadId,
-      Usuario: this.vSessionUser.Result.Data.NombreUsuario
-    })
+    this.aduanaService.Anular(10,'2')
       .subscribe(res => {
         if (res.Result.Success) {
           if (!res.Result.ErrCode) {

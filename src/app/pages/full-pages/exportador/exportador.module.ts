@@ -28,7 +28,7 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproce
 import {PreciosDiaComponent} from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
 import {PrecioDiaEditComponent} from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component'; 
 import { ModalModule } from '../modals/modal.module'
-import {AduanasComponent} from './operaciones/aduanas/aduanas.component';
+import {AduanasComponent} from './operaciones/aduanas/list/aduanas.component';
 
 
 @NgModule({

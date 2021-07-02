@@ -312,11 +312,14 @@
                   *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
             </div>
      
-            <button class="btn btn-primary mr-1 mb-1" type="submit" *ngIf="estadoId != estadoLiquidado" (click)="guardar()">Guardar</button>
+           
 
-            <button type="button" class="btn btn-primary mr-1 mb-1" (click)="Print()"
-                *ngIf="detalle.NotaCompra != null">Imprimir</button>
+            <div class="card-footer text-right" style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"  *ngIf="estadoId != estadoLiquidado" (click)="guardar()">Guardar</button>
+                <button type="button" class="btn btn-primary mr-1 mb-1" (click)="Print()" *ngIf="detalle.NotaCompra != null">Imprimir</button>
+                <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
+                    (click)="cancelar()">Cancelar</button>
+            </div>
 
-            <button class="btn btn-primary mr-1 mb-1" type="submit"  (click)="cancelar()">Cancelar</button>
         </div>
        
