@@ -57,10 +57,10 @@
                                     class="form-control" id="nombre" placeholder="Nombre"
                                     [ngClass]="{ 'is-invalid': submitted && f.nombre.invalid, 'is-valid': submitted && !f.nombre.invalid }">
                                     <small class="form-text text-muted danger"
-                                    *ngIf="f.nombre.errors?.minlength">Ingrese 5 a 50
+                                    *ngIf="f.nombre.errors?.minlength">Ingrese 5 a 100
                                     letras</small>
                                   <small class="form-text text-muted danger"
-                                    *ngIf="f.nombre.errors?.maxlength">Ingrese 5 a 50
+                                    *ngIf="f.nombre.errors?.maxlength">Ingrese 5 a 100
                                     letras</small>
                                 
                         </div>

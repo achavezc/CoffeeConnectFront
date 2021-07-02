@@ -233,7 +233,7 @@ export class TransporteEditComponent implements OnInit {
         return {
             TransporteId: this.vId,
             EmpresaTransporteId: this.vidEmpresaTransporte,
-            NumeroConstanciaMTC: this.transporteEditForm.value.nombreRazonSocial ? this.transporteEditForm.value.nombreRazonSocial : '',
+            NumeroConstanciaMTC: this.transporteEditForm.value.constanciaMTC ? this.transporteEditForm.value.constanciaMTC : '',
             MarcaTractorId: this.transporteEditForm.controls["marcaTractor"].value ? this.transporteEditForm.controls["marcaTractor"].value : '',
             PlacaTractor: this.transporteEditForm.value.placaTractor ? this.transporteEditForm.value.placaTractor : '',
             MarcaCarretaId: this.transporteEditForm.controls["marcaCarreta"].value ? this.transporteEditForm.controls["marcaCarreta"].value : '',

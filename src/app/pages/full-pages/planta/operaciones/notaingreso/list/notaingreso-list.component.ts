@@ -104,7 +104,7 @@ export class NotaIngresoListComponent implements OnInit {
         numeroGuiaRemision: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
         fechaInicio: new FormControl('', [Validators.required]),
         fechaFin: new FormControl('', [Validators.required,]),
-        organizacion: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        organizacion: new FormControl('', [Validators.minLength(8), Validators.maxLength(100), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         ruc: new FormControl('', []),
         tipoProducto: new FormControl('', []),
         subProducto: new FormControl('', []),

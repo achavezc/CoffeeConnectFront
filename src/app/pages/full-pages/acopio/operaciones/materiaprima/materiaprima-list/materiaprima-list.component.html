@@ -77,9 +77,9 @@
                   <input type="text" minlength="5" maxlength="100" formControlName="nombre" class="form-control"
                     id="validationTooltip06" placeholder="nombre"
                     [ngClass]="{ 'is-invalid': submitted && f.nombre.invalid, 'is-valid': submitted && !f.nombre.invalid }">
-                  <small class="form-text text-muted danger" *ngIf="f.nombre.errors?.minlength">Ingrese 5 a 20
+                  <small class="form-text text-muted danger" *ngIf="f.nombre.errors?.minlength">Ingrese 5 a 100
                     letras</small>
-                  <small class="form-text text-muted danger" *ngIf="f.nombre.errors?.maxlength">Ingrese 5 a 20
+                  <small class="form-text text-muted danger" *ngIf="f.nombre.errors?.maxlength">Ingrese 5 a 100
                     letras</small>
                 </div>
                 <div class="col-md-4 mb-4 form-group mb-2">

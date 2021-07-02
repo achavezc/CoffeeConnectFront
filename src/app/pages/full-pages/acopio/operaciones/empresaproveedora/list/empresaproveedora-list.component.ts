@@ -8,6 +8,7 @@ import { EmpresaProveedoraService } from '../../../../../../services/empresaprov
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-empresatransporte',
@@ -41,10 +42,12 @@ export class EmpresaProveedoraListComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
   empresaProveedoraform: FormGroup;
+  vSessionUser: ILogin;
   
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   LoadForm(): void {
@@ -111,7 +114,7 @@ export class EmpresaProveedoraListComponent implements OnInit {
         RazonSocial: this.empresaProveedoraform.value.nombreRazonSocial,
         Ruc: this.empresaProveedoraform.value.ruc,
         EstadoId: this.empresaProveedoraform.value.estado,
-        EmpresaId: 1,
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
         ClasificacionId: this.empresaProveedoraform.value.clasificacion
     };
   }

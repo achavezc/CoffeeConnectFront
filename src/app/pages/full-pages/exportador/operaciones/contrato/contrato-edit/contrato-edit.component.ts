@@ -177,10 +177,19 @@ export class ContratoEditComponent implements OnInit {
     this.GetDegreePreparation();
     this.GetCertifiers();
     this.GetCertifications();
+    this.GetHarvestPeriod();
     // this.GetLaboratorys();
     // this.GetStatusTrackingSamples();
     // this.GetShippingCompany();
     this.spinner.hide();
+  }
+
+  async GetHarvestPeriod() {
+    this.listHarvestPeriod = [];
+    const res = await this.maestroService.obtenerMaestros('PeriodoCosecha').toPromise();
+    if (res.Result.Success) {
+      this.listHarvestPeriod = res.Result.Data;
+    }
   }
 
   async GetShipmentCondition() {
@@ -376,6 +385,7 @@ export class ContratoEditComponent implements OnInit {
       MonedadId: form.moneda ? form.moneda : '',
       Monto: form.precio ? parseFloat(form.precio) : 0,
       UnidadMedicionId: form.unidadMedida ? form.unidadMedida : '',
+      PeriodosCosecha: form.harvestPeriod ? form.harvestPeriod : '',
       EntidadCertificadoraId: form.certificadora ? form.certificadora : '',
       TipoCertificacionId: form.certificacion ? form.certificacion.join('|') : '',
       CalidadId: form.calidad ? form.calidad : '',
@@ -575,10 +585,21 @@ export class ContratoEditComponent implements OnInit {
       }
       if (data.Monto)
         this.contratoEditForm.controls.precio.setValue(data.Monto);
+      if (data.PeriodosCosecha) {
+        await this.GetHarvestPeriod();
+        this.contratoEditForm.controls.harvestPeriod.setValue(data.PeriodosCosecha);
+      }
+
       if (data.UnidadMedicionId) {
         await this.GetMeasurementUnit();
         this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
       }
+
+      
+      this.contratoEditForm.controls.responsableComercial.setValue(data.UsuarioRegistro)
+      
+      
+
       if (data.CalculoContratoId) {
         await this.GetCalculations();
         this.contratoEditForm.controls.calculo.setValue(data.CalculoContratoId);

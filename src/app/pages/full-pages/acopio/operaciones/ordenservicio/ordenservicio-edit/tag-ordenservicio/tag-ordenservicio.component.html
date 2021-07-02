@@ -26,7 +26,7 @@
             </div>
             <div class="col-12 col-md-6">
               <label for="basicInput">RENDIMIENTO</label>
-              <input type="text" class="form-control" id="basicInput" formControlName="rendimiento"  [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.rendimiento.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.rendimiento.invalid }">
+              <input type="number" class="form-control" id="basicInput" formControlName="rendimiento"  [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.rendimiento.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.rendimiento.invalid }">
               <label for="basicInput">UNIDAD DE MEDIDA</label>
               <ng-select [items]="listaUnidadMedida" formControlName="unidadmedida" bindLabel="Label" bindValue="Codigo"
                 id="validationTooltip01" placeholder="Seleccionar Unidad Medida" class="form-control"
@@ -35,7 +35,7 @@
               </ng-select> 
               
               <label for="basicInput">CANTIDAD</label>
-              <input type="text" class="form-control" id="basicInput" formControlName="cantidad" [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.cantidad.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.cantidad.invalid }">
+              <input type="number" class="form-control" id="basicInput" formControlName="cantidad" [ngClass]="{ 'is-invalid': submittedEdit && tagOrdenServicio.controls.cantidad.invalid, 'is-valid': submittedEdit && !tagOrdenServicio.controls.cantidad.invalid }">
               
             </div>
           </div>

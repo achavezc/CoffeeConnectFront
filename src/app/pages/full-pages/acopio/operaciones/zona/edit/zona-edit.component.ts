@@ -104,7 +104,7 @@ export class ZonaEditComponent implements OnInit {
 
     LoadForm() {
         this.zonaEditForm = this.fb.group({
-            nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+            nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
             departamento: ['', Validators.required],
             provincia: ['', Validators.required],
             distrito: ['', Validators.required],

@@ -110,7 +110,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
 
     LoadForm() {
         this.empresaProveedoraEditForm = this.fb.group({
-            nombreRazonSocial: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+            nombreRazonSocial: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
             ruc: ['', Validators.required],
             direccion: ['', Validators.required],
             departamento: ['', Validators.required],
