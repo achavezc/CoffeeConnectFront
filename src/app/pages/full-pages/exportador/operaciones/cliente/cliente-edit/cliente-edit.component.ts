@@ -437,6 +437,14 @@ export class ClienteEditComponent implements OnInit {
     if (data.PresidenteNumero) {
       this.clienteEditForm.controls.idPresidente.setValue(data.PresidenteNumero);
     }
+
+    if (data.UsuarioRegistro) {
+      this.clienteEditForm.controls.responsableComercial.setValue(data.UsuarioRegistro);
+    }
+
+    
+
+
     if (data.FloId)
       this.clienteEditForm.controls.floId.setValue(data.FloId);
     this.spinner.hide();
