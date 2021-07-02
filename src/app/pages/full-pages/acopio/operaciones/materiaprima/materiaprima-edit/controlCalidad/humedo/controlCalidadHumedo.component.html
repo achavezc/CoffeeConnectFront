@@ -1,129 +1,143 @@
 <div>
     <form [formGroup]="formControlCalidadHumedo">
         <div class="row">
-          
-            
+
+
             <div class="col-md-6 offset-md-3">
-            <div class="font-calidad group-control-calidad">
-                <div class="item-control-calidad">
-                    <div class="col-12">
-                      
-                                <h5 class="mt-0" style="text-align: center;">Análisis Físico</h5>
-                                
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group row" style="margin-top: 1rem;">
-                                            <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">% Humedad</label>
-                                            <div class="col-md-8">
-                                              <input type="text" class="form-control square" id="horizontal-form-1"
-                                                name="first-name" formControlName = "humedad"  [ngClass]="{ 'is-invalid': submitted && f.humedad.invalid, 'is-valid': submitted && !f.humedad.invalid }">
-                                            </div>
+                <div class="font-calidad group-control-calidad">
+                    <div class="item-control-calidad">
+                        <div class="col-12">
+
+                            <h5 class="mt-0" style="text-align: center;">Análisis Físico</h5>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group row" style="margin-top: 1rem;">
+                                        <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">%
+                                            Humedad</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control square" id="horizontal-form-1"
+                                                name="first-name" formControlName="humedad"
+                                                [ngClass]="{ 'is-invalid': submitted && f.humedad.invalid, 'is-valid': submitted && !f.humedad.invalid }">
+                                        </div>
                                     </div>
                                 </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-md-6 table-2">
-                                        <table class="table-calidad font-calidad table-responsive" [formGroup]="tableOlor" style="width: 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>OLOR</th>
-                                                    <th>SELECCION</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                               
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6 table-2">
+                                    <table class="table-calidad font-calidad table-responsive" [formGroup]="tableOlor"
+                                        style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>OLOR</th>
+                                                <th>SELECCION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                                    <tr *ngFor="let item of listaOlor ; let i=index">
 
-                                                        <td style="width: 70%;">{{ item.Label }}</td>
-                                                        <td style="border-left: 1px solid #E0E0E0; width: 30%;">
-                                                            <div class="checkbox">
-                                                                <input type="checkbox" [id]="'CheckboxOlor%'+item.Codigo"
-                                                                    [formControlName]="'CheckboxOlor%'+item.Codigo">
-                                                                <label [for]="'CheckboxOlor%'+item.Codigo"
-                                                                    class="label-checkbox"></label>
+                                            <tr *ngFor="let item of listaOlor ; let i=index">
 
-                                                            </div>
-                                                            <!--<input type="text" class="form-control square" id="horizontal-form-1" [formControlName]="item.Codigo"
+                                                <td style="width: 70%;">{{ item.Label }}</td>
+                                                <td style="border-left: 1px solid #E0E0E0; width: 30%;">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" [id]="'CheckboxOlor%'+item.Codigo"
+                                                            [formControlName]="'CheckboxOlor%'+item.Codigo">
+                                                        <label [for]="'CheckboxOlor%'+item.Codigo"
+                                                            class="label-checkbox"></label>
+
+                                                    </div>
+                                                    <!--<input type="text" class="form-control square" id="horizontal-form-1" [formControlName]="item.Codigo"
                                                 name="first-name" [value]="item.Val1">-->
-                                                        </td>
+                                                </td>
 
-                                                    </tr>
+                                            </tr>
 
-                                               
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-12 col-md-6 table-2">
-                                        <table class="table-calidad font-calidad table-responsive" [formGroup]="tableColor" style="width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th>COLOR</th>
-                                                    <th>SELECCION</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of listaColor">
-                                                    <td style="width: 70%;"> {{ item.Label }}</td>
-                                                    <td style="border-left: 1px solid #E0E0E0; width: 30%;">
-                                                        <div class="checkbox">
-                                                            <input type="checkbox" [id]="'CheckboxColor%'+item.Codigo"
-                                                                [formControlName]="'CheckboxColor%'+item.Codigo">
-                                                            <label [for]="'CheckboxColor%'+item.Codigo"
-                                                                class="label-checkbox"></label>
 
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="row">
-                                    <div class="cold-12" style="margin-top: 1rem;">
+                                <div class="col-12 col-md-6 table-2">
+                                    <table class="table-calidad font-calidad table-responsive" [formGroup]="tableColor"
+                                        style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>COLOR</th>
+                                                <th>SELECCION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of listaColor">
+                                                <td style="width: 70%;"> {{ item.Label }}</td>
+                                                <td style="border-left: 1px solid #E0E0E0; width: 30%;">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" [id]="'CheckboxColor%'+item.Codigo"
+                                                            [formControlName]="'CheckboxColor%'+item.Codigo">
+                                                        <label [for]="'CheckboxColor%'+item.Codigo"
+                                                            class="label-checkbox"></label>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="cold-12" style="margin-top: 1rem;">
                                     <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
                                     <div class="position-relative has-icon-left textarea">
-                                        <textarea id="bordered-form-6" rows="4" class="form-control" formControlName="ObservacionAnalisisFisico" name="notes"></textarea>
+                                        <textarea id="bordered-form-6" rows="4" class="form-control"
+                                            formControlName="ObservacionAnalisisFisico" name="notes"></textarea>
                                         <div class="form-control-position">
                                             <i class="ft-file"></i>
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-                                <div class="row" style="margin-top: 2rem;">
-                                    <div class="col-12 d-flex flex-sm-row flex-column">
-                      
-                                      <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                                      <label class="col-md-3 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{responsable}}</label>
-                      
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-bottom: 2rem;">
-                                       <div class="col-12 d-flex flex-sm-row flex-column">
-                                      <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Fecha Calidad</label>
-                                      <label class="col-md-3 col-form-label card-text"style="font-weight: bold;" for="horizontal-form-1">{{fechaCalidad}}</label>
-                                    </div>
-                                    
-                      
-                                  </div>
-                                 
                             </div>
-                        </div>
-             </div>
-            </div>
-           
-        
-            </div>
-            <div class="row" style="margin-top: 2rem;">
-                <div class="col-12">
-                        <div  class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
-                            <button class="btn btn-primary mr-1 mb-1" type="submit"  [disabled]="!btnGuardarCalidad" (click)="actualizarAnalisisControlCalidad($event)">Guardar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="cancelar()">Cancelar</button>
-                            </div>
-                        </div>
+                            <div class="row" style="margin-top: 2rem;">
+                                <div class="col-12 d-flex flex-sm-row flex-column">
 
-              </div>
-        </form>
+                                    <label class="col-md-3 col-form-label card-text"
+                                        for="horizontal-form-1">Responsable</label>
+                                    <label class="col-md-3 col-form-label card-text" style="font-weight: bold;"
+                                        for="horizontal-form-1">{{responsable}}</label>
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 2rem;">
+                                <div class="col-12 d-flex flex-sm-row flex-column">
+                                    <label class="col-md-3 col-form-label card-text" for="horizontal-form-1">Fecha
+                                        Calidad</label>
+                                    <label class="col-md-3 col-form-label card-text" style="font-weight: bold;"
+                                        for="horizontal-form-1">{{fechaCalidad}}</label>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-12">
+
+                <div class="card-footer text-right" style="margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardarCalidad"
+                        (click)="actualizarAnalisisControlCalidad($event)">Guardar</button>
+                    <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
+                        (click)="cancelar()">Cancelar</button>
+                </div>
+
+            </div>
+
+
+        </div>
+    </form>
 </div>

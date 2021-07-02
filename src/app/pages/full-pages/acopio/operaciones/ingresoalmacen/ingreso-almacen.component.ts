@@ -85,7 +85,6 @@ export class IngresoAlmacenComponent implements OnInit {
         this.ingresoAlmacenForm.controls['certificacion'].setValue(this.lote.TipoCertificacionId);
 
       }
-     // this.ingresoAlmacenForm.setValidators(this.comparisonValidator());
 
     }
   }
