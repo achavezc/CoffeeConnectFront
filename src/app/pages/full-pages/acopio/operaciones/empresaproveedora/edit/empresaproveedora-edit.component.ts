@@ -279,8 +279,9 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             ProvinciaId: this.empresaProveedoraEditForm.controls["provincia"].value ? this.empresaProveedoraEditForm.controls["provincia"].value : '',
             DistritoId: this.empresaProveedoraEditForm.controls["distrito"].value ? this.empresaProveedoraEditForm.controls["distrito"].value : '',
             EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-            Usuario:  this.vSessionUser.Result.Data.NombreUsuario,
-            EstadoId: '01',
+            Usuario:  this.vSessionUser.Result.Data.NombreUsuario,            
+            EstadoId: this.empresaProveedoraEditForm.controls["estado"].value ? this.empresaProveedoraEditForm.controls["estado"].value: '',
+
             ClasificacionId:this.empresaProveedoraEditForm.controls["clasificacion"].value ? this.empresaProveedoraEditForm.controls["clasificacion"].value : ''
         };
     }
