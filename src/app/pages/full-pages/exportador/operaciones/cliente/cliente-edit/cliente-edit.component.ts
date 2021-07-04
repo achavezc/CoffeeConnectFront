@@ -196,9 +196,10 @@ export class ClienteEditComponent implements OnInit {
   }
 
   async GetDepartamentos() {
-    const res: any = await this.maestroUtil.GetDepartmentsAsync('PE');
+    const res: any = await this.maestroUtil.GetDepartmentsAsync(this.clienteEditForm.value.pais);
     if (res.Result.Success) {
       this.listDepartamentos = res.Result.Data;
+      this.listCiudades = res.Result.Data;
     }
   }
 
@@ -297,6 +298,8 @@ export class ClienteEditComponent implements OnInit {
 
   GetRequest(): any {
     try {
+
+      
       return {
         ClienteId: this.clienteEditForm.value.idCliente ? this.clienteEditForm.value.idCliente : 0,
         Numero: this.clienteEditForm.value.codCliente ? this.clienteEditForm.value.codCliente : '',
@@ -305,7 +308,14 @@ export class ClienteEditComponent implements OnInit {
         RazonSocial: this.clienteEditForm.value.cliente ? this.clienteEditForm.value.cliente : '',
         Direccion: this.clienteEditForm.value.direccion ? this.clienteEditForm.value.direccion : '',
         PaisId: this.clienteEditForm.value.pais ? this.clienteEditForm.value.pais : 0,
-        DepartamentoId: this.clienteEditForm.value.departamento ? this.clienteEditForm.value.departamento : this.clienteEditForm.value.ciudad ? this.clienteEditForm.value.ciudad : '',
+              
+        //DepartamentoId: this.clienteEditForm.value.departamento ? this.clienteEditForm.value.departamento : this.clienteEditForm.value.ciudad ? this.clienteEditForm.value.ciudad : '',
+        
+        DepartamentoId:this.clienteEditForm.value.tipoCliente == '01' ? this.clienteEditForm.value.departamento : this.clienteEditForm.value.ciudad ? this.clienteEditForm.value.ciudad : '',
+
+        //DepartamentoId: this.clienteEditForm.value.tipoCliente = '01' ? this.clienteEditForm.value.departamento : (this.clienteEditForm.value.ciudad ? this.clienteEditForm.value.ciudad : '',
+        
+        
         ProvinciaId: this.clienteEditForm.value.provincia ? this.clienteEditForm.value.provincia : '',
         DistritoId: this.clienteEditForm.value.distrito ? this.clienteEditForm.value.distrito : '',
         NumeroTelefono: this.clienteEditForm.value.telefono ? this.clienteEditForm.value.telefono.toString() : '',

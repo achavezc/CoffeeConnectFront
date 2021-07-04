@@ -196,19 +196,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="floId" class="col-md-3 col-form-label">FLO ID</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="floId" id="floId" formControlName="floId"
-                                        class="form-control"
-                                        [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }"
-                                        placeholder="FLO ID" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-row" *ngIf="f.tipoCliente.value && f.tipoCliente.value == '01'">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
@@ -224,6 +211,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="floId" class="col-md-3 col-form-label">FLO ID</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="floId" id="floId" formControlName="floId"
+                                        class="form-control"
+                                        [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }"
+                                        placeholder="FLO ID" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
