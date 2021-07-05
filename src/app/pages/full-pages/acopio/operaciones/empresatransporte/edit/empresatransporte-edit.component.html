@@ -87,7 +87,7 @@
                             <ng-select [items]="listEstado" formControlName="estado" class="form-control"
                                 bindLabel="Label" bindValue="Codigo" id="estado"
                                 placeholder="Seleccionar Estado" [(ngModel)]="selectedEstado"
-                                (change)="onChangeDepartament($event)"
+                                
                                 [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }">
                             </ng-select>
                         </div>
