@@ -196,19 +196,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="form-group row">
-                                <label for="floId" class="col-md-3 col-form-label">FLO ID</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="floId" id="floId" formControlName="floId"
-                                        class="form-control"
-                                        [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }"
-                                        placeholder="FLO ID" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-row" *ngIf="f.tipoCliente.value && f.tipoCliente.value == '01'">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group row">
@@ -225,6 +212,20 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="floId" class="col-md-3 col-form-label">FLO ID</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="floId" id="floId" formControlName="floId"
+                                        class="form-control"
+                                        [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }"
+                                        placeholder="FLO ID" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="form-group row">
                                 <label for="descGerente" class="col-md-3 col-form-label">GERENTE GENERAL</label>
@@ -236,7 +237,7 @@
                                 </div>
                                 <label for="idGerente" class="col-md-1 col-form-label">ID #</label>
                                 <div class="col-md-2 pl-0">
-                                    <input type="number" name="idGerente" id="idGerente" formControlName="idGerente"
+                                    <input type="text" name="idGerente" id="idGerente" formControlName="idGerente"
                                         [ngClass]="{ 'is-invalid': f.idGerente.invalid, 'is-valid': !f.idGerente.invalid }"
                                         class="form-control text-right" placeholder="ID" />
                                 </div>
@@ -252,7 +253,7 @@
                                 </div>
                                 <label for="idPresidente" class="col-md-1 col-form-label">ID #</label>
                                 <div class="col-md-2 pl-0">
-                                    <input type="number" name="idPresidente" id="idPresidente"
+                                    <input type="text" name="idPresidente" id="idPresidente"
                                         [ngClass]="{ 'is-invalid': f.idPresidente.invalid, 'is-valid': !f.idPresidente.invalid }"
                                         formControlName="idPresidente" class="form-control text-right" placeholder="ID">
                                 </div>

@@ -82,7 +82,10 @@ export class TransporteEditComponent implements OnInit {
     }
 
     async CompletarFormulario(data: any) {
-
+        await this.cargarMarcaVehiculo();
+        await this.cargarMarcaCarreta();
+        await this.cargarEstado();
+        await this.cargarConfiguracion();
         this.transporteEditForm.controls.propietario.setValue(data.Propietario);
         this.transporteEditForm.controls.estado.setValue(data.EstadoId);
         this.transporteEditForm.controls.marcaTractor.setValue(data.MarcaTractorId);
@@ -139,33 +142,47 @@ export class TransporteEditComponent implements OnInit {
     }
 
    async LoadCombos() {
-        var form = this;
-        var dataMarcaVehiculo = await this.maestroService.obtenerMaestros("MarcaVehiculo").toPromise();
-        if (dataMarcaVehiculo) {
-            form.listMarcaTractor = dataMarcaVehiculo.Result.Data;
-          }
-          var dataMarcaCarreta = await this.maestroService.obtenerMaestros("MarcaVehiculo").toPromise();
-          if (dataMarcaCarreta) {
-              form.listMarcaCarreta = dataMarcaVehiculo.Result.Data;
-            }
-            var dataEstado = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
-          if (dataEstado) {
-              form.listEstado = dataEstado.Result.Data;
-            }
-            if(!this.vId)
-            {
-                this.transporteEditForm.controls.estado.setValue(this.activo);
-            }
-            var dataConfVehiculo = await this.maestroService.obtenerMaestros("ConfiguracionVehiculo").toPromise();
-          if (dataConfVehiculo) {
-              form.listConfigVehicular = dataConfVehiculo.Result.Data;
-            }
-        
-       
-
+        await this.cargarMarcaVehiculo();
+        await this.cargarMarcaCarreta();
+        await this.cargarEstado();
+        await this.cargarConfiguracion();
     }
 
  
+    async cargarMarcaVehiculo(){
+          var form = this;
+        var dataMarcaVehiculo = await this.maestroService.obtenerMaestros("MarcaVehiculo").toPromise();
+          if (dataMarcaVehiculo) {
+              form.listMarcaTractor = dataMarcaVehiculo.Result.Data;
+            }
+    }
+ 
+    async cargarMarcaCarreta(){
+        var form = this;
+        var dataMarcaCarreta = await this.maestroService.obtenerMaestros("MarcaVehiculo").toPromise();
+        if (dataMarcaCarreta) {
+            form.listMarcaCarreta = dataMarcaCarreta.Result.Data;
+          }
+     }
+
+     async cargarEstado(){
+        var form = this;
+        var dataEstado = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
+        if (dataEstado) {
+            form.listEstado = dataEstado.Result.Data;
+          }
+          if(!this.vId)
+          {
+              this.transporteEditForm.controls.estado.setValue(this.activo);
+          }
+     }
+     async cargarConfiguracion(){
+        var form = this;
+        var dataConfVehiculo = await this.maestroService.obtenerMaestros("ConfiguracionVehiculo").toPromise();
+        if (dataConfVehiculo) {
+            form.listConfigVehicular = dataConfVehiculo.Result.Data;
+          }
+     }
 
     Save(): void {
         const form = this;
