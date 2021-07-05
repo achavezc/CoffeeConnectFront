@@ -18,7 +18,6 @@ import { ExportadorRoutingModule } from "./exportador-routing.module";
 import { PipeModule } from "../../../shared/pipes/pipe.module";
 import { MatchHeightModule } from "../../../shared/directives/match-height.directive";
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
-
 import { ClienteComponent } from './operaciones/cliente/cliente.component';
 import { ContratoComponent } from './operaciones/contrato/contrato.component';
 import { ClienteEditComponent } from './operaciones/cliente/cliente-edit/cliente-edit.component';
@@ -29,6 +28,7 @@ import {PreciosDiaComponent} from './operaciones/preciosdia/preciosdia-list/prec
 import {PrecioDiaEditComponent} from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component'; 
 import { ModalModule } from '../modals/modal.module'
 import {AduanasComponent} from './operaciones/aduanas/list/aduanas.component';
+import {AduanasEditComponent} from './operaciones/aduanas/edit/aduanas-edit.component';
 
 
 @NgModule({
@@ -41,7 +41,8 @@ import {AduanasComponent} from './operaciones/aduanas/list/aduanas.component';
     OrdenProcesoEditComponent,
     PreciosDiaComponent,
     PrecioDiaEditComponent,
-    AduanasComponent
+    AduanasComponent,
+    AduanasEditComponent
   ],
   imports: [
     CommonModule,
@@ -70,7 +71,8 @@ import {AduanasComponent} from './operaciones/aduanas/list/aduanas.component';
     OrdenProcesoEditComponent,
     PreciosDiaComponent,
     PrecioDiaEditComponent,
-    AduanasComponent
+    AduanasComponent,
+    AduanasEditComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

@@ -11,21 +11,20 @@ import { OrdenservicioControlcalidadService } from './../../../../../../services
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import{TagOrdenServicioComponent} from '../ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component';
 
 
 @Component({
-  selector: 'app-orden-servicio-edit',
-  templateUrl: './ordenservicio-edit.component.html',
-  styleUrls: ['./ordenservicio-edit.component.scss', "/assets/sass/libs/datatables.scss"]
+  selector: 'app-aduanas-edit',
+  templateUrl: './aduanas-edit.component.html',
+  styleUrls: ['./aduanas-edit.component.scss', "/assets/sass/libs/datatables.scss"]
 })
-export class OrdenServicioEditComponent implements OnInit {
+export class AduanasEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild(TagOrdenServicioComponent) child;
+
   login: ILogin;
-  ordenServicioFormEdit: FormGroup;
+  aduanasFormEdit: FormGroup;
   viewTagSeco: boolean = null;
   listaEstado: any[];
   selectEstado: any;
@@ -64,9 +63,9 @@ export class OrdenServicioEditComponent implements OnInit {
 
   receiveMessage($event) {
     this.selectEmpresa = $event
-    this.ordenServicioFormEdit.get('destinatario').setValue(this.selectEmpresa[0].RazonSocial);
-    this.ordenServicioFormEdit.get('ruc').setValue(this.selectEmpresa[0].Ruc);
-    this.ordenServicioFormEdit.get('dirDestino').setValue(this.selectEmpresa[0].Direccion + " - " + this.selectEmpresa[0].Distrito + " - " + this.selectEmpresa[0].Provincia + " - " + this.selectEmpresa[0].Departamento);
+    this.aduanasFormEdit.get('destinatario').setValue(this.selectEmpresa[0].RazonSocial);
+    this.aduanasFormEdit.get('ruc').setValue(this.selectEmpresa[0].Ruc);
+    this.aduanasFormEdit.get('dirDestino').setValue(this.selectEmpresa[0].Direccion + " - " + this.selectEmpresa[0].Distrito + " - " + this.selectEmpresa[0].Provincia + " - " + this.selectEmpresa[0].Departamento);
     this.modalService.dismissAll();
   }
 
@@ -127,22 +126,21 @@ export class OrdenServicioEditComponent implements OnInit {
     this.estado = data.Estado;
     this.responsable = data.UsuarioRegistro;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.ordenServicioFormEdit.get('destinatario').setValue(data.RazonSocialEmpresaProcesadora);
-    this.ordenServicioFormEdit.get('ruc').setValue(data.RucEmpresaProcesadora);
-    this.ordenServicioFormEdit.get('dirDestino').setValue(data.DireccionEmpresaProcesadora);
+    this.aduanasFormEdit.get('destinatario').setValue(data.RazonSocialEmpresaProcesadora);
+    this.aduanasFormEdit.get('ruc').setValue(data.RucEmpresaProcesadora);
+    this.aduanasFormEdit.get('dirDestino').setValue(data.DireccionEmpresaProcesadora);
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
-    this.ordenServicioFormEdit.get('tagordenservicio').get('producto').setValue(data.ProductoId);
-    await this.child.cargarSubProducto(data.ProductoId);
-    this.ordenServicioFormEdit.get('tagordenservicio').get('subproducto').setValue(data.SubProductoId);
-    this.ordenServicioFormEdit.get('tagordenservicio').get('tipoProduccion').setValue(data.TipoProduccionId);
-    this.ordenServicioFormEdit.get('tagordenservicio').get('rendimiento').setValue(data.RendimientoEsperadoPorcentaje);
-    this.ordenServicioFormEdit.get('tagordenservicio').get('unidadmedida').setValue(data.UnidadMedidaId);
-    this.ordenServicioFormEdit.get('tagordenservicio').get('cantidad').setValue(data.CantidadPesado);
+    this.aduanasFormEdit.get('tagordenservicio').get('producto').setValue(data.ProductoId);
+    this.aduanasFormEdit.get('tagordenservicio').get('subproducto').setValue(data.SubProductoId);
+    this.aduanasFormEdit.get('tagordenservicio').get('tipoProduccion').setValue(data.TipoProduccionId);
+    this.aduanasFormEdit.get('tagordenservicio').get('rendimiento').setValue(data.RendimientoEsperadoPorcentaje);
+    this.aduanasFormEdit.get('tagordenservicio').get('unidadmedida').setValue(data.UnidadMedidaId);
+    this.aduanasFormEdit.get('tagordenservicio').get('cantidad').setValue(data.CantidadPesado);
     
   }
 
   cargarForm() {
-    this.ordenServicioFormEdit = this.fb.group(
+    this.aduanasFormEdit = this.fb.group(
       {
         destinatario: ['', [Validators.required]],
         ruc: new FormControl('', []),
@@ -171,11 +169,11 @@ export class OrdenServicioEditComponent implements OnInit {
   }
 
   get fedit() {
-    return this.ordenServicioFormEdit.controls;
+    return this.aduanasFormEdit.controls;
   }
 
   guardar() {
-    if (this.ordenServicioFormEdit.invalid || this.errorGeneral.isError) {
+    if (this.aduanasFormEdit.invalid || this.errorGeneral.isError) {
 
       this.submittedEdit = true;
       return;
@@ -187,12 +185,12 @@ export class OrdenServicioEditComponent implements OnInit {
         Number(this.login.Result.Data.EmpresaId),
         this.selectEmpresa[0].EmpresaProveedoraAcreedoraId,
         this.numero,
-        this.ordenServicioFormEdit.get('tagordenservicio').get("unidadmedida").value,
-        Number(this.ordenServicioFormEdit.get('tagordenservicio').get("cantidad").value),
-        this.ordenServicioFormEdit.get('tagordenservicio').get("producto").value,
-        this.ordenServicioFormEdit.get('tagordenservicio').get("subproducto").value,
-        this.ordenServicioFormEdit.get('tagordenservicio').get("tipoProduccion").value,
-        Number(this.ordenServicioFormEdit.get('tagordenservicio').get("rendimiento").value),
+        this.aduanasFormEdit.get('tagordenservicio').get("unidadmedida").value,
+        Number(this.aduanasFormEdit.get('tagordenservicio').get("cantidad").value),
+        this.aduanasFormEdit.get('tagordenservicio').get("producto").value,
+        this.aduanasFormEdit.get('tagordenservicio').get("subproducto").value,
+        this.aduanasFormEdit.get('tagordenservicio').get("tipoProduccion").value,
+        Number(this.aduanasFormEdit.get('tagordenservicio').get("rendimiento").value),
         this.login.Result.Data.NombreUsuario
       );
       let json = JSON.stringify(request);

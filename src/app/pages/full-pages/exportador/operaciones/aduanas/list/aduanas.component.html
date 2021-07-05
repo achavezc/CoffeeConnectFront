@@ -149,26 +149,28 @@
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
 
-                            <ngx-datatable-column name="Codigo" prop="Numero" width="130">
+                            <ngx-datatable-column name="Numero" prop="Numero" width="130">
 
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
                                                 routerLink="/operaciones/ordenservicio-controlcalidadexterna-edit"
-                                                [queryParams]="{ id: row.OrdenServicioControlCalidadId, status: row.EstadoId}">{{
+                                                [queryParams]="{ id: row.AduanaId, status: row.EstadoId}">{{
                                                 name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° Contrato" prop="Ruc" width="100">
+                            <ngx-datatable-column name="N° Contrato" prop="Numero" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Cliente Final" prop="RazonSocial" width="150">
+                            <ngx-datatable-column name="Cliente Final" prop="RazonSocialCliente" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="RUC Ag. Aduanas" prop="Departamento" width="150">
+                            <ngx-datatable-column name="RUC Ag. Aduanera" prop="RucEmpresaExportadora" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha de Embarque" prop="Provincia" width="150">
+                            <ngx-datatable-column name="Ag. Aduanas" prop="RazonSocialEmpresaExportadora" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha de Embarque" prop="FechaEmbarque" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="100">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
