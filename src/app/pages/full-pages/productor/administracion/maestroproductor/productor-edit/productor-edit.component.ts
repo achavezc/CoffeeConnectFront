@@ -376,7 +376,7 @@ export class ProductorEditComponent implements OnInit {
     this.productorService.Create(request)
       .subscribe((res: any) => {
         this.spinner.hide();
-        if (res.Result.Success && !res.Result.ErrCode) {
+        if (res.Result.Success && (!res.Result.ErrCode || res.Result.ErrCode === '00')) {
           this.productorEditForm.reset();
           this.alertUtil.alertOkCallback("Confirmación", "Registro completo!",
             () => {
@@ -477,7 +477,7 @@ export class ProductorEditComponent implements OnInit {
     this.productorService.Update(request)
       .subscribe((res: any) => {
         this.spinner.hide();
-        if (res.Result.Success) {
+        if (res.Result.Success && (!res.Result.ErrCode || res.Result.ErrCode === '00')) {
           this.productorEditForm.reset();
           this.alertUtil.alertOkCallback("Confirmación", "Actualización completa!", () => {
             this.Cancel();

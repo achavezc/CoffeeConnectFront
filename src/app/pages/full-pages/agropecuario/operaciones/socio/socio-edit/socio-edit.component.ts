@@ -262,7 +262,7 @@ export class SocioEditComponent implements OnInit {
       this.socioService.Create(request)
         .subscribe((res: any) => {
           this.spinner.hide();
-          if (res.Result.Success) {
+          if (res.Result.Success && (!res.Result.ErrCode || res.Result.ErrCode === '00')) {
             this.alertUtil.alertOkCallback("Registrado!", "Se completo el registro correctamente!",
               () => {
                 this.Cancel();
@@ -290,7 +290,7 @@ export class SocioEditComponent implements OnInit {
       this.socioService.Update(request)
         .subscribe((res: any) => {
           this.spinner.hide();
-          if (res.Result.Success) {
+          if (res.Result.Success && (!res.Result.ErrCode || res.Result.ErrCode === '00')) {
             this.alertUtil.alertOkCallback("Actualizado!", "Se completo la actualización correctamente!", () => {
               this.Cancel();
             });
