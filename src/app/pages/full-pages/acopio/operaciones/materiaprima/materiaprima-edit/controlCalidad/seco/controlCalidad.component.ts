@@ -234,7 +234,7 @@ export class ControlCalidadComponent implements OnInit {
   { 
     totalPuntajeFinal = Number(this.tableSensorialRanking.controls['sensorialAtrib%'+this.listaSensorialAtributos[i].Codigo].value) +  totalPuntajeFinal;
   }
-  this.formControlCalidad.controls["PuntajeFinal"].setValue(totalPuntajeFinal);
+  this.formControlCalidad.controls["PuntajeFinal"].setValue(totalPuntajeFinal.toFixed(2));
   }
  calcularTotalDefPrimario()
  {
@@ -640,7 +640,8 @@ export class ControlCalidadComponent implements OnInit {
     
   });
   }
-  controlFormControlCalidad["PuntajeFinal"].setValue(puntajeFinal);
+   var redondear = puntajeFinal.toFixed(2)
+  controlFormControlCalidad["PuntajeFinal"].setValue(redondear);
   this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioCalidad);
  }
 

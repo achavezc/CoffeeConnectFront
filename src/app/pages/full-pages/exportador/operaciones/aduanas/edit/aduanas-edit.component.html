@@ -1,0 +1,266 @@
+<form class="needs-validation" [formGroup]="aduanasFormEdit">
+    <section id="tooltip-validation">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header" style="margin-bottom: 2rem;">
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}</div>
+                            </div>
+                            <div class="col-12 col-md-4">
+
+                                <div class="form-row">
+
+                                    <div class="col-md-6 form-group" *ngIf="esEdit">
+                                        <label class="card-forms" for="users-edit-name">N° ORDEN DE SERVICIO</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="card-forms" for="users-edit-username"
+                                            style="font-weight: bold;">{{numero}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+
+                                    <div class="col-md-6 form-group" *ngIf="esEdit">
+                                        <label class="card-forms" for="users-edit-email">FECHA</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="card-forms" for="users-edit-username"
+                                            style="font-weight: bold;">{{fechaRegistro}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+
+                                    <div class="col-md-6 form-group" *ngIf="esEdit">
+                                        <label class="card-forms" for="users-edit-name">Estado</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="card-forms" for="users-edit-username"
+                                            style="font-weight: bold;">{{estado}}</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row"
+                            style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                            <div class="card-subtitle-form">DATOS GENERALES PARA ADUANAS</div>
+                        </div>
+
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-3">
+                                <label for="basicInput">Contrato N°</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                                <small class="form-text text-muted danger"
+                                    *ngIf="fedit.destinatario.errors?.required">Ingrese Numero Contrato</small>
+                            </div>
+
+
+                            <div class="col-12 col-md-1" style="padding-left: 0cm;">
+                                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                                    <app-consultar-empresa (empresaEvent)="receiveMessage($event)">
+                                    </app-consultar-empresa>
+                                </ng-template>
+                                <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                                    style="margin-top: 1.5rem;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="basicInput">Direccion de Partida</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="dirPartida"
+                                    disabled>
+
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Direccion de Partida</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="dirPartida"
+                                    disabled>
+
+                            </div>
+                            <div class="col-12 col-md-1" style="padding-left: 0cm;">
+                                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                                    <app-consultar-empresa (empresaEvent)="receiveMessage($event)">
+                                    </app-consultar-empresa>
+                                </ng-template>
+                                <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                                    style="margin-top: 1.5rem;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-8">
+                                <label for="basicInput">Cliente Final</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Flo Id</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="dirPartida"
+                                    disabled>
+
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Exportador</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                              
+                            </div>
+
+
+                            <div class="col-12 col-md-1" style="padding-left: 0cm;">
+                                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                                    <app-consultar-empresa (empresaEvent)="receiveMessage($event)">
+                                    </app-consultar-empresa>
+                                </ng-template>
+                                <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                                    style="margin-top: 1.5rem;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Productor</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+
+                            <div class="col-12 col-md-1" style="padding-left: 0cm;">
+                                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                                    <app-consultar-empresa (empresaEvent)="receiveMessage($event)">
+                                    </app-consultar-empresa>
+                                </ng-template>
+                                <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                                    style="margin-top: 1.5rem;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-3">
+                                <label for="basicInput">Fecha de Embarque</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="basicInput">Fecha Fac./Exp.</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="basicInput"></label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+
+                            <div class="col-12 col-md-3">
+                                <label for="basicInput">Po#</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+                        </div>
+                        <div class="row"
+                        style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                        <div class="card-subtitle-form">DATOS DEL CARGAMENTO A EMBARCAR</div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Producto</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Sub Producto</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Calidad</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Empaque / Tipo</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Cantidad</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Peso por Saco Kg</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Total Kilos Netos</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="destinatario"
+                                    disabled class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.destinatario.invalid, 'is-valid': submittedEdit && !fedit.destinatario.invalid }">
+                            </div>
+
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="card-footer text-right" style="margin-top: 2rem;">
+        <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+        <button class="btn btn-danger ml-1" (click)="cancelar()">Cancelar</button>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <ngx-spinner></ngx-spinner>
+    </div>
+
+</form>

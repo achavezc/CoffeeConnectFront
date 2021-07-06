@@ -157,7 +157,7 @@ export class AduanasComponent implements OnInit {
           if (res.Result.Success) {
             if (!res.Result.ErrCode) {
               res.Result.Data.forEach((obj: any) => {
-                obj.FechaRegistroString = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
+                obj.FechaEmbarque = this.dateUtil.formatDate(new Date(obj.FechaEmbarque));
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];

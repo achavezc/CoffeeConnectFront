@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { EmpresaProveedoraService } from '../../../../../../services/empresaproveedora.service';
-
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -37,7 +37,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     listDepartamento: [];
     listProvincia: [];
     listDistrito: [];
-
+    listTipoCertificacion: [];
     responsable: any = '';
     esEdit = false;
     selectedEstado: any;
@@ -45,7 +45,9 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     selectedDepartamento: any;
     selectedProvincia: any;
     selectedDistrito: any;
-
+    selectedTipoCertificacion: any;
+    rowsDetails = [];
+    isLoading = false;
     activo = "01";
     vId: number = 0;
     errorGeneral = { isError: false, errorMessage: '' };
@@ -53,6 +55,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     errorGenerico = { isError: false, msgError: '' };
     submitted
     vSessionUser: ILogin;
+    @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
 
     ngOnInit(): void {
         this.LoadForm();
@@ -85,15 +88,15 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     async CompletarFormulario(data: any) {
 
         this.responsable = data.UsuarioRegistro;
-        
+
         if (data.DepartamentoId) {
             this.empresaProveedoraEditForm.controls.departamento.setValue(data.DepartamentoId);
-           await this.GetProvincias(data.DepartamentoId);
-          
+            await this.GetProvincias(data.DepartamentoId);
+
         }
         if (data.ProvinciaId) {
             this.empresaProveedoraEditForm.controls.provincia.setValue(data.ProvinciaId);
-            await this.GetDistritos(data.DepartamentoId,data.ProvinciaId)
+            await this.GetDistritos(data.DepartamentoId, data.ProvinciaId)
         }
         if (data.DistritoId) {
             this.empresaProveedoraEditForm.controls.distrito.setValue(data.DistritoId);
@@ -117,8 +120,8 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             provincia: ['', Validators.required],
             distrito: ['', Validators.required],
             clasificacion: ['', Validators.required],
-            estado: ['', ],
-            fecRegistro: ['', ]
+            estado: ['',],
+            fecRegistro: ['',]
         });
 
     }
@@ -131,38 +134,39 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         this.GetDepartments();
         this.GetClasificacion();
         this.GetEstados();
+        this.GetTipoCertificacion();
     }
 
     async GetClasificacion() {
         let res = await this.maestroService.obtenerMaestros('ClasificacionEmpresaProveedoraAcreedora').toPromise();
         if (res.Result.Success) {
-          this.listClasificacion= res.Result.Data;
+            this.listClasificacion = res.Result.Data;
         }
-      }
-    
+    }
+
     async GetDepartments() {
         this.listDepartamento = [];
         const res: any = await this.maestroUtil.GetDepartmentsAsync('PE');
         if (res.Result.Success) {
-          this.listDepartamento = res.Result.Data;
+            this.listDepartamento = res.Result.Data;
         }
-      }
-    
-      async GetProvincias(codigoDepartamento: any) {
+    }
+
+    async GetProvincias(codigoDepartamento: any) {
         this.listProvincia = [];
         const res: any = await this.maestroUtil.GetProvincesAsync(codigoDepartamento, 'PE');
         if (res.Result.Success) {
-          this.listProvincia = res.Result.Data;
+            this.listProvincia = res.Result.Data;
         }
-      }
-    
-      async GetDistritos(codigoDepartamento: any,codigoProvincia: any) {
+    }
+
+    async GetDistritos(codigoDepartamento: any, codigoProvincia: any) {
         this.listDistrito = [];
         const res: any = await this.maestroUtil.GetDistrictsAsync(codigoDepartamento, codigoProvincia, 'PE');
         if (res.Result.Success) {
-          this.listDistrito = res.Result.Data;
+            this.listDistrito = res.Result.Data;
         }
-      }
+    }
     async GetEstados() {
 
         var data = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
@@ -180,32 +184,59 @@ export class EmpresaProveedoraEditComponent implements OnInit {
 
 
     }
+    async GetTipoCertificacion() {
+        let res = await this.maestroService.obtenerMaestros('TipoCertificacion').toPromise();
+        if (res.Result.Success) {
+            this.listTipoCertificacion = res.Result.Data;
+        }
+    }
 
     
-  onChangeDepartament(event: any): void {
-    const form = this;
-    this.listProvincia = [];
-    this.empresaProveedoraEditForm.controls.provincia.reset();
-    this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, (res: any) => {
-      if (res.Result.Success) {
-        form.listProvincia = res.Result.Data;
-      }
-    });
-  }
+    addRowDetail(): void {
+        this.rowsDetails = [...this.rowsDetails, {
+            certificacion: "",
+            codigoCertificacion: ""
+        }];
+    }
 
-  onChangeProvince(event: any): void {
-    const form = this;
-    this.listDistrito = [];
-    this.empresaProveedoraEditForm.controls.distrito.reset();
-    this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais,
-      (res: any) => {
-        if (res.Result.Success) {
-          form.listDistrito = res.Result.Data;
-        }
-      });
-  }
+    UpdateValuesGridDetails(event: any, index: any, prop: any): void {
+        if (prop === 'certificacion')
+            this.rowsDetails[index].certificacion = event.target.value;
+        else if (prop === 'codigoCertificacion')
+            this.rowsDetails[index].codigoCertificacion = event.target.value;
 
- 
+    }
+    
+    DeleteRowDetail(index: any): void {
+        this.rowsDetails.splice(index, 1);
+        this.rowsDetails = [...this.rowsDetails];
+    }
+
+
+    onChangeDepartament(event: any): void {
+        const form = this;
+        this.listProvincia = [];
+        this.empresaProveedoraEditForm.controls.provincia.reset();
+        this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, (res: any) => {
+            if (res.Result.Success) {
+                form.listProvincia = res.Result.Data;
+            }
+        });
+    }
+
+    onChangeProvince(event: any): void {
+        const form = this;
+        this.listDistrito = [];
+        this.empresaProveedoraEditForm.controls.distrito.reset();
+        this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais,
+            (res: any) => {
+                if (res.Result.Success) {
+                    form.listDistrito = res.Result.Data;
+                }
+            });
+    }
+
+
 
     Save(): void {
         const form = this;
@@ -279,10 +310,10 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             ProvinciaId: this.empresaProveedoraEditForm.controls["provincia"].value ? this.empresaProveedoraEditForm.controls["provincia"].value : '',
             DistritoId: this.empresaProveedoraEditForm.controls["distrito"].value ? this.empresaProveedoraEditForm.controls["distrito"].value : '',
             EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-            Usuario:  this.vSessionUser.Result.Data.NombreUsuario,            
-            EstadoId: this.empresaProveedoraEditForm.controls["estado"].value ? this.empresaProveedoraEditForm.controls["estado"].value: '',
+            Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+            EstadoId: this.empresaProveedoraEditForm.controls["estado"].value ? this.empresaProveedoraEditForm.controls["estado"].value : '',
 
-            ClasificacionId:this.empresaProveedoraEditForm.controls["clasificacion"].value ? this.empresaProveedoraEditForm.controls["clasificacion"].value : ''
+            ClasificacionId: this.empresaProveedoraEditForm.controls["clasificacion"].value ? this.empresaProveedoraEditForm.controls["clasificacion"].value : ''
         };
     }
 
