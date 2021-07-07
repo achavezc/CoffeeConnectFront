@@ -33,6 +33,11 @@ export class EmpresaProveedoraService {
     const url = `${this.url}/Actualizar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  ConsultarCertificaciones (request: any): Observable<any> {
+    const url = `${this.url}/ConsultarCertificacionPorEmpresaProveedoraAcreedoraId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
   
 
 }

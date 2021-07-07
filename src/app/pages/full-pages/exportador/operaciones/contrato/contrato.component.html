@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="!popUp">
     <div class="col-12">
         <div class="content-header">BANDEJA DE REGISTRO DE CONTRATOS</div>
     </div>
@@ -88,11 +88,14 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
                                 [disabled]="contratoForm.invalid">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"  *ngIf="!popUp" (click)="Nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
+                            data-placement="top" (click)="Agregar(selected)"
+                            [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!selected || selected.length <= 0" (click)="Cancel()">Anular</button>
+                                [disabled]="!selected || selected.length <= 0" (click)="Cancel()" *ngIf="!popUp">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!rows || rows.length <= 0">Exportar</button>
+                                [disabled]="!rows || rows.length <= 0" *ngIf="!popUp">Exportar</button>
                         </form>
                     </div>
                 </div>
@@ -133,7 +136,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Contrato" prop="Numero" width="90">
+                            <ngx-datatable-column *ngIf="!popUp" name="Contrato" prop="Numero" width="90">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -143,6 +146,8 @@
                                         </div>
                                     </div>
                                 </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column *ngIf="popUp" name="Contrato" prop="Numero" width="90">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha de Contrato" prop="FechaContratoString" width="130">
                             </ngx-datatable-column>

@@ -29,6 +29,7 @@ import {PrecioDiaEditComponent} from './operaciones/preciosdia/preciosdia-edit/p
 import { ModalModule } from '../modals/modal.module'
 import {AduanasComponent} from './operaciones/aduanas/list/aduanas.component';
 import {AduanasEditComponent} from './operaciones/aduanas/edit/aduanas-edit.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import {AduanasEditComponent} from './operaciones/aduanas/edit/aduanas-edit.comp
     PipeModule,
     MatchHeightModule,
     ExportadorRoutingModule,
-    ModalModule
+    ModalModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [
     ContratoEditComponent,

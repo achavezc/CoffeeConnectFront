@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild,Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
@@ -46,6 +46,8 @@ export class ContratoComponent implements OnInit {
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   userSession: any;
+  @Input() popUp = false;
+  @Output() agregarContratoEvent = new EventEmitter<any>();
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -222,5 +224,9 @@ export class ContratoComponent implements OnInit {
         this.spinner.hide();
         this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
       })
+  }
+
+  Agregar(selected: any) {
+    this.agregarContratoEvent.emit(selected)
   }
 }

@@ -12,6 +12,8 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 
+import {EmpresaProveedoraService} from '../../../../../../services/empresaproveedora.service';
+
 
 @Component({
   selector: 'app-aduanas-edit',
@@ -35,20 +37,28 @@ export class AduanasEditComponent implements OnInit {
   form: string = "ordenServicio";
   numero: any = "";
   fechaRegistro: any;
-  listTipoSocio: any[];
-  selectTipoSocio: any;
+  listaNaviera: any[];
+  selectedtNaviera: any;
   esEdit: true;
-  listaTipoProveedor: any[];
+  listaLaboratorios: any[];
   listaTipoDocumento: any[];
   selectedTipoDocumento: any;
-  selectTipoProveedor: any;
-  rows: any[];
+  selectLaboratorio: any;
+  rows = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
   selectEmpresa: any[] =[];
+  selectExportador: any[] =[];
+  selectProductor: any[] =[];
+  selectContrato: any[] =[];
   responsable: "";
   id: Number = 0;
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estado: any;
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+  popUp = true;
+  arrayCertificaciones : any[] = [];
 
   constructor(private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -58,14 +68,85 @@ export class AduanasEditComponent implements OnInit {
    private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
     private alertUtil: AlertUtil,
     private route: ActivatedRoute,
-    private dateUtil: DateUtil) {
+    private dateUtil: DateUtil,
+    private empresaProveedoraService : EmpresaProveedoraService) {
+  }
+  cargarForm() {
+    this.aduanasFormEdit = this.fb.group(
+      {
+        contrato: ['', [Validators.required]],
+        ruc: ['', [Validators.required]],
+        agencia: ['', []],
+        clientefinal: new FormControl('', []),
+        floid: new FormControl('', []),
+        exportador: new FormControl('', []),
+        productor: new FormControl('', []),
+        fechaEmbarque: new FormControl('', []),
+        fechaFac: new FormControl('', []),
+        po: new FormControl('', []),
+        producto: new FormControl('', []),
+        subproducto: new FormControl('', []),
+        calidad: new FormControl('', []),
+        empaque: new FormControl('', []),
+        cantidad: new FormControl('', []),
+        pesoxsaco: new FormControl('', []),
+        totalkilosnetos: new FormControl('', []),
+        laboratorio: ['', [Validators.required]],
+        fechaRecojo: new FormControl('', []),
+        trackingNumber: new FormControl('', []),
+        fechaRecepcion: new FormControl('', []),
+        observacion: new FormControl('', []),
+        certificaciones: new FormControl('', []),
+        marca: new FormControl('', [])
+      });
+
+    this.maestroService.obtenerMaestros("EstadoOrdenServicioControlCalidad")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listaEstado = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
   }
 
   receiveMessage($event) {
-    this.selectEmpresa = $event
-    this.aduanasFormEdit.get('destinatario').setValue(this.selectEmpresa[0].RazonSocial);
+    this.selectEmpresa = $event    
     this.aduanasFormEdit.get('ruc').setValue(this.selectEmpresa[0].Ruc);
-    this.aduanasFormEdit.get('dirDestino').setValue(this.selectEmpresa[0].Direccion + " - " + this.selectEmpresa[0].Distrito + " - " + this.selectEmpresa[0].Provincia + " - " + this.selectEmpresa[0].Departamento);
+    this.aduanasFormEdit.get('agencia').setValue(this.selectEmpresa[0].RazonSocial);
+    this.modalService.dismissAll();
+  }
+
+  receiveMessageExportador($event) {
+    this.selectExportador = $event
+    this.aduanasFormEdit.get('exportador').setValue(this.selectExportador[0].RazonSocial);
+    this.consultarCertificaciones(this.selectExportador[0].EmpresaProveedoraAcreedoraId);
+    this.modalService.dismissAll();
+  }
+
+  receiveMessageProductor($event) {
+    this.selectProductor = $event
+    this.aduanasFormEdit.get('productor').setValue(this.selectProductor[0].RazonSocial);
+    this.consultarCertificaciones(this.selectExportador[0].EmpresaProveedoraAcreedoraId);
+    this.modalService.dismissAll();
+  }
+
+  receiveMessageContrato($event)
+  {
+    this.selectContrato = $event;
+    this.aduanasFormEdit.get('contrato').setValue(this.selectContrato[0].Numero);
+    this.aduanasFormEdit.get('producto').setValue(this.selectContrato[0].Producto);
+    this.aduanasFormEdit.get('subproducto').setValue(this.selectContrato[0].SubProducto);
+    this.aduanasFormEdit.get('calidad').setValue(this.selectContrato[0].Calidad);
+    this.aduanasFormEdit.get('empaque').setValue(this.selectContrato[0].Empaque + " - " + this.selectContrato[0].TipoEmpaque);
+    this.aduanasFormEdit.get('cantidad').setValue(this.selectContrato[0].Empaque);
+    this.aduanasFormEdit.get('pesoxsaco').setValue(this.selectContrato[0].PesoPorSaco);
+    this.aduanasFormEdit.get('totalkilosnetos').setValue(this.selectContrato[0].PesoKilos);
+    this.aduanasFormEdit.get('clientefinal').setValue(this.selectContrato[0].Cliente);
+    this.aduanasFormEdit.get('floid').setValue(this.selectContrato[0].Cliente);
+    
     this.modalService.dismissAll();
   }
 
@@ -87,11 +168,69 @@ export class AduanasEditComponent implements OnInit {
           this.disabledControl = 'disabled';
         }
       });
+
+     /* this.dropdownList = [
+        { item_id: 1, item_text: 'Mumbai' },
+        { item_id: 2, item_text: 'Bangaluru' },
+        { item_id: 3, item_text: 'Pune' },
+        { item_id: 4, item_text: 'Navsari' },
+        { item_id: 5, item_text: 'New Delhi' }
+      ];*/
+     /* this.selectedItems = [
+        { item_id: 3, item_text: 'Pune' },
+        { item_id: 4, item_text: 'Navsari' }
+      ];*/
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'item_id',
+        textField: 'item_text',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: true
+      };
   }
 
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
   openModal(modalEmpresa) {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
 
+  }
+
+  consultarCertificaciones ( id : number)
+  {
+    let request = { EmpresaProveedoraAcreedoraId : id}
+    
+    this.empresaProveedoraService.ConsultarCertificaciones(request)
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          res.Result.Data.Certificaciones.forEach(x => {
+            let object = {item_id: x.TipoCertificacionId +"-"+ x.CodigoCertificacion, item_text: x.Certificacion + " - "+  x.CodigoCertificacion}
+            this.arrayCertificaciones.push(object);
+          });
+          this.dropdownList = this.arrayCertificaciones;
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );
   }
   obtenerDetalle()
   {
@@ -139,34 +278,7 @@ export class AduanasEditComponent implements OnInit {
     
   }
 
-  cargarForm() {
-    this.aduanasFormEdit = this.fb.group(
-      {
-        destinatario: ['', [Validators.required]],
-        ruc: new FormControl('', []),
-        dirPartida: [this.login.Result.Data.DireccionEmpresa, []],
-        dirDestino: new FormControl('', []),
-        tagordenservicio: this.fb.group({
-          tipoProduccion: new FormControl('', [Validators.required]),
-          producto: new FormControl('', [Validators.required]),
-          subproducto: new FormControl('', [Validators.required]),
-          rendimiento: new FormControl('', [Validators.required]),
-          unidadmedida: new FormControl('', [Validators.required]),
-          cantidad: new FormControl('', [Validators.required])
-        }),
-      });
-
-    this.maestroService.obtenerMaestros("EstadoOrdenServicioControlCalidad")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaEstado = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
-  }
+  
 
   get fedit() {
     return this.aduanasFormEdit.controls;
@@ -273,5 +385,23 @@ export class AduanasEditComponent implements OnInit {
   cancelar() {
 
     this.router.navigate(['/acopio/operaciones/orderservicio-controlcalidadexterna-list']);
+  }
+  addRow(): void {
+    this.rows = [...this.rows, { Anio: 0, Estimado: 0, ProductoId: '', Consumido: 0 }];
+  }
+  EliminarFila(index: any): void {
+    this.rows.splice(index, 1);
+    this.rows = [...this.rows];
+  }
+  UpdateValue(event: any, index: any, prop: any): void {
+    if (prop === 'anio') {
+      this.rows[index].Anio = parseFloat(event.target.value)
+    } else if (prop === 'estimado') {
+      this.rows[index].Estimado = parseFloat(event.target.value)
+    }
+  }
+
+  close() {
+    this.modalService.dismissAll();
   }
 }

@@ -58,6 +58,7 @@
     "ng-apexcharts": "1.5.6",
     "ng-chartist": "4.1.0",
     "ng-click-outside": "7.0.1",
+    "ng-multiselect-dropdown": "^0.3.4",
     "ng2-charts": "2.4.2",
     "ng2-completer": "9.0.1",
     "ng2-dragula": "2.1.1",
