@@ -382,6 +382,8 @@ export class ProductorEditComponent implements OnInit {
             () => {
               this.Cancel();
             });
+        } else {
+          this.alertUtil.alertError('ERROR!', res.Result.Message);
         }
       }, (err: any) => {
         this.spinner.hide();
@@ -484,6 +486,7 @@ export class ProductorEditComponent implements OnInit {
           });
         } else {
           this.errGeneral = { isError: true, message: res.Result.Message };
+          this.alertUtil.alertError('ERROR!', res.Result.Message);
         }
       }, (err: any) => {
         this.spinner.hide();
