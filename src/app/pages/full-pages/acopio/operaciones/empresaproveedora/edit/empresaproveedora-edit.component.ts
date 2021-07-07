@@ -194,16 +194,16 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     
     addRowDetail(): void {
         this.rowsDetails = [...this.rowsDetails, {
-            certificacion: "",
-            codigoCertificacion: ""
+            TipoCertificacionId: "",
+            CodigoCertificacion: ""
         }];
     }
 
     UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-        if (prop === 'certificacion')
-            this.rowsDetails[index].certificacion = event.target.value;
-        else if (prop === 'codigoCertificacion')
-            this.rowsDetails[index].codigoCertificacion = event.target.value;
+        if (prop === 'TipoCertificacionId')
+            this.rowsDetails[index].TipoCertificacionId = event.Codigo;
+        else if (prop === 'CodigoCertificacion')
+            this.rowsDetails[index].CodigoCertificacion = event.target.value;
 
     }
     
@@ -301,6 +301,10 @@ export class EmpresaProveedoraEditComponent implements OnInit {
 
 
     getRequest(): any {
+        var lstCert = this.rowsDetails.filter(x => x.TipoCertificacionId
+            && x.CodigoCertificacion)
+            lstCert.forEach( x => x.EmpresaProveedoraAcreedoraId = this.vId)  ;
+            
         return {
             EmpresaProveedoraAcreedoraId: this.vId,
             RazonSocial: this.empresaProveedoraEditForm.value.nombreRazonSocial ? this.empresaProveedoraEditForm.value.nombreRazonSocial : '',
@@ -312,8 +316,9 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
             Usuario: this.vSessionUser.Result.Data.NombreUsuario,
             EstadoId: this.empresaProveedoraEditForm.controls["estado"].value ? this.empresaProveedoraEditForm.controls["estado"].value : '',
+            ClasificacionId: this.empresaProveedoraEditForm.controls["clasificacion"].value ? this.empresaProveedoraEditForm.controls["clasificacion"].value : '',
+            Certificaciones: lstCert
 
-            ClasificacionId: this.empresaProveedoraEditForm.controls["clasificacion"].value ? this.empresaProveedoraEditForm.controls["clasificacion"].value : ''
         };
     }
 
