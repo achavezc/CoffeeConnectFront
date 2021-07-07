@@ -274,7 +274,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
             DistritoId: this.empresaTransporteEditForm.controls["distrito"].value ? this.empresaTransporteEditForm.controls["distrito"].value : '',
             EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
             Usuario:  this.vSessionUser.Result.Data.NombreUsuario,
-            EstadoId: '01'
+            EstadoId: this.empresaTransporteEditForm.controls["estado"].value
         };
     }
 
