@@ -88,7 +88,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     async CompletarFormulario(data: any) {
 
         this.responsable = data.UsuarioRegistro;
-
+        
         if (data.DepartamentoId) {
             this.empresaProveedoraEditForm.controls.departamento.setValue(data.DepartamentoId);
             await this.GetProvincias(data.DepartamentoId);
@@ -108,6 +108,8 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         this.empresaProveedoraEditForm.controls.ruc.setValue(data.Ruc);
         this.empresaProveedoraEditForm.controls.direccion.setValue(data.Direccion);
         this.empresaProveedoraEditForm.controls.estado.setValue(data.EstadoId);
+        await this.GetTipoCertificacion();
+        this.rowsDetails = data.Certificaciones;
         this.spinner.hide();
     }
 

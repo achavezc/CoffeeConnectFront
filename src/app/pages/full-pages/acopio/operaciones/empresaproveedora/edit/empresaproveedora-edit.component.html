@@ -136,38 +136,39 @@
                                 </div>
                             </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="CERTIFICACION" prop="TipoCertificacionId"
+                       <!--  <ngx-datatable-column name="CERTIFICACION" prop="TipoCertificacionId"
                             [sortable]="false" width="280">
                             <ng-template ngx-datatable-cell-template let-row="row" let-TipoCertificacionId="value"
                                 let-rowIndex="rowIndex"  style="width: 280px;" >
                                 <div class="d-flex align-items-center" style="width: 280px;" >
                                         
-                                    <!--<input type="text" autofocus class="form-control form-control-sm"
-                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'certificacion')"
-                                        [ngClass]="{ 'border-danger': !certificacion, '': certificacion }"
-                                        value="{{certificacion}}"> -->
-
-                                        <!-- <ng-select [items]="listClasificacion" formControlName="clasificacion"
-                                            class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
-                                            placeholder="Seleccionar Clasificacion"
-                                            [ngClass]="{ 'is-invalid': f.clasificacion.invalid, 'is-valid': !f.clasificacion.invalid }"
-                                            [(ngModel)]="selectedClasificacion">
-                                        </ng-select> -->
-                                        
+                                 
                                         <ng-select [items]="listTipoCertificacion"
-                                        autofocus class="form-control form-control-sm"
                                         style="width: 280px;"
                                         (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoCertificacionId')"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo"
+                                        bindLabel="Label" 
+                                        bindValue="Codigo"
                                         placeholder="Seleccionar Tipo Certificacion"
                                         appendTo="body"
                                         [ngClass]="{ 'border-danger': !TipoCertificacionId, '': TipoCertificacionId }"
-                                        [(ngModel)]="selectedTipoCertificacion"
-                                        value="{{TipoCertificacionId}}"
+                                        value="{{TipoCertificacionId}}">
                                         >
-                                    </ng-select>
+                                        </ng-select>
                                 </div>
                             </ng-template>
+                        </ngx-datatable-column> -->
+                        <ngx-datatable-column name="CERTIFICACION" prop="TipoCertificacionId" >
+                            <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        
+                            <select class="status" (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoCertificacionId')"
+                            class="form-control"
+                            >
+                              <option *ngFor="let e of listTipoCertificacion" [selected]="value == e.Codigo">
+                                       {{e.Label}}
+                              </option>
+                            </select>
+                        
+                          </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column name="COD. DE CERTIFICACION" prop="CodigoCertificacion"
