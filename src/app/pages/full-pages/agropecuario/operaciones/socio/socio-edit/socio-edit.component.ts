@@ -256,6 +256,7 @@ export class SocioEditComponent implements OnInit {
         SocioId: 0,
         ProductorId: this.socioEditForm.value.idProductor,
         Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
         EstadoId: '01'
       }
 
