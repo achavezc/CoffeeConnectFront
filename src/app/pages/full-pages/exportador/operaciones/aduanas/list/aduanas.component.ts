@@ -231,7 +231,7 @@ export class AduanasComponent implements OnInit {
   }
 
   Nuevo() {
-    this.router.navigate(['/operaciones/ordenservicio-controlcalidadexterna-edit']);
+    this.router.navigate(['exportador/operaciones/aduanas/edit']);
   }
 
 }
