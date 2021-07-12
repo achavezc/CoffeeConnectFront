@@ -196,14 +196,14 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     
     addRowDetail(): void {
         this.rowsDetails = [...this.rowsDetails, {
-            TipoCertificacionId: "",
+            TipoCertificacionId: "01",
             CodigoCertificacion: ""
         }];
     }
 
     UpdateValuesGridDetails(event: any, index: any, prop: any): void {
         if (prop === 'TipoCertificacionId')
-            this.rowsDetails[index].TipoCertificacionId = event.Codigo;
+            this.rowsDetails[index].TipoCertificacionId = event.target.value;
         else if (prop === 'CodigoCertificacion')
             this.rowsDetails[index].CodigoCertificacion = event.target.value;
 
@@ -248,14 +248,21 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             return;
         }
         else {
-            if (this.vId <= 0) {
-                form.CreatePrecioDia();
-            }
-            else {
+            if(!this.validarCertificaciones()){
+                this.submitted = true;
+                this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
+                return;
+            }else{
 
-                form.ActualizarPrecioDia();
+                if (this.vId <= 0) {
+                    form.CreatePrecioDia();
+                }
+                else {
+    
+                    form.ActualizarPrecioDia();
+                }
+    
             }
-
         }
     }
 
@@ -301,6 +308,15 @@ export class EmpresaProveedoraEditComponent implements OnInit {
 
     }
 
+    validarCertificaciones(){
+        var result = false;
+        var lstCert = this.rowsDetails.filter(x => x.TipoCertificacionId
+            && x.CodigoCertificacion);
+        if(lstCert.length > 0){
+            result = true;
+        }
+        return result;
+    }
 
     getRequest(): any {
         var lstCert = this.rowsDetails.filter(x => x.TipoCertificacionId
