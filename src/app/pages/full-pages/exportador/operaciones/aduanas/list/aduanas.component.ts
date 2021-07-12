@@ -57,7 +57,7 @@ export class AduanasComponent implements OnInit {
       ruc: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: [ '' , [Validators.required]], //{ value: '', disabled: true }
+      estado: [ '' , [Validators.required]],
       agenciaAduanera: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       clienteFinal: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]]
     });
@@ -88,7 +88,7 @@ export class AduanasComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       if (!group.value.fechaInicio || !group.value.fechaFin) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
-      } else if (!group.value.estado) {
+      } else if (!group.controls["estado"].value) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -151,7 +151,7 @@ export class AduanasComponent implements OnInit {
         RazonSocialEmpresaExportadora:  this.aduanasForm.value.agenciaAduanera,
         RazonSocialCliente: this.aduanasForm.value.clienteFinal,
         
-        EstadoId: this.aduanasForm.value.estado ?? '',
+        EstadoId: this.aduanasForm.controls["estado"].value ?? '',
        
         EmpresaId: 1
       };
