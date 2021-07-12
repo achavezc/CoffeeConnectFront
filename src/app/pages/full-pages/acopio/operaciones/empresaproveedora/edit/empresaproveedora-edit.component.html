@@ -163,7 +163,7 @@
                             <select class="status" (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoCertificacionId')"
                             class="form-control"
                             >
-                              <option *ngFor="let e of listTipoCertificacion" [selected]="value == e.Codigo">
+                              <option *ngFor="let e of listTipoCertificacion" [selected]="value == e.Codigo" [value]="e.Codigo">
                                        {{e.Label}}
                               </option>
                             </select>
