@@ -40,36 +40,43 @@ export class AduanasComponent implements OnInit {
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
   vSessionUser: any;
+  estadoActivo = '01';
 
   ngOnInit(): void {
     this.LoadForm();
-    this.LoadCombos();
+   
     this.aduanasForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.aduanasForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
-  LoadForm(): void {
+ async LoadForm() {
     this.aduanasForm = this.fb.group({
       numeroContrato: [''],
       codigo: [''],
       ruc: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: ['', [Validators.required]],
+      estado: [ '' , [Validators.required]],
       agenciaAduanera: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       clienteFinal: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]]
     });
     this.aduanasForm.setValidators(this.comparisonValidator());
+  await  this.LoadCombos();
   }
 
-  LoadCombos(): void {
+  async LoadCombos() {
     let form = this;
-    this.maestroUtil.obtenerMaestros("EstadoGuiaRecepcion", function (res) {
+    this.maestroUtil.obtenerMaestros("EstadoAduana", function (res) {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
+        form.aduanasForm.controls.estado.setValue('01');
+        form.aduanasForm.controls.estado.disable();
+       
       }
     });
+
+
     
   }
 
@@ -81,7 +88,7 @@ export class AduanasComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       if (!group.value.fechaInicio || !group.value.fechaFin) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
-      } else if (!group.value.estado) {
+      } else if (!group.controls["estado"].value) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -144,7 +151,7 @@ export class AduanasComponent implements OnInit {
         RazonSocialEmpresaExportadora:  this.aduanasForm.value.agenciaAduanera,
         RazonSocialCliente: this.aduanasForm.value.clienteFinal,
         
-        EstadoId: this.aduanasForm.value.estado ?? '',
+        EstadoId: this.aduanasForm.controls["estado"].value ?? '',
        
         EmpresaId: 1
       };
@@ -179,56 +186,7 @@ export class AduanasComponent implements OnInit {
     }
   }
 
-  Anular(): void {
-    if (this.selected.length > 0) {
-      if (this.selected[0].EstadoId == "01") {
-        let form = this;
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Estas seguro de anular el orden de servicio "${this.selected[0].Numero}"?`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.AnularOSSelected();
-          }
-        });
-      } else {
-        this.alertUtil.alertError("ADVERTENCIA", "Solo se puede anular ordenes de servicio con estado INGRESADO.")
-      }
-    }
-  }
-
-  AnularOSSelected(): void {
-    this.aduanaService.Anular(10,'2')
-      .subscribe(res => {
-        if (res.Result.Success) {
-          if (!res.Result.ErrCode) {
-            this.alertUtil.alertOk('Anulado!', 'Orden de servicio anulado.');
-            this.Buscar();
-          } else if (res.Result.Message && res.Result.ErrCode) {
-            this.alertUtil.alertError('Error', res.Result.Message);
-          } else {
-            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-          }
-        } else {
-          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-        }
-      },
-        err => {
-          console.log(err);
-          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-        }
-      );
-  }
+ 
 
   Nuevo() {
     this.router.navigate(['exportador/operaciones/aduanas/edit']);
