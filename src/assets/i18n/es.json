@@ -274,6 +274,10 @@
 		"PreciosDia":
 				{
 					"Label":"Precio del Día"
+				},
+		"Aduanas":
+				{
+					"Label":"Aduanas"
 				}
 
 		},
