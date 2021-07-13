@@ -70,8 +70,7 @@ export class AduanasComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("EstadoAduana", function (res) {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
-        form.aduanasForm.controls.estado.setValue('01');
-        form.aduanasForm.controls.estado.disable();
+        
        
       }
     });
@@ -152,8 +151,8 @@ export class AduanasComponent implements OnInit {
         RazonSocialCliente: this.aduanasForm.value.clienteFinal,
         
         EstadoId: this.aduanasForm.controls["estado"].value ?? '',
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
        
-        EmpresaId: 1
       };
 
       this.spinner.show();
