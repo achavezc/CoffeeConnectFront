@@ -15,6 +15,7 @@ export class ReqAduanas {
         FechaRecepcionMuestra: Date,
         NavieraId: string,
         Observacion: string,
+        Courier: string,
         Certificaciones: Certificaciones[],
         FechaEmbarque: Date,
         FechaFacturacion: Date,
@@ -42,6 +43,7 @@ export class ReqAduanas {
         this.FechaRecepcionMuestra = FechaRecepcionMuestra;
         this.NavieraId = NavieraId;
         this.Observacion = Observacion;
+        this.Courier = Courier;
         this.Certificaciones = Certificaciones;
         this.FechaEmbarque = FechaEmbarque;
         this.FechaFacturacion = FechaFacturacion;
@@ -65,6 +67,7 @@ export class ReqAduanas {
     FechaRecepcionMuestra: Date;
     NavieraId: string;
     Observacion: string;
+    Courier: string;
     Certificaciones: Certificaciones[];
     FechaEmbarque: Date;
     FechaFacturacion: Date;

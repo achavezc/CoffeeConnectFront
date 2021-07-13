@@ -98,6 +98,7 @@ export class AduanasEditComponent implements OnInit {
         trackingNumber: new FormControl('', [Validators.required]),
         fechaRecepcion: new FormControl('', [Validators.required]),
         observacion: new FormControl('', []),
+        courier: new FormControl('', []),
         certificacionesProductor: new FormControl('', [Validators.required]),
         certificacionesExportador: new FormControl('', [Validators.required]),
         marca: new FormControl('', [Validators.required]),
@@ -339,6 +340,7 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('estado').setValue(data.EstadoMuestraId);
     this.aduanasFormEdit.get('naviera').setValue(data.NavieraId);
     this.aduanasFormEdit.get('observacion').setValue(data.Observacion);
+    this.aduanasFormEdit.get('courier').setValue(data.Courier);
     
     //let arrayNotaIngreso = [];
     //data.Detalle.forEach(x => {
@@ -427,6 +429,7 @@ export class AduanasEditComponent implements OnInit {
         this.aduanasFormEdit.get('fechaRecepcion').value,
         this.aduanasFormEdit.get('naviera').value,
         this.aduanasFormEdit.get('observacion').value,
+        this.aduanasFormEdit.get('courier').value,
         listCertificaciones,
         this.aduanasFormEdit.get('fechaEmbarque').value,
         this.aduanasFormEdit.get('fechaFac').value,

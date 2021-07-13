@@ -388,6 +388,13 @@
                                 </ng-select>
                             </div>
 
+                            <div class="col-12 col-md-4">
+                                <label for="basicInput">Courier</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="courier"
+                                     placeholder="Courier"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.courier.invalid, 'is-valid': submittedEdit && !fedit.courier.invalid }">
+                            </div>
+
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12">
