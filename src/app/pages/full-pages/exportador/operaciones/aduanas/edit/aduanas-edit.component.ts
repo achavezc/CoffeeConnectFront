@@ -26,7 +26,7 @@ export class AduanasEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
-
+  
   login: ILogin;
   aduanasFormEdit: FormGroup;
   listaEstado: any[];
@@ -38,7 +38,7 @@ export class AduanasEditComponent implements OnInit {
   fechaRegistro: any;
   listaNaviera: any[];
   selectedtNaviera: any;
-  esEdit: true;
+  esEdit = false;
   listaLaboratorios: any[];
   selectLaboratorio: any;
   rows = [];
@@ -537,7 +537,9 @@ export class AduanasEditComponent implements OnInit {
       this.rows[index].NumeroLote = event.target.value
     }
   }
-
+  openModalDocumentos(customContent) {
+    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl', centered: true });
+  }
   close() {
     this.modalService.dismissAll();
   }
