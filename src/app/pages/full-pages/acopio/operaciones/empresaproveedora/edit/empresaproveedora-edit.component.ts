@@ -248,11 +248,11 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             return;
         }
         else {
-            if(!this.validarCertificaciones()){
+      /*       if(!this.validarCertificaciones()){
                 this.submitted = true;
                 this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
                 return;
-            }else{
+            }else{ */
 
                 if (this.vId <= 0) {
                     form.CreatePrecioDia();
@@ -262,7 +262,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
                     form.ActualizarPrecioDia();
                 }
     
-            }
+           // }
         }
     }
 

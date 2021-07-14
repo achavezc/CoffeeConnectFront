@@ -418,7 +418,12 @@
     </section>
 
     <div class="card-footer text-right" style="margin-top: 2rem;">
-        <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+        <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+            <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="id">
+            </app-lista-documentos>
+          </ng-template>
+        <button *ngIf="esEdit" class="btn btn-primary" (click)="openModal(mdlListDocuments)">Documentos</button>
+        <button class="btn btn-primary  ml-1" (click)="guardar()">Guardar</button>
         <button class="btn btn-danger ml-1" (click)="cancelar()">Cancelar</button>
     </div>
     <div class="d-flex justify-content-between align-items-center">
