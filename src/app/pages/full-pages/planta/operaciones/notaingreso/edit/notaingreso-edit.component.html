@@ -102,22 +102,43 @@
 
             <div class="form-row">
               <div class="col-md-3 mb-3 form-group mb-2">
-                <label for="validationTooltip04">CODIGO ORGANIZACION</label>
+               <!--  <label for="validationTooltip04">CODIGO ORGANIZACION</label>
                 <input type="text" minlength="5" maxlength="20" formControlName="codigoOrganizacion"
                   class="form-control" id="validationTooltip04" placeholder="Codigo Organización"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.codigoOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.codigoOrganizacion.invalid }"
+                  readonly> -->
+              
+                  <label for="validationTooltip04">RUC ORGANIZACIÓN</label>
+                <input type="text" minlength="8" maxlength="20" formControlName="rucOrganizacion" class="form-control"
+                  id="validationTooltip08" placeholder="Ruc"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.rucOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.rucOrganizacion.invalid }"
                   readonly>
-              </div>
+
+              
+                </div>
+              
+
 
               <div class="col-md-1 mb-1 form-group mb-2">
-                <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
+                <!-- <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
                   <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
                   </app-consultar-organizacion>
-                </ng-template>
+                </ng-template> -->
+
+                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                  <app-consultar-empresa (empresaEvent)="GetDataEmpresa($event)">
+                  </app-consultar-empresa>
+              </ng-template>
+
                 <button type="button" class="btn btn-default" style="margin-top: 1.5rem;"
-                  (click)="openModal(mdlConsultarOrganizacion)">
+                  (click)="openModal(modalEmpresa)">
                   <i class="fa fa-search"></i>
                 </button>
+
+                
+              
+
+
               </div>
               <div class="col-md-4 mb-4 form-group mb-2">
                 <label for="validationTooltip04">NOMBRE ORGANIZACION</label>
@@ -144,14 +165,14 @@
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.direccion.invalid, 'is-valid': submittedEdit && !fedit.direccion.invalid }"
                   readonly>
               </div>
-              <div class="col-md-4 mb-4 form-group mb-2">
+              <!-- <div class="col-md-4 mb-4 form-group mb-2">
                 <label for="validationTooltip04">RUC</label>
                 <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
                   id="validationTooltip08" placeholder="Ruc"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.ruc.invalid, 'is-valid': submittedEdit && !fedit.ruc.invalid }"
                   readonly>
 
-              </div>
+              </div> -->
               <div class="col-md-4 mb-4 form-group mb-2">
                 <label for="validationTooltip09">SUB PRODUCTO</label>
                 <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"

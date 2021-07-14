@@ -127,7 +127,7 @@ export class NotaIngresoEditComponent implements OnInit {
         nombreOrganizacion: ['',],
         producto: ['', Validators.required],
         direccion: ['',],
-        ruc: ['',],
+        rucOrganizacion: ['',],
         subproducto: ['', Validators.required],
         certificacion: ['', Validators.required],
         certificadora: ['', Validators.required],
@@ -426,7 +426,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
     this.notaIngredoFormEdit.controls["direccion"].setValue(data.Direccion);
-    this.notaIngredoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
+    this.notaIngredoFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);
     this.notaIngredoFormEdit.controls["subproducto"].setValue(data.SubProductoId);
     this.notaIngredoFormEdit.controls["certificacion"].setValue(data.CertificacionId);
@@ -507,13 +507,16 @@ export class NotaIngresoEditComponent implements OnInit {
   GetDataEmpresa(event: any): void {
     this.selectOrganizacion = event;
     if (this.selectOrganizacion[0]) {
-      this.notaIngredoFormEdit.controls['codigoOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
+      //this.notaIngredoFormEdit.controls['codigoOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
       this.notaIngredoFormEdit.controls['direccion'].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
       this.notaIngredoFormEdit.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
-      this.notaIngredoFormEdit.controls['ruc'].setValue(this.selectOrganizacion[0].Ruc);
+      this.notaIngredoFormEdit.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
     }
     this.modalService.dismissAll();
   }
+
+
+  
 
   Documents(): void {
 
