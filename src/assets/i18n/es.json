@@ -237,6 +237,11 @@
 				"LiquidacionProceso":
 				{
 					"Label":"Liquidacion de Proceso"
+				},
+				"OrdenProceso":
+				{
+					"Label":"Orden de Proceso"
+					
 				}
 		},
 		"Administracion":
@@ -350,5 +355,6 @@
 			"Label":"Tabla de Tablas"
 			
 		}
+		
 	}
 }

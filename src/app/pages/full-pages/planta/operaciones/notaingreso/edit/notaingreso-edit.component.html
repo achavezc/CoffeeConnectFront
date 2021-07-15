@@ -142,7 +142,7 @@
               </div>
               <div class="col-md-4 mb-4 form-group mb-2">
                 <label for="validationTooltip04">NOMBRE ORGANIZACION</label>
-                <input type="text" minlength="8" maxlength="20" formControlName="nombreOrganizacion"
+                <input type="text" minlength="8" maxlength="100" formControlName="nombreOrganizacion"
                   class="form-control" id="validationTooltip08" placeholder="Nombre Organizacion"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.nombreOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.nombreOrganizacion.invalid }"
                   readonly>
@@ -160,7 +160,7 @@
             <div class="form-row">
               <div class="col-md-4 mb-4 form-group mb-2">
                 <label for="validationTooltip04">DIRECCION</label>
-                <input type="text" minlength="5" maxlength="100" formControlName="direccion" class="form-control"
+                <input type="text" minlength="5" maxlength="200" formControlName="direccion" class="form-control"
                   id="validationTooltip04" placeholder="Dirección"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.direccion.invalid, 'is-valid': submittedEdit && !fedit.direccion.invalid }"
                   readonly>

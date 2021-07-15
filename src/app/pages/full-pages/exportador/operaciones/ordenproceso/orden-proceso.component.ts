@@ -173,7 +173,7 @@ export class OrdenProcesoComponent implements OnInit {
   }
 
   Nuevo(): void {
-    this.router.navigate(['/exportador/operaciones/ordenproceso/create']);
+    this.router.navigate(['/planta/operaciones/ordenproceso/create']);
   }
 
   Anular(): void {
