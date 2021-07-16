@@ -273,6 +273,13 @@ export class NotaIngresoEditComponent implements OnInit {
       this.submittedEdit = true;
       return;
     } else {
+      if(this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0){
+        this.notaIngredoFormEdit.get('pesado').get("calidad").setValue("");
+      }  
+      if(this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0){
+        this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
+      }
+
       let request = new ReqRegistrarPesadoNotaIngreso(
         Number(this.id),
         this.login.Result.Data.EmpresaId,
