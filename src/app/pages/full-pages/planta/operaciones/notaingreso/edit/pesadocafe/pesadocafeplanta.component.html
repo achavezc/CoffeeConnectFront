@@ -55,7 +55,7 @@
                 <div class="col-md-6 mb-6 form-group mb-2">
                   <label for="validationTooltip04">Peso Bruto KG</label>
                   <input type="number" minlength="1" maxlength="20" formControlName="kilosBrutos" class="form-control"
-                    id="validationTooltip04" placeholder="Peso Bruto KG"
+                    id="validationTooltip04" placeholder="Peso Bruto KG" (change)="changePesoBruto()"
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosBrutos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBrutos.invalid }">
                 </div>
                 <div class="col-md-6 mb-6 form-group mb-2">
@@ -89,7 +89,7 @@
                 <div class="col-md-6 mb-6 form-group mb-2">
                   <label for="validationTooltip04">Kilos Netos</label>
                   <input type="number" minlength="1" maxlength="20" formControlName="kilosNetos" class="form-control"
-                    id="validationTooltip04" placeholder="Kilos Netos"
+                    id="validationTooltip04" placeholder="Kilos Netos" disabled
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosNetos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosNetos.invalid }">
                 </div>
                 <div class="col-md-6 mb-6 form-group mb-2">

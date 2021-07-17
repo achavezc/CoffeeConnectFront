@@ -86,6 +86,9 @@ export class PesadoCafePlantaComponent implements OnInit {
   changeCantidad() {
     this.calcularTara();
   }
+  changePesoBruto(){
+    this.calcularKilosNetos();
+  }
 
   calcularTara() {
     var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
@@ -101,11 +104,19 @@ export class PesadoCafePlantaComponent implements OnInit {
 
     var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
     this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
+    this.calcularKilosNetos();
   }
   consultarSocioFinca() {
     this.miEvento.emit(this.mensaje);
   }
 
+  calcularKilosNetos(){
+    var tara = this.pesadoFormGroup.controls['tara'].value;
+    var kilosBrutos = this.pesadoFormGroup.controls['kilosBrutos'].value;
+    var valor = kilosBrutos - tara;
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.pesadoFormGroup.controls['kilosNetos'].setValue(valorRounded);
+  }
 
   cleanKilosBrutos() {
     this.pesadoFormGroup.controls['kilosBruto'].setValue("");
