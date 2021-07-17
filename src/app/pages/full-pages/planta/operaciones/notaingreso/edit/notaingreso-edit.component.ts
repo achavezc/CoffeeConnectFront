@@ -299,7 +299,7 @@ export class NotaIngresoEditComponent implements OnInit {
         Number(this.notaIngredoFormEdit.get('pesado').get("tara").value),
         this.notaIngredoFormEdit.get('pesado').get("calidad").value,
         this.notaIngredoFormEdit.get('pesado').get("grado").value,
-        Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
+        Number(this.notaIngredoFormEdit.get('pesado').get("cantidadDefectos").value),
         Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
         this.notaIngredoFormEdit.get('pesado').get("tipo").value,
         Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
@@ -313,7 +313,7 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.get('pesado').get("observacion").value,
         "01",
         new Date(),
-        this.login.Result.Data.IdUsuario,
+        this.login.Result.Data.NombreUsuario,
         new Date()
       );
       this.spinner.show(undefined,
