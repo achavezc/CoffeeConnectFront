@@ -230,7 +230,9 @@ export class AduanasEditComponent implements OnInit {
     console.log(items);
   }
   openModal(modalEmpresa) {
-    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
+    //this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
+
+    this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
 
   }
 

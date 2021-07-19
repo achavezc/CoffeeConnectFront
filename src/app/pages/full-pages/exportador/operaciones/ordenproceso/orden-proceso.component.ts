@@ -12,6 +12,7 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { host } from '../../../../../shared/hosts/main.host';
+import { threadId } from "worker_threads";
 
 @Component({
   selector: 'app-orden-proceso',
@@ -79,6 +80,10 @@ export class OrdenProcesoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
       if (res.Result.Success) {
         this.listEstados = res.Result.Data;
+        if(this.popUp){
+          this.ordenProcesoForm.controls.estado.setValue("01");
+          this.ordenProcesoForm.controls.estado.disable();
+        }
       }
     });
 
