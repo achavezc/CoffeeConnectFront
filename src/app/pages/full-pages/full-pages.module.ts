@@ -19,6 +19,7 @@ import { MConsultarProductorComponent } from './modals/consultarproductor/m-cons
 import { ListFilterPipe } from '../../shared/pipes/listFilter.pipe';
 import { ExportadorModule } from './exportador/exportador.module';
 import { FileUploadModule } from 'ng2-file-upload';
+import { ClienteModule } from "./cliente/cliente.module";
 @NgModule({
   imports: [
     CommonModule,
@@ -36,7 +37,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     ProductorModule,
     AgropecuarioModule,
     ExportadorModule,
-    FileUploadModule
+    FileUploadModule,
+    ClienteModule
   ],
   declarations: [
     InvoicePageComponent,
