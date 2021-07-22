@@ -70,7 +70,8 @@
                                 <ng-template #modalContrato let-c="close" let-d="dismiss">
                                     <div class="modal-header" style="text-align: center;">
 
-                                        <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Registro de Contratos</h4>
+                                        <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Registro de
+                                            Contratos</h4>
                                         <button type="button" class="close" aria-label="Close" (click)="close()">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -81,10 +82,11 @@
                                             style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                                             <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
                                         </div>
-                                        <app-contrato  [popUp]="popUp"  (agregarContratoEvent)="receiveMessageContrato($event)">
+                                        <app-contrato [popUp]="popUp"
+                                            (agregarContratoEvent)="receiveMessageContrato($event)">
                                         </app-contrato>
                                     </div>
-                                   
+
                                 </ng-template>
                                 <button type="button" (click)="openModal(modalContrato)" class="btn btn-default"
                                     style="margin-top: 1.5rem;">
@@ -93,9 +95,11 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Ruc / Agencia Aduanera</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="ruc"  [ngClass]="{ 'is-invalid': submittedEdit && fedit.ruc.invalid, 'is-valid': submittedEdit && !fedit.ruc.invalid }"
+                                <input type="text" class="form-control" id="basicInput" formControlName="ruc"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.ruc.invalid, 'is-valid': submittedEdit && !fedit.ruc.invalid }"
                                     disabled>
-                                    <small class="form-text text-muted danger" *ngIf="fedit.ruc.errors?.required">Ingrese Agencia Aduanera</small>
+                                <small class="form-text text-muted danger" *ngIf="fedit.ruc.errors?.required">Ingrese
+                                    Agencia Aduanera</small>
 
                             </div>
                             <div class="col-12 col-md-4">
@@ -135,7 +139,8 @@
                                 <input type="text" class="form-control" id="basicInput" formControlName="exportador"
                                     disabled class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.exportador.invalid, 'is-valid': submittedEdit && !fedit.exportador.invalid }">
-                                    <small class="form-text text-muted danger" *ngIf="fedit.exportador.errors?.required">Ingrese Exportador</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="fedit.exportador.errors?.required">Ingrese Exportador</small>
                             </div>
 
 
@@ -150,13 +155,18 @@
                                 </button>
                             </div>
 
-                            
-                            <div class="col-12 col-md-7" >
-                                <label for="certificacionesExportador" class="form-label">Certificaciones Solicitadas Exportador</label>
-                                <ng-multiselect-dropdown [placeholder]="'Seleccionar Certificaciones'" formControlName="certificacionesExportador" [settings]="dropdownSettings" [data]="dropdownListExp" [(ngModel)]="selectedItemsExp"
+
+                            <div class="col-12 col-md-7">
+                                <label for="certificacionesExportador" class="form-label">Certificaciones Solicitadas
+                                    Exportador</label>
+                                <ng-multiselect-dropdown [placeholder]="'Seleccionar Certificaciones'"
+                                    formControlName="certificacionesExportador" [settings]="dropdownSettings"
+                                    [data]="dropdownListExp" [(ngModel)]="selectedItemsExp"
                                     (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                                 </ng-multiselect-dropdown>
-                                <small class="form-text text-muted danger" *ngIf="fedit.certificacionesExportador.errors?.required">Seleccionar Certificaciones</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="fedit.certificacionesExportador.errors?.required">Seleccionar
+                                    Certificaciones</small>
                             </div>
 
 
@@ -167,7 +177,8 @@
                                 <input type="text" class="form-control" id="basicInput" formControlName="productor"
                                     disabled class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.productor.invalid, 'is-valid': submittedEdit && !fedit.productor.invalid }">
-                                    <small class="form-text text-muted danger" *ngIf="fedit.productor.errors?.required">Ingrese Productor</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="fedit.productor.errors?.required">Ingrese Productor</small>
                             </div>
 
 
@@ -182,31 +193,36 @@
                                 </button>
                             </div>
 
-                            <div class="col-12 col-md-7" >
+                            <div class="col-12 col-md-7">
                                 <label for="estado" class="form-label">Certificaciones Solicitadas Productor</label>
-                                <ng-multiselect-dropdown  [placeholder]="'Seleccionar Certificaciones'" formControlName="certificacionesProductor" [settings]="dropdownSettings" [data]="dropdownListProd" [(ngModel)]="selectedItemsProd"
-                                [ngClass]="{ 'is-invalid': submitted && fedit.certificacionesProductor.invalid, 'is-valid': submitted && !fedit.certificacionesProductor.invalid }"   (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                                <ng-multiselect-dropdown [placeholder]="'Seleccionar Certificaciones'"
+                                    formControlName="certificacionesProductor" [settings]="dropdownSettings"
+                                    [data]="dropdownListProd" [(ngModel)]="selectedItemsProd"
+                                    [ngClass]="{ 'is-invalid': submitted && fedit.certificacionesProductor.invalid, 'is-valid': submitted && !fedit.certificacionesProductor.invalid }"
+                                    (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                                 </ng-multiselect-dropdown>
-                                <small class="form-text text-muted danger" *ngIf="fedit.certificacionesProductor.errors?.required">Seleccionar Certificaciones</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="fedit.certificacionesProductor.errors?.required">Seleccionar
+                                    Certificaciones</small>
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Fecha de Embarque</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaEmbarque"
-                                     class="form-control"
+                                    class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaEmbarque.invalid, 'is-valid': submittedEdit && !fedit.fechaEmbarque.invalid }">
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Fecha Fac./Exp.</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaFac"
-                                     class="form-control"
+                                    class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaFac.invalid, 'is-valid': submittedEdit && !fedit.fechaFac.invalid }">
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Marca</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="marca"
-                                     class="form-control" placeholder="Marca"
+                                    class="form-control" placeholder="Marca"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.marca.invalid, 'is-valid': submittedEdit && !fedit.marca.invalid }">
                             </div>
 
@@ -214,7 +230,7 @@
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Po#</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="po"
-                                     class="form-control" placeholder="PO #"
+                                    class="form-control" placeholder="PO #"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.po.invalid, 'is-valid': submittedEdit && !fedit.po.invalid }">
                             </div>
 
@@ -248,27 +264,31 @@
                                     disabled class="form-control">
                             </div>
                             <div class="col-12 col-md-8">
-                                <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" style="margin-top: 0.5rem;" type="button" (click)="addRow()">+</button>
-                               
-                                <ngx-datatable  #tblDetails class="bootstrap core-bootstrap" [rows]="rows" [loadingIndicator]="isLoading" [scrollbarV]="true">
+                                <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" style="margin-top: 0.5rem;"
+                                    type="button" (click)="addRow()">+</button>
+
+                                <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rows"
+                                    [loadingIndicator]="isLoading" [scrollbarV]="true">
                                     <ngx-datatable-column [sortable]="false" width="50">
                                         <ng-template ngx-datatable-cell-template let-row="row" let-anio="value"
-                                            let-rowIndex="rowIndex" >
+                                            let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center text-center">
-                                               
-                                                    <button type="button" class="btn btn-sm btn-danger pt-0 pb-0"
+
+                                                <button type="button" class="btn btn-sm btn-danger pt-0 pb-0"
                                                     (click)="EliminarFila(rowIndex)">-</button>
                                             </div>
                                         </ng-template>
                                     </ngx-datatable-column>
-                                   
-                                    <ngx-datatable-column name="N° Nota Ing. Planta" prop="NroNotaIngresoPlanta" [sortable]="false"
-                                        width="150">
-                                        <ng-template ngx-datatable-cell-template let-row="row" let-numeroNotaIngreso="value" let-rowIndex="rowIndex">
+
+                                    <ngx-datatable-column name="N° Nota Ing. Planta" prop="NroNotaIngresoPlanta"
+                                        [sortable]="false" width="150">
+                                        <ng-template ngx-datatable-cell-template let-row="row"
+                                            let-numeroNotaIngreso="value" let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center">
                                                 <input type="text" autofocus
                                                     class="form-control form-control-sm text-right"
-                                                    (blur)="UpdateValue($event, rowIndex, 'numeroNotaIngreso')" value="{{numeroNotaIngreso}}">
+                                                    (blur)="UpdateValue($event, rowIndex, 'numeroNotaIngreso')"
+                                                    value="{{numeroNotaIngreso}}">
                                             </div>
                                         </ng-template>
                                     </ngx-datatable-column>
@@ -291,8 +311,10 @@
                                         <ng-template let-row=" row" let-kilosnetos="value" ngx-datatable-cell-template
                                             let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center">
-                                                <input type="number" autofocus class="form-control form-control-sm text-right"
-                                                    (blur)="UpdateValue($event, rowIndex, 'kilosnetos')" aria-valuemin="" value="{{kilosnetos}}">
+                                                <input type="number" autofocus
+                                                    class="form-control form-control-sm text-right"
+                                                    (blur)="UpdateValue($event, rowIndex, 'kilosnetos')"
+                                                    aria-valuemin="" value="{{kilosnetos}}">
                                             </div>
                                         </ng-template>
                                     </ngx-datatable-column>
@@ -301,8 +323,10 @@
                                         <ng-template let-row=" row" let-lote="value" ngx-datatable-cell-template
                                             let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center">
-                                                <input type="text" autofocus class="form-control form-control-sm text-right"
-                                                    (blur)="UpdateValue($event, rowIndex, 'lote')" aria-valuemin="" value="{{lote}}">
+                                                <input type="text" autofocus
+                                                    class="form-control form-control-sm text-right"
+                                                    (blur)="UpdateValue($event, rowIndex, 'lote')" aria-valuemin=""
+                                                    value="{{lote}}">
                                             </div>
                                         </ng-template>
                                     </ngx-datatable-column>
@@ -318,7 +342,7 @@
                                     disabled class="form-control">
                             </div>
                             <div class="col-12 col-md-8">
-                                
+
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
@@ -332,8 +356,8 @@
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Total Kilos Netos</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="totalkilosnetos"
-                                    disabled class="form-control">
+                                <input type="text" class="form-control" id="basicInput"
+                                    formControlName="totalkilosnetos" disabled class="form-control">
                             </div>
 
                         </div>
@@ -341,11 +365,12 @@
                             style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                             <div class="card-subtitle-form">SEGUIMIENTO DE MUESTRAS</div>
                         </div>
-                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;" >
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-4 form-group">
                                 <label for="estado" class="form-label">Laboratorio</label>
-                                <ng-select [items]="listaLaboratorios" formControlName="laboratorio" 
-                                    bindLabel="Label" bindValue="Codigo" id="laboratorio" placeholder="Seleccionar Laboratorio" class="form-control"
+                                <ng-select [items]="listaLaboratorios" formControlName="laboratorio" bindLabel="Label"
+                                    bindValue="Codigo" id="laboratorio" placeholder="Seleccionar Laboratorio"
+                                    class="form-control"
                                     [ngClass]="{ 'is-invalid': submitted && fedit.laboratorio.invalid, 'is-valid': submitted && !fedit.laboratorio.invalid }"
                                     [(ngModel)]="selectLaboratorio">
                                 </ng-select>
@@ -353,13 +378,13 @@
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Fecha Recojo/Envio Courier</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaRecojo"
-                                     class="form-control"
+                                    class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaRecojo.invalid, 'is-valid': submittedEdit && !fedit.fechaRecojo.invalid }">
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Tracking Number</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="trackingNumber"
-                                     placeholder="Tracking Number"
+                                    placeholder="Tracking Number"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.trackingNumber.invalid, 'is-valid': submittedEdit && !fedit.trackingNumber.invalid }">
                             </div>
                         </div>
@@ -375,14 +400,13 @@
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Fecha Recepcion en Destino </label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaRecepcion"
-                                     class="form-control"
+                                    class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaRecepcion.invalid, 'is-valid': submittedEdit && !fedit.fechaRecepcion.invalid }">
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="estado">Naviera</label>
                                 <ng-select [items]="listaNaviera" formControlName="naviera" class="form-control"
-                                    bindLabel="Label" bindValue="Codigo" id="estado"
-                                    placeholder="Seleccionar Naviera"
+                                    bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar Naviera"
                                     [ngClass]="{ 'is-invalid': submitted && fedit.naviera.invalid, 'is-valid': submitted && !fedit.naviera.invalid }"
                                     [(ngModel)]="selectedtNaviera">
                                 </ng-select>
@@ -391,14 +415,24 @@
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Courier</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="courier"
-                                     placeholder="Courier"
+                                    placeholder="Courier"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.courier.invalid, 'is-valid': submittedEdit && !fedit.courier.invalid }">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="customsTrackingStatus">STATUS</label>
+                                <ng-select [items]="listCustomsTrackingStatus" formControlName="customsTrackingStatus"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="customsTrackingStatus"
+                                    placeholder="Seleccionar Estado"
+                                    [ngClass]="{ 'is-invalid': submitted && fedit.customsTrackingStatus.invalid, 'is-valid': submitted && !fedit.customsTrackingStatus.invalid }"
+                                    [(ngModel)]="selectedtCustomsTrackingStatus">
+                                </ng-select>
                             </div>
 
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12">
-                                <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
+                                <label for="basicInput" style="font-size: 0.7rem;">OBSERVACIONES (ADDITIONAL
+                                    NOTES)</label>
                                 <div class="position-relative has-icon-left textarea">
                                     <textarea id="bordered-form-6" rows="4" class="form-control"
                                         formControlName="observacion" name="notes"></textarea>
@@ -421,7 +455,7 @@
         <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
             <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="id">
             </app-lista-documentos>
-          </ng-template>
+        </ng-template>
         <button *ngIf="esEdit" class="btn btn-primary" (click)="openModal(mdlListDocuments)">Documentos</button>
         <button class="btn btn-primary  ml-1" (click)="guardar()">Guardar</button>
         <button class="btn btn-danger ml-1" (click)="cancelar()">Cancelar</button>

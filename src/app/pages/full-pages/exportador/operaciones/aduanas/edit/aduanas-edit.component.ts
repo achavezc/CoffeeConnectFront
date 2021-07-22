@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { ILogin } from '../../../../../../services/models/login';
@@ -12,7 +12,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AduanaService } from '../../../../../../services/aduanas.service';
-import {EmpresaProveedoraService} from '../../../../../../services/empresaproveedora.service';
+import { EmpresaProveedoraService } from '../../../../../../services/empresaproveedora.service';
 import { formatDate } from '@angular/common';
 
 
@@ -26,7 +26,7 @@ export class AduanasEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  
+
   login: ILogin;
   aduanasFormEdit: FormGroup;
   listaEstado: any[];
@@ -43,22 +43,24 @@ export class AduanasEditComponent implements OnInit {
   selectLaboratorio: any;
   rows = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
-  selectEmpresa: any[] =[];
-  selectExportador: any[] =[];
-  selectProductor: any[] =[];
-  selectContrato: any[] =[];
+  selectEmpresa: any[] = [];
+  selectExportador: any[] = [];
+  selectProductor: any[] = [];
+  selectContrato: any[] = [];
   responsable: "";
   id: Number = 0;
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estado: any;
   dropdownListExp = [];
-  dropdownListProd =[];
+  dropdownListProd = [];
   selectedItemsExp = [];
   selectedItemsProd = [];
   dropdownSettings = {};
   popUp = true;
   isLoading = false;
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
+  listCustomsTrackingStatus: any[];
+  selectedtCustomsTrackingStatus: any;
 
 
   constructor(private fb: FormBuilder,
@@ -66,11 +68,11 @@ export class AduanasEditComponent implements OnInit {
     private maestroService: MaestroService,
     private modalService: NgbModal,
     private router: Router,
-   private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
+    private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
     private alertUtil: AlertUtil,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private empresaProveedoraService : EmpresaProveedoraService,
+    private empresaProveedoraService: EmpresaProveedoraService,
     private aduanaService: AduanaService) {
   }
   cargarForm() {
@@ -81,8 +83,8 @@ export class AduanasEditComponent implements OnInit {
         agencia: new FormControl('', [Validators.required]),
         clientefinal: new FormControl('', []),
         floid: new FormControl('', []),
-        exportador: new FormControl('',  [Validators.required]),
-        productor: new FormControl('',  [Validators.required]),
+        exportador: new FormControl('', [Validators.required]),
+        productor: new FormControl('', [Validators.required]),
         fechaEmbarque: new FormControl('', [Validators.required]),
         fechaFac: new FormControl('', [Validators.required]),
         po: new FormControl('', [Validators.required]),
@@ -103,7 +105,8 @@ export class AduanasEditComponent implements OnInit {
         certificacionesExportador: new FormControl('', [Validators.required]),
         marca: new FormControl('', [Validators.required]),
         estado: new FormControl('', [Validators.required]),
-        naviera: new FormControl('', [Validators.required])
+        naviera: new FormControl('', [Validators.required]),
+        customsTrackingStatus: []
       });
 
     this.maestroService.obtenerMaestros("EstadoAduana")
@@ -117,7 +120,7 @@ export class AduanasEditComponent implements OnInit {
         }
       );
 
-      this.maestroService.obtenerMaestros("Naviera")
+    this.maestroService.obtenerMaestros("Naviera")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaNaviera = res.Result.Data;
@@ -128,7 +131,7 @@ export class AduanasEditComponent implements OnInit {
         }
       );
 
-      this.maestroService.obtenerMaestros("Laboratorio")
+    this.maestroService.obtenerMaestros("Laboratorio")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaLaboratorios = res.Result.Data;
@@ -139,12 +142,20 @@ export class AduanasEditComponent implements OnInit {
         }
       );
 
-      
-      
+      this.maestroService.obtenerMaestros("EstadoSeguimientoAduana")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listCustomsTrackingStatus = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
   }
 
   receiveMessage($event) {
-    this.selectEmpresa = $event    
+    this.selectEmpresa = $event
     this.aduanasFormEdit.get('ruc').setValue(this.selectEmpresa[0].Ruc);
     this.aduanasFormEdit.get('agencia').setValue(this.selectEmpresa[0].RazonSocial);
     this.modalService.dismissAll();
@@ -153,13 +164,11 @@ export class AduanasEditComponent implements OnInit {
   receiveMessageExportador($event) {
 
     this.selectExportador = $event
-    if (this.selectProductor.length == 0 || this.selectExportador[0].EmpresaProveedoraAcreedoraId  != this.selectProductor[0].EmpresaProveedoraAcreedoraId)
-    {
-    this.aduanasFormEdit.get('exportador').setValue(this.selectExportador[0].RazonSocial);
-    this.consultarCertificaciones(this.selectExportador[0].EmpresaProveedoraAcreedoraId, 'Exportador');
+    if (this.selectProductor.length == 0 || this.selectExportador[0].EmpresaProveedoraAcreedoraId != this.selectProductor[0].EmpresaProveedoraAcreedoraId) {
+      this.aduanasFormEdit.get('exportador').setValue(this.selectExportador[0].RazonSocial);
+      this.consultarCertificaciones(this.selectExportador[0].EmpresaProveedoraAcreedoraId, 'Exportador');
     }
-    else
-    {
+    else {
       this.alertUtil.alertWarning("Oops...!", "La Empresa Exportadora debe ser diferente a la Empresa Productora");
     }
     this.modalService.dismissAll();
@@ -167,20 +176,17 @@ export class AduanasEditComponent implements OnInit {
 
   receiveMessageProductor($event) {
     this.selectProductor = $event
-    if (this.selectProductor.length == 0 || this.selectExportador[0].EmpresaProveedoraAcreedoraId  != this.selectProductor[0].EmpresaProveedoraAcreedoraId)
-    {
-    this.aduanasFormEdit.get('productor').setValue(this.selectProductor[0].RazonSocial);
-    this.consultarCertificaciones(this.selectProductor[0].EmpresaProveedoraAcreedoraId, 'Productor');
+    if (this.selectProductor.length == 0 || this.selectExportador[0].EmpresaProveedoraAcreedoraId != this.selectProductor[0].EmpresaProveedoraAcreedoraId) {
+      this.aduanasFormEdit.get('productor').setValue(this.selectProductor[0].RazonSocial);
+      this.consultarCertificaciones(this.selectProductor[0].EmpresaProveedoraAcreedoraId, 'Productor');
     }
-    else
-    {
+    else {
       this.alertUtil.alertWarning("Oops...!", "La Empresa Productora debe ser diferente a la Empresa Exportadora");
     }
     this.modalService.dismissAll();
   }
 
-  receiveMessageContrato($event)
-  {
+  receiveMessageContrato($event) {
     this.selectContrato = $event;
     this.aduanasFormEdit.get('contrato').setValue(this.selectContrato[0].Numero);
     this.aduanasFormEdit.get('producto').setValue(this.selectContrato[0].Producto);
@@ -192,11 +198,9 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('totalkilosnetos').setValue(this.selectContrato[0].PesoKilos);
     this.aduanasFormEdit.get('clientefinal').setValue(this.selectContrato[0].Cliente);
     this.aduanasFormEdit.get('floid').setValue(this.selectContrato[0].Cliente);
-    
+
     this.modalService.dismissAll();
   }
-
- 
 
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
@@ -208,19 +212,18 @@ export class AduanasEditComponent implements OnInit {
           this.esEdit = true;
           this.obtenerDetalle();
         }
-        
+
       });
 
-    
-      this.dropdownSettings = {
-        singleSelection: false,
-        idField: 'item_id',
-        textField: 'item_text',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        itemsShowLimit: 100,
-        allowSearchFilter: true
-      };
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 100,
+      allowSearchFilter: true
+    };
   }
 
   onItemSelect(item: any) {
@@ -236,50 +239,46 @@ export class AduanasEditComponent implements OnInit {
 
   }
 
-  consultarCertificaciones ( id : number , tipo : string)
-  {
-    let request = { EmpresaProveedoraAcreedoraId : id}
-    
+  consultarCertificaciones(id: number, tipo: string) {
+    let request = { EmpresaProveedoraAcreedoraId: id }
+
     this.empresaProveedoraService.ConsultarCertificaciones(request)
-    .subscribe(res => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        if (res.Result.ErrCode == "") {
-          let arrayCertificaciones = [];
-          res.Result.Data.Certificaciones.forEach(x => {
-            let object = {  item_id: x.TipoCertificacionId +"-"+x.EmpresaProveedoraAcreedoraId , item_text: x.Certificacion + "-"+  x.CodigoCertificacion}
-            arrayCertificaciones.push(object);
-            
-          });
-          if (tipo == 'Exportador')
-              {
-                this.dropdownListExp = arrayCertificaciones;
-              }
-               else if (tipo == 'Productor')
-              {
-                this.dropdownListProd = arrayCertificaciones;
-              }
-         
-        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            let arrayCertificaciones = [];
+            res.Result.Data.Certificaciones.forEach(x => {
+              let object = { item_id: x.TipoCertificacionId + "-" + x.EmpresaProveedoraAcreedoraId, item_text: x.Certificacion + "-" + x.CodigoCertificacion }
+              arrayCertificaciones.push(object);
+
+            });
+            if (tipo == 'Exportador') {
+              this.dropdownListExp = arrayCertificaciones;
+            }
+            else if (tipo == 'Productor') {
+              this.dropdownListProd = arrayCertificaciones;
+            }
+
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
         } else {
           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         }
-      } else {
-        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-      }
-    },
-      err => {
-        this.spinner.hide();
-        console.log(err);
-        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-      }
-    );
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
   }
-  obtenerDetalle()
-  {
+  obtenerDetalle() {
     this.spinner.show();
-    let request = {AduanaId:Number(this.id) }
+    let request = { AduanaId: Number(this.id) }
     this.aduanaService.ConsultarPorId(request)
       .subscribe(res => {
         this.spinner.hide();
@@ -304,12 +303,11 @@ export class AduanasEditComponent implements OnInit {
   }
 
 
-  async cargarDataFormulario(data: any)
-  {
-    this.selectEmpresa[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaAgenciaAduaneraId};
-    this.selectExportador[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaExportadoraId};
-    this.selectProductor[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaProductoraId};
-    this.selectContrato[0] = { ContratoId: data.ContratoId}
+  async cargarDataFormulario(data: any) {
+    this.selectEmpresa[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaAgenciaAduaneraId };
+    this.selectExportador[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaExportadoraId };
+    this.selectProductor[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaProductoraId };
+    this.selectContrato[0] = { ContratoId: data.ContratoId }
     this.id = data.AduanaId;
     this.numero = data.Numero;
     this.estado = data.Estado;
@@ -324,56 +322,49 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('productor').setValue(data.RazonSocialEmpresaProductora);
     this.consultarCertificaciones(data.EmpresaExportadoraId, 'Exportador');
     this.consultarCertificaciones(data.EmpresaProductoraId, 'Productor');
-    this.aduanasFormEdit.get('fechaEmbarque').setValue( formatDate(data.FechaEmbarque, 'yyyy-MM-dd', 'en'));   
+    this.aduanasFormEdit.get('fechaEmbarque').setValue(formatDate(data.FechaEmbarque, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('fechaFac').setValue(formatDate(data.FechaFacturacion, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('marca').setValue(data.Marca);
     this.aduanasFormEdit.get('po').setValue(data.PO);
     this.aduanasFormEdit.get('producto').setValue(data.Producto);
     this.aduanasFormEdit.get('subproducto').setValue(data.SubProducto);
     this.aduanasFormEdit.get('calidad').setValue(data.Calidad);
-    this.aduanasFormEdit.get('empaque').setValue(data.TipoEmpaque + "-"+ data.Empaque);
+    this.aduanasFormEdit.get('empaque').setValue(data.TipoEmpaque + "-" + data.Empaque);
     this.aduanasFormEdit.get('cantidad').setValue(data.TotalSacos);
-    this.aduanasFormEdit.get('pesoxsaco').setValue(data.PesoPorSaco); 
+    this.aduanasFormEdit.get('pesoxsaco').setValue(data.PesoPorSaco);
     this.aduanasFormEdit.get('totalkilosnetos').setValue(data.PesoKilos);
     this.aduanasFormEdit.get('laboratorio').setValue(data.LaboratorioId);
-    this.aduanasFormEdit.get('fechaRecojo').setValue( formatDate(data.FechaEnvioMuestra, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaRecojo').setValue(formatDate(data.FechaEnvioMuestra, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('trackingNumber').setValue(data.NumeroSeguimientoMuestra);
     this.aduanasFormEdit.get('fechaRecepcion').setValue(formatDate(data.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('estado').setValue(data.EstadoMuestraId);
     this.aduanasFormEdit.get('naviera').setValue(data.NavieraId);
     this.aduanasFormEdit.get('observacion').setValue(data.Observacion);
     this.aduanasFormEdit.get('courier').setValue(data.Courier);
-    
+    this.aduanasFormEdit.controls.customsTrackingStatus.setValue(data.EstadoSeguimientoId);
+
     //let arrayNotaIngreso = [];
     //data.Detalle.forEach(x => {
-     // let object = {  NumeroNotaIngreso: x.NroNotaIngresoPlanta, Cantidad: x.CantidadSacos, KilosNetos: x.KilosNetos, Lote: x.NumeroLote}
-     //arrayNotaIngreso = [...arrayNotaIngreso, { NumeroNotaIngreso: x.NroNotaIngresoPlanta, Cantidad:  x.CantidadSacos, KilosNetos: x.KilosNetos, Lote: x.NumeroLote }];
-     
+    // let object = {  NumeroNotaIngreso: x.NroNotaIngresoPlanta, Cantidad: x.CantidadSacos, KilosNetos: x.KilosNetos, Lote: x.NumeroLote}
+    //arrayNotaIngreso = [...arrayNotaIngreso, { NumeroNotaIngreso: x.NroNotaIngresoPlanta, Cantidad:  x.CantidadSacos, KilosNetos: x.KilosNetos, Lote: x.NumeroLote }];
+
     // });
     this.rows = data.Detalle;
     let selectarrayProd = [];
     let selectarrayExp = [];
     data.Certificaciones.forEach(x => {
 
-            let object = {  item_id: x.TipoCertificacionId +"-"+x.EmpresaProveedoraAcreedoraId , item_text: x.Certificacion + "-"+  x.CodigoCertificacion}
-            if (data.EmpresaExportadoraId == x.EmpresaProveedoraAcreedoraId)
-              {
-                selectarrayExp.push(object);
-              }
-            else  if (data.EmpresaProductoraId == x.EmpresaProveedoraAcreedoraId)
-              {
-                selectarrayProd.push(object);
-              }            
+      let object = { item_id: x.TipoCertificacionId + "-" + x.EmpresaProveedoraAcreedoraId, item_text: x.Certificacion + "-" + x.CodigoCertificacion }
+      if (data.EmpresaExportadoraId == x.EmpresaProveedoraAcreedoraId) {
+        selectarrayExp.push(object);
+      }
+      else if (data.EmpresaProductoraId == x.EmpresaProveedoraAcreedoraId) {
+        selectarrayProd.push(object);
+      }
     });
     this.selectedItemsProd = selectarrayProd;
     this.selectedItemsExp = selectarrayExp;
-
-
-    
-    
   }
-
-  
 
   get fedit() {
     return this.aduanasFormEdit.controls;
@@ -389,37 +380,34 @@ export class AduanasEditComponent implements OnInit {
       this.submittedEdit = false;
       let listCertificaciones: Certificaciones[] = [];
       let listDetalle: Detalle[] = [];
-      this.rows.forEach(x=>
-        {
-          let detalle : Detalle = new Detalle();
-          detalle.NroNotaIngresoPlanta = x.NroNotaIngresoPlanta;
-          detalle.CantidadSacos = x.CantidadSacos;
-          detalle.KilosNetos = x.KilosNetos;
-          detalle.NumeroLote = x.NumeroLote
-          listDetalle.push(detalle);
-        });
-      
-      this.selectedItemsExp.forEach( x =>
-        {
-          let certificacion : Certificaciones = new Certificaciones();
-          certificacion.TipoCertificacionId = x.item_id.split("-")[0];
-          certificacion.CodigoCertificacion = x.item_text.split("-")[1];
-          certificacion.EmpresaProveedoraAcreedoraId = Number(x.item_id.split("-")[1]);
-          listCertificaciones.push(certificacion);
-        });
-        this.selectedItemsProd.forEach( x =>
-          {
-            let certificacion : Certificaciones = new Certificaciones();
-            certificacion.TipoCertificacionId = x.item_id.split("-")[0];
-            certificacion.CodigoCertificacion = x.item_text.split("-")[1];
-            certificacion.EmpresaProveedoraAcreedoraId = Number(x.item_id.split("-")[1]);
-            listCertificaciones.push(certificacion);
-          });
+      this.rows.forEach(x => {
+        let detalle: Detalle = new Detalle();
+        detalle.NroNotaIngresoPlanta = x.NroNotaIngresoPlanta;
+        detalle.CantidadSacos = x.CantidadSacos;
+        detalle.KilosNetos = x.KilosNetos;
+        detalle.NumeroLote = x.NumeroLote
+        listDetalle.push(detalle);
+      });
+
+      this.selectedItemsExp.forEach(x => {
+        let certificacion: Certificaciones = new Certificaciones();
+        certificacion.TipoCertificacionId = x.item_id.split("-")[0];
+        certificacion.CodigoCertificacion = x.item_text.split("-")[1];
+        certificacion.EmpresaProveedoraAcreedoraId = Number(x.item_id.split("-")[1]);
+        listCertificaciones.push(certificacion);
+      });
+      this.selectedItemsProd.forEach(x => {
+        let certificacion: Certificaciones = new Certificaciones();
+        certificacion.TipoCertificacionId = x.item_id.split("-")[0];
+        certificacion.CodigoCertificacion = x.item_text.split("-")[1];
+        certificacion.EmpresaProveedoraAcreedoraId = Number(x.item_id.split("-")[1]);
+        listCertificaciones.push(certificacion);
+      });
       let request = new ReqAduanas(
         Number(this.id),
-        Number (this.selectContrato[0].ContratoId),
-        Number (this.selectExportador[0].EmpresaProveedoraAcreedoraId),
-        Number (this.selectProductor[0].EmpresaProveedoraAcreedoraId),
+        Number(this.selectContrato[0].ContratoId),
+        Number(this.selectExportador[0].EmpresaProveedoraAcreedoraId),
+        Number(this.selectProductor[0].EmpresaProveedoraAcreedoraId),
         this.login.Result.Data.EmpresaId,
         this.numero,
         this.aduanasFormEdit.get('marca').value,
@@ -436,8 +424,9 @@ export class AduanasEditComponent implements OnInit {
         this.aduanasFormEdit.get('fechaEmbarque').value,
         this.aduanasFormEdit.get('fechaFac').value,
         this.login.Result.Data.NombreUsuario,
-        Number (this.selectEmpresa[0].EmpresaProveedoraAcreedoraId),
-        listDetalle
+        Number(this.selectEmpresa[0].EmpresaProveedoraAcreedoraId),
+        listDetalle,
+        this.aduanasFormEdit.value.customsTrackingStatus
       );
       let json = JSON.stringify(request);
       this.spinner.show(undefined,
@@ -456,7 +445,6 @@ export class AduanasEditComponent implements OnInit {
     }
 
   }
-
 
   registrar(request: ReqAduanas) {
     this.aduanaService.Registrar(request)
@@ -487,8 +475,9 @@ export class AduanasEditComponent implements OnInit {
         }
       );
   }
+
   actualizar(request: ReqAduanas) {
-   this.aduanaService.Actualizar(request)
+    this.aduanaService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -516,32 +505,38 @@ export class AduanasEditComponent implements OnInit {
         }
       );
   }
+
   cancelar() {
 
     this.router.navigate(['/exportador/operaciones/aduanas/list']);
   }
+
   addRow(): void {
 
     this.rows = [...this.rows, { NroNotaIngresoPlanta: '', CantidadSacos: 0, KilosNetos: 0, NumeroLote: '' }];
   }
+
   EliminarFila(index: any): void {
     this.rows.splice(index, 1);
     this.rows = [...this.rows];
   }
+
   UpdateValue(event: any, index: any, prop: any): void {
     if (prop === 'numeroNotaIngreso') {
       this.rows[index].NroNotaIngresoPlanta = event.target.value
     } else if (prop === 'cantidad') {
       this.rows[index].CantidadSacos = parseFloat(event.target.value)
-    }else if (prop === 'kilosnetos') {
+    } else if (prop === 'kilosnetos') {
       this.rows[index].KilosNetos = parseFloat(event.target.value)
-    }else if (prop === 'lote') {
+    } else if (prop === 'lote') {
       this.rows[index].NumeroLote = event.target.value
     }
   }
+
   openModalDocumentos(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
+
   close() {
     this.modalService.dismissAll();
   }

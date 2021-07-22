@@ -54,6 +54,9 @@ export class ContratoEditComponent implements OnInit {
   listTipos = [];
   // listNavieras = [];
   listHarvestPeriod = [];
+  listContractType = [];
+  listInvoiceIn = [];
+  listFixationState: [];
   selectedCondEmbarque: any;
   selectedPais: any;
   selectedCiudad: any;
@@ -74,6 +77,9 @@ export class ContratoEditComponent implements OnInit {
   selectedTipo: any;
   // selectedNaviera: any;
   selectedHarvestPeriod: any;
+  selectedContractType: any;
+  selectedInvoiceIn: any;
+  selectedFixationState: any;
   vId: number;
   vSessionUser: any;
   private url = `${host}Contrato`;
@@ -143,7 +149,23 @@ export class ContratoEditComponent implements OnInit {
       observaciones: [],
       pesoKilos: [, Validators.required],
       contractWeight: [],
-      harvestPeriod: []
+      harvestPeriod: [],
+      contractType: [],
+      invoiceIn: [],
+      contractFixingDate: [],
+      NetKilosQQ: [],
+      NetKilosLB: [],
+      FixationState: [],
+      PriceLevelFixation: [],
+      Differential2: [],
+      PuTotalA: [],
+      TotalBilling1: [],
+      CreditNoteCommission: [],
+      PUTotalB: [],
+      TotalBilling2: [],
+      ExpensesExpCosts: [],
+      PUTotalC: [],
+      TotalBilling3: []
     });
   }
 
@@ -181,6 +203,9 @@ export class ContratoEditComponent implements OnInit {
     // this.GetLaboratorys();
     // this.GetStatusTrackingSamples();
     // this.GetShippingCompany();
+    this.GetTypesContracts();
+    this.GetInvoicesIn();
+    this.GetFixationsStates();
     this.spinner.hide();
   }
 
@@ -324,6 +349,30 @@ export class ContratoEditComponent implements OnInit {
   //     this.listNavieras = res.Result.Data;
   //   }
   // }
+
+  async GetTypesContracts() {
+    this.listContractType = [];
+    const res = await this.maestroService.obtenerMaestros('TipoContrato').toPromise();
+    if (res.Result.Success) {
+      this.listContractType = res.Result.Data;
+    }
+  }
+
+  async GetInvoicesIn() {
+    this.listContractType = [];
+    const res = await this.maestroService.obtenerMaestros('ContratoFacturarEn').toPromise();
+    if (res.Result.Success) {
+      this.listInvoiceIn = res.Result.Data;
+    }
+  }
+
+  async GetFixationsStates() {
+    this.listContractType = [];
+    const res = await this.maestroService.obtenerMaestros('ContratoEstadoFijacion').toPromise();
+    if (res.Result.Success) {
+      this.listFixationState = res.Result.Data;
+    }
+  }
 
   onChangePais(event: any): void {
     const form = this;
@@ -595,10 +644,10 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
       }
 
-      
+
       this.contratoEditForm.controls.responsableComercial.setValue(data.UsuarioRegistro)
-      
-      
+
+
 
       if (data.CalculoContratoId) {
         await this.GetCalculations();

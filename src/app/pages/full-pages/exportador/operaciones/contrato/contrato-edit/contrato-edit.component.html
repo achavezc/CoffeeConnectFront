@@ -53,8 +53,6 @@
                     </div>
                 </div>-->
 
-
-
                 <div class="card-body pb-0">
                     <div class="col-12 col-md-8">
                         <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
@@ -62,10 +60,7 @@
                         <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}</div>
                     </div>
                     <div class="col-12 col-md-4">
-
-
                         <div class="form-row">
-
                             <div class="col-md-6 form-group">
                                 <label class="card-forms" for="users-edit-email">FECHA</label>
                             </div>
@@ -74,16 +69,8 @@
                                     style="font-weight: bold;">{{fechaRegistro}}</label>
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
-
-
-
-
-
             </div>
             <div class="card mt-0">
                 <h5 class="card-header bg-primary text-white text-center align-middle p-0">MAESTRO DE CONTRATOS</h5>
@@ -208,7 +195,20 @@
                         <label class="text-white">DETALLE DE LA COMPRA</label>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="form-group row">
+                                <label for="contractType" class="col-lg-5 col-form-label">TIPO DE CONTRATO</label>
+                                <div class="col-lg-7">
+                                    <ng-select [items]="listContractType" formControlName="contractType"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="contractType"
+                                        placeholder="Tipo de contrato"
+                                        [ngClass]="{ 'is-invalid': f.contractType.invalid, 'is-valid': !f.contractType.invalid }"
+                                        [(ngModel)]="selectedContractType">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <div class="form-group row">
                                 <label for="moneda" class="col-lg-5 col-form-label">MONEDA</label>
                                 <div class="col-lg-7">
@@ -220,7 +220,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <div class="form-group row">
                                 <label for="precio" class="col-lg-4 col-form-label">PRECIO</label>
                                 <div class="col-lg-8">
@@ -230,7 +230,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <div class="form-group row">
                                 <label for="calculo" class="col-lg-4 col-form-label pr-0">CALCULO</label>
                                 <div class="col-lg-8">
@@ -238,32 +238,6 @@
                                         bindLabel="Label" bindValue="Codigo" id="calculo" placeholder="Calculo"
                                         [ngClass]="{ 'is-invalid': f.calculo.invalid, 'is-valid': !f.calculo.invalid }"
                                         [(ngModel)]="selectedCalculo">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <div class="form-group row">
-                                <label for="contractWeight" class="col-lg-6 col-form-label">PESO EN
-                                    CONTRATO</label>
-                                <div class="col-lg-6">
-                                    <input type="number" name="contractWeight" id="contractWeight"
-                                        formControlName="contractWeight" class="form-control text-right"
-                                        placeholder="Peso"
-                                        [ngClass]="{ 'is-invalid': f.contractWeight.invalid, 'is-valid': !f.contractWeight.invalid }">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <div class="form-group row">
-                                <label for="unidadMedida" class="col-lg-4 col-form-label pr-0">UNI.
-                                    MEDIDA</label>
-                                <div class="col-lg-8">
-                                    <ng-select [items]="listUniMedida" formControlName="unidadMedida"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="unidadMedida"
-                                        placeholder="Unidad de medida"
-                                        [ngClass]="{ 'is-invalid': f.unidadMedida.invalid, 'is-valid': !f.unidadMedida.invalid }"
-                                        [(ngModel)]="selectedUniMedida">
                                     </ng-select>
                                 </div>
                             </div>
@@ -380,6 +354,34 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="form-group row">
+                                        <label for="contractWeight" class="col-lg-6 col-form-label">PESO EN
+                                            CONTRATO</label>
+                                        <div class="col-lg-6">
+                                            <input type="number" name="contractWeight" id="contractWeight"
+                                                formControlName="contractWeight" class="form-control text-right"
+                                                placeholder="Peso"
+                                                [ngClass]="{ 'is-invalid': f.contractWeight.invalid, 'is-valid': !f.contractWeight.invalid }">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="form-group row">
+                                        <label for="unidadMedida" class="col-lg-4 col-form-label pr-0">UNI.
+                                            MEDIDA</label>
+                                        <div class="col-lg-8">
+                                            <ng-select [items]="listUniMedida" formControlName="unidadMedida"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="unidadMedida" placeholder="Unidad de medida"
+                                                [ngClass]="{ 'is-invalid': f.unidadMedida.invalid, 'is-valid': !f.unidadMedida.invalid }"
+                                                [(ngModel)]="selectedUniMedida">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group row">
@@ -607,6 +609,266 @@
                         </div>
                     </div> -->
 
+                    <div class="form-row bg-primary align-middle mb-2">
+                        <label class="text-white">DETALLE DE VALORES PARA CALCULO DEL PRECIO DEL DÍA</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="invoiceIn" class="col-lg-4 col-form-label pr-0">FACTURAR EN</label>
+                                        <div class="col-lg-8">
+                                            <ng-select [items]="listInvoiceIn" formControlName="invoiceIn"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="invoiceIn"
+                                                placeholder="Facturar En"
+                                                [ngClass]="{ 'is-invalid': f.invoiceIn.invalid, 'is-valid': !f.invoiceIn.invalid }"
+                                                [(ngModel)]="selectedInvoiceIn">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="contractFixingDate" class="col-lg-6 col-form-label pr-0">FEC.
+                                            FIJACIÓN CONTRATO</label>
+                                        <div class="col-lg-6">
+                                            <input type="date" class="form-control text-center"
+                                                formControlName="contractFixingDate" id="contractFixingDate" date
+                                                name="contractFixingDate" placeholder="Fecha fijación de contrato"
+                                                [ngClass]="{ 'is-invalid': f.contractFixingDate.invalid, 'is-valid': !f.contractFixingDate.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="NetKilosQQ" class="col-lg-4 col-form-label pr-0">KG. NETO EN QQ
+                                            (a)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="NetKilosQQ" id="NetKilosQQ" name="NetKilosQQ"
+                                                placeholder="KG. Neto en QQ"
+                                                [ngClass]="{ 'is-invalid': f.NetKilosQQ.invalid, 'is-valid': !f.NetKilosQQ.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="FixationState" class="col-lg-4 col-form-label pr-0">ESTADO
+                                            FIJACIÓN</label>
+                                        <div class="col-lg-8">
+                                            <ng-select [items]="listFixationState" formControlName="FixationState"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                id="FixationState" placeholder="Estado fijación"
+                                                [ngClass]="{ 'is-invalid': f.FixationState.invalid, 'is-valid': !f.FixationState.invalid }"
+                                                [(ngModel)]="selectedFixationState">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="NetKilosLB" class="col-lg-4 col-form-label pr-0">KG. NETO EN LB
+                                            (b)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="NetKilosLB" id="NetKilosLB" name="NetKilosLB"
+                                                placeholder="KG. Neto en LB"
+                                                [ngClass]="{ 'is-invalid': f.NetKilosLB.invalid, 'is-valid': !f.NetKilosLB.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="PriceLevelFixation" class="col-lg-5 col-form-label pr-0">PRECIO
+                                            NIVEL FIJACIÓN (1)</label>
+                                        <div class="col-lg-7">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="PriceLevelFixation" id="PriceLevelFixation"
+                                                name="PriceLevelFixation" placeholder="Precio nivel fijación"
+                                                [ngClass]="{ 'is-invalid': f.PriceLevelFixation.invalid, 'is-valid': !f.PriceLevelFixation.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="Differential2" class="col-lg-4 col-form-label pr-0">DIFERENCIAL
+                                            (2)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="Differential2" id="Differential2" name="Differential2"
+                                                placeholder="Diferencial"
+                                                [ngClass]="{ 'is-invalid': f.Differential2.invalid, 'is-valid': !f.Differential2.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="PuTotalA" class="col-lg-4 col-form-label pr-0">PU TOTAL A (1 +
+                                            2)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="PuTotalA" id="PuTotalA" name="PuTotalA"
+                                                placeholder="PU Total A (1 + 2)"
+                                                [ngClass]="{ 'is-invalid': f.PuTotalA.invalid, 'is-valid': !f.PuTotalA.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="TotalBilling1" class="col-lg-4 col-form-label pr-0">TOTAL A FACTURAR
+                                            (1)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="TotalBilling1" id="TotalBilling1" name="TotalBilling1"
+                                                placeholder="Total a facturar"
+                                                [ngClass]="{ 'is-invalid': f.TotalBilling1.invalid, 'is-valid': !f.TotalBilling1.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="CreditNoteCommission" class="col-lg-5 col-form-label pr-0">NOTA
+                                            CREDITO/COMISIÓN</label>
+                                        <div class="col-lg-7">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="CreditNoteCommission" id="CreditNoteCommission"
+                                                name="CreditNoteCommission" placeholder="Nota credito / comisión"
+                                                [ngClass]="{ 'is-invalid': f.CreditNoteCommission.invalid, 'is-valid': !f.CreditNoteCommission.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="PUTotalB" class="col-lg-4 col-form-label pr-0">PU TOTAL B (A -
+                                            NC/C)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="PUTotalB" id="PUTotalB" name="PUTotalB"
+                                                placeholder="PU Total B"
+                                                [ngClass]="{ 'is-invalid': f.PUTotalB.invalid, 'is-valid': !f.PUTotalB.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="TotalBilling2" class="col-lg-4 col-form-label pr-0">TOTAL A FACTURAR
+                                            (2)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="TotalBilling2" id="TotalBilling2" name="TotalBilling2"
+                                                placeholder="Total a facturar"
+                                                [ngClass]="{ 'is-invalid': f.TotalBilling2.invalid, 'is-valid': !f.TotalBilling2.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="ExpensesExpCosts" class="col-lg-4 col-form-label pr-0">GASTOS
+                                            EXP./COSTOS</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="ExpensesExpCosts" id="ExpensesExpCosts"
+                                                name="ExpensesExpCosts" placeholder="Gastos Exp / Costos"
+                                                [ngClass]="{ 'is-invalid': f.ExpensesExpCosts.invalid, 'is-valid': !f.ExpensesExpCosts.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="PUTotalC" class="col-lg-5 col-form-label pr-0">PU TOTAL C (B -
+                                            G.EX/Cs)</label>
+                                        <div class="col-lg-7">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="PUTotalC" id="PUTotalC" name="PUTotalC"
+                                                placeholder="Gastos Exp / Costos"
+                                                [ngClass]="{ 'is-invalid': f.PUTotalC.invalid, 'is-valid': !f.PUTotalC.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <label for="TotalBilling3" class="col-lg-4 col-form-label pr-0">TOTAL A FACTURAR
+                                            (3)</label>
+                                        <div class="col-lg-8">
+                                            <input type="number" class="form-control text-right"
+                                                formControlName="TotalBilling3" id="TotalBilling3" name="TotalBilling3"
+                                                placeholder="Total a facturar"
+                                                [ngClass]="{ 'is-invalid': f.TotalBilling3.invalid, 'is-valid': !f.TotalBilling3.invalid }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group row">
