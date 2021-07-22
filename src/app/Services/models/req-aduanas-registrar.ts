@@ -21,20 +21,21 @@ export class ReqAduanas {
         FechaFacturacion: Date,
         Usuario: string,
         EmpresaAgenciaAduaneraId: number,
-        Detalle: Detalle[]) {
+        Detalle: Detalle[],
+        EstadoSeguimientoId: string) {
+            
         if (AduanaId != 0) {
             this.AduanaId = AduanaId
         }
         if (Numero != "") {
             this.Numero = Numero
         }
-        
 
-        this.ContratoId= ContratoId;
+        this.ContratoId = ContratoId;
         this.EmpresaExportadoraId = EmpresaExportadoraId;
         this.EmpresaProductoraId = EmpresaProductoraId;
         this.EmpresaId = EmpresaId;
-        this.Marca = Marca ;
+        this.Marca = Marca;
         this.PO = PO;
         this.LaboratorioId = LaboratorioId;
         this.FechaEnvioMuestra = FechaEnvioMuestra;
@@ -50,6 +51,7 @@ export class ReqAduanas {
         this.Usuario = Usuario;
         this.EmpresaAgenciaAduaneraId = EmpresaAgenciaAduaneraId;
         this.Detalle = Detalle;
+        this.EstadoSeguimientoId = EstadoSeguimientoId;
     }
 
     AduanaId: number;
@@ -74,23 +76,18 @@ export class ReqAduanas {
     Usuario: string;
     EmpresaAgenciaAduaneraId: number;
     Detalle: Detalle[];
-
+    EstadoSeguimientoId: string;
 }
 
-export class Certificaciones
-{
-    EmpresaProveedoraAcreedoraId : number;
+export class Certificaciones {
+    EmpresaProveedoraAcreedoraId: number;
     TipoCertificacionId: string;
     CodigoCertificacion: string;
-   
-
 }
 
-export class Detalle
-{
-    NroNotaIngresoPlanta : string;
+export class Detalle {
+    NroNotaIngresoPlanta: string;
     CantidadSacos: number;
     NumeroLote: string;
     KilosNetos: number;
-   
 }
