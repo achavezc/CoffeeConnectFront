@@ -30,6 +30,10 @@ export class ContratoService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  ConsultarTrackingContratoPorContratoId(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarTrackingContratoPorContratoId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
   SearchById(request: any): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
