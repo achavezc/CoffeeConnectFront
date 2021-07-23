@@ -141,7 +141,7 @@ export class ContratoEditComponent implements OnInit {
     this.contratoFormEdit.controls["fechaContrato"].setValue(data.FechaContrato);
     this.contratoFormEdit.controls["cliente"].setValue(data.RazonSocialCliente);
     this.contratoFormEdit.controls["courier"].setValue(data.Courier);
-    this.contratoFormEdit.controls["numeroTracking"].setValue(data.Estado);
+    this.contratoFormEdit.controls["numeroTracking"].setValue(data.NumeroSeguimientoMuestra);
     this.contratoFormEdit.controls["estado"].setValue(data.EstadoMuestra);
     this.contratoFormEdit.controls["fechaEmbarque"].setValue(data.FechaEmbarque);
     this.contratoFormEdit.controls["exportador"].setValue(data.RazonSocialEmpresaExportadora);
@@ -149,7 +149,7 @@ export class ContratoEditComponent implements OnInit {
     this.contratoFormEdit.controls["productor"].setValue(data.RazonSocialEmpresaProductora);
     this.contratoFormEdit.controls["producto"].setValue(data.Producto);
     this.contratoFormEdit.controls["calidad"].setValue(data.Calidad);
-    this.contratoFormEdit.controls["cantidad"].setValue(data.Calidad);
+    this.contratoFormEdit.controls["cantidad"].setValue(data.TotalSacos);
     this.contratoFormEdit.controls["empaqueTipo"].setValue(data.Empaque + ' - ' + data.TipoEmpaque);
     this.contratoFormEdit.controls["grado"].setValue(data.GradoId);
     this.contratoFormEdit.controls["pesoSaco"].setValue(data.PesoPorSaco);
@@ -158,7 +158,7 @@ export class ContratoEditComponent implements OnInit {
   }
 
   documentos(){
-      
+
   }
 
 
