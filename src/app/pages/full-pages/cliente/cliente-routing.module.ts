@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ContratoClienteComponent} from '../cliente/contrato/contrato-list/contrato.component';
 
+import {ContratoEditComponent} from '../cliente/contrato/contrato-edit/contrato-edit.component';
 
 const routes: Routes = [
     {
@@ -14,6 +15,13 @@ const routes: Routes = [
                 data: {
                     title: 'Maestro de Socios'
                 }
+            },
+            {
+                path: 'contrato/edit',
+                component: ContratoEditComponent,
+                data: {
+                    title: 'Edit Contrato'
+                }
             }
         ]
     }
@@ -24,3 +32,4 @@ const routes: Routes = [
     exports: [RouterModule],
 })
 export class ContratoRoutingModule { }
+

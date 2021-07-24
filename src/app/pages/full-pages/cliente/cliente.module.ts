@@ -20,11 +20,12 @@ import { MatchHeightModule } from "../../../shared/directives/match-height.direc
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 import { FileUploadModule } from 'ng2-file-upload';
 import {ContratoClienteComponent} from '../cliente/contrato/contrato-list/contrato.component';
-
+import {ContratoEditComponent} from '../cliente/contrato/contrato-edit/contrato-edit.component';
 
 @NgModule({
   declarations: [
-    ContratoClienteComponent
+    ContratoClienteComponent,
+    ContratoEditComponent
 ],
   imports: [
     CommonModule,
