@@ -34,11 +34,13 @@ export class ContratoClienteComponent implements OnInit {
   listProductos: any[];
   listTipoProduccion: any[];
   listCalidad: any[];
-  listEstados: any[];
+  listEstadoMuestra: any[];
+  listEstadoSeguimiento: any[];
   selectedProducto: any;
   selectedTipoProduccion: any;
   selectedCalidad: any;
-  selectedEstado: any;
+  selectedEstadoMuestra: any;
+  selectedEstadoSeguimiento: any;
   selected = [];
   limitRef = 10;
   rows = [];
@@ -67,7 +69,8 @@ export class ContratoClienteComponent implements OnInit {
       producto: [],
       tipoProduccion: [],
       calidad: [],
-      estado: ['', Validators.required]
+      estadoMuestra: [],
+      estadoSeguimiento:[]
     });
   }
 
@@ -96,7 +99,7 @@ export class ContratoClienteComponent implements OnInit {
     const form = this;
     this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
       if (res.Result.Success) {
-        form.listEstados = res.Result.Data;
+        form.listEstadoMuestra = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros('Producto', (res: any) => {
@@ -139,32 +142,16 @@ export class ContratoClienteComponent implements OnInit {
     if (!this.contratoForm.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
       const request = this.getRequest();
-      this.contratoService.Search(request).subscribe((res: any) => {
+      this.contratoService.ConsultarTrackingContrato(request).subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
           this.errorGeneral = { isError: false, msgError: '' };
-          if (!xls) {
             res.Result.Data.forEach((obj: any) => {
               obj.FechaContratoString = this.dateUtil.formatDate(new Date(obj.FechaContrato));
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
-          } else {
-            const vArrHeaderExcel = [
-              new HeaderExcel("Contrato", "center"),
-              new HeaderExcel("Fecha de Contrato", 'center', 'yyyy-MM-dd'),
-              new HeaderExcel("Id Cliente"),
-              new HeaderExcel("Cliente"),
-              new HeaderExcel("Producto"),
-              new HeaderExcel("Tipo de Producción"),
-              new HeaderExcel("Calidad"),
-              new HeaderExcel("Estado", "center")
-            ];
-
-            let vArrData: any[] = [];
-            this.tempData.forEach((x: any) => vArrData.push([x.Numero, x.FechaEmbarque, x.ClienteId, x.Cliente, x.Producto, x.TipoProduccion, x.Calidad, x.Estado]));
-            this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Contratos');
-          }
+          
         } else {
           this.errorGeneral = { isError: true, msgError: res.Result.Message };
         }
@@ -178,55 +165,6 @@ export class ContratoClienteComponent implements OnInit {
     }
   }
 
-  Nuevo(): void {
-    this.router.navigate(['/exportador/operaciones/contrato/create'])
-  }
 
-  Cancel(): void {
-    if (this.selected.length > 0) {
-      const form = this;
-      swal.fire({
-        title: 'Confirmación',
-        text: `¿Está seguro de continuar con la anulación del contrato?.`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then((result) => {
-        if (result.value) {
-          form.CancelContract();
-        }
-      });
-    }
-  }
-
-  CancelContract(): void {
-    this.spinner.show();
-    this.errorGeneral = { isError: false, msgError: '' };
-    this.contratoService.Cancel({ ContratoId: this.selected[0].ContratoId, Usuario: this.userSession.Result.Data.NombreUsuario })
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          this.alertUtil.alertOkCallback('CONFIRMACIÓN', 'Contrato anulado correctamente.', () => {
-            this.Buscar();
-          });
-        } else {
-          this.errorGeneral = { isError: true, msgError: res.Result.Message };
-        }
-      }, (err: any) => {
-        console.log(err);
-        this.spinner.hide();
-        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-      })
-  }
-
-  Agregar(selected: any) {
-    this.agregarContratoEvent.emit(selected)
-  }
+ 
 }

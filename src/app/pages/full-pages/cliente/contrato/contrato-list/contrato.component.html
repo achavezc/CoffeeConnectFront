@@ -1,6 +1,6 @@
 <div class="row" *ngIf="!popUp">
     <div class="col-12">
-        <div class="content-header">BANDEJA DE REGISTRO DE CONTRATOS</div>
+        <div class="content-header">BANDEJA DE CONTRATOS</div>
     </div>
 </div>
 
@@ -74,12 +74,21 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                    <label for="estadoMuestra" class="form-label">Estado de Muestra</label>
+                                    <ng-select [items]="listEstadoMuestra" formControlName="estadoMuestra" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estadoMuestra"
                                         placeholder="Seleccionar estado"
-                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                        [(ngModel)]="selectedEstado">
+                                        [ngClass]="{ 'is-invalid': f.estadoMuestra.invalid, 'is-valid': !f.estadoMuestra.invalid }"
+                                        [(ngModel)]="selectedEstadoMuestra">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="estadoSeguimiento" class="form-label">Estado Seguimiento</label>
+                                    <ng-select [items]="listEstadoSeguimiento" formControlName="estadoSeguimiento" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estadoSeguimiento"
+                                        placeholder="Seleccionar estado"
+                                        [ngClass]="{ 'is-invalid': f.estadoSeguimiento.invalid, 'is-valid': !f.estadoSeguimiento.invalid }"
+                                        [(ngModel)]="selectedEstadoSeguimiento">
                                     </ng-select>
                                 </div>
                             </div>
@@ -88,14 +97,7 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
                                 [disabled]="contratoForm.invalid">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button"  *ngIf="!popUp" (click)="Nuevo()">Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
-                            data-placement="top" (click)="Agregar(selected)"
-                            [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!selected || selected.length <= 0" (click)="Cancel()" *ngIf="!popUp">Anular</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!rows || rows.length <= 0" *ngIf="!popUp">Exportar</button>
+                           
                         </form>
                     </div>
                 </div>

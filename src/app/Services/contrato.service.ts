@@ -39,4 +39,9 @@ export class ContratoService {
     const url = `${this.url}/Anular`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  ConsultarTrackingContrato(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarTrackingContrato`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }
