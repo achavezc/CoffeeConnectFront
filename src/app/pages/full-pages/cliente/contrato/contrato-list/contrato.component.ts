@@ -97,9 +97,14 @@ export class ContratoClienteComponent implements OnInit {
 
   LoadCombos(): void {
     const form = this;
-    this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
+    this.maestroUtil.obtenerMaestros('EstadoMuestra', (res: any) => {
       if (res.Result.Success) {
         form.listEstadoMuestra = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros('EstadoSeguimientoAduana', (res: any) => {
+      if (res.Result.Success) {
+        form.listEstadoSeguimiento = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros('Producto', (res: any) => {
@@ -127,10 +132,12 @@ export class ContratoClienteComponent implements OnInit {
       ProductoId: this.contratoForm.value.producto ? this.contratoForm.value.producto : '',
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
-      EstadoId: this.contratoForm.value.estado ? this.contratoForm.value.estado : '',
+      EstadoMuestraId: this.contratoForm.value.estadoMuestra ? this.contratoForm.value.estadoMuestra : '',
+      EstadoSeguimientoId: this.contratoForm.value.estadoSeguimiento ? this.contratoForm.value.estadoSeguimiento : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
-      FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : ''
+      FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
+      Idioma: ''
     };
   }
 

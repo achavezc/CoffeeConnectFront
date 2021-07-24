@@ -138,22 +138,20 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column *ngIf="!popUp" name="Contrato" prop="Numero" width="90">
+                            <ngx-datatable-column  name="Contrato" prop="Numero" width="90">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0"
-                                                [routerLink]="['/exportador/operaciones/contrato/update', row.ContratoId]">{{
+                                            <a class="line-height-1 mb-0"  routerLink="/cliente/contrato/edit"
+                                            [queryParams]="{ id: row.ContratoId, status: row.EstadoId}">{{
                                                 name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column *ngIf="popUp" name="Contrato" prop="Numero" width="90">
-                            </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha de Contrato" prop="FechaContratoString" width="130">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Cliente" prop="Cliente" width="250">
+                            <ngx-datatable-column name="Cliente" prop="RazonSocialCliente" width="200">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Producto" prop="Producto" width="140">
                             </ngx-datatable-column>
@@ -161,13 +159,9 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Calidad" prop="Calidad" width="140">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="70">
-                                <ng-template let-status="value" ngx-datatable-cell-template>
-                                    <div class="badge"
-                                        [ngClass]="{'bg-light-success': status == 'Activo', 'bg-light-warning': status == 'Inactivo' }">
-                                        {{ status }}
-                                    </div>
-                                </ng-template>
+                            <ngx-datatable-column name="Estado Muestra" prop="EstadoMuestra" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado Seguimiento" prop="EstadoSeguimiento" width="180">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
