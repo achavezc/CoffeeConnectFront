@@ -122,15 +122,15 @@ export class ContratoEditComponent implements OnInit {
       producto: [, Validators.required],
       subProducto: [, Validators.required],
       moneda: [],
-      precio: [],
+      precio: [0],
       tipoProduccion: [, Validators.required],
       unidadMedida: [],
       certificadora: [, Validators.required],
       calidad: [, Validators.required],
       certificacion: [, Validators.required],
       grado: [, Validators.required],
-      pesoSacoKG: [, Validators.required],
-      cantidadDefectos: [, Validators.required],
+      pesoSacoKG: [0, Validators.required],
+      cantidadDefectos: [0, Validators.required],
       responsableComercial: [, Validators.required],
       estado: [],
       file: new FormControl('', []),
@@ -144,28 +144,28 @@ export class ContratoEditComponent implements OnInit {
       // fecRecepcionDestino: [],
       empaque: [, Validators.required],
       tipo: [, Validators.required],
-      totalSacos69Kg: [, Validators.required],
+      totalSacos69Kg: [0, Validators.required],
       // naviera: [],
       observaciones: [],
-      pesoKilos: [, Validators.required],
-      contractWeight: [],
+      pesoKilos: [0, Validators.required],
+      contractWeight: [0],
       harvestPeriod: [],
       contractType: [],
       invoiceIn: [],
       contractFixingDate: [],
-      NetKilosQQ: [],
-      NetKilosLB: [],
+      NetKilosQQ: [0],
+      NetKilosLB: [0],
       FixationState: [],
-      PriceLevelFixation: [],
-      Differential2: [],
-      PuTotalA: [],
-      TotalBilling1: [],
-      CreditNoteCommission: [],
-      PUTotalB: [],
-      TotalBilling2: [],
-      ExpensesExpCosts: [],
-      PUTotalC: [],
-      TotalBilling3: []
+      PriceLevelFixation: [0],
+      Differential2: [0],
+      PuTotalA: [0],
+      TotalBilling1: [0],
+      CreditNoteCommission: [0],
+      PUTotalB: [0],
+      TotalBilling2: [0],
+      ExpensesExpCosts: [0],
+      PUTotalC: [0],
+      TotalBilling3: [0]
     });
   }
 
@@ -463,7 +463,22 @@ export class ContratoEditComponent implements OnInit {
       EmpaqueId: form.empaque ? form.empaque : '',
       TipoId: form.tipo ? form.tipo : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: '01'
+      EstadoId: '01',
+      FacturarEnId: form.invoiceIn ? form.invoiceIn : null,
+      FechaFijacionContrato: form.contractFixingDate ? form.contractFixingDate : null,
+      KilosNetosQQ: form.NetKilosQQ ? form.NetKilosQQ : 0,
+      EstadoFijacionId: form.FixationState ? form.FixationState : null,
+      KilosNetosLB: form.NetKilosLB ? form.NetKilosLB : 0,
+      PrecioNivelFijacion: form.PriceLevelFixation ? form.PriceLevelFixation : 0,
+      Diferencial: form.Differential2 ? form.Differential2 : 0,
+      PUTotalA: form.PuTotalA ? form.PuTotalA : 0,
+      PUTotalB: form.PUTotalB ? form.PUTotalB : 0,
+      PUTotalC: form.PUTotalC ? form.PUTotalC : 0,
+      NotaCreditoComision: form.CreditNoteCommission ? form.CreditNoteCommission : 0,
+      GastosExpCostos: form.ExpensesExpCosts ? form.ExpensesExpCosts : 0,
+      TotalFacturar1: form.TotalBilling1 ? form.TotalBilling1 : 0,
+      TotalFacturar2: form.TotalBilling2 ? form.TotalBilling2 : 0,
+      TotalFacturar3: form.TotalBilling3 ? form.TotalBilling3 : 0
     }
   }
 
@@ -644,10 +659,7 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
       }
 
-
       this.contratoEditForm.controls.responsableComercial.setValue(data.UsuarioRegistro)
-
-
 
       if (data.CalculoContratoId) {
         await this.GetCalculations();
@@ -716,6 +728,37 @@ export class ContratoEditComponent implements OnInit {
       // }
       if (data.PesoEnContrato)
         this.contratoEditForm.controls.contractWeight.setValue(data.PesoEnContrato);
+      if (data.FacturarEnId)
+        this.contratoEditForm.controls.invoiceIn.setValue(data.FacturarEnId);
+      if (data.FechaFijacionContrato)
+        this.contratoEditForm.controls.contractFixingDate.setValue(data.FechaFijacionContrato.substring(0, 10));
+      if (data.KilosNetosQQ)
+        this.contratoEditForm.controls.NetKilosQQ.setValue(data.KilosNetosQQ);
+      if (data.KilosNetosLB)
+        this.contratoEditForm.controls.NetKilosLB.setValue(data.KilosNetosLB);
+      if (data.EstadoFijacionId)
+        this.contratoEditForm.controls.FixationState.setValue(data.EstadoFijacionId);
+      if (data.PrecioNivelFijacion)
+        this.contratoEditForm.controls.PriceLevelFixation.setValue(data.PrecioNivelFijacion);
+      if (data.Diferencial)
+        this.contratoEditForm.controls.Differential2.setValue(data.Diferencial);
+      if (data.PUTotalA)
+        this.contratoEditForm.controls.PuTotalA.setValue(data.PUTotalA);
+      if (data.TotalFacturar1)
+        this.contratoEditForm.controls.TotalBilling1.setValue(data.TotalFacturar1);
+      if (data.NotaCreditoComision)
+        this.contratoEditForm.controls.CreditNoteCommission.setValue(data.NotaCreditoComision);
+      if (data.PUTotalB)
+        this.contratoEditForm.controls.PUTotalB.setValue(data.PUTotalB);
+      if (data.TotalFacturar2)
+        this.contratoEditForm.controls.TotalBilling2.setValue(data.TotalFacturar2);
+      if (data.GastosExpCostos)
+        this.contratoEditForm.controls.ExpensesExpCosts.setValue(data.GastosExpCostos);
+      if (data.PUTotalC)
+        this.contratoEditForm.controls.PUTotalC.setValue(data.PUTotalC);
+      if (data.TotalFacturar3)
+        this.contratoEditForm.controls.TotalBilling3.setValue(data.TotalFacturar3);
+
       this.spinner.hide();
     } else {
     }
@@ -739,6 +782,89 @@ export class ContratoEditComponent implements OnInit {
   }
   Cancelar(): void {
     this.router.navigate(['/exportador/operaciones/contrato/list']);
+  }
+
+  CalculateNetWeightKilos() {
+    let totalbags = this.contratoEditForm.value.totalSacos69Kg ? this.contratoEditForm.value.totalSacos69Kg : 0;
+    let sackweight = this.contratoEditForm.value.pesoSacoKG ? this.contratoEditForm.value.pesoSacoKG : 0;
+    let netweightkilos = totalbags * sackweight;
+    let netkilosQQ = netweightkilos / 46;
+    let netkilosLB = netweightkilos * 2.20462;
+    this.contratoEditForm.controls.pesoKilos.setValue(netweightkilos.toFixed(2));
+    this.contratoEditForm.controls.NetKilosQQ.setValue(netkilosQQ.toFixed(2));
+    this.contratoEditForm.controls.NetKilosLB.setValue(netkilosLB.toFixed(2));
+    this.ChangeFacturar();
+  }
+
+  CalculatePUTotalA() {
+    let priceLevel = this.contratoEditForm.value.PriceLevelFixation ? parseFloat(this.contratoEditForm.value.PriceLevelFixation) : 0;
+    let differential = this.contratoEditForm.value.Differential2 ? parseFloat(this.contratoEditForm.value.Differential2) : 0;
+    let putotal = priceLevel + differential;
+    this.contratoEditForm.controls.PuTotalA.setValue(putotal.toFixed(2));
+    this.CalculatePUTotalB();
+    this.CalculatePUTotalC();
+    this.ChangeFacturar();
+  }
+
+  CalculatePUTotalB() {
+    let putotalA = this.contratoEditForm.value.PuTotalA ? parseFloat(this.contratoEditForm.value.PuTotalA) : 0;
+    let creditComission = this.contratoEditForm.value.CreditNoteCommission ? parseFloat(this.contratoEditForm.value.CreditNoteCommission) : 0;
+    let putotalB = putotalA + creditComission;
+    this.contratoEditForm.controls.PUTotalB.setValue(putotalB.toFixed(2));
+    this.ChangeFacturar();
+  }
+
+  CalculatePUTotalC() {
+    let putotalB = this.contratoEditForm.value.PUTotalB ? parseFloat(this.contratoEditForm.value.PUTotalB) : 0;
+    let expenses = this.contratoEditForm.value.ExpensesExpCosts ? parseFloat(this.contratoEditForm.value.ExpensesExpCosts) : 0;
+    let putotal = putotalB + expenses;
+    this.contratoEditForm.controls.PUTotalC.setValue(putotal.toFixed(2));
+    this.ChangeFacturar();
+  }
+
+  CalculateTotalBilling1() {
+    let kgnetoslb = this.contratoEditForm.value.NetKilosLB ? parseFloat(this.contratoEditForm.value.NetKilosLB) : 0;
+    let kgnetosqq = this.contratoEditForm.value.NetKilosQQ ? parseFloat(this.contratoEditForm.value.NetKilosQQ) : 0;
+    let putotal = this.contratoEditForm.value.PuTotalA ? parseFloat(this.contratoEditForm.value.PuTotalA) : 0;
+    let total = 0;
+    if (this.contratoEditForm.value.invoiceIn === '01') {
+      total = kgnetoslb * putotal;
+    } else {
+      total = kgnetosqq * putotal;
+    }
+    this.contratoEditForm.controls.TotalBilling1.setValue(total.toFixed(2));
+  }
+
+  CalculateTotalBilling2() {
+    let kgnetoslb = this.contratoEditForm.value.NetKilosLB ? parseFloat(this.contratoEditForm.value.NetKilosLB) : 0;
+    let kgnetosqq = this.contratoEditForm.value.NetKilosQQ ? parseFloat(this.contratoEditForm.value.NetKilosQQ) : 0;
+    let putotal = this.contratoEditForm.value.PUTotalB ? parseFloat(this.contratoEditForm.value.PUTotalB) : 0;
+    let total = 0;
+    if (this.contratoEditForm.value.invoiceIn === '01') {
+      total = kgnetoslb * putotal;
+    } else {
+      total = kgnetosqq * putotal;
+    }
+    this.contratoEditForm.controls.TotalBilling2.setValue(total.toFixed(2));
+  }
+
+  CalculateTotalBilling3() {
+    let kgnetoslb = this.contratoEditForm.value.NetKilosLB ? parseFloat(this.contratoEditForm.value.NetKilosLB) : 0;
+    let kgnetosqq = this.contratoEditForm.value.NetKilosQQ ? parseFloat(this.contratoEditForm.value.NetKilosQQ) : 0;
+    let putotal = this.contratoEditForm.value.PUTotalC ? parseFloat(this.contratoEditForm.value.PUTotalC) : 0;
+    let total = 0;
+    if (this.contratoEditForm.value.invoiceIn === '01') {
+      total = kgnetoslb * putotal;
+    } else {
+      total = kgnetosqq * putotal;
+    }
+    this.contratoEditForm.controls.TotalBilling3.setValue(total.toFixed(2));
+  }
+
+  ChangeFacturar() {
+    this.CalculateTotalBilling1();
+    this.CalculateTotalBilling2();
+    this.CalculateTotalBilling3();
   }
 
 }
