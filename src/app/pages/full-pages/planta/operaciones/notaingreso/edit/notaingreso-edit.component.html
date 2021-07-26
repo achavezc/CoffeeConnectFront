@@ -102,21 +102,21 @@
 
             <div class="form-row">
               <div class="col-md-3 mb-3 form-group mb-2">
-               <!--  <label for="validationTooltip04">CODIGO ORGANIZACION</label>
+                <!--  <label for="validationTooltip04">CODIGO ORGANIZACION</label>
                 <input type="text" minlength="5" maxlength="20" formControlName="codigoOrganizacion"
                   class="form-control" id="validationTooltip04" placeholder="Codigo Organización"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.codigoOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.codigoOrganizacion.invalid }"
                   readonly> -->
-              
-                  <label for="validationTooltip04">RUC ORGANIZACIÓN</label>
+
+                <label for="validationTooltip04">RUC ORGANIZACIÓN</label>
                 <input type="text" minlength="8" maxlength="20" formControlName="rucOrganizacion" class="form-control"
                   id="validationTooltip08" placeholder="Ruc"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.rucOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.rucOrganizacion.invalid }"
                   readonly>
 
-              
-                </div>
-              
+
+              </div>
+
 
 
               <div class="col-md-1 mb-1 form-group mb-2">
@@ -128,15 +128,15 @@
                 <ng-template #modalEmpresa let-c="close" let-d="dismiss">
                   <app-consultar-empresa (empresaEvent)="GetDataEmpresa($event)">
                   </app-consultar-empresa>
-              </ng-template>
+                </ng-template>
 
                 <button type="button" class="btn btn-default" style="margin-top: 1.5rem;"
                   (click)="openModal(modalEmpresa)">
                   <i class="fa fa-search"></i>
                 </button>
 
-                
-              
+
+
 
 
               </div>

@@ -172,11 +172,12 @@
                                 [ngClass]="{ 'is-invalid': f.materialVivienda.invalid, 'is-valid': !f.materialVivienda.invalid }"
                                 placeholder="Ingresar material de vivienda"> -->
 
-                                <ng-select [items]="listMaterialVivienda" formControlName="materialVivienda" class="form-control"
-                                bindLabel="Label" bindValue="Codigo" id="materialVivienda"
+                            <ng-select [items]="listMaterialVivienda" formControlName="materialVivienda"
+                                class="form-control" bindLabel="Label" bindValue="Codigo" id="materialVivienda"
                                 [ngClass]="{ 'is-invalid': f.materialVivienda.invalid, 'is-valid': !f.materialVivienda.invalid }"
-                                placeholder="Seleccionar material de la vivienda" [(ngModel)]="selectedMaterialVivienda">
-                            </ng-select> 
+                                placeholder="Seleccionar material de la vivienda"
+                                [(ngModel)]="selectedMaterialVivienda">
+                            </ng-select>
                         </div>
                     </div>
                 </div>

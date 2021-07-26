@@ -9,8 +9,9 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproce
 import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.component';
 import { PreciosDiaComponent } from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
 import { PrecioDiaEditComponent } from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
-import {AduanasComponent} from './operaciones/aduanas/list/aduanas.component';
-import {AduanasEditComponent} from './operaciones/aduanas/edit/aduanas-edit.component';
+import { AduanasComponent } from './operaciones/aduanas/list/aduanas.component';
+import { AduanasEditComponent } from './operaciones/aduanas/edit/aduanas-edit.component';
+import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimiento/preciodia-rendimiento.component';
 
 const routes: Routes = [
   {
@@ -106,6 +107,13 @@ const routes: Routes = [
         component: AduanasEditComponent,
         data: {
           title: 'Aduanas'
+        }
+      },
+      {
+        path: 'preciodiarendimiento/list',
+        component: PreciodiaRendimientoComponent,
+        data: {
+          title: 'Precio Día Rendimiento'
         }
       }
     ]
