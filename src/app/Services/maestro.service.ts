@@ -77,6 +77,9 @@ export class MaestroService {
     return this.http.post<any>(url, {}).catch(this.errorHandling.handleError);
   }
 
-  
+  CheckPriceDayPerformance(request: any) {
+    const url = `${this.url}/ConsultarPrecioDiaRendimiento`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 
 }

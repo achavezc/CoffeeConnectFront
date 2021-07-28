@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
+import { MaestroService } from '../../../../../services/maestro.service';
 
 @Component({
   selector: 'app-preciodia-rendimiento',
@@ -18,13 +19,17 @@ export class PreciodiaRendimientoComponent implements OnInit {
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   rowsDetails = [];
   isLoading = true;
+  userSession: any;
 
   constructor(private fb: FormBuilder,
-    private maestroUtil: MaestroUtil) { }
+    private maestroUtil: MaestroUtil,
+    private maestroService: MaestroService) { }
 
   ngOnInit(): void {
+    this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.GetCurrencys();
+    this.CheckPricesDaysPerformance();
   }
 
   LoadForm() {
@@ -46,6 +51,23 @@ export class PreciodiaRendimientoComponent implements OnInit {
         this.listCurrency = res.Result.Data;
       }
     });
+  }
+
+  CheckPricesDaysPerformance() {
+    const request = { EmpresaId: this.userSession.Result.Data.EmpresaId };
+    this.maestroService.CheckPriceDayPerformance(request)
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          this.frmPrecioDiaRendimiento.controls.averageprice.setValue(res.Result.Data[0].PrecioPromedioContrato);
+          this.frmPrecioDiaRendimiento.controls.exchangerate.setValue(res.Result.Data[0].TipoCambio);
+          this.frmPrecioDiaRendimiento.controls.currency.setValue(res.Result.Data[0].MonedaId);
+          this.rowsDetails = res.Result.Data;
+        } else {
+
+        }
+      }, (err) => {
+        console.log(err);
+      })
   }
 
   Save() {
