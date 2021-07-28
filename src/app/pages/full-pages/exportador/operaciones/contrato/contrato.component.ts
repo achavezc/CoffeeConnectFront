@@ -35,10 +35,12 @@ export class ContratoComponent implements OnInit {
   listTipoProduccion: any[];
   listCalidad: any[];
   listEstados: any[];
+  listTipoContrato: any[];
   selectedProducto: any;
   selectedTipoProduccion: any;
   selectedCalidad: any;
   selectedEstado: any;
+  selectedTipoContrato: any;
   selected = [];
   limitRef = 10;
   rows = [];
@@ -46,11 +48,13 @@ export class ContratoComponent implements OnInit {
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   userSession: any;
+  tipoEmpresaId = '';
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
+    this.tipoEmpresaId = this.userSession.Result.Data.TipoEmpresaid;
     this.LoadForm();
     this.LoadCombos();
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
@@ -67,7 +71,8 @@ export class ContratoComponent implements OnInit {
       producto: [],
       tipoProduccion: [],
       calidad: [],
-      estado: ['', Validators.required]
+      estado: ['', Validators.required],
+      tipoContrato: []
     });
   }
 
@@ -114,6 +119,11 @@ export class ContratoComponent implements OnInit {
         form.listCalidad = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros('TipoContrato', (res: any) => {
+      if (res.Result.Success) {
+        form.listTipoContrato = res.Result.Data;
+      }
+    });
   }
 
   getRequest(): any {
@@ -126,6 +136,7 @@ export class ContratoComponent implements OnInit {
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
       EstadoId: this.contratoForm.value.estado ? this.contratoForm.value.estado : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
+      TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : ''
     };

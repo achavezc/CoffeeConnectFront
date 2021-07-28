@@ -63,8 +63,11 @@
              
                 <div class="col-12 col-md-8">
                     <br>
-                  <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" 
-                  (click)="documentos()">Imprimir Documentos y Certificaciones</button>
+                    <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+                      <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="AduanaId">
+                      </app-lista-documentos>
+                    </ng-template>
+                  <button class="btn btn-primary" (click)="openModal(mdlListDocuments)">Imprimir Documentos y Certificaciones</button>
                 </div>
                 <div class="col-12 col-md-4">
                   <label for="basicInput">Fecha de Embarque</label>
