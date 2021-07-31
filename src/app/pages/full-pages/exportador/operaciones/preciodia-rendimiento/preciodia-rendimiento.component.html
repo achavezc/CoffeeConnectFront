@@ -31,15 +31,13 @@
                         </div>
 
                     </div>
-                    <div class="form-row">
-                        <small class="form-text text-muted danger mb-1"
-                            *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
-                            [disabled]="frmPrecioDiaRendimiento.invalid">Buscar</button>
-                        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Buscar()">Nuevo</button>
-                        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Buscar()"
-                            [disabled]="frmPrecioDiaRendimiento.invalid">Anular</button>
-                    </div>
+                    <small class="form-text text-muted danger mb-1"
+                        *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
+                        [disabled]="frmPrecioDiaRendimiento.invalid">Buscar</button>
+                    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
+                        [disabled]="frmPrecioDiaRendimiento.invalid">Anular</button>
 
                 </form>
             </div>
@@ -75,22 +73,22 @@
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
                             [scrollbarH]="true" [selected]="selected" [selectionType]="'single'"
                             [selectCheck]="singleSelectCheck">
-                            <ngx-datatable-column name="FECHA" prop="Numero" width="160">
+                            <ngx-datatable-column name="FECHA" prop="FechaRegistro">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
-                                                [routerLink]="['/exportador/operaciones/ordenproceso/update', row.OrdenProcesoId]">{{
+                                                [routerLink]="['/exportador/operaciones/preciodiarendimiento/update', row.EmpresaId]">{{
                                                 name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="PRECIO PROM. CONTRATO" prop="NumeroContrato" width="180">
+                            <ngx-datatable-column name="PRECIO PROM. CONTRATO" prop="PrecioPromedioContrato">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="TIPO CAMBIO" prop="NumeroCliente" width="180">
+                            <ngx-datatable-column name="TIPO CAMBIO" prop="TipoCambio">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="ESTADO" prop="Estado" width="70">
+                            <ngx-datatable-column name="ESTADO" prop="Estado">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge"
                                         [ngClass]="{'bg-light-success': status == 'Activo', 'bg-light-warning': status == 'Inactivo' }">

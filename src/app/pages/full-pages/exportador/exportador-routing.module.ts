@@ -123,6 +123,13 @@ const routes: Routes = [
         data: {
           title: 'Precio Día Rendimiento'
         }
+      },
+      {
+        path: 'preciodiarendimiento/update/:id',
+        component: PrecioDiaRendimientoEditComponent,
+        data: {
+          title: 'Precio Día Rendimiento'
+        }
       }
     ]
   }

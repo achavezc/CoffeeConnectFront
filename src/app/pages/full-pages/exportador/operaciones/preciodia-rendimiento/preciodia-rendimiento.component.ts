@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, ValidatorFn, ValidationErrors, Validators } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../services/maestro.service';
+import { DateUtil } from '../../../../../services/util/date-util';
+import { PrecioDiaRendimientoService } from '../../../../../services/precio-dia-rendimiento.service';
 
 @Component({
   selector: 'app-preciodia-rendimiento',
@@ -27,9 +30,12 @@ export class PreciodiaRendimientoComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private maestroUtil: MaestroUtil,
-    private maestroService: MaestroService) { 
-      this.singleSelectCheck = this.singleSelectCheck.bind(this);
-    }
+    private maestroService: MaestroService,
+    private dateUtil: DateUtil,
+    private precioDiaRendimientoService: PrecioDiaRendimientoService,
+    private spinner: NgxSpinnerService) {
+    this.singleSelectCheck = this.singleSelectCheck.bind(this);
+  }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -39,14 +45,32 @@ export class PreciodiaRendimientoComponent implements OnInit {
 
   LoadForm() {
     this.frmPrecioDiaRendimiento = this.fb.group({
-      initialdate: [],
-      finaldate: [],
-      status: []
+      initialdate: [, Validators.required],
+      finaldate: [, Validators.required],
+      status: [, Validators.required]
     });
+
+    this.frmPrecioDiaRendimiento.setValidators(this.comparisonValidator());
+
+    this.frmPrecioDiaRendimiento.controls.finaldate.setValue(this.dateUtil.currentDate());
+    this.frmPrecioDiaRendimiento.controls.initialdate.setValue(this.dateUtil.currentMonthAgo());
   }
 
   get f() {
     return this.frmPrecioDiaRendimiento.controls;
+  }
+
+  comparisonValidator(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors => {
+      if (!group.value.initialdate || !group.value.finaldate) {
+        this.errorGeneral = { isError: true, msgError: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.value.status) {
+        this.errorGeneral = { isError: true, msgError: 'Por favor seleccionar un estado.' };
+      } else {
+        this.errorGeneral = { isError: false, msgError: '' };
+      }
+      return;
+    };
   }
 
   GetStatus() {
@@ -76,6 +100,35 @@ export class PreciodiaRendimientoComponent implements OnInit {
   }
 
   Buscar() {
+    this.spinner.show();
+    const request = {
+      FechaInicio: this.frmPrecioDiaRendimiento.value.initialdate,
+      FechaFin: this.frmPrecioDiaRendimiento.value.finaldate,
+      EstadoId: this.frmPrecioDiaRendimiento.value.status
+    };
+    this.precioDiaRendimientoService.Consultar(request)
+      .subscribe((res) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          res.Result.Data.forEach((obj: any) => {
+            obj.FechaRegistro = this.dateUtil.formatDate(new Date(obj.FechaRegistro));
+          });
+          this.tempData = res.Result.Data;
+          this.rows = this.tempData;
+        } else {
 
+        }
+      }, (err) => {
+        console.log(err);
+        this.spinner.hide();
+      });
+  }
+
+  Nuevo() {
+
+  }
+
+  Anular() {
+    
   }
 }

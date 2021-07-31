@@ -44,25 +44,25 @@ export class AduanasComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoadForm();
-   
+
     this.aduanasForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.aduanasForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
- async LoadForm() {
+  async LoadForm() {
     this.aduanasForm = this.fb.group({
       numeroContrato: [''],
       codigo: [''],
       ruc: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: [ '' , [Validators.required]],
-      agenciaAduanera: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      clienteFinal: ['',[Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]]
+      estado: ['', [Validators.required]],
+      agenciaAduanera: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      clienteFinal: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]]
     });
     this.aduanasForm.setValidators(this.comparisonValidator());
-  await  this.LoadCombos();
+    await this.LoadCombos();
   }
 
   async LoadCombos() {
@@ -70,13 +70,13 @@ export class AduanasComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("EstadoAduana", function (res) {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
-        
-       
+
+
       }
     });
 
 
-    
+
   }
 
   get f() {
@@ -96,7 +96,7 @@ export class AduanasComponent implements OnInit {
     };
   }
 
- 
+
 
   compareTwoDates(): void {
     let vBeginDate = new Date(this.aduanasForm.value.fechaInicio);
@@ -147,12 +147,12 @@ export class AduanasComponent implements OnInit {
         RazonSocial: this.aduanasForm.value.razonSocial,
         FechaInicio: new Date(this.aduanasForm.value.fechaInicio),
         FechaFin: new Date(this.aduanasForm.value.fechaFin),
-        RazonSocialEmpresaExportadora:  this.aduanasForm.value.agenciaAduanera,
+        RazonSocialEmpresaExportadora: this.aduanasForm.value.agenciaAduanera,
         RazonSocialCliente: this.aduanasForm.value.clienteFinal,
-        
+
         EstadoId: this.aduanasForm.controls["estado"].value ?? '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
-       
+
       };
 
       this.spinner.show();
@@ -185,7 +185,7 @@ export class AduanasComponent implements OnInit {
     }
   }
 
- 
+
 
   Nuevo() {
     this.router.navigate(['exportador/operaciones/aduanas/edit']);
