@@ -18,4 +18,9 @@ export class PrecioDiaRendimientoService {
     const url = `${this.url}/Consultar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  Registrar(request: any): Observable<any> {
+    const url = `${this.url}/Registrar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }

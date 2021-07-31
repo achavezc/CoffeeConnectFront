@@ -47,53 +47,61 @@
                 <!-- BEGIN: TABLA -->
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails" [limit]="10"
-                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [scrollbarH]="true">
 
-                            <ngx-datatable-column width="500">
-                                <ng-template let-row="row" ngx-datatable-header-template>
-                                    <strong>% RENDIMIENTO</strong>
-                                </ng-template>
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <ngx-datatable [rows]="[row]" class="bootstrap core-bootstrap" [headerHeight]="20"
-                                        [footerHeight]="20" rowHeight="auto">
-                                        <ngx-datatable-column [prop]="RendimientoFin" width="200">
-                                        </ngx-datatable-column>
-                                        <ngx-datatable-column [prop]="RendimientoInicio" width="300">
-                                        </ngx-datatable-column>
-                                    </ngx-datatable>
+                        <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
+                            [headerHeight]="75" [footerHeight]="'auto'" [columnMode]="'force'">
+
+                            <ngx-datatable-column name="% RENDIMIENTO" prop="RendimientoFin" [sortable]="false"
+                                width="50">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-renfin="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <span>{{renfin}}</span>
+                                    </div>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="KG PERGAMINO" prop="FechaContratoString">
+                            <ngx-datatable-column name="" prop="RendimientoInicio" [sortable]="false" width="50">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-reninicio="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-right">{{reninicio}}</span>
+                                    </div>
+                                </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="PRECIO DEL DÍA" prop="FechaContratoString">
+                            <ngx-datatable-column name="KG PERGAMINO" prop="aa" [sortable]="false" width="50">
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="VALOR 1" prop="Valor1" [sortable]="false">
+                            <ngx-datatable-column name="PRECIO DEL DÍA" prop="bb" [sortable]="false" width="50">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="VALOR 1" prop="Valor1" [sortable]="false" width="100">
                                 <ng-template ngx-datatable-cell-template let-row="row" let-val1="value"
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
-                                        <input type="number" autofocus class="form-control" value="{{val1}}">
+                                        <input type="number" autofocus class="form-control text-right" value="{{val1}}"
+                                            (blur)="UpdatesValuesResults($event, rowIndex, 'v1')">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="VALOR 2" prop="Valor2" [sortable]="false">
+                            <ngx-datatable-column name="VALOR 2" prop="Valor2" [sortable]="false" width="100">
                                 <ng-template ngx-datatable-cell-template let-row="row" let-val2="value"
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
-                                        <input type="number" autofocus class="form-control" value="{{val2}}">
+                                        <input type="number" class="form-control text-right" value="{{val2}}"
+                                            (blur)="UpdatesValuesResults($event, rowIndex, 'v2')">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="VALOR 3" prop="Valor3" [sortable]="false">
+                            <ngx-datatable-column name="VALOR 3" prop="Valor3" [sortable]="false" width="100">
                                 <ng-template ngx-datatable-cell-template let-row="row" let-val3="value"
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
-                                        <input type="number" autofocus class="form-control" value="{{val3}}">
+                                        <input type="number" class="form-control text-right" value="{{val3}}"
+                                            (blur)="UpdatesValuesResults($event, rowIndex, 'v3')">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
@@ -112,4 +120,7 @@
             </div>
         </div>
     </div>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
 </div>

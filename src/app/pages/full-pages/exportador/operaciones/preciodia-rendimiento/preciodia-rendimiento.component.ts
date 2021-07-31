@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, ValidatorFn, ValidationErrors, Validators } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../services/maestro.service';
@@ -33,7 +34,8 @@ export class PreciodiaRendimientoComponent implements OnInit {
     private maestroService: MaestroService,
     private dateUtil: DateUtil,
     private precioDiaRendimientoService: PrecioDiaRendimientoService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private router: Router) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -125,10 +127,10 @@ export class PreciodiaRendimientoComponent implements OnInit {
   }
 
   Nuevo() {
-
+    this.router.navigate(['/exportador/operaciones/preciodiarendimiento/create']);
   }
 
   Anular() {
-    
+
   }
 }
