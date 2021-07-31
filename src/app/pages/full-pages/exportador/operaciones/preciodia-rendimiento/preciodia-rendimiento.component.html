@@ -2,114 +2,109 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="card-header text-center">
-                <h3>Precios día rendimiento</h3>
+                <h3>BANDEJA DE PRECIOS DEL DÍA</h3>
             </div>
             <div class="card-body">
                 <form class="needs-validation" [formGroup]="frmPrecioDiaRendimiento" novalidate>
+
                     <div class="form-row">
-                        <div class="col-lg-12">
-                            <div class="form-group row">
-                                <label for="averageprice" class="col-sm-5 col-form-label">PRECIO PROMEDIO DEL DIA DESDE
-                                    CONTRATOS</label>
-                                <div class="col-sm-3">
-                                    <input type="number" id="averageprice" name="averageprice"
-                                        formControlName="averageprice" class="form-control text-right"
-                                        placeholder="Precio promedio del día" [readonly]="true">
-                                </div>
-                            </div>
+
+                        <div class="col-md-4 form-group">
+                            <label for="initialdate" class="form-label">FECHA INICIAL</label>
+                            <input type="date" date formControlName="initialdate" class="form-control text-center"
+                                id="initialdate" placeholder="Fecha inicial" name="initialdate"
+                                [ngClass]="{ 'is-invalid': f.initialdate.invalid, 'is-valid': !f.initialdate.invalid }">
                         </div>
+                        <div class="col-md-4 form-group">
+                            <label for="finaldate" class="form-label">FECHA FINAL</label>
+                            <input type="date" date formControlName="finaldate" class="form-control text-center"
+                                id="finaldate" placeholder="Fecha inicial" name="finaldate"
+                                [ngClass]="{ 'is-invalid': f.finaldate.invalid, 'is-valid': !f.finaldate.invalid }">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="status" class="form-label">ESTADO</label>
+                            <ng-select [items]="listStatus" formControlName="status" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="status" placeholder="Estado"
+                                [ngClass]="{ 'is-invalid': f.status.invalid, 'is-valid': !f.status.invalid }"
+                                [(ngModel)]="selectedStatus">
+                            </ng-select>
+                        </div>
+
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <label for="exchangerate" class="col-sm-5 col-form-label">TIPO DE CAMBIO</label>
-                                <div class="col-sm-3">
-                                    <input type="number" id="exchangerate" name="exchangerate"
-                                        formControlName="exchangerate" class="form-control text-right"
-                                        placeholder="Tipo de cambio" [readonly]="true">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group row">
-                                <label for="currency" class="col-sm-5 col-form-label">MONEDA</label>
-                                <div class="col-sm-3">
-                                    <ng-select [items]="listCurrency" formControlName="currency" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="currency" placeholder="Moneda"
-                                        [ngClass]="{ 'is-invalid': f.currency.invalid, 'is-valid': !f.currency.invalid }"
-                                        [(ngModel)]="selectedCurrency">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
+                        <small class="form-text text-muted danger mb-1"
+                            *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                        <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
+                            [disabled]="frmPrecioDiaRendimiento.invalid">Buscar</button>
+                        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Buscar()">Nuevo</button>
+                        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Buscar()"
+                            [disabled]="frmPrecioDiaRendimiento.invalid">Anular</button>
                     </div>
+
                 </form>
-                <!-- BEGIN: TABLA -->
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails" [limit]="10"
-                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [scrollbarH]="true">
-
-                            <ngx-datatable-column width="500">
-                                <ng-template let-row="row" ngx-datatable-header-template>
-                                    <strong>% RENDIMIENTO</strong>
-                                </ng-template>
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <ngx-datatable [rows]="[row]" class="bootstrap core-bootstrap" [headerHeight]="20"
-                                        [footerHeight]="20" rowHeight="auto">
-                                        <ngx-datatable-column [prop]="RendimientoFin" width="200">
-                                        </ngx-datatable-column>
-                                        <ngx-datatable-column [prop]="RendimientoInicio" width="300">
-                                        </ngx-datatable-column>
-                                    </ngx-datatable>
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <ngx-datatable-column name="KG PERGAMINO" prop="FechaContratoString">
-                            </ngx-datatable-column>
-
-                            <ngx-datatable-column name="PRECIO DEL DÍA" prop="FechaContratoString">
-                            </ngx-datatable-column>
-
-                            <ngx-datatable-column name="VALOR 1" prop="Valor1" [sortable]="false">
-                                <ng-template ngx-datatable-cell-template let-row="row" let-val1="value"
-                                    let-rowIndex="rowIndex">
-                                    <div class="d-flex align-items-center">
-                                        <input type="number" autofocus class="form-control" value="{{val1}}">
-                                    </div>
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <ngx-datatable-column name="VALOR 2" prop="Valor2" [sortable]="false">
-                                <ng-template ngx-datatable-cell-template let-row="row" let-val2="value"
-                                    let-rowIndex="rowIndex">
-                                    <div class="d-flex align-items-center">
-                                        <input type="number" autofocus class="form-control" value="{{val2}}">
-                                    </div>
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <ngx-datatable-column name="VALOR 3" prop="Valor3" [sortable]="false">
-                                <ng-template ngx-datatable-cell-template let-row="row" let-val3="value"
-                                    let-rowIndex="rowIndex">
-                                    <div class="d-flex align-items-center">
-                                        <input type="number" autofocus class="form-control" value="{{val3}}">
-                                    </div>
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                        </ngx-datatable>
-                    </div>
-                </div>
-                <!-- END: TABLA -->
             </div>
-            <div class="card-footer">
-                <div class="form-row">
-                    <div class="col-lg-12 text-right">
-                        <button class="btn btn-primary" type="button" (click)="Save()">Guardar</button>
+        </div>
+    </div>
+</div>
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable #dtPreciosDiaRendimiento class="bootstrap core-bootstrap" [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
+                            [scrollbarH]="true" [selected]="selected" [selectionType]="'single'"
+                            [selectCheck]="singleSelectCheck">
+                            <ngx-datatable-column name="FECHA" prop="Numero" width="160">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0"
+                                                [routerLink]="['/exportador/operaciones/ordenproceso/update', row.OrdenProcesoId]">{{
+                                                name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="PRECIO PROM. CONTRATO" prop="NumeroContrato" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="TIPO CAMBIO" prop="NumeroCliente" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="ESTADO" prop="Estado" width="70">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Activo', 'bg-light-warning': status == 'Inactivo' }">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
 </div>

@@ -79,7 +79,7 @@ export class OrdenProcesoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
       if (res.Result.Success) {
         this.listEstados = res.Result.Data;
-        if(this.popUp){
+        if (this.popUp) {
           this.ordenProcesoForm.controls.estado.setValue("01");
           this.ordenProcesoForm.controls.estado.disable();
         }
@@ -92,7 +92,7 @@ export class OrdenProcesoComponent implements OnInit {
       }
     });
 
-    
+
 
   }
 

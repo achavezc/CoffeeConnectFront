@@ -12,6 +12,7 @@ import { PrecioDiaEditComponent } from './operaciones/preciosdia/preciosdia-edit
 import { AduanasComponent } from './operaciones/aduanas/list/aduanas.component';
 import { AduanasEditComponent } from './operaciones/aduanas/edit/aduanas-edit.component';
 import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimiento/preciodia-rendimiento.component';
+import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendimiento/edit/precio-dia-rendimiento-edit.component';
 
 const routes: Routes = [
   {
@@ -112,6 +113,13 @@ const routes: Routes = [
       {
         path: 'preciodiarendimiento/list',
         component: PreciodiaRendimientoComponent,
+        data: {
+          title: 'Precio Día Rendimiento'
+        }
+      },
+      {
+        path: 'preciodiarendimiento/create',
+        component: PrecioDiaRendimientoEditComponent,
         data: {
           title: 'Precio Día Rendimiento'
         }

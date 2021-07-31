@@ -14,29 +14,34 @@ import { MaestroService } from '../../../../../services/maestro.service';
 export class PreciodiaRendimientoComponent implements OnInit {
 
   frmPrecioDiaRendimiento: FormGroup;
-  listCurrency: any[];
-  selectedCurrency: any;
-  @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
-  rowsDetails = [];
-  isLoading = true;
+  listStatus: any[];
+  selectedStatus: any;
+  @ViewChild(DatatableComponent) dtPreciosDiaRendimiento: DatatableComponent;
+  limitRef = 10;
+  rows = [];
+  selected = [];
+  tempData = [];
   userSession: any;
+  errorGeneral = { isError: false, msgError: '' };
+  msgErrorGenerico = 'Ocurrio un error interno.';
 
   constructor(private fb: FormBuilder,
     private maestroUtil: MaestroUtil,
-    private maestroService: MaestroService) { }
+    private maestroService: MaestroService) { 
+      this.singleSelectCheck = this.singleSelectCheck.bind(this);
+    }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
-    this.GetCurrencys();
-    this.CheckPricesDaysPerformance();
+    this.GetStatus();
   }
 
   LoadForm() {
     this.frmPrecioDiaRendimiento = this.fb.group({
-      averageprice: [0],
-      exchangerate: [0],
-      currency: []
+      initialdate: [],
+      finaldate: [],
+      status: []
     });
   }
 
@@ -44,33 +49,33 @@ export class PreciodiaRendimientoComponent implements OnInit {
     return this.frmPrecioDiaRendimiento.controls;
   }
 
-  GetCurrencys() {
-    this.listCurrency = [];
-    this.maestroUtil.obtenerMaestros('Moneda', (res) => {
+  GetStatus() {
+    this.listStatus = [];
+    this.maestroUtil.obtenerMaestros('EstadoMaestro', (res) => {
       if (res.Result.Success) {
-        this.listCurrency = res.Result.Data;
+        this.listStatus = res.Result.Data;
       }
     });
   }
 
-  CheckPricesDaysPerformance() {
-    const request = { EmpresaId: this.userSession.Result.Data.EmpresaId };
-    this.maestroService.CheckPriceDayPerformance(request)
-      .subscribe((res: any) => {
-        if (res.Result.Success) {
-          this.frmPrecioDiaRendimiento.controls.averageprice.setValue(res.Result.Data[0].PrecioPromedioContrato);
-          this.frmPrecioDiaRendimiento.controls.exchangerate.setValue(res.Result.Data[0].TipoCambio);
-          this.frmPrecioDiaRendimiento.controls.currency.setValue(res.Result.Data[0].MonedaId);
-          this.rowsDetails = res.Result.Data;
-        } else {
-
-        }
-      }, (err) => {
-        console.log(err);
-      })
+  singleSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
   }
 
-  Save() {
+  updateLimit(event: any): void {
+    this.limitRef = event.target.value;
+  }
+
+  filterUpdate(event: any): void {
+    const val = event.target.value.toLowerCase();
+    const temp = this.tempData.filter(function (d) {
+      return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    this.rows = temp;
+    this.dtPreciosDiaRendimiento.offset = 0;
+  }
+
+  Buscar() {
 
   }
 }

@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Precios día rendimiento</h3>
+            </div>
+            <div class="card-body">
+                <form class="needs-validation" [formGroup]="frmPrecioDiaRendimientoEdit" novalidate>
+                    <div class="form-row">
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <label for="averageprice" class="col-sm-5 col-form-label">PRECIO PROMEDIO DEL DIA DESDE
+                                    CONTRATOS</label>
+                                <div class="col-sm-3">
+                                    <input type="number" id="averageprice" name="averageprice"
+                                        formControlName="averageprice" class="form-control text-right"
+                                        placeholder="Precio promedio del día" [readonly]="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label for="exchangerate" class="col-sm-5 col-form-label">TIPO DE CAMBIO</label>
+                                <div class="col-sm-3">
+                                    <input type="number" id="exchangerate" name="exchangerate"
+                                        formControlName="exchangerate" class="form-control text-right"
+                                        placeholder="Tipo de cambio" [readonly]="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label for="currency" class="col-sm-5 col-form-label">MONEDA</label>
+                                <div class="col-sm-3">
+                                    <ng-select [items]="listCurrency" formControlName="currency" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="currency" placeholder="Moneda"
+                                        [ngClass]="{ 'is-invalid': f.currency.invalid, 'is-valid': !f.currency.invalid }"
+                                        [(ngModel)]="selectedCurrency">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- BEGIN: TABLA -->
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails" [limit]="10"
+                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [scrollbarH]="true">
+
+                            <ngx-datatable-column width="500">
+                                <ng-template let-row="row" ngx-datatable-header-template>
+                                    <strong>% RENDIMIENTO</strong>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <ngx-datatable [rows]="[row]" class="bootstrap core-bootstrap" [headerHeight]="20"
+                                        [footerHeight]="20" rowHeight="auto">
+                                        <ngx-datatable-column [prop]="RendimientoFin" width="200">
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column [prop]="RendimientoInicio" width="300">
+                                        </ngx-datatable-column>
+                                    </ngx-datatable>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="KG PERGAMINO" prop="FechaContratoString">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="PRECIO DEL DÍA" prop="FechaContratoString">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="VALOR 1" prop="Valor1" [sortable]="false">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-val1="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control" value="{{val1}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="VALOR 2" prop="Valor2" [sortable]="false">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-val2="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control" value="{{val2}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="VALOR 3" prop="Valor3" [sortable]="false">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-val3="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control" value="{{val3}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                        </ngx-datatable>
+                    </div>
+                </div>
+                <!-- END: TABLA -->
+            </div>
+            <div class="card-footer">
+                <div class="form-row">
+                    <div class="col-lg-12 text-right">
+                        <button class="btn btn-primary" type="button" (click)="Save()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
