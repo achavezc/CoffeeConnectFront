@@ -1,10 +1,10 @@
-import { Component, Input, Output, OnInit , EventEmitter} from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,ControlContainer} from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
 //import { EventEmitter } from 'events';
 
 @Component({
-  selector:'[formGroup] app-pesadoCafe,[formGroupName] app-pesadoCafe',
+  selector: '[formGroup] app-pesadoCafe,[formGroupName] app-pesadoCafe',
   templateUrl: './pesadoCafe.component.html',
   styleUrls: ['./pesadoCafe.component.scss']
 })
@@ -22,23 +22,23 @@ export class PesadoCafeComponent implements OnInit {
   mensaje = "";
   constructor(private maestroUtil: MaestroUtil,
     private controlContainer: ControlContainer
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
     this.cargarcombos();
     this.cargarForm();
-    this.pesadoFormGroup = <FormGroup> this.controlContainer.control;
+    this.pesadoFormGroup = <FormGroup>this.controlContainer.control;
   }
-/*   get fedit() {
-    return this.consultaMateriaPrimaFormEdit.controls;
-  } */
+  /*   get fedit() {
+      return this.consultaMateriaPrimaFormEdit.controls;
+    } */
   cargarcombos() {
     var form = this;
     this.maestroUtil.obtenerMaestros("UnidadMedida", function (res) {
       if (res.Result.Success) {
         form.listaUnidadMedida = res.Result.Data;
-        form.pesadoFormGroup.controls['unidadMedida'].setValue(form.unidadMedidaPesado);  
+        form.pesadoFormGroup.controls['unidadMedida'].setValue(form.unidadMedidaPesado);
       }
     });
   }
@@ -55,35 +55,33 @@ export class PesadoCafeComponent implements OnInit {
 
   changeUnidadMedida(e) {
     let unidadMedida = e.Codigo;
-    if(unidadMedida == this.sacos){
+    if (unidadMedida == this.sacos) {
       this.pesadoFormGroup.controls['kilosBruto'].enable();
-    }else if(unidadMedida == this.latas){
+    } else if (unidadMedida == this.latas) {
       this.pesadoFormGroup.controls['kilosBruto'].disable();
     }
     this.changeCantidad();
   }
-  changeCantidad(){
+  changeCantidad() {
     var unidadMedida = this.pesadoFormGroup.controls['unidadMedida'].value;
     var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
-    if(unidadMedida == this.latas){
+    if (unidadMedida == this.latas) {
       var valor = cantidad * this.kilos;
       this.pesadoFormGroup.controls['kilosBruto'].setValue(valor);
       this.pesadoFormGroup.controls['tara'].setValue("");
-    }else if(unidadMedida == this.sacos){
+    } else if (unidadMedida == this.sacos) {
       var valor = cantidad * this.tara;
       var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
       this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
     }
   }
 
-  consultarSocioFinca()
-  {
-  this.miEvento.emit(this.mensaje);
+  consultarSocioFinca() {
+    this.miEvento.emit(this.mensaje);
   }
 
 
-  cleanKilosBrutos()
-  {
+  cleanKilosBrutos() {
     this.pesadoFormGroup.controls['kilosBruto'].setValue("");
   }
 

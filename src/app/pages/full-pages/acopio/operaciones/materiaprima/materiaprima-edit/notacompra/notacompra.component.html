@@ -1,11 +1,8 @@
 <div class="mt-2" [formGroup]="notaCompraForm">
-
-
     <div class="row">
         <tr class="form-row col">
-            <td class="col-2"></td>
-            <td class="col-8">
-
+            <td class="col-1"></td>
+            <td class="col-10">
                 <div class="row">
                     <div class="col-12 col-md-8">
                     </div>
@@ -14,15 +11,12 @@
                             <div class="col-md-6 form-group">
                                 <label class="card-forms" for="users-edit-username">N° NOTA DE COMPRA : </label>
                             </div>
-
                             <div class="col-md-6 form-group">
                                 <label class="card-forms" for="users-edit-username"
                                     style="font-weight: bold;">{{numeroNotaCompra}}</label>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-8">
@@ -32,33 +26,30 @@
                             <div class="col-md-6 form-group">
                                 <label class="card-forms" for="users-edit-username">ESTADO : </label>
                             </div>
-
                             <div class="col-md-6 form-group">
                                 <label class="card-forms" for="users-edit-username"
                                     style="font-weight: bold;">{{estado}}</label>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
                 <table class="table table-sm">
                     <thead>
                         <tr class="form-row table-primary">
                             <th colspan="2" class="col-5 text-center">PESADO DEL CAFÉ</th>
                             <th class="col-2"></th>
-                            <th colspan="2" class="col-5 text-center">ANÁLISIS FISICO (RENDIMIENTO EXPORTABLE)</th>
+                            <th colspan="3" class="col-5 text-center">ANÁLISIS FISICO (RENDIMIENTO EXPORTABLE)</th>
                         </tr>
                         <tr class="form-row table-secondary">
                             <th class="col-3 text-center">DETALLE</th>
                             <th class="col-2 text-center">VALORES</th>
                             <th class="col-2"></th>
-                            <th class="col-3 text-center">DETALLE</th>
+                            <th class="col-2 text-center">DETALLE</th>
                             <th class="col-2 text-center">GRAMOS</th>
+                            <th class="col-1 text-center">%</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr class="form-row">
                             <td class="col-3">
                                 <label for="unidadMedida" class="form-label">Unidad Medida</label>
@@ -71,13 +62,18 @@
                                 </ng-select>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="exportableAT" class="form-label">Exportable</label>
                             </td>
                             <td class="col-2">
                                 <input type="number" name="exportableAT" id="exportableAT"
                                     formControlName="exportableAT" class="form-control form-control-sm text-right"
                                     placeholder="Ingrese Exportable" readonly required>
+                            </td>
+                            <td class="col-1">
+                                <input type="number" name="exportPorcenNC" id="exportPorcenNC"
+                                    formControlName="exportPorcenNC" class="form-control form-control-sm text-right"
+                                    readonly>
                             </td>
                         </tr>
                         <tr class="form-row">
@@ -90,13 +86,18 @@
                                     readonly required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="descarteAT" class="form-label">Descarte</label>
                             </td>
                             <td class="col-2">
                                 <input type="number" name="descarteAT" id="descarteAT" formControlName="descarteAT"
                                     class="form-control form-control-sm text-right" placeholder="Ingrese Descarte"
                                     readonly required>
+                            </td>
+                            <td class="col-1">
+                                <input type="number" name="descartePorcenNC" id="descartePorcenNC"
+                                    formControlName="descartePorcenNC" class="form-control form-control-sm text-right"
+                                    readonly>
                             </td>
                         </tr>
                         <tr class="form-row">
@@ -109,13 +110,18 @@
                                     placeholder="Ingrese Kilos Brutos" readonly required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="cascarillaAT" class="form-label">Cascarilla</label>
                             </td>
                             <td class="col-2">
                                 <input type="number" name="cascarillaAT" id="cascarillaAT"
                                     formControlName="cascarillaAT" class="form-control form-control-sm text-right"
                                     placeholder="Ingrese Cascarilla" readonly required>
+                            </td>
+                            <td class="col-1">
+                                <input type="number" name="cascarillaPorcenNC" id="cascarillaPorcenNC"
+                                    formControlName="cascarillaPorcenNC" class="form-control form-control-sm text-right"
+                                    readonly>
                             </td>
                         </tr>
                         <tr class="form-row">
@@ -128,13 +134,18 @@
                                     required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="totalAT" class="form-label font-weight-bold">Total</label>
                             </td>
                             <td class="col-2">
                                 <input type="number" name="totalAT" id="totalAT" formControlName="totalAT"
                                     class="form-control form-control-sm text-right font-weight-bold"
                                     placeholder="Ingrese Total" readonly required>
+                            </td>
+                            <td class="col-1">
+                                <input type="number" name="totalPorcenNC" id="totalPorcenNC"
+                                    formControlName="totalPorcenNC"
+                                    class="form-control form-control-sm text-right font-weight-bold" readonly>
                             </td>
                         </tr>
                         <tr class="form-row">
@@ -162,7 +173,7 @@
                                     required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="humedadAT" class="form-label font-weight-bold">%
                                     Humedad</label>
                             </td>
@@ -171,6 +182,7 @@
                                     class="form-control form-control-sm text-center font-weight-bold"
                                     placeholder="Ingrese % Humedad" readonly required>
                             </td>
+                            <td class="col-1"></td>
                         </tr>
                         <tr class="form-row">
                             <td class="col-3">
@@ -184,7 +196,7 @@
                                     placeholder="Ingrese kilos netos a descontar" readonly required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="tipo" class="form-label font-weight-bold">Tipo </label>
                             </td>
                             <td class="col-2">
@@ -193,9 +205,8 @@
                                     placeholder="Seleccione Tipo" [(ngModel)]="selectedTipo">
                                 </ng-select>
                             </td>
+                            <td class="col-1"></td>
                         </tr>
-
-
                         <tr class="form-row">
                             <td class="col-3">
                                 <label for="kiloNetoPagarPC" class="form-label">Kilo Neto a
@@ -207,7 +218,7 @@
                                     placeholder="Ingrese Kilo Neto a Pagar" readonly required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="monedaAT" class="form-label font-weight-bold">Moneda</label>
                             </td>
                             <td class="col-2">
@@ -217,6 +228,7 @@
                                     [readonly]="true">
                                 </ng-select>
                             </td>
+                            <td class="col-1"></td>
                         </tr>
                         <tr class="form-row">
                             <td class="col-3">
@@ -228,15 +240,20 @@
                                     readonly required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="precioDiaAT" class="form-label font-weight-bold">Precio del
                                     día</label>
                             </td>
                             <td class="col-2">
-                                <input type="number" name="precioDiaAT" id="precioDiaAT" formControlName="precioDiaAT"
+                                <!-- <input type="number" name="precioDiaAT" id="precioDiaAT" formControlName="precioDiaAT"
                                     class="form-control form-control-sm text-right" placeholder="Ingrese Precio del Día"
-                                    [readonly]="true" required>
+                                    [readonly]="true" required> -->
+                                <ng-select [items]="listPreciosDia" formControlName="precioDiaAT" class="form-control"
+                                    bindLabel="Label" bindValue="Codigo" id="precioDiaAT"
+                                    placeholder="Seleccionar precio" [(ngModel)]="selectedPrecioDia">
+                                </ng-select>
                             </td>
+                            <td class="col-1"></td>
                         </tr>
                         <tr class="form-row">
                             <td class="col" colspan="7">
@@ -245,7 +262,7 @@
                                     formControlName="observacionNotaCompra" name="notes"
                                     [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.observacionNotaCompra.invalid, 'is-valid': subedit && !notaCompraForm.controls.observacionNotaCompra.invalid }"></textarea>
                             </td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
                                     guardado</label>
                             </td>
@@ -254,10 +271,11 @@
                                     formControlName="precioGuardadoAT" class="form-control form-control-sm text-right"
                                     placeholder="Ingrese Precio Guardado" [readonly]="selectedEstado != '01'" required>
                             </td>
+                            <td class="col-1"></td>
                         </tr>
                         <tr class="form-row">
                             <td class="col" colspan="7"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="precioPagadoAT" class="form-label font-weight-bold">Precio
                                     pagado</label>
                             </td>
@@ -266,10 +284,11 @@
                                     formControlName="precioPagadoAT" class="form-control form-control-sm text-right"
                                     placeholder="Ingrese Precio Pagado" readonly required>
                             </td>
+                            <td class="col-1"></td>
                         </tr>
                         <tr class="form-row">
                             <td class="col" colspan="7"></td>
-                            <td class="col-3">
+                            <td class="col-2">
                                 <label for="importeAT" class="form-label font-weight-bold">Importe</label>
                             </td>
                             <td class="col-2">
@@ -277,11 +296,12 @@
                                     class="form-control form-control-sm text-right" placeholder="Ingrese Importe"
                                     readonly required>
                             </td>
+                            <td class="col-1"></td>
                         </tr>
                     </tbody>
                 </table>
             </td>
-            <td class="col-2"></td>
+            <td class="col-1"></td>
         </tr>
 
     </div>
@@ -290,8 +310,6 @@
     <div class="col-md-10">
         <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
     </div>
-
-
 
     <div class="card-footer text-right" style="margin-top: 2rem;">
         <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" *ngIf="estadoId != estadoLiquidado"

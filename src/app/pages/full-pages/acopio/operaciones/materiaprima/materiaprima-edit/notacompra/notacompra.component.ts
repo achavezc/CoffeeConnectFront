@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MaestroService } from '../../../../../../../services/maestro.service';
 import { NotaCompraService } from '../../../../../../../services/nota-compra.service';
-import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import { Router } from "@angular/router";
@@ -40,6 +39,10 @@ export class NotaCompraComponent implements OnInit {
   estadoEnviadoAlmacen = "03";
   CodigoSubProducto = "";
   precioDia = 0;
+  userSession: any;
+  listPreciosDia: [];
+  selectedPrecioDia: any;
+
   constructor(
     private maestroService: MaestroService,
     private notaCompraService: NotaCompraService,
@@ -50,9 +53,8 @@ export class NotaCompraComponent implements OnInit {
   ) {
   }
 
-
   ngOnInit(): void {
-
+    this.userSession = JSON.parse(localStorage.getItem('user'));
     this.cargarForm();
 
     if (this.detalle) {
@@ -79,16 +81,20 @@ export class NotaCompraComponent implements OnInit {
         kiloNetoPagarPC: ['',],
         monedaAT: ['',],
         qqKgPC: ['',],
-        precioDiaAT: ['',],
+        precioDiaAT: [],
         precioGuardadoAT: ['',],
         precioPagadoAT: ['',],
         importeAT: ['',],
         tipo: ['', Validators.required],
         numero: ['',],
-        observacionNotaCompra: ['',]
-
+        observacionNotaCompra: ['',],
+        exportPorcenNC: [0],
+        descartePorcenNC: [0],
+        cascarillaPorcenNC: [0],
+        totalPorcenNC: [0]
       });
   }
+
   async LoadCombos() {
     let res: any;
 
@@ -119,9 +125,7 @@ export class NotaCompraComponent implements OnInit {
       if (res.Result.Data.length > 0) {
         this.precioDia = res.Result.Data[0].PrecioDia;
       }
-
     }
-
   }
 
   async obtenerDetalle() {
@@ -150,20 +154,23 @@ export class NotaCompraComponent implements OnInit {
       //var result = this.login.Result.Data.ProductoPreciosDia.filter(s => s.ProductoId == data.ProductoId && s.SubProductoId == data.SubProductoId);
 
       //if(result.length>0){
-      this.notaCompraForm.controls['precioDiaAT'].setValue(this.precioDia);
+      if (this.precioDia) {
+        await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
+        this.notaCompraForm.controls['precioDiaAT'].setValue(this.precioDia);
+      }
       //}
       this.notaCompraForm.controls['precioGuardadoAT'].setValue(this.precioDia);
-
       this.notaCompraForm.controls['precioPagadoAT'].setValue(this.precioDia);
-
       this.notaCompraForm.controls['importeAT'].setValue(0);
       this.notaCompraForm.controls['monedaAT'].setValue(this.login.Result.Data.MonedaId);
-
-
       this.notaCompraForm.controls['exportableAT'].setValue(data.ExportableGramosAnalisisFisico);
       this.notaCompraForm.controls['descarteAT'].setValue(data.DescarteGramosAnalisisFisico);
       this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
       this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
+      this.notaCompraForm.controls.exportPorcenNC.setValue(data.ExportablePorcentajeAnalisisFisico);
+      this.notaCompraForm.controls.descartePorcenNC.setValue(data.DescartePorcentajeAnalisisFisico);
+      this.notaCompraForm.controls.cascarillaPorcenNC.setValue(data.CascarillaPorcentajeAnalisisFisico);
+      this.notaCompraForm.controls.totalPorcenNC.setValue(data.TotalPorcentajeAnalisisFisico);
     } else {
       this.numeroNotaCompra = data.NotaCompra.Numero;
       this.estado = data.NotaCompra.Estado;
@@ -175,7 +182,6 @@ export class NotaCompraComponent implements OnInit {
       this.notaCompraForm.controls['cantidadPC'].setValue(data.NotaCompra.CantidadPesado);
       this.notaCompraForm.controls['kilosBrutosPC'].setValue(data.NotaCompra.KilosBrutosPesado);
       this.notaCompraForm.controls['taraPC'].setValue(data.NotaCompra.TaraPesado);
-
       this.notaCompraForm.controls['kilosNetosPC'].setValue(data.NotaCompra.KilosNetosPesado);
       this.notaCompraForm.controls['dsctoHumedadPC'].setValue(data.NotaCompra.DescuentoPorHumedad);
 
@@ -189,7 +195,10 @@ export class NotaCompraComponent implements OnInit {
       //var result = this.login.Result.Data.ProductoPreciosDia.filter(s => s.ProductoId == data.ProductoId && s.SubProductoId == data.SubProductoId);
 
       //if(result.length>0){
-      this.notaCompraForm.controls['precioDiaAT'].setValue(this.precioDia);
+      if (this.precioDia) {
+        await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
+        this.notaCompraForm.controls['precioDiaAT'].setValue(this.precioDia);
+      }
       //}
       this.notaCompraForm.controls['precioGuardadoAT'].setValue(data.NotaCompra.PrecioGuardado);
 
@@ -199,17 +208,12 @@ export class NotaCompraComponent implements OnInit {
         this.notaCompraForm.controls['precioPagadoAT'].setValue(this.precioDia);
       }
 
-
-
       this.notaCompraForm.controls['importeAT'].setValue(data.NotaCompra.Importe);
       this.notaCompraForm.controls['monedaAT'].setValue(data.NotaCompra.MonedaId);
-
-
       this.notaCompraForm.controls['exportableAT'].setValue(data.ExportableGramosAnalisisFisico);
       this.notaCompraForm.controls['descarteAT'].setValue(data.DescarteGramosAnalisisFisico);
       this.notaCompraForm.controls['cascarillaAT'].setValue(data.CascarillaGramosAnalisisFisico);
       this.notaCompraForm.controls['totalAT'].setValue(data.TotalGramosAnalisisFisico);
-
 
       if (this.estadoId == this.estadoLiquidado) {
         this.notaCompraForm.controls['tipo'].disable();
@@ -217,6 +221,10 @@ export class NotaCompraComponent implements OnInit {
       }
 
       this.notaCompraForm.controls['observacionNotaCompra'].setValue(data.NotaCompra.Observaciones);
+      this.notaCompraForm.controls.exportPorcenNC.setValue(data.ExportablePorcentajeAnalisisFisico);
+      this.notaCompraForm.controls.descartePorcenNC.setValue(data.DescartePorcentajeAnalisisFisico);
+      this.notaCompraForm.controls.cascarillaPorcenNC.setValue(data.CascarillaPorcentajeAnalisisFisico);
+      this.notaCompraForm.controls.totalPorcenNC.setValue(data.TotalPorcentajeAnalisisFisico);
     }
 
     this.desactivarControles(this.detalle.EstadoId, this.detalle.UsuarioPesado, this.detalle.UsuarioCalidad);
@@ -225,30 +233,20 @@ export class NotaCompraComponent implements OnInit {
   desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
     var usuarioLogueado = this.login.Result.Data.NombreUsuario
     if (estado == this.estadoPesado && usuarioPesado == usuarioLogueado) {
-
-
       //Calidad Editable
       //NotaCompra ReadOnly
       this.notaCompraForm.disable();
-
     } else if (estado == this.estadoPesado && usuarioPesado != usuarioLogueado) {
-
       //Calidad Editable
       //NotaCompra ReadOnly
       this.notaCompraForm.disable();
     } else if (estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado) {
-
-
       //Calidad Editable
       //NotaCompra Editable
     } else if (estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado) {
-
-
       //Calidad ReadOnly
       //NotaCompra Editable
     } else if (estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen) {
-
-
       //Calidad ReadOnly
       //NotaCompra ReadOnly
       this.notaCompraForm.disable();
@@ -301,7 +299,8 @@ export class NotaCompraComponent implements OnInit {
           PrecioPagado: this.notaCompraForm.controls['precioPagadoAT'].value,
           Importe: this.notaCompraForm.controls['importeAT'].value,
           UsuarioNotaCompra: this.detalle.UsuarioPesado,
-          Observaciones: this.notaCompraForm.controls['observacionNotaCompra'].value
+          Observaciones: this.notaCompraForm.controls['observacionNotaCompra'].value,
+          PrecioDia: this.notaCompraForm.value.precioDiaAT
         };
 
         if (this.id != 0) {
@@ -407,6 +406,30 @@ export class NotaCompraComponent implements OnInit {
       link.target = "_blank";
       link.click();
       link.remove();
+    }
+  }
+
+  async LoadPrecioDia(exportPorcen) {
+    const form = this;
+    if (exportPorcen) {
+      const result = await this.maestroService.CheckPriceDayPerformance({ EmpresaId: this.userSession.Result.Data.EmpresaId }).toPromise();
+      if (result.Result.Success) {
+        let listaPrecios = [] as any;
+        const precios = result.Result.Data.filter(x => x.RendimientoInicio >= exportPorcen && x.RendimientoFin <= exportPorcen);
+        listaPrecios.push({
+          Label: precios[0].Valor1,
+          Codigo: precios[0].Valor1
+        });
+        listaPrecios.push({
+          Label: precios[0].Valor2,
+          Codigo: precios[0].Valor2
+        });
+        listaPrecios.push({
+          Label: precios[0].Valor3,
+          Codigo: precios[0].Valor3
+        });
+        form.listPreciosDia = listaPrecios;
+      }
     }
   }
 
