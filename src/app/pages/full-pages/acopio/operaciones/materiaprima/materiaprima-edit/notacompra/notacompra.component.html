@@ -1,325 +1,304 @@
-    
-       
-       <div class="mt-2" [formGroup]="notaCompraForm">
+<div class="mt-2" [formGroup]="notaCompraForm">
 
-                
-            <div class="row">
-              <tr class="form-row col">
-                    <td class="col-2"></td>
-                    <td class="col-8">
-                    
-                        <div class="row">
-                            <div class="col-12 col-md-8">
+
+    <div class="row">
+        <tr class="form-row col">
+            <td class="col-2"></td>
+            <td class="col-8">
+
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-row" *ngIf="detalle.NotaCompra!=null">
+                            <div class="col-md-6 form-group">
+                                <label class="card-forms" for="users-edit-username">N° NOTA DE COMPRA : </label>
                             </div>
-                            <div class="col-12 col-md-4">
-                                <div class="form-row"  *ngIf="detalle.NotaCompra!=null" >
-                                    <div class="col-md-6 form-group">
-                                    <label class="card-forms" for="users-edit-username">N° NOTA DE COMPRA : </label>
-                                    </div>
 
-                                    <div class="col-md-6 form-group">
-                                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numeroNotaCompra}}</label>
-                                    </div>
-                                
-                                </div> 
-                            </div> 
+                            <div class="col-md-6 form-group">
+                                <label class="card-forms" for="users-edit-username"
+                                    style="font-weight: bold;">{{numeroNotaCompra}}</label>
+                            </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-12 col-md-8">
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="form-row"  *ngIf="detalle.NotaCompra!=null" >
-                                    <div class="col-md-6 form-group">
-                                    <label class="card-forms" for="users-edit-username">ESTADO : </label>
-                                    </div>
+                    </div>
 
-                                    <div class="col-md-6 form-group">
-                                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{estado}}</label>
-                                    </div>
-                                
-                                </div> 
-                            </div> 
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-row" *ngIf="detalle.NotaCompra!=null">
+                            <div class="col-md-6 form-group">
+                                <label class="card-forms" for="users-edit-username">ESTADO : </label>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label class="card-forms" for="users-edit-username"
+                                    style="font-weight: bold;">{{estado}}</label>
+                            </div>
 
                         </div>
-                        <table class="table table-sm">
-                            <thead>
-                                <tr class="form-row table-primary">
-                                    <th colspan="2" class="col-5 text-center">PESADO DEL CAFÉ</th>
-                                    <th class="col-2"></th>
-                                    <th colspan="2" class="col-5 text-center">ANÁLISIS FISICO (RENDIMIENTO EXPORTABLE)</th>
-                                </tr>
-                                <tr class="form-row table-secondary">
-                                    <th class="col-3 text-center">DETALLE</th>
-                                    <th class="col-2 text-center">VALORES</th>
-                                    <th class="col-2"></th>
-                                    <th class="col-3 text-center">DETALLE</th>
-                                    <th class="col-2 text-center">GRAMOS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                           
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="unidadMedida" class="form-label">Unidad Medida</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <ng-select [items]="listUnidadMedida" formControlName="unidadMedida"
-                                            class="form-control form-control-sm" bindLabel="Label"
-                                            bindValue="Codigo" id="unidadMedida"
-                                            placeholder="Seleccionar unidad de medida"
-                                            [(ngModel)]="selectedUnidadMedida" [readonly]="true">
-                                        </ng-select>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="exportableAT" class="form-label">Exportable</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="exportableAT" id="exportableAT"
-                                            formControlName="exportableAT"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Exportable" readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="cantidadPC" class="form-label">Cantidad</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="cantidadPC" id="cantidadPC"
-                                            formControlName="cantidadPC"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Cantidad" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="descarteAT" class="form-label">Descarte</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="descarteAT" id="descarteAT"
-                                            formControlName="descarteAT"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Descarte" readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="kilosBrutosPC" class="form-label">Kilos Brutos</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="kilosBrutosPC" id="kilosBrutosPC"
-                                            formControlName="kilosBrutosPC"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Kilos Brutos" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="cascarillaAT" class="form-label">Cascarilla</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="cascarillaAT" id="cascarillaAT"
-                                            formControlName="cascarillaAT"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Cascarilla" readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="taraPC" class="form-label">Tara</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="taraPC" id="taraPC" formControlName="taraPC"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Tara" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="totalAT" class="form-label font-weight-bold">Total</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="totalAT" id="totalAT"
-                                            formControlName="totalAT"
-                                            class="form-control form-control-sm text-right font-weight-bold"
-                                            placeholder="Ingrese Total" readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="kilosNetosPC" class="form-label">Kilos Netos</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="kilosNetosPC" id="kilosNetosPC"
-                                            formControlName="kilosNetosPC"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Kilos Netos" readonly required>
-                                    </td>
-                                    <td class="col" colspan="7"></td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="dsctoHumedadPC" class="form-label">Dscto. Por
-                                            Humedad</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="dsctoHumedadPC" id="dsctoHumedadPC"
-                                            formControlName="dsctoHumedadPC" (change)="changeDescuentoHumedad()"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Dscto. Por Humedad" 
-                                            [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.dsctoHumedadPC.invalid, 'is-valid': subedit && !notaCompraForm.controls.dsctoHumedadPC.invalid }" 
-                                            required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="humedadAT" class="form-label font-weight-bold">%
-                                            Humedad</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="text" name="humedadAT" id="humedadAT"
-                                            formControlName="humedadAT"
-                                            class="form-control form-control-sm text-center font-weight-bold"
-                                            placeholder="Ingrese % Humedad" readonly required>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="kilosNetosDescontarPC" class="form-label">Kilos netos a
-                                            descontar</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="kilosNetosDescontarPC"
-                                            id="kilosNetosDescontarPC" formControlName="kilosNetosDescontarPC"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese kilos netos a descontar" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="tipo" class="form-label font-weight-bold">Tipo </label>
-                                    </td>
-                                    <td class="col-2">
-                                        <ng-select [items]="listTipo" formControlName="tipo"
-                                            class="form-control form-control-sm" bindLabel="Label"
-                                            bindValue="Codigo" id="tipo"
-                                            placeholder="Seleccione Tipo"
-                                            [(ngModel)]="selectedTipo" >
-                                        </ng-select>
-                                    </td>
-                                </tr>
-                              
+                    </div>
 
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="kiloNetoPagarPC" class="form-label">Kilo Neto a
-                                            Pagar</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="kiloNetoPagarPC" id="kiloNetoPagarPC"
-                                            formControlName="kiloNetoPagarPC"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Kilo Neto a Pagar" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="monedaAT" class="form-label font-weight-bold">Moneda</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <ng-select [items]="listMonedas" formControlName="monedaAT"
-                                            class="form-control form-control-sm" bindLabel="Label"
-                                            bindValue="Codigo" id="monedaAT"
-                                            placeholder="Seleccionar Moneda"
-                                            [(ngModel)]="selectedMoneda" [readonly]="true">
-                                        </ng-select>
-                                    </td>
-                                </tr>
-                                <tr class="form-row">
-                                    <td class="col-3">
-                                        <label for="qqKgPC" class="form-label">QQ55,2/Kg</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="qqKgPC" id="qqKgPC" formControlName="qqKgPC"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese QQ55,2/Kg" readonly required>
-                                    </td>
-                                    <td class="col-2"></td>
-                                    <td class="col-3">
-                                        <label for="precioDiaAT" class="form-label font-weight-bold">Precio del
-                                            día</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="precioDiaAT" id="precioDiaAT"
-                                            formControlName="precioDiaAT"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Precio del Día" [readonly]="true"
-                                            required>
-                                    </td>
-                                </tr>
-                             <tr class="form-row">
-                                    <td class="col" colspan="7">
-                                        <label for="observaciones" class="form-label font-weight-bold">Observaciones</label>
-                                        <textarea id="bordered-form-6" rows="4" class="form-control"  formControlName="observacionNotaCompra" name="notes"
-                                        [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.observacionNotaCompra.invalid, 'is-valid': subedit && !notaCompraForm.controls.observacionNotaCompra.invalid }"
-                                        ></textarea>
-                                    </td>
-                                    <td class="col-3">
-                                        <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
-                                            guardado</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="precioGuardadoAT" id="precioGuardadoAT"
-                                            formControlName="precioGuardadoAT"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Precio Guardado"
-                                            [readonly]="selectedEstado != '01'" required>
-                                    </td>
-                                </tr> 
-                                <tr class="form-row">
-                                    <td class="col" colspan="7"></td>
-                                    <td class="col-3">
-                                        <label for="precioPagadoAT" class="form-label font-weight-bold">Precio
-                                            pagado</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="precioPagadoAT" id="precioPagadoAT"
-                                            formControlName="precioPagadoAT"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Precio Pagado" readonly required>
-                                    </td>
-                                </tr> 
-                                <tr class="form-row">
-                                    <td class="col" colspan="7"></td>
-                                    <td class="col-3">
-                                        <label for="importeAT"
-                                            class="form-label font-weight-bold">Importe</label>
-                                    </td>
-                                    <td class="col-2">
-                                        <input type="number" name="importeAT" id="importeAT"
-                                            formControlName="importeAT"
-                                            class="form-control form-control-sm text-right"
-                                            placeholder="Ingrese Importe" readonly required>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td class="col-2"></td>
-                </tr> 
-               
-            </div>
+                </div>
+                <table class="table table-sm">
+                    <thead>
+                        <tr class="form-row table-primary">
+                            <th colspan="2" class="col-5 text-center">PESADO DEL CAFÉ</th>
+                            <th class="col-2"></th>
+                            <th colspan="2" class="col-5 text-center">ANÁLISIS FISICO (RENDIMIENTO EXPORTABLE)</th>
+                        </tr>
+                        <tr class="form-row table-secondary">
+                            <th class="col-3 text-center">DETALLE</th>
+                            <th class="col-2 text-center">VALORES</th>
+                            <th class="col-2"></th>
+                            <th class="col-3 text-center">DETALLE</th>
+                            <th class="col-2 text-center">GRAMOS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-            <ngx-spinner></ngx-spinner>
-            <div class="col-md-10">
-                <small class="form-text text-muted danger"
-                  *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-            </div>
-     
-           
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="unidadMedida" class="form-label">Unidad Medida</label>
+                            </td>
+                            <td class="col-2">
+                                <ng-select [items]="listUnidadMedida" formControlName="unidadMedida"
+                                    class="form-control form-control-sm" bindLabel="Label" bindValue="Codigo"
+                                    id="unidadMedida" placeholder="Seleccionar unidad de medida"
+                                    [(ngModel)]="selectedUnidadMedida" [readonly]="true">
+                                </ng-select>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="exportableAT" class="form-label">Exportable</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="exportableAT" id="exportableAT"
+                                    formControlName="exportableAT" class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Exportable" readonly required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="cantidadPC" class="form-label">Cantidad</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="cantidadPC" id="cantidadPC" formControlName="cantidadPC"
+                                    class="form-control form-control-sm text-right" placeholder="Ingrese Cantidad"
+                                    readonly required>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="descarteAT" class="form-label">Descarte</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="descarteAT" id="descarteAT" formControlName="descarteAT"
+                                    class="form-control form-control-sm text-right" placeholder="Ingrese Descarte"
+                                    readonly required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="kilosBrutosPC" class="form-label">Kilos Brutos</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="kilosBrutosPC" id="kilosBrutosPC"
+                                    formControlName="kilosBrutosPC" class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Kilos Brutos" readonly required>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="cascarillaAT" class="form-label">Cascarilla</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="cascarillaAT" id="cascarillaAT"
+                                    formControlName="cascarillaAT" class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Cascarilla" readonly required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="taraPC" class="form-label">Tara</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="taraPC" id="taraPC" formControlName="taraPC"
+                                    class="form-control form-control-sm text-right" placeholder="Ingrese Tara" readonly
+                                    required>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="totalAT" class="form-label font-weight-bold">Total</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="totalAT" id="totalAT" formControlName="totalAT"
+                                    class="form-control form-control-sm text-right font-weight-bold"
+                                    placeholder="Ingrese Total" readonly required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="kilosNetosPC" class="form-label">Kilos Netos</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="kilosNetosPC" id="kilosNetosPC"
+                                    formControlName="kilosNetosPC" class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Kilos Netos" readonly required>
+                            </td>
+                            <td class="col" colspan="7"></td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="dsctoHumedadPC" class="form-label">Dscto. Por
+                                    Humedad</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="dsctoHumedadPC" id="dsctoHumedadPC"
+                                    formControlName="dsctoHumedadPC" (change)="changeDescuentoHumedad()"
+                                    class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Dscto. Por Humedad"
+                                    [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.dsctoHumedadPC.invalid, 'is-valid': subedit && !notaCompraForm.controls.dsctoHumedadPC.invalid }"
+                                    required>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="humedadAT" class="form-label font-weight-bold">%
+                                    Humedad</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="text" name="humedadAT" id="humedadAT" formControlName="humedadAT"
+                                    class="form-control form-control-sm text-center font-weight-bold"
+                                    placeholder="Ingrese % Humedad" readonly required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="kilosNetosDescontarPC" class="form-label">Kilos netos a
+                                    descontar</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="kilosNetosDescontarPC" id="kilosNetosDescontarPC"
+                                    formControlName="kilosNetosDescontarPC"
+                                    class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese kilos netos a descontar" readonly required>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="tipo" class="form-label font-weight-bold">Tipo </label>
+                            </td>
+                            <td class="col-2">
+                                <ng-select [items]="listTipo" formControlName="tipo"
+                                    class="form-control form-control-sm" bindLabel="Label" bindValue="Codigo" id="tipo"
+                                    placeholder="Seleccione Tipo" [(ngModel)]="selectedTipo">
+                                </ng-select>
+                            </td>
+                        </tr>
 
-            <div class="card-footer text-right" style="margin-top: 2rem;">
-                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"  *ngIf="estadoId != estadoLiquidado" (click)="guardar()">Guardar</button>
-                <button type="button" class="btn btn-primary mr-1 mb-1" (click)="Print()" *ngIf="detalle.NotaCompra != null">Imprimir</button>
-                <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
-                    (click)="cancelar()">Cancelar</button>
-            </div>
 
-        </div>
-       
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="kiloNetoPagarPC" class="form-label">Kilo Neto a
+                                    Pagar</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="kiloNetoPagarPC" id="kiloNetoPagarPC"
+                                    formControlName="kiloNetoPagarPC" class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Kilo Neto a Pagar" readonly required>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="monedaAT" class="form-label font-weight-bold">Moneda</label>
+                            </td>
+                            <td class="col-2">
+                                <ng-select [items]="listMonedas" formControlName="monedaAT"
+                                    class="form-control form-control-sm" bindLabel="Label" bindValue="Codigo"
+                                    id="monedaAT" placeholder="Seleccionar Moneda" [(ngModel)]="selectedMoneda"
+                                    [readonly]="true">
+                                </ng-select>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col-3">
+                                <label for="qqKgPC" class="form-label">QQ55,2/Kg</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="qqKgPC" id="qqKgPC" formControlName="qqKgPC"
+                                    class="form-control form-control-sm text-right" placeholder="Ingrese QQ55,2/Kg"
+                                    readonly required>
+                            </td>
+                            <td class="col-2"></td>
+                            <td class="col-3">
+                                <label for="precioDiaAT" class="form-label font-weight-bold">Precio del
+                                    día</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="precioDiaAT" id="precioDiaAT" formControlName="precioDiaAT"
+                                    class="form-control form-control-sm text-right" placeholder="Ingrese Precio del Día"
+                                    [readonly]="true" required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col" colspan="7">
+                                <label for="observaciones" class="form-label font-weight-bold">Observaciones</label>
+                                <textarea id="bordered-form-6" rows="4" class="form-control"
+                                    formControlName="observacionNotaCompra" name="notes"
+                                    [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.observacionNotaCompra.invalid, 'is-valid': subedit && !notaCompraForm.controls.observacionNotaCompra.invalid }"></textarea>
+                            </td>
+                            <td class="col-3">
+                                <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
+                                    guardado</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="precioGuardadoAT" id="precioGuardadoAT"
+                                    formControlName="precioGuardadoAT" class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Precio Guardado" [readonly]="selectedEstado != '01'" required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col" colspan="7"></td>
+                            <td class="col-3">
+                                <label for="precioPagadoAT" class="form-label font-weight-bold">Precio
+                                    pagado</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="precioPagadoAT" id="precioPagadoAT"
+                                    formControlName="precioPagadoAT" class="form-control form-control-sm text-right"
+                                    placeholder="Ingrese Precio Pagado" readonly required>
+                            </td>
+                        </tr>
+                        <tr class="form-row">
+                            <td class="col" colspan="7"></td>
+                            <td class="col-3">
+                                <label for="importeAT" class="form-label font-weight-bold">Importe</label>
+                            </td>
+                            <td class="col-2">
+                                <input type="number" name="importeAT" id="importeAT" formControlName="importeAT"
+                                    class="form-control form-control-sm text-right" placeholder="Ingrese Importe"
+                                    readonly required>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td class="col-2"></td>
+        </tr>
+
+    </div>
+
+    <ngx-spinner></ngx-spinner>
+    <div class="col-md-10">
+        <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+    </div>
+
+
+
+    <div class="card-footer text-right" style="margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" *ngIf="estadoId != estadoLiquidado"
+            (click)="guardar()">Guardar</button>
+        <button type="button" class="btn btn-primary mr-1 mb-1" (click)="Print()"
+            *ngIf="detalle.NotaCompra != null">Imprimir</button>
+        <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
+    </div>
+
+</div>

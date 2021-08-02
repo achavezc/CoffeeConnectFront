@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -24,16 +25,20 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
   rowsDetails = [];
   isLoading = true;
   userSession: any;
+  codeCompany: any;
 
   constructor(private fb: FormBuilder,
     private maestroUtil: MaestroUtil,
     private maestroService: MaestroService,
     private precioDiaRendimientoService: PrecioDiaRendimientoService,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
+    this.codeCompany = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     this.LoadForm();
     this.GetCurrencys();
     this.CheckPricesDaysPerformance();
@@ -115,9 +120,11 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
       .subscribe((res) => {
         this.spinner.hide();
         if (res.Result.Success) {
-          this.alertUtil.alertOk('CONFIRMADO', 'Se guardarón los datos correctamente.');
+          this.alertUtil.alertOkCallback('CONFIRMADO', 'Se guardarón los datos correctamente.', () => {
+            this.Cancel();
+          });
         } else {
-          this.alertUtil.alertOk('ERROR!', res.Result.Message);
+          this.alertUtil.alertError('ERROR!', res.Result.Message);
         }
       }, (err) => {
         this.spinner.hide();
@@ -132,6 +139,9 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
       this.rowsDetails[i].Valor2 = parseFloat(e.target.value)
     else if (prop === 'v3')
       this.rowsDetails[i].Valor3 = parseFloat(e.target.value)
+  }
 
+  Cancel() {
+    this.router.navigate(['/exportador/operaciones/preciodiarendimiento/list']);
   }
 }
