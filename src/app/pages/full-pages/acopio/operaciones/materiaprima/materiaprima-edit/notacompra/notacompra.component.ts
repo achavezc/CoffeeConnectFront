@@ -300,7 +300,7 @@ export class NotaCompraComponent implements OnInit {
           Importe: this.notaCompraForm.controls['importeAT'].value,
           UsuarioNotaCompra: this.detalle.UsuarioPesado,
           Observaciones: this.notaCompraForm.controls['observacionNotaCompra'].value,
-          PrecioDia: this.notaCompraForm.value.precioDiaAT
+          ValorId: this.notaCompraForm.value.precioDiaAT
         };
 
         if (this.id != 0) {
@@ -418,15 +418,15 @@ export class NotaCompraComponent implements OnInit {
         const precios = result.Result.Data.filter(x => x.RendimientoInicio >= exportPorcen && x.RendimientoFin <= exportPorcen);
         listaPrecios.push({
           Label: precios[0].Valor1,
-          Codigo: precios[0].Valor1
+          Codigo: 1
         });
         listaPrecios.push({
           Label: precios[0].Valor2,
-          Codigo: precios[0].Valor2
+          Codigo: 2
         });
         listaPrecios.push({
           Label: precios[0].Valor3,
-          Codigo: precios[0].Valor3
+          Codigo: 3
         });
         form.listPreciosDia = listaPrecios;
       }
