@@ -24,12 +24,14 @@ import { ClienteEditComponent } from './operaciones/cliente/cliente-edit/cliente
 import { ContratoEditComponent } from './operaciones/contrato/contrato-edit/contrato-edit.component';
 import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproceso-edit/orden-proceso-edit.component';
-import {PreciosDiaComponent} from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
-import {PrecioDiaEditComponent} from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component'; 
+import { PreciosDiaComponent } from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
+import { PrecioDiaEditComponent } from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
 import { ModalModule } from '../modals/modal.module'
-import {AduanasComponent} from './operaciones/aduanas/list/aduanas.component';
-import {AduanasEditComponent} from './operaciones/aduanas/edit/aduanas-edit.component';
+import { AduanasComponent } from './operaciones/aduanas/list/aduanas.component';
+import { AduanasEditComponent } from './operaciones/aduanas/edit/aduanas-edit.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimiento/preciodia-rendimiento.component';
+import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendimiento/edit/precio-dia-rendimiento-edit.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     PreciosDiaComponent,
     PrecioDiaEditComponent,
     AduanasComponent,
-    AduanasEditComponent
+    AduanasEditComponent,
+    PreciodiaRendimientoComponent,
+    PrecioDiaRendimientoEditComponent
   ],
   imports: [
     CommonModule,

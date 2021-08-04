@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>BANDEJA DE PRECIOS DEL DÍA</h3>
+            </div>
+            <div class="card-body">
+                <form class="needs-validation" [formGroup]="frmPrecioDiaRendimiento" novalidate>
+
+                    <div class="form-row">
+
+                        <div class="col-md-4 form-group">
+                            <label for="initialdate" class="form-label">FECHA INICIAL</label>
+                            <input type="date" date formControlName="initialdate" class="form-control text-center"
+                                id="initialdate" placeholder="Fecha inicial" name="initialdate"
+                                [ngClass]="{ 'is-invalid': f.initialdate.invalid, 'is-valid': !f.initialdate.invalid }">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="finaldate" class="form-label">FECHA FINAL</label>
+                            <input type="date" date formControlName="finaldate" class="form-control text-center"
+                                id="finaldate" placeholder="Fecha inicial" name="finaldate"
+                                [ngClass]="{ 'is-invalid': f.finaldate.invalid, 'is-valid': !f.finaldate.invalid }">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="status" class="form-label">ESTADO</label>
+                            <ng-select [items]="listStatus" formControlName="status" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="status" placeholder="Estado"
+                                [ngClass]="{ 'is-invalid': f.status.invalid, 'is-valid': !f.status.invalid }"
+                                [(ngModel)]="selectedStatus">
+                            </ng-select>
+                        </div>
+
+                    </div>
+                    <small class="form-text text-muted danger mb-1"
+                        *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
+                        [disabled]="frmPrecioDiaRendimiento.invalid">Buscar</button>
+                    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
+                        [disabled]="frmPrecioDiaRendimiento.invalid">Anular</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable #dtPreciosDiaRendimiento class="bootstrap core-bootstrap" [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
+                            [scrollbarH]="true" [selected]="selected" [selectionType]="'single'"
+                            [selectCheck]="singleSelectCheck">
+                            <ngx-datatable-column name="FECHA" prop="FechaRegistro">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0"
+                                                [routerLink]="['/exportador/operaciones/preciodiarendimiento/update', row.EmpresaId]">{{
+                                                name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="PRECIO PROM. CONTRATO" prop="PrecioPromedioContrato">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="TIPO CAMBIO" prop="TipoCambio">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="ESTADO" prop="Estado">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'Activo', 'bg-light-warning': status == 'Inactivo' }">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>

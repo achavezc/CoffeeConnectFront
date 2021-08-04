@@ -1,163 +1,162 @@
 <form class="needs-validation" [formGroup]="notaSalidaFormEdit">
-    <section id="tooltip-validation">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header" style="margin-bottom: 2rem;">
-              <div class="row">
-                <div class="col-12 col-md-8">
-                  <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
-                  <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
-                  <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
-                  </div>
+  <section id="tooltip-validation">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header" style="margin-bottom: 2rem;">
+            <div class="row">
+              <div class="col-12 col-md-8">
+                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
                 </div>
-                <div class="col-12 col-md-4">
-  
-                  <div class="form-row">
-  
-                    <div class="col-md-6 form-group" *ngIf="esEdit">
-                      <label class="card-forms" for="users-edit-name">N° NOTA DE SALIDA</label>
-                    </div>
-  
-                    <div class="col-md-6 form-group">
-                      <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
-                    </div>
-                  </div>
-                  <div class="form-row">
-  
-                    <div class="col-md-6 form-group" *ngIf="esEdit">
-                      <label class="card-forms" for="users-edit-email">FECHA</label>
-                    </div>
-                    <div class="col-md-6 form-group">
-                      <label class="card-forms" for="users-edit-username"
-                        style="font-weight: bold;">{{fechaRegistro}}</label>
-                    </div>
-                  </div>
-                  <div class="form-row">
-  
-                    <div class="col-md-6 form-group">
-                      <label class="card-forms" for="users-edit-email">ALMACEN</label>
-                    </div>
-  
-                    <div class="col-md-6 form-group">
-                      <ng-select id="validationTooltip05" [items]="listaAlmacen" class="form-control"
-                        [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
-                        placeholder="Seleccionar Almacen"
-                        [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }"
-                        (change)="seleccionarTipoAlmacen()">
-                      </ng-select>
-  
-                      <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">Ingrese Tipo
-                        Almacén</small>
-                    </div>
-                  </div>
-  
-                </div>
-  
               </div>
-  
-              <!-- <div class="row"
+              <div class="col-12 col-md-4">
+
+                <div class="form-row">
+
+                  <div class="col-md-6 form-group" *ngIf="esEdit">
+                    <label class="card-forms" for="users-edit-name">N° NOTA DE SALIDA</label>
+                  </div>
+
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
+                  </div>
+                </div>
+                <div class="form-row">
+
+                  <div class="col-md-6 form-group" *ngIf="esEdit">
+                    <label class="card-forms" for="users-edit-email">FECHA</label>
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-username"
+                      style="font-weight: bold;">{{fechaRegistro}}</label>
+                  </div>
+                </div>
+                <div class="form-row">
+
+                  <div class="col-md-6 form-group">
+                    <label class="card-forms" for="users-edit-email">ALMACEN</label>
+                  </div>
+
+                  <div class="col-md-6 form-group">
+                    <ng-select id="validationTooltip05" [items]="listaAlmacen" class="form-control"
+                      [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
+                      placeholder="Seleccionar Almacen"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }"
+                      (change)="seleccionarTipoAlmacen()">
+                    </ng-select>
+
+                    <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">Ingrese Tipo
+                      Almacén</small>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- <div class="row"
                 style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                 <div class="card-subtitle-form">DATOS DEL PROVEEDOR</div>
               </div>-->
-  
-              <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 1rem;">
-                <div class="col-12 col-md-5">
-                  <label for="basicInput">Destinatario</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="destinatario" disabled
-                    class="form-control"
-                    [ngClass]="{ 'is-invalid': submittedEdit && fns.destinatario.invalid, 'is-valid': submittedEdit && !fns.destinatario.invalid }">
-                  <small class="form-text text-muted danger" *ngIf="fns.destinatario.errors?.required">Ingrese
-                    Destinatario</small>
-  
-                  <label for="basicInput">Ruc</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
-  
-                </div>
-                <div class="col-12 col-md-2" style="padding-left: 0cm;">
-                  <ng-template #modalEmpresa let-c="close" let-d="dismiss">
-                    <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
-                    </app-consultar-organizacion>
-                  </ng-template>
-                  <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
-                    style="margin-top: 1.5rem;">
-                    <i class="fa fa-search"></i>
-                  </button>
-                </div>
-                <div class="col-12 col-md-5">
-                  <label for="basicInput">Direccion de Partida</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="dirPartida" disabled>
-                  <label for="basicInput">Direccion de Destino</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="dirDestino" disabled>
-                </div>
+
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 1rem;">
+              <div class="col-12 col-md-5">
+                <label for="basicInput">Destinatario</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="destinatario" disabled
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fns.destinatario.invalid, 'is-valid': submittedEdit && !fns.destinatario.invalid }">
+                <small class="form-text text-muted danger" *ngIf="fns.destinatario.errors?.required">Ingrese
+                  Destinatario</small>
+
+                <label for="basicInput">Ruc</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
+
               </div>
-  
-              <!--           </form> -->
+              <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                  <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
+                  </app-consultar-organizacion>
+                </ng-template>
+                <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
+                  style="margin-top: 1.5rem;">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+              <div class="col-12 col-md-5">
+                <label for="basicInput">Direccion de Partida</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="dirPartida" disabled>
+                <label for="basicInput">Direccion de Destino</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="dirDestino" disabled>
+              </div>
             </div>
+
+            <!--           </form> -->
           </div>
         </div>
       </div>
-  
-    </section>
-    <section class="users-edit">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-body">
-                <!-- Nav-tabs -->
-                <!-- <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
+    </div>
+
+  </section>
+  <section class="users-edit">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <!-- Nav-tabs -->
+              <!-- <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
                   <li [ngbNavItem]="1">
                     <a ngbNavLink class="nav-link d-flex align-items-center">
                       <span class="d-none d-sm-block">Nota de Salida</span>
                     </a>
                     <ng-template ngbNavContent>-->
-                      <app-tagNotasalidaPlanta formGroupName="tagcalidad" [selectAlmacen]="selectAlmacen"
-                        [submittedEdit]="submittedEdit"></app-tagNotasalidaPlanta>
-  
-                      <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
-                        <div class="col-8 d-flex flex-sm-row flex-column">
-                          <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                          <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
-                            for="horizontal-form-1">{{responsable}}</label>
-                        </div>
-                        <div class="col-8 d-flex flex-sm-row flex-column">
-                          <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Nota
-                            Salida</label>
-                          <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
-                            for="horizontal-form-1">{{fechaRegistro}}</label>
-                        </div>
-  
-                      </div>
-                      <div class="col-md-10">
-                        <small class="form-text text-muted danger"
-                          *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                      </div>
-                      <div class="col-md-12 justify-content-end !important" style="margin-top: 2rem;">
-                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
-                          [disabled]="!id || id <= 0">Guia Remisión</button>
-                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="ListaProductores()"
-                          [disabled]="!id || id <= 0">Lista Productores</button>
-                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="RegistroSeguridad()"
-                          [disabled]="!id || id <= 0">Registro de Seguridad</button>
-                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
-                          (click)="guardar()">Guardar</button>
-                        <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
-                          (click)="cancelar()">Cancelar</button>
-                      </div>
-                 <!--   </ng-template>
+              <app-tagNotasalidaPlanta formGroupName="tagcalidad" [selectAlmacen]="selectAlmacen"
+                [submittedEdit]="submittedEdit"></app-tagNotasalidaPlanta>
+
+              <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                <div class="col-8 d-flex flex-sm-row flex-column">
+                  <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                  <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                    for="horizontal-form-1">{{responsable}}</label>
+                </div>
+                <div class="col-8 d-flex flex-sm-row flex-column">
+                  <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Nota
+                    Salida</label>
+                  <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                    for="horizontal-form-1">{{fechaRegistro}}</label>
+                </div>
+
+              </div>
+              <div class="col-md-10">
+                <small class="form-text text-muted danger"
+                  *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+              </div>
+              <div class="col-md-12 justify-content-end !important" style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
+                  [disabled]="!id || id <= 0">Guia Remisión</button>
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="ListaProductores()"
+                  [disabled]="!id || id <= 0">Lista Productores</button>
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="RegistroSeguridad()"
+                  [disabled]="!id || id <= 0">Registro de Seguridad</button>
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
+                  (click)="cancelar()">Cancelar</button>
+              </div>
+              <!--   </ng-template>
                   </li>
                 </ul>-->
-                
-  
-              </div>
+
+
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <div class="d-flex justify-content-between align-items-center">
-      <ngx-spinner></ngx-spinner>
     </div>
-  
-  </form>
+  </section>
+  <div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+  </div>
+
+</form>

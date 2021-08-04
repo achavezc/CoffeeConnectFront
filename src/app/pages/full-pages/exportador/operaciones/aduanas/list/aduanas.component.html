@@ -15,17 +15,17 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="codigo" class="form-label">Codigo </label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="codigo"
-                                        class="form-control" id="codigo"
-                                        placeholder="Codigo"
+                                        class="form-control" id="codigo" placeholder="Codigo"
                                         [ngClass]="{ 'is-invalid': submitted && f.codigo.invalid, 'is-valid': submitted &&  !f.codigo.invalid }">
-                                   
+
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="numeroContrato" class="form-label">N°  CONTRATO</label>
+                                    <label for="numeroContrato" class="form-label">N° CONTRATO</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="numeroContrato"
-                                        class="form-control" id="numeroContrato" placeholder="Ingresar Numero de Contrato"
+                                        class="form-control" id="numeroContrato"
+                                        placeholder="Ingresar Numero de Contrato"
                                         [ngClass]="{ 'is-invalid': submitted && f.numeroContrato.invalid, 'is-valid': submitted &&  !f.numeroContrato.invalid }">
-                                   
+
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="ruc" class="form-label">RUC</label>
@@ -73,8 +73,7 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="agenciaAduanera" class="form-label">Agencia Aduanera </label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="agenciaAduanera"
-                                        class="form-control" id="agenciaAduanera"
-                                        placeholder="Codigo"
+                                        class="form-control" id="agenciaAduanera" placeholder="Codigo"
                                         [ngClass]="{ 'is-invalid': submitted && f.agenciaAduanera.invalid, 'is-valid': submitted &&  !f.agenciaAduanera.invalid }">
                                     <small class="form-text text-muted danger"
                                         *ngIf="f.agenciaAduanera.errors?.minlength">Ingrese 5 a 50 letras</small>
@@ -87,8 +86,7 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="clienteFinal" class="form-label">Cliente Final </label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="clienteFinal"
-                                        class="form-control" id="clienteFinal"
-                                        placeholder="Codigo"
+                                        class="form-control" id="clienteFinal" placeholder="Codigo"
                                         [ngClass]="{ 'is-invalid': submitted && f.clienteFinal.invalid, 'is-valid': submitted &&  !f.clienteFinal.invalid }">
                                     <small class="form-text text-muted danger"
                                         *ngIf="f.clienteFinal.errors?.minlength">Ingrese 5 a 50 letras</small>
@@ -102,11 +100,10 @@
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit"
-                                [disabled]="aduanasForm.invalid" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" (click)="Nuevo()" type="button"
-                                >Nuevo</button>
-                           
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="aduanasForm.invalid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" (click)="Nuevo()" type="button">Nuevo</button>
+
                         </form>
                     </div>
                 </div>
@@ -153,8 +150,7 @@
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0"
-                                                routerLink="/operaciones/aduanas/edit"
+                                            <a class="line-height-1 mb-0" routerLink="/operaciones/aduanas/edit"
                                                 [queryParams]="{ id: row.AduanaId, status: row.EstadoId}">{{
                                                 name }}</a>
                                         </div>

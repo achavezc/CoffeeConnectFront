@@ -99,6 +99,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
+  
   singleSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
@@ -176,7 +177,6 @@ export class MateriaPrimaEditComponent implements OnInit {
         estado: ['',],
         socioFincaId: ['',],
         terceroFincaId: ['',]
-
       });
   }
 
@@ -195,6 +195,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.selectedTipoDocumento = [];
     this.rows = [];
   }
+
   cargarcombos() {
     var form = this;
     this.maestroUtil.obtenerMaestros("Producto", function (res) {
@@ -207,8 +208,8 @@ export class MateriaPrimaEditComponent implements OnInit {
         form.listaTipoProduccion = res.Result.Data;
       }
     });
-
   }
+
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
     this.cargarSubProducto(filterProducto);
@@ -227,13 +228,12 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
   async cargarSubProducto(codigo: any) {
-
     var data = await this.maestroService.obtenerMaestros("SubProducto").toPromise();
     if (data.Result.Success) {
       this.listaSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
-
   }
+
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {
@@ -246,6 +246,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
+
   cargarProveedor() {
     this.consultaProveedor = new FormGroup(
       {
@@ -268,19 +269,17 @@ export class MateriaPrimaEditComponent implements OnInit {
         }
       );
     this.cargarTipoProveedor();
-
   }
 
   async cargarTipoProveedor() {
-
     var data = await this.maestroService.obtenerMaestros("TipoProveedor").toPromise();
     if (data.Result.Success) {
       this.listaTipoProveedor = data.Result.Data;
       this.listTipoSocio = this.listaTipoProveedor;
     }
   }
-  async cargarTipoProduccion() {
 
+  async cargarTipoProduccion() {
     var data = await this.maestroService.obtenerMaestros("TipoProduccion").toPromise();
     if (data.Result.Success) {
       this.listaTipoProduccion = data.Result.Data;
@@ -290,9 +289,11 @@ export class MateriaPrimaEditComponent implements OnInit {
   get f() {
     return this.consultaProveedor.controls;
   }
+  
   get fedit() {
     return this.consultaMateriaPrimaFormEdit.controls;
   }
+
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       const tipoproveedor = group.controls['tipoproveedor'];
@@ -442,8 +443,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     link.click();
     link.remove();
   }
-  guardar() {
 
+  guardar() {
     if (this.consultaMateriaPrimaFormEdit.invalid) {
       this.submittedEdit = true;
       return;
@@ -515,8 +516,6 @@ export class MateriaPrimaEditComponent implements OnInit {
       } else {
         this.guardarService(request);
       }
-
-
     }
   }
 
@@ -581,7 +580,6 @@ export class MateriaPrimaEditComponent implements OnInit {
       );
   }
 
-
   cancelar() {
     this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
   }
@@ -612,6 +610,7 @@ export class MateriaPrimaEditComponent implements OnInit {
       );
     //this.child.obtenerDetalle();
   }
+
   async cargarDataFormulario(data: any) {
     await this.cargarTipoProduccion();
     this.consultaMateriaPrimaFormEdit.controls["producto"].setValue(data.ProductoId);
@@ -624,8 +623,6 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.consultaMateriaPrimaFormEdit.controls["provNombre"].setValue(data.NombreRazonSocial);
     this.consultaMateriaPrimaFormEdit.controls["provDocumento"].setValue(data.TipoDocumento + "-" + data.NumeroDocumento);
-
-
     this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
     this.cargarTipoProveedor();
     await this.cargarTipoProveedor();
@@ -674,22 +671,19 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
     this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
-    this.desactivarControles(data.EstadoId,data.UsuarioPesado,data.UsuarioCalidad);
+    this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
-
-
   }
-  desactivarControles(estado: string, usuarioPesado:string, usuarioAnalizado:string) {
+
+  desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
     var usuarioLogueado = this.login.Result.Data.NombreUsuario
-    if(estado == this.estadoPesado && usuarioPesado == usuarioLogueado ){
+    if (estado == this.estadoPesado && usuarioPesado == usuarioLogueado) {
       //Cabecera Editable
       //Pesado Editable
-
-
       //Calidad Editable
       //NotaCompra ReadOnly
-      
-    }else if(estado == this.estadoPesado && usuarioPesado != usuarioLogueado ){
+
+    } else if (estado == this.estadoPesado && usuarioPesado != usuarioLogueado) {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
@@ -698,7 +692,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
       //Calidad Editable
       //NotaCompra ReadOnly
-    }else if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
+    } else if (estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado) {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
@@ -707,7 +701,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
       //Calidad Editable
       //NotaCompra Editable
-    }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
+    } else if (estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado) {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
@@ -716,7 +710,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
       //Calidad ReadOnly
       //NotaCompra Editable
-    }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
+    } else if (estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen) {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
@@ -728,7 +722,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
 
   }
-  
+
   async consultarSocioFinca() {
     let request =
     {

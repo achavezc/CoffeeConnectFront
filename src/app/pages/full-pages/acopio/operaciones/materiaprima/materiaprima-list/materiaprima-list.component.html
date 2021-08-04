@@ -63,7 +63,7 @@
                   <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                 </div>
                 <div class="col-md-4 mb-4 form-group mb-2">
-                  <label for="validationTooltip09" >Estado</label>
+                  <label for="validationTooltip09">Estado</label>
                   <ng-select [items]="listaEstado" formControlName="estado" class="form-control" bindLabel="Label"
                     bindValue="Codigo" id="validationTooltip09" placeholder="Estado"
                     [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"

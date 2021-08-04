@@ -30,6 +30,7 @@ export class ContratoEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   
   id: Number = 0;
+  AduanaId: Number = 0;
   status: string = "";
   estado = "";
   numeroGuia: "";
@@ -90,11 +91,11 @@ export class ContratoEditComponent implements OnInit {
       });
   }
 
-  openModal(customContent) {
-    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'lg' });
-    this.clear();
- 
+
+  openModal(modalEmpresa) {
+    this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
   }
+
 
   clear() {
   }
@@ -115,10 +116,8 @@ export class ContratoEditComponent implements OnInit {
    this.spinner.show();
     this.contratoService.ConsultarTrackingContratoPorContratoId({"ContratoId":this.id,"Idioma":"es"})
       .subscribe(res => {
-
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            
             this.cargarDataFormulario(res.Result.Data);
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -137,6 +136,7 @@ export class ContratoEditComponent implements OnInit {
       ); 
   }
   cargarDataFormulario(data: any) {
+    this.AduanaId = data.AduanaId;
     this.contratoFormEdit.controls["numeroContrato"].setValue(data.NumeroContrato);
     this.contratoFormEdit.controls["fechaContrato"].setValue(data.FechaContrato);
     this.contratoFormEdit.controls["cliente"].setValue(data.RazonSocialCliente);
