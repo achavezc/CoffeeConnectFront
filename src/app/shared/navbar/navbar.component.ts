@@ -179,6 +179,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ChangeLanguage(language: string) {
     this.translate.use(language);
+    this.translate.setDefaultLang(language);
 
     if (language === 'en') {
       this.selectedLanguageText = "English";
