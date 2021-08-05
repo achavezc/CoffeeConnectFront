@@ -245,12 +245,9 @@
                                     día</label>
                             </td>
                             <td class="col-2">
-                                <!-- <input type="number" name="precioDiaAT" id="precioDiaAT" formControlName="precioDiaAT"
-                                    class="form-control form-control-sm text-right" placeholder="Ingrese Precio del Día"
-                                    [readonly]="true" required> -->
                                 <ng-select [items]="listPreciosDia" formControlName="precioDiaAT" class="form-control"
                                     bindLabel="Label" bindValue="Codigo" id="precioDiaAT"
-                                    placeholder="Seleccionar precio" [(ngModel)]="selectedPrecioDia">
+                                    placeholder="Seleccionar precio" [(ngModel)]="selectedPrecioDia" (change)="ChangePrecioDia($event)">
                                 </ng-select>
                             </td>
                             <td class="col-1"></td>
