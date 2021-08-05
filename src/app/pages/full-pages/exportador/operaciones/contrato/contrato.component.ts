@@ -102,6 +102,11 @@ export class ContratoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
+        if (this.popUp == true)
+        {
+          this.selectedEstado = '01';
+          this.contratoForm.controls.estado.disable();
+        }
       }
     });
     this.maestroUtil.obtenerMaestros('Producto', (res: any) => {
