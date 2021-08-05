@@ -51,21 +51,21 @@
                         <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
                             [headerHeight]="50" [footerHeight]="'auto'" [columnMode]="'force'">
 
-                            <ngx-datatable-column name="% RENDIMIENTO" prop="RendimientoFin" [sortable]="false"
+                            <ngx-datatable-column name="% RENDIMIENTO" prop="RendimientoInicio" [sortable]="false"
                                 width="50">
-                                <ng-template ngx-datatable-cell-template let-row="row" let-renfin="value"
-                                    let-rowIndex="rowIndex">
-                                    <div class="d-flex align-items-center">
-                                        <span>{{renfin}}</span>
-                                    </div>
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <ngx-datatable-column name="" prop="RendimientoInicio" [sortable]="false" width="50">
                                 <ng-template ngx-datatable-cell-template let-row="row" let-reninicio="value"
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
                                         <span class="text-right">{{reninicio}}</span>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="" prop="RendimientoFin" [sortable]="false" width="50">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-renfin="value"
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <span>{{renfin}}</span>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
