@@ -1,0 +1,131 @@
+<form class="needs-validation" [formGroup]="contratoFormEdit">
+    <section id="tooltip-validation">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 2rem;">
+              <!--   <form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit"> -->
+  
+              <div class="row">
+                <div class="col-12 col-md-8">
+                  <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                  <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                  <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+
+                  <div class="form-row" *ngIf="esEdit">
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms" for="users-edit-username">N° RECIBO</label>
+                    </div>
+  
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms" for="users-edit-username"
+                        style="font-weight: bold;">{{numeroRecibo}}</label>
+                    </div>
+  
+                  </div>
+            
+              
+  
+                  <div class="form-row" *ngIf="esEdit">
+  
+                    <div class="col-md-6 form-group">
+                      <label class="card-forms" for="users-edit-email">ESTADO</label>
+                    </div>
+  
+                    <div class="col-md-4 form-group">
+                      <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{estado}}</label>
+                    </div>
+                  </div>
+  
+                </div>
+  
+              </div>
+  
+              <div class="row"
+                style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                <div class="card-subtitle-form">DATOS DEL BENEFICIARIO</div>
+              </div>
+              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                <div class="col-12 col-md-6">
+                  <label for="basicInput">Codigo</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="codigo" disabled>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="basicInput">Tipo Documento</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="tipoDocumento" disabled>
+                </div>
+               
+              </div>
+              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                <div class="col-12 col-md-6">
+                  <label for="basicInput">Nombre</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="nombre" disabled>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="basicInput">Numero Documento</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="numeroDocumento" disabled>
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                <div class="card-subtitle-form">DETALLE DE ADELANTOS</div>
+              </div>
+              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                <div class="col-12 col-md-6">
+                  <label for="basicInput">Moneda</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="moneda" disabled>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="basicInput">Monto</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="monto" disabled>
+                </div>
+              
+                  
+              </div>
+              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+             
+                <div class="col-12 col-md-6">
+                    <label for="basicInput">Fecha de Pago</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="fechaPago" disabled>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="basicInput">Fecha de Entrega Producto</label>
+                    <input type="text" class="form-control" id="basicInput" formControlName="fechaEntregaProducto" disabled>
+                </div>
+                  
+              </div>
+              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                <div class="col-12 col-md-6">
+                  <label for="basicInput">Motivo</label>
+                  <textarea id="bordered-form-6" rows="4" class="form-control"
+                  formControlName="motivo" name="notes"></textarea>
+              </div>
+              </div>
+            </div>
+              <div class="row">
+                  <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
+                      {{errorGeneral.errorMessage}}
+                  </small>
+              </div>
+              <div class="card-footer text-right">
+                  <button class="btn btn-primary" (click)="Save()">Guardar</button>
+                  <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
+              </div>
+          </div>
+        </div>
+      </div>
+  
+    </section>
+ 
+  
+  
+    <div class="d-flex justify-content-between align-items-center">
+      <ngx-spinner></ngx-spinner>
+    </div>
+  
+  </form>
