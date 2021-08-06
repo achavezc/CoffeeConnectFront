@@ -301,7 +301,11 @@
 	},
 	"Cliente":
 	{
-		"Label":"Cliente"
+		"Label":"Cliente",
+		"Tracking":
+		{
+			"Label":"Contrato"
+		}
 	},
 	"Agropecuario":
 	{

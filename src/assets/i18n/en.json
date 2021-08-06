@@ -219,7 +219,11 @@
 		"Label": "Transport"
 	},
 	"Cliente": {
-		"Label": "Customer"
+		"Label": "Customer",
+		"Tracking":
+		{
+			"Label":"Contract"
+		}
 	},
 	"Agropecuario": {
 		"Label": "Agricultural",
