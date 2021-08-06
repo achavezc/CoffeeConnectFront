@@ -64,11 +64,12 @@ export class ContratoClienteComponent implements OnInit {
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
-    this.LoadCombos();
+    this.LoadCombos(this.translate.getDefaultLang());
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
     this.contratoListTraduccion = new ContratoListTraduccion();
     this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
+      this.LoadCombos(event.lang);
       this.Buscar(event.lang);
     });
      
@@ -121,33 +122,33 @@ export class ContratoClienteComponent implements OnInit {
     return this.selected.indexOf(row) === -1;
   }
 
-  LoadCombos(): void {
+  LoadCombos(lang : string): void {
     const form = this;
     this.maestroUtil.obtenerMaestros('EstadoMuestra', (res: any) => {
       if (res.Result.Success) {
         form.listEstadoMuestra = res.Result.Data;
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('EstadoSeguimientoAduana', (res: any) => {
       if (res.Result.Success) {
         form.listEstadoSeguimiento = res.Result.Data;
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('Producto', (res: any) => {
       if (res.Result.Success) {
         form.listProductos = res.Result.Data;
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('TipoProduccion', (res: any) => {
       if (res.Result.Success) {
         form.listTipoProduccion = res.Result.Data;
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('Calidad', (res: any) => {
       if (res.Result.Success) {
         form.listCalidad = res.Result.Data;
       }
-    });
+    }, lang);
   }
 
   getRequest(lang: string): any {

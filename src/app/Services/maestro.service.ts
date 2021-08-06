@@ -10,12 +10,13 @@ export class MaestroService {
 
   constructor(private http: HttpClient, private errorHandling: ErrorHandling) { }
 
-  obtenerMaestros(codigoTabla: string) {
+  obtenerMaestros(codigoTabla: string, lang?: string) {
     const url = `${this.url}/Consultar`;
 
     const body: any = {
       CodigoTabla: codigoTabla,
-      EmpresaId: 1
+      EmpresaId: 1,
+      Idioma: lang
     };
 
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
