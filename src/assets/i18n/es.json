@@ -356,7 +356,17 @@
 			
 		}
 		
+	},
+	
+	"Tesoreria":
+	{
+		"Label":"Tesoreria",
+		"Adelanto":
+		{
+			"Label":"Adelantos"
+		}
 	}
+
 ,
 "CONTRATO":
 {
@@ -411,4 +421,8 @@
 
 	}
 }
+
+
+	
+
 }

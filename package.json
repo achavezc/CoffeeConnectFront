@@ -35,6 +35,8 @@
     "@types/d3-shape": "2.0.0",
     "@types/dragula": "3.7.0",
     "acorn": "8.0.4",
+    "ng-block-ui": "^2.1.8",
+    "ngx-toasta": "^0.1.0",
     "angular-archwizard": "6.1.0",
     "angular-calendar": "0.28.22",
     "angular-resize-event": "2.0.1",

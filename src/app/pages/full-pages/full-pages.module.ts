@@ -20,6 +20,7 @@ import { ListFilterPipe } from '../../shared/pipes/listFilter.pipe';
 import { ExportadorModule } from './exportador/exportador.module';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ClienteModule } from "./cliente/cliente.module";
+import { TesoreriaModule } from "./tesoreria/tesoreria.module";
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +39,8 @@ import { ClienteModule } from "./cliente/cliente.module";
     AgropecuarioModule,
     ExportadorModule,
     FileUploadModule,
-    ClienteModule
+    ClienteModule,
+    TesoreriaModule
   ],
   declarations: [
     InvoicePageComponent,

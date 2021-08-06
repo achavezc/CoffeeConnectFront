@@ -30,6 +30,10 @@ const routes: Routes = [
     loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule)
   },
   {
+    path: 'tesoreria',
+    loadChildren: () => import('./tesoreria/tesoreria.module').then(m => m.TesoreriaModule)
+  },
+  {
     path: '',
     children: [
       {

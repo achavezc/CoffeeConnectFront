@@ -1,0 +1,106 @@
+<div  *ngFor="let item of global.getRegistro()">
+<div class="inner-container bg-white section-gap-lg">
+    <div class="container">
+      <div fxLayout='row wrap' fxLayoutAlign="center center">
+        <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="80" fxFlex.lg="70" fxFlex.xl="70">
+          <div fxLayout='row wrap' fxLayoutAlign="center center">
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
+              <div class="form-img register-image">
+              </div>
+            </div>
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
+              <mat-card class="register-form form-margin">
+                <h4>{{item?.title | translate}}</h4>
+               
+                <form [formGroup] = "registerForm" (ngSubmit) = "submitForm()"> 
+                   <mat-form-field class="w-100">
+                        <input matInput [placeholder]="item?.email | translate" formControlName="email" maxlength="50">
+                     </mat-form-field>
+                     <mat-error *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched"> {{item?.reqemail | translate}}</mat-error>
+                     <mat-error *ngIf="registerForm.controls['email'].hasError('pattern') && registerForm.controls['email'].touched && !registerForm.controls['email'].hasError('required')"> Email no válido.</mat-error>
+                     
+                    
+                    <mat-form-field class="w-100">
+                      <input matInput type="password" [placeholder]="item?.password | translate" formControlName="password" maxlength="50">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched"> {{item?.reqpassword | translate}}</mat-error>
+                    <mat-error *ngIf="registerForm.controls['password'].hasError('pattern') && registerForm.controls['password'].touched"> {{item?.reqpassword2 | translate}}</mat-error>                    
+                    <mat-form-field class="w-100"> 
+                       <input matInput [placeholder]="item?.nombres | translate" formControlName="nombres" maxlength="50">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['nombres'].hasError('required') && registerForm.controls['nombres'].touched"> {{item?.reqnombres | translate}}</mat-error>
+                    <mat-form-field class="w-100">
+                       <input matInput [placeholder]="item?.apellidos | translate" formControlName="apellidos" maxlength="50">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['apellidos'].hasError('required') && registerForm.controls['apellidos'].touched"> {{item?.reqapellidos | translate}}</mat-error>
+                    
+                    <mat-form-field  class="w-100">
+                        <mat-label>{{item?.tipodoc | translate}}</mat-label>
+                        <mat-select formControlName="tipoDocumento">
+                          <mat-option *ngFor="let tipoDocumento of  global.getTipoDoc()" [value]="tipoDocumento.id">
+                            {{tipoDocumento.name | translate}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                    <mat-error *ngIf="registerForm.controls['tipoDocumento'].hasError('required') && registerForm.controls['tipoDocumento'].touched">                     <mat-error *ngIf="registerForm.controls['apellidos'].hasError('required') && registerForm.controls['apellidos'].touched"> {{item?.reqtipodoc | translate}}</mat-error>
+                  </mat-error>
+                    <mat-form-field class="w-100">
+                       <input matInput [placeholder]="item?.numdoc | translate" formControlName="numeroDocumento" maxlength="20">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['numeroDocumento'].hasError('required') && registerForm.controls['numeroDocumento'].touched">                     <mat-error *ngIf="registerForm.controls['apellidos'].hasError('required') && registerForm.controls['apellidos'].touched"> {{item?.reqnumdoc | translate}}</mat-error>
+                  </mat-error>
+                    
+                    <!-- <mat-form-field  class="w-100">
+                      <mat-label>Tipo de Banco</mat-label>
+                      <mat-select [(value)]="selectedTiposBanco" formControlName="tiposBanco">
+                        <mat-option *ngFor="let tipoBanco of tiposBanco" [value]="tipoBanco.id">
+                          {{tipoBanco.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>                      
+                      <div  *ngIf="selectedTiposBanco==1 ">      
+                        <mat-form-field  class="w-100">
+                          <mat-label>Banco</mat-label>
+                          <mat-select formControlName="banco">
+                            <mat-option *ngFor="let banco of bancos" [value]="banco.id">
+                              {{banco.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>         
+                     <mat-form-field class="w-100">
+                        <input matInput placeholder="Número de Cuenta Bancaria" formControlName="numeroCuentaBancaria" maxlength="50">
+                     </mat-form-field>
+                     
+                     <mat-form-field class="w-100">
+                        <input matInput placeholder="Número de Cuenta Interbancaria" formControlName="numeroCuentaInterbancaria" maxlength="50">
+                     </mat-form-field>
+                    </div>
+
+                    <div  *ngIf="selectedTiposBanco==2">  
+                     <mat-form-field class="w-100">
+                      <input matInput placeholder="Número de cuenta (Iban)" formControlName="iban" maxlength="50">
+                      </mat-form-field>
+                      <mat-form-field class="w-100">
+                      <input matInput placeholder="Número interbancario (Bic)" formControlName="bic" maxlength="50">
+                      </mat-form-field>
+                      <mat-form-field class="w-100">
+                        <input matInput placeholder="Código Swift" formControlName="codigoSwift" maxlength="50">
+                      </mat-form-field>
+                      </div> -->
+                     
+                    <button color="accent" class="button-lg mb-3" mat-raised-button>{{item?.regis | translate}}</button> 
+                   
+
+                              <div>{{item?.cuenta | translate}} <a class="accent-color" [routerLink]="['/session/signin']">{{item?.iniciar | translate}}</a></div>
+                              
+                </form>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

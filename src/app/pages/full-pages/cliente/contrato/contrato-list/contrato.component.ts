@@ -73,6 +73,7 @@ export class ContratoClienteComponent implements OnInit {
     });
      
    
+   // this.cargarCliente(this.userSession);
   }
   
   
@@ -89,6 +90,14 @@ export class ContratoClienteComponent implements OnInit {
       estadoMuestra: [],
       estadoSeguimiento:[]
     });
+  }
+  cargarCliente(objLogin){
+    if(objLogin.Result.Data.CodigoCliente){
+      this.contratoForm.controls["codCliente"].setValue(objLogin.Result.Data.CodigoCliente);
+      this.contratoForm.controls["descCliente"].setValue(objLogin.Result.Data.Cliente);
+      this.contratoForm.controls["codCliente"].disable();
+      this.contratoForm.controls["descCliente"].disable();
+    }
   }
 
   get f() {
