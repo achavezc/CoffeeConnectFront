@@ -279,7 +279,7 @@
 			"HeaderCliente": "Client",
 			"HeaderProductor": "Product",
 			"HeaderTipoProduccion": "Type Production",
-			"HeaderCalidad": "Queality",
+			"HeaderCalidad": "Quality",
 			"HeaderEstadoMuestra": "Sample Status",
 			"HeaderEstadoSeguimiento": "Tracking Status"
 		},
