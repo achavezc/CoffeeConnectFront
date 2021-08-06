@@ -74,7 +74,7 @@ export class ContratoClienteComponent implements OnInit {
     });
      
    
-   // this.cargarCliente(this.userSession);
+    this.cargarCliente(this.userSession);
   }
   
   
