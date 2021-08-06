@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CiudadesListComponent } from './operaciones/ciudades/list/ciudades-list.component';
 import { CiudadesEditComponent } from './operaciones/ciudades/edit/ciudades-edit.component';
 import { MateriaPrimaListComponent } from './operaciones/materiaprima/materiaprima-list/materiaprima-list.component';
-import { DetalleCatalogoEditComponent }from './operaciones/detallecatalogo/edit/detallecatalogo-edit.component';
+import { DetalleCatalogoEditComponent } from './operaciones/detallecatalogo/edit/detallecatalogo-edit.component';
 import { DetalleCatalogoComponent } from './operaciones/detallecatalogo/list/detallecatalogo-list.component';
 import { EmpresaTransporteListComponent } from './operaciones/empresatransporte/list/empresatransporte-list.component';
 import { TransporteListComponent } from './operaciones/transporte/list/transporte-list.component';
@@ -22,8 +22,8 @@ import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servic
 import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenservicio-edit/ordenservicio-edit.component';
 import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
-import{ZonaListComponent} from './operaciones/zona/list/zona-list.component';
-import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
+import { ZonaListComponent } from './operaciones/zona/list/zona-list.component';
+import { ZonaEditComponent } from './operaciones/zona/edit/zona-edit.component';
 
 const routes: Routes = [
   {

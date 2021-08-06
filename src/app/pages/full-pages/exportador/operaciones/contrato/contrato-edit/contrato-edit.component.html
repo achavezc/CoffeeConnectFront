@@ -328,7 +328,7 @@
                                     <div class="form-group row">
                                         <label for="certificacion"
                                             class="col-lg-3 col-form-label pr-0">CERTIFICACIÓN</label>
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-9">
                                             <ng-select [items]="listCertificacion" formControlName="certificacion"
                                                 class="form-control" bindLabel="Label" bindValue="Codigo"
                                                 id="certificacion" placeholder="Certificación" [multiple]="true"
@@ -345,8 +345,8 @@
                                         <label for="observaciones" class="col-lg-3 col-form-label">OBSERVACIONES</label>
                                         <div class="col-lg-9">
                                             <textarea class="form-control" id="observaciones"
-                                                formControlName="observaciones" rows="3" placeholder="Observaciones"
-                                                maxlength="50"
+                                                formControlName="observaciones" rows="4" placeholder="Observaciones"
+                                                maxlength="200"
                                                 [ngClass]="{ 'is-invalid': f.observaciones.invalid, 'is-valid': !f.observaciones.invalid }"></textarea>
                                         </div>
                                     </div>

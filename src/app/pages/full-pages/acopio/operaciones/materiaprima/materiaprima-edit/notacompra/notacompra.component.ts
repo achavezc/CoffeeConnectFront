@@ -113,27 +113,28 @@ export class NotaCompraComponent implements OnInit {
     }
   }
 
-  async cargarPrecioDia() {
-    let res: any;
+  // async cargarPrecioDia() {
+  //   let res: any;
 
-    var req = {
-      SubProductoId: this.CodigoSubProducto,
-      EmpresaId: this.login.Result.Data.EmpresaId
-    }
-    res = await this.maestroService.ConsultarProductoPrecioDia(req).toPromise();
-    if (res.Result.Success) {
-      if (res.Result.Data.length > 0) {
-        this.precioDia = res.Result.Data[0].PrecioDia;
-      }
-    }
-  }
+  //   var req = {
+  //     SubProductoId: this.CodigoSubProducto,
+  //     EmpresaId: this.login.Result.Data.EmpresaId
+  //   }
+  //   res = await this.maestroService.ConsultarProductoPrecioDia(req).toPromise();
+  //   if (res.Result.Success) {
+  //     if (res.Result.Data.length > 0) {
+  //       this.precioDia = res.Result.Data[0].PrecioDia;
+  //     }
+  //   }
+  // }
 
   async obtenerDetalle() {
     await this.LoadCombos();
     var data = this.detalle;
     this.CodigoSubProducto = data.SubProductoId;
     this.login = JSON.parse(localStorage.getItem("user"));
-    await this.cargarPrecioDia();
+    // await this.cargarPrecioDia();
+
     if (data.NotaCompra == null) {
 
       this.notaCompraForm.controls['unidadMedida'].setValue(data.UnidadMedidaIdPesado);
@@ -154,10 +155,9 @@ export class NotaCompraComponent implements OnInit {
       //var result = this.login.Result.Data.ProductoPreciosDia.filter(s => s.ProductoId == data.ProductoId && s.SubProductoId == data.SubProductoId);
 
       //if(result.length>0){
-      if (this.precioDia) {
-        await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
-        this.notaCompraForm.controls['precioDiaAT'].setValue(this.precioDia);
-      }
+      // if (this.precioDia) {
+      //   this.notaCompraForm.controls['precioDiaAT'].setValue(this.precioDia);
+      // }
       //}
       this.notaCompraForm.controls['precioGuardadoAT'].setValue(this.precioDia);
       this.notaCompraForm.controls['precioPagadoAT'].setValue(this.precioDia);
@@ -171,6 +171,7 @@ export class NotaCompraComponent implements OnInit {
       this.notaCompraForm.controls.descartePorcenNC.setValue(data.DescartePorcentajeAnalisisFisico);
       this.notaCompraForm.controls.cascarillaPorcenNC.setValue(data.CascarillaPorcentajeAnalisisFisico);
       this.notaCompraForm.controls.totalPorcenNC.setValue(data.TotalPorcentajeAnalisisFisico);
+      await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
     } else {
       this.numeroNotaCompra = data.NotaCompra.Numero;
       this.estado = data.NotaCompra.Estado;
@@ -195,9 +196,9 @@ export class NotaCompraComponent implements OnInit {
       //var result = this.login.Result.Data.ProductoPreciosDia.filter(s => s.ProductoId == data.ProductoId && s.SubProductoId == data.SubProductoId);
 
       //if(result.length>0){
-      if (this.precioDia) {
+      if (data.NotaCompra.ValorId) {
         await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
-        this.notaCompraForm.controls['precioDiaAT'].setValue(this.precioDia);
+        this.notaCompraForm.controls['precioDiaAT'].setValue(data.NotaCompra.ValorId);
       }
       //}
       this.notaCompraForm.controls['precioGuardadoAT'].setValue(data.NotaCompra.PrecioGuardado);
@@ -415,7 +416,7 @@ export class NotaCompraComponent implements OnInit {
       const result = await this.maestroService.CheckPriceDayPerformance({ EmpresaId: this.userSession.Result.Data.EmpresaId }).toPromise();
       if (result.Result.Success) {
         let listaPrecios = [] as any;
-        const precios = result.Result.Data.filter(x => x.RendimientoInicio >= exportPorcen && x.RendimientoFin <= exportPorcen);
+        const precios = result.Result.Data.filter(x => x.RendimientoInicio <= exportPorcen && x.RendimientoFin >= exportPorcen);
         listaPrecios.push({
           Label: precios[0].Valor1,
           Codigo: 1
@@ -431,6 +432,11 @@ export class NotaCompraComponent implements OnInit {
         form.listPreciosDia = listaPrecios;
       }
     }
+  }
+
+  ChangePrecioDia(e) {
+    this.precioDia = e.Label;
+    this.notaCompraForm.controls.precioGuardadoAT.setValue(this.precioDia);
   }
 
 }

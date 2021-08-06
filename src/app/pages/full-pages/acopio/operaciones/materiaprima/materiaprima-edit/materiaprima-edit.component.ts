@@ -99,7 +99,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
-  
+
   singleSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
@@ -289,7 +289,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   get f() {
     return this.consultaProveedor.controls;
   }
-  
+
   get fedit() {
     return this.consultaMateriaPrimaFormEdit.controls;
   }

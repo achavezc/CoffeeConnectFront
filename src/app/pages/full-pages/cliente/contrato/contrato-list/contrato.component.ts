@@ -11,6 +11,9 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
+import { TranslateService } from '@ngx-translate/core';
+//import {NavbarComponent} from '../../../../../shared/navbar/navbar.component';
+
 
 @Component({
   selector: 'app-contrato-cliente',
@@ -27,7 +30,10 @@ export class ContratoClienteComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private contratoService: ContratoService,
     private router: Router,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private translate: TranslateService
+    //private navbarComponent :NavbarComponent
+    ) { }
 
   contratoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -50,6 +56,7 @@ export class ContratoClienteComponent implements OnInit {
   userSession: any;
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
+  //currentLanguage = this.translate.use;
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -146,7 +153,7 @@ export class ContratoClienteComponent implements OnInit {
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
-      Idioma: ''
+      Idioma:  this.translate.setDefaultLang
     };
   }
 
