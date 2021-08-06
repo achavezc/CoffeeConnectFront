@@ -18,45 +18,45 @@
   
               <div class="row"
                 style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                <div class="card-subtitle-form">INFORMACIÓN DE SEGUIMIENTO PARA EL CLIENTE</div>
+                <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle1 | translate }}</div>
               </div>
               <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-4">
-                  <label for="basicInput">Numero Contrato</label>
+                  <label for="basicInput">{{ContratoEditTraduccion.NumContrato | translate }}</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="numeroContrato" disabled>
                 </div>
                 <div class="col-12 col-md-4">
-                  <label for="basicInput">Fecha Contrato</label>
+                  <label for="basicInput">{{ContratoEditTraduccion.FechaContrato | translate }}</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="fechaContrato" disabled>
                 </div>
                 <div class="col-12 col-md-4">
-                    <label for="basicInput">Cliente</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.Cliente | translate }}</label>
                     <input type="text" class="form-control" id="basicInput" formControlName="cliente" disabled>
                   </div>
               </div>
 
               <div class="row"
                 style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                <div class="card-subtitle-form">INFORMACIÓN SOBRE LA MUESTRA</div>
+                <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle2 | translate }}</div>
               </div>
               <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-4">
-                  <label for="basicInput">Courier</label>
+                  <label for="basicInput">{{ContratoEditTraduccion.Courier | translate }}</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="courier" disabled>
                 </div>
                 <div class="col-12 col-md-4">
-                  <label for="basicInput">Numero de Tracking</label>
+                  <label for="basicInput">{{ContratoEditTraduccion.NumTracking | translate }}</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="numeroTracking" disabled>
                 </div>
                 <div class="col-12 col-md-4">
-                    <label for="basicInput">Estado</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.EstadoMuestra | translate }}</label>
                     <input type="text" class="form-control" id="basicInput" formControlName="estado" disabled>
                   </div>
               </div>
   
               <div class="row"
                 style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                <div class="card-subtitle-form">LOGISTICA Y ADUANAS</div>
+                <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle3 | translate }}</div>
               </div>
   
               <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
@@ -67,39 +67,39 @@
                       <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="AduanaId">
                       </app-lista-documentos>
                     </ng-template>
-                  <button class="btn btn-primary" (click)="openModal(mdlListDocuments)">Imprimir Documentos y Certificaciones</button>
+                  <button class="btn btn-primary" (click)="openModal(mdlListDocuments)">{{ContratoEditTraduccion.Button | translate }}</button>
                 </div>
                 <div class="col-12 col-md-4">
-                  <label for="basicInput">Fecha de Embarque</label>
+                  <label for="basicInput">{{ContratoEditTraduccion.FechaEmbarque | translate }}</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="fechaEmbarque" disabled>
                 </div>
               </div>
   
               <div class="row"
               style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-              <div class="card-subtitle-form">INFORMACIÓN DE PLANTA PROCESADORA</div>
+              <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle4 | translate }}</div>
             </div>
 
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-8">
-                <label for="basicInput">Exportador</label>
+                <label for="basicInput">{{ContratoEditTraduccion.Exportador | translate }}</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="exportador" disabled>
               </div>
               <div class="col-12 col-md-4">
-                <label for="basicInput">Estado</label>
+                <label for="basicInput">{{ContratoEditTraduccion.Estado | translate }}</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="estadoPlanta" disabled>
               </div>
             </div>
             
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-8">
-                  <label for="basicInput">Productor</label>
+                  <label for="basicInput">{{ContratoEditTraduccion.Productor | translate }}</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="productor" disabled>
                 </div>
             </div>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-4">
-                    <label for="basicInput">Producto</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.Producto | translate }}</label>
                     <input type="text" class="form-control" id="basicInput" formControlName="producto" disabled>
                 </div>
                 <div class="col-12 col-md-2">
@@ -111,7 +111,7 @@
 
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-2">
-                    <label for="basicInput">Cantidad</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.Cantidad | translate }}</label>
                     <input type="text" class="form-control" id="basicInput" formControlName="cantidad" disabled>
                 </div>
                 <div class="col-12 col-md-3">
@@ -120,18 +120,18 @@
                 </div>
                 
                 <div class="col-12 col-md-3">
-                    <label for="basicInput">Grado</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.Grado | translate }}</label>
                     <input type="text" class="form-control" id="basicInput" formControlName="grado" disabled>
                 </div>
             </div>
             
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-4">
-                    <label for="basicInput">Peso x Saco Kg</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.PesoxSaco | translate }}</label>
                     <input type="text" class="form-control" id="basicInput" formControlName="pesoSaco" disabled>
                 </div>
                 <div class="col-12 col-md-4">
-                    <label for="basicInput">Peso Neto</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.PesoNeto | translate }}</label>
                     <input type="text" class="form-control" id="basicInput" formControlName="pesoNeto" disabled>
                 </div>
                 
@@ -139,7 +139,7 @@
                         
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-4">
-                    <label for="basicInput">Notas Adicionales</label>
+                    <label for="basicInput">{{ContratoEditTraduccion.NotasAdicionales | translate }}</label>
                     <textarea id="bordered-form-6" rows="4" class="form-control"
                     formControlName="provNombre" name="notes"></textarea>
                 </div>
@@ -149,7 +149,7 @@
             <br>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-4">
-                    <label for="basicInput">Responsable Comercial:  </label>
+                    <label for="basicInput">{{ContratoEditTraduccion.Responsable | translate }} : </label>
                     <label for="basicInput">Juan Perez Maria Paredes</label>
                 </div>
                 

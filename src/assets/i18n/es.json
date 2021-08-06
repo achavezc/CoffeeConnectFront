@@ -357,4 +357,58 @@
 		}
 		
 	}
+,
+"CONTRATO":
+{
+	"LIST":
+	{
+		"Title": "BANDEJA DE CONTRATOS",
+		"NumContrato": "N° CONTRATO",
+		"CodigoCliente": "CÓDIGO CLIENTE",
+		"FechaInicial":"FECHA INICIAL",
+		"FechaFinal":"FECHA FINAL",
+		"Cliente" :"CLIENTE",
+		"Producto": "PRODUCTO",
+		"TipoProduccion": "TIPO DE PRODUCCIÓN",
+		"Calidad":"CALIDAD",
+		"EstadoMuestra":"ESTADO DE MUESTRA",
+		"EstadoSeguimiento":"ESTADO SEGUIMIENTO",
+		"Buscar": "Buscar",
+		"HeaderContrato": "Contrato",
+		"HeaderFechaContrato": "Fecha de Contrato",
+		"HeaderCliente": "Cliente",
+		"HeaderProductor": "Producto",
+		"HeaderTipoProduccion":"Tipo de Produccion",
+		"HeaderCalidad":"Calidad",
+		"HeaderEstadoMuestra": "Estado Muestra",
+		"HeaderEstadoSeguimiento": "Estado Seguimiento"
+
+	},
+	"EDIT":
+	{
+		"SubTitle1": "INFORMACIÓN DE SEGUIMIENTO PARA EL CLIENTE",
+		"NumContrato": "NUMERO CONTRATO",
+		"FechaContrato": "FECHA CONTRATO",
+		"Cliente":"CLIENTE",
+		"SubTitle2":"INFORMACIÓN SOBRE LA MUESTRA",
+		"Courier":"COURIER",
+		"NumTracking" :"NUMERO DE TRACKING",
+		"EstadoMuestra": "ESTADO",
+		"SubTitle3": "LOGISTICA Y ADUANAS",
+		"Button":"Imprimir Documentos y Certificaciones",
+		"FechaEmbarque":"FECHA DE EMBARQUE",
+		"SubTitle4":"INFORMACIÓN DE PLANTA PROCESADORA",
+		"Exportador": "EXPORTADOR",
+		"Estado": "ESTADO",
+		"Productor": "PRODUCTOR",
+		"Producto": "PRODUCTO",
+		"Cantidad": "CANTIDAD",
+		"Grado":"GRADO",
+		"PesoxSaco":"PESO X SACO KG",
+		"PesoNeto": "PESO NETO",
+		"NotasAdicionales": "NOTAS ADICIONALES",
+		"Responsable":"RESPONSABLE COMERCIAL"
+
+	}
+}
 }

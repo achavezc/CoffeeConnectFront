@@ -11,8 +11,8 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
-import { TranslateService } from '@ngx-translate/core';
-//import {NavbarComponent} from '../../../../../shared/navbar/navbar.component';
+import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-translate/core';
+import {ContratoListTraduccion} from '../../../../../services/translate/contrato/contrato-list-translate';
 
 
 @Component({
@@ -33,8 +33,10 @@ export class ContratoClienteComponent implements OnInit {
     private alertUtil: AlertUtil,
     private translate: TranslateService
     //private navbarComponent :NavbarComponent
-    ) { }
-
+    ) { 
+      
+    }
+  public onLangChange: EventEmitter<LangChangeEvent> = new EventEmitter<LangChangeEvent>();
   contratoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   listProductos: any[];
@@ -54,9 +56,10 @@ export class ContratoClienteComponent implements OnInit {
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   userSession: any;
+  browserLang: string;
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
-  //currentLanguage = this.translate.use;
+  contratoListTraduccion: ContratoListTraduccion;
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -64,8 +67,15 @@ export class ContratoClienteComponent implements OnInit {
     this.LoadCombos();
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+    this.contratoListTraduccion = new ContratoListTraduccion();
+    this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
+      this.Buscar(event.lang);
+    });
+     
+   
   }
-
+  
+  
   LoadForm(): void {
     this.contratoForm = this.fb.group({
       nroContrato: [],
@@ -131,7 +141,7 @@ export class ContratoClienteComponent implements OnInit {
     });
   }
 
-  getRequest(): any {
+  getRequest(lang: string): any {
     return {
       Numero: this.contratoForm.value.nroContrato ? this.contratoForm.value.nroContrato : '',
       NumeroCliente: this.contratoForm.value.codCliente ? this.contratoForm.value.codCliente : '',
@@ -144,18 +154,19 @@ export class ContratoClienteComponent implements OnInit {
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
-      Idioma:  this.translate.setDefaultLang
+      Idioma:  lang
     };
   }
 
-  Buscar(): void {
-    this.Search();
+  Buscar(lang:string): void {
+    lang = lang == '' ? this.translate.getDefaultLang() : lang;
+    this.Search(lang);
   }
 
-  Search(xls = false): void {
+  Search(lang: string ,xls = false): void {
     if (!this.contratoForm.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
-      const request = this.getRequest();
+      const request = this.getRequest(lang);
       this.contratoService.ConsultarTrackingContrato(request).subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {

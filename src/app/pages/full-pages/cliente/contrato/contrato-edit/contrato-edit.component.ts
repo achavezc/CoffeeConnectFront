@@ -1,18 +1,16 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../../services/maestro.service';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
+import { FormGroup,FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
-import { host } from '../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
-import { formatDate } from '@angular/common';
-import { Subject } from 'rxjs';
+import {ContratoEditTraduccion} from '../../../../../services/translate/contrato/contrato-edit-translate';
+import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-translate/core';
 
 
 @Component({
@@ -39,6 +37,7 @@ export class ContratoEditComponent implements OnInit {
   responsable: "";
   login: ILogin;
   submittedEdit = false;
+  ContratoEditTraduccion: ContratoEditTraduccion;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
     private alertUtil: AlertUtil,
@@ -47,23 +46,30 @@ export class ContratoEditComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private contratoService: ContratoService
+    private contratoService: ContratoService,
+    private translate: TranslateService
   ) {
     
   }
 
 
   ngOnInit(): void {
+    this.ContratoEditTraduccion = new ContratoEditTraduccion();
     this.cargarForm();
     this.login = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {
           this.id = Number(params.id);
-          this.obtenerDetalle();
+          this.obtenerDetalle('');
         }
       }
       );
+
+      this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
+        this.obtenerDetalle(event.lang);
+      });
+       
   }
 
   cargarForm() {
@@ -112,9 +118,10 @@ export class ContratoEditComponent implements OnInit {
     this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
   }
 
-  obtenerDetalle() {
+  obtenerDetalle(lang : string) {
+    lang = lang == '' ? this.translate.getDefaultLang() : lang;
    this.spinner.show();
-    this.contratoService.ConsultarTrackingContratoPorContratoId({"ContratoId":this.id,"Idioma":"es"})
+    this.contratoService.ConsultarTrackingContratoPorContratoId({"ContratoId":this.id,"Idioma": lang})
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {

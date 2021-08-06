@@ -270,5 +270,58 @@
 				  "Label":"Master Generals"
 				}	
 		}
+	},
+	"CONTRATO":
+{
+	"LIST":
+	{
+		"Title": "CONTRACTS INBOX",
+		"NumContrato": "N° CONTRACT",
+		"CodigoCliente": "CLIENT CODE",
+		"FechaInicial":"INITIAL DATE",
+		"FechaFinal":"FINAL DATE",
+		"Cliente" :"CLIENT",
+		"Producto": "PRODUCT",
+		"TipoProduccion": "TYPE PRODUCTION",
+		"Calidad":"QUALITY",
+		"EstadoMuestra":"SAMPLE STATUS",
+		"EstadoSeguimiento":"TRACKING STATUS",
+		"Buscar": "Search",
+		"HeaderContrato": "Contrast",
+		"HeaderFechaContrato": "Contract Date",
+		"HeaderCliente": "Client",
+		"HeaderProductor": "Product",
+		"HeaderTipoProduccion":"Type Production",
+		"HeaderCalidad":"Queality",
+		"HeaderEstadoMuestra": "Sample Status",
+		"HeaderEstadoSeguimiento": "Tracking Status"
+
+	},
+	"EDIT":
+	{
+		"SubTitle1": "TRACKING INFORMATION FOR CUSTOMER",
+		"NumContrato": "NUMBER CONTRACT",
+		"FechaContrato": "CONTRACT DATE",
+		"Cliente":"CLIENT",
+		"SubTitle2":"INFORMATION ABOUT THE SAMPLE",
+		"Courier":"COURIER",
+		"NumTracking" :"NUMBER OF TRACKING",
+		"EstadoMuestra": "STATUS",
+		"SubTitle3": "LOGISTICA Y ADUANASUS",
+		"Button":"Imprimir Documentos y CertificacionesUS",
+		"FechaEmbarque":"FECHA DE EMBARQUEUS",
+		"SubTitle4":"INFORMACIÓN DE PLANTA PROCESADORAUS",
+		"Exportador": "EXPORTADORUS",
+		"Estado": "ESTADOUS",
+		"Productor": "PRODUCTORUS",
+		"Producto": "PRODUCTOUS",
+		"Cantidad": "CANTIDADUS",
+		"Grado":"GRADOUS",
+		"PesoxSaco":"PESO X SACO KGUS",
+		"PesoNeto": "PESO NETOUS",
+		"NotasAdicionales": "NOTAS ADICIONALESUS",
+		"Responsable":"RESPONSABLE COMERCIALUS"
+
 	}
+}
 }

@@ -47,7 +47,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         RouterModule,
         CommonModule,
         NgbModule,
-        TranslateModule,
         FormsModule,
         OverlayModule,
         ReactiveFormsModule,

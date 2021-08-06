@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, Inject, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService , TranslationChangeEvent} from '@ngx-translate/core';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
@@ -55,7 +55,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService, private cdr: ChangeDetectorRef) {
 
     const browserLang: string = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|es/) ? browserLang : "es");
+    this.translate.setDefaultLang("es");
+
+    //translate.use(browserLang.match(/en|es/) ? browserLang : "es");
 
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
@@ -179,8 +181,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ChangeLanguage(language: string) {
     this.translate.use(language);
-    this.translate.setDefaultLang(language);
-
+   
     if (language === 'en') {
       this.selectedLanguageText = "English";
       this.selectedLanguageFlag = "./assets/img/flags/us.png";
@@ -189,6 +190,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedLanguageText = "Spanish";
       this.selectedLanguageFlag = "./assets/img/flags/es.png";
     }
+   
 
   }
 

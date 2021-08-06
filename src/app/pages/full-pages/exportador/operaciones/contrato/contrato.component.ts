@@ -12,6 +12,7 @@ import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 
+
 @Component({
   selector: 'app-contrato',
   templateUrl: './contrato.component.html',
@@ -51,6 +52,7 @@ export class ContratoComponent implements OnInit {
   tipoEmpresaId = '';
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
+  
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -59,6 +61,8 @@ export class ContratoComponent implements OnInit {
     this.LoadCombos();
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+   
+    
   }
 
   LoadForm(): void {

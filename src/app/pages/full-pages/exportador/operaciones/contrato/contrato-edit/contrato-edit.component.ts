@@ -13,6 +13,7 @@ import { ContratoService } from '../../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
 
+
 @Component({
   selector: 'app-contrato-edit',
   templateUrl: './contrato-edit.component.html',

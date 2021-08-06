@@ -1,6 +1,6 @@
 <div class="row" *ngIf="!popUp">
     <div class="col-12">
-        <div class="content-header">BANDEJA DE CONTRATOS</div>
+        <div class="content-header">{{contratoListTraduccion.Title | translate }}</div>
     </div>
 </div>
 
@@ -13,25 +13,25 @@
                         <form class="needs-validation" [formGroup]="contratoForm" novalidate>
                             <div class="form-row">
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="nroContrato" class="form-label">N° Contrato</label>
+                                    <label for="nroContrato" class="form-label">{{contratoListTraduccion.NumContrato | translate }}</label>
                                     <input type="text" formControlName="nroContrato" class="form-control"
                                         id="nroContrato" placeholder="Número de contrato" name="nroContrato"
                                         [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="codCliente" class="form-label">Código Cliente</label>
+                                    <label for="codCliente" class="form-label">{{contratoListTraduccion.CodigoCliente | translate }}</label>
                                     <input type="text" formControlName="codCliente" class="form-control" id="codCliente"
                                         placeholder="Código de cliente" name="codCliente"
                                         [ngClass]="{ 'is-invalid': f.codCliente.invalid, 'is-valid': !f.codCliente.invalid }">
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="fechaInicial" class="form-label">Fecha Inicial</label>
+                                    <label for="fechaInicial" class="form-label">{{contratoListTraduccion.FechaInicial | translate }}</label>
                                     <input type="date" class="form-control" formControlName="fechaInicial" date
                                         id="fechaInicial" name="fechaInicial" placeholder="Seleccionar fecha inicial"
                                         [ngClass]="{ 'is-invalid': f.fechaInicial.invalid, 'is-valid': !f.fechaInicial.invalid }" />
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="fechaFinal" class="form-label">Fecha Final</label>
+                                    <label for="fechaFinal" class="form-label">{{contratoListTraduccion.FechaFinal | translate }}</label>
                                     <input type="date" class="form-control" formControlName="fechaFinal" date
                                         id="fechaFinal" name="fechaFinal" placeholder="Seleccionar fecha final"
                                         [ngClass]="{ 'is-invalid': f.fechaFinal.invalid, 'is-valid': !f.fechaFinal.invalid }" />
@@ -39,13 +39,13 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="descCliente" class="form-label">Cliente</label>
+                                    <label for="descCliente" class="form-label">{{contratoListTraduccion.Cliente | translate }}</label>
                                     <input type="text" formControlName="descCliente" class="form-control"
                                         id="descCliente" placeholder="Cliente"
                                         [ngClass]="{ 'is-invalid': f.descCliente.invalid, 'is-valid': !f.descCliente.invalid }">
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="producto" class="form-label">Producto</label>
+                                    <label for="producto" class="form-label">{{contratoListTraduccion.Producto | translate }}</label>
                                     <ng-select [items]="listProductos" formControlName="producto" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="producto"
                                         placeholder="Seleccionar producto"
@@ -54,7 +54,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="tipoProduccion" class="form-label">Tipo de Producción</label>
+                                    <label for="tipoProduccion" class="form-label">{{contratoListTraduccion.TipoProduccion | translate }}</label>
                                     <ng-select [items]="listTipoProduccion" formControlName="tipoProduccion"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoProduccion"
                                         placeholder="Seleccionar tipo de producción"
@@ -63,7 +63,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="calidad" class="form-label">Calidad</label>
+                                    <label for="calidad" class="form-label">{{contratoListTraduccion.Calidad | translate }}</label>
                                     <ng-select [items]="listCalidad" formControlName="calidad" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="calidad"
                                         placeholder="Seleccionar calidad"
@@ -74,7 +74,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="estadoMuestra" class="form-label">Estado de Muestra</label>
+                                    <label for="estadoMuestra" class="form-label">{{contratoListTraduccion.EstadoMuestra | translate }}</label>
                                     <ng-select [items]="listEstadoMuestra" formControlName="estadoMuestra" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estadoMuestra"
                                         placeholder="Seleccionar estado"
@@ -83,7 +83,7 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="estadoSeguimiento" class="form-label">Estado Seguimiento</label>
+                                    <label for="estadoSeguimiento" class="form-label">{{contratoListTraduccion.EstadoSeguimiento | translate }}</label>
                                     <ng-select [items]="listEstadoSeguimiento" formControlName="estadoSeguimiento" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estadoSeguimiento"
                                         placeholder="Seleccionar estado"
@@ -95,8 +95,8 @@
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
-                                [disabled]="contratoForm.invalid">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar('')"
+                                [disabled]="contratoForm.invalid">{{contratoListTraduccion.Buscar | translate }}</button>
                            
                         </form>
                     </div>
@@ -138,7 +138,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column  name="Contrato" prop="Numero" width="90">
+                            <ngx-datatable-column  [name]="contratoListTraduccion.HeaderContrato | translate" prop="Numero" width="90">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -149,19 +149,19 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha de Contrato" prop="FechaContratoString" width="130">
+                            <ngx-datatable-column [name]="contratoListTraduccion.HeaderFechaContrato | translate" prop="FechaContratoString" width="130">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Cliente" prop="RazonSocialCliente" width="200">
+                            <ngx-datatable-column [name]="contratoListTraduccion.HeaderCliente | translate" prop="RazonSocialCliente" width="200">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Producto" prop="Producto" width="140">
+                            <ngx-datatable-column [name]="contratoListTraduccion.HeaderProductor | translate" prop="Producto" width="140">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo de Producción" prop="TipoProduccion" width="140">
+                            <ngx-datatable-column [name]="contratoListTraduccion.HeaderTipoProduccion | translate" prop="TipoProduccion" width="140">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Calidad" prop="Calidad" width="140">
+                            <ngx-datatable-column [name]="contratoListTraduccion.HeaderCalidad | translate" prop="Calidad" width="140">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado Muestra" prop="EstadoMuestra" width="180">
+                            <ngx-datatable-column [name]="contratoListTraduccion.HeaderEstadoMuestra | translate" prop="EstadoMuestra" width="180">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado Seguimiento" prop="EstadoSeguimiento" width="180">
+                            <ngx-datatable-column [name]="contratoListTraduccion.HeaderEstadoSeguimiento| translate" prop="EstadoSeguimiento" width="180">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
