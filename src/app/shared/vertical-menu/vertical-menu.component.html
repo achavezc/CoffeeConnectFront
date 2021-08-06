@@ -33,8 +33,7 @@
         <a appSidebarAnchorToggle *ngIf="menuItem.Submenu.length > 0 && !menuItem.IsExternalLink">
           <i [ngClass]="[menuItem.Icon]"></i>
           <span class="menu-title">{{menuItem.Title | translate }}</span>
-          <span *ngIf="menuItem.Badge && menuItem.Badge != '' " [ngClass]="[menuItem.BadgeClass]">{{menuItem.Badge |
-            translate}}</span>
+          <span *ngIf="menuItem.Badge && menuItem.Badge != '' " [ngClass]="[menuItem.BadgeClass]">{{menuItem.Badge | translate}}</span>
         </a>
         <a appSidebarAnchorToggle routerLink="{{menuItem.Path}}"
           *ngIf="menuItem.Submenu.length === 0 && !menuItem.IsExternalLink">

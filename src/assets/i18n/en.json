@@ -1,327 +1,311 @@
 {
-  "Dashboard": "Dashboard",
-  "Dashboard 1": "Dashboard 1",
-  "Dashboard 2": "Dashboard 2",
-  "Color Palette": "Color Palette",
-  "Inbox": "Inbox",
-  "Chat": "Chat",
-  "Chat NgRx": "Chat NgRx",
-  "Task Board": "Task Board",
-  "Task Board NgRx": "Task Board NgRx",
-  "Calendar": "Calendar",
-  "Player": "Player",
-  "Media Player": "Media Player",
-  "Bootstrap Table": "Bootstrap Table",
-  "Angular": "Angular",
-  "UI Kit": "UI Kit",
-  "Grid": "Grid",
-  "Typography": "Typography",
-  "Syntax Highlighter": "Syntax Highlighter",
-  "Helper Classes": "Helper Classes",
-  "Text Utilities": "Text Utilities",
-  "Icons": "Icons",
-  "Feather Icon": "Feather Icon",
-  "Font Awesome Icon": "Font Awesome Icon",
-  "Simple Line Icon": "Simple Line Icon",
-  "Components": "Components",
-  "Bootstrap": "Bootstrap",
-  "List": "List",
-  "Buttons": "Buttons",
-  "NG Buttons": "NG Buttons",
-  "Alerts": "Alerts",
-  "Badges": "Badges",
-  "Dropdowns": "Dropdowns",
-  "Media Objects": "Media Objects",
-  "Pagination": "Pagination",
-  "Progress Bars": "Progress Bars",
-  "Input Groups": "Input Groups",
-  "Modals": "Modals",
-  "Collapse": "Collapse",
-  "Accordion": "Accordion",
-  "Carousel": "Carousel",
-  "Datepicker": "Datepicker",
-  "Popover": "Popover",
-  "Rating": "Rating",
-  "Navs": "Navs",
-  "Timepicker": "Timepicker",
-  "Tooltip": "Tooltip",
-  "Typeahead": "Typeahead",
-  "Extra": "Extra",
-  "Sweet Alert": "Sweet Alert",
-  "Toastr": "Toastr",
-  "Select": "Select",
-  "NoUI Slider": "NoUI Slider",
-  "Upload": "Upload",
-  "Editor": "Editor",
-  "Drag and Drop": "Drag and Drop",
-  "Tour": "Tour",
-  "Image Cropper": "Image Cropper",
-  "Input Tags": "Input Tags",
-  "Switch": "Switch",
-  "Avatar": "Avatar",
-  "Swiper": "Swiper",
-  "Forms": "Forms",
-  "Elements": "Elements",
-  "Inputs": "Inputs",
-  "Input Group": "Input Groups",
-  "Input Grid": "Input Grid",
-  "Radio": "Radio",
-  "Checkbox": "Checkbox",
-  "Layouts": "Layouts",
-  "Basic Forms": "Basic Forms",
-  "Horizontal Forms": "Horizontal Forms",
-  "Hidden Labels": "Hidden Labels",
-  "Form Actions": "Form Actions",
-  "Bordered Forms": "Bordered Forms",
-  "Striped Rows": "Striped Rows",
-  "Validation": "Validation",
-  "Wizard": "Wizard",
-  "NGX Wizard": "NGX Wizard",
-  "Tables": "Tables",
-  "Regular": "Regular",
-  "Extended": "Extended",
-  "Smart Tables": "Smart Tables",
-  "Data Tables": "Data Tables",
-  "Basic": "Basic",
-  "Editing": "Editing",
-  "Filter": "Filter",
-  "Fullscreen": "Fullscreen",
-  "Paging": "Paging",
-  "Pinning": "Pinning",
-  "Selection": "Selection",
-  "Sorting": "Sorting",
-  "Cards": "Cards",
-  "Basic Cards": "Basic Cards",
-  "Advanced Cards": "Advanced Cards",
-  "Maps": "Maps",
-  "Google Map": "Google Map",
-  "Full Screen Map": "Full Screen Map",
-  "Charts": "Charts",
-  "ChartJs": "ChartJs",
-  "Chartist": "Chartist",
-  "NGX Chart": "NGX Chart",
-  "Apex": "Apex",
-  "NGX": "NGX",
-  "Authentication": "Authentication",
-  "Pages": "Pages",
-  "Forgot Password": "Forgot Password",
-  "Center": "Center",
-  "Left": "Left",
-  "Right": "Right",
-  "Account Settings": "Account Settings",
-  "Search": "Search",
-  "FAQ": "FAQ",
-  "Knowledge Base": "Knowledge Base",
-  "Horizontal Timeline": "Horizontal Timeline",
-  "Vertical Timeline": "Vertical Timeline",
-  "Login": "Login",
-  "Register": "Register",
-  "User Profile": "User Profile",
-  "Lock Screen": "Lock Screen",
-  "Invoice": "Invoice",
-  "Error": "Error",
-  "Coming Soon": "Coming Soon",
-  "Maintenance": "Maintenance",
-  "Gallery": "Gallery",
-  "Documentation": "Documentation",
-  "Support": "Support",
-  "Charts & Maps": "Charts & Map",
-  "Menu Levels": "Menu Levels",
-  "Second Level": "Second Level",
-  "Second Level Child": "Second Level Child",
-  "Third Level 1.1": "Third Level 1.1",
-  "Third Level 1.2": "Third Level 1.2",
-  "Productor":
-	{
-		"Label":"Producer",
-		"Operaciones":
-		{
-			"Label":"Operations",
-			"RegistroActividades":
-				{
-				  "Label":"Activity Register"
-				},
-			"RegistroCosechas":
-				{
-				  "Label":"Harvest Register"
-				}
+	"Dashboard": "Dashboard",
+	"Dashboard 1": "Dashboard 1",
+	"Dashboard 2": "Dashboard 2",
+	"Color Palette": "Color Palette",
+	"Inbox": "Inbox",
+	"Chat": "Chat",
+	"Chat NgRx": "Chat NgRx",
+	"Task Board": "Task Board",
+	"Task Board NgRx": "Task Board NgRx",
+	"Calendar": "Calendar",
+	"Player": "Player",
+	"Media Player": "Media Player",
+	"Bootstrap Table": "Bootstrap Table",
+	"Angular": "Angular",
+	"UI Kit": "UI Kit",
+	"Grid": "Grid",
+	"Typography": "Typography",
+	"Syntax Highlighter": "Syntax Highlighter",
+	"Helper Classes": "Helper Classes",
+	"Text Utilities": "Text Utilities",
+	"Icons": "Icons",
+	"Feather Icon": "Feather Icon",
+	"Font Awesome Icon": "Font Awesome Icon",
+	"Simple Line Icon": "Simple Line Icon",
+	"Components": "Components",
+	"Bootstrap": "Bootstrap",
+	"List": "List",
+	"Buttons": "Buttons",
+	"NG Buttons": "NG Buttons",
+	"Alerts": "Alerts",
+	"Badges": "Badges",
+	"Dropdowns": "Dropdowns",
+	"Media Objects": "Media Objects",
+	"Pagination": "Pagination",
+	"Progress Bars": "Progress Bars",
+	"Input Groups": "Input Groups",
+	"Modals": "Modals",
+	"Collapse": "Collapse",
+	"Accordion": "Accordion",
+	"Carousel": "Carousel",
+	"Datepicker": "Datepicker",
+	"Popover": "Popover",
+	"Rating": "Rating",
+	"Navs": "Navs",
+	"Timepicker": "Timepicker",
+	"Tooltip": "Tooltip",
+	"Typeahead": "Typeahead",
+	"Extra": "Extra",
+	"Sweet Alert": "Sweet Alert",
+	"Toastr": "Toastr",
+	"Select": "Select",
+	"NoUI Slider": "NoUI Slider",
+	"Upload": "Upload",
+	"Editor": "Editor",
+	"Drag and Drop": "Drag and Drop",
+	"Tour": "Tour",
+	"Image Cropper": "Image Cropper",
+	"Input Tags": "Input Tags",
+	"Switch": "Switch",
+	"Avatar": "Avatar",
+	"Swiper": "Swiper",
+	"Forms": "Forms",
+	"Elements": "Elements",
+	"Inputs": "Inputs",
+	"Input Group": "Input Groups",
+	"Input Grid": "Input Grid",
+	"Radio": "Radio",
+	"Checkbox": "Checkbox",
+	"Layouts": "Layouts",
+	"Basic Forms": "Basic Forms",
+	"Horizontal Forms": "Horizontal Forms",
+	"Hidden Labels": "Hidden Labels",
+	"Form Actions": "Form Actions",
+	"Bordered Forms": "Bordered Forms",
+	"Striped Rows": "Striped Rows",
+	"Validation": "Validation",
+	"Wizard": "Wizard",
+	"NGX Wizard": "NGX Wizard",
+	"Tables": "Tables",
+	"Regular": "Regular",
+	"Extended": "Extended",
+	"Smart Tables": "Smart Tables",
+	"Data Tables": "Data Tables",
+	"Basic": "Basic",
+	"Editing": "Editing",
+	"Filter": "Filter",
+	"Fullscreen": "Fullscreen",
+	"Paging": "Paging",
+	"Pinning": "Pinning",
+	"Selection": "Selection",
+	"Sorting": "Sorting",
+	"Cards": "Cards",
+	"Basic Cards": "Basic Cards",
+	"Advanced Cards": "Advanced Cards",
+	"Maps": "Maps",
+	"Google Map": "Google Map",
+	"Full Screen Map": "Full Screen Map",
+	"Charts": "Charts",
+	"ChartJs": "ChartJs",
+	"Chartist": "Chartist",
+	"NGX Chart": "NGX Chart",
+	"Apex": "Apex",
+	"NGX": "NGX",
+	"Authentication": "Authentication",
+	"Pages": "Pages",
+	"Forgot Password": "Forgot Password",
+	"Center": "Center",
+	"Left": "Left",
+	"Right": "Right",
+	"Account Settings": "Account Settings",
+	"Search": "Search",
+	"FAQ": "FAQ",
+	"Knowledge Base": "Knowledge Base",
+	"Horizontal Timeline": "Horizontal Timeline",
+	"Vertical Timeline": "Vertical Timeline",
+	"Login": "Login",
+	"Register": "Register",
+	"User Profile": "User Profile",
+	"Lock Screen": "Lock Screen",
+	"Invoice": "Invoice",
+	"Error": "Error",
+	"Coming Soon": "Coming Soon",
+	"Maintenance": "Maintenance",
+	"Gallery": "Gallery",
+	"Documentation": "Documentation",
+	"Support": "Support",
+	"Charts & Maps": "Charts & Map",
+	"Menu Levels": "Menu Levels",
+	"Second Level": "Second Level",
+	"Second Level Child": "Second Level Child",
+	"Third Level 1.1": "Third Level 1.1",
+	"Third Level 1.2": "Third Level 1.2",
+	"Productor": {
+		"Label": "Producer",
+		"Operaciones": {
+			"Label": "Operations",
+			"RegistroActividades": {
+				"Label": "Activity Register"
+			},
+			"RegistroCosechas": {
+				"Label": "Harvest Register"
+			}
 		},
-		"Administracion":
-		{
-			"Label":"Administration",
-			"Productor":
-				{
-				  "Label":"Producer Data"
-				},
-			"EntidadesCertificadoras":
-				{
-				  "Label":"Certifying Entities"
-				},
-			"MaestrosGenerales":
-				{
-				  "Label":"Master Generals"
-				}	
+		"Administracion": {
+			"Label": "Administration",
+			"Productor": {
+				"Label": "Producer Data"
+			},
+			"EntidadesCertificadoras": {
+				"Label": "Certifying Entities"
+			},
+			"MaestrosGenerales": {
+				"Label": "Master Generals"
+			}
 		}
 	},
-  "Acopio":
-	{
-		"Label":"Gathering",
-		"Operaciones":
-		{
-			"Label":"Operations",
-			"RecepcionMateriaPrima":
-				{
-					"Label":"Raw Material Reception"
-				},
-			"RecepcionProductoTerminado":
-				{
-					"Label":"Finished Product Reception"
-				},
-			"LiquidacionCompra":
-				{
-					"Label":"Purchase Settlement"
-				},
-			"IngresoAlmacen":
-				{
-					"Label":"Warehouse Entry"
-				},
-			"Lotes":
-				{
-					"Label":"Lots"
-				},
-			"SalidaAlmacen":
-				{
-					"Label":"Warehouse exit"
-				},
-			"ControlCalidadExterna":
-				{
-					"Label":"External Quality Control"
-				}
+	"Acopio": {
+		"Label": "Gathering",
+		"Operaciones": {
+			"Label": "Operations",
+			"RecepcionMateriaPrima": {
+				"Label": "Raw Material Reception"
+			},
+			"RecepcionProductoTerminado": {
+				"Label": "Finished Product Reception"
+			},
+			"LiquidacionCompra": {
+				"Label": "Purchase Settlement"
+			},
+			"IngresoAlmacen": {
+				"Label": "Warehouse Entry"
+			},
+			"Lotes": {
+				"Label": "Lots"
+			},
+			"SalidaAlmacen": {
+				"Label": "Warehouse exit"
+			},
+			"ControlCalidadExterna": {
+				"Label": "External Quality Control"
+			}
 		},
-		"Administracion":
-		{
-			"Label":"Administration",
-			"Proveedores":
-				{
-				  "Label":"Suppliers"
-				},
-			"Terceros":
-				{
-				  "Label":"Third"
-				},
-			"MaestrosGenerales":
-				{
-				  "Label":"Master Generals"
-				}	
+		"Administracion": {
+			"Label": "Administration",
+			"Proveedores": {
+				"Label": "Suppliers"
+			},
+			"Terceros": {
+				"Label": "Third"
+			},
+			"MaestrosGenerales": {
+				"Label": "Master Generals"
+			}
 		}
 	},
-	"Planta":
-	{
-		"Label":"Manufactures",
-		"Operaciones":
-		{
-			"Label":"Operations",
-			"NotaIngreso":
-				{
-					"Label":"Nota de Ingreso"
-				},
-				"NotaIngresoAlmacen":
-				{
-					"Label":"Nota de Ingreso Almacen"
-				}
+	"Planta": {
+		"Label": "Manufactures",
+		"Operaciones": {
+			"Label": "Operations",
+			"NotaIngreso": {
+				"Label": "Nota de Ingreso"
+			},
+			"NotaIngresoAlmacen": {
+				"Label": "Nota de Ingreso Almacen"
+			}
 		},
-		"Administracion":
-		{
-			"Label":"Administration",
-			"MaestrosGenerales":
-				{
-				  "Label":"Master Generals"
-				}
+		"Administracion": {
+			"Label": "Administration",
+			"MaestrosGenerales": {
+				"Label": "Master Generals"
+			}
 		}
 	},
-	"Exportador":
-	{
-		"Label":"Exporter"
+	"Exportador": {
+		"Label": "Exporter"
 	},
-	"Transporte":
-	{
-		"Label":"Transport"
+	"Transporte": {
+		"Label": "Transport"
 	},
-  "Cliente":
-	{
-		"Label":"Customer"
+	"Cliente": {
+		"Label": "Customer"
 	},
-	"Agropecuario":
-	{
-		"Label":"Agricultural",
-		"Operaciones":
-		{
-			"Label":"Operations",
-			"Socio":
-				{
-				  "Label":"Partner"
-				}
+	"Agropecuario": {
+		"Label": "Agricultural",
+		"Operaciones": {
+			"Label": "Operations",
+			"Socio": {
+				"Label": "Partner"
+			}
 		},
-		"Administracion":
-		{
-			"Label":"Administration",
-			"MaestrosGenerales":
-				{
-				  "Label":"Master Generals"
-				}	
+		"Administracion": {
+			"Label": "Administration",
+			"MaestrosGenerales": {
+				"Label": "Master Generals"
+			}
 		}
 	},
-	"CONTRATO":
-{
-	"LIST":
-	{
-		"Title": "BANDEJA DE CONTRATOUS",
-		"NumContrato": "N° CONTRACT",
-		"CodigoCliente": "CLIENT CODE",
-		"FechaInicial":"INITIAL DATE",
-		"FechaFinal":"FINAL DATE",
-		"Cliente" :"CLIENT",
-		"Producto": "PRODUCT",
-		"TipoProduccion": "TYPE PRODUCTION",
-		"Calidad":"QUALITY",
-		"EstadoMuestra":"SAMPLE STATUS",
-		"EstadoSeguimiento":"TRACKING STATUS",
-		"Buscar": "Search",
-		"HeaderContrato": "Contrast",
-		"HeaderFechaContrato": "Contract Date",
-		"HeaderCliente": "Client",
-		"HeaderProductor": "Product",
-		"HeaderTipoProduccion":"Type Production",
-		"HeaderCalidad":"Queality",
-		"HeaderEstadoMuestra": "Sample Status",
-		"HeaderEstadoSeguimiento": "Tracking Status"
-
+	"Maestros": {
+		"Label": "Maestros",
+		"EmpresaTransporte": {
+			"Label": "Empresa Transporte"
+		},
+		"EmpresaProveedora": {
+			"Label": "Empresa Proveedora"
+		},
+		"Zona": {
+			"Label": "Zona"
+		},
+		"Ciudad": {
+			"Label": "Ciudad"
+		},
+		"TablaTablas": {
+			"Label": "Tabla de Tablas"
+		}
 	},
-	"EDIT":
-	{
-		"SubTitle1": "TRACKING INFORMATION FOR CUSTOMER",
-		"NumContrato": "NUMBER CONTRACT",
-		"FechaContrato": "CONTRACT DATE",
-		"Cliente":"CLIENT",
-		"SubTitle2":"INFORMATION ABOUT THE SAMPLE",
-		"Courier":"COURIER",
-		"NumTracking" :"NUMBER OF TRACKING",
-		"EstadoMuestra": "STATUS",
-		"SubTitle3": "LOGISTICA Y ADUANASUS",
-		"Button":"Imprimir Documentos y CertificacionesUS",
-		"FechaEmbarque":"FECHA DE EMBARQUEUS",
-		"SubTitle4":"INFORMACIÓN DE PLANTA PROCESADORAUS",
-		"Exportador": "EXPORTADORUS",
-		"Estado": "ESTADOUS",
-		"Productor": "PRODUCTORUS",
-		"Producto": "PRODUCTOUS",
-		"Cantidad": "CANTIDADUS",
-		"Grado":"GRADOUS",
-		"PesoxSaco":"PESO X SACO KGUS",
-		"PesoNeto": "PESO NETOUS",
-		"NotasAdicionales": "NOTAS ADICIONALESUS",
-		"Responsable":"RESPONSABLE COMERCIALUS"
-
+	"Tesoreria": {
+		"Label": "Tesoreria",
+		"Adelanto": {
+			"Label": "Adelantos"
+		}
+	},
+	"CONTRATO": {
+		"LIST": {
+			"Title": "BANDEJA DE CONTRATOUS",
+			"NumContrato": "N° CONTRACT",
+			"CodigoCliente": "CLIENT CODE",
+			"FechaInicial": "INITIAL DATE",
+			"FechaFinal": "FINAL DATE",
+			"Cliente": "CLIENT",
+			"Producto": "PRODUCT",
+			"TipoProduccion": "TYPE PRODUCTION",
+			"Calidad": "QUALITY",
+			"EstadoMuestra": "SAMPLE STATUS",
+			"EstadoSeguimiento": "TRACKING STATUS",
+			"Buscar": "Search",
+			"HeaderContrato": "Contrast",
+			"HeaderFechaContrato": "Contract Date",
+			"HeaderCliente": "Client",
+			"HeaderProductor": "Product",
+			"HeaderTipoProduccion": "Type Production",
+			"HeaderCalidad": "Queality",
+			"HeaderEstadoMuestra": "Sample Status",
+			"HeaderEstadoSeguimiento": "Tracking Status"
+		},
+		"EDIT": {
+			"SubTitle1": "TRACKING INFORMATION FOR CUSTOMER",
+			"NumContrato": "NUMBER CONTRACT",
+			"FechaContrato": "CONTRACT DATE",
+			"Cliente": "CLIENT",
+			"SubTitle2": "INFORMATION ABOUT THE SAMPLE",
+			"Courier": "COURIER",
+			"NumTracking": "NUMBER OF TRACKING",
+			"EstadoMuestra": "STATUS",
+			"SubTitle3": "LOGISTICA Y ADUANASUS",
+			"Button": "Imprimir Documentos y CertificacionesUS",
+			"FechaEmbarque": "FECHA DE EMBARQUEUS",
+			"SubTitle4": "INFORMACIÓN DE PLANTA PROCESADORAUS",
+			"Exportador": "EXPORTADORUS",
+			"Estado": "ESTADOUS",
+			"Productor": "PRODUCTORUS",
+			"Producto": "PRODUCTOUS",
+			"Cantidad": "CANTIDADUS",
+			"Grado": "GRADOUS",
+			"PesoxSaco": "PESO X SACO KGUS",
+			"PesoNeto": "PESO NETOUS",
+			"NotasAdicionales": "NOTAS ADICIONALESUS",
+			"Responsable": "RESPONSABLE COMERCIALUS"
+		}
 	}
-}
 }

@@ -44,6 +44,7 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         SidebarDirective
     ],
     imports: [
+        
         RouterModule,
         CommonModule,
         NgbModule,
@@ -52,7 +53,8 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         ReactiveFormsModule,
         PerfectScrollbarModule,
         ClickOutsideModule,
-        PipeModule
+        PipeModule,
+        TranslateModule
     ],
     declarations: [
         FooterComponent,

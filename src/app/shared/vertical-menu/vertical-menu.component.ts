@@ -6,7 +6,6 @@ import { ROUTES } from './vertical-menu-routes.config';
 import { HROUTES } from '../horizontal-menu/navigation-routes.config';
 
 import { Router } from "@angular/router";
-import { TranslateService } from '@ngx-translate/core';
 import { customAnimations } from "../animations/custom-animations";
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ConfigService } from '../services/config.service';
@@ -34,7 +33,6 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   resizeTimeout;
   constructor(
     private router: Router,
-    //public translate: TranslateService,
     private layoutService: LayoutService,
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
