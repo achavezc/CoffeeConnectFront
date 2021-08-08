@@ -9,6 +9,7 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { PrecioDiaRendimientoService } from '../../../../../../services/precio-dia-rendimiento.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { DateUtil } from '../../../../../../services/util/date-util';
 
 @Component({
   selector: 'app-precio-dia-rendimiento-edit',
@@ -34,7 +35,8 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private dateUtil: DateUtil) { }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -48,8 +50,10 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
     this.frmPrecioDiaRendimientoEdit = this.fb.group({
       averageprice: [0],
       exchangerate: [0],
-      currency: []
+      currency: [],
+      datecurrent: []
     });
+    this.frmPrecioDiaRendimientoEdit.controls.datecurrent.setValue(this.dateUtil.currentDate());
   }
 
   get f() {

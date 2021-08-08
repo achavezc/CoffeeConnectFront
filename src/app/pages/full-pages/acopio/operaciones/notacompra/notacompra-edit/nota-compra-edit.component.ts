@@ -100,7 +100,11 @@ export class NotaCompraEditComponent implements OnInit {
       precioGuardadoAT: [],
       precioPagadoAT: [],
       importeAT: [],
-      observacionNotaCompra: []
+      observacionNotaCompra: [],
+      exportablePorcAT: [0],
+      descartePorcAT: [0],
+      cascarillaPorcAT: [0],
+      totalPorcAT: [0]
     });
   }
 
