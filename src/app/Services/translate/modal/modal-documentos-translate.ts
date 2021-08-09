@@ -20,5 +20,10 @@
 		CancelarAgregar = "MODAL.DOCUMENTOS.CancelarAgregar";
 		TitleEliminar = "MODAL.DOCUMENTOS.TitleEliminar";
 		SubTitleEliminar  = "MODAL.DOCUMENTOS.SubTitleEliminar";
-
+		MensajeListado = "MODAL.DOCUMENTOS.MensajeListado";
+		Eliminado = "MODAL.DOCUMENTOS.Eliminado";
+		DocumentoEliminado =  "MODAL.DOCUMENTOS.DocumentoEliminado";
+		Confirmacion = "MODAL.DOCUMENTOS.Confirmacion";
+		TextConfirmacion = "MODAL.DOCUMENTOS.TextConfirmacion";
+		ActualizacionTextConfirmacion = "MODAL.DOCUMENTOS.ActualizacionTextConfirmacion";
         }

@@ -449,7 +449,13 @@
 		"GuardarAgregar": "Guardar",
 		"CancelarAgregar": "Cancelar",
 		"TitleEliminar": "¿Estas seguro?",
-		"SubTitleEliminar": "¿Estas seguro de eliminar el documento?"
+		"SubTitleEliminar": "¿Estas seguro de eliminar el documento?",
+		"MensajeListado": "Por favor seleccionar un elemento del listado.",
+		"Eliminado": "Eliminado!",
+		"DocumentoEliminado": "Documento Eliminado",
+		"Confirmacion": "CONFIRMACIÓN",
+		"TextConfirmacion": "Se registro correctamente el documento.",
+		"ActualizacionTextConfirmacion": "Se actualizó correctamente el documento."
 
 	}
 }

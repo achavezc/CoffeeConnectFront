@@ -336,7 +336,13 @@
 			"GuardarAgregar": "Save",
 			"CancelarAgregar": "Cancel",
 			"TitleEliminar": "Are you sure?",
-			"SubTitleEliminar": "Are you sure to delete the document?"
+			"SubTitleEliminar": "Are you sure to delete the document?",
+			"MensajeListado": "Por favor seleccionar un elemento del listado.",
+			"Eliminado": "Removed!",
+			"DocumentoEliminado": "Document Deleted",
+			"Confirmacion": "CONFIRMATION",
+		    "TextConfirmacion": "The document was successfully registered.",
+			"ActualizacionTextConfirmacion": "The document was successfully updated."
 		}
 	}
 }

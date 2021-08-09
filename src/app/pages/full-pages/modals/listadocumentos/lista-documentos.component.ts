@@ -127,18 +127,15 @@ export class MListaDocumentosComponent implements OnInit {
       }else if (data.AduanaDocumentoAdjuntoId) {
         this.idDocumentoAduana = data.AduanaDocumentoAdjuntoId;
       }
-
-      
       this.agregarArchivoForm.controls.estado.setValue(data.EstadoId);
       this.agregarArchivoForm.controls.fileName.setValue(data.Nombre);
       this.agregarArchivoForm.controls.pathFile.setValue(data.Path);
       this.agregarArchivoForm.controls.descripcion.setValue(data.Descripcion);
       this.fileName = data.Nombre
-
       this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true });
 
     } else {
-      this.errorGeneral = { isError: true, errorMessage: "Por favor seleccionar un elemento del listado." };
+      this.errorGeneral = { isError: true, errorMessage: this.translate.instant(this.modalDocumentosTranslate.MensajeListado)};
     }
   }
 
@@ -178,7 +175,7 @@ export class MListaDocumentosComponent implements OnInit {
       });
 
     } else {
-      this.errorGeneral = { isError: true, errorMessage: "Por favor seleccionar un elemento del listado." };
+      this.errorGeneral = { isError: true, errorMessage:  this.translate.instant(this.modalDocumentosTranslate.MensajeListado) };
     }
   }
 
@@ -196,7 +193,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -229,7 +226,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -262,7 +259,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -295,7 +292,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -328,7 +325,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -361,7 +358,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Eliminado!', 'Documento Eliminado.');
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -691,8 +688,7 @@ export class MListaDocumentosComponent implements OnInit {
         .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
-            this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-              "Se registro correctamente el documento.",
+            this.alertUtil.alertOkCallback(this.translate.instant(this.modalDocumentosTranslate.Confirmacion) , this.translate.instant(this.modalDocumentosTranslate.TextConfirmacion),
               () => {
                 this.LoadFiles();
                 this.CancelModalAddFiles();
@@ -743,8 +739,7 @@ export class MListaDocumentosComponent implements OnInit {
         .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
-            this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-              "Se actualizó correctamente el documento.",
+            this.alertUtil.alertOkCallback(this.translate.instant(this.modalDocumentosTranslate.Confirmacion) , this.translate.instant(this.modalDocumentosTranslate.ActualizacionTextConfirmacion),
               () => {
                 this.LoadFiles();
                 this.CancelModalAddFiles();
