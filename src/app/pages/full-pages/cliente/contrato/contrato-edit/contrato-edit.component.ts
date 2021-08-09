@@ -11,17 +11,20 @@ import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import {ContratoEditTraduccion} from '../../../../../services/translate/contrato/contrato-edit-translate';
 import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-translate/core';
+import { DatatableComponent } from "@swimlane/ngx-datatable";
 
 
 @Component({
   selector: 'app-contrato-edit',
   templateUrl: './contrato-edit.component.html',
-  styleUrls: ['./contrato-edit.component.scss', "/assets/sass/libs/datatables.scss"],
+  styleUrls: ['./contrato-edit.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ContratoEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
+  
+  @ViewChild(DatatableComponent) table: DatatableComponent;
   contratoFormEdit: FormGroup;
   
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -39,16 +42,13 @@ export class ContratoEditComponent implements OnInit {
   submittedEdit = false;
   ContratoEditTraduccion: ContratoEditTraduccion;
 
-  constructor(private modalService: NgbModal, private maestroService: MaestroService,
-    private alertUtil: AlertUtil,
+  constructor(private modalService: NgbModal,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private contratoService: ContratoService,
-    private translate: TranslateService
-  ) {
+    private translate: TranslateService) {
     
   }
 
@@ -67,6 +67,7 @@ export class ContratoEditComponent implements OnInit {
       );
 
       this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
+        localStorage.setItem("language", event.lang);
         this.obtenerDetalle(event.lang);
       });
        
@@ -98,15 +99,17 @@ export class ContratoEditComponent implements OnInit {
   }
 
 
-  openModal(modalEmpresa) {
-    this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
+  openModal(mdlListDocuments) {
+    var x = this.AduanaId;
+    this.modalService.open(mdlListDocuments, { size: 'xl', centered: true });
   }
 
 
   clear() {
   }
-  cargarcombos() {
 
+
+  cargarcombos() {
   }
 
   get fedit() {
@@ -115,11 +118,12 @@ export class ContratoEditComponent implements OnInit {
 
 
   cancelar() {
-    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+    this.router.navigate(['/cliente/contrato/list']);
   }
 
   obtenerDetalle(lang : string) {
-    lang = lang == '' ? this.translate.getDefaultLang() : lang;
+    var lenguaje = localStorage.getItem("language");
+    lang = lang == '' ? (lenguaje == null? this.translate.getDefaultLang(): lenguaje) : lang;
    this.spinner.show();
     this.contratoService.ConsultarTrackingContratoPorContratoId({"ContratoId":this.id,"Idioma": lang})
       .subscribe(res => {
@@ -143,6 +147,7 @@ export class ContratoEditComponent implements OnInit {
       ); 
   }
   cargarDataFormulario(data: any) {
+    this.responsable = data.UsuarioRegistro;
     this.AduanaId = data.AduanaId;
     this.contratoFormEdit.controls["numeroContrato"].setValue(data.NumeroContrato);
     this.contratoFormEdit.controls["fechaContrato"].setValue(data.FechaContrato);

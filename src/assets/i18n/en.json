@@ -220,9 +220,8 @@
 	},
 	"Cliente": {
 		"Label": "Customer",
-		"Tracking":
-		{
-			"Label":"Contract"
+		"Tracking": {
+			"Label": "Contract"
 		}
 	},
 	"Agropecuario": {
@@ -285,7 +284,13 @@
 			"HeaderTipoProduccion": "Type Production",
 			"HeaderCalidad": "Quality",
 			"HeaderEstadoMuestra": "Sample Status",
-			"HeaderEstadoSeguimiento": "Tracking Status"
+			"HeaderEstadoSeguimiento": "Tracking Status",
+			"PlaceHolderNumContrato": "Numero de ContratoUS",
+			"PlaceHolderProducto": "Seleccionar ProductoUS",
+			"PlaceHolderTipoProduccion": "Seleccionar Tipo de ProduccionUS",
+			"PlaceHolderCalidad": "Seleccionar CalidadUS",
+			"PlaceHolderEstadoMuestra": "Seleccion EstadoUS",
+			"PlaceHolderEstadoSeguimiento": "Seleccionar Estado de SeguimientoUS"
 		},
 		"EDIT": {
 			"SubTitle1": "TRACKING INFORMATION FOR CUSTOMER",
@@ -310,6 +315,28 @@
 			"PesoNeto": "PESO NETOUS",
 			"NotasAdicionales": "NOTAS ADICIONALESUS",
 			"Responsable": "RESPONSABLE COMERCIALUS"
+		}
+	},
+	"MODAL": {
+		"DOCUMENTOS": {
+			"Title": "DOCUMENT UPLOAD",
+			"Nuevo": "New",
+			"Editar": "Edit",
+			"Eliminar": "Delete",
+			"Lista": "List of documents",
+			"HeaderDes": "Description",
+			"HeaderAr": "File",
+			"TitleAgregar": "Add Document",
+			"SubtitleAgregar": "Document Registration",
+			"Descripcion": "Description",
+			"Documento": "Document",
+			"Archivo": "Select File",
+			"TextArchivo": "Select selected file",
+			"MensajeErrorAgregar": "Please enter both values",
+			"GuardarAgregar": "Save",
+			"CancelarAgregar": "Cancel",
+			"TitleEliminar": "Are you sure?",
+			"SubTitleEliminar": "Are you sure to delete the document?"
 		}
 	}
 }

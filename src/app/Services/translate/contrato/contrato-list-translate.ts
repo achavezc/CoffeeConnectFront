@@ -20,4 +20,11 @@ export class ContratoListTraduccion
 	HeaderCalidad	= "CONTRATO.LIST.HeaderCalidad";
 	HeaderEstadoMuestra	= "CONTRATO.LIST.HeaderEstadoMuestra";
 	HeaderEstadoSeguimiento = "CONTRATO.LIST.HeaderEstadoSeguimiento";
+
+	PlaceHolderNumContrato = "CONTRATO.LIST.PlaceHolderNumContrato";
+	PlaceHolderProducto= "CONTRATO.LIST.PlaceHolderProducto";
+	PlaceHolderTipoProduccion = "CONTRATO.LIST.PlaceHolderTipoProduccion";
+	PlaceHolderCalidad = "CONTRATO.LIST.PlaceHolderCalidad";
+	PlaceHolderEstadoMuestra =  "CONTRATO.LIST.PlaceHolderEstadoMuestra";
+	PlaceHolderEstadoSeguimiento = "CONTRATO.LIST.PlaceHolderEstadoSeguimiento";
 }

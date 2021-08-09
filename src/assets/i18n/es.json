@@ -393,7 +393,13 @@
 		"HeaderTipoProduccion":"Tipo de Produccion",
 		"HeaderCalidad":"Calidad",
 		"HeaderEstadoMuestra": "Estado Muestra",
-		"HeaderEstadoSeguimiento": "Estado Seguimiento"
+		"HeaderEstadoSeguimiento": "Estado Seguimiento",
+		"PlaceHolderNumContrato":"Numero de Contrato",
+		"PlaceHolderProducto":"Seleccionar Producto",
+		"PlaceHolderTipoProduccion":"Seleccionar Tipo de Produccion",
+		"PlaceHolderCalidad":"Seleccionar Calidad",
+		"PlaceHolderEstadoMuestra": "Seleccion Estado",
+		"PlaceHolderEstadoSeguimiento":"Seleccionar Estado de Seguimiento"
 
 	},
 	"EDIT":
@@ -420,6 +426,30 @@
 		"PesoNeto": "PESO NETO",
 		"NotasAdicionales": "NOTAS ADICIONALES",
 		"Responsable":"RESPONSABLE COMERCIAL"
+
+	}
+},
+"MODAL":
+{
+	"DOCUMENTOS": {
+		"Title":"CARGA DE DOCUMENTOS",
+		"Nuevo": "Nuevo",
+		"Editar": "Editar",
+		"Eliminar": "Eliminar",
+		"Lista": "Lista de Documentos",
+		"HeaderDes": "Descripcion",
+		"HeaderAr": "Archivo",
+		"TitleAgregar": "Agregar Documentos",
+		"SubtitleAgregar": "Registro de Documento",
+		"Descripcion": "Descripcion",
+		"Documento": "Documento",
+		"Archivo": "Seleccionar archivo",
+		"TextArchivo": "Seleccionar archivo seleccionado",
+		"MensajeErrorAgregar": "Por favor Ingresar ambos valores",
+		"GuardarAgregar": "Guardar",
+		"CancelarAgregar": "Cancelar",
+		"TitleEliminar": "¿Estas seguro?",
+		"SubTitleEliminar": "¿Estas seguro de eliminar el documento?"
 
 	}
 }

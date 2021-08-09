@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } fro
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
-
 import { FincaFotoGeoreferenciadaService } from '../../../../services/finca-foto-georeferenciada.service';
 import { FincaDocumentoAdjuntoService } from '../../../../services/finca-documento-adjunto.service';
 import { host } from '../../../../shared/hosts/main.host';
@@ -14,6 +13,8 @@ import { SocioDocumentoService } from '../../../../services/socio-documento.serv
 import { ProductorDocumentoService } from '../../../../services/productor-documento.service';
 import { NotaIngresoPlantaDocumentoAdjuntoService } from '../../../../services/nota-ingreso-planta-documento-adjunto.service';
 import { AduanaDocumentoAdjuntoService } from '../../../../services/aduana-documento.service';
+import { ModalDocumentosTranslate } from '../../../../services/translate/modal/modal-documentos-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-lista-documentos',
@@ -45,6 +46,7 @@ export class MListaDocumentosComponent implements OnInit {
   idPlantEntryNoteDocument = 0;
   idDocumentoAduana = 0;
   fileName = '';
+  modalDocumentosTranslate : ModalDocumentosTranslate;
 
   constructor(private spinner: NgxSpinnerService,
     private modalService: NgbModal,
@@ -56,13 +58,16 @@ export class MListaDocumentosComponent implements OnInit {
     private socioDocumentoService: SocioDocumentoService,
     private productorDocumentoService: ProductorDocumentoService,
     private notaIngresoPlantaDocumentoAdjuntoService: NotaIngresoPlantaDocumentoAdjuntoService,
-    private aduanaDocumentoAdjuntoService: AduanaDocumentoAdjuntoService
+    private aduanaDocumentoAdjuntoService: AduanaDocumentoAdjuntoService,
+    public translate: TranslateService
     ) {
 
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
+    this.modalDocumentosTranslate = new ModalDocumentosTranslate();
     this.userSession = JSON.parse(localStorage.getItem('user'));
     if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
       this.titleModal = 'CARGA DE FOTOS GEOREFERENCIADAS';
@@ -80,8 +85,8 @@ export class MListaDocumentosComponent implements OnInit {
       this.titleModal = 'CARGA DE DOCUMENTOS';
       this.subTitleModal = 'LISTA DE DOCUMENTOS';
     }else if (this.codeForm === 'frmMdlListDocumentsAduana') {
-      this.titleModal = 'CARGA DE DOCUMENTOS';
-      this.subTitleModal = 'LISTA DE DOCUMENTOS';
+      this.titleModal =  this.translate.instant(this.modalDocumentosTranslate.Title);
+      this.subTitleModal =  this.translate.instant(this.modalDocumentosTranslate.Lista);
     }
     this.LoadFormAddFiles();
     this.LoadFiles();
@@ -142,8 +147,8 @@ export class MListaDocumentosComponent implements OnInit {
       const data = this.selected[0];
       var form = this;
       swal.fire({
-        title: '¿Estas seguro?',
-        text: "¿Estas seguro de eliminar el documento?",
+        title:  this.translate.instant(this.modalDocumentosTranslate.TitleEliminar),
+        text:  this.translate.instant(this.modalDocumentosTranslate.SubTitleEliminar),
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#2F8BE6',
@@ -517,7 +522,8 @@ export class MListaDocumentosComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
 
       if (!group.value.descripcion || (!group.value.file && !form.fileName)) {
-        this.errorAddFiles = { isError: true, errorMessage: 'Por favor ingresar ambos valores.' };
+      
+        this.errorAddFiles = { isError: true, errorMessage: this.translate.instant(this.modalDocumentosTranslate.MensajeErrorAgregar) };
       } else {
         this.errorAddFiles = { isError: false, errorMessage: '' };
       }
