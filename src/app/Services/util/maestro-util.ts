@@ -6,8 +6,8 @@ export class MaestroUtil {
 
   constructor(private maestroService: MaestroService) { }
 
-  obtenerMaestros(codigoTabla: string, callback) {
-    this.maestroService.obtenerMaestros(codigoTabla)
+  obtenerMaestros(codigoTabla: string, callback,  lang?: string) {
+    this.maestroService.obtenerMaestros(codigoTabla,lang)
       .subscribe(res => {
         callback(res)
       },

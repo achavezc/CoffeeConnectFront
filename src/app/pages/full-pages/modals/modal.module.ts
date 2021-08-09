@@ -25,9 +25,11 @@ import { MapasFincaComponent } from '../modals/mapasfinca/mapas-finca.component'
 import { MListaDocumentosComponent } from './listadocumentos/lista-documentos.component';
 import { MAgregarArchivoComponent } from './agregararchivo/agregar-archivo.component';
 import {MConsultarOrganizacionComponent} from '../modals/consultarOrganizacion/consultar-organizacion.component';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   imports: [
+    SharedModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

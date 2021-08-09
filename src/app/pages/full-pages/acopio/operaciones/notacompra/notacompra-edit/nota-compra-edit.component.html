@@ -240,8 +240,8 @@
                         </tr>
                         <hr>
                         <tr class="form-row col">
-                            <td class="col-2"></td>
-                            <td class="col-8">
+                            <td class="col-1"></td>
+                            <td class="col-10">
                                 <table class="table table-sm">
                                     <thead>
                                         <tr class="form-row table-primary">
@@ -255,7 +255,8 @@
                                             <th class="col-2 text-center">VALORES</th>
                                             <th class="col-2"></th>
                                             <th class="col-3 text-center">DETALLE</th>
-                                            <th class="col-2 text-center">GRAMOS</th>
+                                            <th class="col-1 text-center">GRAMOS</th>
+                                            <th class="col-1 text-center">%</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -275,11 +276,16 @@
                                             <td class="col-3">
                                                 <label for="exportableAT" class="form-label">Exportable</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="exportableAT" id="exportableAT"
                                                     formControlName="exportableAT"
                                                     class="form-control form-control-sm text-right"
                                                     placeholder="Exportable" readonly required>
+                                            </td>
+                                            <td class="col-1">
+                                                <input type="number" name="exportablePorcAT" id="exportablePorcAT"
+                                                    formControlName="exportablePorcAT"
+                                                    class="form-control form-control-sm text-right" readonly required>
                                             </td>
                                         </tr>
                                         <tr class="form-row">
@@ -296,11 +302,16 @@
                                             <td class="col-3">
                                                 <label for="descarteAT" class="form-label">Descarte</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="descarteAT" id="descarteAT"
                                                     formControlName="descarteAT"
                                                     class="form-control form-control-sm text-right"
                                                     placeholder="Descarte" readonly required>
+                                            </td>
+                                            <td class="col-1">
+                                                <input type="number" name="descartePorcAT" id="descartePorcAT"
+                                                    formControlName="descartePorcAT"
+                                                    class="form-control form-control-sm text-right" readonly required>
                                             </td>
                                         </tr>
                                         <tr class="form-row">
@@ -317,11 +328,16 @@
                                             <td class="col-3">
                                                 <label for="cascarillaAT" class="form-label">Cascarilla</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="cascarillaAT" id="cascarillaAT"
                                                     formControlName="cascarillaAT"
                                                     class="form-control form-control-sm text-right"
                                                     placeholder="Cascarilla" readonly required>
+                                            </td>
+                                            <td class="col-1">
+                                                <input type="number" name="cascarillaPorcAT" id="cascarillaPorcAT"
+                                                    formControlName="cascarillaPorcAT"
+                                                    class="form-control form-control-sm text-right" readonly required>
                                             </td>
                                         </tr>
                                         <tr class="form-row">
@@ -337,11 +353,17 @@
                                             <td class="col-3">
                                                 <label for="totalAT" class="form-label font-weight-bold">Total</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="totalAT" id="totalAT"
                                                     formControlName="totalAT"
                                                     class="form-control form-control-sm text-right font-weight-bold"
                                                     placeholder="Total" readonly required>
+                                            </td>
+                                            <td class="col-1">
+                                                <input type="number" name="totalPorcAT" id="totalPorcAT"
+                                                    formControlName="totalPorcAT"
+                                                    class="form-control form-control-sm text-right font-weight-bold"
+                                                    readonly required>
                                             </td>
                                         </tr>
                                         <tr class="form-row">
@@ -354,7 +376,7 @@
                                                     class="form-control form-control-sm text-right"
                                                     placeholder="Kilos netos" readonly required>
                                             </td>
-                                            <td class="col" colspan="7"></td>
+                                            <td class="col" colspan="4"></td>
                                         </tr>
                                         <tr class="form-row">
                                             <td class="col-3">
@@ -372,7 +394,7 @@
                                                 <label for="humedadAT" class="form-label font-weight-bold">%
                                                     Humedad</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="text" name="humedadAT" id="humedadAT"
                                                     formControlName="humedadAT"
                                                     class="form-control form-control-sm text-center font-weight-bold"
@@ -407,7 +429,7 @@
                                             <td class="col-3">
                                                 <label for="monedaAT" class="form-label font-weight-bold">Moneda</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <ng-select [items]="listMonedas" formControlName="monedaAT"
                                                     class="form-control form-control-sm" bindLabel="Label"
                                                     bindValue="Codigo" id="monedaAT" placeholder="Seleccionar moneda"
@@ -429,7 +451,7 @@
                                                 <label for="precioDiaAT" class="form-label font-weight-bold">Precio del
                                                     día</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="precioDiaAT" id="precioDiaAT"
                                                     formControlName="precioDiaAT"
                                                     class="form-control form-control-sm text-right"
@@ -437,8 +459,7 @@
                                             </td>
                                         </tr>
                                         <tr class="form-row">
-                                            <td class="col" colspan="7">
-
+                                            <td class="col" colspan="4">
                                                 <label for="observaciones"
                                                     class="form-label font-weight-bold">Observaciones</label>
                                                 <textarea id="bordered-form-6" rows="4" class="form-control"
@@ -449,13 +470,14 @@
                                                 <label for="precioGuardadoAT" class="form-label font-weight-bold">Precio
                                                     guardado</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="precioGuardadoAT" id="precioGuardadoAT"
                                                     formControlName="precioGuardadoAT"
                                                     class="form-control form-control-sm text-right"
                                                     placeholder="Seleccionar precio guardado" [readonly]="true"
                                                     required>
                                             </td>
+                                            <td class="col-1"></td>
                                         </tr>
                                         <tr class="form-row">
                                             <td class="col" colspan="7"></td>
@@ -463,12 +485,13 @@
                                                 <label for="precioPagadoAT" class="form-label font-weight-bold">Precio
                                                     pagado</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="precioPagadoAT" id="precioPagadoAT"
                                                     formControlName="precioPagadoAT"
                                                     class="form-control form-control-sm text-right"
                                                     placeholder="Precio pagado" readonly required>
                                             </td>
+                                            <td class="col-1"></td>
                                         </tr>
                                         <tr class="form-row">
                                             <td class="col" colspan="7"></td>
@@ -476,17 +499,18 @@
                                                 <label for="importeAT"
                                                     class="form-label font-weight-bold">Importe</label>
                                             </td>
-                                            <td class="col-2">
+                                            <td class="col-1">
                                                 <input type="number" name="importeAT" id="importeAT"
                                                     formControlName="importeAT"
                                                     class="form-control form-control-sm text-right"
                                                     placeholder="Importe" readonly required>
                                             </td>
+                                            <td class="col-1"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </td>
-                            <td class="col-2"></td>
+                            <td class="col-1"></td>
                         </tr>
                     </tbody>
                 </table>

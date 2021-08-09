@@ -22,6 +22,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import {ContratoClienteComponent} from '../cliente/contrato/contrato-list/contrato.component';
 import {ContratoEditComponent} from '../cliente/contrato/contrato-edit/contrato-edit.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { ModalModule } from '../modals/modal.module'
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { SharedModule } from '../../../shared/shared.module';
     PipeModule,
     MatchHeightModule,
     ContratoRoutingModule,
+    ModalModule,
     FileUploadModule
   ],
   providers: [

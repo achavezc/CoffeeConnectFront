@@ -64,6 +64,7 @@
                 <div class="col-12 col-md-8">
                     <br>
                     <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+                     
                       <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="AduanaId">
                       </app-lista-documentos>
                     </ng-template>
@@ -150,10 +151,16 @@
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                 <div class="col-12 col-md-4">
                     <label for="basicInput">{{ContratoEditTraduccion.Responsable | translate }} : </label>
-                    <label for="basicInput">Juan Perez Maria Paredes</label>
+                  </div>
+                    <div class="col-12 col-md-4">
+                    <label for="basicInput">{{responsable}}</label>
                 </div>
                 
             </div>
+            <div class="card-footer text-right" style="margin-top: 2rem;">
+              
+              <button class="btn btn-danger ml-1" (click)="cancelar()">Cancelar</button>
+          </div>
 
             </div>
           </div>

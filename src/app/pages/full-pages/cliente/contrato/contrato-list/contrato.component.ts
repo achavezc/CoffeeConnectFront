@@ -1,18 +1,12 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild,Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { Router } from '@angular/router';
-import swal from 'sweetalert2';
-
 import { DateUtil } from '../../../../../services/util/date-util';
-import { ExcelService } from '../../../../../shared/util/excel.service';
-import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
-import { AlertUtil } from '../../../../../services/util/alert-util';
 import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-translate/core';
-import {ContratoListTraduccion} from '../../../../../services/translate/contrato/contrato-list-translate';
+import { ContratoListTraduccion } from '../../../../../services/translate/contrato/contrato-list-translate';
 
 
 @Component({
@@ -26,16 +20,12 @@ export class ContratoClienteComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
-    private excelService: ExcelService,
     private maestroUtil: MaestroUtil,
     private contratoService: ContratoService,
-    private router: Router,
-    private alertUtil: AlertUtil,
     private translate: TranslateService
-    //private navbarComponent :NavbarComponent
-    ) { 
-      
-    }
+  ) {
+
+  }
   public onLangChange: EventEmitter<LangChangeEvent> = new EventEmitter<LangChangeEvent>();
   contratoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -64,19 +54,22 @@ export class ContratoClienteComponent implements OnInit {
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
-    this.LoadCombos();
+    this.LoadCombos(this.translate.getDefaultLang());
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
     this.contratoListTraduccion = new ContratoListTraduccion();
     this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
-      this.Buscar(event.lang);
+      localStorage.setItem("language", event.lang);
+      this.listEstadoMuestra = [];
+      this.LoadCombos(event.lang);
+      this.rows = [];
     });
-     
-   
+
+
     this.cargarCliente(this.userSession);
   }
-  
-  
+
+
   LoadForm(): void {
     this.contratoForm = this.fb.group({
       nroContrato: [],
@@ -88,11 +81,11 @@ export class ContratoClienteComponent implements OnInit {
       tipoProduccion: [],
       calidad: [],
       estadoMuestra: [],
-      estadoSeguimiento:[]
+      estadoSeguimiento: []
     });
   }
-  cargarCliente(objLogin){
-    if(objLogin.Result.Data.CodigoCliente){
+  cargarCliente(objLogin) {
+    if (objLogin.Result.Data.CodigoCliente) {
       this.contratoForm.controls["codCliente"].setValue(objLogin.Result.Data.CodigoCliente);
       this.contratoForm.controls["descCliente"].setValue(objLogin.Result.Data.Cliente);
       this.contratoForm.controls["codCliente"].disable();
@@ -121,33 +114,93 @@ export class ContratoClienteComponent implements OnInit {
     return this.selected.indexOf(row) === -1;
   }
 
-  LoadCombos(): void {
+  LoadCombos(lang: string): void {
     const form = this;
     this.maestroUtil.obtenerMaestros('EstadoMuestra', (res: any) => {
       if (res.Result.Success) {
-        form.listEstadoMuestra = res.Result.Data;
+        if (lang == 'en') {
+          var list = []
+          res.Result.Data.forEach(x => {
+            let object: any = {};
+            object.Codigo = x.Codigo;
+            object.Label = x.Val1;
+            list.push(object);
+          });
+          form.listEstadoMuestra = list;
+        }
+        else {
+          form.listEstadoMuestra = res.Result.Data;
+        }
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('EstadoSeguimientoAduana', (res: any) => {
       if (res.Result.Success) {
+        if (lang == 'en') {
+          var list = []
+          res.Result.Data.forEach(x => {
+            let object: any = {};
+            object.Codigo = x.Codigo;
+            object.Label = x.Val1;
+            list.push(object);
+          });
+          form.listEstadoSeguimiento = list;
+        }
+        else {
         form.listEstadoSeguimiento = res.Result.Data;
+        }
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('Producto', (res: any) => {
       if (res.Result.Success) {
+        if (lang == 'en') {
+          var list = []
+          res.Result.Data.forEach(x => {
+            let object: any = {};
+            object.Codigo = x.Codigo;
+            object.Label = x.Val1;
+            list.push(object);
+          });
+          form.listProductos = list;
+        }
+        else {
         form.listProductos = res.Result.Data;
+        }
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('TipoProduccion', (res: any) => {
       if (res.Result.Success) {
+        if (lang == 'en') {
+          var list = []
+          res.Result.Data.forEach(x => {
+            let object: any = {};
+            object.Codigo = x.Codigo;
+            object.Label = x.Val1;
+            list.push(object);
+          });
+          form.listTipoProduccion = list;
+        }
+        else {
         form.listTipoProduccion = res.Result.Data;
+        }
       }
-    });
+    }, lang);
     this.maestroUtil.obtenerMaestros('Calidad', (res: any) => {
       if (res.Result.Success) {
+        if (lang == 'en') {
+          var list = []
+          res.Result.Data.forEach(x => {
+            let object: any = {};
+            object.Codigo = x.Codigo;
+            object.Label = x.Val1;
+            list.push(object);
+          });
+          form.listCalidad = list;
+        }
+        else {
         form.listCalidad = res.Result.Data;
+        }
       }
-    });
+    }, lang);
   }
 
   getRequest(lang: string): any {
@@ -163,16 +216,17 @@ export class ContratoClienteComponent implements OnInit {
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
-      Idioma:  lang
+      Idioma: lang
     };
   }
 
-  Buscar(lang:string): void {
-    lang = lang == '' ? this.translate.getDefaultLang() : lang;
+  Buscar(lang: string): void {
+    var lenguaje = localStorage.getItem("language");
+    lang = lang == '' ? (lenguaje == null ? this.translate.getDefaultLang() : lenguaje) : lang;
     this.Search(lang);
   }
 
-  Search(lang: string ,xls = false): void {
+  Search(lang: string, xls = false): void {
     if (!this.contratoForm.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
       const request = this.getRequest(lang);
@@ -180,12 +234,12 @@ export class ContratoClienteComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           this.errorGeneral = { isError: false, msgError: '' };
-            res.Result.Data.forEach((obj: any) => {
-              obj.FechaContratoString = this.dateUtil.formatDate(new Date(obj.FechaContrato));
-            });
-            this.rows = res.Result.Data;
-            this.tempData = this.rows;
-          
+          res.Result.Data.forEach((obj: any) => {
+            obj.FechaContratoString = this.dateUtil.formatDate(new Date(obj.FechaContrato));
+          });
+          this.rows = res.Result.Data;
+          this.tempData = this.rows;
+
         } else {
           this.errorGeneral = { isError: true, msgError: res.Result.Message };
         }
@@ -200,5 +254,5 @@ export class ContratoClienteComponent implements OnInit {
   }
 
 
- 
+
 }

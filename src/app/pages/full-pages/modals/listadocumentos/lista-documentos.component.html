@@ -8,9 +8,9 @@
     <form [formGroup]="listaDocumentosForm" class="needs-validation">
         <ngx-spinner></ngx-spinner>
 
-        <button class="btn btn-primary mr-1 mb-1" (click)="openModal(mdlAddFile)" type="button">Nuevo</button>
-        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalEdit(mdlAddFile)">Editar</button>
-        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="eliminar()">Eliminar</button>
+        <button class="btn btn-primary mr-1 mb-1" (click)="openModal(mdlAddFile)" type="button">{{modalDocumentosTranslate.Nuevo | translate}}</button>
+        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalEdit(mdlAddFile)">{{modalDocumentosTranslate.Editar | translate}}</button>
+        <button class="btn btn-primary mr-1 mb-1" type="button" (click)="eliminar()">{{modalDocumentosTranslate.Eliminar | translate}}</button>
 
         <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
 
@@ -25,9 +25,9 @@
                     [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
                     [rows]="rows" [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
 
-                    <ngx-datatable-column name="Descripcion" prop="Descripcion" width="40" headerClass="text-center">
+                    <ngx-datatable-column [name]="modalDocumentosTranslate.HeaderDes | translate" prop="Descripcion" width="40" headerClass="text-center">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Archivo" prop="Nombre" width="60" headerClass="text-center">
+                    <ngx-datatable-column [name]="modalDocumentosTranslate.HeaderAr | translate" prop="Nombre" width="60" headerClass="text-center">
                         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                             <a role="button" (click)="Descargar(row)" style="color: blue;">{{name}}</a>
                         </ng-template>
@@ -40,14 +40,14 @@
 </div>
 <ng-template #mdlAddFile let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title">AGREGAR DOCUMENTO</h4>
+        <h4 class="modal-title">{{modalDocumentosTranslate.TitleAgregar | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
         <div class="card-header text-center bg-light p-0">
-            REGISTRO DE DOCUMENTO
+            {{modalDocumentosTranslate.SubtitleAgregar | translate}}
         </div>
         <form [formGroup]="agregarArchivoForm" class="needs-validation">
             <ngx-spinner></ngx-spinner>
@@ -56,7 +56,7 @@
                     <div class="form-row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group row">
-                                <label for="nombre" class="col-2 col-form-label pr-0">Descripcion</label>
+                                <label for="nombre" class="col-2 col-form-label pr-0"> {{modalDocumentosTranslate.Descripcion | translate}}</label>
                                 <div class="col-7">
                                     <textarea name="descripcion" id="descripcion" class="form-control"
                                         [ngClass]="{ 'is-invalid': fm.descripcion.invalid, 'is-valid': !fm.descripcion.invalid }"
@@ -68,7 +68,7 @@
                     <div class="form-row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group row">
-                                <label for="documento" class="col-2 col-form-label pr-0">Documento</label>
+                                <label for="documento" class="col-2 col-form-label pr-0"> {{modalDocumentosTranslate.Documento | translate}}</label>
                                 <div class="col-3">
                                     <label class="custom-file">
                                         <input type="file" (change)="fileChange($event)" placeholder="Upload file"
@@ -93,9 +93,9 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary mr-1 mb-1" (click)="SaveFile()">Guardar</button>
+            <button type="button" class="btn btn-primary mr-1 mb-1" (click)="SaveFile()">{{modalDocumentosTranslate.GuardarAgregar | translate}}</button>
             <button type="button" class="btn btn-primary mr-1 mb-1" (click)="d('Cross click')"
-                id="btnCancel">Cancelar</button>
+                id="btnCancel">{{modalDocumentosTranslate.CancelarAgregar | translate}}</button>
         </form>
     </div>
 </ng-template>
