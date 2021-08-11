@@ -70,19 +70,22 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
   }
 
   CheckPricesDaysPerformance() {
+    this.spinner.show();
     const request = { EmpresaId: this.userSession.Result.Data.EmpresaId };
-    this.maestroService.CheckPriceDayPerformance(request)
+    this.precioDiaRendimientoService.CheckPricePerformance(request)
       .subscribe((res: any) => {
+        this.spinner.hide();
         if (res.Result.Success) {
-          this.frmPrecioDiaRendimientoEdit.controls.averageprice.setValue(res.Result.Data[0].PrecioPromedioContrato);
-          this.frmPrecioDiaRendimientoEdit.controls.exchangerate.setValue(res.Result.Data[0].TipoCambio);
-          this.frmPrecioDiaRendimientoEdit.controls.currency.setValue(res.Result.Data[0].MonedaId);
-          this.rowsDetails = res.Result.Data;
+          this.frmPrecioDiaRendimientoEdit.controls.averageprice.setValue(res.Result.Data.PrecioPromedioContrato);
+          this.frmPrecioDiaRendimientoEdit.controls.exchangerate.setValue(res.Result.Data.TipoCambio);
+          // this.frmPrecioDiaRendimientoEdit.controls.currency.setValue(res.Result.Data[0].MonedaId);
+          this.rowsDetails = res.Result.Data.CalculoPrecioDiaRendimiento;
         } else {
 
         }
       }, (err) => {
         console.log(err);
+        this.spinner.hide();
       })
   }
 

@@ -511,6 +511,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-row" *ngIf="login.Result.Data.EmpresaId == 1">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                                    <ng-template #mdlAsignacionContratoAcopio let-c="close" let-d="dismiss">
+                                        <app-asignacion-contrato-acopio
+                                            (responseCliente)="GetDataModalClientes($event)">
+                                        </app-asignacion-contrato-acopio>
+                                    </ng-template>
+                                    <button type="button" (click)="openModalSM(mdlAsignacionContratoAcopio)"
+                                        class="btn btn-primary">Asignar Contrato</button>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- <div class="form-row">

@@ -413,6 +413,10 @@ export class ContratoEditComponent implements OnInit {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
+  openModalSM(modalEmpresa: any): void {
+    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg', centered: true, backdropClass: 'light-blue-backdrop' });
+  }
+
   GetRequest(): any {
     const form = this.contratoEditForm.value;
     return {

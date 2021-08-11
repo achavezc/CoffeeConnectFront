@@ -3,11 +3,13 @@ import { FormGroup, FormBuilder, ValidatorFn, ValidationErrors, Validators } fro
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { PrecioDiaRendimientoService } from '../../../../../services/precio-dia-rendimiento.service';
+import { AlertUtil } from '../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-preciodia-rendimiento',
@@ -35,7 +37,8 @@ export class PreciodiaRendimientoComponent implements OnInit {
     private dateUtil: DateUtil,
     private precioDiaRendimientoService: PrecioDiaRendimientoService,
     private spinner: NgxSpinnerService,
-    private router: Router) {
+    private router: Router,
+    private alertUtil: AlertUtil) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -131,6 +134,48 @@ export class PreciodiaRendimientoComponent implements OnInit {
   }
 
   Anular() {
+    const form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `¿Está seguro de continuar con la anulación?.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      form.CancelRow();
+    });
+  }
 
+  CancelRow() {
+    if (this.selected) {
+      this.spinner.show();
+      const request = {
+        PrecioDiaRendimientoId: this.selected[0].PrecioDiaRendimientoId,
+        Usuario: this.userSession.Result.Data.NombreUsuario
+      };
+
+      this.precioDiaRendimientoService.Cancel(request)
+        .subscribe((res) => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            this.alertUtil.alertOkCallback('CONFIRMACIÓN', 'Anulado correctamente.',
+              () => {
+                this.Buscar();
+              });
+          } else {
+            this.alertUtil.alertError('ERROR', res.Result.Message);
+          }
+        }, (err) => {
+          console.log(err);
+          this.spinner.hide();
+        });
+    }
   }
 }
