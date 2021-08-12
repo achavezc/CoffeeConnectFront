@@ -23,4 +23,14 @@ export class PrecioDiaRendimientoService {
     const url = `${this.url}/Registrar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  Cancel(request: any): Observable<any> {
+    const url = `${this.url}/Anular`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  CheckPricePerformance(request: any): Observable<any> {
+    const url = `${this.url}/CalcularPrecioDiaRendimiento`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }

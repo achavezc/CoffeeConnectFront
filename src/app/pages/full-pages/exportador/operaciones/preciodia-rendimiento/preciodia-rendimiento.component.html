@@ -37,7 +37,7 @@
                         [disabled]="frmPrecioDiaRendimiento.invalid">Buscar</button>
                     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
                     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
-                        [disabled]="frmPrecioDiaRendimiento.invalid">Anular</button>
+                        [disabled]="frmPrecioDiaRendimiento.invalid || selected">Anular</button>
 
                 </form>
             </div>
