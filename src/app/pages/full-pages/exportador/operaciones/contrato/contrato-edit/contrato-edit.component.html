@@ -515,8 +515,8 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
                                     <ng-template #mdlAsignacionContratoAcopio let-c="close" let-d="dismiss">
-                                        <app-asignacion-contrato-acopio
-                                            (responseCliente)="GetDataModalClientes($event)">
+                                        <app-asignacion-contrato-acopio (response)="GetDataModalClientes($event)"
+                                            [request]="reqAsignacionContratoAcopio">
                                         </app-asignacion-contrato-acopio>
                                     </ng-template>
                                     <button type="button" (click)="openModalSM(mdlAsignacionContratoAcopio)"

@@ -45,6 +45,7 @@ export class AdelantoComponent implements OnInit {
   submitted = false;
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
+  mensajeErrorGenerico = "Ocurrio un error interno.";
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -102,6 +103,68 @@ export class AdelantoComponent implements OnInit {
         form.listEstado = res.Result.Data;
       }
     });
+  }
+
+  
+  anular() {
+    if (this.selected.length > 0) {
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estas seguro de anular la guia?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.anularAdelanto();
+          }
+        });
+    }
+  }
+
+  anularAdelanto() {
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.adelantoService.Anular(this.selected[0].AdelantoId, this.userSession.Result.Data.NombreUsuario)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Anulado!', 'Adelanto Anulada.');
+            this.Search();
+
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+  asociar(){
+    this.alertUtil.alertOk('Asociado!', 'Adelanto Asociado.');
   }
 
   getRequest(): any {

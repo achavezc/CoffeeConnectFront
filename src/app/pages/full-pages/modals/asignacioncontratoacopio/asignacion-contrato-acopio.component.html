@@ -1,6 +1,6 @@
 <div class="modal-header bg-primary">
     <h4 class="modal-title">ASIGNACIÓN DE CONTRATO A ACOPIO</h4>
-    <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+    <button type="button" class="close" aria-label="Close" data-dismiss="modal" (click)="Close()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -15,7 +15,9 @@
                         <div class="form-group row">
                             <label for="nombre" class="col-5 col-form-label pr-0">PESO NETO KG (ORO)</label>
                             <div class="col-7">
-                                <input type="number" name="" id="" class="form-control">
+                                <input type="number" name="pesoNetoKGOro" id="pesoNetoKGOro"
+                                    formControlName="pesoNetoKGOro" class="form-control text-right" readonly
+                                    [ngClass]="{ 'is-invalid': f.pesoNetoKGOro.invalid, 'is-valid': !f.pesoNetoKGOro.invalid }">
                             </div>
                         </div>
                     </div>
@@ -26,6 +28,12 @@
                         <div class="form-group row">
                             <label for="nombre" class="col-5 col-form-label pr-0">KG PERGAMINO</label>
                             <div class="col-7">
+                                <ng-select [items]="listGKsPergaminos" formControlName="KGPergamino"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="KGPergamino"
+                                    placeholder="KG Pergamino" [(ngModel)]="selectedKGPergamino"
+                                    [ngClass]="{ 'is-invalid': f.KGPergamino.invalid, 'is-valid': !f.KGPergamino.invalid }"
+                                    (change)="changeKGPergamino($event)">
+                                </ng-select>
                             </div>
                         </div>
                     </div>
@@ -36,7 +44,9 @@
                         <div class="form-group row">
                             <label for="nombre" class="col-5 col-form-label pr-0">% RENDIMIENTO</label>
                             <div class="col-7">
-                                <input type="number" name="" id="" class="form-control">
+                                <input type="number" name="porcenRendimiento" id="porcenRendimiento"
+                                    formControlName="porcenRendimiento" class="form-control text-right" readonly
+                                    [ngClass]="{ 'is-invalid': f.porcenRendimiento.invalid, 'is-valid': !f.porcenRendimiento.invalid }">
                             </div>
                         </div>
                     </div>
@@ -47,7 +57,9 @@
                         <div class="form-group row">
                             <label for="nombre" class="col-5 col-form-label pr-0">PESO NETO EN QQ</label>
                             <div class="col-7">
-                                <input type="number" name="" id="" class="form-control">
+                                <input type="number" name="pesoNetoQQ" id="pesoNetoQQ" formControlName="pesoNetoQQ"
+                                    class="form-control text-right" readonly
+                                    [ngClass]="{ 'is-invalid': f.pesoNetoQQ.invalid, 'is-valid': !f.pesoNetoQQ.invalid }">
                             </div>
                         </div>
                     </div>
@@ -58,7 +70,9 @@
                         <div class="form-group row">
                             <label for="nombre" class="col-5 col-form-label pr-0">TOTAL KG PERGAMINO</label>
                             <div class="col-7">
-                                <input type="number" name="" id="" class="form-control">
+                                <input type="number" name="totalKGPergamino" id="totalKGPergamino"
+                                    formControlName="totalKGPergamino" class="form-control text-right" readonly
+                                    [ngClass]="{ 'is-invalid': f.totalKGPergamino.invalid, 'is-valid': !f.totalKGPergamino.invalid }">
                             </div>
                         </div>
                     </div>
@@ -66,6 +80,9 @@
 
             </div>
         </div>
-        <button type="button" class="btn btn-primary">Confirmar</button>
+        <button type="button" class="btn btn-primary" (click)="Confirm()">Confirmar</button>
     </form>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
 </div>

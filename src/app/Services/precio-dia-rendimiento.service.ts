@@ -33,4 +33,9 @@ export class PrecioDiaRendimientoService {
     const url = `${this.url}/CalcularPrecioDiaRendimiento`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  ConsultPerformancePercentage(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarPorcentajeRendimiento`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }
