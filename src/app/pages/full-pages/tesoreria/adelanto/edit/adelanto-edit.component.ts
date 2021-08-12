@@ -30,6 +30,9 @@ export class AdelantoEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   
   id: Number = 0;
+  idSocio: Number =0;
+  estadoId: Number =0;
+  notaCompraId: Number =0;
   AduanaId: Number = 0;
   status: string = "";
   estado = "";
@@ -76,7 +79,7 @@ export class AdelantoEditComponent implements OnInit {
   cargarForm() {
     this.adelantoFormEdit = this.fb.group(
       {
-        codigo: ['',Validators.required],
+        codigo: ['',],
         tipoDocumento: ['',Validators.required],
         nombre: ['',Validators.required],
         numeroDocumento: ['',Validators.required],
@@ -84,7 +87,7 @@ export class AdelantoEditComponent implements OnInit {
         monto: ['',Validators.required],
         fechaPago: ['',Validators.required],
         fechaEntregaProducto: ['',Validators.required],
-        motivo: ['',Validators.required]
+        motivo: ['',]
         
 
       });
@@ -170,13 +173,13 @@ export class AdelantoEditComponent implements OnInit {
 
   Save(): void {
     const form = this;
-/*     if (this.transporteEditForm.invalid) {
-        this.submitted = true;
+     if (this.adelantoFormEdit.invalid) {
+        this.submittedEdit = true;
         this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
         return;
     }
     else {
-        if (this.vId <= 0) {
+        if (this.id <= 0) {
             form.CreatePrecioDia();
         }
         else {
@@ -184,14 +187,14 @@ export class AdelantoEditComponent implements OnInit {
             form.ActualizarPrecioDia();
         }
 
-    } */
+    } 
 }
 
 
 ActualizarPrecioDia(): void {
 
   var request = this.getRequest();
- /*  this.transporteService.Actualizar(request)
+   this.adelantoService.Actualizar(request)
       .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -205,14 +208,14 @@ ActualizarPrecioDia(): void {
       }, (err: any) => {
           console.log(err);
           this.spinner.hide();
-      }); */
+      }); 
 
 }
 
 CreatePrecioDia(): void {
 
   var request = this.getRequest();
-  /* this.transporteService.Registrar(request)
+   this.adelantoService.Registrar(request)
       .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -226,39 +229,34 @@ CreatePrecioDia(): void {
       }, (err: any) => {
           console.log(err);
           this.spinner.hide();
-      }); */
+      }); 
 
 }
 
 
 getRequest(): any {
-  /* return {
-      TransporteId: this.vId,
-      EmpresaTransporteId: this.vidEmpresaTransporte,
-      NumeroConstanciaMTC: this.transporteEditForm.value.constanciaMTC ? this.transporteEditForm.value.constanciaMTC : '',
-      MarcaTractorId: this.transporteEditForm.controls["marcaTractor"].value ? this.transporteEditForm.controls["marcaTractor"].value : '',
-      PlacaTractor: this.transporteEditForm.value.placaTractor ? this.transporteEditForm.value.placaTractor : '',
-      MarcaCarretaId: this.transporteEditForm.controls["marcaCarreta"].value ? this.transporteEditForm.controls["marcaCarreta"].value : '',
-      PlacaCarreta: this.transporteEditForm.value.placaCarreta ? this.transporteEditForm.value.placaCarreta : '',
-      ConfiguracionVehicularId: this.transporteEditForm.controls["configVehicular"].value ? this.transporteEditForm.controls["configVehicular"].value : '',
-      Propietario: this.transporteEditForm.value.propietario ? this.transporteEditForm.value.propietario : '',
-      Conductor: this.transporteEditForm.value.conductor ? this.transporteEditForm.value.conductor : '',
-      Color: this.transporteEditForm.value.color ? this.transporteEditForm.value.color : '',
-      Soat: this.transporteEditForm.value.soat ? this.transporteEditForm.value.soat : '',
-      Dni: this.transporteEditForm.value.numeroDni ? this.transporteEditForm.value.numeroDni : '',
-      Licencia: this.transporteEditForm.value.licencia ? this.transporteEditForm.value.licencia : '',
-      NroCelular: this.transporteEditForm.value.numeroCelular ? this.transporteEditForm.value.numeroCelular : '',
-      PesoBruto: Number(this.transporteEditForm.value.pesoBruto),
-      PesoNeto:  Number(this.transporteEditForm.value.pesoNeto),
-      CargaUtil:  Number(this.transporteEditForm.value.cargaUtil),
-      Longitud: Number(this.transporteEditForm.value.longitud),
-      Altura: Number(this.transporteEditForm.value.altura),
-      Ancho: Number(this.transporteEditForm.value.ancho),
-      EstadoId: this.transporteEditForm.controls["estado"].value ? this.transporteEditForm.controls["estado"].value : '',
-      Usuario:  this.vSessionUser.Result.Data.NombreUsuario,
-     
+   return {
+    AdelantoId: this.id,
+    SocioId: this.idSocio,
+    EmpresaId: this.login.Result.Data.EmpresaId,
+    Numero: this.adelantoFormEdit.controls["codigo"].value ? this.adelantoFormEdit.controls["codigo"].value : '',
+    TipoDocumentoId: this.adelantoFormEdit.controls["tipoDocumento"].value ? this.adelantoFormEdit.controls["tipoDocumento"].value : '',
+    NumeroDocumento:  this.adelantoFormEdit.controls["numeroDocumento"].value ? this.adelantoFormEdit.controls["numeroDocumento"].value : '',
+    NombreRazonSocial:  this.adelantoFormEdit.controls["nombre"].value ? this.adelantoFormEdit.controls["nombre"].value : '',
+    MonedaId:  this.adelantoFormEdit.controls["moneda"].value ? this.adelantoFormEdit.controls["moneda"].value : '',
+    Monto: Number(this.adelantoFormEdit.value.monto),
+    FechaPago: this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
+    Motivo: this.adelantoFormEdit.controls["motivo"].value ? this.adelantoFormEdit.controls["motivo"].value : '',
+    FechaEntregaProducto: this.adelantoFormEdit.controls["fechaEntregaProducto"].value ? this.adelantoFormEdit.controls["fechaEntregaProducto"].value : '',
+    NotaCompraId: this.notaCompraId,
+    EstadoId: this.estadoId,
+    FechaRegistro:this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
+    FechaUltimaActualizacion: this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
+    UsuarioUltimaActualizacion: this.login.Result.Data.NombreUsuario,
+    UsuarioRegistro: this.login.Result.Data.NombreUsuario,
+    
   };
- */
+ 
 }
 
 Cancel(): void {
