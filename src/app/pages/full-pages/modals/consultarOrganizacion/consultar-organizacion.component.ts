@@ -152,11 +152,11 @@ export class MConsultarOrganizacionComponent implements OnInit {
     };
   }
 
- /* seleccionarOrganizacion(e) {
-    this.empresa = e;
-    var x = this.selectedOrganizacion;
-    this.empresaEvent.emit(this.empresa)
-  }*/
+  /* seleccionarOrganizacion(e) {
+     this.empresa = e;
+     var x = this.selectedOrganizacion;
+     this.empresaEvent.emit(this.empresa)
+   }*/
 
   seleccionarOrganizacion(): void {
     this.empresaEvent.emit(this.selectedOrganizacion);
