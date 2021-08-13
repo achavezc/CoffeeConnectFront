@@ -15,6 +15,7 @@ export class PesadoCafeComponent implements OnInit {
   @Input() unidadMedidaPesado;
   @Input() submittedEdit;
   @Output() miEvento = new EventEmitter<any>();
+  @Output() miEvento2 = new EventEmitter<any>();
   sacos = "01";
   latas = "02";
   kilos = 7;
@@ -83,6 +84,10 @@ export class PesadoCafeComponent implements OnInit {
 
   cleanKilosBrutos() {
     this.pesadoFormGroup.controls['kilosBruto'].setValue("");
+  }
+  actualizarSaldoPendiente()
+  {
+    this.miEvento2.emit(this.mensaje);
   }
 
 }

@@ -84,6 +84,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   estadoAnalizado = "02";
   estadoAnulado = "00";
   estadoEnviadoAlmacen = "03";
+  saldoPendienteKG: any = 0;
 
   @ViewChild(PesadoCafeComponent) child;
 
@@ -342,7 +343,8 @@ export class MateriaPrimaEditComponent implements OnInit {
             var form = this;
             form.consultaMateriaPrimaFormEdit.get('totalPergamino').setValue(res.Result.Data.TotalKGPergaminoAsignacion);
             form.consultaMateriaPrimaFormEdit.get('rendimiento').setValue(res.Result.Data.PorcentajeRendimientoAsignacion);
-            form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(res.Result.Data.SaldoPendienteKGPergaminoAsignacion - this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+            form.saldoPendienteKG = res.Result.Data.SaldoPendienteKGPergaminoAsignacion;
+            form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue( form.saldoPendienteKG - form.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
 
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -359,6 +361,10 @@ export class MateriaPrimaEditComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );
+  }
+  actualizarSaldoPendiente()
+  {
+    this.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue( this.saldoPendienteKG - this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
   }
   seleccionarProveedor(e) {
     this.consultaMateriaPrimaFormEdit.controls['provFinca'].disable();
@@ -762,6 +768,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   }
 
+  
   async consultarSocioFinca() {
     let request =
     {

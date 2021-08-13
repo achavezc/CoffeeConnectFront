@@ -404,7 +404,7 @@
                     <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
                   </a>
                   <ng-template ngbNavContent>
-                    <app-pesadoCafe (miEvento)="consultarSocioFinca()" formGroupName="pesado"
+                    <app-pesadoCafe (miEvento)="consultarSocioFinca()" (miEvento2)="actualizarSaldoPendiente()" formGroupName="pesado"
                       [submittedEdit]="submittedEdit" [unidadMedidaPesado]="unidadMedidaPesado"></app-pesadoCafe>
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                       <div class="col-8 d-flex flex-sm-row flex-column">

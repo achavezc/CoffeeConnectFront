@@ -59,9 +59,8 @@
                 <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Total Kilos Netos</label>
                 <div class="col-md-8">
                   <input type="number" maxlength="10" formControlName="totalKilosNetos" class="form-control"
-                    id="validationTooltip08" placeholder="Tara"
-                    [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.totalKilosNetos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.totalKilosNetos.invalid }"
-                    disabled>
+                    id="validationTooltip08" placeholder="Total Kilos Netos" (change)="actualizarSaldoPendiente()"
+                    [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.totalKilosNetos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.totalKilosNetos.invalid }">
                 </div>
               </div>
               <div class="form-group row last mb-3">
