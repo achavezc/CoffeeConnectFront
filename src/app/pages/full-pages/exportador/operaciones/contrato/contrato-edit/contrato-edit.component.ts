@@ -87,6 +87,7 @@ export class ContratoEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   fileName = "";
   fechaRegistro: any;
+  reqAsignacionContratoAcopio;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
@@ -99,6 +100,11 @@ export class ContratoEditComponent implements OnInit {
       this.SearchById();
     } else if (this.vId <= 0) {
       this.fechaRegistro = this.dateUtil.currentDate();
+    }
+    this.reqAsignacionContratoAcopio = {
+      contratoId: this.vId,
+      pesoNetoKGOro: 0,
+      pesoNetoQQ: 0
     }
   }
 
@@ -413,6 +419,10 @@ export class ContratoEditComponent implements OnInit {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
+  openModalSM(modalEmpresa: any): void {
+    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg', centered: true, backdropClass: 'light-blue-backdrop' });
+  }
+
   GetRequest(): any {
     const form = this.contratoEditForm.value;
     return {
@@ -638,8 +648,10 @@ export class ContratoEditComponent implements OnInit {
           await this.GetSubProducts(data.ProductoId);
         this.contratoEditForm.controls.subProducto.setValue(data.SubProductoId);
       }
-      if (data.PesoKilos)
+      if (data.PesoKilos) {
         this.contratoEditForm.controls.pesoKilos.setValue(data.PesoKilos);
+        this.reqAsignacionContratoAcopio.pesoNetoKGOro = data.PesoKilos;
+      }
       if (data.TipoProduccionId) {
         await this.GetProductionType();
         this.contratoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
@@ -733,8 +745,10 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.invoiceIn.setValue(data.FacturarEnId);
       if (data.FechaFijacionContrato)
         this.contratoEditForm.controls.contractFixingDate.setValue(data.FechaFijacionContrato.substring(0, 10));
-      if (data.KilosNetosQQ)
+      if (data.KilosNetosQQ) {
         this.contratoEditForm.controls.NetKilosQQ.setValue(data.KilosNetosQQ);
+        this.reqAsignacionContratoAcopio.pesoNetoQQ = data.KilosNetosQQ;
+      }
       if (data.KilosNetosLB)
         this.contratoEditForm.controls.NetKilosLB.setValue(data.KilosNetosLB);
       if (data.EstadoFijacionId)
@@ -791,6 +805,8 @@ export class ContratoEditComponent implements OnInit {
     let netweightkilos = totalbags * sackweight;
     let netkilosQQ = netweightkilos / 46;
     let netkilosLB = netweightkilos * 2.20462;
+    this.reqAsignacionContratoAcopio.pesoNetoKGOro = netweightkilos.toFixed(2);
+    this.reqAsignacionContratoAcopio.pesoNetoQQ = netkilosQQ.toFixed(2);
     this.contratoEditForm.controls.pesoKilos.setValue(netweightkilos.toFixed(2));
     this.contratoEditForm.controls.NetKilosQQ.setValue(netkilosQQ.toFixed(2));
     this.contratoEditForm.controls.NetKilosLB.setValue(netkilosLB.toFixed(2));

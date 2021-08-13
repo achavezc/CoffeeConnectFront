@@ -265,7 +265,7 @@
 	},
 	"CONTRATO": {
 		"LIST": {
-			"Title": "BANDEJA DE CONTRATOUS",
+			"Title": "CONTRACTS",
 			"NumContrato": "N° CONTRACT",
 			"CodigoCliente": "CLIENT CODE",
 			"FechaInicial": "INITIAL DATE",
@@ -301,20 +301,20 @@
 			"Courier": "COURIER",
 			"NumTracking": "NUMBER OF TRACKING",
 			"EstadoMuestra": "STATUS",
-			"SubTitle3": "LOGISTICA Y ADUANASUS",
-			"Button": "Imprimir Documentos y CertificacionesUS",
-			"FechaEmbarque": "FECHA DE EMBARQUEUS",
-			"SubTitle4": "INFORMACIÓN DE PLANTA PROCESADORAUS",
-			"Exportador": "EXPORTADORUS",
-			"Estado": "ESTADOUS",
-			"Productor": "PRODUCTORUS",
-			"Producto": "PRODUCTOUS",
-			"Cantidad": "CANTIDADUS",
-			"Grado": "GRADOUS",
-			"PesoxSaco": "PESO X SACO KGUS",
-			"PesoNeto": "PESO NETOUS",
-			"NotasAdicionales": "NOTAS ADICIONALESUS",
-			"Responsable": "RESPONSABLE COMERCIALUS"
+			"SubTitle3": "CUSTOMS AND LOGISTIC",
+			"Button": "Print Customs Docs & Certifications",
+			"FechaEmbarque": "DATE OF EXPORT",
+			"SubTitle4": "MILL INFORMATION",
+			"Exportador": "SHIPPER/SELLER",
+			"Estado": "STATUS",
+			"Productor": "PRODUCER",
+			"Producto": "PRODUCT",
+			"Cantidad": "QUANTITY",
+			"Grado": "GRADE",
+			"PesoxSaco": "BAGS WEIGHT (Kgs)",
+			"PesoNeto": "NET WEIGHT",
+			"NotasAdicionales": "ADDITIONAL NOTES",
+			"Responsable": "SALES MANAGER"
 		}
 	},
 	"MODAL": {

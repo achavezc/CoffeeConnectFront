@@ -46,7 +46,7 @@ export class MListaDocumentosComponent implements OnInit {
   idPlantEntryNoteDocument = 0;
   idDocumentoAduana = 0;
   fileName = '';
-  modalDocumentosTranslate : ModalDocumentosTranslate;
+  modalDocumentosTranslate: ModalDocumentosTranslate;
 
   constructor(private spinner: NgxSpinnerService,
     private modalService: NgbModal,
@@ -60,13 +60,12 @@ export class MListaDocumentosComponent implements OnInit {
     private notaIngresoPlantaDocumentoAdjuntoService: NotaIngresoPlantaDocumentoAdjuntoService,
     private aduanaDocumentoAdjuntoService: AduanaDocumentoAdjuntoService,
     public translate: TranslateService
-    ) {
+  ) {
 
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
-  ngOnInit(): void 
-  {
+  ngOnInit(): void {
     this.modalDocumentosTranslate = new ModalDocumentosTranslate();
     this.userSession = JSON.parse(localStorage.getItem('user'));
     if (this.codeForm === 'frmMdlListaFotosGeoreferenciadas') {
@@ -84,9 +83,9 @@ export class MListaDocumentosComponent implements OnInit {
     } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
       this.titleModal = 'CARGA DE DOCUMENTOS';
       this.subTitleModal = 'LISTA DE DOCUMENTOS';
-    }else if (this.codeForm === 'frmMdlListDocumentsAduana') {
-      this.titleModal =  this.translate.instant(this.modalDocumentosTranslate.Title);
-      this.subTitleModal =  this.translate.instant(this.modalDocumentosTranslate.Lista);
+    } else if (this.codeForm === 'frmMdlListDocumentsAduana') {
+      this.titleModal = this.translate.instant(this.modalDocumentosTranslate.Title);
+      this.subTitleModal = this.translate.instant(this.modalDocumentosTranslate.Lista);
     }
     this.LoadFormAddFiles();
     this.LoadFiles();
@@ -124,7 +123,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.idProducerDocument = data.ProductorDocumentoId;
       } else if (data.NotaIngresoPlantaDocumentoAdjuntoId) {
         this.idPlantEntryNoteDocument = data.NotaIngresoPlantaDocumentoAdjuntoId;
-      }else if (data.AduanaDocumentoAdjuntoId) {
+      } else if (data.AduanaDocumentoAdjuntoId) {
         this.idDocumentoAduana = data.AduanaDocumentoAdjuntoId;
       }
       this.agregarArchivoForm.controls.estado.setValue(data.EstadoId);
@@ -135,7 +134,7 @@ export class MListaDocumentosComponent implements OnInit {
       this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true });
 
     } else {
-      this.errorGeneral = { isError: true, errorMessage: this.translate.instant(this.modalDocumentosTranslate.MensajeListado)};
+      this.errorGeneral = { isError: true, errorMessage: this.translate.instant(this.modalDocumentosTranslate.MensajeListado) };
     }
   }
 
@@ -144,8 +143,8 @@ export class MListaDocumentosComponent implements OnInit {
       const data = this.selected[0];
       var form = this;
       swal.fire({
-        title:  this.translate.instant(this.modalDocumentosTranslate.TitleEliminar),
-        text:  this.translate.instant(this.modalDocumentosTranslate.SubTitleEliminar),
+        title: this.translate.instant(this.modalDocumentosTranslate.TitleEliminar),
+        text: this.translate.instant(this.modalDocumentosTranslate.SubTitleEliminar),
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#2F8BE6',
@@ -175,7 +174,7 @@ export class MListaDocumentosComponent implements OnInit {
       });
 
     } else {
-      this.errorGeneral = { isError: true, errorMessage:  this.translate.instant(this.modalDocumentosTranslate.MensajeListado) };
+      this.errorGeneral = { isError: true, errorMessage: this.translate.instant(this.modalDocumentosTranslate.MensajeListado) };
     }
   }
 
@@ -193,7 +192,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado), this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -226,7 +225,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado), this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -259,7 +258,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado), this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -292,7 +291,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado), this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -325,7 +324,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado), this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -358,7 +357,7 @@ export class MListaDocumentosComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado) , this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
+            this.alertUtil.alertOk(this.translate.instant(this.modalDocumentosTranslate.Eliminado), this.translate.instant(this.modalDocumentosTranslate.DocumentoEliminado));
             this.LoadFiles();
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.alertUtil.alertError('Error', res.Result.Message);
@@ -519,7 +518,7 @@ export class MListaDocumentosComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
 
       if (!group.value.descripcion || (!group.value.file && !form.fileName)) {
-      
+
         this.errorAddFiles = { isError: true, errorMessage: this.translate.instant(this.modalDocumentosTranslate.MensajeErrorAgregar) };
       } else {
         this.errorAddFiles = { isError: false, errorMessage: '' };
@@ -673,7 +672,7 @@ export class MListaDocumentosComponent implements OnInit {
       } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
         url = `${host}NotaIngresoPlantaDocumentoAdjunto`;
         request = this.GetRequestPlantEntryNoteDocument();
-      }else if (this.codeForm === 'frmMdlListDocumentsAduana') {
+      } else if (this.codeForm === 'frmMdlListDocumentsAduana') {
         url = `${host}AduanaDocumentoAdjunto`;
         request = this.GetRequestAduana();
       }
@@ -688,7 +687,7 @@ export class MListaDocumentosComponent implements OnInit {
         .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
-            this.alertUtil.alertOkCallback(this.translate.instant(this.modalDocumentosTranslate.Confirmacion) , this.translate.instant(this.modalDocumentosTranslate.TextConfirmacion),
+            this.alertUtil.alertOkCallback(this.translate.instant(this.modalDocumentosTranslate.Confirmacion), this.translate.instant(this.modalDocumentosTranslate.TextConfirmacion),
               () => {
                 this.LoadFiles();
                 this.CancelModalAddFiles();
@@ -724,7 +723,7 @@ export class MListaDocumentosComponent implements OnInit {
       } else if (this.codeForm === 'frmMdlListDocumentsNoteIncome') {
         url = `${host}NotaIngresoPlantaDocumentoAdjunto`;
         request = this.GetRequestPlantEntryNoteDocument();
-      }else if (this.codeForm === 'frmMdlListDocumentsAduana') {
+      } else if (this.codeForm === 'frmMdlListDocumentsAduana') {
         url = `${host}AduanaDocumentoAdjunto`;
         request = this.GetRequestAduana();
       }
@@ -739,7 +738,7 @@ export class MListaDocumentosComponent implements OnInit {
         .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
-            this.alertUtil.alertOkCallback(this.translate.instant(this.modalDocumentosTranslate.Confirmacion) , this.translate.instant(this.modalDocumentosTranslate.ActualizacionTextConfirmacion),
+            this.alertUtil.alertOkCallback(this.translate.instant(this.modalDocumentosTranslate.Confirmacion), this.translate.instant(this.modalDocumentosTranslate.ActualizacionTextConfirmacion),
               () => {
                 this.LoadFiles();
                 this.CancelModalAddFiles();

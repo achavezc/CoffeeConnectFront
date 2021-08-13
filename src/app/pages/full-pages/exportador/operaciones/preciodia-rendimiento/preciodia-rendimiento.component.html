@@ -37,7 +37,7 @@
                         [disabled]="frmPrecioDiaRendimiento.invalid">Buscar</button>
                     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
                     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
-                        [disabled]="frmPrecioDiaRendimiento.invalid">Anular</button>
+                        [disabled]="frmPrecioDiaRendimiento.invalid || selected">Anular</button>
 
                 </form>
             </div>
@@ -78,15 +78,15 @@
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
-                                                [routerLink]="['/exportador/operaciones/preciodiarendimiento/update', row.EmpresaId]">{{
+                                                [routerLink]="['/exportador/operaciones/preciodiarendimiento/update', row.PrecioDiaRendimientoId]">{{
                                                 name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="PRECIO PROM. CONTRATO" prop="PrecioPromedioContrato">
+                            <ngx-datatable-column name="PRECIO PROMEDIO DEL DIA DESDE CONTRATOS" prop="PrecioPromedioContrato">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="TIPO CAMBIO" prop="TipoCambio">
+                            <ngx-datatable-column name="MONEDA" prop="Moneda">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="ESTADO" prop="Estado">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
