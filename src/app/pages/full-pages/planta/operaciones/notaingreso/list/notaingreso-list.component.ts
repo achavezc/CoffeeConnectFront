@@ -158,7 +158,6 @@ export class NotaIngresoListComponent implements OnInit {
       var objRequest = {
         "Numero": this.consultaNotaIngresoPlantaForm.controls['notaIngreso'].value,
         "NumeroGuiaRemision": this.consultaNotaIngresoPlantaForm.controls['numeroGuiaRemision'].value,
-        "NumeroOrganizacion": this.consultaNotaIngresoPlantaForm.controls['codigoOrganizacion'].value,
         "RazonSocialOrganizacion": this.consultaNotaIngresoPlantaForm.controls['organizacion'].value,
         "RucOrganizacion": this.consultaNotaIngresoPlantaForm.controls['ruc'].value,
         "ProductoId": this.consultaNotaIngresoPlantaForm.controls['tipoProducto'].value,

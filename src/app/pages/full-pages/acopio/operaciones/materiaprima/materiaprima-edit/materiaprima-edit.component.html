@@ -307,7 +307,7 @@
             </div>
 
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-              <div class="col-12 col-md-5">
+              <div class="col-12 col-md-4">
                 <label for="basicInput">TIPO</label>
                 <div class="form-group">
                   <div class="controls">
@@ -329,12 +329,12 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-md-2">
+              <!--<div class="col-12 col-md-2">
                 <button type="button" class="btn btn-default" (click)="cargarProveedor()">
                   <span class="glyphicon glyphicon-search"></span>
                 </button>
-              </div>
-              <div class="col-12 col-md-5">
+              </div>-->
+              <div class="col-12 col-md-4">
                 <label for="validationTooltip10">Fecha Cosecha</label>
                 <div class="form-group">
                   <div class="controls">
@@ -351,6 +351,33 @@
                       placeholder="Seleccionar Tipo Producción"
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }">
                     </ng-select>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="validationTooltip10">Total Kg Pergamino</label>
+                <div class="form-group">
+                  <div class="controls">
+                    <input type="text" class="form-control" formControlName="totalPergamino" id="validationTooltip10"
+                      name="totalPergamino" placeholder="Total Kg Pergamino" date
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.totalPergamino.invalid, 'is-valid': submittedEdit && !fedit.totalPergamino.invalid }" disabled />
+                  </div>
+                </div>
+                <label for="basicInput">% Rendimiento</label>
+                <div class="form-group" style="margin-bottom: 0.5rem !important;">
+                  <div class="controls">
+                    <input type="text" class="form-control" formControlName="rendimiento" id="validationTooltip10"
+                      name="rendimiento" placeholder="Rendimiento" date
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.rendimiento.invalid, 'is-valid': submittedEdit && !fedit.rendimiento.invalid }" disabled />
+                  </div>
+                </div>
+                <label for="validationTooltip10">Saldo Pendiente</label>
+                <div class="form-group">
+                  <div class="controls">
+                    <input type="text" class="form-control" formControlName="saldoPendiente" id="validationTooltip10"
+                      name="saldoPendiente" placeholder="Saldo Pendiente" date
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.saldoPendiente.invalid, 'is-valid': submittedEdit && !fedit.saldoPendiente.invalid }" disabled />
                   </div>
                 </div>
 
