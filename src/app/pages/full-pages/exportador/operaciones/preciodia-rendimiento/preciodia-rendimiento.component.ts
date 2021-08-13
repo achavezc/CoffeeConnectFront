@@ -109,7 +109,8 @@ export class PreciodiaRendimientoComponent implements OnInit {
     const request = {
       FechaInicio: this.frmPrecioDiaRendimiento.value.initialdate,
       FechaFin: this.frmPrecioDiaRendimiento.value.finaldate,
-      EstadoId: this.frmPrecioDiaRendimiento.value.status
+      EstadoId: this.frmPrecioDiaRendimiento.value.status,
+      EmpresaId: this.userSession.Result.Data.EmpresaId,
     };
     this.precioDiaRendimientoService.Consultar(request)
       .subscribe((res) => {
