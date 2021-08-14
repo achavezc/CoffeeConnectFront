@@ -32,7 +32,7 @@
                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="KGPergamino"
                                     placeholder="KG Pergamino" [(ngModel)]="selectedKGPergamino"
                                     [ngClass]="{ 'is-invalid': f.KGPergamino.invalid, 'is-valid': !f.KGPergamino.invalid }"
-                                    (change)="changeKGPergamino($event)">
+                                    (change)="changeKGPergamino($event)" [readonly]="request.estadoContratoId != '01'">
                                 </ng-select>
                             </div>
                         </div>
@@ -80,7 +80,8 @@
 
             </div>
         </div>
-        <button type="button" class="btn btn-primary" (click)="Confirm()">Confirmar</button>
+        <button type="button" class="btn btn-primary" (click)="Confirm()"
+            *ngIf="request.estadoContratoId == '01'">Confirmar</button>
     </form>
 </div>
 <div class="d-flex justify-content-between align-items-center">
