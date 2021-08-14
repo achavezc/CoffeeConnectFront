@@ -25,14 +25,14 @@ export class AdelantoEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   adelantoFormEdit: FormGroup;
-  
+
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  
+
   id: Number = 0;
-  idSocio: Number =0;
-  estadoId: Number =0;
-  notaCompraId: Number =0;
+  idSocio: Number = 0;
+  estadoId: Number = 0;
+  notaCompraId: Number = 0;
   AduanaId: Number = 0;
   status: string = "";
   estado = "";
@@ -57,7 +57,7 @@ export class AdelantoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private adelantoService: AdelantoService
   ) {
-    
+
   }
 
 
@@ -80,35 +80,35 @@ export class AdelantoEditComponent implements OnInit {
     this.adelantoFormEdit = this.fb.group(
       {
         codigo: ['',],
-        tipoDocumento: ['',Validators.required],
-        nombre: ['',Validators.required],
-        numeroDocumento: ['',Validators.required],
-        moneda: ['',Validators.required],
-        monto: ['',Validators.required],
-        fechaPago: ['',Validators.required],
-        fechaEntregaProducto: ['',Validators.required],
+        tipoDocumento: ['', Validators.required],
+        nombre: ['', Validators.required],
+        numeroDocumento: ['', Validators.required],
+        moneda: ['', Validators.required],
+        monto: ['', Validators.required],
+        fechaPago: ['', Validators.required],
+        fechaEntregaProducto: ['', Validators.required],
         motivo: ['',]
-        
+
 
       });
   }
   LoadCombos() {
     this.GetTipoDocumento();
     this.GetMoneda();
-   }
+  }
 
-   async GetMoneda() {
+  async GetMoneda() {
     const res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
       this.listMoneda = res.Result.Data;
-     
+
     }
   }
   async GetTipoDocumento() {
     const res = await this.maestroService.obtenerMaestros('TipoDocumento').toPromise();
     if (res.Result.Success) {
       this.listTipoDocumento = res.Result.Data;
-     
+
     }
   }
   openModal(modalEmpresa) {
@@ -132,8 +132,8 @@ export class AdelantoEditComponent implements OnInit {
   }
 
   obtenerDetalle() {
-   this.spinner.show();
-    this.adelantoService.ConsultarPorId({"AdelantoId":this.id})
+    this.spinner.show();
+    this.adelantoService.ConsultarPorId({ "AdelantoId": this.id })
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
@@ -152,7 +152,7 @@ export class AdelantoEditComponent implements OnInit {
           console.log(err);
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
-      ); 
+      );
   }
   cargarDataFormulario(data: any) {
     this.AduanaId = data.AdelantoId;
@@ -167,112 +167,111 @@ export class AdelantoEditComponent implements OnInit {
     this.adelantoFormEdit.controls["fechaPago"].setValue(data.FechaPago.substring(0, 10));
     this.adelantoFormEdit.controls["fechaEntregaProducto"].setValue(data.FechaEntregaProducto.substring(0, 10));
     this.adelantoFormEdit.controls["motivo"].setValue(data.Motivo);
-    this.spinner.hide(); 
+    this.spinner.hide();
   }
 
 
   Save(): void {
     const form = this;
-     if (this.adelantoFormEdit.invalid) {
-        this.submittedEdit = true;
-        this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
-        return;
+    if (this.adelantoFormEdit.invalid) {
+      this.submittedEdit = true;
+      this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
+      return;
     }
     else {
-        if (this.id <= 0) {
-            form.CreatePrecioDia();
-        }
-        else {
+      if (this.id <= 0) {
+        form.CreatePrecioDia();
+      }
+      else {
 
-            form.ActualizarPrecioDia();
-        }
+        form.ActualizarPrecioDia();
+      }
 
-    } 
-}
+    }
+  }
 
 
-ActualizarPrecioDia(): void {
+  ActualizarPrecioDia(): void {
 
-  var request = this.getRequest();
-   this.adelantoService.Actualizar(request)
+    var request = this.getRequest();
+    this.adelantoService.Actualizar(request)
       .subscribe((res: any) => {
-          this.spinner.hide();
-          if (res.Result.Success) {
-              this.alertUtil.alertOkCallback("Se Actualizo!", "Se completo correctamente!",
-                  () => {
-                      this.Cancel();
-                  });
-          } else {
-              this.alertUtil.alertError("Error!", res.Result.Message);
-          }
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("Se Actualizo!", "Se completo correctamente!",
+            () => {
+              this.Cancel();
+            });
+        } else {
+          this.alertUtil.alertError("Error!", res.Result.Message);
+        }
       }, (err: any) => {
-          console.log(err);
-          this.spinner.hide();
-      }); 
+        console.log(err);
+        this.spinner.hide();
+      });
 
-}
+  }
 
-CreatePrecioDia(): void {
+  CreatePrecioDia(): void {
 
-  var request = this.getRequest();
-   this.adelantoService.Registrar(request)
+    var request = this.getRequest();
+    this.adelantoService.Registrar(request)
       .subscribe((res: any) => {
-          this.spinner.hide();
-          if (res.Result.Success) {
-              this.alertUtil.alertOkCallback("Registrado!", "Se completo el registro correctamente!",
-                  () => {
-                      this.Cancel();
-                  });
-          } else {
-              this.alertUtil.alertError("Error!", res.Result.Message);
-          }
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("Registrado!", "Se completo el registro correctamente!",
+            () => {
+              this.Cancel();
+            });
+        } else {
+          this.alertUtil.alertError("Error!", res.Result.Message);
+        }
       }, (err: any) => {
-          console.log(err);
-          this.spinner.hide();
-      }); 
+        console.log(err);
+        this.spinner.hide();
+      });
+
+  }
+
+
+  getRequest(): any {
+    return {
+      AdelantoId: this.id,
+      SocioId: this.idSocio,
+      EmpresaId: this.login.Result.Data.EmpresaId,
+      Numero: this.adelantoFormEdit.controls["codigo"].value ? this.adelantoFormEdit.controls["codigo"].value : '',
+      TipoDocumentoId: this.adelantoFormEdit.controls["tipoDocumento"].value ? this.adelantoFormEdit.controls["tipoDocumento"].value : '',
+      NumeroDocumento: this.adelantoFormEdit.controls["numeroDocumento"].value ? this.adelantoFormEdit.controls["numeroDocumento"].value : '',
+      NombreRazonSocial: this.adelantoFormEdit.controls["nombre"].value ? this.adelantoFormEdit.controls["nombre"].value : '',
+      MonedaId: this.adelantoFormEdit.controls["moneda"].value ? this.adelantoFormEdit.controls["moneda"].value : '',
+      Monto: Number(this.adelantoFormEdit.value.monto),
+      FechaPago: this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
+      Motivo: this.adelantoFormEdit.controls["motivo"].value ? this.adelantoFormEdit.controls["motivo"].value : '',
+      FechaEntregaProducto: this.adelantoFormEdit.controls["fechaEntregaProducto"].value ? this.adelantoFormEdit.controls["fechaEntregaProducto"].value : '',
+      NotaCompraId: this.notaCompraId,
+      EstadoId: this.estadoId,
+      FechaRegistro: this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
+      FechaUltimaActualizacion: this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
+      UsuarioUltimaActualizacion: this.login.Result.Data.NombreUsuario,
+      UsuarioRegistro: this.login.Result.Data.NombreUsuario,
+
+    };
+
+  }
+
+  Cancel(): void {
+    this.router.navigate(['/tesoreria/adelanto/list']);
+  }
+
+  Print() {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}Adelanto/GenerarPDFAdelanto?id=${this.id}`;
+    link.download = "Adelanto.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
 
 }
-
-
-getRequest(): any {
-   return {
-    AdelantoId: this.id,
-    SocioId: this.idSocio,
-    EmpresaId: this.login.Result.Data.EmpresaId,
-    Numero: this.adelantoFormEdit.controls["codigo"].value ? this.adelantoFormEdit.controls["codigo"].value : '',
-    TipoDocumentoId: this.adelantoFormEdit.controls["tipoDocumento"].value ? this.adelantoFormEdit.controls["tipoDocumento"].value : '',
-    NumeroDocumento:  this.adelantoFormEdit.controls["numeroDocumento"].value ? this.adelantoFormEdit.controls["numeroDocumento"].value : '',
-    NombreRazonSocial:  this.adelantoFormEdit.controls["nombre"].value ? this.adelantoFormEdit.controls["nombre"].value : '',
-    MonedaId:  this.adelantoFormEdit.controls["moneda"].value ? this.adelantoFormEdit.controls["moneda"].value : '',
-    Monto: Number(this.adelantoFormEdit.value.monto),
-    FechaPago: this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
-    Motivo: this.adelantoFormEdit.controls["motivo"].value ? this.adelantoFormEdit.controls["motivo"].value : '',
-    FechaEntregaProducto: this.adelantoFormEdit.controls["fechaEntregaProducto"].value ? this.adelantoFormEdit.controls["fechaEntregaProducto"].value : '',
-    NotaCompraId: this.notaCompraId,
-    EstadoId: this.estadoId,
-    FechaRegistro:this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
-    FechaUltimaActualizacion: this.adelantoFormEdit.controls["fechaPago"].value ? this.adelantoFormEdit.controls["fechaPago"].value : '',
-    UsuarioUltimaActualizacion: this.login.Result.Data.NombreUsuario,
-    UsuarioRegistro: this.login.Result.Data.NombreUsuario,
-    
-  };
- 
-}
-
-Cancel(): void {
-  this.router.navigate(['/tesoreria/adelanto/list']);
-}
-
-
-
-
-  
-
-}
-
-
-
-
-
-
 
