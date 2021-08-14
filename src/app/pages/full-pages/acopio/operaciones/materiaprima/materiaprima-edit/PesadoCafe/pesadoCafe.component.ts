@@ -16,6 +16,7 @@ export class PesadoCafeComponent implements OnInit {
   @Input() submittedEdit;
   @Output() miEvento = new EventEmitter<any>();
   @Output() miEvento2 = new EventEmitter<any>();
+  @Output() miEvento3 = new EventEmitter<any>();
   sacos = "01";
   latas = "02";
   kilos = 7;
@@ -79,6 +80,7 @@ export class PesadoCafeComponent implements OnInit {
 
   consultarSocioFinca() {
     this.miEvento.emit(this.mensaje);
+    this.calcularKilosNetos();
   }
 
 
@@ -88,6 +90,12 @@ export class PesadoCafeComponent implements OnInit {
   actualizarSaldoPendiente()
   {
     this.miEvento2.emit(this.mensaje);
+  }
+
+  calcularKilosNetos()
+  {
+    this.miEvento3.emit(this.mensaje);
+    this.actualizarSaldoPendiente();
   }
 
 }
