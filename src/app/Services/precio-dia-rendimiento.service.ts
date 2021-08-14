@@ -19,7 +19,7 @@ export class PrecioDiaRendimientoService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Registrar(request: any): Observable<any> {
+  Register(request: any): Observable<any> {
     const url = `${this.url}/Registrar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
@@ -36,6 +36,16 @@ export class PrecioDiaRendimientoService {
 
   ConsultPerformancePercentage(request: any): Observable<any> {
     const url = `${this.url}/ConsultarPorcentajeRendimiento`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  CheckPriceDayPerformanceById(request: any): Observable<any> {
+    const url = `${this.url}/ConsultarPrecioDiaRendimientoPorId`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  UpdatePriceDayPerformance(request: any): Observable<any> {
+    const url = `${this.url}/ActualizarPrecioDiaRendimiento`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 }
