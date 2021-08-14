@@ -160,7 +160,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         fechaPesado: ['',],
         totalPergamino: ['',],
         rendimiento: ['',],
-        saldoPendiente: ['',],
+        saldoPendiente:['', ],
         pesado: this.fb.group({
           unidadMedida: new FormControl('', [Validators.required]),
           //cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
@@ -362,7 +362,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         }
       );
   }
-  actualizarSaldoPendiente() {
+  async actualizarSaldoPendiente() {
 
     var  saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
     if (saldoPendiente == 0 || saldoPendiente < 0){
@@ -371,7 +371,8 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").invalid;
     }
     else{
-      this.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(saldoPendiente.toFixed(2));
+      this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].setValue(saldoPendiente.toFixed(2));
+      this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].valid;
       this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").valid;
     }
   }
@@ -733,7 +734,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
     this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
-    this.actualizarSaldoPendiente()
+    await this.actualizarSaldoPendiente();
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
   }
