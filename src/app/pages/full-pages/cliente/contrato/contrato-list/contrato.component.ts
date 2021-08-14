@@ -123,7 +123,7 @@ export class ContratoClienteComponent implements OnInit {
           res.Result.Data.forEach(x => {
             let object: any = {};
             object.Codigo = x.Codigo;
-            object.Label = x.Val1;
+            object.Label = x.Mnemonico;
             list.push(object);
           });
           form.listEstadoMuestra = list;
@@ -140,7 +140,7 @@ export class ContratoClienteComponent implements OnInit {
           res.Result.Data.forEach(x => {
             let object: any = {};
             object.Codigo = x.Codigo;
-            object.Label = x.Val1;
+            object.Label = x.Mnemonico;
             list.push(object);
           });
           form.listEstadoSeguimiento = list;
@@ -157,7 +157,7 @@ export class ContratoClienteComponent implements OnInit {
           res.Result.Data.forEach(x => {
             let object: any = {};
             object.Codigo = x.Codigo;
-            object.Label = x.Val1;
+            object.Label = x.Mnemonico;
             list.push(object);
           });
           form.listProductos = list;
@@ -174,7 +174,7 @@ export class ContratoClienteComponent implements OnInit {
           res.Result.Data.forEach(x => {
             let object: any = {};
             object.Codigo = x.Codigo;
-            object.Label = x.Val1;
+            object.Label = x.Mnemonico;
             list.push(object);
           });
           form.listTipoProduccion = list;
@@ -191,7 +191,7 @@ export class ContratoClienteComponent implements OnInit {
           res.Result.Data.forEach(x => {
             let object: any = {};
             object.Codigo = x.Codigo;
-            object.Label = x.Val1;
+            object.Label = x.Mnemonico;
             list.push(object);
           });
           form.listCalidad = list;
