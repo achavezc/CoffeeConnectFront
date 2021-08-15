@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, Output   } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
@@ -47,7 +47,8 @@ export class SocioComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
-
+  @Input() popUp = false;
+  @Output() agregarEvent = new EventEmitter<any>();
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
@@ -258,5 +259,9 @@ export class SocioComponent implements OnInit {
           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         }
       );
+  }
+
+  Agregar(selected: any) {
+    this.agregarEvent.emit(selected)
   }
 }

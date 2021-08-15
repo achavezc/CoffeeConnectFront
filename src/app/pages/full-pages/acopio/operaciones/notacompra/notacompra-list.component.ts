@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, Output  } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -52,6 +52,8 @@ export class NotacompraListComponent implements OnInit {
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
   vSessionUser: any;
+  @Input() popUp = false;
+  @Output() agregarEvent = new EventEmitter<any>();
 
   ngOnInit(): void {
     this.LoadForm();
@@ -292,4 +294,9 @@ export class NotacompraListComponent implements OnInit {
     this.Buscar(true);
   }
 
+  
+  Agregar(selected: any) {
+    this.agregarEvent.emit(selected)
+  }
+  
 }

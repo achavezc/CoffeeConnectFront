@@ -74,6 +74,12 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
         this.frmMdlAsignacionContratoAcopio.controls.pesoNetoKGOro.setValue(this.request.pesoNetoKGOro);
       if (this.request.pesoNetoQQ)
         this.frmMdlAsignacionContratoAcopio.controls.pesoNetoQQ.setValue(this.request.pesoNetoQQ);
+      if (this.request.KGPergamino)
+        this.frmMdlAsignacionContratoAcopio.controls.KGPergamino.setValue(this.request.KGPergamino);
+      if (this.request.porcenRendimiento)
+        this.frmMdlAsignacionContratoAcopio.controls.porcenRendimiento.setValue(this.request.porcenRendimiento);
+      if (this.request.totalKGPergamino)
+        this.frmMdlAsignacionContratoAcopio.controls.totalKGPergamino.setValue(this.request.totalKGPergamino);
     }
   }
 

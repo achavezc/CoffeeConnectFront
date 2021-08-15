@@ -57,6 +57,9 @@ import { DiagnosticoEditComponent } from './operaciones/socio/finca/diagnostico/
     FileUploadModule,
     ModalModule
   ],
+  exports: [
+    SocioComponent
+  ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
   ]

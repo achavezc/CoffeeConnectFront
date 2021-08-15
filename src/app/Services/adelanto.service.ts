@@ -33,6 +33,10 @@ export class AdelantoService {
     const url = `${this.url}/Actualizar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+  Asociar(request: any): Observable<any> {
+    const url = `${this.url}/Asociar`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
   Anular(AduanaId: number, username: string) {
     let url = `${this.url}/Anular`;
     let request = {

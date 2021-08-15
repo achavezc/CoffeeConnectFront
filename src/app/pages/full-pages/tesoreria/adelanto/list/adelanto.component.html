@@ -5,6 +5,18 @@
 </div>
 
 <section id="tooltip-validation">
+    <ng-template #modalNotaCompra let-c="close" let-d="dismiss">
+        <div class="modal-header" style="text-align: center;">
+  
+          <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         <app-notacompra-list (agregarEvent)="agregarNotaCompra($event)" [popUp] = "popUpNotaCompra"></app-notacompra-list>
+        </div>
+      </ng-template>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -86,9 +98,12 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0"
                             (click)="anular()">Anular</button>
-                          <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0"
-                            (click)="asociar()">Asociar</button>
+                         
                            
+                            <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" 
+                            [disabled]="selected.length==0"
+                            (click)="openModal(modalNotaCompra)">Asociar NC</button>
+
                         </form>
                     </div>
                 </div>

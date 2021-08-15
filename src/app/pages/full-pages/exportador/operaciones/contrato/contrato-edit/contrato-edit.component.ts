@@ -104,7 +104,11 @@ export class ContratoEditComponent implements OnInit {
     this.reqAsignacionContratoAcopio = {
       contratoId: this.vId,
       pesoNetoKGOro: 0,
-      pesoNetoQQ: 0
+      pesoNetoQQ: 0,
+      estadoContratoId: '',
+      totalKGPergamino: 0,
+      porcenRendimiento: 0,
+      KGPergamino: 0
     }
   }
 
@@ -419,8 +423,8 @@ export class ContratoEditComponent implements OnInit {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
-  openModalSM(modalEmpresa: any): void {
-    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg', centered: true, backdropClass: 'light-blue-backdrop' });
+  openModalLG(modal: any): void {
+    this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true, backdropClass: 'light-blue-backdrop' });
   }
 
   GetRequest(): any {
@@ -708,8 +712,10 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
       if (data.FechaRegistro)
         this.contratoEditForm.controls.fechaRegistro.setValue(data.FechaRegistro.substring(0, 10));
-      if (data.EstadoId)
+      if (data.EstadoId) {
         this.contratoEditForm.controls.estado.setValue(data.EstadoId);
+        this.reqAsignacionContratoAcopio.estadoContratoId = data.EstadoId;
+      }
       this.contratoEditForm.controls.fileName.setValue(data.NombreArchivo);
       this.contratoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.fileName = data.NombreArchivo
@@ -773,6 +779,12 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.PUTotalC.setValue(data.PUTotalC);
       if (data.TotalFacturar3)
         this.contratoEditForm.controls.TotalBilling3.setValue(data.TotalFacturar3);
+      if (data.KGPergaminoAsignacion)
+        this.reqAsignacionContratoAcopio.KGPergamino = data.KGPergaminoAsignacion;
+      if (data.PorcentajeRendimientoAsignacion)
+        this.reqAsignacionContratoAcopio.porcenRendimiento = data.PorcentajeRendimientoAsignacion;
+      if (data.TotalKGPergaminoAsignacion)
+        this.reqAsignacionContratoAcopio.totalKGPergamino = data.TotalKGPergaminoAsignacion;
 
       this.spinner.hide();
     } else {
