@@ -15,6 +15,7 @@ export class ReqRegistrarPesado {
         CantidadPesado: number,
         KilosBrutosPesado: number,
         TaraPesado?: number,
+        TotalKilosNetos?: number,
         ObservacionPesado?: string,
         SocioFincaId?: number,
         TerceroFincaId?: number,
@@ -38,6 +39,7 @@ export class ReqRegistrarPesado {
         this.CantidadPesado = CantidadPesado;
         this.KilosBrutosPesado = KilosBrutosPesado;
         this.TaraPesado = TaraPesado;
+        this.TotalKilosNetos = TotalKilosNetos;
         this.ObservacionPesado = ObservacionPesado;
         this.SocioFincaId = SocioFincaId;
         this.TerceroFincaId = TerceroFincaId;
@@ -60,6 +62,7 @@ export class ReqRegistrarPesado {
     CantidadPesado: number;
     KilosBrutosPesado: number;
     TaraPesado?: number;
+    TotalKilosNetos?:number;
     ObservacionPesado?: string;
     SocioFincaId?: number;
     TerceroFincaId?: number;

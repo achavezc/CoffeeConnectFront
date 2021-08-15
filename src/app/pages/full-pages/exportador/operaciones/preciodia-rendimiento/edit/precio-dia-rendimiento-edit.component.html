@@ -47,7 +47,7 @@
                                     <ng-select [items]="listCurrency" formControlName="currency" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="currency" placeholder="Moneda"
                                         [ngClass]="{ 'is-invalid': f.currency.invalid, 'is-valid': !f.currency.invalid }"
-                                        [(ngModel)]="selectedCurrency">
+                                        [(ngModel)]="selectedCurrency" [readonly]="true">
                                     </ng-select>
                                 </div>
                             </div>
@@ -123,7 +123,11 @@
             </div>
             <div class="card-footer">
                 <div class="form-row">
-                    <div class="col-lg-12 text-right">
+                    <div class="col-lg-4">
+                        <small class="form-text text-muted danger mb-1"
+                            *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                    </div>
+                    <div class="col-lg-8 text-right">
                         <button class="btn btn-primary mr-1" type="button" (click)="Save()">Guardar</button>
                         <button class="btn btn-danger" type="button" (click)="Cancel()">Cancelar</button>
                     </div>

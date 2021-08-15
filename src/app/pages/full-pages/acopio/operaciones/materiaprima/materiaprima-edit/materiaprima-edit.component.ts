@@ -18,6 +18,7 @@ import { Subject } from 'rxjs';
 import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 import { PesadoCafeComponent } from '../materiaprima-edit/pesadoCafe/pesadoCafe.component';
+import { ContratoService } from './../../../../../../services/contrato.service';
 
 
 
@@ -83,6 +84,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   estadoAnalizado = "02";
   estadoAnulado = "00";
   estadoEnviadoAlmacen = "03";
+  saldoPendienteKG: any = 0;
+  totalKilosNetos: any = 0;
 
   @ViewChild(PesadoCafeComponent) child;
 
@@ -95,7 +98,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private socioFinca: SocioFincaService
+    private socioFinca: SocioFincaService,
+    private contratoService: ContratoService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -125,6 +129,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         }
       }
       );
+    this.cargarContratoAsignado();
   }
 
   cargarForm() {
@@ -153,6 +158,9 @@ export class MateriaPrimaEditComponent implements OnInit {
         fechaCosecha: ['', Validators.required],
         guiaReferencia: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         fechaPesado: ['',],
+        totalPergamino: ['',],
+        rendimiento: ['',],
+        saldoPendiente:['', ],
         pesado: this.fb.group({
           unidadMedida: new FormControl('', [Validators.required]),
           //cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
@@ -160,6 +168,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           cantidad: new FormControl('', [Validators.required]),
           kilosBruto: new FormControl('', [Validators.required]),
           tara: new FormControl('', []),
+          totalKilosNetos: new FormControl('', []),
           observacionPesado: new FormControl('', []),
           exportGramos: new FormControl('', []),
           exportPorcentaje: new FormControl('', []),
@@ -321,6 +330,58 @@ export class MateriaPrimaEditComponent implements OnInit {
     };
   }
 
+  cargarContratoAsignado() {
+    let request =
+    {
+      "EmpresaId": 1
+    }
+    this.contratoService.ConsultarContratoAsignado(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+            form.consultaMateriaPrimaFormEdit.get('totalPergamino').setValue(res.Result.Data.TotalKGPergaminoAsignacion);
+            form.consultaMateriaPrimaFormEdit.get('rendimiento').setValue(res.Result.Data.PorcentajeRendimientoAsignacion);
+            form.saldoPendienteKG = res.Result.Data.SaldoPendienteKGPergaminoAsignacion;
+            form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(form.saldoPendienteKG - form.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+  }
+  async actualizarSaldoPendiente() {
+
+    var  saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+    if (saldoPendiente == 0 || saldoPendiente < 0){
+    
+      this.alertUtil.alertWarning("Oops...!","Se ha llegado al máximo necesitado de café pergamino para el contrato vigente. Asignar un nuevo contrato");
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").invalid;
+    }
+    else{
+      this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].setValue(saldoPendiente.toFixed(2));
+      this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].valid;
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").valid;
+    }
+  }
+  calcularKilosNetos() {
+    var kilosBruto = this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value;
+    var tara = this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").value;
+    this.totalKilosNetos = kilosBruto - tara;
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue( this.totalKilosNetos.toFixed(2));
+  }
   seleccionarProveedor(e) {
     this.consultaMateriaPrimaFormEdit.controls['provFinca'].disable();
     this.listTipoSocio = this.listaTipoProveedor;
@@ -496,6 +557,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").value),
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value),
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").value),
+        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value),
         this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").value,
         socioFincaId,
         terceroFincaId,
@@ -641,6 +703,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").setValue(data.TaraPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("humedad").setValue(data.HumedadPorcentajeAnalisisFisico);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue(data.TotalKilosNetos);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
@@ -671,6 +734,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
     this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
+    await this.actualizarSaldoPendiente();
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
   }
@@ -722,6 +786,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     }
 
   }
+
 
   async consultarSocioFinca() {
     let request =

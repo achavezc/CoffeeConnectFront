@@ -25,12 +25,7 @@
                   <small class="form-text text-muted danger" *ngIf="f.notaIngreso.errors?.pattern">Solo letras y
                     números</small>
                 </div>
-                <div class="col-md-4 mb-4 form-group mb-2">
-                  <label for="validationTooltip05">Cod. Organizacion</label>
-                  <input type="text" minlength="8" maxlength="20" formControlName="codigoOrganizacion"
-                    class="form-control" id="validationTooltip08" placeholder="Cod. Organizacion"
-                    [ngClass]="{ 'is-invalid': submitted && f.codigoOrganizacion.invalid, 'is-valid': submitted && !f.codigoOrganizacion.invalid }">
-                </div>
+                
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip08">Nro Guia Remision</label>
                   <input type="text" minlength="8" maxlength="20" formControlName="numeroGuiaRemision"
@@ -41,6 +36,16 @@
                     letras</small>
                   <small class="form-text text-muted danger" *ngIf="f.numeroGuiaRemision.errors?.maxlength">Ingrese 8 a
                     20
+                    letras</small>
+                </div>
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip06">Organizacion</label>
+                  <input type="text" minlength="5" maxlength="100" formControlName="ruc" class="form-control"
+                    id="validationTooltip06" placeholder="Ruc"
+                    [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
+                  <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.minlength">Ingrese 5 a 20
+                    letras</small>
+                  <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.maxlength">Ingrese 5 a 20
                     letras</small>
                 </div>
               </div>
@@ -63,23 +68,14 @@
                   <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                 </div>
                 <div class="col-md-4 mb-4 form-group mb-2">
-                  <label for="validationTooltip09">Organizacion</label>
+                  <label for="validationTooltip09">Razon Social Organizacion</label>
                   <input type="text" minlength="5" maxlength="100" formControlName="organizacion" class="form-control"
                     id="validationTooltip06" placeholder="Ruc"
                     [ngClass]="{ 'is-invalid': submitted && f.organizacion.invalid, 'is-valid': submitted && !f.organizacion.invalid }">
                 </div>
               </div>
               <div class="form-row">
-                <div class="col-md-4 mb-4 form-group mb-2">
-                  <label for="validationTooltip06">Ruc</label>
-                  <input type="text" minlength="5" maxlength="100" formControlName="ruc" class="form-control"
-                    id="validationTooltip06" placeholder="Ruc"
-                    [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
-                  <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.minlength">Ingrese 5 a 20
-                    letras</small>
-                  <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.maxlength">Ingrese 5 a 20
-                    letras</small>
-                </div>
+               
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip12">Tipo Producto</label>
                   <ng-select [items]="listaProducto" formControlName="tipoProducto" class="form-control"
@@ -96,6 +92,14 @@
                     [(ngModel)]="selectedSubProducto">
                   </ng-select>
                 </div>
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip32">Motivo</label>
+                  <ng-select [items]="listaMotivo" formControlName="motivo" class="form-control" bindLabel="Label"
+                    bindValue="Codigo" id="validationTooltip32" placeholder="Motivo"
+                    [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
+                    [(ngModel)]="selectedMotivo">
+                  </ng-select>
+                </div>
 
               </div>
 
@@ -109,18 +113,12 @@
                   </ng-select>
                 </div>
 
-                <div class="col-md-4 mb-4 form-group mb-2">
-                  <label for="validationTooltip32">Motivo</label>
-                  <ng-select [items]="listaMotivo" formControlName="motivo" class="form-control" bindLabel="Label"
-                    bindValue="Codigo" id="validationTooltip32" placeholder="Motivo"
-                    [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
-                    [(ngModel)]="selectedMotivo">
-                  </ng-select>
-                </div>
+              
 
-                <small class="form-text text-muted danger"
-                  *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+              
               </div>
+              <small class="form-text text-muted danger"
+              *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
               <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
                 (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"

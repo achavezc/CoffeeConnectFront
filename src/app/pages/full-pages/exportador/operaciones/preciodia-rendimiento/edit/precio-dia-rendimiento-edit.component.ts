@@ -26,7 +26,9 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
   rowsDetails = [];
   isLoading = true;
   userSession: any;
-  codeCompany: any;
+  idPriceDayPerformance;
+  messageGeneric = 'Ha ocurrido un error interno.';
+  errorGeneral = { isError: false, msgError: '' };
 
   constructor(private fb: FormBuilder,
     private maestroUtil: MaestroUtil,
@@ -40,33 +42,37 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
-    this.codeCompany = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    this.idPriceDayPerformance = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     this.LoadForm();
-    this.GetCurrencys();
-    this.CheckPricesDaysPerformance();
+    if (this.idPriceDayPerformance > 0) {
+      this.GetPriceDayPerformanceById();
+    } else if (this.idPriceDayPerformance == 0) {
+      this.CheckPricesDaysPerformance();
+    }
   }
 
-  LoadForm() {
+  async LoadForm() {
     this.frmPrecioDiaRendimientoEdit = this.fb.group({
       averageprice: [0],
       exchangerate: [0],
       currency: [],
       datecurrent: []
     });
+    await this.GetCurrencys();
     this.frmPrecioDiaRendimientoEdit.controls.datecurrent.setValue(this.dateUtil.currentDate());
+    this.frmPrecioDiaRendimientoEdit.controls.currency.setValue(this.userSession.Result.Data.MonedaId);
   }
 
   get f() {
     return this.frmPrecioDiaRendimientoEdit.controls;
   }
 
-  GetCurrencys() {
+  async GetCurrencys() {
     this.listCurrency = [];
-    this.maestroUtil.obtenerMaestros('Moneda', (res) => {
-      if (res.Result.Success) {
-        this.listCurrency = res.Result.Data;
-      }
-    });
+    const res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listCurrency = res.Result.Data;
+    }
   }
 
   CheckPricesDaysPerformance() {
@@ -81,7 +87,7 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
           // this.frmPrecioDiaRendimientoEdit.controls.currency.setValue(res.Result.Data[0].MonedaId);
           this.rowsDetails = res.Result.Data.CalculoPrecioDiaRendimiento;
         } else {
-
+          this.alertUtil.alertError('ERROR!', res.Result.Message);
         }
       }, (err) => {
         console.log(err);
@@ -91,29 +97,50 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
 
   Save() {
     const form = this;
-    swal.fire({
-      title: 'Confirmación',
-      text: `¿Está seguro de continuar con el registro?.`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2F8BE6',
-      cancelButtonColor: '#F55252',
-      confirmButtonText: 'Si',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.value) {
-        form.Insert();
-      }
-    });
+    if (this.idPriceDayPerformance == 0) {
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Está seguro de continuar con el registro?.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.value) {
+          form.Insert();
+        }
+      });
+    } else if (this.idPriceDayPerformance > 0) {
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Está seguro de continuar con el registro?.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.value) {
+          form.Update();
+        }
+      });
+    }
   }
 
-  Insert() {
-    this.spinner.show();
+  GetRequest() {
     const request = {
+      PrecioDiaRendimientoId: this.idPriceDayPerformance,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       MonedaId: this.frmPrecioDiaRendimientoEdit.value.currency,
       TipoCambio: this.frmPrecioDiaRendimientoEdit.value.exchangerate,
@@ -122,8 +149,12 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
       UsuarioRegistro: this.userSession.Result.Data.NombreUsuario,
       FechaRegistro: null
     };
+    return request;
+  }
 
-    this.precioDiaRendimientoService.Registrar(request)
+  Insert() {
+    this.spinner.show();
+    this.precioDiaRendimientoService.Register(this.GetRequest())
       .subscribe((res) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -136,6 +167,26 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
       }, (err) => {
         this.spinner.hide();
         console.log(err);
+        this.errorGeneral = { isError: true, msgError: this.messageGeneric };
+      });
+  }
+
+  Update() {
+    this.spinner.show();
+    this.precioDiaRendimientoService.UpdatePriceDayPerformance(this.GetRequest())
+      .subscribe((res) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('CONFIRMADO', 'Se actualizarón los datos correctamente.', () => {
+            this.Cancel();
+          });
+        } else {
+          this.alertUtil.alertError('ERROR!', res.Result.Message);
+        }
+      }, (err) => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: true, msgError: this.messageGeneric };
       });
   }
 
@@ -150,5 +201,26 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
 
   Cancel() {
     this.router.navigate(['/exportador/operaciones/preciodiarendimiento/list']);
+  }
+
+  GetPriceDayPerformanceById() {
+    this.spinner.show();
+    const request = { PrecioDiaRendimientoId: this.idPriceDayPerformance };
+    this.precioDiaRendimientoService.CheckPriceDayPerformanceById(request)
+      .subscribe((res) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.frmPrecioDiaRendimientoEdit.controls.averageprice.setValue(res.Result.Data.PrecioPromedioContrato);
+          this.frmPrecioDiaRendimientoEdit.controls.exchangerate.setValue(res.Result.Data.TipoCambio);
+          this.frmPrecioDiaRendimientoEdit.controls.currency.setValue(res.Result.Data.MonedaId);
+          this.rowsDetails = res.Result.Data.PrecioDiaRendimientoDetalle;
+        } else {
+          this.alertUtil.alertError('ERROR', res.Result.Message);
+        }
+      }, (err) => {
+        console.log(err);
+        this.errorGeneral = { isError: true, msgError: this.messageGeneric };
+        this.spinner.hide();
+      });
   }
 }
