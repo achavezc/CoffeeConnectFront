@@ -48,6 +48,8 @@ export class AdelantoEditComponent implements OnInit {
   listMoneda: [];
   selectedTipoDocumento: any;
   selectedMoneda: any;
+  popUpSocio = true;
+
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
     private alertUtil: AlertUtil,
     private router: Router,
@@ -96,7 +98,13 @@ export class AdelantoEditComponent implements OnInit {
     this.GetTipoDocumento();
     this.GetMoneda();
    }
-
+   agregarSocio(e) {
+    this.adelantoFormEdit.controls["codigo"].setValue(e[0].Codigo);
+    this.adelantoFormEdit.controls["tipoDocumento"].setValue(e[0].TipoDocumentoId);
+    this.adelantoFormEdit.controls["nombre"].setValue(e[0].NombreRazonSocial);
+    this.adelantoFormEdit.controls["numeroDocumento"].setValue(e[0].NumeroDocumento);
+    this.modalService.dismissAll(); 
+  }
    async GetMoneda() {
     const res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {

@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="!popUp">
     <div class="col-12">
         <div class="content-header">Bandeja de Notas de Compra</div>
     </div>
@@ -128,9 +128,12 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="!consultaNotaCompraForm.valid" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
+                                <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
+                                (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
+                                *ngIf="popUp">Asociar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"  *ngIf="!popUp"
                                 [disabled]="selected.length <= 0">Anular</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"  *ngIf="!popUp"
                                 [disabled]="rows.length <= 0">Exportar</button>
                         </form>
                     </div>

@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
-
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
@@ -27,7 +27,8 @@ export class AdelantoComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private adelantoService: AdelantoService,
     private router: Router,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private modalService: NgbModal) { }
 
     adelantoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -46,6 +47,7 @@ export class AdelantoComponent implements OnInit {
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
   mensajeErrorGenerico = "Ocurrio un error interno.";
+  popUpNotaCompra = true;
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -163,10 +165,49 @@ export class AdelantoComponent implements OnInit {
         }
       );
   }
-  asociar(){
-    this.alertUtil.alertOk('Asociado!', 'Adelanto Asociado.');
+  openModal(modalNotaCompra) {
+     
+      this.modalService.open(modalNotaCompra, { windowClass: 'dark-modal', size: 'xl' });    
+      // this.cargarLotes();
+      // this.clear();
+      // this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+      // this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+    
   }
+  getRequestAsociar(idNotaCompra){
+    var objId = [{ "Id" : 0 }];
+    objId[0].Id = idNotaCompra;
+    return {
+      AdelantoId: this.selected[0].AdelantoId,
+      Usuario: this.userSession.Result.Data.NombreUsuario,
+      NotasCompraId: objId
+    };
+  }
+  agregarNotaCompra(e) {
+    var request = this.getRequestAsociar(e[0].NotaCompraId); 
+    this.adelantoService.Asociar(request).subscribe((res: any) => {
+      this.modalService.dismissAll(); 
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.alertUtil.alertOk('Asociado!', 'Adelanto Asociado.');
+          this.Search();
 
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.alertUtil.alertError('Error', res.Result.Message);
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      } else {
+        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+      }
+    }, (err: any) => {
+      this.modalService.dismissAll(); 
+      console.log(err);
+      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+    });
+
+    
+  }
   getRequest(): any {
     return {
       Numero: this.adelantoForm.value.nroRecibo ? this.adelantoForm.value.nroRecibo : '',

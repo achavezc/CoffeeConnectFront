@@ -91,19 +91,22 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!socioListForm.valid"
                                 (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
+                            (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
+                            *ngIf="popUp">Agregar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()" *ngIf="!popUp">Nuevo</button>
                             <ng-template #mdlSocioDocuments let-c="close" let-d="dismiss">
                                 <app-lista-documentos [codeForm]="'frmMdlSocioDocuments'" [code]="selected[0].SocioId">
                                 </app-lista-documentos>
                             </ng-template>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                (click)="OpenModal(mdlSocioDocuments)"
+                                (click)="OpenModal(mdlSocioDocuments)" *ngIf="!popUp"
                                 [disabled]="selected.length <= 0">Documentos</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoFinca()"
-                                [disabled]="selected.length <= 0">Fincas</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoProjects()"
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoFinca()" *ngIf="!popUp"
+                                [disabled]="selected.length <= 0">Fincas</button> 
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoProjects()" *ngIf="!popUp"
                                 [disabled]="selected.length <= 0">Proyectos</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Export()"
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Export()" *ngIf="!popUp"
                                 [disabled]="!rows || rows.length <= 0">Exportar</button>
                         </form>
                     </div>

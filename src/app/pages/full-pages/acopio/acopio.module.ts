@@ -121,7 +121,8 @@ import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
     OrdenServicioComponent,
     OrdenServicioEditComponent,
     TagOrdenServicioComponent,
-    DetalleLoteComponent
+    DetalleLoteComponent,
+    NotacompraListComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

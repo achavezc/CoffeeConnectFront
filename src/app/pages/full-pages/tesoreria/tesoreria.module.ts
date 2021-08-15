@@ -21,11 +21,14 @@ import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustom
 import { FileUploadModule } from 'ng2-file-upload';
 import {AdelantoComponent} from './adelanto/list/adelanto.component';
 import {AdelantoEditComponent} from './adelanto/edit/adelanto-edit.component';
-
+import { AcopioModule } from '../acopio/acopio.module';
+import { AgropecuarioModule } from '../agropecuario/agropecuario.module';
+//import { NotacompraListComponent } from '../acopio/operaciones/notacompra/notacompra-list.component';
 @NgModule({
   declarations: [
     AdelantoComponent,
     AdelantoEditComponent
+    //NotacompraListComponent
 ],
   imports: [
     CommonModule,
@@ -46,7 +49,9 @@ import {AdelantoEditComponent} from './adelanto/edit/adelanto-edit.component';
     PipeModule,
     MatchHeightModule,
     TesoreriaRoutingModule,
-    FileUploadModule
+    FileUploadModule,
+    AcopioModule,
+    AgropecuarioModule
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
