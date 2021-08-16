@@ -108,7 +108,8 @@ export class ContratoEditComponent implements OnInit {
       estadoContratoId: '',
       totalKGPergamino: 0,
       porcenRendimiento: 0,
-      KGPergamino: 0
+      KGPergamino: 0,
+      fnSearch: function () { this.SearchById(); }
     }
   }
 
@@ -427,6 +428,11 @@ export class ContratoEditComponent implements OnInit {
     this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true, backdropClass: 'light-blue-backdrop' });
   }
 
+  OpenAssignContract(modal: any) {
+    // this.reqAsignacionContratoAcopio.fnSearch = this.SearchById();
+    this.openModalLG(modal);
+  }
+
   GetRequest(): any {
     const form = this.contratoEditForm.value;
     return {
@@ -493,7 +499,8 @@ export class ContratoEditComponent implements OnInit {
       GastosExpCostos: form.ExpensesExpCosts ? form.ExpensesExpCosts : 0,
       TotalFacturar1: form.TotalBilling1 ? form.TotalBilling1 : 0,
       TotalFacturar2: form.TotalBilling2 ? form.TotalBilling2 : 0,
-      TotalFacturar3: form.TotalBilling3 ? form.TotalBilling3 : 0
+      TotalFacturar3: form.TotalBilling3 ? form.TotalBilling3 : 0,
+      TipoContratoId: form.contractType ? form.contractType : null
     }
   }
 
@@ -785,6 +792,10 @@ export class ContratoEditComponent implements OnInit {
         this.reqAsignacionContratoAcopio.porcenRendimiento = data.PorcentajeRendimientoAsignacion;
       if (data.TotalKGPergaminoAsignacion)
         this.reqAsignacionContratoAcopio.totalKGPergamino = data.TotalKGPergaminoAsignacion;
+      if (data.TipoContratoId) {
+        await this.GetTypesContracts();
+        this.contratoEditForm.controls.contractType.setValue(data.TipoContratoId);
+      }
 
       this.spinner.hide();
     } else {

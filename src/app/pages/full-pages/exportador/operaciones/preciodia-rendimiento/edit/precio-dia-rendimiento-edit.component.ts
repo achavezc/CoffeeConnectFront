@@ -97,44 +97,48 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
 
   Save() {
     const form = this;
-    if (this.idPriceDayPerformance == 0) {
-      swal.fire({
-        title: 'Confirmación',
-        text: `¿Está seguro de continuar con el registro?.`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then((result) => {
-        if (result.value) {
-          form.Insert();
-        }
-      });
-    } else if (this.idPriceDayPerformance > 0) {
-      swal.fire({
-        title: 'Confirmación',
-        text: `¿Está seguro de continuar con el registro?.`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then((result) => {
-        if (result.value) {
-          form.Update();
-        }
-      });
+    if (this.rowsDetails.filter(x => !x.Valor1 || !x.Valor2).length <= 0) {
+      if (this.idPriceDayPerformance == 0) {
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con el registro?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            form.Insert();
+          }
+        });
+      } else if (this.idPriceDayPerformance > 0) {
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con el registro?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            form.Update();
+          }
+        });
+      }
+    } else {
+      this.alertUtil.alertWarning('VALIDACIÓN', 'Las columnas "Valor 1" y "Valor 2" de todas las filas son obligatorias.');
     }
   }
 

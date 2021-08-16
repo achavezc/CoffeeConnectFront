@@ -14,7 +14,7 @@ export class DateUtil {
   currentMonthAgo() {
     let now = new Date();
     let monthAgo = new Date();
-    monthAgo.setMonth(now.getMonth() - 1);
+    monthAgo.setMonth(now.getMonth() - 12);
     return monthAgo.toISOString().substring(0, 10);
   }
 

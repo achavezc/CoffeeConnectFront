@@ -1,82 +1,83 @@
 <form class="needs-validation" [formGroup]="contratoFormEdit">
-    <section id="tooltip-validation">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header" style="margin-bottom: 2rem;">
-              <!--   <form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit"> -->
-  
-              <div class="row">
-                <div class="col-12 col-md-8">
-                  <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
-                  <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
-                  <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
-                  </div>
+  <section id="tooltip-validation">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header" style="margin-bottom: 2rem;">
+            <!--   <form class="needs-validation" [formGroup]="consultaMateriaPrimaFormEdit"> -->
+
+            <div class="row">
+              <div class="col-12 col-md-8">
+                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
+                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
+                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
                 </div>
-  
-              </div>
-  
-              <div class="row"
-                style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle1 | translate }}</div>
-              </div>
-              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-4">
-                  <label for="basicInput">{{ContratoEditTraduccion.NumContrato | translate }}</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="numeroContrato" disabled>
-                </div>
-                <div class="col-12 col-md-4">
-                  <label for="basicInput">{{ContratoEditTraduccion.FechaContrato | translate }}</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="fechaContrato" disabled>
-                </div>
-                <div class="col-12 col-md-4">
-                    <label for="basicInput">{{ContratoEditTraduccion.Cliente | translate }}</label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="cliente" disabled>
-                  </div>
               </div>
 
-              <div class="row"
-                style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle2 | translate }}</div>
+            </div>
+
+            <div class="row"
+              style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+              <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle1 | translate }}</div>
+            </div>
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.NumContrato | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="numeroContrato" disabled>
               </div>
-              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-4">
-                  <label for="basicInput">{{ContratoEditTraduccion.Courier | translate }}</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="courier" disabled>
-                </div>
-                <div class="col-12 col-md-4">
-                  <label for="basicInput">{{ContratoEditTraduccion.NumTracking | translate }}</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="numeroTracking" disabled>
-                </div>
-                <div class="col-12 col-md-4">
-                    <label for="basicInput">{{ContratoEditTraduccion.EstadoMuestra | translate }}</label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="estado" disabled>
-                  </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.FechaContrato | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="fechaContrato" disabled>
               </div>
-  
-              <div class="row"
-                style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle3 | translate }}</div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.Cliente | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="cliente" disabled>
               </div>
-  
-              <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-             
-                <div class="col-12 col-md-8">
-                    <br>
-                    <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
-                     
-                      <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="AduanaId">
-                      </app-lista-documentos>
-                    </ng-template>
-                  <button class="btn btn-primary" (click)="openModal(mdlListDocuments)">{{ContratoEditTraduccion.Button | translate }}</button>
-                </div>
-                <div class="col-12 col-md-4">
-                  <label for="basicInput">{{ContratoEditTraduccion.FechaEmbarque | translate }}</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="fechaEmbarque" disabled>
-                </div>
+            </div>
+
+            <div class="row"
+              style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+              <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle2 | translate }}</div>
+            </div>
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.Courier | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="courier" disabled>
               </div>
-  
-              <div class="row"
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.NumTracking | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="numeroTracking" disabled>
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.EstadoMuestra | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="estado" disabled>
+              </div>
+            </div>
+
+            <div class="row"
+              style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+              <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle3 | translate }}</div>
+            </div>
+
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+
+              <div class="col-12 col-md-8">
+                <br>
+                <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+
+                  <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="AduanaId">
+                  </app-lista-documentos>
+                </ng-template>
+                <button class="btn btn-primary" (click)="openModal(mdlListDocuments)">{{ContratoEditTraduccion.Button |
+                  translate }}</button>
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.FechaEmbarque | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="fechaEmbarque" disabled>
+              </div>
+            </div>
+
+            <div class="row"
               style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
               <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle4 | translate }}</div>
             </div>
@@ -91,88 +92,88 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="estadoPlanta" disabled>
               </div>
             </div>
-            
+
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-8">
-                  <label for="basicInput">{{ContratoEditTraduccion.Productor | translate }}</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="productor" disabled>
-                </div>
+              <div class="col-12 col-md-8">
+                <label for="basicInput">{{ContratoEditTraduccion.Productor | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="productor" disabled>
+              </div>
             </div>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-4">
-                    <label for="basicInput">{{ContratoEditTraduccion.Producto | translate }}</label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="producto" disabled>
-                </div>
-                <div class="col-12 col-md-2">
-                    <label for="basicInput"></label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="calidad" disabled>
-                </div>
-                
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.Producto | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="producto" disabled>
+              </div>
+              <div class="col-12 col-md-2">
+                <label for="basicInput"></label>
+                <input type="text" class="form-control" id="basicInput" formControlName="calidad" disabled>
+              </div>
+
             </div>
 
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-2">
-                    <label for="basicInput">{{ContratoEditTraduccion.Cantidad | translate }}</label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="cantidad" disabled>
-                </div>
-                <div class="col-12 col-md-3">
-                    <label for="basicInput"></label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="empaqueTipo" disabled>
-                </div>
-                
-                <div class="col-12 col-md-3">
-                    <label for="basicInput">{{ContratoEditTraduccion.Grado | translate }}</label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="grado" disabled>
-                </div>
+              <div class="col-12 col-md-2">
+                <label for="basicInput">{{ContratoEditTraduccion.Cantidad | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="cantidad" disabled>
+              </div>
+              <div class="col-12 col-md-3">
+                <label for="basicInput"></label>
+                <input type="text" class="form-control" id="basicInput" formControlName="empaqueTipo" disabled>
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label for="basicInput">{{ContratoEditTraduccion.Grado | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="grado" disabled>
+              </div>
             </div>
-            
+
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-4">
-                    <label for="basicInput">{{ContratoEditTraduccion.PesoxSaco | translate }}</label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="pesoSaco" disabled>
-                </div>
-                <div class="col-12 col-md-4">
-                    <label for="basicInput">{{ContratoEditTraduccion.PesoNeto | translate }}</label>
-                    <input type="text" class="form-control" id="basicInput" formControlName="pesoNeto" disabled>
-                </div>
-                
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.PesoxSaco | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="pesoSaco" disabled>
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.PesoNeto | translate }}</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="pesoNeto" disabled>
+              </div>
+
             </div>
-                        
+
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-4">
-                    <label for="basicInput">{{ContratoEditTraduccion.NotasAdicionales | translate }}</label>
-                    <textarea id="bordered-form-6" rows="4" class="form-control"
-                    formControlName="provNombre" name="notes"></textarea>
-                </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.NotasAdicionales | translate }}</label>
+                <textarea id="bordered-form-6" rows="4" class="form-control" formControlName="provNombre"
+                  name="notes"></textarea>
+              </div>
             </div>
-            
+
             <br>
             <br>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                <div class="col-12 col-md-4">
-                    <label for="basicInput">{{ContratoEditTraduccion.Responsable | translate }} : </label>
-                  </div>
-                    <div class="col-12 col-md-4">
-                    <label for="basicInput">{{responsable}}</label>
-                </div>
-                
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{ContratoEditTraduccion.Responsable | translate }} : </label>
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">{{responsable}}</label>
+              </div>
+
             </div>
             <div class="card-footer text-right" style="margin-top: 2rem;">
-              
-              <button class="btn btn-danger ml-1" (click)="cancelar()">Cancelar</button>
-          </div>
 
+              <button class="btn btn-danger ml-1" (click)="cancelar()">Cancelar</button>
             </div>
+
           </div>
         </div>
       </div>
-  
-    </section>
- 
-  
-  
-    <div class="d-flex justify-content-between align-items-center">
-      <ngx-spinner></ngx-spinner>
     </div>
-  
-  </form>
+
+  </section>
+
+
+
+  <div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+  </div>
+
+</form>
