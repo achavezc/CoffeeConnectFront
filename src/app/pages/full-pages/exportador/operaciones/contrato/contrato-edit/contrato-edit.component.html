@@ -195,7 +195,7 @@
                         <label class="text-white">DETALLE DE LA COMPRA</label>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="login.Result.Data.EmpresaId == 1">
                             <div class="form-group row">
                                 <label for="contractType" class="col-lg-5 col-form-label">TIPO DE CONTRATO</label>
                                 <div class="col-lg-7">
