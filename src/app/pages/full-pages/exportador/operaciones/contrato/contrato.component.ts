@@ -103,7 +103,7 @@ export class ContratoComponent implements OnInit {
 
   LoadCombos(): void {
     const form = this;
-    this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
+    this.maestroUtil.obtenerMaestros('EstadoContrato', (res: any) => {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
         if (this.popUp == true)

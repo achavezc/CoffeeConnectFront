@@ -90,7 +90,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
     const form = this;
     swal.fire({
       title: 'Confirmación',
-      text: `¿Seguro que desea asignar el contrato?.`,
+      text: `¿Seguro que desea asignar contrato, luego de grabar no podrá ser modificado?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#2F8BE6',
