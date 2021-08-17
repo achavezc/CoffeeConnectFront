@@ -58,6 +58,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public limitRef = 10;
   errorGeneral: any = { isError: false, errorMessage: '' };
+  errorGeneralProv: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   listTipoSocio: any[];
   listaTipoDocumento: any[];
@@ -160,7 +161,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         fechaPesado: ['',],
         totalPergamino: ['',],
         rendimiento: ['',],
-        saldoPendiente:['', ],
+        saldoPendiente:[''],
         pesado: this.fb.group({
           unidadMedida: new FormControl('', [Validators.required]),
           //cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
@@ -312,18 +313,18 @@ export class MateriaPrimaEditComponent implements OnInit {
       const rzsocial = group.controls['rzsocial'];
       if ((tipoproveedor.value != "" && tipoproveedor.value != undefined) && numeroDocumento.value == "" && numeroDocumento.value == "" && socio.value == "" && rzsocial.value == "") {
 
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
+        this.errorGeneralProv = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
 
       } else {
-        this.errorGeneral = { isError: false, errorMessage: '' };
+        this.errorGeneralProv = { isError: false, errorMessage: '' };
       }
       if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
 
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
+        this.errorGeneralProv = { isError: true, errorMessage: 'Seleccione un tipo documento' };
 
       } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined) && (tipoproveedor.value != "" || tipoproveedor.value != undefined)) {
 
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
+        this.errorGeneralProv = { isError: true, errorMessage: 'Ingrese un numero documento' };
 
       }
       return;
@@ -362,19 +363,13 @@ export class MateriaPrimaEditComponent implements OnInit {
         }
       );
   }
-  async actualizarSaldoPendiente() {
+   actualizarSaldoPendiente() {
 
     var  saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
-    if (saldoPendiente == 0 || saldoPendiente < 0){
-    
-      this.alertUtil.alertWarning("Oops...!","Se ha llegado al máximo necesitado de café pergamino para el contrato vigente. Asignar un nuevo contrato");
-      this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").invalid;
-    }
-    else{
-      this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].setValue(saldoPendiente.toFixed(2));
-      this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].valid;
-      this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").valid;
-    }
+      this.consultaMateriaPrimaFormEdit.get("saldoPendiente").setValue((saldoPendiente.toFixed(2)).toString());
+      //this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].status;
+      //this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").valid;
+    //}
   }
   calcularKilosNetos() {
     var kilosBruto = this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value;
@@ -428,7 +423,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   buscar() {
     let columns = [];
-    if (this.consultaProveedor.invalid || this.errorGeneral.isError) {
+    if (this.consultaProveedor.invalid || this.errorGeneralProv.isError) {
       this.submitted = true;
       return;
     } else {
@@ -468,18 +463,18 @@ export class MateriaPrimaEditComponent implements OnInit {
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+              this.errorGeneralProv = { isError: true, errorMessage: res.Result.Message };
             } else {
-              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+              this.errorGeneralProv = { isError: true, errorMessage: this.mensajeErrorGenerico };
             }
           } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            this.errorGeneralProv = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         },
           err => {
             this.spinner.hide();
             console.error(err);
-            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+            this.errorGeneralProv = { isError: false, errorMessage: this.mensajeErrorGenerico };
           }
         );
     }
@@ -557,7 +552,6 @@ export class MateriaPrimaEditComponent implements OnInit {
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").value),
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value),
         Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").value),
-        Number(this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value),
         this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").value,
         socioFincaId,
         terceroFincaId,
@@ -586,7 +580,16 @@ export class MateriaPrimaEditComponent implements OnInit {
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
+          if (res.Result.ErrCode == '03')
+          {
+            this.errorGeneral = { isError: true, errorMessage: 'El Saldo Pendiente es igual a 0' };
+          }
+          else if (res.Result.ErrCode == '04')
+          {
+            this.errorGeneral = { isError: true, errorMessage: 'El total Kilos Netos Pesado es mayor que el Saldo Pendiente' };
+          }
+          else if (res.Result.ErrCode == "") 
+          {
             var form = this;
             this.alertUtil.alertOkCallback('Registrado!', 'Guia Registrada.', function (result) {
               //if(result.isConfirmed){
@@ -594,7 +597,8 @@ export class MateriaPrimaEditComponent implements OnInit {
               //}
             }
             );
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          } 
+          else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
@@ -703,7 +707,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").setValue(data.KilosBrutosPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").setValue(data.TaraPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("humedad").setValue(data.HumedadPorcentajeAnalisisFisico);
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue(data.TotalKilosNetos);
+    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue(data.KilosNetosPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("observacionPesado").setValue(data.ObservacionPesado);
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
@@ -734,7 +738,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
     this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
-    await this.actualizarSaldoPendiente();
+    this.actualizarSaldoPendiente();
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
   }

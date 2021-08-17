@@ -672,7 +672,18 @@ export class ControlCalidadComponent implements OnInit {
 
  cancelar()
  {
-  this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+  if (this.form == "materiaprima") {
+    this.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+  }
+  else if (this.form == "lote") {
+    this.router.navigate(['/acopio/operaciones/lotes-list']);
+  }
+  else if (this.form == "ordenServicio") {
+    this.router.navigate(['/acopio/operaciones/orderservicio-controlcalidadexterna-list']);
+  }
+  else if (this.form == "notaingresoplanta")
+  {
+    this.router.navigate(['/planta/operaciones/notaingreso-list']);
+  }
  }
- 
 }

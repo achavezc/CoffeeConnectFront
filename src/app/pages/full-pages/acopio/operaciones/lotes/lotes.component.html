@@ -134,14 +134,7 @@
                                     </ng-select>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="contractNumber" class="form-label">Número Contrato</label>
-                                    <input type="text" formControlName="contractNumber" class="form-control"
-                                        id="contractNumber" placeholder="Número de contrato"
-                                        [ngClass]="{ 'is-invalid': submitted && f.contractNumber.invalid, 'is-valid': submitted && !f.contractNumber.invalid }">
-                                </div>
-                            </div>
+                           
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!banLoteForm.valid"
@@ -200,8 +193,6 @@
                                         </div>
                                     </div>
                                 </ng-template>
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Número Contrato" prop="NumeroContrato">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Almacén" prop="Almacen">
                             </ngx-datatable-column>

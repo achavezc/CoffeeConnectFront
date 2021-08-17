@@ -8,13 +8,9 @@ export class ReqActualizarLote {
     TotalKilosNetosPesado:number,
     TotalKilosBrutosPesado: number,
     NotasIngresoAlmacenId:  IdsAccion[],
-    ContratoId ?: number,
    )
     {
-        if(ContratoId != null)
-        {
-            this.ContratoId = ContratoId
-        }
+        
        
         this.LoteId = LoteId,
         this.AlmacenId = AlmacenId,
@@ -31,7 +27,6 @@ export class ReqActualizarLote {
     TotalKilosNetosPesado:number;
     TotalKilosBrutosPesado: number;
     NotasIngresoAlmacenId:  IdsAccion[];
-    ContratoId ?: number;
 }
 
  export class IdsAccion
