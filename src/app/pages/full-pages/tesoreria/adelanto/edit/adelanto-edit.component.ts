@@ -98,12 +98,12 @@ export class AdelantoEditComponent implements OnInit {
     this.GetTipoDocumento();
     this.GetMoneda();
   }
-   agregarSocio(e) {
+  agregarSocio(e) {
     this.adelantoFormEdit.controls["codigo"].setValue(e[0].Codigo);
     this.adelantoFormEdit.controls["tipoDocumento"].setValue(e[0].TipoDocumentoId);
     this.adelantoFormEdit.controls["nombre"].setValue(e[0].NombreRazonSocial);
     this.adelantoFormEdit.controls["numeroDocumento"].setValue(e[0].NumeroDocumento);
-    this.modalService.dismissAll(); 
+    this.modalService.dismissAll();
   }
 
   async GetMoneda() {

@@ -51,13 +51,14 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
   }
 
   async GetKGsPergaminos() {
+    this.listGKsPergaminos = [];
     const request = { EmpresaId: this.userSession.Result.Data.EmpresaId };
     const res = await this.precioDiaRendimientoService.ConsultPerformancePercentage(request).toPromise();
     if (res.Result.Success) {
       let list = [];
       let label = '';
       for (let i = 0; i < res.Result.Data.length; i++) {
-        label = `${res.Result.Data[i].RendimientoInicio}\t\t\t\t${res.Result.Data[i].RendimientoFin}\t\t\t\t${res.Result.Data[i].KGPergamino}`;
+        label = `${res.Result.Data[i].RendimientoInicio}\t\t${res.Result.Data[i].RendimientoFin}\t\t${res.Result.Data[i].KGPergamino}`;
         list.push({
           Label: label,
           Codigo: res.Result.Data[i].KGPergamino,
@@ -68,14 +69,16 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
     }
   }
 
-  LoadData() {
+  async LoadData() {
     if (this.request) {
       if (this.request.pesoNetoKGOro)
         this.frmMdlAsignacionContratoAcopio.controls.pesoNetoKGOro.setValue(this.request.pesoNetoKGOro);
       if (this.request.pesoNetoQQ)
         this.frmMdlAsignacionContratoAcopio.controls.pesoNetoQQ.setValue(this.request.pesoNetoQQ);
-      if (this.request.KGPergamino)
+      if (this.request.KGPergamino) {
+        await this.GetKGsPergaminos();
         this.frmMdlAsignacionContratoAcopio.controls.KGPergamino.setValue(this.request.KGPergamino);
+      }
       if (this.request.porcenRendimiento)
         this.frmMdlAsignacionContratoAcopio.controls.porcenRendimiento.setValue(this.request.porcenRendimiento);
       if (this.request.totalKGPergamino)
@@ -128,6 +131,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
           } else {
             this.alertUtil.alertOkCallback('Confirmación', 'Confirmación exitosa.',
               () => {
+                this.response.emit();
                 this.Close();
               });
           }

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AdelantoComponent} from '../tesoreria/adelanto/list/adelanto.component';
+import { AdelantoComponent } from '../tesoreria/adelanto/list/adelanto.component';
 
-import {AdelantoEditComponent} from '../tesoreria/adelanto/edit/adelanto-edit.component';
+import { AdelantoEditComponent } from '../tesoreria/adelanto/edit/adelanto-edit.component';
 
 const routes: Routes = [
     {
         path: '',
         children: [
-           
+
             {
                 path: 'adelanto/list',
                 component: AdelantoComponent,

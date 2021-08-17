@@ -195,7 +195,7 @@
                         <label class="text-white">DETALLE DE LA COMPRA</label>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="login.Result.Data.EmpresaId == 1">
                             <div class="form-group row">
                                 <label for="contractType" class="col-lg-5 col-form-label">TIPO DE CONTRATO</label>
                                 <div class="col-lg-7">
@@ -515,7 +515,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
                                     <ng-template #mdlAsignacionContratoAcopio let-c="close" let-d="dismiss">
-                                        <app-asignacion-contrato-acopio (response)="GetDataModalClientes($event)"
+                                        <app-asignacion-contrato-acopio (response)="UpdateForm($event)"
                                             [request]="reqAsignacionContratoAcopio">
                                         </app-asignacion-contrato-acopio>
                                     </ng-template>

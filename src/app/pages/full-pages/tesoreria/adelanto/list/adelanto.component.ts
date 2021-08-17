@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild,Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
@@ -30,7 +30,7 @@ export class AdelantoComponent implements OnInit {
     private alertUtil: AlertUtil,
     private modalService: NgbModal) { }
 
-    adelantoForm: FormGroup;
+  adelantoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   listEstado: any[];
   listTipoDocumento: any[];
@@ -55,7 +55,7 @@ export class AdelantoComponent implements OnInit {
     this.LoadCombos();
     this.adelantoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.adelantoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-   
+
   }
 
   LoadForm(): void {
@@ -107,28 +107,28 @@ export class AdelantoComponent implements OnInit {
     });
   }
 
-  
+
   anular() {
     if (this.selected.length > 0) {
-        var form = this;
-        swal.fire({
-          title: '¿Estas seguro?',
-          text: "¿Estas seguro de anular la guia?",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.anularAdelanto();
-          }
-        });
+      var form = this;
+      swal.fire({
+        title: '¿Estas seguro?',
+        text: "¿Estas seguro de anular la guia?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.anularAdelanto();
+        }
+      });
     }
   }
 
@@ -166,16 +166,16 @@ export class AdelantoComponent implements OnInit {
       );
   }
   openModal(modalNotaCompra) {
-     
-      this.modalService.open(modalNotaCompra, { windowClass: 'dark-modal', size: 'xl' });    
-      // this.cargarLotes();
-      // this.clear();
-      // this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-      // this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-    
+
+    this.modalService.open(modalNotaCompra, { windowClass: 'dark-modal', size: 'xl' });
+    // this.cargarLotes();
+    // this.clear();
+    // this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    // this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+
   }
-  getRequestAsociar(idNotaCompra){
-    var objId = [{ "Id" : 0 }];
+  getRequestAsociar(idNotaCompra) {
+    var objId = [{ "Id": 0 }];
     objId[0].Id = idNotaCompra;
     return {
       AdelantoId: this.selected[0].AdelantoId,
@@ -184,9 +184,9 @@ export class AdelantoComponent implements OnInit {
     };
   }
   agregarNotaCompra(e) {
-    var request = this.getRequestAsociar(e[0].NotaCompraId); 
+    var request = this.getRequestAsociar(e[0].NotaCompraId);
     this.adelantoService.Asociar(request).subscribe((res: any) => {
-      this.modalService.dismissAll(); 
+      this.modalService.dismissAll();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
           this.alertUtil.alertOk('Asociado!', 'Adelanto Asociado.');
@@ -201,12 +201,12 @@ export class AdelantoComponent implements OnInit {
         this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
       }
     }, (err: any) => {
-      this.modalService.dismissAll(); 
+      this.modalService.dismissAll();
       console.log(err);
       this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
     });
 
-    
+
   }
   getRequest(): any {
     return {
@@ -239,12 +239,12 @@ export class AdelantoComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           this.errorGeneral = { isError: false, msgError: '' };
-            res.Result.Data.forEach((obj: any) => {
-              obj.FechaPagoString = this.dateUtil.formatDate(new Date(obj.FechaPago));
-            });
-            this.rows = res.Result.Data;
-            this.tempData = this.rows;
-          
+          res.Result.Data.forEach((obj: any) => {
+            obj.FechaPagoString = this.dateUtil.formatDate(new Date(obj.FechaPago));
+          });
+          this.rows = res.Result.Data;
+          this.tempData = this.rows;
+
         } else {
           this.errorGeneral = { isError: true, msgError: res.Result.Message };
         }
@@ -253,11 +253,78 @@ export class AdelantoComponent implements OnInit {
         console.log(err);
         this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
       });
-    } 
+    }
   }
 
   nuevo() {
     this.router.navigate(['/tesoreria/adelanto/edit']);
   }
- 
+
+  Export() {
+    const form = this;
+    swal.fire({
+      title: '¿Estas seguro?',
+      text: "¿Estas seguro de exportar todos los datos?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        form.ExportRows();
+      }
+    });
+  }
+
+  ExportRows() {
+    const request = this.getRequest();
+    this.adelantoService.Consultar(request).subscribe((res: any) => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        this.errorGeneral = { isError: false, msgError: '' };
+        const vArrHeaderExcel: HeaderExcel[] = [
+          new HeaderExcel("Número Recibo", "center"),
+          new HeaderExcel("Nota Compra", "center"),
+          new HeaderExcel("Código", "center"),
+          new HeaderExcel("Tipo Documento"),
+          new HeaderExcel("Número Documento", "center"),
+          new HeaderExcel("Nombre / Razón Social"),
+          new HeaderExcel("Fecha Pago", "center", "dd/mm/yyyy"),
+          new HeaderExcel("Moneda", "center"),
+          new HeaderExcel("Importe", "right"),
+          new HeaderExcel("Estado")
+        ];
+
+        let vArrData: any[] = [];
+        for (let i = 0; i < res.Result.Data.length; i++) {
+          vArrData.push([
+            res.Result.Data[i].Numero,
+            res.Result.Data[i].NumeroNotaCompra,
+            res.Result.Data[i].CodigoSocio,
+            res.Result.Data[i].TipoDocumento,
+            res.Result.Data[i].NumeroDocumento,
+            res.Result.Data[i].NombreRazonSocial,
+            new Date(res.Result.Data[i].FechaPago),
+            res.Result.Data[i].Moneda,
+            res.Result.Data[i].Monto,
+            res.Result.Data[i].Estado
+          ]);
+        }
+        this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Adelanto');
+      } else {
+        this.errorGeneral = { isError: true, msgError: res.Result.Message };
+      }
+    }, (err: any) => {
+      this.spinner.hide();
+      console.log(err);
+      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+    });
+  }
+
 }

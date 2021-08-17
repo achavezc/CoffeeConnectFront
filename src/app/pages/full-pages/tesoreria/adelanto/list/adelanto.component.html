@@ -7,16 +7,17 @@
 <section id="tooltip-validation">
     <ng-template #modalNotaCompra let-c="close" let-d="dismiss">
         <div class="modal-header" style="text-align: center;">
-  
-          <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
+
+            <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
-         <app-notacompra-list (agregarEvent)="agregarNotaCompra($event)" [popUp] = "popUpNotaCompra"></app-notacompra-list>
+            <app-notacompra-list (agregarEvent)="agregarNotaCompra($event)" [popUp]="popUpNotaCompra">
+            </app-notacompra-list>
         </div>
-      </ng-template>
+    </ng-template>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -26,18 +27,18 @@
                             <div class="form-row">
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="nroRecibo" class="form-label">N° Recibo</label>
-                                    <input type="text" formControlName="nroRecibo" class="form-control"
-                                        id="nroRecibo" placeholder="Número de Recibo" name="nroRecibo"
+                                    <input type="text" formControlName="nroRecibo" class="form-control" id="nroRecibo"
+                                        placeholder="Número de Recibo" name="nroRecibo"
                                         [ngClass]="{ 'is-invalid': f.nroRecibo.invalid, 'is-valid': !f.nroRecibo.invalid }">
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="tipoDocumento" class="form-label">Tipo Documento</label>
-                                    <ng-select [items]="listTipoDocumento" formControlName="tipoDocumento" class="form-control"
-                                    bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
-                                    placeholder="Seleccionar Tipo Documento"
-                                    [ngClass]="{ 'is-invalid': f.tipoDocumento.invalid, 'is-valid': !f.tipoDocumento.invalid }"
-                                    [(ngModel)]="selectedTipoDocumento">
-                                </ng-select>
+                                    <ng-select [items]="listTipoDocumento" formControlName="tipoDocumento"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
+                                        placeholder="Seleccionar Tipo Documento"
+                                        [ngClass]="{ 'is-invalid': f.tipoDocumento.invalid, 'is-valid': !f.tipoDocumento.invalid }"
+                                        [(ngModel)]="selectedTipoDocumento">
+                                    </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="fechaInicial" class="form-label">Fecha Inicial</label>
@@ -62,14 +63,14 @@
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="numeroDocumento" class="form-label">Número Documento</label>
                                     <input type="text" formControlName="numeroDocumento" class="form-control"
-                                    id="numeroDocumento" placeholder="Número Documento"
-                                    [ngClass]="{ 'is-invalid': f.numeroDocumento.invalid, 'is-valid': !f.numeroDocumento.invalid }">
+                                        id="numeroDocumento" placeholder="Número Documento"
+                                        [ngClass]="{ 'is-invalid': f.numeroDocumento.invalid, 'is-valid': !f.numeroDocumento.invalid }">
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="tipoProduccion" class="form-label">Nombre / Razon Social</label>
                                     <input type="text" formControlName="razonSocial" class="form-control"
-                                    id="razonSocial" placeholder="Nombre / Razon Social"
-                                    [ngClass]="{ 'is-invalid': f.razonSocial.invalid, 'is-valid': !f.razonSocial.invalid }">
+                                        id="razonSocial" placeholder="Nombre / Razon Social"
+                                        [ngClass]="{ 'is-invalid': f.razonSocial.invalid, 'is-valid': !f.razonSocial.invalid }">
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="estado" class="form-label">Estado</label>
@@ -88,22 +89,20 @@
                                         id="numeroNotaCompra" placeholder="Nro Nota Compra"
                                         [ngClass]="{ 'is-invalid': f.numeroNotaCompra.invalid, 'is-valid': !f.numeroNotaCompra.invalid }">
                                 </div>
-                           
+
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
-                             >Buscar</button> 
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0"
-                            (click)="anular()">Anular</button>
-                         
-                           
-                            <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" 
-                            [disabled]="selected.length==0"
-                            (click)="openModal(modalNotaCompra)">Asociar NC</button>
+                                (click)="anular()">Anular</button>
 
+                            <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
+                                [disabled]="selected.length==0" (click)="openModal(modalNotaCompra)">Asociar NC</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Export()"
+                                [disabled]="rows || !this.adelantoForm.invalid">Exportar</button>
                         </form>
                     </div>
                 </div>
@@ -144,12 +143,12 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column  name="Nro Recibo" prop="Numero" width="90">
+                            <ngx-datatable-column name="Nro Recibo" prop="Numero" width="90">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0"  routerLink="/tesoreria/adelanto/edit"
-                                            [queryParams]="{ id: row.AdelantoId}">{{
+                                            <a class="line-height-1 mb-0" routerLink="/tesoreria/adelanto/edit"
+                                                [queryParams]="{ id: row.AdelantoId}">{{
                                                 name }}</a>
                                         </div>
                                     </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../../services/maestro.service';
-import { FormGroup,FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
@@ -9,7 +9,7 @@ import { AlertUtil } from '../../../../../services/util/alert-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
-import {ContratoEditTraduccion} from '../../../../../services/translate/contrato/contrato-edit-translate';
+import { ContratoEditTraduccion } from '../../../../../services/translate/contrato/contrato-edit-translate';
 import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-translate/core';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 
@@ -23,13 +23,13 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 export class ContratoEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
-  
+
   @ViewChild(DatatableComponent) table: DatatableComponent;
   contratoFormEdit: FormGroup;
-  
+
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  
+
   id: Number = 0;
   AduanaId: Number = 0;
   status: string = "";
@@ -49,7 +49,7 @@ export class ContratoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private contratoService: ContratoService,
     private translate: TranslateService) {
-    
+
   }
 
 
@@ -66,11 +66,11 @@ export class ContratoEditComponent implements OnInit {
       }
       );
 
-      this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
-        localStorage.setItem("language", event.lang);
-        this.obtenerDetalle(event.lang);
-      });
-       
+    this.translate.onLangChange.subscribe((event: TranslationChangeEvent) => {
+      localStorage.setItem("language", event.lang);
+      this.obtenerDetalle(event.lang);
+    });
+
   }
 
   cargarForm() {
@@ -93,7 +93,7 @@ export class ContratoEditComponent implements OnInit {
         grado: ['',],
         pesoSaco: ['',],
         pesoNeto: ['',]
-        
+
 
       });
   }
@@ -121,11 +121,11 @@ export class ContratoEditComponent implements OnInit {
     this.router.navigate(['/cliente/contrato/list']);
   }
 
-  obtenerDetalle(lang : string) {
+  obtenerDetalle(lang: string) {
     var lenguaje = localStorage.getItem("language");
-    lang = lang == '' ? (lenguaje == null? this.translate.getDefaultLang(): lenguaje) : lang;
-   this.spinner.show();
-    this.contratoService.ConsultarTrackingContratoPorContratoId({"ContratoId":this.id,"Idioma": lang})
+    lang = lang == '' ? (lenguaje == null ? this.translate.getDefaultLang() : lenguaje) : lang;
+    this.spinner.show();
+    this.contratoService.ConsultarTrackingContratoPorContratoId({ "ContratoId": this.id, "Idioma": lang })
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
@@ -144,7 +144,7 @@ export class ContratoEditComponent implements OnInit {
           console.log(err);
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
-      ); 
+      );
   }
   cargarDataFormulario(data: any) {
     this.responsable = data.UsuarioRegistro;
@@ -166,15 +166,15 @@ export class ContratoEditComponent implements OnInit {
     this.contratoFormEdit.controls["grado"].setValue(data.GradoId);
     this.contratoFormEdit.controls["pesoSaco"].setValue(data.PesoPorSaco);
     this.contratoFormEdit.controls["pesoNeto"].setValue(data.PesoKilos);
-    this.spinner.hide(); 
+    this.spinner.hide();
   }
 
-  documentos(){
+  documentos() {
 
   }
 
 
-  
+
 
 }
 

@@ -132,14 +132,14 @@ export class ContratoEditComponent implements OnInit {
       ciudad: [],
       producto: [, Validators.required],
       subProducto: [, Validators.required],
-      moneda: [],
-      precio: [0],
-      tipoProduccion: [, Validators.required],
+      moneda: [, Validators.required],
+      precio: [0, Validators.required],
+      tipoProduccion: [],
       unidadMedida: [],
-      certificadora: [, Validators.required],
+      certificadora: [],
       calidad: [, Validators.required],
       certificacion: [, Validators.required],
-      grado: [, Validators.required],
+      grado: [],
       pesoSacoKG: [0, Validators.required],
       cantidadDefectos: [0, Validators.required],
       responsableComercial: [, Validators.required],
@@ -159,7 +159,7 @@ export class ContratoEditComponent implements OnInit {
       // naviera: [],
       observaciones: [],
       pesoKilos: [0, Validators.required],
-      contractWeight: [0],
+      contractWeight: [0, Validators.required],
       harvestPeriod: [],
       contractType: [],
       invoiceIn: [],
@@ -493,7 +493,8 @@ export class ContratoEditComponent implements OnInit {
       GastosExpCostos: form.ExpensesExpCosts ? form.ExpensesExpCosts : 0,
       TotalFacturar1: form.TotalBilling1 ? form.TotalBilling1 : 0,
       TotalFacturar2: form.TotalBilling2 ? form.TotalBilling2 : 0,
-      TotalFacturar3: form.TotalBilling3 ? form.TotalBilling3 : 0
+      TotalFacturar3: form.TotalBilling3 ? form.TotalBilling3 : 0,
+      TipoContratoId: form.contractType ? form.contractType : null
     }
   }
 
@@ -785,6 +786,10 @@ export class ContratoEditComponent implements OnInit {
         this.reqAsignacionContratoAcopio.porcenRendimiento = data.PorcentajeRendimientoAsignacion;
       if (data.TotalKGPergaminoAsignacion)
         this.reqAsignacionContratoAcopio.totalKGPergamino = data.TotalKGPergaminoAsignacion;
+      if (data.TipoContratoId) {
+        await this.GetTypesContracts();
+        this.contratoEditForm.controls.contractType.setValue(data.TipoContratoId);
+      }
 
       this.spinner.hide();
     } else {
@@ -894,6 +899,10 @@ export class ContratoEditComponent implements OnInit {
     this.CalculateTotalBilling1();
     this.CalculateTotalBilling2();
     this.CalculateTotalBilling3();
+  }
+
+  UpdateForm(e) {
+    this.SearchById();
   }
 
 }

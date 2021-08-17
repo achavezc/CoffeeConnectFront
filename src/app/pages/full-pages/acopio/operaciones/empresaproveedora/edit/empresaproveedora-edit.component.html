@@ -4,7 +4,7 @@
     </div>
 </div>
 <form class="needs-validation" novalidate [formGroup]="empresaProveedoraEditForm">
-   
+
     <div class="card border-dark mb-3">
         <div class="card-body">
             <div class="form-row">
@@ -13,15 +13,15 @@
                         <label for="nombreRazonSocial" class="col-4 col-form-label pr-0">Razon Social</label>
                         <div class="col-8">
                             <input type="text" minlength="5" maxlength="100" formControlName="nombreRazonSocial"
-                                    class="form-control" id="nombreRazonSocial" placeholder="Nombre / Razón Social"
-                                    [ngClass]="{ 'is-invalid': submitted && f.nombreRazonSocial.invalid, 'is-valid': submitted && !f.nombreRazonSocial.invalid }">
-                                    <small class="form-text text-muted danger"
-                                    *ngIf="f.nombreRazonSocial.errors?.minlength">Ingrese 5 a 100
-                                    letras</small>
-                                  <small class="form-text text-muted danger"
-                                    *ngIf="f.nombreRazonSocial.errors?.maxlength">Ingrese 5 a 100
-                                    letras</small>
-                                
+                                class="form-control" id="nombreRazonSocial" placeholder="Nombre / Razón Social"
+                                [ngClass]="{ 'is-invalid': submitted && f.nombreRazonSocial.invalid, 'is-valid': submitted && !f.nombreRazonSocial.invalid }">
+                            <small class="form-text text-muted danger"
+                                *ngIf="f.nombreRazonSocial.errors?.minlength">Ingrese 5 a 100
+                                letras</small>
+                            <small class="form-text text-muted danger"
+                                *ngIf="f.nombreRazonSocial.errors?.maxlength">Ingrese 5 a 100
+                                letras</small>
+
                         </div>
                     </div>
                 </div>
@@ -29,9 +29,9 @@
                     <div class="form-group row">
                         <label for="validationTooltip04" class="col-4 col-form-label pr-0">Ruc</label>
                         <div class="col-8">
-                            <input type="text" minlength="5" maxlength="100" formControlName="ruc"
-                            class="form-control" id="ruc" placeholder="Ruc"
-                            [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
+                            <input type="text" minlength="5" maxlength="100" formControlName="ruc" class="form-control"
+                                id="ruc" placeholder="Ruc"
+                                [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
                         </div>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                         <label for="direccion" class="col-md-4 col-form-label pr-0">Direccion</label>
                         <div class="col-8">
                             <input type="text" minlength="5" maxlength="100" formControlName="direccion"
-                            class="form-control" id="direccion" placeholder="Direccion"
-                            [ngClass]="{ 'is-invalid': submitted && f.direccion.invalid, 'is-valid': submitted && !f.direccion.invalid }">
+                                class="form-control" id="direccion" placeholder="Direccion"
+                                [ngClass]="{ 'is-invalid': submitted && f.direccion.invalid, 'is-valid': submitted && !f.direccion.invalid }">
                         </div>
                     </div>
                 </div>
@@ -66,8 +66,8 @@
                         <div class="col-md-8">
                             <ng-select [items]="listProvincia" formControlName="provincia" class="form-control"
                                 bindLabel="Descripcion" bindValue="Codigo" id="provincia"
-                                (change)="onChangeProvince($event)"
-                                placeholder="Seleccionar Provincia" [(ngModel)]="selectedProvincia"
+                                (change)="onChangeProvince($event)" placeholder="Seleccionar Provincia"
+                                [(ngModel)]="selectedProvincia"
                                 [ngClass]="{ 'is-invalid': f.provincia.invalid, 'is-valid': !f.provincia.invalid }">
                             </ng-select>
                         </div>
@@ -91,26 +91,24 @@
                     <div class="form-group row">
                         <label for="departamento" class="col-4 col-form-label pr-0">Clasificacion</label>
                         <div class="col-8">
-                            <ng-select [items]="listClasificacion" formControlName="clasificacion"
-                            class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
-                            placeholder="Seleccionar Clasificacion"
-                            [ngClass]="{ 'is-invalid': f.clasificacion.invalid, 'is-valid': !f.clasificacion.invalid }"
-                            [(ngModel)]="selectedClasificacion">
-                        </ng-select>
+                            <ng-select [items]="listClasificacion" formControlName="clasificacion" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar Clasificacion"
+                                [ngClass]="{ 'is-invalid': f.clasificacion.invalid, 'is-valid': !f.clasificacion.invalid }"
+                                [(ngModel)]="selectedClasificacion">
+                            </ng-select>
                         </div>
                     </div>
                 </div>
-              
+
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
                         <label for="departamento" class="col-4 col-form-label pr-0">Estado</label>
                         <div class="col-8">
-                            <ng-select [items]="listEstado" formControlName="estado"
-                            class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
-                            placeholder="Seleccionar Estado"
-                            [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                            [(ngModel)]="selectedEstado">
-                        </ng-select>
+                            <ng-select [items]="listEstado" formControlName="estado" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Seleccionar Estado"
+                                [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                                [(ngModel)]="selectedEstado">
+                            </ng-select>
                         </div>
                     </div>
                 </div>
@@ -136,7 +134,7 @@
                                 </div>
                             </ng-template>
                         </ngx-datatable-column>
-                       <!--  <ngx-datatable-column name="CERTIFICACION" prop="TipoCertificacionId"
+                        <!--  <ngx-datatable-column name="CERTIFICACION" prop="TipoCertificacionId"
                             [sortable]="false" width="280">
                             <ng-template ngx-datatable-cell-template let-row="row" let-TipoCertificacionId="value"
                                 let-rowIndex="rowIndex"  style="width: 280px;" >
@@ -157,27 +155,28 @@
                                 </div>
                             </ng-template>
                         </ngx-datatable-column> -->
-                        <ngx-datatable-column name="CERTIFICACION" prop="TipoCertificacionId" >
-                            <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        
-                            <select class="status" (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoCertificacionId')"
-                            class="form-control"
-                            >
-                              <option *ngFor="let e of listTipoCertificacion" [selected]="value == e.Codigo" [value]="e.Codigo">
-                                       {{e.Label}}
-                              </option>
-                            </select>
-                        
-                          </ng-template>
+                        <ngx-datatable-column name="CERTIFICACION" prop="TipoCertificacionId">
+                            <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                ngx-datatable-cell-template>
+
+                                <select class="status"
+                                    (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoCertificacionId')"
+                                    class="form-control">
+                                    <option *ngFor="let e of listTipoCertificacion" [selected]="value == e.Codigo"
+                                        [value]="e.Codigo">
+                                        {{e.Label}}
+                                    </option>
+                                </select>
+
+                            </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="COD. DE CERTIFICACION" prop="CodigoCertificacion"
-                            [sortable]="false" width="180">
+                        <ngx-datatable-column name="COD. DE CERTIFICACION" prop="CodigoCertificacion" [sortable]="false"
+                            width="180">
                             <ng-template ngx-datatable-cell-template let-row="row" let-CodigoCertificacion="value"
                                 let-rowIndex="rowIndex">
                                 <div class="d-flex align-items-center">
-                                    <input type="text" date autofocus
-                                        class="form-control form-control-sm text-center"
+                                    <input type="text" date autofocus class="form-control form-control-sm text-center"
                                         [ngClass]="{ 'border-danger': !CodigoCertificacion, '': CodigoCertificacion }"
                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'CodigoCertificacion')"
                                         value="{{CodigoCertificacion}}">
@@ -185,20 +184,20 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-               
+
 
                     </ngx-datatable>
                 </div>
             </div>
             <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                 <div class="col-8 d-flex flex-sm-row flex-column">
-                  <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                  <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
-                    for="horizontal-form-1">{{responsable}}</label>
+                    <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                    <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
+                        for="horizontal-form-1">{{responsable}}</label>
                 </div>
-               
 
-              </div>
+
+            </div>
             <div class="row">
                 <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
                     {{errorGeneral.errorMessage}}

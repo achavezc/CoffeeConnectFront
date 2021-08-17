@@ -15,10 +15,10 @@
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="producto" class="form-label">Pais</label>
                                     <ng-select [items]="listProducto" formControlName="producto" class="form-control"
-                                     bindLabel="Descripcion" bindValue="Codigo" id="producto"
+                                        bindLabel="Descripcion" bindValue="Codigo" id="producto"
                                         placeholder="Seleccionar Pais"
                                         [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }"
-                                        [(ngModel)]="selectedProducto" >
+                                        [(ngModel)]="selectedProducto">
                                     </ng-select>
                                 </div>
 
@@ -32,7 +32,7 @@
                                     </ng-select>
                                 </div>
 
-                                 
+
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
@@ -86,8 +86,7 @@
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0"
-                                                routerLink="/acopio/operaciones/ciudades-edit"
+                                            <a class="line-height-1 mb-0" routerLink="/acopio/operaciones/ciudades-edit"
                                                 [queryParams]="{ id: row.IdUbigeo}">{{
                                                 name }}</a>
                                         </div>
@@ -96,7 +95,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Descripcion" prop="Descripcion" width="80">
                             </ngx-datatable-column>
-                      
+
                             <ngx-datatable-column name="Estado" prop="EstadoRegistro" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge"

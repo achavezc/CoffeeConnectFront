@@ -90,8 +90,9 @@
                                 <ng-template ngx-datatable-cell-template let-row="row" let-val1="value"
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
-                                        <input type="number" autofocus class="form-control text-right" value="{{val1}}"
-                                            (blur)="UpdatesValuesResults($event, rowIndex, 'v1')">
+                                        <input type="number" autofocus class="form-control form-control-sm text-right"
+                                            value="{{val1}}" (blur)="UpdatesValuesResults($event, rowIndex, 'v1')"
+                                            [ngClass]="{ 'border-danger': !val1, '': val1 }">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
@@ -100,8 +101,9 @@
                                 <ng-template ngx-datatable-cell-template let-row="row" let-val2="value"
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
-                                        <input type="number" class="form-control text-right" value="{{val2}}"
-                                            (blur)="UpdatesValuesResults($event, rowIndex, 'v2')">
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            value="{{val2}}" (blur)="UpdatesValuesResults($event, rowIndex, 'v2')"
+                                            [ngClass]="{ 'border-danger': !val2, '': val2 }">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
@@ -110,8 +112,8 @@
                                 <ng-template ngx-datatable-cell-template let-row="row" let-val3="value"
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
-                                        <input type="number" class="form-control text-right" value="{{val3}}"
-                                            (blur)="UpdatesValuesResults($event, rowIndex, 'v3')">
+                                        <input type="number" class="form-control form-control-sm text-right"
+                                            value="{{val3}}" (blur)="UpdatesValuesResults($event, rowIndex, 'v3')">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>

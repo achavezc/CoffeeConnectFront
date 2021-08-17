@@ -19,8 +19,8 @@ import { PipeModule } from "../../../shared/pipes/pipe.module";
 import { MatchHeightModule } from "../../../shared/directives/match-height.directive";
 import { NgbDateCustomParserFormatter } from "../../../shared/util/NgbDateCustomParserFormatter";
 import { FileUploadModule } from 'ng2-file-upload';
-import {AdelantoComponent} from './adelanto/list/adelanto.component';
-import {AdelantoEditComponent} from './adelanto/edit/adelanto-edit.component';
+import { AdelantoComponent } from './adelanto/list/adelanto.component';
+import { AdelantoEditComponent } from './adelanto/edit/adelanto-edit.component';
 import { AcopioModule } from '../acopio/acopio.module';
 import { AgropecuarioModule } from '../agropecuario/agropecuario.module';
 //import { NotacompraListComponent } from '../acopio/operaciones/notacompra/notacompra-list.component';
@@ -29,7 +29,7 @@ import { AgropecuarioModule } from '../agropecuario/agropecuario.module';
     AdelantoComponent,
     AdelantoEditComponent
     //NotacompraListComponent
-],
+  ],
   imports: [
     CommonModule,
     FormsModule,
