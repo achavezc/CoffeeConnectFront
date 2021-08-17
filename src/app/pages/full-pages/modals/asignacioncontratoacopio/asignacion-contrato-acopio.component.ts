@@ -131,8 +131,8 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
           } else {
             this.alertUtil.alertOkCallback('Confirmación', 'Confirmación exitosa.',
               () => {
+                this.response.emit();
                 this.Close();
-                this.request.callback();
               });
           }
         } else {

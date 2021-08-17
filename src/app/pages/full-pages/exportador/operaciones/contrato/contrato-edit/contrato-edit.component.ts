@@ -108,8 +108,7 @@ export class ContratoEditComponent implements OnInit {
       estadoContratoId: '',
       totalKGPergamino: 0,
       porcenRendimiento: 0,
-      KGPergamino: 0,
-      fnSearch: function () { this.SearchById(); }
+      KGPergamino: 0
     }
   }
 
@@ -426,11 +425,6 @@ export class ContratoEditComponent implements OnInit {
 
   openModalLG(modal: any): void {
     this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true, backdropClass: 'light-blue-backdrop' });
-  }
-
-  OpenAssignContract(modal: any) {
-    // this.reqAsignacionContratoAcopio.fnSearch = this.SearchById();
-    this.openModalLG(modal);
   }
 
   GetRequest(): any {
@@ -905,6 +899,10 @@ export class ContratoEditComponent implements OnInit {
     this.CalculateTotalBilling1();
     this.CalculateTotalBilling2();
     this.CalculateTotalBilling3();
+  }
+
+  UpdateForm(e) {
+    this.SearchById();
   }
 
 }

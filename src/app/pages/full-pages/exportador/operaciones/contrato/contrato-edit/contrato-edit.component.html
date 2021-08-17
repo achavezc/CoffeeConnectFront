@@ -515,11 +515,11 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
                                     <ng-template #mdlAsignacionContratoAcopio let-c="close" let-d="dismiss">
-                                        <app-asignacion-contrato-acopio (response)="GetDataModalClientes($event)"
+                                        <app-asignacion-contrato-acopio (response)="UpdateForm($event)"
                                             [request]="reqAsignacionContratoAcopio">
                                         </app-asignacion-contrato-acopio>
                                     </ng-template>
-                                    <button type="button" (click)="OpenAssignContract(mdlAsignacionContratoAcopio)"
+                                    <button type="button" (click)="openModalLG(mdlAsignacionContratoAcopio)"
                                         class="btn btn-primary mb-2">Asignar Contrato</button>
 
                                 </div>
