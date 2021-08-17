@@ -341,11 +341,27 @@ export class MateriaPrimaEditComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
+
+            if (res.Result.Data == null)
+            {
+              this.alertUtil.alertWarning("Oops...!", "No tiene asignado un contrato");
+              this.btnGuardar = false;
+            }
+            else{
+              if ( res.Result.Data.SaldoPendienteKGPergaminoAsignacion == 0)
+              {
+                this.alertUtil.alertWarning("Oops...!", "El contrato asignado no tiene saldo pendiente");
+                this.btnGuardar = false;
+              }
+              else{
             var form = this;
             form.consultaMateriaPrimaFormEdit.get('totalPergamino').setValue(res.Result.Data.TotalKGPergaminoAsignacion);
             form.consultaMateriaPrimaFormEdit.get('rendimiento').setValue(res.Result.Data.PorcentajeRendimientoAsignacion);
             form.saldoPendienteKG = res.Result.Data.SaldoPendienteKGPergaminoAsignacion;
             form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(form.saldoPendienteKG - form.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+            this.btnGuardar = true;
+              }
+            }
 
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -582,11 +598,13 @@ export class MateriaPrimaEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == '03')
           {
-            this.errorGeneral = { isError: true, errorMessage: 'El Saldo Pendiente es igual a 0' };
+            this.alertUtil.alertWarning('Oops..!','El Saldo Pendiente es igual a 0');
+            this.btnGuardar = false;
           }
           else if (res.Result.ErrCode == '04')
           {
-            this.errorGeneral = { isError: true, errorMessage: 'El total Kilos Netos Pesado es mayor que el Saldo Pendiente' };
+            this.alertUtil.alertWarning('Oops..!','El Total Kilos Netos ingresado es mayor que el Saldo Pendiente');
+            this.btnGuardar = false;
           }
           else if (res.Result.ErrCode == "") 
           {
