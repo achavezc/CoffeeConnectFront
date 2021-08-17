@@ -97,11 +97,7 @@ export class LoteEditComponent implements OnInit {
       }),
       idContrato: [],
       contrato: [],
-      cliente: [],
-      unidadMedida: [],
-      cantidad: [],
-      kilosNetos: [],
-      kilosPendientes: []
+      cliente: []
     });
     this.login = JSON.parse(localStorage.getItem("user"));
   }
@@ -157,7 +153,6 @@ export class LoteEditComponent implements OnInit {
     this.loteEditForm.controls.razonSocial.setValue(row.RazonSocial);
     this.loteEditForm.controls.nroLote.setValue(row.Numero);
     this.loteEditForm.controls.direccion.setValue(row.Direccion);
-
     if (row.FechaRegistro && row.FechaRegistro.substring(0, 10) != "0001-01-01") {
       this.loteEditForm.controls.fecha.setValue(row.FechaRegistro.substring(0, 10));
     }
@@ -187,17 +182,12 @@ export class LoteEditComponent implements OnInit {
     if (row.ContratoId) {
       this.loteEditForm.controls.idContrato.setValue(row.ContratoId);
       this.loteEditForm.controls.cliente.setValue(row.Cliente);
-      this.loteEditForm.controls.cantidad.setValue(row.TotalSacos);
-      this.loteEditForm.controls.unidadMedida.setValue(row.Empaque);
-      this.loteEditForm.controls.kilosNetos.setValue(row.PesoKilos);
       this.loteEditForm.controls.contrato.setValue(row.NumeroContrato);
-      this.KilosNetos = row.PesoKilos;
-      this.calculoKilosPendiente();
+      
     }
     this.child.cargarDatos(row);
     this.desactivarControles(row.EstadoId, row.UsuarioRegistro, row.UsuarioCalidad);
     this.spinner.hide();
-
   }
 
   desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
@@ -265,7 +255,7 @@ export class LoteEditComponent implements OnInit {
   UpdateLote(): void {
     this.spinner.show();
     let listAccion: IdsAccion[] = [];
-    let idContrato: any = null;
+   
     if (this.child.detalleLotes.length > 0) {
       this.child.detalleLotes.forEach(x => {
         if (x.Accion == 'N') {
@@ -283,9 +273,7 @@ export class LoteEditComponent implements OnInit {
         }
       });
     }
-    if (this.loteEditForm.controls.idContrato.value != null) {
-      idContrato = this.loteEditForm.controls.idContrato.value;
-    }
+    
     const request = new ReqActualizarLote(
       this.vId,
       this.selectedAlmacen,
@@ -294,8 +282,7 @@ export class LoteEditComponent implements OnInit {
 
       this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.value,
       this.loteEditForm.controls.detalleLote.controls.totalKilosBrutosPesado.value,
-      listAccion,
-      idContrato,
+      listAccion
     )
 
     this.loteService.Update(request)
@@ -346,34 +333,8 @@ export class LoteEditComponent implements OnInit {
     this.modalService.open(modal, { size: 'xl', centered: true })
   }
 
-  GetDataMdlContrato(event: any): void {
-    if (event) {
-      const data = event[0];
-      if (data.ContratoId) {
-        this.loteEditForm.controls.idContrato.setValue(data.ContratoId);
-      }
-      if (data.Numero) {
-        this.loteEditForm.controls.contrato.setValue(data.Numero);
-      }
-      if (data.Cliente) {
-        this.loteEditForm.controls.cliente.setValue(data.Cliente);
-      }
-      this.loteEditForm.controls.cantidad.setValue(data.TotalSacos);
-      if (data.Empaque) {
-        this.loteEditForm.controls.unidadMedida.setValue(data.Empaque);
-      }
-      this.loteEditForm.controls.kilosNetos.setValue(data.PesoKilos);
 
-      this.KilosNetos = data.PesoKilos;
-      this.calculoKilosPendiente();
-    }
-    this.modalService.dismissAll();
-  }
 
-  calculoKilosPendiente() {
-    if (this.loteEditForm.controls.idContrato.value != null) {
-      this.loteEditForm.controls.kilosPendientes.setValue(this.KilosNetos - this.loteEditForm.controls.detalleLote.controls.totalKilosNetosPesado.value);
-    }
-  }
+ 
 
 }

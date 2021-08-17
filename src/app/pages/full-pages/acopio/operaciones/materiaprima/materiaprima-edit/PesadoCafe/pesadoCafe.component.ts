@@ -87,15 +87,15 @@ export class PesadoCafeComponent implements OnInit {
   cleanKilosBrutos() {
     this.pesadoFormGroup.controls['kilosBruto'].setValue("");
   }
-  actualizarSaldoPendiente()
+  async actualizarSaldoPendiente()
   {
     this.miEvento2.emit(this.mensaje);
   }
 
-  calcularKilosNetos()
+ async calcularKilosNetos()
   {
     this.miEvento3.emit(this.mensaje);
-    this.actualizarSaldoPendiente();
+    await this.actualizarSaldoPendiente();
   }
 
 }

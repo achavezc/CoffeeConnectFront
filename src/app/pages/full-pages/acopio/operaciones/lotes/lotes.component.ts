@@ -74,8 +74,7 @@ export class LotesComponent implements OnInit {
       almacen: [],
       producto: [],
       certificacion: [],
-      subProducto: [],
-      contractNumber: ['']
+      subProducto: []
     });
     this.banLoteForm.setValidators(this.comparisonValidator());
   }
@@ -198,8 +197,7 @@ export class LotesComponent implements OnInit {
         ProductoId: this.banLoteForm.value.producto,
         TipoCertificacionId: this.banLoteForm.value.certificacion,
         SubProductoId: this.banLoteForm.value.subProducto,
-        EmpresaId: 1,
-        NumeroContrato: this.banLoteForm.value.contractNumber
+        EmpresaId: 1
       }
 
       this.spinner.show();
