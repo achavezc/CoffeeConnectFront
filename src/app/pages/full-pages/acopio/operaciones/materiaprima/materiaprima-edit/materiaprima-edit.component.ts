@@ -211,6 +211,9 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("Producto", function (res) {
       if (res.Result.Success) {
         form.listaProducto = res.Result.Data;
+        form.selectProducto = '01';
+        form.consultaMateriaPrimaFormEdit.controls.producto.disable();
+        this.cargarSubProducto('01');
       }
     });
     this.maestroUtil.obtenerMaestros("TipoProduccion", function (res) {

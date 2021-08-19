@@ -76,6 +76,7 @@ export class PesadoCafeComponent implements OnInit {
       var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
       this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
     }
+    this.calcularKilosNetos();
   }
 
   consultarSocioFinca() {
