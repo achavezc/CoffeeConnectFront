@@ -77,7 +77,18 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="form-row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <label for="nombre" class="col-5 col-form-label pr-0">PENDIENTE KG PERGAMINO</label>
+                            <div class="col-7">
+                                <input type="number" name="pendienteKGPergamino" id="pendienteKGPergamino"
+                                    formControlName="pendienteKGPergamino" class="form-control text-right" readonly
+                                    [ngClass]="{ 'is-invalid': f.pendienteKGPergamino.invalid, 'is-valid': !f.pendienteKGPergamino.invalid }">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <button type="button" class="btn btn-primary" (click)="Confirm()"

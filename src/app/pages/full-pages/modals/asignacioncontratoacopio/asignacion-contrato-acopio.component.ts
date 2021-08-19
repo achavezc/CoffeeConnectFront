@@ -40,7 +40,8 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
       KGPergamino: [],
       porcenRendimiento: [0],
       pesoNetoQQ: [0],
-      totalKGPergamino: [0]
+      totalKGPergamino: [0],
+      pendienteKGPergamino: [0]
     });
     this.GetKGsPergaminos();
     this.LoadData();
@@ -83,6 +84,8 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
         this.frmMdlAsignacionContratoAcopio.controls.porcenRendimiento.setValue(this.request.porcenRendimiento);
       if (this.request.totalKGPergamino)
         this.frmMdlAsignacionContratoAcopio.controls.totalKGPergamino.setValue(this.request.totalKGPergamino);
+      if (this.request.pendienteKGPergamino)
+        this.frmMdlAsignacionContratoAcopio.controls.pendienteKGPergamino.setValue(this.request.pendienteKGPergamino);
     }
   }
 

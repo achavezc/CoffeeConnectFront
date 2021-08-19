@@ -108,7 +108,8 @@ export class ContratoEditComponent implements OnInit {
       estadoContratoId: '',
       totalKGPergamino: 0,
       porcenRendimiento: 0,
-      KGPergamino: 0
+      KGPergamino: 0,
+      saldoKGPergamino: 0
     }
   }
 
@@ -786,6 +787,8 @@ export class ContratoEditComponent implements OnInit {
         this.reqAsignacionContratoAcopio.porcenRendimiento = data.PorcentajeRendimientoAsignacion;
       if (data.TotalKGPergaminoAsignacion)
         this.reqAsignacionContratoAcopio.totalKGPergamino = data.TotalKGPergaminoAsignacion;
+      if (data.SaldoPendienteKGPergaminoAsignacion)
+        this.reqAsignacionContratoAcopio.pendienteKGPergamino = data.SaldoPendienteKGPergaminoAsignacion;
       if (data.TipoContratoId) {
         await this.GetTypesContracts();
         this.contratoEditForm.controls.contractType.setValue(data.TipoContratoId);
