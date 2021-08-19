@@ -203,11 +203,11 @@ export class NotaCompraComponent implements OnInit {
       //}
       this.notaCompraForm.controls['precioGuardadoAT'].setValue(data.NotaCompra.PrecioGuardado);
 
-      if (data.NotaCompra.PrecioGuardado > this.precioDia) {
+      //if (data.NotaCompra.PrecioGuardado > this.precioDia) {
         this.notaCompraForm.controls['precioPagadoAT'].setValue(data.NotaCompra.PrecioGuardado);
-      } else {
-        this.notaCompraForm.controls['precioPagadoAT'].setValue(this.precioDia);
-      }
+      //} else {
+        //this.notaCompraForm.controls['precioPagadoAT'].setValue(this.precioDia);
+      //}
 
       this.notaCompraForm.controls['importeAT'].setValue(data.NotaCompra.Importe);
       this.notaCompraForm.controls['monedaAT'].setValue(data.NotaCompra.MonedaId);
@@ -437,6 +437,24 @@ export class NotaCompraComponent implements OnInit {
   ChangePrecioDia(e) {
     this.precioDia = e.Label;
     this.notaCompraForm.controls.precioGuardadoAT.setValue(this.precioDia);
+
+
+    var kilosNetos = this.notaCompraForm.controls['kilosNetosPC'].value;
+    var descuentoHumedad = this.notaCompraForm.controls['dsctoHumedadPC'].value;
+    
+    var kilosNetosDescontar = Number((kilosNetos * descuentoHumedad) / 100);
+    var kilosNetosPagar = Number(kilosNetos - kilosNetosDescontar);
+ 
+    var importe = Number(kilosNetosPagar * this.precioDia);
+
+   
+    var valorImporte = Math.round((importe + Number.EPSILON) * 100) / 100
+
+ 
+    this.notaCompraForm.controls['importeAT'].setValue(valorImporte);
+
+
+
   }
 
 }
