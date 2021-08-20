@@ -87,6 +87,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   estadoEnviadoAlmacen = "03";
   saldoPendienteKG: any = 0;
   totalKilosNetos: any = 0;
+  tipoProductoCafePg = "01";
 
   @ViewChild(PesadoCafeComponent) child;
 
@@ -164,8 +165,6 @@ export class MateriaPrimaEditComponent implements OnInit {
         saldoPendiente:[''],
         pesado: this.fb.group({
           unidadMedida: new FormControl('', [Validators.required]),
-          //cantidad: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
-          //kilosBruto: new FormControl('', [Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
           cantidad: new FormControl('', [Validators.required]),
           kilosBruto: new FormControl('', [Validators.required]),
           tara: new FormControl('', []),
@@ -211,9 +210,9 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("Producto", function (res) {
       if (res.Result.Success) {
         form.listaProducto = res.Result.Data;
-        form.selectProducto = '01';
+        form.selectProducto = form.tipoProductoCafePg;
         form.consultaMateriaPrimaFormEdit.controls.producto.disable();
-        this.cargarSubProducto('01');
+        form.cargarSubProducto(form.tipoProductoCafePg);
       }
     });
     this.maestroUtil.obtenerMaestros("TipoProduccion", function (res) {
