@@ -57,6 +57,7 @@ export class AduanasEditComponent implements OnInit {
   selectedItemsProd = [];
   dropdownSettings = {};
   popUp = true;
+  //form = "aduanas";
   isLoading = false;
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   listCustomsTrackingStatus: any[];
@@ -507,7 +508,6 @@ export class AduanasEditComponent implements OnInit {
   }
 
   cancelar() {
-
     this.router.navigate(['/exportador/operaciones/aduanas/list']);
   }
 
