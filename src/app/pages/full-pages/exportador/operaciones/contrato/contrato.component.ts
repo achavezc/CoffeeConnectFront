@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, ViewChild,Input, Output, EventEmi
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { DateUtil } from '../../../../../services/util/date-util';
@@ -11,6 +11,7 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
+import { formatCurrency } from '@angular/common';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ContratoComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private contratoService: ContratoService,
     private router: Router,
+    private route: ActivatedRoute,
     private alertUtil: AlertUtil) { }
 
   contratoForm: FormGroup;
@@ -50,6 +52,7 @@ export class ContratoComponent implements OnInit {
   msgErrorGenerico = 'Ocurrio un error interno.';
   userSession: any;
   tipoEmpresaId = '';
+  page: any;
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
   
@@ -61,7 +64,7 @@ export class ContratoComponent implements OnInit {
     this.LoadCombos();
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-   
+    this.page = this.route.routeConfig.data.title;
     
   }
 
@@ -106,9 +109,16 @@ export class ContratoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('EstadoContrato', (res: any) => {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
-        if (this.popUp == true)
+        if (this.popUp == true )
         {
-          this.selectedEstado = '01';
+          switch (this.page) {
+            case "Aduanas":
+              this.selectedEstado = '03';
+              break;
+            default:
+              this.selectedEstado = '01';
+              break;
+          }
           this.contratoForm.controls.estado.disable();
         }
       }
@@ -143,7 +153,7 @@ export class ContratoComponent implements OnInit {
       ProductoId: this.contratoForm.value.producto ? this.contratoForm.value.producto : '',
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
-      EstadoId: this.contratoForm.value.estado ? this.contratoForm.value.estado : '',
+      EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
