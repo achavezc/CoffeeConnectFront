@@ -162,7 +162,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         fechaPesado: ['',],
         totalPergamino: ['',],
         rendimiento: ['',],
-        saldoPendiente:[''],
+        saldoPendiente: [''],
         pesado: this.fb.group({
           unidadMedida: new FormControl('', [Validators.required]),
           cantidad: new FormControl('', [Validators.required]),
@@ -344,24 +344,22 @@ export class MateriaPrimaEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
 
-            if (res.Result.Data == null)
-            {
+            if (res.Result.Data == null) {
               this.alertUtil.alertWarning("Oops...!", "No tiene asignado un contrato");
               this.btnGuardar = false;
             }
-            else{
-              if ( res.Result.Data.SaldoPendienteKGPergaminoAsignacion == 0)
-              {
+            else {
+              if (res.Result.Data.SaldoPendienteKGPergaminoAsignacion == 0) {
                 this.alertUtil.alertWarning("Oops...!", "El contrato asignado no tiene saldo pendiente");
                 this.btnGuardar = false;
               }
-              else{
-            var form = this;
-            form.consultaMateriaPrimaFormEdit.get('totalPergamino').setValue(res.Result.Data.TotalKGPergaminoAsignacion);
-            form.consultaMateriaPrimaFormEdit.get('rendimiento').setValue(res.Result.Data.PorcentajeRendimientoAsignacion);
-            form.saldoPendienteKG = res.Result.Data.SaldoPendienteKGPergaminoAsignacion;
-            form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(form.saldoPendienteKG - form.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
-            this.btnGuardar = true;
+              else {
+                var form = this;
+                form.consultaMateriaPrimaFormEdit.get('totalPergamino').setValue(res.Result.Data.TotalKGPergaminoAsignacion);
+                form.consultaMateriaPrimaFormEdit.get('rendimiento').setValue(res.Result.Data.PorcentajeRendimientoAsignacion);
+                form.saldoPendienteKG = res.Result.Data.SaldoPendienteKGPergaminoAsignacion;
+                form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(form.saldoPendienteKG - form.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+                this.btnGuardar = true;
               }
             }
 
@@ -381,19 +379,20 @@ export class MateriaPrimaEditComponent implements OnInit {
         }
       );
   }
-   actualizarSaldoPendiente() {
-
-    var  saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
-      this.consultaMateriaPrimaFormEdit.get("saldoPendiente").setValue((saldoPendiente.toFixed(2)).toString());
-      //this.consultaMateriaPrimaFormEdit.controls["saldoPendiente"].status;
-      //this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").valid;
-    //}
+  actualizarSaldoPendiente() {
+    var saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined ? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+    this.consultaMateriaPrimaFormEdit.get("saldoPendiente").setValue((saldoPendiente.toFixed(2)).toString());
   }
   calcularKilosNetos() {
     var kilosBruto = this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value;
     var tara = this.consultaMateriaPrimaFormEdit.get('pesado').get("tara").value;
     this.totalKilosNetos = kilosBruto - tara;
-    this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue( this.totalKilosNetos.toFixed(2));
+    if (this.totalKilosNetos > 0) {
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue(this.totalKilosNetos.toFixed(2));
+    }
+    else {
+      this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue(0);
+    }
   }
   seleccionarProveedor(e) {
     this.consultaMateriaPrimaFormEdit.controls['provFinca'].disable();
@@ -598,18 +597,15 @@ export class MateriaPrimaEditComponent implements OnInit {
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
-          if (res.Result.ErrCode == '03')
-          {
-            this.alertUtil.alertWarning('Oops..!','El Saldo Pendiente es igual a 0');
+          if (res.Result.ErrCode == '03') {
+            this.alertUtil.alertWarning('Oops..!', 'El Saldo Pendiente es igual a 0');
             this.btnGuardar = false;
           }
-          else if (res.Result.ErrCode == '04')
-          {
-            this.alertUtil.alertWarning('Oops..!','El Total Kilos Netos ingresado es mayor que el Saldo Pendiente');
+          else if (res.Result.ErrCode == '04') {
+            this.alertUtil.alertWarning('Oops..!', 'El Total Kilos Netos ingresado es mayor que el Saldo Pendiente');
             this.btnGuardar = false;
           }
-          else if (res.Result.ErrCode == "") 
-          {
+          else if (res.Result.ErrCode == "") {
             var form = this;
             this.alertUtil.alertOkCallback('Registrado!', 'Guia Registrada.', function (result) {
               //if(result.isConfirmed){
@@ -617,7 +613,7 @@ export class MateriaPrimaEditComponent implements OnInit {
               //}
             }
             );
-          } 
+          }
           else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
