@@ -54,6 +54,8 @@ export class SocioComponent implements OnInit {
     this.LoadCombos();
     this.socioListForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.socioListForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    
+    
   }
 
   LoadForm(): void {
@@ -74,6 +76,7 @@ export class SocioComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("EstadoMaestro", function (res) {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
+        form.socioListForm.controls['estado'].setValue("01");
       }
     });
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {

@@ -206,7 +206,7 @@ export class ContratoClienteComponent implements OnInit {
   getRequest(lang: string): any {
     return {
       Numero: this.contratoForm.value.nroContrato ? this.contratoForm.value.nroContrato : '',
-      NumeroCliente: this.contratoForm.value.codCliente ? this.contratoForm.value.codCliente : '',
+      NumeroCliente: this.contratoForm.controls.codCliente.value ? this.contratoForm.controls.codCliente.value : '',
       RazonSocial: this.contratoForm.value.descCliente ? this.contratoForm.value.descCliente : '',
       ProductoId: this.contratoForm.value.producto ? this.contratoForm.value.producto : '',
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
