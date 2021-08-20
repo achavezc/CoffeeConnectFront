@@ -380,6 +380,7 @@ export class MateriaPrimaEditComponent implements OnInit {
       );
   }
   actualizarSaldoPendiente() {
+    this.btnGuardar = true;
     var saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined ? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
     this.consultaMateriaPrimaFormEdit.get("saldoPendiente").setValue((saldoPendiente.toFixed(2)).toString());
   }
