@@ -87,6 +87,7 @@ export class ContratoClienteComponent implements OnInit {
   cargarCliente(objLogin) {
     if (objLogin.Result.Data.CodigoCliente) {
       this.contratoForm.controls["codCliente"].setValue(objLogin.Result.Data.CodigoCliente);
+      this.contratoForm.value.codCliente = objLogin.Result.Data.CodigoCliente;
       this.contratoForm.controls["descCliente"].setValue(objLogin.Result.Data.Cliente);
       this.contratoForm.controls["codCliente"].disable();
       this.contratoForm.controls["descCliente"].disable();
