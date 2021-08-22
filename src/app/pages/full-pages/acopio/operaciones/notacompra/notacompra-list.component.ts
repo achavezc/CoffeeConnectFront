@@ -84,6 +84,7 @@ export class NotacompraListComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("EstadoNotaCompra", function (res) {
       if (res.Result.Success) {
         form.listStates = res.Result.Data;
+        form.consultaNotaCompraForm.controls['estado'].setValue("01");
       }
     });
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {

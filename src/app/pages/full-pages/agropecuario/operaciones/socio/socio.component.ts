@@ -57,6 +57,7 @@ export class SocioComponent implements OnInit {
     this.socioListForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.socioListForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.page = this.route.routeConfig.data.title;
+
   }
 
   LoadForm(): void {
@@ -88,6 +89,7 @@ export class SocioComponent implements OnInit {
           }
           form.socioListForm.controls.estado.disable();
         }
+
       }
     });
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {

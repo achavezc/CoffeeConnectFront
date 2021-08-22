@@ -69,7 +69,7 @@ export class ClienteEditComponent implements OnInit {
       cliente: [''],
       nroRuc: [0],
       telefono: [0],
-      email: [''],
+      email: ['', Validators.required],
       direccion: ['', Validators.required],
       pais: [, Validators.required],
       departamento: [''],
