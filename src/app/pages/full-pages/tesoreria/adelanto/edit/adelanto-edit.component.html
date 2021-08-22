@@ -66,7 +66,7 @@
                     <label for="basicInput">Codigo</label>
                     <input type="text" name="codigo" id="codigo" formControlName="codigo" class="form-control"
                       placeholder="Ingresar Codigo"
-                      [ngClass]="{ 'is-invalid': fedit.codigo.invalid, 'is-valid': !fedit.codigo.invalid }">
+                      [ngClass]="{ 'is-invalid': fedit.codigo.invalid, 'is-valid': !fedit.codigo.invalid }" disabled>
                   </div>
                   <div class="col-12 col-md-2">
                     <button type="button" (click)="openModal(modalSocio)" class="btn btn-default"
@@ -94,13 +94,13 @@
                 <label for="basicInput">Nombre</label>
                 <input type="text" name="nombre" id="nombre" formControlName="nombre" class="form-control"
                   placeholder="Ingresar Nombre"
-                  [ngClass]="{ 'is-invalid': fedit.nombre.invalid, 'is-valid': !fedit.nombre.invalid }">
+                  [ngClass]="{ 'is-invalid': fedit.nombre.invalid, 'is-valid': !fedit.nombre.invalid }" disabled>
               </div>
               <div class="col-12 col-md-6">
                 <label for="basicInput">Numero Documento</label>
                 <input type="text" name="numeroDocumento" id="numeroDocumento" formControlName="numeroDocumento"
                   class="form-control" placeholder="Ingresar Numero Documento"
-                  [ngClass]="{ 'is-invalid': fedit.numeroDocumento.invalid, 'is-valid': !fedit.numeroDocumento.invalid }">
+                  [ngClass]="{ 'is-invalid': fedit.numeroDocumento.invalid, 'is-valid': !fedit.numeroDocumento.invalid }" disabled>
               </div>
             </div>
 
@@ -131,14 +131,19 @@
                 <label for="basicInput">Fecha de Pago</label>
                 <input type="date" date name="fechaPago" id="fechaPago" formControlName="fechaPago" class="form-control"
                   placeholder="Seleccionar fecha de pago"
-                  [ngClass]="{ 'is-invalid': fedit.fechaPago.invalid, 'is-valid': !fedit.fechaPago.invalid }">
+                  [ngClass]="{ 'is-invalid': fedit.fechaPago.invalid, 'is-valid': !fedit.fechaPago.invalid }"
+                  (blur)="compareFechas()">
+                  <small class="form-text text-muted danger"
+                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
               </div>
               <div class="col-12 col-md-6">
                 <label for="basicInput">Fecha de Entrega Producto</label>
                 <input type="date" date name="fechaEntregaProducto" id="fechaEntregaProducto"
                   formControlName="fechaEntregaProducto" class="form-control"
                   placeholder="Seleccionar fecha de entrega producto"
-                  [ngClass]="{ 'is-invalid': fedit.fechaEntregaProducto.invalid, 'is-valid': !fedit.fechaEntregaProducto.invalid }">
+                  [ngClass]="{ 'is-invalid': fedit.fechaEntregaProducto.invalid, 'is-valid': !fedit.fechaEntregaProducto.invalid }"
+                  (blur)="compareTwoDates()">
+                  <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
               </div>
 
             </div>
@@ -150,10 +155,12 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+            <div class="col-12">
             <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
               {{errorGeneral.errorMessage}}
             </small>
+          </div>
           </div>
           <div class="card-footer text-right">
             <button class="btn btn-primary" (click)="Print()" *ngIf="esEdit">Imprimir</button>

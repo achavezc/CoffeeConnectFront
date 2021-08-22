@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, O
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -29,7 +29,8 @@ export class SocioComponent implements OnInit {
     private socioService: SocioService,
     private router: Router,
     private modalService: NgbModal,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private route: ActivatedRoute) {
   }
 
   socioListForm: FormGroup;
@@ -48,12 +49,14 @@ export class SocioComponent implements OnInit {
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
   @Input() popUp = false;
+  page: any;
   @Output() agregarEvent = new EventEmitter<any>();
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.socioListForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.socioListForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.page = this.route.routeConfig.data.title;
   }
 
   LoadForm(): void {
@@ -74,6 +77,17 @@ export class SocioComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("EstadoMaestro", function (res) {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
+        if (form.popUp == true )
+        {
+          switch (form.page) {
+            case "AdelantoEdit":
+              form.selectedEstado = '01';
+              break;
+            default:
+              break;
+          }
+          form.socioListForm.controls.estado.disable();
+        }
       }
     });
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
@@ -91,7 +105,7 @@ export class SocioComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       if (!group.value.fechaInicio || !group.value.fechaFin) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
-      } else if (!group.value.estado) {
+      } else if (!group.controls["estado"].value) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
@@ -147,7 +161,7 @@ export class SocioComponent implements OnInit {
         NombreRazonSocial: this.socioListForm.value.nombRazonSocial,
         TipoDocumentoId: this.socioListForm.value.tipoDocumento ?? '',
         NumeroDocumento: this.socioListForm.value.nroDocumento,
-        EstadoId: this.socioListForm.value.estado ?? '',
+        EstadoId: this.socioListForm.controls["estado"].value ?? '',
         FechaInicio: new Date(this.socioListForm.value.fechaInicio),
         FechaFin: new Date(this.socioListForm.value.fechaFin)
       };

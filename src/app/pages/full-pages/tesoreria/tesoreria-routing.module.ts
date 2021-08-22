@@ -13,14 +13,14 @@ const routes: Routes = [
                 path: 'adelanto/list',
                 component: AdelantoComponent,
                 data: {
-                    title: 'List'
+                    title: 'AdelantoList'
                 }
             },
             {
                 path: 'adelanto/edit',
                 component: AdelantoEditComponent,
                 data: {
-                    title: 'Edit'
+                    title: 'AdelantoEdit'
                 }
             }
         ]

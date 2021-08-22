@@ -11,6 +11,7 @@ import { AlertUtil } from '../../../../../services/util/alert-util';
 import { AdelantoService } from '../../../../../services/adelanto.service';
 import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
+import { DateUtil } from '../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 
@@ -49,6 +50,8 @@ export class AdelantoEditComponent implements OnInit {
   selectedTipoDocumento: any;
   selectedMoneda: any;
   popUpSocio = true;
+  error: any = { isError: false, errorMessage: '' };
+  errorFecha: any = { isError: false, errorMessage: '' };
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
     private alertUtil: AlertUtil,
@@ -57,7 +60,8 @@ export class AdelantoEditComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private adelantoService: AdelantoService
+    private adelantoService: AdelantoService,
+    private dateUtil: DateUtil
   ) {
 
   }
@@ -81,8 +85,8 @@ export class AdelantoEditComponent implements OnInit {
   cargarForm() {
     this.adelantoFormEdit = this.fb.group(
       {
-        codigo: ['',],
-        tipoDocumento: ['', Validators.required],
+        codigo: ['', Validators.required],
+        tipoDocumento: new FormControl({  disabled: true }, [ Validators.required]),
         nombre: ['', Validators.required],
         numeroDocumento: ['', Validators.required],
         moneda: ['', Validators.required],
@@ -98,7 +102,38 @@ export class AdelantoEditComponent implements OnInit {
     this.GetTipoDocumento();
     this.GetMoneda();
   }
+
+  compareTwoDates() {
+    var anioFechaInicio = new Date(this.adelantoFormEdit.controls['fechaPago'].value).getFullYear()
+    var anioFechaFin = new Date(this.adelantoFormEdit.controls['fechaEntregaProducto'].value).getFullYear()
+
+    if (new Date(this.adelantoFormEdit.controls['fechaEntregaProducto'].value) < new Date(this.adelantoFormEdit.controls['fechaPago'].value)) {
+      this.error = { isError: true, errorMessage: 'La fecha de Entrega de Producto no puede ser anterior a la fecha de Pago.' };
+      this.adelantoFormEdit.controls['fechaEntregaProducto'].setErrors({ isError: true })
+    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+      this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
+      this.adelantoFormEdit.controls['fechaEntregaProducto'].setErrors({ isError: true })
+    } else {
+      this.error = { isError: false, errorMessage: '' };
+    }
+  }
+
+  compareFechas() {
+    var anioFechaInicio = new Date(this.adelantoFormEdit.controls['fechaPago'].value).getFullYear()
+    var anioFechaFin = new Date(this.adelantoFormEdit.controls['fechaEntregaProducto'].value).getFullYear()
+    if (new Date(this.adelantoFormEdit.controls['fechaPago'].value) > new Date(this.adelantoFormEdit.controls['fechaEntregaProducto'].value)) {
+      this.errorFecha = { isError: true, errorMessage: 'La fecha de Pago no puede ser mayor a la fecha de Entrega de Producto.' };
+      this.adelantoFormEdit.controls['fechaPago'].setErrors({ isError: true })
+    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+      this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
+      this.adelantoFormEdit.controls['fechaPago'].setErrors({ isError: true })
+    } else {
+      this.errorFecha = { isError: false, errorMessage: '' };
+    }
+  }
   agregarSocio(e) {
+    
+    this.idSocio= e[0].SocioId;
     this.adelantoFormEdit.controls["codigo"].setValue(e[0].Codigo);
     this.adelantoFormEdit.controls["tipoDocumento"].setValue(e[0].TipoDocumentoId);
     this.adelantoFormEdit.controls["nombre"].setValue(e[0].NombreRazonSocial);
@@ -167,9 +202,10 @@ export class AdelantoEditComponent implements OnInit {
     this.AduanaId = data.AdelantoId;
     this.numeroRecibo = data.Numero;
     this.estado = data.Estado;
+    this.idSocio = data.SocioId;
     this.adelantoFormEdit.controls["codigo"].setValue(data.CodigoSocio);
     this.adelantoFormEdit.controls["tipoDocumento"].setValue(data.TipoDocumentoId);
-    this.adelantoFormEdit.controls["nombre"].setValue(data.RazonSocial);
+    this.adelantoFormEdit.controls["nombre"].setValue(data.NombreRazonSocial);
     this.adelantoFormEdit.controls["numeroDocumento"].setValue(data.NumeroDocumento);
     this.adelantoFormEdit.controls["moneda"].setValue(data.MonedaId);
     this.adelantoFormEdit.controls["monto"].setValue(data.Monto);

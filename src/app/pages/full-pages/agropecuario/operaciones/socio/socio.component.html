@@ -16,7 +16,7 @@
                                     <label for="codSocio" class="form-label">Código Socio</label>
                                     <input type="text" minlength="5" maxlength="25" formControlName="codSocio"
                                         class="form-control" id="codSocio" placeholder="Código del socio"
-                                        [ngClass]="{ 'is-invalid': f.codSocio.invalid, 'is-valid': !f.codSocio.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.codSocio.invalid, 'is-valid': !f.codSocio.invalid }" >
                                     <small class="invalid-tooltip"
                                         *ngIf="f.codSocio.errors?.minlength || f.codSocio.errors?.maxlength">
                                         Ingrese 5 a 25 caracteres.
@@ -31,7 +31,7 @@
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoDocumento"
                                         placeholder="Seleccionar el tipo de documento"
                                         [ngClass]="{ 'is-invalid': f.tipoDocumento.errors?.isError || f.tipoDocumento.invalid, 'is-valid': !f.tipoDocumento.errors?.isError || !f.tipoDocumento.invalid }"
-                                        [(ngModel)]="selectedTipoDocumento">
+                                        [(ngModel)]="selectedTipoDocumento" >
                                     </ng-select>
                                     <small class="invalid-tooltip" *ngIf="f.tipoDocumento.errors?.isError">
                                         {{f.tipoDocumento.errors?.message}}
@@ -41,7 +41,7 @@
                                     <label for="nroDocumento" class="form-label">Número de documento</label>
                                     <input type="text" minlength="5" maxlength="25" formControlName="nroDocumento"
                                         class="form-control" id="nroDocumento" placeholder="Número de documento"
-                                        [ngClass]="{ 'is-invalid': f.nroDocumento.errors?.isError || f.nroDocumento.invalid, 'is-valid': !f.nroDocumento.errors?.isError || !f.nroDocumento.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.nroDocumento.errors?.isError || f.nroDocumento.invalid, 'is-valid': !f.nroDocumento.errors?.isError || !f.nroDocumento.invalid }" >
                                     <small class="invalid-tooltip"
                                         *ngIf="f.nroDocumento.errors?.minlength || f.nroDocumento.errors?.maxlength">Ingrese
                                         5 a 25 letras</small>
@@ -56,7 +56,7 @@
                                     <label for="nombRazonSocial" class="form-label">Nombre/Razón Social</label>
                                     <input type="text" minlength="5" maxlength="100" formControlName="nombRazonSocial"
                                         class="form-control" id="nombRazonSocial" placeholder="Nombre o Razón Social"
-                                        [ngClass]="{ 'is-invalid': f.nombRazonSocial.invalid, 'is-valid': !f.nombRazonSocial.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.nombRazonSocial.invalid, 'is-valid': !f.nombRazonSocial.invalid }" >
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaInicio" class="form-label">Fecha Inicio</label>
@@ -93,7 +93,7 @@
                                 (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
                             (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
-                            *ngIf="popUp">Agregar</button>
+                            *ngIf="popUp">Seleccionar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()" *ngIf="!popUp">Nuevo</button>
                             <ng-template #mdlSocioDocuments let-c="close" let-d="dismiss">
                                 <app-lista-documentos [codeForm]="'frmMdlSocioDocuments'" [code]="selected[0].SocioId">
@@ -148,7 +148,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Código" prop="Codigo" width="60">
+                            <ngx-datatable-column *ngIf="!popUp" name="Código" prop="Codigo" width="60">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -158,6 +158,8 @@
                                         </div>
                                     </div>
                                 </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column *ngIf="popUp" name="Código" prop="Codigo" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Cod. Productor" prop="NumeroProductor" width="60">
                             </ngx-datatable-column>

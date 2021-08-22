@@ -60,6 +60,7 @@ export class AdelantoComponent implements OnInit {
 
   LoadForm(): void {
     this.adelantoForm = this.fb.group({
+      
       nroRecibo: [],
       tipoDocumento: [],
       fechaInicial: [, Validators.required],
