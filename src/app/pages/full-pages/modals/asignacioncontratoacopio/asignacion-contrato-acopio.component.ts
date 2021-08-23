@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
@@ -21,13 +21,16 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
   selectedKGPergamino;
   userSession;
   @Input() request: any;
+  flagDiv: boolean = false;
 
   constructor(private fb: FormBuilder,
     private precioDiaRendimientoService: PrecioDiaRendimientoService,
     private contratoService: ContratoService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal) {
+    this.GetKGsPergaminos();
+  }
 
   ngOnInit(): void {
     this.LoadForm();
@@ -37,13 +40,13 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.frmMdlAsignacionContratoAcopio = this.fb.group({
       pesoNetoKGOro: [0],
-      KGPergamino: [],
+      KGPergamino: [, Validators.required],
       porcenRendimiento: [0],
       pesoNetoQQ: [0],
       totalKGPergamino: [0],
       pendienteKGPergamino: [0]
     });
-    this.GetKGsPergaminos();
+
     this.LoadData();
   }
 
@@ -56,17 +59,18 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
     const request = { EmpresaId: this.userSession.Result.Data.EmpresaId };
     const res = await this.precioDiaRendimientoService.ConsultPerformancePercentage(request).toPromise();
     if (res.Result.Success) {
-      let list = [];
-      let label = '';
-      for (let i = 0; i < res.Result.Data.length; i++) {
-        label = `${res.Result.Data[i].RendimientoInicio}\t\t${res.Result.Data[i].RendimientoFin}\t\t${res.Result.Data[i].KGPergamino}`;
-        list.push({
-          Label: label,
-          Codigo: res.Result.Data[i].KGPergamino,
-          RenInicio: res.Result.Data[i].RendimientoInicio
-        });
-      }
-      this.listGKsPergaminos = list;
+      // let list = [];
+      // let label = '';
+      // for (let i = 0; i < res.Result.Data.length; i++) {
+      //   label = `${res.Result.Data[i].RendimientoInicio}\t\t${res.Result.Data[i].RendimientoFin}\t\t${res.Result.Data[i].KGPergamino}`;
+      //   list.push({
+      //     Label: label,
+      //     Codigo: res.Result.Data[i].KGPergamino,
+      //     RenInicio: res.Result.Data[i].RendimientoInicio
+      //   });
+      // }
+      // this.listGKsPergaminos = list;
+      this.listGKsPergaminos = res.Result.Data;
     }
   }
 
@@ -91,24 +95,26 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
 
   Confirm() {
     const form = this;
-    swal.fire({
-      title: 'Confirmación',
-      text: `¿Seguro que desea asignar contrato, luego de grabar no podrá ser modificado?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2F8BE6',
-      cancelButtonColor: '#F55252',
-      confirmButtonText: 'Si',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.value) {
-        form.ConfirmAssignment();
-      }
-    });
+    if (!this.frmMdlAsignacionContratoAcopio.invalid) {
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Seguro que desea asignar contrato, luego de grabar no podrá ser modificado?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.value) {
+          form.ConfirmAssignment();
+        }
+      });
+    }
   }
 
   ConfirmAssignment() {
@@ -127,7 +133,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode === '01') {
-            this.alertUtil.alertOkCallback('Validación', 'Ya existe un Contrato  Asignado a Acopio.',
+            this.alertUtil.alertOkCallback('Validación', 'Ya existe un Contrato Asignado a Acopio.',
               () => {
                 this.Close();
               });
@@ -153,12 +159,19 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
 
   changeKGPergamino(e) {
     if (e) {
-      if (e.RenInicio)
-        this.frmMdlAsignacionContratoAcopio.controls.porcenRendimiento.setValue(e.RenInicio);
-      if (e.Codigo) {
-        const resultado = e.Codigo * this.frmMdlAsignacionContratoAcopio.value.pesoNetoQQ;
+      if (e.RendimientoInicio)
+        this.frmMdlAsignacionContratoAcopio.controls.porcenRendimiento.setValue(e.RendimientoInicio);
+      if (e.KGPergamino) {
+        const resultado = e.KGPergamino * this.frmMdlAsignacionContratoAcopio.value.pesoNetoQQ;
+        this.frmMdlAsignacionContratoAcopio.controls.KGPergamino.setValue(e.KGPergamino);
         this.frmMdlAsignacionContratoAcopio.controls.totalKGPergamino.setValue(parseFloat(resultado.toFixed(2)));
       }
+      
+      this.flagDiv = false;
     }
+  }
+
+  HideShow() {
+    this.flagDiv = !this.flagDiv;
   }
 }

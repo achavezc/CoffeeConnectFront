@@ -425,7 +425,7 @@ export class ContratoEditComponent implements OnInit {
   }
 
   openModalLG(modal: any): void {
-    this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true, backdropClass: 'light-blue-backdrop' });
+    this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true, scrollable: true });
   }
 
   GetRequest(): any {

@@ -28,12 +28,28 @@
                         <div class="form-group row">
                             <label for="nombre" class="col-5 col-form-label pr-0">KG PERGAMINO</label>
                             <div class="col-7">
-                                <ng-select [items]="listGKsPergaminos" formControlName="KGPergamino"
+                                <input type="number" class="form-control text-right" placeholder="Seleccionar"
+                                    id="KGPergamino" name="KGPergamino" formControlName="KGPergamino"
+                                    (click)="!request.KGPergamino && HideShow()" [readonly]="request.KGPergamino > 0">
+                                <div *ngIf="flagDiv" class="ddKGPergamino">
+                                    <a href="javascript:void(0)" (click)="HideShow()" class="float-right">[X]</a>
+                                    <table class="table table-bordered pointer table-sm" style="width:400px;">
+                                        <tbody>
+                                            <tr *ngFor="let char of listGKsPergaminos; let i = index"
+                                                (click)="changeKGPergamino(char)" class="pointer">
+                                                <td class="text-right">{{char.RendimientoInicio}}</td>
+                                                <td class="text-right">{{char.RendimientoFin}}</td>
+                                                <td class="text-right">{{char.KGPergamino}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- <ng-select [items]="listGKsPergaminos" formControlName="KGPergamino"
                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="KGPergamino"
                                     placeholder="KG Pergamino" [(ngModel)]="selectedKGPergamino"
                                     [ngClass]="{ 'is-invalid': f.KGPergamino.invalid, 'is-valid': !f.KGPergamino.invalid }"
                                     (change)="changeKGPergamino($event)" [readonly]="request.estadoContratoId != '01'">
-                                </ng-select>
+                                </ng-select> -->
                             </div>
                         </div>
                     </div>
@@ -92,6 +108,7 @@
             </div>
         </div>
         <button type="button" class="btn btn-primary" (click)="Confirm()"
+            [disabled]="frmMdlAsignacionContratoAcopio.invalid"
             *ngIf="request.estadoContratoId == '01'">Confirmar</button>
     </form>
 </div>
