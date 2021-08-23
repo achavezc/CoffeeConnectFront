@@ -867,7 +867,7 @@ export class ContratoEditComponent implements OnInit {
     if (this.contratoEditForm.value.invoiceIn === '01') {
       total = kgnetoslb * putotal;
     } else {
-      total = kgnetosqq * putotal;
+      total = (kgnetosqq * putotal)*100;
     }
     this.contratoEditForm.controls.TotalBilling1.setValue(total.toFixed(2));
   }
@@ -880,7 +880,7 @@ export class ContratoEditComponent implements OnInit {
     if (this.contratoEditForm.value.invoiceIn === '01') {
       total = kgnetoslb * putotal;
     } else {
-      total = kgnetosqq * putotal;
+      total = (kgnetosqq * putotal)*100;
     }
     this.contratoEditForm.controls.TotalBilling2.setValue(total.toFixed(2));
   }
@@ -893,7 +893,7 @@ export class ContratoEditComponent implements OnInit {
     if (this.contratoEditForm.value.invoiceIn === '01') {
       total = kgnetoslb * putotal;
     } else {
-      total = kgnetosqq * putotal;
+      total = (kgnetosqq * putotal)*100;
     }
     this.contratoEditForm.controls.TotalBilling3.setValue(total.toFixed(2));
   }

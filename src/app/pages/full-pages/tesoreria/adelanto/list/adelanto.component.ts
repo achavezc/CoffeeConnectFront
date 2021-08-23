@@ -60,6 +60,7 @@ export class AdelantoComponent implements OnInit {
 
   LoadForm(): void {
     this.adelantoForm = this.fb.group({
+      
       nroRecibo: [],
       tipoDocumento: [],
       fechaInicial: [, Validators.required],
@@ -103,6 +104,7 @@ export class AdelantoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
       if (res.Result.Success) {
         form.listEstado = res.Result.Data;
+        form.adelantoForm.controls['estado'].setValue("01");
       }
     });
   }
