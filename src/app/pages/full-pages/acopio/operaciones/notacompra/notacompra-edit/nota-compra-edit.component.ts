@@ -100,6 +100,8 @@ export class NotaCompraEditComponent implements OnInit {
       precioGuardadoAT: [],
       precioPagadoAT: [],
       importeAT: [],
+      adelantoAT: [],
+      totalPagarAT: [],
       observacionNotaCompra: [],
       exportablePorcAT: [0],
       descartePorcAT: [0],
@@ -232,6 +234,8 @@ export class NotaCompraEditComponent implements OnInit {
     this.notaCompraEditForm.controls.precioGuardadoAT.setValue(data.PrecioGuardado);
     this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioPagado);
     this.notaCompraEditForm.controls.importeAT.setValue(data.Importe);
+    this.notaCompraEditForm.controls.adelantoAT.setValue(data.TotalAdelanto);
+    this.notaCompraEditForm.controls.totalPagarAT.setValue(data.TotalPagar);
 
     /*
     if (this.vUserSession && this.vUserSession.Result && this.vUserSession.Result.Data

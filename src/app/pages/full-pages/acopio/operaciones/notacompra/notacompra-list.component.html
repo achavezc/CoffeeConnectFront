@@ -200,14 +200,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha" prop="FechaRegistroCadena" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
-                                <ng-template let-status="value" ngx-datatable-cell-template>
-                                    <div class="badge" [ngClass]="{'bg-light-success': status == 'Pesado',
-                          'bg-light-danger': status == 'Anulado','bg-light-warning': status == 'Analizado'}">
-                                        {{ status }}
-                                    </div>
-                                </ng-template>
-                            </ngx-datatable-column>
+                           
                             <ngx-datatable-column name="Tipo" prop="Tipo" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="KG. Neto a Pagar" prop="KilosNetosPagar" width="80">
@@ -215,6 +208,14 @@
                             <ngx-datatable-column name="Moneda" prop="Moneda" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Importe" prop="Importe" width="80">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge" [ngClass]="{'bg-light-success': status == 'Pesado',
+                          'bg-light-danger': status == 'Anulado','bg-light-warning': status == 'Analizado'}">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
