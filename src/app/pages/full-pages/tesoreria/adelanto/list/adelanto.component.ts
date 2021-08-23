@@ -101,7 +101,7 @@ export class AdelantoComponent implements OnInit {
         form.listTipoDocumento = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
+    this.maestroUtil.obtenerMaestros('EstadoAdelanto', (res: any) => {
       if (res.Result.Success) {
         form.listEstado = res.Result.Data;
         form.adelantoForm.controls['estado'].setValue("01");

@@ -160,7 +160,7 @@ export class NotaCompraComponent implements OnInit {
       // }
       //}
       this.notaCompraForm.controls['precioGuardadoAT'].setValue(this.precioDia);
-      this.notaCompraForm.controls['precioPagadoAT'].setValue(this.precioDia);
+      this.notaCompraForm.controls['precioPagadoAT'].setValue(0);
       this.notaCompraForm.controls['importeAT'].setValue(0);
       this.notaCompraForm.controls['monedaAT'].setValue(this.login.Result.Data.MonedaId);
       this.notaCompraForm.controls['exportableAT'].setValue(data.ExportableGramosAnalisisFisico);
@@ -204,7 +204,7 @@ export class NotaCompraComponent implements OnInit {
       this.notaCompraForm.controls['precioGuardadoAT'].setValue(data.NotaCompra.PrecioGuardado);
 
       //if (data.NotaCompra.PrecioGuardado > this.precioDia) {
-        this.notaCompraForm.controls['precioPagadoAT'].setValue(data.NotaCompra.PrecioGuardado);
+        this.notaCompraForm.controls['precioPagadoAT'].setValue(data.NotaCompra.PrecioPagado);
       //} else {
         //this.notaCompraForm.controls['precioPagadoAT'].setValue(this.precioDia);
       //}
@@ -381,10 +381,10 @@ export class NotaCompraComponent implements OnInit {
   changeDescuentoHumedad() {
     var kilosNetos = this.notaCompraForm.controls['kilosNetosPC'].value;
     var descuentoHumedad = this.notaCompraForm.controls['dsctoHumedadPC'].value;
-    var precioDia = this.notaCompraForm.controls['precioDiaAT'].value;
+    var precioDia =  this.notaCompraForm.controls['precioDiaAT'].value;
     var kilosNetosDescontar = Number((kilosNetos * descuentoHumedad) / 100);
     var kilosNetosPagar = Number(kilosNetos - kilosNetosDescontar);
-    var qq60 = Number(kilosNetosPagar / 55.2);
+    var qq60 = Number(kilosNetosPagar / 46);
     var importe = Number(kilosNetosPagar * precioDia);
 
     var valorkilosNetosDescontar = Math.round((kilosNetosDescontar + Number.EPSILON) * 100) / 100
