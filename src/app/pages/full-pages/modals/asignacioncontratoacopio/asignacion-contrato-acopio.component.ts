@@ -28,9 +28,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
     private contratoService: ContratoService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private modalService: NgbModal) {
-    this.GetKGsPergaminos();
-  }
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.LoadForm();
@@ -46,7 +44,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
       totalKGPergamino: [0],
       pendienteKGPergamino: [0]
     });
-
+    this.GetKGsPergaminos();
     this.LoadData();
   }
 
@@ -166,7 +164,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
         this.frmMdlAsignacionContratoAcopio.controls.KGPergamino.setValue(e.KGPergamino);
         this.frmMdlAsignacionContratoAcopio.controls.totalKGPergamino.setValue(parseFloat(resultado.toFixed(2)));
       }
-      
+
       this.flagDiv = false;
     }
   }

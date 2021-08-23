@@ -30,7 +30,8 @@
                             <div class="col-7">
                                 <input type="number" class="form-control text-right" placeholder="Seleccionar"
                                     id="KGPergamino" name="KGPergamino" formControlName="KGPergamino"
-                                    (click)="!request.KGPergamino && HideShow()" [readonly]="request.KGPergamino > 0">
+                                    (click)="!request.KGPergamino && HideShow()" [readonly]="request.KGPergamino > 0"
+                                    [ngClass]="{ 'is-invalid': f.KGPergamino.invalid, 'is-valid': !f.KGPergamino.invalid }">
                                 <div *ngIf="flagDiv" class="ddKGPergamino">
                                     <a href="javascript:void(0)" (click)="HideShow()" class="float-right">[X]</a>
                                     <table class="table table-bordered pointer table-sm" style="width:400px;">
