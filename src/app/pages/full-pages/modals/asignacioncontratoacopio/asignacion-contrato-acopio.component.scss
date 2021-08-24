@@ -1,0 +1,12 @@
+.ddKGPergamino {
+    position: absolute;
+    border: 1px solid grey;
+    z-index: 9999;
+    background-color: white;
+    padding: 5px;
+  }
+  
+   input:focus + .ddKGPergamino  {
+    display: block;
+    z-index: 9999999;
+  }

@@ -99,10 +99,10 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0"
                                 (click)="anular()">Anular</button>
 
-                            <button type="submit" class="btn btn-primary mr-1 mb-1"
-                                [disabled]="selected.length==0" (click)="openModal(modalNotaCompra)">Asociar NC</button>
+                            <button type="submit" class="btn btn-primary mr-1 mb-1" [disabled]="selected.length==0"
+                                (click)="openModal(modalNotaCompra)">Asociar NC</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Export()"
-                                [disabled]="rows || !this.adelantoForm.invalid">Exportar</button>
+                                [disabled]="!rows || rows.length <= 0">Exportar</button>
                         </form>
                     </div>
                 </div>
