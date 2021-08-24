@@ -33,7 +33,7 @@ export class AdelantoEditComponent implements OnInit {
   id: Number = 0;
   idSocio: Number = 0;
   estadoId: Number = 0;
-  notaCompraId: Number = 0;
+  notaCompraId: Number;
   AduanaId: Number = 0;
   status: string = "";
   estado = "";
@@ -86,7 +86,7 @@ export class AdelantoEditComponent implements OnInit {
     this.adelantoFormEdit = this.fb.group(
       {
         codigo: ['', Validators.required],
-        tipoDocumento: new FormControl({  disabled: true }, [ Validators.required]),
+        tipoDocumento: new FormControl('', [ Validators.required]),
         nombre: ['', Validators.required],
         numeroDocumento: ['', Validators.required],
         moneda: ['', Validators.required],
@@ -138,6 +138,10 @@ export class AdelantoEditComponent implements OnInit {
     this.adelantoFormEdit.controls["tipoDocumento"].setValue(e[0].TipoDocumentoId);
     this.adelantoFormEdit.controls["nombre"].setValue(e[0].NombreRazonSocial);
     this.adelantoFormEdit.controls["numeroDocumento"].setValue(e[0].NumeroDocumento);
+    ;
+    this.adelantoFormEdit.controls["tipoDocumento"].disable();
+    this.adelantoFormEdit.controls["nombre"].disable();
+    this.adelantoFormEdit.controls["numeroDocumento"].disable();
     this.modalService.dismissAll();
   }
 
@@ -145,6 +149,7 @@ export class AdelantoEditComponent implements OnInit {
     const res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
       this.listMoneda = res.Result.Data;
+      this.selectedMoneda = this.login.Result.Data.MonedaId;
 
     }
   }
