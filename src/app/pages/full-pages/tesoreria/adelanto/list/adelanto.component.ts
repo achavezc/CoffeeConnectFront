@@ -39,6 +39,9 @@ export class AdelantoComponent implements OnInit {
   selected = [];
   limitRef = 10;
   rows = [];
+  estadoPendienteLiquidar = "01";
+  estadoLiquidado = "02";
+  
   tempData = [];
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
@@ -112,10 +115,11 @@ export class AdelantoComponent implements OnInit {
 
   anular() {
     if (this.selected.length > 0) {
+      if (this.selected[0].EstadoId == this.estadoPendienteLiquidar) {
       var form = this;
       swal.fire({
         title: '¿Estas seguro?',
-        text: "¿Estas seguro de anular la guia?",
+        text: "¿Estas seguro de anular el Adelanto?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#2F8BE6',
@@ -132,7 +136,11 @@ export class AdelantoComponent implements OnInit {
         }
       });
     }
+   else {
+    this.alertUtil.alertError("Error", "Solo se puede anular adelantos por Liquidar.")
   }
+  }
+}
 
   anularAdelanto() {
     this.spinner.show(undefined,
@@ -148,7 +156,7 @@ export class AdelantoComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Anulado!', 'Adelanto Anulada.');
+            this.alertUtil.alertOk('Anulado!', 'Adelanto Anulado.');
             this.Search();
 
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -169,7 +177,18 @@ export class AdelantoComponent implements OnInit {
   }
   openModal(modalNotaCompra) {
 
-    this.modalService.open(modalNotaCompra, { windowClass: 'dark-modal', size: 'xl' });
+    if (this.selected.length > 0) {
+      if (this.selected[0].EstadoId == this.estadoPendienteLiquidar) 
+      {
+        this.modalService.open(modalNotaCompra, { windowClass: 'dark-modal', size: 'xl' });
+      }
+   else {
+    
+    this.alertUtil.alertError("Error", "Solo se puede asociar adelantos por Liquidar.")
+  }
+    }
+
+    
     // this.cargarLotes();
     // this.clear();
     // this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
