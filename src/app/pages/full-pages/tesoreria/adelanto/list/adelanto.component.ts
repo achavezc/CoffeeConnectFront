@@ -41,7 +41,7 @@ export class AdelantoComponent implements OnInit {
   rows = [];
   estadoPendienteLiquidar = "01";
   estadoLiquidado = "02";
-  
+
   tempData = [];
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
@@ -63,7 +63,7 @@ export class AdelantoComponent implements OnInit {
 
   LoadForm(): void {
     this.adelantoForm = this.fb.group({
-      
+
       nroRecibo: [],
       tipoDocumento: [],
       fechaInicial: [, Validators.required],
@@ -116,31 +116,31 @@ export class AdelantoComponent implements OnInit {
   anular() {
     if (this.selected.length > 0) {
       if (this.selected[0].EstadoId == this.estadoPendienteLiquidar) {
-      var form = this;
-      swal.fire({
-        title: '¿Estas seguro?',
-        text: "¿Estas seguro de anular el Adelanto?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then(function (result) {
-        if (result.value) {
-          form.anularAdelanto();
-        }
-      });
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estas seguro de anular el Adelanto?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.anularAdelanto();
+          }
+        });
+      }
+      else {
+        this.alertUtil.alertError("Error", "Solo se puede anular adelantos por Liquidar.")
+      }
     }
-   else {
-    this.alertUtil.alertError("Error", "Solo se puede anular adelantos por Liquidar.")
   }
-  }
-}
 
   anularAdelanto() {
     this.spinner.show(undefined,
@@ -178,17 +178,16 @@ export class AdelantoComponent implements OnInit {
   openModal(modalNotaCompra) {
 
     if (this.selected.length > 0) {
-      if (this.selected[0].EstadoId == this.estadoPendienteLiquidar) 
-      {
+      if (this.selected[0].EstadoId == this.estadoPendienteLiquidar) {
         this.modalService.open(modalNotaCompra, { windowClass: 'dark-modal', size: 'xl' });
       }
-   else {
-    
-    this.alertUtil.alertError("Error", "Solo se puede asociar adelantos por Liquidar.")
-  }
+      else {
+
+        this.alertUtil.alertError("Error", "Solo se puede asociar adelantos por Liquidar.")
+      }
     }
 
-    
+
     // this.cargarLotes();
     // this.clear();
     // this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
