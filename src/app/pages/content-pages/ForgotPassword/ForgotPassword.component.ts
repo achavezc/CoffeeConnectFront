@@ -1,77 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from '../../../services/auth.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, NavigationEnd } from '@angular/router';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastaService, ToastaConfig, ToastOptions, ToastData} from 'ngx-toasta';
-import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from "ngx-spinner";
+import { ILogin } from '../../../services/models/login';
 
 @Component({
-  selector: 'embryo-ForgotPassword',
+  selector: 'app-forgortPass',
   templateUrl: './ForgotPassword.component.html',
   styleUrls: ['./ForgotPassword.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent {
 
-  @BlockUI() blockUI: NgBlockUI;
+  loginModel: ILogin;
+  loginFormSubmitted = false;
+  isLoginFailed = false;
+  errorGeneral: any = { isError: true, errorMessage: '' };
+  mensajeErrorGenerico = 'Usuario/password incorrecto.';
+  loginForm2 = new FormGroup({
+    username: new FormControl('manuelruiz11@gmail.com', [Validators.required]),
+    password: new FormControl('p@ssw0rd', [Validators.required]),
+    rememberMe: new FormControl(true)
+  });
 
-  popupResponse    : any;
-
-    registerForm  : FormGroup;
-
-   emailPattern : any = /\S+@\S+\.\S+/;
-
-  constructor(private formGroup : FormBuilder, public authService: AuthService, public router: Router,private toastyService: ToastaService,public translate: TranslateService) { }
-
-  ngOnInit() 
-  {
-    this.registerForm = this.formGroup.group({                
-      email      : ['', { validators: [Validators.required, Validators.pattern(this.emailPattern)] }],
-      emailRepetir    : ['', { validators: [Validators.required,Validators.pattern(this.emailPattern)]}]
-   }) 
+  constructor(private router: Router, private authService: AuthService,
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute) {
   }
 
-  
+  get lf() {
+    return this.loginForm2.controls;
+  }
 
-  public submitForm() 
-   {
-      if(this.registerForm.valid)
-      {
-          this.blockUI.start("Recuperando Password...");
-          /*
-           this.authService.recuperarPassword(this.registerForm.controls['email'].value).subscribe(
-            response => 
-            {               
+  // On submit button click
+  onSubmit() {
+    this.loginFormSubmitted = true;
+    if (this.loginForm2.invalid) {
+      return;
+    }
 
-                if (response.StatusCode == "0") 
-                {
-                  this.blockUI.stop();
-                  alert('El Email ingresado no se encuentra registrado.');
-                  
-                }
-                else if (response.StatusCode == "200") 
-                { 
-                  this.blockUI.stop();                   
-                  let toastOption: ToastOptions = {
-                    title: "Recuperar password",
-                    msg: "Se envió un Email para la recuperación de su password.",
-                    showClose: true,
-                    timeout: 1000,
-                    theme: "material"
-                 };
-                 this.toastyService.success(toastOption);                        
-                 this.registerForm.reset();
-                }    
-            });  
-            */
-      } 
-      else 
+    this.spinner.show(undefined,
       {
-         for (let i in this.registerForm.controls) 
-         {
-            this.registerForm.controls[i].markAsTouched();
-         }
-      }
-   }
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+
+    this.authService.signinUser(this.loginForm2.value.username, this.loginForm2.value.password)
+      .subscribe(res => {
+        this.spinner.hide();
+        console.log(res);
+        this.loginModel = res;
+        if (res.Result.Success) {
+          if(res.Result.ErrCode == "")
+          {
+          this.spinner.hide();
+          localStorage.setItem("user", JSON.stringify(this.loginModel));
+          this.router.navigate(['/home']);
+          }
+          else{
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        }
+      },
+        err => {
+          this.isLoginFailed = true;
+          this.spinner.hide();
+          console.error(err);
+        }
+      );
+
+  }
 
 }

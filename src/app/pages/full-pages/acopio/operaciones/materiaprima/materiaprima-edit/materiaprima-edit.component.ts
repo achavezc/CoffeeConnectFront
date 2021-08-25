@@ -336,9 +336,11 @@ export class MateriaPrimaEditComponent implements OnInit {
   cargarContratoAsignado() {
     let request =
     {
-      "EmpresaId": 1
+      "EmpresaId": this.login.Result.Data.EmpresaId
     }
-    this.contratoService.ConsultarContratoAsignado(request)
+    if (this.esEdit == false || (this.esEdit == true && this.estado == this.estadoPesado ))
+    {
+      this.contratoService.ConsultarContratoAsignado(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -378,6 +380,8 @@ export class MateriaPrimaEditComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );
+    }
+   
   }
   actualizarSaldoPendiente() {
     this.btnGuardar = true;
@@ -755,7 +759,10 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
     this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
+    if ( this.esEdit == true && this.estado == this.estadoPesado)
+    {
     this.actualizarSaldoPendiente();
+    }
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
   }

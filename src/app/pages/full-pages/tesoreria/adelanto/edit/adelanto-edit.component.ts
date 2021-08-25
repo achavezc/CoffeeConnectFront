@@ -138,7 +138,6 @@ export class AdelantoEditComponent implements OnInit {
     this.adelantoFormEdit.controls["tipoDocumento"].setValue(e[0].TipoDocumentoId);
     this.adelantoFormEdit.controls["nombre"].setValue(e[0].NombreRazonSocial);
     this.adelantoFormEdit.controls["numeroDocumento"].setValue(e[0].NumeroDocumento);
-    ;
     this.adelantoFormEdit.controls["tipoDocumento"].disable();
     this.adelantoFormEdit.controls["nombre"].disable();
     this.adelantoFormEdit.controls["numeroDocumento"].disable();

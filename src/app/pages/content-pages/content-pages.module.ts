@@ -6,6 +6,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { ContentPagesRoutingModule } from "./content-pages-routing.module";
 import { LoginPageComponent } from "./login/login-page.component";
+import { ForgotPasswordComponent } from "./ForgotPassword/ForgotPassword.component";
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -33,7 +34,8 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   declarations: [
     
-    LoginPageComponent
+    LoginPageComponent,
+    ForgotPasswordComponent
   ]
 })
 export class ContentPagesModule { }
