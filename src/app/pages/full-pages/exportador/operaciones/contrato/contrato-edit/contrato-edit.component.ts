@@ -480,7 +480,7 @@ export class ContratoEditComponent implements OnInit {
       EmpaqueId: form.empaque ? form.empaque : '',
       TipoId: form.tipo ? form.tipo : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: '01',
+      EstadoId: form.estado ? form.estado : '01',
       FacturarEnId: form.invoiceIn ? form.invoiceIn : null,
       FechaFijacionContrato: form.contractFixingDate ? form.contractFixingDate : null,
       KilosNetosQQ: form.NetKilosQQ ? form.NetKilosQQ : 0,
@@ -909,7 +909,7 @@ export class ContratoEditComponent implements OnInit {
   }
 
   UpdateForm(e) {
-    this.SearchById();
+    this.contratoEditForm.controls.estado.setValue('02');
   }
 
 }
