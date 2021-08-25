@@ -66,7 +66,7 @@ export class ClienteEditComponent implements OnInit {
       nroRucCabe: ['', Validators.required],
       tipoCliente: ['', Validators.required],
       codCliente: [''],
-      cliente: [''],
+      cliente: ['', Validators.required],
       nroRuc: [0],
       telefono: [0],
       email: ['', Validators.required],
