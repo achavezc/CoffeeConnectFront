@@ -338,50 +338,49 @@ export class MateriaPrimaEditComponent implements OnInit {
     {
       "EmpresaId": this.login.Result.Data.EmpresaId
     }
-    if (this.esEdit == false || (this.esEdit == true && this.estado == this.estadoPesado ))
-    {
+    if (this.esEdit == false || (this.esEdit == true && this.estado == this.estadoPesado)) {
       this.contratoService.ConsultarContratoAsignado(request)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
 
-            if (res.Result.Data == null) {
-              this.alertUtil.alertWarning("Oops...!", "No tiene asignado un contrato");
-              this.btnGuardar = false;
-            }
-            else {
-              if (res.Result.Data.SaldoPendienteKGPergaminoAsignacion == 0) {
-                this.alertUtil.alertWarning("Oops...!", "El contrato asignado no tiene saldo pendiente");
+              if (res.Result.Data == null) {
+                this.alertUtil.alertWarning("Oops...!", "No tiene asignado un contrato");
                 this.btnGuardar = false;
               }
               else {
-                var form = this;
-                form.consultaMateriaPrimaFormEdit.get('totalPergamino').setValue(res.Result.Data.TotalKGPergaminoAsignacion);
-                form.consultaMateriaPrimaFormEdit.get('rendimiento').setValue(res.Result.Data.PorcentajeRendimientoAsignacion);
-                form.saldoPendienteKG = res.Result.Data.SaldoPendienteKGPergaminoAsignacion;
-                form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(form.saldoPendienteKG - form.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
-                this.btnGuardar = true;
+                if (res.Result.Data.SaldoPendienteKGPergaminoAsignacion == 0) {
+                  this.alertUtil.alertWarning("Oops...!", "El contrato asignado no tiene saldo pendiente");
+                  this.btnGuardar = false;
+                }
+                else {
+                  var form = this;
+                  form.consultaMateriaPrimaFormEdit.get('totalPergamino').setValue(res.Result.Data.TotalKGPergaminoAsignacion);
+                  form.consultaMateriaPrimaFormEdit.get('rendimiento').setValue(res.Result.Data.PorcentajeRendimientoAsignacion);
+                  form.saldoPendienteKG = res.Result.Data.SaldoPendienteKGPergaminoAsignacion;
+                  form.consultaMateriaPrimaFormEdit.get('saldoPendiente').setValue(form.saldoPendienteKG - form.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+                  this.btnGuardar = true;
+                }
               }
-            }
 
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
     }
-   
+
   }
   actualizarSaldoPendiente() {
     this.btnGuardar = true;
@@ -759,9 +758,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.get('pesado').get("ObservacionAnalisisFisico").setValue(data.ObservacionAnalisisFisico);
 
     this.unidadMedidaPesado = data.UnidadMedidaIdPesado;
-    if ( this.esEdit == true && this.estado == this.estadoPesado)
-    {
-    this.actualizarSaldoPendiente();
+    if (this.esEdit == true && this.estado == this.estadoPesado) {
+      this.actualizarSaldoPendiente();
     }
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();

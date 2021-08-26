@@ -94,8 +94,6 @@ export class AdelantoEditComponent implements OnInit {
         fechaPago: ['', Validators.required],
         fechaEntregaProducto: ['', Validators.required],
         motivo: ['',]
-
-
       });
   }
   LoadCombos() {
@@ -132,8 +130,8 @@ export class AdelantoEditComponent implements OnInit {
     }
   }
   agregarSocio(e) {
-    
-    this.idSocio= e[0].SocioId;
+
+    this.idSocio = e[0].SocioId;
     this.adelantoFormEdit.controls["codigo"].setValue(e[0].Codigo);
     this.adelantoFormEdit.controls["tipoDocumento"].setValue(e[0].TipoDocumentoId);
     this.adelantoFormEdit.controls["nombre"].setValue(e[0].NombreRazonSocial);

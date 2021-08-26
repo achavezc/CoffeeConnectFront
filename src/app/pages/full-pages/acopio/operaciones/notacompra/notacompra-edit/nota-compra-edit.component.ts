@@ -46,6 +46,8 @@ export class NotaCompraEditComponent implements OnInit {
   CodigoSubProducto = "";
   precioDia = 0;
   login: ILogin;
+  listPreciosDia: [];
+  selectedPrecioDia: any;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'];
@@ -146,6 +148,30 @@ export class NotaCompraEditComponent implements OnInit {
     }
   }
 
+  async LoadPrecioDia(exportPorcen) {
+    const form = this;
+    if (exportPorcen) {
+      const result = await this.maestroService.CheckPriceDayPerformance({ EmpresaId: this.vUserSession.Result.Data.EmpresaId }).toPromise();
+      if (result.Result.Success) {
+        let listaPrecios = [] as any;
+        const precios = result.Result.Data.filter(x => x.RendimientoInicio <= exportPorcen && x.RendimientoFin >= exportPorcen);
+        listaPrecios.push({
+          Label: precios[0].Valor1,
+          Codigo: 1
+        });
+        listaPrecios.push({
+          Label: precios[0].Valor2,
+          Codigo: 2
+        });
+        listaPrecios.push({
+          Label: precios[0].Valor3,
+          Codigo: 3
+        });
+        form.listPreciosDia = listaPrecios;
+      }
+    }
+  }
+
   SearchById(): void {
     this.spinner.show();
     this.notaCompraService.SearchById({ NotaCompraId: this.vId })
@@ -184,6 +210,12 @@ export class NotaCompraEditComponent implements OnInit {
     // await this.cargarPrecioDia();
     await this.GetPreciosRendimiento(data.ValorId, data.ExportablePorcentajeAnalisisFisico);
     await this.LoadCombos();
+    if (data.ValorId) {
+      await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
+      this.notaCompraEditForm.controls.precioDiaAT.setValue(data.ValorId);
+      const selPrecio: any = this.listPreciosDia.find((x: any) => x.Codigo == data.ValorId);
+      this.precioDia = parseFloat(selPrecio.Label);
+    }
     this.notaCompraEditForm.controls.idGuiaRecepcion.setValue(data.GuiaRecepcionMateriaPrimaId);
     this.notaCompraEditForm.controls.nombre.setValue(data.RazonSocial);
     this.notaCompraEditForm.controls.nroNotaCompra.setValue(data.Numero);
@@ -253,7 +285,7 @@ export class NotaCompraEditComponent implements OnInit {
     }
     */
 
-    this.notaCompraEditForm.controls.precioDiaAT.setValue(this.precioDia);
+    // this.notaCompraEditForm.controls.precioDiaAT.setValue(this.precioDia);
     if (this.precioDia > data.PrecioGuardado) {
       this.notaCompraEditForm.controls.precioPagadoAT.setValue(this.precioDia);
     } else {

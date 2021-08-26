@@ -339,7 +339,7 @@
                 <div class="form-group">
                   <div class="controls">
                     <input type="date" class="form-control" formControlName="fechaCosecha" id="validationTooltip10"
-                      name="fechaCosecha" placeholder="date" 
+                      name="fechaCosecha" placeholder="date"
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaCosecha.invalid, 'is-valid': submittedEdit && !fedit.fechaCosecha.invalid }" />
                   </div>
                 </div>
@@ -357,13 +357,13 @@
               </div>
               <div class="col-12 col-md-4">
                 <div class="row">
-                <label for="validationTooltip10" style="color: red; padding-left: 8rem;">ASIGNADO</label> 
+                  <label for="validationTooltip10" style="color: red; padding-left: 8rem;">ASIGNADO</label>
                 </div>
                 <label for="validationTooltip10">Total Kg Pergamino</label>
                 <div class="form-group">
                   <div class="controls">
                     <input type="text" class="form-control" formControlName="totalPergamino" id="validationTooltip10"
-                      name="totalPergamino" placeholder="Total Kg Pergamino" 
+                      name="totalPergamino" placeholder="Total Kg Pergamino"
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.totalPergamino.invalid, 'is-valid': submittedEdit && !fedit.totalPergamino.invalid }"
                       disabled />
                   </div>
@@ -372,7 +372,7 @@
                 <div class="form-group" style="margin-bottom: 0.5rem !important;">
                   <div class="controls">
                     <input type="text" class="form-control" formControlName="rendimiento" id="validationTooltip10"
-                      name="rendimiento" placeholder="Rendimiento" 
+                      name="rendimiento" placeholder="Rendimiento"
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.rendimiento.invalid, 'is-valid': submittedEdit && !fedit.rendimiento.invalid }"
                       disabled />
                   </div>
@@ -381,7 +381,7 @@
                 <div class="form-group">
                   <div class="controls">
                     <input type="text" class="form-control" formControlName="saldoPendiente" id="validationTooltip10"
-                      name="saldoPendiente" placeholder="Saldo Pendiente" 
+                      name="saldoPendiente" placeholder="Saldo Pendiente"
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.saldoPendiente.invalid, 'is-valid': submittedEdit && !fedit.saldoPendiente.invalid }"
                       disabled />
                   </div>
@@ -428,10 +428,10 @@
                     </div>
                     <div class="row" style="margin-top: 2rem;">
                       <small class="form-text text-muted danger"
-                      *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                     </div>
                     <div class="card-footer text-right" style="margin-top: 2rem;">
-                      
+
                       <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar"
                         (click)="guardar()">Guardar</button>
                       <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
