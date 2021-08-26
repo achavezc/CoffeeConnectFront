@@ -85,8 +85,8 @@ export class AdelantoEditComponent implements OnInit {
   cargarForm() {
     this.adelantoFormEdit = this.fb.group(
       {
-        codigo: [''],
-        tipoDocumento: new FormControl('', [Validators.required]),
+        codigo: ['', ],
+        tipoDocumento: new FormControl('', [ Validators.required]),
         nombre: ['', Validators.required],
         numeroDocumento: ['', Validators.required],
         moneda: ['', Validators.required],
@@ -94,8 +94,6 @@ export class AdelantoEditComponent implements OnInit {
         fechaPago: ['', Validators.required],
         fechaEntregaProducto: ['', Validators.required],
         motivo: ['',]
-
-
       });
   }
   LoadCombos() {
