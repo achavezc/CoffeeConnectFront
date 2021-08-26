@@ -95,13 +95,13 @@
                 <label for="basicInput">Nombre</label>
                 <input type="text" name="nombre" id="nombre" formControlName="nombre" class="form-control"
                   placeholder="Ingresar Nombre"
-                  [ngClass]="{ 'is-invalid': fedit.nombre.invalid, 'is-valid': !fedit.nombre.invalid }" >
+                  [ngClass]="{ 'is-invalid': fedit.nombre.invalid, 'is-valid': !fedit.nombre.invalid }">
               </div>
               <div class="col-12 col-md-6">
                 <label for="basicInput">Numero Documento</label>
                 <input type="text" name="numeroDocumento" id="numeroDocumento" formControlName="numeroDocumento"
                   class="form-control" placeholder="Ingresar Numero Documento"
-                  [ngClass]="{ 'is-invalid': fedit.numeroDocumento.invalid, 'is-valid': !fedit.numeroDocumento.invalid }" >
+                  [ngClass]="{ 'is-invalid': fedit.numeroDocumento.invalid, 'is-valid': !fedit.numeroDocumento.invalid }">
               </div>
             </div>
 
@@ -134,8 +134,8 @@
                   placeholder="Seleccionar fecha de pago"
                   [ngClass]="{ 'is-invalid': fedit.fechaPago.invalid, 'is-valid': !fedit.fechaPago.invalid }"
                   (blur)="compareFechas()">
-                  <small class="form-text text-muted danger"
-                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                <small class="form-text text-muted danger"
+                  *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
               </div>
               <div class="col-12 col-md-6">
                 <label for="basicInput">Fecha de Entrega Producto</label>
@@ -144,7 +144,7 @@
                   placeholder="Seleccionar fecha de entrega producto"
                   [ngClass]="{ 'is-invalid': fedit.fechaEntregaProducto.invalid, 'is-valid': !fedit.fechaEntregaProducto.invalid }"
                   (blur)="compareTwoDates()">
-                  <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
               </div>
 
             </div>
@@ -158,10 +158,10 @@
           </div>
           <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
             <div class="col-12">
-            <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
-              {{errorGeneral.errorMessage}}
-            </small>
-          </div>
+              <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
+                {{errorGeneral.errorMessage}}
+              </small>
+            </div>
           </div>
           <div class="card-footer text-right">
             <button class="btn btn-primary" (click)="Print()" *ngIf="esEdit">Imprimir</button>

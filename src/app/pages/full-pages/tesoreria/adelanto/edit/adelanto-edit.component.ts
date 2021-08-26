@@ -85,8 +85,8 @@ export class AdelantoEditComponent implements OnInit {
   cargarForm() {
     this.adelantoFormEdit = this.fb.group(
       {
-        codigo: ['', Validators.required],
-        tipoDocumento: new FormControl('', [ Validators.required]),
+        codigo: [''],
+        tipoDocumento: new FormControl('', [Validators.required]),
         nombre: ['', Validators.required],
         numeroDocumento: ['', Validators.required],
         moneda: ['', Validators.required],
@@ -132,8 +132,8 @@ export class AdelantoEditComponent implements OnInit {
     }
   }
   agregarSocio(e) {
-    
-    this.idSocio= e[0].SocioId;
+
+    this.idSocio = e[0].SocioId;
     this.adelantoFormEdit.controls["codigo"].setValue(e[0].Codigo);
     this.adelantoFormEdit.controls["tipoDocumento"].setValue(e[0].TipoDocumentoId);
     this.adelantoFormEdit.controls["nombre"].setValue(e[0].NombreRazonSocial);

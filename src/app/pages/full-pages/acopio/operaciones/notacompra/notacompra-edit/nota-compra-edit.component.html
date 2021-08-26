@@ -36,8 +36,8 @@
                                         class="col-sm-6 col-form-label text-right pr-0 font-weight-bold">FECHA</label>
                                     <div class="col-sm-6">
                                         <input type="date" date name="fecha" id="fecha" formControlName="fecha"
-                                            class="form-control form-control-sm" placeholder="Seleccionar fecha"
-                                            readonly required>
+                                            class="form-control form-control-sm text-center"
+                                            placeholder="Seleccionar fecha" readonly required>
                                     </div>
                                 </div>
                             </td>
@@ -443,8 +443,8 @@
                                             </td>
                                             <td class="col-2">
                                                 <input type="number" name="qqKgPC" id="qqKgPC" formControlName="qqKgPC"
-                                                    class="form-control form-control-sm text-right"
-                                                    placeholder="QQ/Kg" readonly required>
+                                                    class="form-control form-control-sm text-right" placeholder="QQ/Kg"
+                                                    readonly required>
                                             </td>
                                             <td class="col-2"></td>
                                             <td class="col-3">
@@ -452,10 +452,15 @@
                                                     día</label>
                                             </td>
                                             <td class="col-1">
-                                                <input type="number" name="precioDiaAT" id="precioDiaAT"
+                                                <ng-select [items]="listPreciosDia" formControlName="precioDiaAT"
+                                                    class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                    id="precioDiaAT" placeholder="Seleccionar precio" [readonly]="true"
+                                                    [(ngModel)]="selectedPrecioDia" (change)="ChangePrecioDia($event)">
+                                                </ng-select>
+                                                <!-- <input type="number" name="precioDiaAT" id="precioDiaAT"
                                                     formControlName="precioDiaAT"
                                                     class="form-control form-control-sm text-right"
-                                                    placeholder="Ingresar precio del día" [readonly]="true" required>
+                                                    placeholder="Ingresar precio del día" [readonly]="true" required> -->
                                             </td>
                                         </tr>
                                         <tr class="form-row">
@@ -496,8 +501,8 @@
                                         <tr class="form-row">
                                             <td class="col" colspan="7"></td>
                                             <td class="col-3">
-                                                <label for="importeAT"
-                                                    class="form-label font-weight-bold">Total Importe</label>
+                                                <label for="importeAT" class="form-label font-weight-bold">Total
+                                                    Importe</label>
                                             </td>
                                             <td class="col-1">
                                                 <input type="number" name="importeAT" id="importeAT"
@@ -510,8 +515,8 @@
                                         <tr class="form-row">
                                             <td class="col" colspan="7"></td>
                                             <td class="col-3">
-                                                <label for="adelantoAT"
-                                                    class="form-label font-weight-bold">Total Adelanto</label>
+                                                <label for="adelantoAT" class="form-label font-weight-bold">Total
+                                                    Adelanto</label>
                                             </td>
                                             <td class="col-1">
                                                 <input type="number" name="adelantoAT" id="adelantoAT"
@@ -524,8 +529,8 @@
                                         <tr class="form-row">
                                             <td class="col" colspan="7"></td>
                                             <td class="col-3">
-                                                <label for="totalPagarAT"
-                                                    class="form-label font-weight-bold">Total a Pagar</label>
+                                                <label for="totalPagarAT" class="form-label font-weight-bold">Total a
+                                                    Pagar</label>
                                             </td>
                                             <td class="col-1">
                                                 <input type="number" name="totalPagarAT" id="totalPagarAT"
@@ -536,7 +541,7 @@
                                             <td class="col-1"></td>
                                         </tr>
 
-                                        
+
                                     </tbody>
                                 </table>
                             </td>
