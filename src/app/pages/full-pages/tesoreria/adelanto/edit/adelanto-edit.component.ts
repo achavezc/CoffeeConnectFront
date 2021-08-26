@@ -85,7 +85,7 @@ export class AdelantoEditComponent implements OnInit {
   cargarForm() {
     this.adelantoFormEdit = this.fb.group(
       {
-        codigo: ['', Validators.required],
+        codigo: ['', ],
         tipoDocumento: new FormControl('', [ Validators.required]),
         nombre: ['', Validators.required],
         numeroDocumento: ['', Validators.required],
