@@ -11,7 +11,7 @@ import { OrdenservicioControlcalidadService } from './../../../../../../services
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import{TagOrdenServicioComponent} from '../ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component';
+import { TagOrdenServicioComponent } from '../ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class OrdenServicioEditComponent implements OnInit {
   selectTipoProveedor: any;
   rows: any[];
   errorGeneral: any = { isError: false, errorMessage: '' };
-  selectEmpresa: any[] =[];
+  selectEmpresa: any[] = [];
   responsable: "";
   id: Number = 0;
   mensajeErrorGenerico = "Ocurrio un error interno.";
@@ -56,7 +56,7 @@ export class OrdenServicioEditComponent implements OnInit {
     private maestroService: MaestroService,
     private modalService: NgbModal,
     private router: Router,
-   private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
+    private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
     private alertUtil: AlertUtil,
     private route: ActivatedRoute,
     private dateUtil: DateUtil) {
@@ -94,8 +94,7 @@ export class OrdenServicioEditComponent implements OnInit {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
 
   }
-  obtenerDetalle()
-  {
+  obtenerDetalle() {
     this.spinner.show();
     this.ordenservicioControlcalidadService.ConsultarPorId(Number(this.id))
       .subscribe(res => {
@@ -120,9 +119,8 @@ export class OrdenServicioEditComponent implements OnInit {
         }
       );
   }
-  async cargarDataFormulario(data: any)
-  {
-    this.selectEmpresa[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaProcesadoraId};
+  async cargarDataFormulario(data: any) {
+    this.selectEmpresa[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaProcesadoraId };
     this.numero = data.Numero;
     this.estado = data.Estado;
     this.responsable = data.UsuarioRegistro;
@@ -138,7 +136,7 @@ export class OrdenServicioEditComponent implements OnInit {
     this.ordenServicioFormEdit.get('tagordenservicio').get('rendimiento').setValue(data.RendimientoEsperadoPorcentaje);
     this.ordenServicioFormEdit.get('tagordenservicio').get('unidadmedida').setValue(data.UnidadMedidaId);
     this.ordenServicioFormEdit.get('tagordenservicio').get('cantidad').setValue(data.CantidadPesado);
-    
+
   }
 
   cargarForm() {
@@ -244,7 +242,7 @@ export class OrdenServicioEditComponent implements OnInit {
       );
   }
   actualizarNotaSalidaService(request: ReqOrdenServicio) {
-   this.ordenservicioControlcalidadService.Actualizar(request)
+    this.ordenservicioControlcalidadService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

@@ -4,10 +4,10 @@ import swal from 'sweetalert2';
 
 @Injectable()
 export class AlertUtil {
- 
-  constructor(){  }
 
-  alertError(title:String, mensaje:any){
+  constructor() { }
+
+  alertError(title: String, mensaje: any) {
     swal.fire({
       icon: "error",
       title: title,
@@ -18,7 +18,7 @@ export class AlertUtil {
     })
   }
 
-  alertOk(title:String, mensaje:any){
+  alertOk(title: String, mensaje: any) {
     swal.fire({
       icon: "success",
       title: title,
@@ -29,7 +29,7 @@ export class AlertUtil {
     })
   }
 
-  alertOkCallback(title:String, mensaje:any, callback){
+  alertOkCallback(title: String, mensaje: any, callback) {
     swal.fire({
       icon: "success",
       title: title,
@@ -37,40 +37,51 @@ export class AlertUtil {
       customClass: {
         confirmButton: 'btn btn-success'
       },
-    }).then((result)=> {
-    
-     callback(result); // this should execute now
-    
+    }).then((result) => {
+
+      callback(result); // this should execute now
+
     })
   }
 
-  alertSiNoCallback(title:String, mensaje:any, callback){
+  alertSiNoCallback(title: String, mensaje: any, callback) {
     swal.fire({
       icon: "warning",
       title: title,
       text: mensaje,
-      showCancelButton: true,  
-      confirmButtonText: 'Si',  
+      showCancelButton: true,
+      confirmButtonText: 'Si',
       cancelButtonText: 'No'
-    }).then((result)=> {
-    
-     callback(result); // this should execute now
-    
+    }).then((result) => {
+
+      callback(result); // this should execute now
+
     })
   }
 
- 
-    alertWarning(title:String, mensaje:any){
-      swal.fire({
-        icon: "warning",
-        title: title,
-        text: mensaje,
-        customClass: {
-          confirmButton: 'btn btn-primary'
-        },
-      })
-    }
 
- 
+  alertWarning(title: String, mensaje: any) {
+    swal.fire({
+      icon: "warning",
+      title: title,
+      text: mensaje,
+      customClass: {
+        confirmButton: 'btn btn-primary'
+      },
+    })
+  }
+
+  alertWarningCallback(title: String, mensaje: any, callback) {
+    swal.fire({
+      icon: "warning",
+      title: title,
+      text: mensaje,
+      customClass: {
+        confirmButton: 'btn btn-primary'
+      },
+    }).then((result) => {
+      callback(result); // this should execute now
+    })
+  }
 
 }

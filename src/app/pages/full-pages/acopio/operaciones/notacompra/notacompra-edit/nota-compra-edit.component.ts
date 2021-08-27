@@ -205,99 +205,106 @@ export class NotaCompraEditComponent implements OnInit {
   // }
 
   async AutocompleteForm(data: any) {
-    this.login = JSON.parse(localStorage.getItem("user"));
-    this.CodigoSubProducto = data.SubProductoId;
-    // await this.cargarPrecioDia();
-    await this.GetPreciosRendimiento(data.ValorId, data.ExportablePorcentajeAnalisisFisico);
-    await this.LoadCombos();
-    if (data.ValorId) {
-      await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
-      this.notaCompraEditForm.controls.precioDiaAT.setValue(data.ValorId);
-      const selPrecio: any = this.listPreciosDia.find((x: any) => x.Codigo == data.ValorId);
-      this.precioDia = parseFloat(selPrecio.Label);
-    }
-    this.notaCompraEditForm.controls.idGuiaRecepcion.setValue(data.GuiaRecepcionMateriaPrimaId);
-    this.notaCompraEditForm.controls.nombre.setValue(data.RazonSocial);
-    this.notaCompraEditForm.controls.nroNotaCompra.setValue(data.Numero);
-    this.notaCompraEditForm.controls.direccion.setValue(data.Direccion);
-    if (data.FechaRegistro && data.FechaRegistro.substring(0, 10) != "0001-01-01") {
-      this.notaCompraEditForm.controls.fecha.setValue(data.FechaRegistro.substring(0, 10));
-    }
-    this.notaCompraEditForm.controls.ruc.setValue(data.Ruc);
-    if (data.EstadoId) {
-      this.notaCompraEditForm.controls.estado.setValue(data.EstadoId);
-    }
-    this.notaCompraEditForm.controls.nombreProveedor.setValue(data.NombreRazonSocial);
-    this.notaCompraEditForm.controls.departamento.setValue(data.Departamento);
-    if (data.NumeroDocumento || data.TipoDocumento) {
-      this.notaCompraEditForm.controls.docIdentidad.setValue(`${data.TipoDocumento} - ${data.NumeroDocumento}`);
-    }
-    this.notaCompraEditForm.controls.provincia.setValue(data.Provincia);
-    this.notaCompraEditForm.controls.tipo.setValue(data.TipoId);
-    this.notaCompraEditForm.controls.distrito.setValue(data.Distrito);
-    this.notaCompraEditForm.controls.codigo.setValue(data.CodigoSocio);
-    this.notaCompraEditForm.controls.zona.setValue(data.Zona);
-    if (data.Finca) {
-      this.notaCompraEditForm.controls.finca.setValue(data.Finca);
-    }
-    this.notaCompraEditForm.controls.tipoDP.setValue(data.ProductoId);
-    if (data.FechaCosecha && data.FechaCosecha.substring(0, 10) != "0001-01-01") {
-      this.notaCompraEditForm.controls.fechaCosecha.setValue(data.FechaCosecha.substring(0, 10));
-    }
-    this.notaCompraEditForm.controls.subTipo.setValue(data.SubProductoId);
-    if (data.TipoProduccionId) {
-      this.notaCompraEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
-    }
-    this.notaCompraEditForm.controls.unidadMedida.setValue(data.UnidadMedidaIdPesado);
-    this.notaCompraEditForm.controls.exportableAT.setValue(data.ExportableGramosAnalisisFisico);
-    this.notaCompraEditForm.controls.cantidadPC.setValue(data.CantidadPesado);
-    this.notaCompraEditForm.controls.descarteAT.setValue(data.DescarteGramosAnalisisFisico);
-    this.notaCompraEditForm.controls.kilosBrutosPC.setValue(data.KilosBrutosPesado);
-    this.notaCompraEditForm.controls.cascarillaAT.setValue(data.CascarillaGramosAnalisisFisico);
-    this.notaCompraEditForm.controls.taraPC.setValue(data.TaraPesado);
-    this.notaCompraEditForm.controls.totalAT.setValue(data.TotalGramosAnalisisFisico);
-    this.notaCompraEditForm.controls.kilosNetosPC.setValue(data.KilosNetosPesado);
-    this.notaCompraEditForm.controls.dsctoHumedadPC.setValue(data.DescuentoPorHumedad);
-    this.notaCompraEditForm.controls.humedadAT.setValue(`${data.HumedadPorcentajeAnalisisFisico}%`);
-    this.notaCompraEditForm.controls.kilosNetosDescontarPC.setValue(data.KilosNetosDescontar);
-    this.notaCompraEditForm.controls.kiloNetoPagarPC.setValue(data.KilosNetosPagar);
-    this.notaCompraEditForm.controls.monedaAT.setValue(data.MonedaId);
-    this.notaCompraEditForm.controls.qqKgPC.setValue(data.QQ55);
-    this.notaCompraEditForm.controls.precioGuardadoAT.setValue(data.PrecioGuardado);
-    this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioPagado);
-    this.notaCompraEditForm.controls.importeAT.setValue(data.Importe);
-    this.notaCompraEditForm.controls.adelantoAT.setValue(data.TotalAdelanto);
-    this.notaCompraEditForm.controls.totalPagarAT.setValue(data.TotalPagar);
+    if (data) {
+      this.login = JSON.parse(localStorage.getItem("user"));
+      this.CodigoSubProducto = data.SubProductoId;
+      // await this.cargarPrecioDia();
+      await this.GetPreciosRendimiento(data.ValorId, data.ExportablePorcentajeAnalisisFisico);
+      await this.LoadCombos();
+      if (data.ValorId) {
+        await this.LoadPrecioDia(data.ExportablePorcentajeAnalisisFisico);
+        this.notaCompraEditForm.controls.precioDiaAT.setValue(data.ValorId);
+        const selPrecio: any = this.listPreciosDia.find((x: any) => x.Codigo == data.ValorId);
+        this.precioDia = parseFloat(selPrecio.Label);
+      }
+      this.notaCompraEditForm.controls.idGuiaRecepcion.setValue(data.GuiaRecepcionMateriaPrimaId);
+      this.notaCompraEditForm.controls.nombre.setValue(data.RazonSocial);
+      this.notaCompraEditForm.controls.nroNotaCompra.setValue(data.Numero);
+      this.notaCompraEditForm.controls.direccion.setValue(data.Direccion);
+      if (data.FechaRegistro && data.FechaRegistro.substring(0, 10) != "0001-01-01") {
+        this.notaCompraEditForm.controls.fecha.setValue(data.FechaRegistro.substring(0, 10));
+      }
+      this.notaCompraEditForm.controls.ruc.setValue(data.Ruc);
+      if (data.EstadoId) {
+        this.notaCompraEditForm.controls.estado.setValue(data.EstadoId);
+      }
+      this.notaCompraEditForm.controls.nombreProveedor.setValue(data.NombreRazonSocial);
+      this.notaCompraEditForm.controls.departamento.setValue(data.Departamento);
+      if (data.NumeroDocumento || data.TipoDocumento) {
+        this.notaCompraEditForm.controls.docIdentidad.setValue(`${data.TipoDocumento} - ${data.NumeroDocumento}`);
+      }
+      this.notaCompraEditForm.controls.provincia.setValue(data.Provincia);
+      this.notaCompraEditForm.controls.tipo.setValue(data.TipoId);
+      this.notaCompraEditForm.controls.distrito.setValue(data.Distrito);
+      this.notaCompraEditForm.controls.codigo.setValue(data.CodigoSocio);
+      this.notaCompraEditForm.controls.zona.setValue(data.Zona);
+      if (data.Finca) {
+        this.notaCompraEditForm.controls.finca.setValue(data.Finca);
+      }
+      this.notaCompraEditForm.controls.tipoDP.setValue(data.ProductoId);
+      if (data.FechaCosecha && data.FechaCosecha.substring(0, 10) != "0001-01-01") {
+        this.notaCompraEditForm.controls.fechaCosecha.setValue(data.FechaCosecha.substring(0, 10));
+      }
+      this.notaCompraEditForm.controls.subTipo.setValue(data.SubProductoId);
+      if (data.TipoProduccionId) {
+        this.notaCompraEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
+      }
+      this.notaCompraEditForm.controls.unidadMedida.setValue(data.UnidadMedidaIdPesado);
+      this.notaCompraEditForm.controls.exportableAT.setValue(data.ExportableGramosAnalisisFisico);
+      this.notaCompraEditForm.controls.cantidadPC.setValue(data.CantidadPesado);
+      this.notaCompraEditForm.controls.descarteAT.setValue(data.DescarteGramosAnalisisFisico);
+      this.notaCompraEditForm.controls.kilosBrutosPC.setValue(data.KilosBrutosPesado);
+      this.notaCompraEditForm.controls.cascarillaAT.setValue(data.CascarillaGramosAnalisisFisico);
+      this.notaCompraEditForm.controls.taraPC.setValue(data.TaraPesado);
+      this.notaCompraEditForm.controls.totalAT.setValue(data.TotalGramosAnalisisFisico);
+      this.notaCompraEditForm.controls.kilosNetosPC.setValue(data.KilosNetosPesado);
+      this.notaCompraEditForm.controls.dsctoHumedadPC.setValue(data.DescuentoPorHumedad);
+      this.notaCompraEditForm.controls.humedadAT.setValue(`${data.HumedadPorcentajeAnalisisFisico}%`);
+      this.notaCompraEditForm.controls.kilosNetosDescontarPC.setValue(data.KilosNetosDescontar);
+      this.notaCompraEditForm.controls.kiloNetoPagarPC.setValue(data.KilosNetosPagar);
+      this.notaCompraEditForm.controls.monedaAT.setValue(data.MonedaId);
+      this.notaCompraEditForm.controls.qqKgPC.setValue(data.QQ55);
+      this.notaCompraEditForm.controls.precioGuardadoAT.setValue(data.PrecioGuardado);
+      this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioPagado);
+      this.notaCompraEditForm.controls.importeAT.setValue(data.Importe);
+      this.notaCompraEditForm.controls.adelantoAT.setValue(data.TotalAdelanto);
+      this.notaCompraEditForm.controls.totalPagarAT.setValue(data.TotalPagar);
 
-    /*
-    if (this.vUserSession && this.vUserSession.Result && this.vUserSession.Result.Data
-      && this.vUserSession.Result.Data.ProductoPreciosDia && this.vUserSession.Result.Data.ProductoPreciosDia.length > 0) {
-      const precioDia = this.vUserSession.Result.Data.ProductoPreciosDia
-        .find((x: any) => x.ProductoId == data.ProductoId && x.SubProductoId == data.SubProductoId);
-      if (precioDia) {
-        this.notaCompraEditForm.controls.precioDiaAT.setValue(precioDia.PrecioDia);
-        if (precioDia.PrecioDia > data.PrecioGuardado) {
-          this.notaCompraEditForm.controls.precioPagadoAT.setValue(precioDia.PrecioDia);
-        } else {
-          this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
+      /*
+      if (this.vUserSession && this.vUserSession.Result && this.vUserSession.Result.Data
+        && this.vUserSession.Result.Data.ProductoPreciosDia && this.vUserSession.Result.Data.ProductoPreciosDia.length > 0) {
+        const precioDia = this.vUserSession.Result.Data.ProductoPreciosDia
+          .find((x: any) => x.ProductoId == data.ProductoId && x.SubProductoId == data.SubProductoId);
+        if (precioDia) {
+          this.notaCompraEditForm.controls.precioDiaAT.setValue(precioDia.PrecioDia);
+          if (precioDia.PrecioDia > data.PrecioGuardado) {
+            this.notaCompraEditForm.controls.precioPagadoAT.setValue(precioDia.PrecioDia);
+          } else {
+            this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
+          }
         }
       }
-    }
-    */
+      */
 
-    // this.notaCompraEditForm.controls.precioDiaAT.setValue(this.precioDia);
-    if (this.precioDia > data.PrecioGuardado) {
-      this.notaCompraEditForm.controls.precioPagadoAT.setValue(this.precioDia);
+      // this.notaCompraEditForm.controls.precioDiaAT.setValue(this.precioDia);
+      if (this.precioDia > data.PrecioGuardado) {
+        this.notaCompraEditForm.controls.precioPagadoAT.setValue(this.precioDia);
+      } else {
+        this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
+      }
+
+      this.notaCompraEditForm.controls.observacionNotaCompra.setValue(data.Observaciones);
+      this.notaCompraEditForm.controls.exportablePorcAT.setValue(data.ExportablePorcentajeAnalisisFisico);
+      this.notaCompraEditForm.controls.descartePorcAT.setValue(data.DescartePorcentajeAnalisisFisico);
+      this.notaCompraEditForm.controls.cascarillaPorcAT.setValue(data.CascarillaPorcentajeAnalisisFisico);
+      this.notaCompraEditForm.controls.totalPorcAT.setValue(data.TotalPorcentajeAnalisisFisico);
+      this.spinner.hide();
     } else {
-      this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
+      this.spinner.hide();
+      this.alertUtil.alertWarningCallback('INFORMACIÓN', 'La nota de compra no existe.', () => {
+        this.Cancel();
+      });
     }
-
-    this.notaCompraEditForm.controls.observacionNotaCompra.setValue(data.Observaciones);
-    this.notaCompraEditForm.controls.exportablePorcAT.setValue(data.ExportablePorcentajeAnalisisFisico);
-    this.notaCompraEditForm.controls.descartePorcAT.setValue(data.DescartePorcentajeAnalisisFisico);
-    this.notaCompraEditForm.controls.cascarillaPorcAT.setValue(data.CascarillaPorcentajeAnalisisFisico);
-    this.notaCompraEditForm.controls.totalPorcAT.setValue(data.TotalPorcentajeAnalisisFisico);
-    this.spinner.hide();
   }
 
   Liquidar(): void {
