@@ -5,7 +5,7 @@ import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import {Router} from "@angular/router";
 import {OrdenservicioControlcalidadService} from '../../../../../../../services/ordenservicio-controlcalidad.service';
 import {LoteService} from '../../../../../../../services/lote.service';
-import {PlantaService} from  '../../../../../../../Services/planta.service';
+import {PlantaService} from  '../../../../../../../services/planta.service';
 
 
 @Injectable({
@@ -56,31 +56,32 @@ export class ControlCalidadService {
  }
  actualizarControlCalidadLote(reqControlCalidad: any)
  {
-  this.loteService.ActualizarAnalisisCalidad(reqControlCalidad)
+  var form = this;
+  form.loteService.ActualizarAnalisisCalidad(reqControlCalidad)
   .subscribe(res => {
-    this.spinner.hide();
+    form.spinner.hide();
     if (res.Result.Success) {
       if (res.Result.ErrCode == "") {
-        var form = this;
-      this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+       
+        form.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
         if(result.isConfirmed){
           form.router.navigate(['/operaciones/lotes-list']);
         }
       }
       );
       } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        return form.errorGeneral = { isError: true, errorMessage: res.Result.Message };
       } else {
-        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        return form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
       }
     } else {
-      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      return form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
     }
   },
     err => {
-      this.spinner.hide();
+      form.spinner.hide();
       console.log(err);
-      this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      return form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
     }
   );  
  }
@@ -144,6 +145,7 @@ actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any)
      this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
    }
  );
+
 
 }
 

@@ -8,6 +8,11 @@ import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { ControlCalidadService } from '../controlCalidadServices';
+import {LoteService} from '../../../../../../../../services/lote.service';
+import {OrdenservicioControlcalidadService} from '../../../../../../../../services/ordenservicio-controlcalidad.service';
+import {PlantaService} from  '../../../../../../../../services/planta.service';
+import {AcopioService} from '../../../../../../../../services/acopio.service';
+import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 
 @Component({
   selector: 'app-controlCalidadHumedo',
@@ -45,7 +50,12 @@ export class ControlCalidadComponentHumedo implements OnInit {
   constructor(private maestroUtil: MaestroUtil, private dateUtil: DateUtil, private router: Router,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private controlCalidadService: ControlCalidadService
+    private controlCalidadService: ControlCalidadService,
+    private loteService: LoteService,
+    private alertUtil: AlertUtil,
+    private ordenServicio : OrdenservicioControlcalidadService,
+    private acopioService: AcopioService,
+    private notaIngresoPlantaService: PlantaService
   ) {
   }
 
@@ -174,20 +184,146 @@ export class ControlCalidadComponentHumedo implements OnInit {
         });
 
       if (this.form == "materiaprima") {
-        this.controlCalidadService.actualizarControlCalidadMateriaPrima(this.reqControlCalidad);
+        this.actualizarControlCalidadMateriaPrima(this.reqControlCalidad);
       }
       else if (this.form == "lote") {
-        this.controlCalidadService.actualizarControlCalidadLote(this.reqControlCalidad);
+        this.actualizarControlCalidadLote(this.reqControlCalidad);
       }
       else if (this.form == "ordenServicio") {
-        this.controlCalidadService.actualizarControlCalidadOrdenServicio(this.reqControlCalidad);
+        this.actualizarControlCalidadOrdenServicio(this.reqControlCalidad);
       }
       else if (this.form == "notaingresoplanta")
       {
-        this.controlCalidadService.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
+        this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
       }
     }
   }
+  actualizarControlCalidadMateriaPrima(reqControlCalidad: any)
+  {
+   this.acopioService.Actualizar(reqControlCalidad)
+   .subscribe(res => {
+     this.spinner.hide();
+     if (res.Result.Success) {
+       if (res.Result.ErrCode == "") {
+         var form = this;
+       this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+         if(result.isConfirmed){
+           form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+         }
+       }
+       );
+       } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+         this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+       } else {
+         this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+       }
+     } else {
+       this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+     }
+   },
+     err => {
+       this.spinner.hide();
+       console.log(err);
+       this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+     }
+   );
+  }
+  
+  actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any)
+  {
+      this.notaIngresoPlantaService.ActualizarAnalisisCalidad(reqControlCalidad)
+   .subscribe(res => {
+     this.spinner.hide();
+     if (res.Result.Success) {
+       if (res.Result.ErrCode == "") {
+         var form = this;
+       this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+         if(result.isConfirmed){
+           form.router.navigate(['/planta/operaciones/notaingreso-list']);
+         }
+       }
+       );
+       } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+         this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+       } else {
+         this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+       }
+     } else {
+       this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+     }
+   },
+     err => {
+       this.spinner.hide();
+       console.log(err);
+       this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+     }
+   );
+  
+  
+  }
+    actualizarControlCalidadLote(reqControlCalidad: any)
+   {
+    var form = this;
+    form.loteService.ActualizarAnalisisCalidad(reqControlCalidad)
+    .subscribe(res => {
+      form.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+         
+          form.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+          if(result.isConfirmed){
+            form.router.navigate(['/operaciones/lotes-list']);
+          }
+        }
+        );
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+           form.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+           form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        return form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        form.spinner.hide();
+        console.log(err);
+         form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    );  
+   }
+   
+   actualizarControlCalidadOrdenServicio(reqControlCalidad: any)
+   {
+    this.ordenServicio.ActualizarAnalisisCalidad(reqControlCalidad)
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          var form = this;
+        this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+          if(result.isConfirmed){
+            form.router.navigate(['/operaciones/orderservicio-controlcalidadexterna-list']);
+          }
+        }
+        );
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    ); 
+   }
+  
 
   obtenerDetalleAnalisisFisicoColor(tableColor) {
     let result: any[];

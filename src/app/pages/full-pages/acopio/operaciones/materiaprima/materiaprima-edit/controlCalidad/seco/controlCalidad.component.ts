@@ -14,6 +14,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import {LoteService} from '../../../../../../../../services/lote.service';
 import {OrdenservicioControlcalidadService} from '../../../../../../../../services/ordenservicio-controlcalidad.service';
 import { ControlCalidadService } from '../controlCalidadServices';
+import {PlantaService} from  '../../../../../../../../services/planta.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class ControlCalidadComponent implements OnInit {
    maxSensorial: number;
    login: ILogin;
    errorGeneral: any = { isError: false, errorMessage: '' };
+   error: any = { isError: false, errorMessage: '' };
    mensajeErrorGenerico = "Ocurrio un error interno.";
    responsable: string;
    fechaCalidad: string;
@@ -63,7 +65,12 @@ export class ControlCalidadComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private router: Router, private dateUtil: DateUtil,
     private maestroService: MaestroService,
-    private controlCalidadService: ControlCalidadService
+    private controlCalidadService: ControlCalidadService,
+    private loteService: LoteService,
+    private alertUtil: AlertUtil,
+    private ordenServicio : OrdenservicioControlcalidadService,
+    private acopioService: AcopioService,
+    private notaIngresoPlantaService: PlantaService
     ){
      
   } 
@@ -270,11 +277,11 @@ export class ControlCalidadComponent implements OnInit {
     if ((totalPorcentaje> 100 || totalPorcentaje < 100))
     {
 
-      this.errorGeneral = { isError: true, errorMessage: 'Total de Porcentaje debe ser 100%' };
+      this.error = { isError: true, errorMessage: 'Total de Porcentaje debe ser 100%' };
 
     } 
     else {
-      this.errorGeneral = { isError: false, errorMessage: '' };
+      this.error = { isError: false, errorMessage: '' };
     }
     return;
   };
@@ -282,7 +289,7 @@ export class ControlCalidadComponent implements OnInit {
   actualizarAnalisisControlCalidad (e)
   {
    
-    if (this.formControlCalidad.invalid || this.errorGeneral.isError || this.tableSensorialRanking.invalid) 
+    if (this.formControlCalidad.invalid || this.errorGeneral.isError || this.error.isError|| this.tableSensorialRanking.invalid) 
     {
       this.submitted = true;
       return;
@@ -332,7 +339,7 @@ export class ControlCalidadComponent implements OnInit {
       listaRegistroTostado,
       listaAnalisisSensorialDefectos,
       listaAnalisisSensorialAtrib,
-      controlFormControlCalidad["PuntajeFinal"].value
+      Number(controlFormControlCalidad["PuntajeFinal"].value)
       );
     let json = JSON.stringify(this.reqControlCalidad);
     this.spinner.show(undefined,
@@ -344,21 +351,149 @@ export class ControlCalidadComponent implements OnInit {
         fullScreen: true
       });
       if (this.form == "materiaprima") {
-        this.controlCalidadService.actualizarControlCalidadMateriaPrima(this.reqControlCalidad);
+        this.actualizarControlCalidadMateriaPrima(this.reqControlCalidad);
       }
       else if (this.form == "lote") {
-        this.controlCalidadService.actualizarControlCalidadLote(this.reqControlCalidad);
+       this.actualizarControlCalidadLote(this.reqControlCalidad);
+       
       }
       else if (this.form == "ordenServicio") {
-        this.controlCalidadService.actualizarControlCalidadOrdenServicio(this.reqControlCalidad);
+        this.actualizarControlCalidadOrdenServicio(this.reqControlCalidad);
       }
       else if (this.form == "notaingresoplanta")
       {
-        this.controlCalidadService.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
+        this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
       }
     }
     
   }
+
+  actualizarControlCalidadMateriaPrima(reqControlCalidad: any)
+{
+ this.acopioService.Actualizar(reqControlCalidad)
+ .subscribe(res => {
+   this.spinner.hide();
+   if (res.Result.Success) {
+     if (res.Result.ErrCode == "") {
+       var form = this;
+     this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+       if(result.isConfirmed){
+         form.router.navigate(['/operaciones/guiarecepcionmateriaprima-list']);
+       }
+     }
+     );
+     } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+       this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+     } else {
+       this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+     }
+   } else {
+     this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+   }
+ },
+   err => {
+     this.spinner.hide();
+     console.log(err);
+     this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+   }
+ );
+}
+
+actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any)
+{
+    this.notaIngresoPlantaService.ActualizarAnalisisCalidad(reqControlCalidad)
+ .subscribe(res => {
+   this.spinner.hide();
+   if (res.Result.Success) {
+     if (res.Result.ErrCode == "") {
+       var form = this;
+     this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+       if(result.isConfirmed){
+         form.router.navigate(['/planta/operaciones/notaingreso-list']);
+       }
+     }
+     );
+     } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+       this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+     } else {
+       this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+     }
+   } else {
+     this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+   }
+ },
+   err => {
+     this.spinner.hide();
+     console.log(err);
+     this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+   }
+ );
+
+
+}
+  actualizarControlCalidadLote(reqControlCalidad: any)
+ {
+  var form = this;
+  form.loteService.ActualizarAnalisisCalidad(reqControlCalidad)
+  .subscribe(res => {
+    form.spinner.hide();
+    if (res.Result.Success) {
+      if (res.Result.ErrCode == "") {
+       
+        form.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+        if(result.isConfirmed){
+          form.router.navigate(['/operaciones/lotes-list']);
+        }
+      }
+      );
+      } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+         form.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      } else {
+         form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    } else {
+      return form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    }
+  },
+    err => {
+      form.spinner.hide();
+      console.log(err);
+       form.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    }
+  );  
+ }
+ 
+ actualizarControlCalidadOrdenServicio(reqControlCalidad: any)
+ {
+  this.ordenServicio.ActualizarAnalisisCalidad(reqControlCalidad)
+  .subscribe(res => {
+    this.spinner.hide();
+    if (res.Result.Success) {
+      if (res.Result.ErrCode == "") {
+        var form = this;
+      this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+        if(result.isConfirmed){
+          form.router.navigate(['/operaciones/orderservicio-controlcalidadexterna-list']);
+        }
+      }
+      );
+      } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    } else {
+      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+    }
+  },
+    err => {
+      this.spinner.hide();
+      console.log(err);
+      this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+    }
+  ); 
+ }
+
 
   obtenerDetalleAnalisisFisicoOlor(tableOlor)
   {

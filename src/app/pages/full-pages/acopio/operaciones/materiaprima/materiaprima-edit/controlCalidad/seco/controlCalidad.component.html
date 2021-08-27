@@ -98,7 +98,7 @@
                                                             </table>
                                                         </div>
                                                         <small class="form-text text-muted danger" style="font-size: 1rem;"
-                                                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                                                        *ngIf="error.isError">{{error.errorMessage}}</small>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12">
@@ -475,11 +475,18 @@
                                     <ngx-spinner></ngx-spinner>
                         
                                 </div>
+                                
                             </ng-template>
                           </ngb-panel>
                       </ngb-accordion>          
                 </div>
              
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex flex-sm-row flex-column"> 
+            <small class="form-text text-muted danger" style="font-size: 1rem;"
+            *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+        </div>
         </div>
         <div class="row" style="margin-top: 2rem;">
             <div class="col-12 d-flex flex-sm-row flex-column">

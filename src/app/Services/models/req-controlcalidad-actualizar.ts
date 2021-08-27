@@ -27,7 +27,7 @@ export class ReqControlCalidad {
     RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[],
     AnalisisSensorialDefectoDetalleList?: AnalisisSensorialDefectoDetalleList[],
     AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[],
-    TotalAnalisisSensorial?: string)
+    TotalAnalisisSensorial?: number)
     {
         if(TotalAnalisisSensorial)
         {
@@ -158,7 +158,7 @@ export class ReqControlCalidad {
     RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[];
     AnalisisSensorialDefectoDetalleList?: AnalisisSensorialDefectoDetalleList[];
     AnalisisSensorialAtributoDetalleList?: AnalisisSensorialAtributoDetalleList[];
-    TotalAnalisisSensorial?: string;
+    TotalAnalisisSensorial?: number;
 }
 
  export class DefectosPrimarios

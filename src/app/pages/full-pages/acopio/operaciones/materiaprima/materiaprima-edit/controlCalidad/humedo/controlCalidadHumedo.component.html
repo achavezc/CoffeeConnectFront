@@ -98,6 +98,12 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 2rem;">
+                                <div class="col-12 d-flex flex-sm-row flex-column"> 
+                                <small class="form-text text-muted danger" style="font-size: 1rem;"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            </div>
+                            </div>
+                            <div class="row" style="margin-top: 2rem;">
                                 <div class="col-12 d-flex flex-sm-row flex-column">
 
                                     <label class="col-md-3 col-form-label card-text"
