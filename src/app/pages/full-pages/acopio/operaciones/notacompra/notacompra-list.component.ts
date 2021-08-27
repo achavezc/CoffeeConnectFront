@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, Output  } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -61,7 +61,7 @@ export class NotacompraListComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.consultaNotaCompraForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.consultaNotaCompraForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-    
+
   }
 
   LoadForm(): void {
@@ -86,7 +86,7 @@ export class NotacompraListComponent implements OnInit {
       if (res.Result.Success) {
         form.listStates = res.Result.Data;
         form.consultaNotaCompraForm.controls['estado'].setValue("01");
-        if(form.popUp){
+        if (form.popUp) {
           form.consultaNotaCompraForm.controls['estado'].disable();
         }
       }
@@ -299,9 +299,9 @@ export class NotacompraListComponent implements OnInit {
     this.Buscar(true);
   }
 
-  
+
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)
   }
-  
+
 }
