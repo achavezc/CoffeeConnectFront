@@ -61,6 +61,7 @@ export class NotacompraListComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.consultaNotaCompraForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.consultaNotaCompraForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    
   }
 
   LoadForm(): void {
@@ -85,9 +86,9 @@ export class NotacompraListComponent implements OnInit {
       if (res.Result.Success) {
         form.listStates = res.Result.Data;
         form.consultaNotaCompraForm.controls['estado'].setValue("01");
-        //if(this.popUp){
+        if(form.popUp){
           form.consultaNotaCompraForm.controls['estado'].disable();
-       // }
+        }
       }
     });
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
