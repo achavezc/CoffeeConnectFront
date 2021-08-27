@@ -301,7 +301,9 @@ export class NotaCompraEditComponent implements OnInit {
       this.spinner.hide();
     } else {
       this.spinner.hide();
-      this.Cancel();
+      this.alertUtil.alertWarningCallback('INFORMACIÓN', 'La nota de compra no existe.', () => {
+        this.Cancel();
+      });
     }
   }
 
