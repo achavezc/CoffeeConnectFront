@@ -1,17 +1,15 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MaestroService } from '../../../../../services/maestro.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../../services/models/login';
-import { MaestroUtil } from '../../../../../services/util/maestro-util';
-import { AlertUtil } from '../../../../../services/util/alert-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { ContratoEditTraduccion } from '../../../../../services/translate/contrato/contrato-edit-translate';
 import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-translate/core';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
+import { DateUtil } from '../../../../../services/util/date-util';
 
 
 @Component({
@@ -48,7 +46,8 @@ export class ContratoEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private contratoService: ContratoService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private dateUtil: DateUtil) {
 
   }
 
@@ -150,12 +149,12 @@ export class ContratoEditComponent implements OnInit {
     this.responsable = data.UsuarioRegistro;
     this.AduanaId = data.AduanaId;
     this.contratoFormEdit.controls["numeroContrato"].setValue(data.NumeroContrato);
-    this.contratoFormEdit.controls["fechaContrato"].setValue(data.FechaContrato);
+    this.contratoFormEdit.controls["fechaContrato"].setValue(this.dateUtil.formatDate(new Date(data.FechaContrato)));
     this.contratoFormEdit.controls["cliente"].setValue(data.RazonSocialCliente);
     this.contratoFormEdit.controls["courier"].setValue(data.Courier);
     this.contratoFormEdit.controls["numeroTracking"].setValue(data.NumeroSeguimientoMuestra);
     this.contratoFormEdit.controls["estado"].setValue(data.EstadoMuestra);
-    this.contratoFormEdit.controls["fechaEmbarque"].setValue(data.FechaEmbarque);
+    this.contratoFormEdit.controls["fechaEmbarque"].setValue(this.dateUtil.formatDate(new Date(data.FechaEmbarque)));
     this.contratoFormEdit.controls["exportador"].setValue(data.RazonSocialEmpresaExportadora);
     this.contratoFormEdit.controls["estadoPlanta"].setValue(data.EstadoSeguimiento);
     this.contratoFormEdit.controls["productor"].setValue(data.RazonSocialEmpresaProductora);
