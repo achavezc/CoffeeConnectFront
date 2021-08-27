@@ -49,7 +49,7 @@ export class ContratoService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  
+
   ConsultarContratoAsignado(request: any): Observable<any> {
     const url = `${this.url}/ConsultarContratoAsignado`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
