@@ -37,10 +37,10 @@ export class AdelantoService {
     const url = `${this.url}/Asociar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
-  Anular(AduanaId: number, username: string) {
+  Anular(AdelantoId: number, username: string) {
     let url = `${this.url}/Anular`;
     let request = {
-        AduanaId: AduanaId,
+        AdelantoId: AdelantoId,
         Usuario: username
     }
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError)
