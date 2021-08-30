@@ -183,7 +183,7 @@ export class LoteEditComponent implements OnInit {
       this.loteEditForm.controls.idContrato.setValue(row.ContratoId);
       this.loteEditForm.controls.cliente.setValue(row.Cliente);
       this.loteEditForm.controls.contrato.setValue(row.NumeroContrato);
-      
+
     }
     this.child.cargarDatos(row);
     this.desactivarControles(row.EstadoId, row.UsuarioRegistro, row.UsuarioCalidad);
@@ -255,7 +255,7 @@ export class LoteEditComponent implements OnInit {
   UpdateLote(): void {
     this.spinner.show();
     let listAccion: IdsAccion[] = [];
-   
+
     if (this.child.detalleLotes.length > 0) {
       this.child.detalleLotes.forEach(x => {
         if (x.Accion == 'N') {
@@ -273,7 +273,7 @@ export class LoteEditComponent implements OnInit {
         }
       });
     }
-    
+
     const request = new ReqActualizarLote(
       this.vId,
       this.selectedAlmacen,
@@ -335,6 +335,6 @@ export class LoteEditComponent implements OnInit {
 
 
 
- 
+
 
 }
