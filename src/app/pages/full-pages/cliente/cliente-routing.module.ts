@@ -13,14 +13,14 @@ const routes: Routes = [
                 path: 'contrato/list',
                 component: ContratoClienteComponent,
                 data: {
-                    title: 'Maestro de Socios'
+                    title: 'Contrato Cliente List'
                 }
             },
             {
                 path: 'contrato/edit',
                 component: ContratoEditComponent,
                 data: {
-                    title: 'Edit Contrato'
+                    title: 'Contrato Cliente Edit'
                 }
             }
         ]

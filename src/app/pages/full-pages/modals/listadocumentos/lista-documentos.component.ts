@@ -15,6 +15,7 @@ import { NotaIngresoPlantaDocumentoAdjuntoService } from '../../../../services/n
 import { AduanaDocumentoAdjuntoService } from '../../../../services/aduana-documento.service';
 import { ModalDocumentosTranslate } from '../../../../services/translate/modal/modal-documentos-translate';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-documentos',
@@ -47,6 +48,8 @@ export class MListaDocumentosComponent implements OnInit {
   idDocumentoAduana = 0;
   fileName = '';
   modalDocumentosTranslate: ModalDocumentosTranslate;
+  page: any;
+  visibleBoton: Boolean = true;
 
   constructor(private spinner: NgxSpinnerService,
     private modalService: NgbModal,
@@ -59,7 +62,8 @@ export class MListaDocumentosComponent implements OnInit {
     private productorDocumentoService: ProductorDocumentoService,
     private notaIngresoPlantaDocumentoAdjuntoService: NotaIngresoPlantaDocumentoAdjuntoService,
     private aduanaDocumentoAdjuntoService: AduanaDocumentoAdjuntoService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private route: ActivatedRoute
   ) {
 
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
@@ -86,6 +90,11 @@ export class MListaDocumentosComponent implements OnInit {
     } else if (this.codeForm === 'frmMdlListDocumentsAduana') {
       this.titleModal = this.translate.instant(this.modalDocumentosTranslate.Title);
       this.subTitleModal = this.translate.instant(this.modalDocumentosTranslate.Lista);
+    }
+    this.page = this.route.routeConfig.data.title;
+    if (this.page=="Contrato Cliente Edit" )
+    {
+      this.visibleBoton = false;
     }
     this.LoadFormAddFiles();
     this.LoadFiles();
