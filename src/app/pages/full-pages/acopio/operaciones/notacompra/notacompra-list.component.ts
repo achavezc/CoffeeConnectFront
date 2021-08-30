@@ -13,6 +13,7 @@ import { ReqNotaCompraConsultar } from '../../../../../services/models/req-notac
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
+import { MaestroService } from '../../../../../services/maestro.service';
 
 @Component({
   selector: 'app-notacompra-list',
@@ -29,7 +30,8 @@ export class NotacompraListComponent implements OnInit {
     private notaCompraService: NotaCompraService,
     private alertUtil: AlertUtil,
     private excelService: ExcelService,
-    private router: Router) {
+    private router: Router,
+    private maestroService: MaestroService) {
     // this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -37,7 +39,7 @@ export class NotacompraListComponent implements OnInit {
   selectedTypeDocument: any;
   selectedState: any;
   selectedType: any;
-  listStates: Observable<any[]>;
+  listStates: any[];
   listTypeDocuments: Observable<any[]>;
   listTypes: Observable<any[]>;
   submitted: boolean = false;
@@ -56,12 +58,11 @@ export class NotacompraListComponent implements OnInit {
   @Output() agregarEvent = new EventEmitter<any>();
 
   ngOnInit(): void {
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
-    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.consultaNotaCompraForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
-    this.consultaNotaCompraForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-
+    this.consultaNotaCompraForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
+    this.consultaNotaCompraForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
   }
 
   LoadForm(): void {
@@ -70,32 +71,33 @@ export class NotacompraListComponent implements OnInit {
       tipoDocumento: [],
       numeroDocumento: ['', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       nroNotaCompra: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      fechaInicio: ['', [Validators.required]],
-      fechaFin: ['', [Validators.required]],
-      estado: ['', [Validators.required]],
+      fechaInicio: [, [Validators.required]],
+      fechaFin: [, [Validators.required]],
+      estado: [, [Validators.required]],
       nombreRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       codigoSocio: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       tipo: []
     });
-    this.consultaNotaCompraForm.setValidators(this.comparisonValidator());
+    // this.consultaNotaCompraForm.setValidators(this.comparisonValidator());
   }
 
-  LoadCombos(): void {
+  async LoadCombos() {
     let form = this;
-    this.maestroUtil.obtenerMaestros("EstadoNotaCompra", function (res) {
-      if (res.Result.Success) {
-        form.listStates = res.Result.Data;
-        form.consultaNotaCompraForm.controls['estado'].setValue("01");
-        if (form.popUp) {
-          form.consultaNotaCompraForm.controls['estado'].disable();
-        }
+    const res = await this.maestroService.obtenerMaestros('EstadoNotaCompra').toPromise();
+    if (res.Result.Success) {
+      this.listStates = res.Result.Data;
+      this.consultaNotaCompraForm.controls.estado.setValue("01");
+      if (this.popUp) {
+        this.consultaNotaCompraForm.controls.estado.disable();
       }
-    });
+    }
+
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
       if (res.Result.Success) {
         form.listTypeDocuments = res.Result.Data;
       }
     });
+
     this.maestroUtil.obtenerMaestros("TipoNotaCompra", function (res) {
       if (res.Result.Success) {
         form.listTypes = res.Result.Data;
@@ -162,16 +164,34 @@ export class NotacompraListComponent implements OnInit {
       return;
     } else {
       this.submitted = false;
-      let request = new ReqNotaCompraConsultar(this.consultaNotaCompraForm.value.nroNotaCompra,
-        this.consultaNotaCompraForm.value.nroGuiaRecepcion,
-        this.consultaNotaCompraForm.value.nombreRazonSocial,
-        this.consultaNotaCompraForm.value.tipoDocumento,
-        this.consultaNotaCompraForm.value.numeroDocumento,
-        this.consultaNotaCompraForm.value.codigoSocio,
-        this.consultaNotaCompraForm.value.estado,
-        this.consultaNotaCompraForm.value.tipo,
-        new Date(this.consultaNotaCompraForm.value.fechaInicio),
-        new Date(this.consultaNotaCompraForm.value.fechaFin), 1);
+      // let request = new ReqNotaCompraConsultar(this.consultaNotaCompraForm.value.nroNotaCompra,
+      //   this.consultaNotaCompraForm.value.nroGuiaRecepcion,
+      //   this.consultaNotaCompraForm.value.nombreRazonSocial,
+      //   this.consultaNotaCompraForm.value.tipoDocumento,
+      //   '',
+      //   this.consultaNotaCompraForm.value.numeroDocumento,
+      //   this.consultaNotaCompraForm.value.codigoSocio,
+      //   this.consultaNotaCompraForm.value.estado,
+      //   this.consultaNotaCompraForm.value.tipo,
+      //   new Date(this.consultaNotaCompraForm.value.fechaInicio),
+      //   new Date(this.consultaNotaCompraForm.value.fechaFin), 1);
+
+      const form = this.consultaNotaCompraForm.value;
+
+      const request = {
+        Numero: form.nroNotaCompra ? form.nroNotaCompra : null,
+        NumeroGuiaRecepcion: form.nroGuiaRecepcion ? form.nroGuiaRecepcion : null,
+        NombreRazonSocial: form.nombreRazonSocial ? form.nombreRazonSocial : null,
+        TipoDocumentoId: form.tipoDocumento ? form.tipoDocumento : null,
+        ProductoId: null,
+        NumeroDocumento: form.numeroDocumento ? form.numeroDocumento : null,
+        CodigoSocio: form.codigoSocio ? form.codigoSocio : null,
+        EstadoId: form.estado ? form.estado : '01',
+        TipoId: form.tipo ? form.tipo : null,
+        FechaInicio: form.fechaInicio ? form.fechaInicio : null,
+        FechaFin: form.fechaFin ? form.fechaFin : null,
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+      }
 
       this.spinner.show(undefined,
         {

@@ -175,7 +175,8 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selectCheck]="onSelectCheck" [selected]="selected" [selectionType]="'single'">
-                            <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="130" *ngIf="!popUp">
+                            <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="130"
+                                *ngIf="!popUp">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -186,7 +187,8 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="120" *ngIf="popUp">
+                            <ngx-datatable-column name="N° Guia de Recepción" prop="NumeroGuiaRecepcion" width="120"
+                                *ngIf="popUp">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="N° Nota de Compra" prop="Numero" width="120">
                             </ngx-datatable-column>
@@ -200,7 +202,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha" prop="FechaRegistroCadena" width="100">
                             </ngx-datatable-column>
-                           
+
                             <ngx-datatable-column name="Tipo" prop="Tipo" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="KG. Neto a Pagar" prop="KilosNetosPagar" width="80">
