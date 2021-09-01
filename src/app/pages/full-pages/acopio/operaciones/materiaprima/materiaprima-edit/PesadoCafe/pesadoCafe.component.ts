@@ -15,7 +15,6 @@ export class PesadoCafeComponent implements OnInit {
   @Input() unidadMedidaPesado;
   @Input() submittedEdit;
   @Output() miEvento = new EventEmitter<any>();
-  @Output() miEvento2 = new EventEmitter<any>();
   @Output() miEvento3 = new EventEmitter<any>();
   sacos = "01";
   latas = "02";
@@ -64,7 +63,7 @@ export class PesadoCafeComponent implements OnInit {
     }
     this.changeCantidad();
   }
-  changeCantidad() {
+  async changeCantidad() {
     var unidadMedida = this.pesadoFormGroup.controls['unidadMedida'].value;
     var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
     if (unidadMedida == this.latas) {
@@ -76,27 +75,20 @@ export class PesadoCafeComponent implements OnInit {
       var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
       this.pesadoFormGroup.controls['tara'].setValue(valorRounded);
     }
-    this.calcularKilosNetos();
+    await this.calcularKilosNetos();
+    this.consultarSocioFinca()
   }
 
   consultarSocioFinca() {
     this.miEvento.emit(this.mensaje);
-    this.calcularKilosNetos();
-  }
-
-
-  cleanKilosBrutos() {
-    this.pesadoFormGroup.controls['kilosBruto'].setValue("");
-  }
-  async actualizarSaldoPendiente()
-  {
-    this.miEvento2.emit(this.mensaje);
   }
 
  async calcularKilosNetos()
   {
     this.miEvento3.emit(this.mensaje);
-    await this.actualizarSaldoPendiente();
   }
 
+  cleanKilosBrutos() {
+    this.pesadoFormGroup.controls['kilosBruto'].setValue("");
+  }
 }

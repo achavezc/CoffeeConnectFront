@@ -384,8 +384,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
   actualizarSaldoPendiente() {
     this.btnGuardar = true;
-    var saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined ? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
-    this.consultaMateriaPrimaFormEdit.get("saldoPendiente").setValue((saldoPendiente.toFixed(2)).toString());
+    var saldoPendiente = this.saldoPendienteKG - (this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value == undefined  ? 0 : this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").value);
+    this.consultaMateriaPrimaFormEdit.get("saldoPendiente").setValue(saldoPendiente < 0 ? 0 : (saldoPendiente.toFixed(2)).toString());
   }
   calcularKilosNetos() {
     var kilosBruto = this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value;
@@ -397,6 +397,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     else {
       this.consultaMateriaPrimaFormEdit.get('pesado').get("totalKilosNetos").setValue(0);
     }
+    this.actualizarSaldoPendiente()
   }
   seleccionarProveedor(e) {
     this.consultaMateriaPrimaFormEdit.controls['provFinca'].disable();
