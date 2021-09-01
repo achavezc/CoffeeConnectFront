@@ -95,6 +95,7 @@ export class ContratoEditComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.login = JSON.parse(localStorage.getItem("user"));
     this.LoadForm();
+    this.addValidations();
     this.LoadCombos();
     this.LoadDataInicial();
     if (this.vId > 0) {
@@ -910,6 +911,59 @@ export class ContratoEditComponent implements OnInit {
 
   UpdateForm(e) {
     this.contratoEditForm.controls.estado.setValue('02');
+  }
+
+  addValidations(): void {
+
+    const contractFixingDate = this.contratoEditForm.controls.contractFixingDate;
+    const CreditNoteCommission = this.contratoEditForm.controls.CreditNoteCommission;
+    const ExpensesExpCosts = this.contratoEditForm.controls.ExpensesExpCosts;
+    const PriceLevelFixation = this.contratoEditForm.controls.PriceLevelFixation;
+    const PuTotalA = this.contratoEditForm.controls.PuTotalA;
+    const PUTotalB = this.contratoEditForm.controls.PUTotalB;
+    const PUTotalC = this.contratoEditForm.controls.PUTotalC;
+    const Differential2 = this.contratoEditForm.controls.Differential2;
+    const TotalBilling1 = this.contratoEditForm.controls.TotalBilling1;
+    const TotalBilling2 = this.contratoEditForm.controls.TotalBilling2;
+    const TotalBilling3 = this.contratoEditForm.controls.TotalBilling3;
+
+    if (this.login.Result.Data.EmpresaId == 1) {
+      contractFixingDate.setValidators(Validators.required);
+      CreditNoteCommission.setValidators(Validators.required);
+      ExpensesExpCosts.setValidators(Validators.required);
+      PriceLevelFixation.setValidators(Validators.required);
+      PuTotalA.setValidators(Validators.required);
+      PUTotalB.setValidators(Validators.required);
+      PUTotalC.setValidators(Validators.required);
+      Differential2.setValidators(Validators.required);
+      TotalBilling1.setValidators(Validators.required);
+      TotalBilling2.setValidators(Validators.required);
+      TotalBilling3.setValidators(Validators.required);
+    } else {
+      contractFixingDate.clearValidators();
+      CreditNoteCommission.clearValidators();
+      ExpensesExpCosts.clearValidators();
+      PriceLevelFixation.clearValidators();
+      PuTotalA.clearValidators();
+      PUTotalB.clearValidators();
+      PUTotalC.clearValidators();
+      Differential2.clearValidators();
+      TotalBilling1.clearValidators();
+      TotalBilling2.clearValidators();
+      TotalBilling3.clearValidators();
+    }
+
+    contractFixingDate.updateValueAndValidity();
+    CreditNoteCommission.updateValueAndValidity();
+    ExpensesExpCosts.updateValueAndValidity();
+    PriceLevelFixation.updateValueAndValidity();
+    PuTotalA.updateValueAndValidity();
+    PUTotalB.updateValueAndValidity();
+    PUTotalC.updateValueAndValidity();
+    Differential2.updateValueAndValidity();
+    TotalBilling1.updateValueAndValidity();
+    TotalBilling2.updateValueAndValidity();
+    TotalBilling3.updateValueAndValidity();
   }
 
 }
