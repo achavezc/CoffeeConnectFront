@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import { PrecioDiaRendimientoService } from '../../../../services/precio-dia-rendimiento.service';
 import { ContratoService } from '../../../../services/contrato.service';
 import { AlertUtil } from '../../../../services/util/alert-util';
@@ -27,6 +27,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
     private precioDiaRendimientoService: PrecioDiaRendimientoService,
     private contratoService: ContratoService,
     private spinner: NgxSpinnerService,
+    private router: Router,
     private alertUtil: AlertUtil,
     private modalService: NgbModal) { }
 
@@ -139,7 +140,9 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
             this.alertUtil.alertOkCallback('Confirmación', 'Confirmación exitosa.',
               () => {
                 this.response.emit();
-                this.Close();
+                //this.Close();
+                this.modalService.dismissAll();
+                this.router.navigate(['/exportador/operaciones/contrato/list']);
               });
           }
         } else {
@@ -153,6 +156,7 @@ export class MAsignacionContratoAcopioComponent implements OnInit {
 
   Close() {
     this.modalService.dismissAll();
+    
   }
 
   changeKGPergamino(e) {

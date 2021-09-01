@@ -240,11 +240,11 @@
                                     required>
                             </td>
                             <td class="col-2"></td>
-                            <td class="col-2">
+                            <td class="col-2" *ngIf="estadoId != estadoLiquidado">
                                 <label for="precioDiaAT" class="form-label font-weight-bold">Precio del
                                     día</label>
                             </td>
-                            <td class="col-2">
+                            <td class="col-2" *ngIf="estadoId != estadoLiquidado">
                                 <ng-select [items]="listPreciosDia" formControlName="precioDiaAT" class="form-control"
                                     bindLabel="Label" bindValue="Codigo" id="precioDiaAT"
                                     placeholder="Seleccionar precio" [(ngModel)]="selectedPrecioDia"
