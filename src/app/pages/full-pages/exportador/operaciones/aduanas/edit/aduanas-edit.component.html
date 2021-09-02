@@ -367,13 +367,15 @@
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-4 form-group">
-                                <label for="estado" class="form-label">Laboratorio</label>
+                                <label for="laboratorio" class="form-label">Laboratorio</label>
                                 <ng-select [items]="listaLaboratorios" formControlName="laboratorio" bindLabel="Label"
                                     bindValue="Codigo" id="laboratorio" placeholder="Seleccionar Laboratorio"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submitted && fedit.laboratorio.invalid, 'is-valid': submitted && !fedit.laboratorio.invalid }"
                                     [(ngModel)]="selectLaboratorio">
                                 </ng-select>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="fedit.laboratorio.errors?.required">Seleccionar Laboratorio</small>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Fecha Recojo/Envio Courier</label>
@@ -396,6 +398,8 @@
                                     [ngClass]="{ 'is-invalid': submitted && fedit.estado.invalid, 'is-valid': submitted && !fedit.estado.invalid }"
                                     [(ngModel)]="selectEstado">
                                 </ng-select>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="fedit.estado.errors?.required">Seleccionar Estado</small>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Fecha Recepcion en Destino </label>
