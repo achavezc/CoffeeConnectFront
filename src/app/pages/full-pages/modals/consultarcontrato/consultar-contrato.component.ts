@@ -32,6 +32,7 @@ export class MConsultarContratoComponent implements OnInit {
   @Output() responseContrato = new EventEmitter<any[]>();
   @ViewChild(DatatableComponent) dgConsultaContratos: DatatableComponent;
   userSession: any;
+  estadoEjecutado = '03';
 
   constructor(private fb: FormBuilder,
     private modalService: NgbModal,
@@ -127,7 +128,7 @@ export class MConsultarContratoComponent implements OnInit {
       ProductoId: this.mContratoForm.value.mProducto ? this.mContratoForm.value.mProducto : '',
       TipoProduccionId: this.mContratoForm.value.mTipoProduccion ? this.mContratoForm.value.mTipoProduccion : '',
       CalidadId: '',
-      EstadoId: '01',
+      EstadoId: this.estadoEjecutado,
       FechaInicio: this.mContratoForm.value.mFechaInicial ? this.mContratoForm.value.mFechaInicial : '',
       FechaFin: this.mContratoForm.value.mFechaFinal ? this.mContratoForm.value.mFechaFinal : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId
