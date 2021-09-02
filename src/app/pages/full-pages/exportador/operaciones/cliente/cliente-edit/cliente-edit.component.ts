@@ -341,10 +341,18 @@ export class ClienteEditComponent implements OnInit {
     this.clienteService.Create(request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
-        this.errorGeneral = { isError: false, msgError: '' };
-        this.alertUtil.alertOkCallback('Confirmación!', 'Cliente creado correctamente.', () => {
-          this.Cancel();
-        });
+        if (res.Result.ErrCode == "") {
+          this.errorGeneral = { isError: false, msgError: '' };
+          this.alertUtil.alertOkCallback('Confirmación!', 'Cliente creado correctamente.', () => {
+            this.Cancel();
+          });
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        } else {
+          this.errorGeneral = { isError: true, msgError: this.vMsgErrorGenerico };
+        }
+
+       
       } else {
         this.alertUtil.alertError('ERROR!', res.Result.Message);
       }
