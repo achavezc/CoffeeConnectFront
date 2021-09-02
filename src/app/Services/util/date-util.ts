@@ -32,7 +32,9 @@ export class DateUtil {
     let d: number = date.getDate();
     let m: string = '0' + (date.getMonth() + 1).toString().slice(-2);
     let y: number = date.getFullYear();
-
+    if(m.length == 3){
+      m = m.slice(1);
+    }
     if (separator) {
       result = `${d}${separator}${m}${separator}${y}`;
     } else {
