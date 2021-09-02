@@ -273,10 +273,10 @@ export class NotaIngresoEditComponent implements OnInit {
       this.submittedEdit = true;
       return;
     } else {
-      if(this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0){
+      if(this.notaIngredoFormEdit.get('pesado').get("calidad").value == null || this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0){
         this.notaIngredoFormEdit.get('pesado').get("calidad").setValue("");
       }  
-      if(this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0){
+      if(this.notaIngredoFormEdit.get('pesado').get("grado").value == null || this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0){
         this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
       }
 
