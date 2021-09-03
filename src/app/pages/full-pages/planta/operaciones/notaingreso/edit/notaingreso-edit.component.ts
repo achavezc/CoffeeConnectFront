@@ -462,6 +462,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
+    this.selectOrganizacion[0] = { Codigo : data.EmpresaOrigenId};
 
     this.spinner.hide();
   }

@@ -236,6 +236,10 @@
                       </div>
 
                     </div>
+                    <div class="row" style="margin-top: 2rem;">
+                      <small class="form-text text-muted danger"
+                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                    </div>
                     <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
                       <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
                         <app-lista-documentos [codeForm]="'frmMdlListDocumentsNoteIncome'" [code]="idPlantEntryNote">
