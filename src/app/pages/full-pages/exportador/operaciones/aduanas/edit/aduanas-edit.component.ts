@@ -88,7 +88,7 @@ export class AduanasEditComponent implements OnInit {
         productor: new FormControl('', [Validators.required]),
         fechaEmbarque: new FormControl('', [Validators.required]),
         fechaFac: new FormControl('', [Validators.required]),
-        po: new FormControl('', [Validators.required]),
+        po: new FormControl('', []),
         producto: new FormControl('', []),
         subproducto: new FormControl('', []),
         calidad: new FormControl('', []),
@@ -99,7 +99,7 @@ export class AduanasEditComponent implements OnInit {
         laboratorio: new FormControl('', [Validators.required]),
         fechaRecojo: new FormControl('', [Validators.required]),
         trackingNumber: new FormControl('', [Validators.required]),
-        fechaRecepcion: new FormControl('', [Validators.required]),
+        fechaRecepcion: new FormControl('', []),
         observacion: new FormControl('', []),
         courier: new FormControl('', []),
         certificacionesProductor: new FormControl('', [Validators.required]),
@@ -198,7 +198,7 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('pesoxsaco').setValue(this.selectContrato[0].PesoPorSaco);
     this.aduanasFormEdit.get('totalkilosnetos').setValue(this.selectContrato[0].PesoKilos);
     this.aduanasFormEdit.get('clientefinal').setValue(this.selectContrato[0].Cliente);
-    this.aduanasFormEdit.get('floid').setValue(this.selectContrato[0].Cliente);
+    this.aduanasFormEdit.get('floid').setValue(this.selectContrato[0].FloId);
 
     this.modalService.dismissAll();
   }
