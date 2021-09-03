@@ -177,13 +177,15 @@ export class AduanasEditComponent implements OnInit {
 
   receiveMessageProductor($event) {
     this.selectProductor = $event
-    if (this.selectProductor.length == 0 || this.selectExportador[0].EmpresaProveedoraAcreedoraId != this.selectProductor[0].EmpresaProveedoraAcreedoraId) {
+    if (this.selectProductor.length == 0) 
+    {
+      // || this.selectExportador[0].EmpresaProveedoraAcreedoraId != this.selectProductor[0].EmpresaProveedoraAcreedoraId
       this.aduanasFormEdit.get('productor').setValue(this.selectProductor[0].RazonSocial);
       this.consultarCertificaciones(this.selectProductor[0].EmpresaProveedoraAcreedoraId, 'Productor');
     }
-    else {
-      this.alertUtil.alertWarning("Oops...!", "La Empresa Productora debe ser diferente a la Empresa Exportadora");
-    }
+    // else {
+    //   this.alertUtil.alertWarning("Oops...!", "La Empresa Productora debe ser diferente a la Empresa Exportadora");
+    // }
     this.modalService.dismissAll();
   }
 
