@@ -236,18 +236,25 @@
                       </div>
 
                     </div>
+                    <div class="row" style="margin-top: 2rem;">
+                      <small class="form-text text-muted danger"
+                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                    </div>
                     <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
                       <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
                         <app-lista-documentos [codeForm]="'frmMdlListDocumentsNoteIncome'" [code]="idPlantEntryNote">
                         </app-lista-documentos>
                       </ng-template>
-                      <button type="button" class="btn btn-primary mr-1" (click)="openModal(mdlListDocuments)"
-                        *ngIf="esEdit">Documentos</button>
-                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar"
-                        (click)="guardar()">Guardar</button>
-                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
-                        (click)="cancelar()">Cancelar</button>
+                     
                     </div>
+                    <div class="card-footer text-right" style="margin-top: 2rem;">
+                      <button type="button"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModal(mdlListDocuments)"
+                        *ngIf="esEdit">Documentos</button>
+                      <button type="submit"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar"
+                        (click)="guardar()">Guardar</button>
+                      <button type="submit"  class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
+                        (click)="cancelar()">Cancelar</button>
+                      </div>
                   </ng-template>
 
                 </li>

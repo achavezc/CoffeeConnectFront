@@ -273,10 +273,10 @@ export class NotaIngresoEditComponent implements OnInit {
       this.submittedEdit = true;
       return;
     } else {
-      if(this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0){
+      if(this.notaIngredoFormEdit.get('pesado').get("calidad").value == null || this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0){
         this.notaIngredoFormEdit.get('pesado').get("calidad").setValue("");
       }  
-      if(this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0){
+      if(this.notaIngredoFormEdit.get('pesado').get("grado").value == null || this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0){
         this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
       }
 
@@ -462,6 +462,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
+    this.selectOrganizacion[0] = { Codigo : data.EmpresaOrigenId};
 
     this.spinner.hide();
   }
