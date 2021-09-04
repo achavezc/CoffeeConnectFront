@@ -55,13 +55,12 @@ export class LoginPageComponent {
         console.log(res);
         this.loginModel = res;
         if (res.Result.Success) {
-          if(res.Result.ErrCode == "")
-          {
-          this.spinner.hide();
-          localStorage.setItem("user", JSON.stringify(this.loginModel));
-          this.router.navigate(['/home']);
+          if (res.Result.ErrCode == "") {
+            this.spinner.hide();
+            localStorage.setItem("user", JSON.stringify(this.loginModel));
+            this.router.navigate(['/home']);
           }
-          else{
+          else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
         }

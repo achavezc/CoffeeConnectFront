@@ -8,22 +8,22 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      
+
       {
         path: 'login',
         component: LoginPageComponent,
         data: {
           title: 'Login Page'
         }
-      }  ,
+      },
       {
         path: 'forgotPass',
         component: ForgotPasswordComponent,
         data: {
           title: 'Login Page'
         }
-      } 
-      
+      }
+
     ]
   }
 ];
