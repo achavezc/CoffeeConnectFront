@@ -607,7 +607,14 @@ export class ContratoEditComponent implements OnInit {
     this.contratoService.SearchById({ ContratoId: this.vId })
       .subscribe((res: any) => {
         if (res.Result.Success) {
-          this.AutocompleteForm(res.Result.Data);
+          if (res.Result.Data) {
+            this.AutocompleteForm(res.Result.Data);
+          } else {
+            this.spinner.hide();
+            this.alertUtil.alertWarningCallback('Advertencia', 'El contrato no existe.', () => {
+              this.Cancelar();
+            });
+          }
         }
       }, (err: any) => {
         console.log(err);
@@ -773,7 +780,7 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.PuTotalA.setValue(data.PUTotalA);
       if (data.TotalFacturar1)
         this.contratoEditForm.controls.TotalBilling1.setValue(data.TotalFacturar1);
-      if (data.NotaCreditoComision)
+      if (data.NotaCreditoComision != null && data.NotaCreditoComision != undefined)
         this.contratoEditForm.controls.CreditNoteCommission.setValue(data.NotaCreditoComision);
       if (data.PUTotalB)
         this.contratoEditForm.controls.PUTotalB.setValue(data.PUTotalB);
