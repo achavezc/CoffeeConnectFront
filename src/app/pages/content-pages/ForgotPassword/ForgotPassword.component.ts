@@ -18,9 +18,8 @@ export class ForgotPasswordComponent {
   errorGeneral: any = { isError: true, errorMessage: '' };
   mensajeErrorGenerico = 'Usuario/password incorrecto.';
   loginForm2 = new FormGroup({
-    username: new FormControl('manuelruiz11@gmail.com', [Validators.required]),
-    password: new FormControl('p@ssw0rd', [Validators.required]),
-    rememberMe: new FormControl(true)
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('',[Validators.required])
   });
 
   constructor(private router: Router, private authService: AuthService,

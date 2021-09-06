@@ -35,7 +35,6 @@ export class NotaIngresoListComponent implements OnInit {
   selectedEstado: any;
   selectedMotivo: any;
   selectedProducto: any;
-  login: ILogin;
   selectedSubProducto: any;
   consultaNotaIngresoPlantaForm: FormGroup;
   error: any = { isError: false, errorMessage: '' };
@@ -45,7 +44,7 @@ export class NotaIngresoListComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estadoPesado = "01";
   estadoAnalizado = "02";
-  vSessionUser: any;
+  vSessionUser: ILogin;
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
 
@@ -73,7 +72,7 @@ export class NotaIngresoListComponent implements OnInit {
     this.cargarcombos();
     this.consultaNotaIngresoPlantaForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.consultaNotaIngresoPlantaForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
   }
 
   get f() {
@@ -167,7 +166,7 @@ export class NotaIngresoListComponent implements OnInit {
         "SubProductoId": this.consultaNotaIngresoPlantaForm.controls['subProducto'].value,
         "MotivoIngresoId": this.consultaNotaIngresoPlantaForm.controls['motivo'].value,
         "EstadoId": this.consultaNotaIngresoPlantaForm.controls['estado'].value,
-        "EmpresaId": this.login.Result.Data.EmpresaId,
+        "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
         "FechaInicio": this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value,
         "FechaFin": this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value,
 
