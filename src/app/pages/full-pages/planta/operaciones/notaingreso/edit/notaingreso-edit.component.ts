@@ -286,7 +286,7 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.controls["guiaremision"].value,
         this.notaIngredoFormEdit.controls["guiaremision"].value,
         this.notaIngredoFormEdit.controls["fecharemision"].value,
-        this.selectOrganizacion[0].Codigo,
+        this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId,
         this.notaIngredoFormEdit.controls["tipoProduccion"].value,
         this.notaIngredoFormEdit.controls["producto"].value,
         this.notaIngredoFormEdit.controls["subproducto"].value,
@@ -462,7 +462,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
-    this.selectOrganizacion[0] = { Codigo : data.EmpresaOrigenId};
+    this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId : data.EmpresaOrigenId};
 
     this.spinner.hide();
   }

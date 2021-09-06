@@ -335,7 +335,7 @@ export class AduanasEditComponent implements OnInit {
     
     if (data.FechaRecepcionMuestra)
     {
-      this.aduanasFormEdit.controls["fechaRecepcion"].setValue(this.dateUtil.formatDate(new Date(data.FechaRecepcionMuestra)));
+      this.aduanasFormEdit.controls["fechaRecepcion"].setValue(formatDate(data.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en') );
     }
     
     this.aduanasFormEdit.get('estado').setValue(data.EstadoMuestraId);
@@ -356,10 +356,10 @@ export class AduanasEditComponent implements OnInit {
     data.Certificaciones.forEach(x => {
 
       let object = { item_id: x.TipoCertificacionId + "-" + x.EmpresaProveedoraAcreedoraId, item_text: x.Certificacion + "-" + x.CodigoCertificacion }
-      if (data.EmpresaExportadoraId == x.EmpresaProveedoraAcreedoraId) {
+      if ( x.TipoId == '02') {
         selectarrayExp.push(object);
       }
-      else if (data.EmpresaProductoraId == x.EmpresaProveedoraAcreedoraId) {
+      else if (x.TipoId == '01') {
         selectarrayProd.push(object);
       }
     });
@@ -395,6 +395,7 @@ export class AduanasEditComponent implements OnInit {
         certificacion.TipoCertificacionId = x.item_id.split("-")[0];
         certificacion.CodigoCertificacion = x.item_text.split("-")[1];
         certificacion.EmpresaProveedoraAcreedoraId = Number(x.item_id.split("-")[1]);
+        certificacion.TipoId = '02'
         listCertificaciones.push(certificacion);
       });
       this.selectedItemsProd.forEach(x => {
@@ -402,6 +403,7 @@ export class AduanasEditComponent implements OnInit {
         certificacion.TipoCertificacionId = x.item_id.split("-")[0];
         certificacion.CodigoCertificacion = x.item_text.split("-")[1];
         certificacion.EmpresaProveedoraAcreedoraId = Number(x.item_id.split("-")[1]);
+        certificacion.TipoId = '01'
         listCertificaciones.push(certificacion);
       });
       let request = new ReqAduanas(

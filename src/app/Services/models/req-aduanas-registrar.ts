@@ -83,6 +83,7 @@ export class Certificaciones {
     EmpresaProveedoraAcreedoraId: number;
     TipoCertificacionId: string;
     CodigoCertificacion: string;
+    TipoId: string;
 }
 
 export class Detalle {
