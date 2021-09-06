@@ -75,6 +75,10 @@ export class NotaIngresoEditComponent implements OnInit {
   form: string = "notaingresoplanta"
   btnGuardar = true;
   productoOroVerde = '02';
+  estadoPesado = "01";
+  estadoAnalizado = "02";
+  estadoAnulado = "00";
+  estadoEnviadoAlmacen = "03";
   @ViewChild(PesadoCafePlantaComponent) child;
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
   idPlantEntryNote = 0;
@@ -210,6 +214,51 @@ export class NotaIngresoEditComponent implements OnInit {
       this.notaIngredoFormEdit.get("pesado").get("grado").enable();
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").enable();
     }
+  }
+
+
+  desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
+    var usuarioLogueado = this.login.Result.Data.NombreUsuario
+    if (estado == this.estadoPesado && usuarioPesado == usuarioLogueado) {
+      //Cabecera Editable
+      //Pesado Editable
+      //Calidad Editable
+      //NotaCompra ReadOnly
+
+    } else if (estado == this.estadoPesado && usuarioPesado != usuarioLogueado) {
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      
+
+      //Calidad Editable
+      //NotaCompra ReadOnly
+    } else if (estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado) {
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.notaIngredoFormEdit.disable();
+
+      //Calidad Editable
+      //NotaCompra Editable
+    } else if (estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado) {
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.notaIngredoFormEdit.disable();
+
+      //Calidad ReadOnly
+      //NotaCompra Editable
+    } else if (estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen) {
+      //Cabecera ReadOnly
+      //Pesado ReadOnly
+      this.btnGuardar = false;
+      this.notaIngredoFormEdit.disable();
+
+      //Calidad ReadOnly
+      //NotaCompra ReadOnly
+    }
+
   }
 
   changeView(e) {
@@ -463,7 +512,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
     this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId : data.EmpresaOrigenId};
-
+    this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
   }
 
