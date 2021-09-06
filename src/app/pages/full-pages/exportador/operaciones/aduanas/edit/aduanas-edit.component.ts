@@ -266,7 +266,7 @@ export class AduanasEditComponent implements OnInit {
         err => {
           this.spinner.hide();
           console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         }
       );
   }
@@ -472,7 +472,7 @@ export class AduanasEditComponent implements OnInit {
         err => {
           this.spinner.hide();
           console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         }
       );
   }
