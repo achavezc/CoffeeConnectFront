@@ -96,17 +96,17 @@ export class AduanasEditComponent implements OnInit {
         cantidad: new FormControl('', []),
         pesoxsaco: new FormControl('', []),
         totalkilosnetos: new FormControl('', []),
-        laboratorio: new FormControl('', [Validators.required]),
+        laboratorio: new FormControl('', []),
         fechaRecojo: new FormControl('', [Validators.required]),
         trackingNumber: new FormControl('', [Validators.required]),
-        fechaRecepcion: new FormControl('', []),
+        fechaRecepcion: new FormControl('', [Validators.required]),
         observacion: new FormControl('', []),
         courier: new FormControl('', []),
         certificacionesProductor: new FormControl('', [Validators.required]),
         certificacionesExportador: new FormControl('', [Validators.required]),
         marca: new FormControl('', [Validators.required]),
         estado: new FormControl('', [Validators.required]),
-        naviera: new FormControl('', [Validators.required]),
+        naviera: new FormControl('', []),
         customsTrackingStatus: []
       });
 
@@ -165,25 +165,18 @@ export class AduanasEditComponent implements OnInit {
   receiveMessageExportador($event) {
 
     this.selectExportador = $event
-    if (this.selectProductor.length == 0 || this.selectExportador[0].EmpresaProveedoraAcreedoraId != this.selectProductor[0].EmpresaProveedoraAcreedoraId) {
-      this.aduanasFormEdit.get('exportador').setValue(this.selectExportador[0].RazonSocial);
-      this.consultarCertificaciones(this.selectExportador[0].EmpresaProveedoraAcreedoraId, 'Exportador');
-    }
-    else {
-      this.alertUtil.alertWarning("Oops...!", "La Empresa Exportadora debe ser diferente a la Empresa Productora");
-    }
+    
+    this.aduanasFormEdit.get('exportador').setValue(this.selectExportador[0].RazonSocial);
+    this.consultarCertificaciones(this.selectExportador[0].EmpresaProveedoraAcreedoraId, 'Exportador');
+   
     this.modalService.dismissAll();
   }
 
   receiveMessageProductor($event) {
     this.selectProductor = $event
-    if (this.selectProductor.length == 0 || this.selectExportador[0].EmpresaProveedoraAcreedoraId != this.selectProductor[0].EmpresaProveedoraAcreedoraId) {
-      this.aduanasFormEdit.get('productor').setValue(this.selectProductor[0].RazonSocial);
+    this.aduanasFormEdit.get('productor').setValue(this.selectProductor[0].RazonSocial);
       this.consultarCertificaciones(this.selectProductor[0].EmpresaProveedoraAcreedoraId, 'Productor');
-    }
-    else {
-      this.alertUtil.alertWarning("Oops...!", "La Empresa Productora debe ser diferente a la Empresa Exportadora");
-    }
+   
     this.modalService.dismissAll();
   }
 
@@ -337,7 +330,14 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('laboratorio').setValue(data.LaboratorioId);
     this.aduanasFormEdit.get('fechaRecojo').setValue(formatDate(data.FechaEnvioMuestra, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('trackingNumber').setValue(data.NumeroSeguimientoMuestra);
-    this.aduanasFormEdit.get('fechaRecepcion').setValue(formatDate(data.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en'));
+
+    //this.aduanasFormEdit.get('fechaRecepcion').setValue(formatDate(data.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en'));
+    
+    if (data.FechaRecepcionMuestra)
+    {
+      this.aduanasFormEdit.controls["fechaRecepcion"].setValue(this.dateUtil.formatDate(new Date(data.FechaRecepcionMuestra)));
+    }
+    
     this.aduanasFormEdit.get('estado').setValue(data.EstadoMuestraId);
     this.aduanasFormEdit.get('naviera').setValue(data.NavieraId);
     this.aduanasFormEdit.get('observacion').setValue(data.Observacion);
@@ -417,7 +417,7 @@ export class AduanasEditComponent implements OnInit {
         this.aduanasFormEdit.get('fechaRecojo').value,
         this.aduanasFormEdit.get('trackingNumber').value,
         this.aduanasFormEdit.get('estado').value,
-        this.aduanasFormEdit.get('fechaRecepcion').value,
+        this.aduanasFormEdit.get('fechaRecepcion').value ? this.aduanasFormEdit.get('fechaRecepcion').value : '',
         this.aduanasFormEdit.get('naviera').value,
         this.aduanasFormEdit.get('observacion').value,
         this.aduanasFormEdit.get('courier').value,

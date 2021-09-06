@@ -34,31 +34,32 @@
                   </div>
                   <div class="d-sm-flex justify-content-center mb-3">
                     <div class="remember-me mb-2 mb-sm-0">
-                    
-                        <small class="form-text text-muted danger" style="font-size: 0.8rem;"
-                            *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                      
+
+                      <small class="form-text text-muted danger" style="font-size: 0.8rem;"
+                        *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+
                     </div>
-                   <!--<a [routerLink]="['/pages/forgotpassword']">Forgot Password?</a>--> 
+                    <!--<a [routerLink]="['/pages/forgotpassword']">Forgot Password?</a>-->
                   </div>
-                 
+
                   <div class="d-sm-flex justify-content-center mb-3 font-small-2">
                     <div class="remember-me mb-2 mb-sm-0">
                       <div class="checkbox auth-checkbox">
                         <input type="checkbox" formControlName="rememberMe" class="form-control" id="rememberMe">
-                        <label for="rememberMe"><span class="font-small-2 mb-3 font-weight-normal">Remember Me</span></label>
+                        <label for="rememberMe"><span class="font-small-2 mb-3 font-weight-normal">Remember
+                            Me</span></label>
                       </div>
                     </div>
-                   <!--<a [routerLink]="['/pages/forgotpassword']">Forgot Password?</a>--> 
+                    <!--<a [routerLink]="['/pages/forgotpassword']">Forgot Password?</a>-->
                   </div>
-                  <div  class="d-sm-flex justify-content-center mb-2">
+                  <div class="d-sm-flex justify-content-center mb-2">
                     <!-- <mat-checkbox>Recordarme</mat-checkbox> -->
                     <span fxFlex></span> <a class="accent-color" [routerLink]="['/pages/forgotPass']">
                       ¿Olvidaste tu Password?</a>
                   </div>
                   <div class="d-flex justify-content-center flex-sm-row flex-column">
-                    <!--<a [routerLink]="['/pages/register']" class="btn bg-light-primary mb-2 mb-sm-0">Register</a>--> 
-                    <a  class="btn btn-primary" (click)="onSubmit()">Login</a>
+                    <!--<a [routerLink]="['/pages/register']" class="btn bg-light-primary mb-2 mb-sm-0">Register</a>-->
+                    <a class="btn btn-primary" (click)="onSubmit()">Login</a>
                   </div>
                 </form>
                 <hr>
@@ -73,5 +74,5 @@
     </div>
   </div>
 </section>
-<div >Holaa</div>
+<div>Holaa</div>
 <!--Login Page Ends-->
