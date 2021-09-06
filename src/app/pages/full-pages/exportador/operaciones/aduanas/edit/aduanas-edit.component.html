@@ -384,10 +384,10 @@
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaRecojo.invalid, 'is-valid': submittedEdit && !fedit.fechaRecojo.invalid }">
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Tracking Number</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="trackingNumber"
-                                    placeholder="Tracking Number"
-                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.trackingNumber.invalid, 'is-valid': submittedEdit && !fedit.trackingNumber.invalid }">
+                                <label for="basicInput">Fecha Recepcion en Destino </label>
+                                <input type="date" class="form-control" id="basicInput" formControlName="fechaRecepcion"
+                                    class="form-control"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaRecepcion.invalid, 'is-valid': submittedEdit && !fedit.fechaRecepcion.invalid }">
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
@@ -402,11 +402,12 @@
                                     *ngIf="fedit.estado.errors?.required">Seleccionar Estado</small>
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Fecha Recepcion en Destino </label>
-                                <input type="date" class="form-control" id="basicInput" formControlName="fechaRecepcion"
-                                    class="form-control"
-                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaRecepcion.invalid, 'is-valid': submittedEdit && !fedit.fechaRecepcion.invalid }">
+                                <label for="basicInput">Tracking Number</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="trackingNumber"
+                                    placeholder="Tracking Number"
+                                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.trackingNumber.invalid, 'is-valid': submittedEdit && !fedit.trackingNumber.invalid }">
                             </div>
+                           
                             <div class="col-12 col-md-4" style="display: none">
                                 <label for="estado">Naviera</label>
                                 <ng-select [items]="listaNaviera" formControlName="naviera" class="form-control"
