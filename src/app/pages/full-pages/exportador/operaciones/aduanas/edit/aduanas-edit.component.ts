@@ -99,7 +99,7 @@ export class AduanasEditComponent implements OnInit {
         laboratorio: new FormControl('', []),
         fechaRecojo: new FormControl('', [Validators.required]),
         trackingNumber: new FormControl('', [Validators.required]),
-        fechaRecepcion: new FormControl('', [Validators.required]),
+        fechaRecepcion: new FormControl('', []),
         observacion: new FormControl('', []),
         courier: new FormControl('', []),
         certificacionesProductor: new FormControl('', [Validators.required]),

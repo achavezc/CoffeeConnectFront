@@ -447,6 +447,10 @@
                             </div>
 
                         </div>
+                        <div class="row" style="margin-top: 2rem;">
+                            <small class="form-text text-muted danger"
+                              *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                          </div>
                     </div>
 
                 </div>
@@ -454,7 +458,7 @@
         </div>
 
     </section>
-
+    
     <div class="card-footer text-right" style="margin-top: 2rem;">
         <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
             <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="id">
