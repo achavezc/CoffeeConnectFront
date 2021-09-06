@@ -98,11 +98,13 @@ export class ContratoEditComponent implements OnInit {
   totalFacturar1;
   totalFacturar2;
   totalFacturar3;
+  tipoEmpresaId = '';
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.login = JSON.parse(localStorage.getItem("user"));
+    this.tipoEmpresaId = this.vSessionUser.Result.Data.TipoEmpresaid;
     this.LoadForm();
     this.addValidations();
     this.LoadCombos();
@@ -968,7 +970,12 @@ export class ContratoEditComponent implements OnInit {
     const TotalBilling2 = this.contratoEditForm.controls.TotalBilling2;
     const TotalBilling3 = this.contratoEditForm.controls.TotalBilling3;
 
-    if (this.login.Result.Data.EmpresaId == 1) {
+    const FixationState = this.contratoEditForm.controls.FixationState;
+    const InvoiceIn = this.contratoEditForm.controls.invoiceIn;
+  
+
+    if (this.tipoEmpresaId == '01') //Cooperativa
+     {
       contractFixingDate.setValidators(Validators.required);
       CreditNoteCommission.setValidators(Validators.required);
       ExpensesExpCosts.setValidators(Validators.required);
@@ -980,6 +987,9 @@ export class ContratoEditComponent implements OnInit {
       TotalBilling1.setValidators(Validators.required);
       TotalBilling2.setValidators(Validators.required);
       TotalBilling3.setValidators(Validators.required);
+      FixationState.setValidators(Validators.required);
+      InvoiceIn.setValidators(Validators.required);
+
     } else {
       contractFixingDate.clearValidators();
       CreditNoteCommission.clearValidators();
@@ -992,6 +1002,8 @@ export class ContratoEditComponent implements OnInit {
       TotalBilling1.clearValidators();
       TotalBilling2.clearValidators();
       TotalBilling3.clearValidators();
+      FixationState.clearValidators();
+      InvoiceIn.clearValidators();
     }
 
     contractFixingDate.updateValueAndValidity();
@@ -1005,6 +1017,9 @@ export class ContratoEditComponent implements OnInit {
     TotalBilling1.updateValueAndValidity();
     TotalBilling2.updateValueAndValidity();
     TotalBilling3.updateValueAndValidity();
+    InvoiceIn.updateValueAndValidity();
+    FixationState.updateValueAndValidity();
+
   }
 
 }
