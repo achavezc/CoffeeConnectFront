@@ -372,7 +372,7 @@ export class AduanasEditComponent implements OnInit {
   }
 
   guardar() {
-    if (this.aduanasFormEdit.invalid || this.errorGeneral.isError) {
+    if (this.aduanasFormEdit.invalid) {
 
       this.submittedEdit = true;
       return;
@@ -417,7 +417,7 @@ export class AduanasEditComponent implements OnInit {
         this.aduanasFormEdit.get('fechaRecojo').value,
         this.aduanasFormEdit.get('trackingNumber').value,
         this.aduanasFormEdit.get('estado').value,
-        this.aduanasFormEdit.get('fechaRecepcion').value ? this.aduanasFormEdit.get('fechaRecepcion').value : '',
+        this.aduanasFormEdit.get('fechaRecepcion').value ? this.aduanasFormEdit.get('fechaRecepcion').value : null,
         this.aduanasFormEdit.get('naviera').value,
         this.aduanasFormEdit.get('observacion').value,
         this.aduanasFormEdit.get('courier').value,
