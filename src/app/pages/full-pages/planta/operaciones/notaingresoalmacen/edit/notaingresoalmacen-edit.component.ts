@@ -85,7 +85,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
         nombreOrganizacion: new FormControl({ value: '', disabled: true }, []),
         producto: new FormControl({ value: '', disabled: true }, []),
         direccion: new FormControl({ value: '', disabled: true }, []),
-        ruc: new FormControl({ value: '', disabled: true }, []),
+        rucOrganizacion: new FormControl({ value: '', disabled: true }, []),
+        razonSocialOrganizacion:  new FormControl({ value: '', disabled: true }, []),
         subproducto: new FormControl({ value: '', disabled: true }, []),
         certificacion: new FormControl({ value: '', disabled: true }, []),
         certificadora: new FormControl({ value: '', disabled: true }, []),
@@ -153,11 +154,10 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
     this.consultaNotaIngresoAlmacenFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
     this.consultaNotaIngresoAlmacenFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocialOrganizacion);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.Ruc);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocial);
     this.consultaNotaIngresoAlmacenFormEdit.controls["producto"].setValue(data.Producto);
     this.consultaNotaIngresoAlmacenFormEdit.controls["direccion"].setValue(data.Direccion);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["ruc"].setValue(data.Ruc);
     this.consultaNotaIngresoAlmacenFormEdit.controls["subproducto"].setValue(data.SubProducto);
     this.consultaNotaIngresoAlmacenFormEdit.controls["certificacion"].setValue(data.Certificacion);
     this.consultaNotaIngresoAlmacenFormEdit.controls["certificadora"].setValue(data.Certificadora);
