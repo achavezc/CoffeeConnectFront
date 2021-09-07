@@ -212,8 +212,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         "PuntajeAnalisisSensorialInicio": Number(this.notaIngresoAlmacenForm.controls['puntajeFinalInicio'].value),
         "PuntajeAnalisisSensorialFin": Number(this.notaIngresoAlmacenForm.controls['puntajeFinalFin'].value),
         "CertificacionId": this.notaIngresoAlmacenForm.controls['certificacion'].value,
-        "EmpresaId": 1
-
+        "EmpresaId": this.vSessionUser.Result.Data.EmpresaId
 
       }
       this.spinner.show(undefined,

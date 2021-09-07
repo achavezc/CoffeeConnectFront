@@ -110,7 +110,7 @@ export class AduanasEditComponent implements OnInit {
         customsTrackingStatus: []
       });
 
-    this.maestroService.obtenerMaestros("EstadoAduana")
+    this.maestroService.obtenerMaestros("EstadoMuestra")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaEstado = res.Result.Data;
@@ -121,27 +121,27 @@ export class AduanasEditComponent implements OnInit {
         }
       );
 
-    this.maestroService.obtenerMaestros("Naviera")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaNaviera = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
+    // this.maestroService.obtenerMaestros("Naviera")
+    //   .subscribe(res => {
+    //     if (res.Result.Success) {
+    //       this.listaNaviera = res.Result.Data;
+    //     }
+    //   },
+    //     err => {
+    //       console.error(err);
+    //     }
+    //   );
 
-    this.maestroService.obtenerMaestros("Laboratorio")
-      .subscribe(res => {
-        if (res.Result.Success) {
-          this.listaLaboratorios = res.Result.Data;
-        }
-      },
-        err => {
-          console.error(err);
-        }
-      );
+    // this.maestroService.obtenerMaestros("Laboratorio")
+    //   .subscribe(res => {
+    //     if (res.Result.Success) {
+    //       this.listaLaboratorios = res.Result.Data;
+    //     }
+    //   },
+    //     err => {
+    //       console.error(err);
+    //     }
+    //   );
 
       this.maestroService.obtenerMaestros("EstadoSeguimientoAduana")
       .subscribe(res => {

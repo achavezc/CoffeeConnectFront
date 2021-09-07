@@ -208,7 +208,7 @@
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-3">
-                                <label for="basicInput">Fecha de Embarque</label>
+                                <label for="basicInput">Fecha de Embarque (Zarpe de Nave)</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaEmbarque"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaEmbarque.invalid, 'is-valid': submittedEdit && !fedit.fechaEmbarque.invalid }">
@@ -378,7 +378,7 @@
                                     *ngIf="fedit.laboratorio.errors?.required">Seleccionar Laboratorio</small>
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Fecha Recojo/Envio Courier</label>
+                                <label for="basicInput">Fecha Envío</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaRecojo"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaRecojo.invalid, 'is-valid': submittedEdit && !fedit.fechaRecojo.invalid }">

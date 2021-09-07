@@ -153,8 +153,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
     this.consultaNotaIngresoAlmacenFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
     this.consultaNotaIngresoAlmacenFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["codigoOrganizacion"].setValue(data.CodigoOrganizacion);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["nombreOrganizacion"].setValue(data.NombreOrganizacion);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.consultaNotaIngresoAlmacenFormEdit.controls["producto"].setValue(data.Producto);
     this.consultaNotaIngresoAlmacenFormEdit.controls["direccion"].setValue(data.Direccion);
     this.consultaNotaIngresoAlmacenFormEdit.controls["ruc"].setValue(data.Ruc);
