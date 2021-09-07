@@ -151,13 +151,12 @@
                         <div class="form-row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group row">
-                                    <label for="codigoOrganizacion" class="col-lg-4 col-form-label">COD.
-                                        ORGANIZACION</label>
+                                    <label for="rucOrganizacion" class="col-lg-4 col-form-label">RUC ORGANIZACION</label>
                                     <div class="col-lg-8">
                                         <input type="text" minlength="5" maxlength="20"
-                                            formControlName="codigoOrganizacion" class="form-control"
-                                            id="validationTooltip04" placeholder="Codigo Organización"
-                                            [ngClass]="{ 'is-invalid': f.codigoOrganizacion.invalid, 'is-valid':  !f.codigoOrganizacion.invalid }"
+                                            formControlName="rucOrganizacion" class="form-control"
+                                            id="validationTooltip04" placeholder="RUC Organización"
+                                            [ngClass]="{ 'is-invalid': f.rucOrganizacion.invalid, 'is-valid':  !f.rucOrganizacion.invalid }"
                                             readonly>
                                     </div>
                                 </div>
@@ -174,14 +173,25 @@
                                             readonly>
                                     </div>
                                     <div class="col-lg-2">
-                                        <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
+                                        <!-- <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
                                             <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
                                             </app-consultar-organizacion>
                                         </ng-template>
                                         <button type="button" (click)="openModal(mdlConsultarOrganizacion)"
                                             class="btn btn-primary">
                                             <i class="fa fa-search"></i>
+                                        </button> -->
+                                        <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                                            <app-consultar-empresa (empresaEvent)="GetDataEmpresa($event)">
+                                            </app-consultar-empresa>
+                                          </ng-template>
+                          
+                                          
+                                          <button type="button" (click)="openModal(modalEmpresa)"
+                                            class="btn btn-primary">
+                                            <i class="fa fa-search"></i>
                                         </button>
+
                                     </div>
                                 </div>
                             </div>

@@ -62,6 +62,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   selectedProducto : any;
   selectedTipoProduccion: any;
   selectedCertificacion: any;
+  selectOrganizacion = [];
   selectedEstado: any;
   selectedTipoProceso: any;
   userSession: any;
@@ -150,7 +151,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       estado: [],
       ordenProcesoComercial: [],
       idOrdenProcesoComercial: [],
-      codigoOrganizacion: [],
+      rucOrganizacion: [],
       nombreOrganizacion:[],
       certificadora: [],
       empaque: [],
@@ -325,14 +326,26 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
   }
 
+  // GetDataEmpresa(event: any): void {
+  //   const obj = event[0];
+  //   if (obj) {
+  //     this.ordenProcesoEditForm.controls.codigoOrganizacion.setValue(obj.Codigo);
+  //     this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(obj.RazonSocial);
+  //   }
+  //   this.modalService.dismissAll();
+  // }
+
   GetDataEmpresa(event: any): void {
-    const obj = event[0];
-    if (obj) {
-      this.ordenProcesoEditForm.controls.codigoOrganizacion.setValue(obj.Codigo);
-      this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(obj.RazonSocial);
+    this.selectOrganizacion = event;
+    if (this.selectOrganizacion[0]) {
+      //this.notaIngredoFormEdit.controls['codigoOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
+      this.ordenProcesoEditForm.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
+      this.ordenProcesoEditForm.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
     }
     this.modalService.dismissAll();
   }
+
+
 
   openModal(modal: any): void {
     this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl' });    
@@ -347,6 +360,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     const request = {
       OrdenProcesoId: form.idOrdenProceso ? form.idOrdenProceso : 0,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
+      OrganizacionId: this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId,
       EmpresaProcesadoraId: form.idDestino ? form.idDestino : 0,
       TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
       ContratoId: form.idContrato ? form.idContrato : 0,
@@ -549,6 +563,9 @@ export class OrdenProcesoEditComponent implements OnInit {
       if (data.PathArchivo)
         this.ordenProcesoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.rowsDetails = data.detalle;
+
+      this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId : data.OrganizacionId};
+
     }
     this.spinner.hide();
   }
