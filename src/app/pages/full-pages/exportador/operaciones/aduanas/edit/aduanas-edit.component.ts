@@ -29,7 +29,7 @@ export class AduanasEditComponent implements OnInit {
 
   login: ILogin;
   aduanasFormEdit: FormGroup;
-  listaEstado: any[];
+  listaEmbarqueStatus: any[];
   selectEstado: any;
   submittedEdit = false;
   submitted = false;
@@ -45,6 +45,7 @@ export class AduanasEditComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   selectEmpresa: any[] = [];
   selectExportador: any[] = [];
+  selectedEmbarqueStatus: any[] = [];
   selectProductor: any[] = [];
   selectContrato: any[] = [];
   responsable: "";
@@ -80,34 +81,46 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit = this.fb.group(
       {
         contrato: ['', [Validators.required]],
-        ruc: new FormControl('', [Validators.required]),
-        agencia: new FormControl('', [Validators.required]),
+        ruc: new FormControl('', []),
+        agencia: new FormControl('', []),
         clientefinal: new FormControl('', []),
         floid: new FormControl('', []),
-        exportador: new FormControl('', [Validators.required]),
-        productor: new FormControl('', [Validators.required]),
-        fechaEmbarque: new FormControl('', [Validators.required]),
-        fechaFac: new FormControl('', [Validators.required]),
+        exportador: new FormControl('', []),
+        certificacionesExportador: new FormControl('', []),       
+        productor: new FormControl('', []),        
+        certificacionesProductor: new FormControl('', []), 
+        numeroContratoInternoProductor: new FormControl('', []),
+        mesEmbarque: new FormControl('', []),
+        fechaEmbarque: new FormControl('', []),
+        fechaZarpeNave: new FormControl('', []),  
+        fechaFac: new FormControl('', []),
+        puerto: new FormControl('', []),
+        marca: new FormControl('', []),
         po: new FormControl('', []),
         producto: new FormControl('', []),
         subproducto: new FormControl('', []),
         calidad: new FormControl('', []),
         empaque: new FormControl('', []),
+        certificacion: new FormControl('', []),
+        cantidadDefectos: new FormControl('', []),
         cantidad: new FormControl('', []),
+        numeroContenedores: new FormControl('', []),
+        statusPagoFactura: new FormControl('', []),
         pesoxsaco: new FormControl('', []),
+        embarqueStatus: new FormControl('', []),
+        fechaPagoFactura: new FormControl('', []),
         totalkilosnetos: new FormControl('', []),
+        fechaEstampado: new FormControl('', []),
         laboratorio: new FormControl('', []),
-        fechaRecojo: new FormControl('', [Validators.required]),
-        trackingNumber: new FormControl('', [Validators.required]),
-        fechaRecepcion: new FormControl('', []),
-        observacion: new FormControl('', []),
+        fechaRecojo: new FormControl('', []),
         courier: new FormControl('', []),
-        certificacionesProductor: new FormControl('', [Validators.required]),
-        certificacionesExportador: new FormControl('', [Validators.required]),
-        marca: new FormControl('', [Validators.required]),
-        estado: new FormControl('', [Validators.required]),
-        naviera: new FormControl('', []),
-        customsTrackingStatus: []
+        fechaRecepcion: new FormControl('', []),
+        trackingNumber: new FormControl('', []),
+        customsTrackingStatus: [],
+        observacion: new FormControl('', []),
+        fechaEnvioDocumentos: new FormControl('', []),
+        fechaLlegadaDocumentos: new FormControl('', [])
+        
       });
 
     this.maestroService.obtenerMaestros("EstadoMuestra")
