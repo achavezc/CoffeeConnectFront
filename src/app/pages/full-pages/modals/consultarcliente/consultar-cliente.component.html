@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">Busqueda de Clientes Activos</h4>
+    <h4 class="modal-title">Búsqueda de Clientes Activos</h4>
     <button type="button" class="close" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -49,11 +49,15 @@
             </div>
             <div class="col-md-3 mb-4 form-group mb-2">
                 <label for="mpais" class="form-label">País</label>
-                <ng-select [items]="listMdlPais" formControlName="mpais" class="form-control" bindLabel="Label"
-                    bindValue="Descripcion" id="PaisId" placeholder="Seleccionar país"
-                    [ngClass]="{ 'is-invalid': fm.mpais.invalid, 'is-valid': !fm.mpais.invalid }"
-                    [(ngModel)]="selMdlPais">
-                </ng-select>
+                
+
+                <ng-select [items]="listPaises" formControlName="pais" class="form-control"
+                                        bindLabel="Descripcion" bindValue="PaisId" id="pais"
+                                        placeholder="Seleccionar país"
+                                        [ngClass]="{ 'is-invalid': fm.pais.invalid, 'is-valid': !fm.pais.invalid }"
+                                        [(ngModel)]="selectedPais">
+                                    </ng-select>
+
             </div>
         </div>
         <div class="form-row">

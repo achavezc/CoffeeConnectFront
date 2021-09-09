@@ -8,6 +8,7 @@ import { EmpresaTransporteService } from '../../../../../../services/empresatran
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-empresatransporte',
@@ -42,8 +43,10 @@ export class EmpresaTransporteListComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
   empresaTransporteform: FormGroup;
-  
+  vSessionUser: ILogin;
+
   ngOnInit(): void {
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
   }
@@ -123,7 +126,7 @@ export class EmpresaTransporteListComponent implements OnInit {
         RazonSocial: this.empresaTransporteform.value.nombreRazonSocial,
         Ruc: this.empresaTransporteform.value.ruc,
         EstadoId: this.empresaTransporteform.value.estado,
-        EmpresaId: 1
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     };
   }
 
