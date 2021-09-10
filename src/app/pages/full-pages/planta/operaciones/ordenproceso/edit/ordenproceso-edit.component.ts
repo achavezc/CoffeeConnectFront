@@ -115,7 +115,57 @@ export class OrdenProcesoEditComponent implements OnInit {
   agregarOrdenProceso(e) {
     this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(e[0].Numero);
     this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(e[0].OrdenProcesoId);
-    this.modalService.dismissAll();     
+    this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(e[0].RucEmpresaProcesadora);
+    this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(e[0].RazonSocialEmpresaProcesadora);
+    this.SearchByidOrdenProceso(e[0].OrdenProcesoId);
+    
+  }
+  
+  SearchByidOrdenProceso(id: any) : void  {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, msgError: '' };
+    this.ordenProcesoService.SearchById(id).subscribe((res) => {
+      if (res.Result.Success) {
+        if (res.Result.Data) {
+          var data = res.Result.Data;
+          this.autocompleteOrdenProcesoComercial(data);
+        }
+          
+      } else {
+        this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        this.modalService.dismissAll();   
+        this.spinner.hide();
+      }
+    }, (err) => {
+      console.log(err);
+      this.spinner.hide();
+      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+      this.modalService.dismissAll();   
+    });
+   
+  }
+  async autocompleteOrdenProcesoComercial(data){
+    await this.cargarSubProductoTerminado(data.ProductoId);
+          
+          
+    this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
+    this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
+    this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
+    this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
+    
+    this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
+    this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
+
+    this.ordenProcesoEditForm.controls.tipoProceso.disable();
+    this.ordenProcesoEditForm.controls.rucOrganizacion.disable();
+    this.ordenProcesoEditForm.controls.nombreOrganizacion.disable();
+    this.ordenProcesoEditForm.controls.tipoProduccion.disable();
+    this.ordenProcesoEditForm.controls.certificacion.disable();
+    this.ordenProcesoEditForm.controls.producto.disable();
+    this.ordenProcesoEditForm.controls.certificadora.disable();
+    this.ordenProcesoEditForm.controls.subProducto.disable();
+    this.spinner.hide();
+    this.modalService.dismissAll();   
   }
   LoadForm(): void {
     this.ordenProcesoEditForm = this.fb.group({
