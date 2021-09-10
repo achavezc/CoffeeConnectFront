@@ -7,6 +7,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MaestroUtil } from '../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../services/util/date-util';
 import { ClienteService } from '../../../../services/cliente.service';
+import { MaestroService } from '../../../../services/maestro.service';
 
 @Component({
   selector: 'app-consultar-cliente',
@@ -19,7 +20,8 @@ export class MConsultarClienteComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   mdlClienteForm: FormGroup;
   listMdlTipoCliente: any[];
-  listMdlPais: any[];
+  listPaises: [];
+  selectedPais: any;
   selMdlTipoCliente: any;
   selMdlPais: any;
   public rows = [];
@@ -36,6 +38,7 @@ export class MConsultarClienteComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private spinner: NgxSpinnerService,
     private maestroUtil: MaestroUtil,
+    private maestroService: MaestroService,
     private clienteService: ClienteService,
     private dateUtil: DateUtil,
     private fb: FormBuilder) {
@@ -55,7 +58,8 @@ export class MConsultarClienteComponent implements OnInit {
       mfechaFinal: [, [Validators.required]],
       mdescCliente: [],
       mtipoCliente: [],
-      mpais: []
+      pais: []
+     
     });
 
     this.mdlClienteForm.controls.mfechaInicial.setValue(this.dateUtil.currentMonthAgo());
@@ -68,12 +72,20 @@ export class MConsultarClienteComponent implements OnInit {
         this.listMdlTipoCliente = res.Result.Data;
       }
     });
-    this.listMdlPais = [];
-    this.maestroUtil.GetPais((res: any) => {
-      if (res.Result.Success) {
-        this.listMdlPais = res.Result.Data;
-      }
-    });
+    // this.listMdlPais = [];
+    // this.maestroUtil.GetPais((res: any) => {
+    //   if (res.Result.Success) {
+    //     this.listMdlPais = res.Result.Data;
+    //   }
+    // });
+    this.GetPaises();
+  }
+
+  async GetPaises() {
+    const res: any = await this.maestroService.ConsultarPaisAsync().toPromise();
+    if (res.Result.Success) {
+      this.listPaises = res.Result.Data;
+    }
   }
 
   get fm() {
@@ -123,7 +135,8 @@ export class MConsultarClienteComponent implements OnInit {
       TipoClienteId: this.mdlClienteForm.value.mtipoCliente ?? '',
       Ruc: this.mdlClienteForm.value.mruc ?? '',
       EstadoId: '01',
-      PaisId: this.mdlClienteForm.value.mpais ?? 0,
+      //PaisId: this.mdlClienteForm.value.mpais ?? 0,
+       PaisId: this.mdlClienteForm.value.pais ? this.mdlClienteForm.value.pais : 0,
       FechaInicio: this.mdlClienteForm.value.mfechaInicial ?? '',
       FechaFin: this.mdlClienteForm.value.mfechaFinal ?? '',
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId
