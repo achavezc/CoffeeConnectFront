@@ -8,6 +8,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { AduanaService } from '../../../../../../services/aduanas.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-aduanas',
@@ -23,7 +24,8 @@ export class AduanasComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private aduanaService: AduanaService,
-    private router: Router) {
+    private router: Router,
+    private modalService: NgbModal) {
   }
 
   aduanasForm: FormGroup;
@@ -41,6 +43,10 @@ export class AduanasComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   vSessionUser: any;
   estadoActivo = '01';
+  selectExportador: any[] = [];
+  selectProductor: any[] = [];
+  selectContrato: any[] = [];
+  popUp = true;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -59,10 +65,38 @@ export class AduanasComponent implements OnInit {
       fechaFin: ['', [Validators.required]],
       estado: ['', [Validators.required]],
       agenciaAduanera: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      clienteFinal: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]]
+      clienteFinal: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      exportador: [''],
+      productor: ['']
     });
     this.aduanasForm.setValidators(this.comparisonValidator());
     await this.LoadCombos();
+  }
+
+  receiveMessageContrato($event) {
+    this.selectContrato = $event;
+    
+    this.aduanasForm.get('clientefinal').setValue(this.selectContrato[0].Cliente);
+    
+    
+    
+    this.modalService.dismissAll();
+  }
+
+  receiveMessageExportador($event) {
+
+    this.selectExportador = $event
+    
+    this.aduanasForm.get('exportador').setValue(this.selectExportador[0].RazonSocial);
+   
+    this.modalService.dismissAll();
+  }
+
+  receiveMessageProductor($event) {
+    this.selectProductor = $event
+    this.aduanasForm.get('productor').setValue(this.selectProductor[0].RazonSocial);
+   
+    this.modalService.dismissAll();
   }
 
   async LoadCombos() {
@@ -184,6 +218,11 @@ export class AduanasComponent implements OnInit {
         );
     }
   }
+  openModal(modalEmpresa) {
+    this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
+
+  }
+
 
 
 

@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-4 mb-4 form-group mb-2">
+                                <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="agenciaAduanera" class="form-label">Agencia Aduanera </label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="agenciaAduanera"
                                         class="form-control" id="agenciaAduanera" placeholder="Codigo"
@@ -83,7 +83,13 @@
                                         *ngIf="f.agenciaAduanera.errors?.pattern">Solo
                                         letras y números</small>
                                 </div>
-                                <div class="col-md-4 mb-4 form-group mb-2">
+                                <div class="col-md-1 mb-4 form-group mb-2">
+                                <button type="button" class="btn btn-default"
+                                    style="margin-top: 1.5rem;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="clienteFinal" class="form-label">Cliente Final </label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="clienteFinal"
                                         class="form-control" id="clienteFinal" placeholder="Codigo"
@@ -95,6 +101,67 @@
                                     <small class="form-text text-muted danger"
                                         *ngIf="f.clienteFinal.errors?.pattern">Solo
                                         letras y números</small>
+                                </div>
+                                <div class="col-md-1 mb-4 form-group mb-2">
+                                    <button type="button" class="btn btn-default" (click)="openModal(modalContrato)"
+                                        style="margin-top: 1.5rem;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <ng-template #modalContrato let-c="close" let-d="dismiss">
+                                        <div class="modal-header" style="text-align: center;">
+    
+                                            <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Registro de
+                                                Contratos</h4>
+                                            <button type="button" class="close" aria-label="Close" (click)="close()">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ngx-spinner></ngx-spinner>
+                                            <div class="row"
+                                                style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                                                <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
+                                            </div>
+                                            <app-contrato [popUp]="popUp" 
+                                                (agregarContratoEvent)="receiveMessageContrato($event)">
+                                            </app-contrato>
+                                        </div>
+    
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="agenciaAduanera" class="form-label">Exportador </label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="exportador"
+                                        class="form-control" id="agenciaAduanera" placeholder="Exportador"
+                                        [ngClass]="{ 'is-invalid': submitted && f.agenciaAduanera.invalid, 'is-valid': submitted &&  !f.agenciaAduanera.invalid }" disabled>
+                                </div>
+                                <div class="col-md-1 mb-4 form-group mb-2">
+                                <button type="button" class="btn btn-default" (click)="openModal(modalExportador)"
+                                    style="margin-top: 1.5rem;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                                <ng-template #modalExportador let-c="close" let-d="dismiss">
+                                    <app-consultar-empresa (empresaEvent)="receiveMessageExportador($event)">
+                                    </app-consultar-empresa>
+                                </ng-template>
+                            </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="clienteFinal" class="form-label"> Productor </label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="productor"
+                                        class="form-control" id="clienteFinal" placeholder="Productor"
+                                        [ngClass]="{ 'is-invalid': submitted && f.clienteFinal.invalid, 'is-valid': submitted &&  !f.clienteFinal.invalid }" disabled>
+                                </div>
+                                <div class="col-md-1 mb-4 form-group mb-2">
+                                    <button type="button" class="btn btn-default" (click)="openModal(modalProductor)"
+                                        style="margin-top: 1.5rem;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <ng-template #modalProductor let-c="close" let-d="dismiss">
+                                        <app-consultar-empresa (empresaEvent)="receiveMessageProductor($event)">
+                                        </app-consultar-empresa>
+                                    </ng-template>
                                 </div>
                             </div>
 

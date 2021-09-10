@@ -206,7 +206,13 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('totalkilosnetos').setValue(this.selectContrato[0].PesoKilos);
     this.aduanasFormEdit.get('clientefinal').setValue(this.selectContrato[0].Cliente);
     this.aduanasFormEdit.get('floid').setValue(this.selectContrato[0].FloId);
-
+    this.aduanasFormEdit.get('mesEmbarque').setValue(formatDate(this.selectContrato[0].FechaEmbarque, 'MM/yyyy', 'en'));
+    this.aduanasFormEdit.get('statusPagoFactura').setValue(this.selectContrato[0].EstadoPagoFactura);
+    this.aduanasFormEdit.get('fechaPagoFactura').setValue(formatDate(this.selectContrato[0].EstadoPagoFactura, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('certificacion').setValue(this.selectContrato[0].TipoCertificacion);
+    this.aduanasFormEdit.get('cantidadDefectos').setValue(this.selectContrato[0].PreparacionCantidadDefectos);
+    
+    
     this.modalService.dismissAll();
   }
 
