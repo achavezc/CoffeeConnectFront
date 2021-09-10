@@ -40,6 +40,7 @@ export class AduanasEditComponent implements OnInit {
   selectedtNaviera: any;
   esEdit = false;
   listaLaboratorios: any[];
+  listaEstado: any[];
   selectLaboratorio: any;
   rows = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
