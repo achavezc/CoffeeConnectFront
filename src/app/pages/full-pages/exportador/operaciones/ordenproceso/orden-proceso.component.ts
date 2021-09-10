@@ -76,7 +76,7 @@ export class OrdenProcesoComponent implements OnInit {
   }
 
   LoadCombos(): void {
-    this.maestroUtil.obtenerMaestros('EstadoMaestro', (res: any) => {
+    this.maestroUtil.obtenerMaestros('EstadoOrdenProceso', (res: any) => {
       if (res.Result.Success) {
         this.listEstados = res.Result.Data;
         if (this.popUp) {
@@ -125,7 +125,7 @@ export class OrdenProcesoComponent implements OnInit {
       NumeroCliente: form.codCliente ? form.codCliente : '',
       RazonSocialCliente: form.cliente ? form.cliente : '',
       TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
-      EstadoId: form.estado ? form.estado : '',
+      EstadoId: this.ordenProcesoForm.controls["estado"].value ? this.ordenProcesoForm.controls["estado"].value : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId
     };
   }
