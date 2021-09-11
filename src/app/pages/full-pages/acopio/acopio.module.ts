@@ -55,6 +55,7 @@ import { ModalModule } from '../modals/modal.module'
 import { DetalleLoteComponent } from "./operaciones/lotes/lote-edit/detalleLote/detalleLote.component";
 import{ZonaListComponent} from './operaciones/zona/list/zona-list.component';
 import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
+import { KardexComponent } from './operaciones/kardex/kardex.component';
 
 @NgModule({
   imports: [
@@ -110,7 +111,8 @@ import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
     IngresoAlmacenEditComponent,
     DetalleLoteComponent,
     ZonaListComponent,
-    ZonaEditComponent
+    ZonaEditComponent,
+    KardexComponent
 
   ],
   exports: [

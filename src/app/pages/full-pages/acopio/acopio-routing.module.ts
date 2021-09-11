@@ -24,6 +24,7 @@ import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edi
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
 import { ZonaListComponent } from './operaciones/zona/list/zona-list.component';
 import { ZonaEditComponent } from './operaciones/zona/edit/zona-edit.component';
+import { KardexComponent } from './operaciones/kardex/kardex.component';
 
 const routes: Routes = [
   {
@@ -197,6 +198,13 @@ const routes: Routes = [
         component: CiudadesEditComponent,
         data: {
           title: 'Edit'
+        }
+      },
+      {
+        path: 'kardex',
+        component: KardexComponent,
+        data: {
+          title: 'Kardex'
         }
       }
     ]
