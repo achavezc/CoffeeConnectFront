@@ -10,6 +10,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
+import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ContratoService } from '../../../../../../services/contrato.service';
@@ -28,13 +29,12 @@ export class OrdenProcesoEditComponent implements OnInit {
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
     private ordenProcesoService: OrdenProcesoService,
+    private ordenProcesoServicePlanta: OrdenProcesoServicePlanta,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private empresaService: EmpresaService,
-    private notaIngresoService: NotaIngresoService,
-    private contratoService: ContratoService) { }
+    private notaIngresoService: NotaIngresoService) { }
 
 
   error: any = { isError: false, errorMessage: '' };
@@ -108,7 +108,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     if (this.codeProcessOrder <= 0) {
       this.ordenProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
       this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
-      this.addRowDetail();
+     // this.addRowDetail();
     } else if (this.codeProcessOrder > 0) {
       this.SearchByid();
     }
@@ -131,6 +131,7 @@ export class OrdenProcesoEditComponent implements OnInit {
         if (res.Result.Data) {
           var data = res.Result.Data;
           this.autocompleteOrdenProcesoComercial(data);
+          
         }
           
       } else {
@@ -147,9 +148,8 @@ export class OrdenProcesoEditComponent implements OnInit {
    
   }
   async autocompleteOrdenProcesoComercial(data){
-    await this.cargarSubProductoTerminado(data.ProductoId);
-          
-          
+    
+    await this.cargarSubProducto(data.ProductoId);
     this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
     this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
     this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
@@ -157,7 +157,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     
     this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
     this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
-
+    this.ordenProcesoEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
     this.ordenProcesoEditForm.controls.tipoProceso.disable();
     this.ordenProcesoEditForm.controls.rucOrganizacion.disable();
     this.ordenProcesoEditForm.controls.nombreOrganizacion.disable();
@@ -167,27 +167,28 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.ordenProcesoEditForm.controls.certificadora.disable();
     this.ordenProcesoEditForm.controls.subProducto.disable();
     this.spinner.hide();
-    this.modalService.dismissAll();   
+    this.modalService.dismissAll();
   }
   LoadForm(): void {
     this.ordenProcesoEditForm = this.fb.group({
       idOrdenProceso: [],
-      razonSocialCabe: ['', Validators.required],
+      organizacionId : [],
+      razonSocialCabe: ['', ],
       nroOrden: [],
-      direccionCabe: ['', Validators.required],
-      fechaCabe: ['', Validators.required],
-      nroRucCabe: ['', Validators.required],
-      idContrato: ['', Validators.required],
-      nroContrato: ['', Validators.required],
-      idCliente: ['', Validators.required],
-      codCliente: ['', Validators.required],
-      cliente: ['', Validators.required],
-      idDestino: ['', Validators.required],
-      destino: ['', Validators.required],
+      direccionCabe: ['', ],
+      fechaCabe: ['', ],
+      nroRucCabe: ['', ],
+      idContrato: ['', ],
+      nroContrato: ['', ],
+      idCliente: ['', ],
+      codCliente: ['', ],
+      cliente: ['', ],
+      idDestino: ['', ],
+      destino: ['', ],
       fecFinProcesoPlanta: [],
       tipoProduccion: ['', Validators.required],
       certificacion: ['', Validators.required],
-      porcenRendimiento: ['', Validators.required],
+      porcenRendimiento: ['', ],
       producto: ['', Validators.required],
       cantidad: ['', Validators.required],
       calidad: ['', Validators.required],
@@ -197,8 +198,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       responsableComercial: [],
       file: [],      
       tipoProceso: ['', Validators.required],
-      subProducto: ['', Validators.required],
-      observaciones: [],
+      subProducto: ['',  Validators.required],
+      observaciones: [''],
       pathFile: [],
       estado: ['', Validators.required],
       ordenProcesoComercial: [],
@@ -406,34 +407,42 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   GetRequest(): any {
     const form = this.ordenProcesoEditForm.value;
-    if (this.codeProcessOrder > 0) {
-      this.rowsDetails.forEach(x => { x.OrdenProcesoId = this.codeProcessOrder; })
-    }
+  
     const request = {
-      OrdenProcesoId: form.idOrdenProceso ? form.idOrdenProceso : 0,
+      OrdenProcesoPlantaId: form.codeProcessOrder ? form.codeProcessOrder : 0,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
-      OrganizacionId: this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId,
-      EmpresaProcesadoraId: form.idDestino ? form.idDestino : 0,
+      OrganizacionId: form.organizacionId ? form.organizacionId : 0,
       TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
-      ContratoId: form.idContrato ? form.idContrato : 0,
-      Numero: form.nroOrden ? form.nroOrden : '',
+      OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : 0,
+      TipoCertificacionId: form.certificacion ? form.certificacion : 0,
+      EntidadCertificadoraId: form.certificadora ? form.certificadora : 0,
+      ProductoId: form.producto ? form.producto : 0,
+      SubProductoId: form.subProducto ? form.subProducto : 0,
+      ProductoIdTerminado: form.productoTerminado ? form.productoTerminado : 0,
+      SubProductoIdTerminado: form.subProductoTerminado ? form.subProductoTerminado : 0,
+      TipoProduccionId: form.tipoProduccion ? form.tipoProduccion : 0,
+      EmpaqueId: form.empaque ? form.empaque : 0,
+      TipoId: form.tipo ? form.tipo : 0,
+      CalidadId: form.calidad ? form.calidad : 0,
+      GradoId: form.grado ? form.grado : 0,
+      TotalSacos:  0,
+      PesoPorSaco: form.pesoSaco ? form.pesoSaco : 0,
+      PesoKilos: form.totalKilosBrutos ? form.totalKilosBrutos : 0,
+      CantidadContenedores: form.cantidadContenedores ? form.cantidadContenedores : 0,
+      CantidadDefectos: form.cantidadDefectos ? form.cantidadDefectos : 0,
+      FechaInicioProceso: form.fechaFin ? form.fechaFin : '',
+      FechaFinProceso: form.fechaFin ? form.fechaFin : '',
       Observacion: form.observaciones ? form.observaciones : '',
-      RendimientoEsperadoPorcentaje: form.porcenRendimiento ? form.porcenRendimiento : 0,
-      FechaFinProceso: form.fecFinProcesoPlanta ? form.fecFinProcesoPlanta : '',
-      CantidadContenedores: form.cantContenedores ? form.cantContenedores : 0,
       EstadoId: '01',
-      UsuarioRegistro: this.userSession.Result.Data.NombreUsuario,
-      OrdenProcesoDetalle: this.rowsDetails.filter(x => x.NroNotaIngresoPlanta
-        && x.FechaNotaIngresoPlanta && x.RendimientoPorcentaje
-        && x.HumedadPorcentaje && x.CantidadSacos && x.KilosBrutos
-        && x.Tara && x.KilosNetos)
+      Usuario: this.userSession.Result.Data.NombreUsuario,
+      OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoPlantaId)
     }
     return request;
   }
 
   Save(): void {
     if (!this.ordenProcesoEditForm.invalid) {
-      if (this.ValidateDataDetails() <= 0) {
+      if (this.ValidateDataDetails() > 0) {
         const form = this;
         if (this.codeProcessOrder <= 0) {
           swal.fire({
@@ -485,7 +494,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
     const file = this.ordenProcesoEditForm.value.file;
-    this.ordenProcesoService.Create(file, request).subscribe((res: any) => {
+    this.ordenProcesoServicePlanta.Create(file, request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se registro exitosamente.', () => {
@@ -506,7 +515,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
     const file = this.ordenProcesoEditForm.value.file;
-    this.ordenProcesoService.Update(file, request).subscribe((res: any) => {
+    this.ordenProcesoServicePlanta.Update(file, request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se actualizo exitosamente.', () => {
@@ -533,7 +542,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   SearchByid(): void {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
-    this.ordenProcesoService.SearchById(this.codeProcessOrder).subscribe((res) => {
+    this.ordenProcesoServicePlanta.ConsultarPorId(this.codeProcessOrder).subscribe((res) => {
       if (res.Result.Success) {
         this.AutocompleteFormEdit(res.Result.Data);
       } else {
@@ -700,11 +709,11 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   ValidateDataDetails(): number {
     let result = [];
-    result = this.rowsDetails.filter(x => !x.NroNotaIngresoPlanta
-      || !x.FechaNotaIngresoPlanta || !x.RendimientoPorcentaje
-      || !x.HumedadPorcentaje || !x.CantidadSacos || !x.KilosBrutos
-      || !x.Tara || !x.KilosNetos)
-
+   /*  result = this.rowsLotesDetalle.filter(x => !x.NotaIngresoPlantaId
+      || !x.FechaRegistro || !x.RendimientoPorcentaje
+      || !x.HumedadPorcentaje)
+ */
+      result = this.rowsDetails.filter(x => x.NotaIngresoPlantaId)
     return result.length;
   }
 
@@ -713,6 +722,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   compareFechas() {
+    /*
     var anioFechaInicio = new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value).getFullYear()
     var anioFechaFin = new Date(this.ordenProcesoEditForm.controls['fechaFin'].value).getFullYear()
     if (new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value) > new Date(this.ordenProcesoEditForm.controls['fechaFin'].value)) {
@@ -724,9 +734,11 @@ export class OrdenProcesoEditComponent implements OnInit {
     } else {
       this.errorFecha = { isError: false, errorMessage: '' };
     }
+    */
   }
   
   compareTwoDates() {
+    /*
     var anioFechaInicio = new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value).getFullYear()
     var anioFechaFin = new Date(this.ordenProcesoEditForm.controls['fechaFin'].value).getFullYear()
 
@@ -739,6 +751,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     } else {
       this.error = { isError: false, errorMessage: '' };
     }
+    */
   }
   
   cargarDatos(detalle: any) {
@@ -848,7 +861,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.KilosNetosPesado = data.KilosNetos
       this.listaNotaIngreso.push(object);
       this.tempDataLoteDetalle = this.listaNotaIngreso;
-      this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+      this.rowsDetails = [...this.tempDataLoteDetalle];
       this.spinner.hide();
       this.modalService.dismissAll();     
     }
