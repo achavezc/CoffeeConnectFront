@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { OrdenProcesoService } from '../../../../../../services/ordenproceso.service';
+import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
@@ -18,7 +18,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 export class OrdenProcesoListComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private dateUtil: DateUtil,
-    private ordenProcesoService: OrdenProcesoService,
+    private OrdenProcesoServicePlanta: OrdenProcesoServicePlanta,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
@@ -152,7 +152,7 @@ export class OrdenProcesoListComponent implements OnInit {
     if (!this.ordenProcesoform.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
       const request = this.getRequest();
-      this.ordenProcesoService.Consultar(request).subscribe((res: any) => {
+      this.OrdenProcesoServicePlanta.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
