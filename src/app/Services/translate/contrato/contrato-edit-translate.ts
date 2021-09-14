@@ -7,6 +7,7 @@ export class ContratoEditTraduccion
     SubTitle2 = "CONTRATO.EDIT.SubTitle2";
     Courier = "CONTRATO.EDIT.Courier";
     NumTracking = "CONTRATO.EDIT.NumTracking" ;
+    Exportador = "CONTRATO.EDIT.Exportador" ;   
     EstadoMuestra = "CONTRATO.EDIT.EstadoMuestra";
     SubTitle3 = "CONTRATO.EDIT.SubTitle3";
     Button  = "CONTRATO.EDIT.Button";
