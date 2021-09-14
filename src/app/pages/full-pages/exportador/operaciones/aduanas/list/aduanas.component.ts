@@ -10,6 +10,8 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { AduanaService } from '../../../../../../services/aduanas.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { formatDate } from '@angular/common';
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 
 @Component({
   selector: 'app-aduanas',
@@ -26,7 +28,8 @@ export class AduanasComponent implements OnInit {
     private alertUtil: AlertUtil,
     private aduanaService: AduanaService,
     private router: Router,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private excelService: ExcelService,) {
   }
 
   aduanasForm: FormGroup;
@@ -168,8 +171,30 @@ export class AduanasComponent implements OnInit {
   onSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
-
-  Buscar(): void {
+  exportar(): void {
+    this.spinner.show();
+    const form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `¿Está seguro de exportar la información mostrada?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        form.Buscar(true);
+        form.spinner.hide();
+      }
+    });
+  }
+  Buscar(xls = false): void {
     if (this.aduanasForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -196,6 +221,7 @@ export class AduanasComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (!res.Result.ErrCode) {
+              if (!xls) {
               res.Result.Data.forEach((obj: any) => {
                 obj.MesEmbarque = formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
                 obj.FechaEmbarque = this.dateUtil.formatDate(new Date(obj.FechaEmbarque));
@@ -212,6 +238,75 @@ export class AduanasComponent implements OnInit {
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
+            }
+            else
+            {
+              const vArrHeaderExcel = [
+                new HeaderExcel("Numero", "center"),
+                new HeaderExcel("N° Contrato"),
+                new HeaderExcel("Estado", "center"),
+                new HeaderExcel("RUC Ag. Aduanera"),
+                new HeaderExcel("Ag. Aduanas"),
+                new HeaderExcel("Exportador"),
+                new HeaderExcel("Cliente Final", "center"),
+                new HeaderExcel("Productor"),
+                new HeaderExcel("Contrato Interno (Productor)"),
+                new HeaderExcel("Mes de Embarque"),
+                new HeaderExcel("Certificacion"),
+                new HeaderExcel("Calidad"),
+                new HeaderExcel("Cantidad de Defectos"),
+                new HeaderExcel("Nro. de Contenedor"),
+                new HeaderExcel("Cantidad"),
+                new HeaderExcel("Empaque/Tipo"),
+                new HeaderExcel("Fecha Envio Muestras"),
+                new HeaderExcel("Estado de Envio"),
+                new HeaderExcel("Fecha Recepcion en Destino"),
+                new HeaderExcel("Fecha Estampado"),
+                new HeaderExcel("Fecha de Embarque Planta"),
+                new HeaderExcel("Fecha Zarpe Nave"),
+                new HeaderExcel("Puerto"),
+                new HeaderExcel("Status Embarque"),
+                new HeaderExcel("Fec. Envio Documentos"),
+                new HeaderExcel("Fec. Llegada Documentos"),
+                new HeaderExcel("Status Pago Factura"),
+                new HeaderExcel("Fec. Pago Factura")
+              ];
+  
+              let vArrData: any[] = [];
+              this.tempData.forEach((x: any) => vArrData.push([
+                x.Numero, 
+                x.NumeroContrato, 
+                x.Estado, 
+                x.RucEmpresaAgenciaAduanera, 
+                x.RazonSocialEmpresaAgenciaAduanera, 
+                x.RazonSocialEmpresaExportadora,
+                x.RazonSocialCliente,
+                x.RazonSocialEmpresaProductora,
+                x.NumeroContratoInternoProductor,
+                x.MesEmbarque,
+                x.TipoCertificacion,
+                x.Calidad,
+                x.PreparacionCantidadDefectos,
+                x.NumeroContenedores,
+                x.TotalSacos,
+                x.EmpaqueTipo,
+                x.FechaEnvioMuestra,
+                x.EstadoMuestra,
+                x.FechaRecepcionMuestra,
+                x.FechaEstampado,
+                x.FechaEmbarque,
+                x.FechaZarpeNave,
+                x.Puerto,
+                x.EstadoSeguimientoDescripcion,
+                x.FechaEnvioDocumentos,
+                x.FechaLlegadaDocumentos,
+                x.EstadoPagoFactura,
+                x.FechaPagoFactura
+              
+              ]));
+              this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Aduanas');
+
+            }
             } else if (res.Result.Message && res.Result.ErrCode) {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
