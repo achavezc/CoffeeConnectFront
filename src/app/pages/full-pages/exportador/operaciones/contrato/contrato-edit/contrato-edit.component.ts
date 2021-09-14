@@ -36,6 +36,9 @@ export class ContratoEditComponent implements OnInit {
   login: ILogin;
   contratoEditForm: FormGroup;
   listCondicionEmbarque = [];
+  listEstadoPagoFactura = [];
+  
+
   listPaises = [];
   listCiudades = [];
   listProductos = [];
@@ -59,6 +62,7 @@ export class ContratoEditComponent implements OnInit {
   listInvoiceIn = [];
   listFixationState: [];
   selectedCondEmbarque: any;
+  selectedEstadoPagoFactura: any;
   selectedPais: any;
   selectedCiudad: any;
   selectedProducto: any;
@@ -140,7 +144,9 @@ export class ContratoEditComponent implements OnInit {
       cliente: [, Validators.required],
       floId: [, Validators.required],
       condicionEmbarque: [, Validators.required],
+      estadoPagoFactura: [],
       fechaEmbarque: [],
+      fechaPagoFactura: [],
       // fechaFactExp: [],
       pais: [],
       ciudad: [],
@@ -218,6 +224,7 @@ export class ContratoEditComponent implements OnInit {
     this.GetMeasurementUnit();
     this.GetCalculations();
     this.GetPackaging();
+    this.GetEstadoPagoFactura();
     this.GetQuality();
     this.GetProductionType();
     this.GetPackagingType();
@@ -247,6 +254,14 @@ export class ContratoEditComponent implements OnInit {
     const res = await this.maestroService.obtenerMaestros('CondicionEmbarque').toPromise();
     if (res.Result.Success) {
       this.listCondicionEmbarque = res.Result.Data;
+    }
+  }
+
+  async GetEstadoPagoFactura() {
+    this.listEstadoPagoFactura = [];
+    const res = await this.maestroService.obtenerMaestros('EstadoPagoFactura').toPromise();
+    if (res.Result.Success) {
+      this.listEstadoPagoFactura = res.Result.Data;
     }
   }
 
@@ -451,6 +466,8 @@ export class ContratoEditComponent implements OnInit {
       FloId: form.floId ? form.floId.toString() : '',
       CondicionEmbarqueId: form.condicionEmbarque ? form.condicionEmbarque : '',
       FechaEmbarque: form.fechaEmbarque ? form.fechaEmbarque : '',
+      EstadoPagoFacturaId: form.estadoPagoFactura ? form.estadoPagoFactura : '',
+      FechaPagoFactura: form.fechaPagoFactura ? form.fechaPagoFactura : '',
       FechaContrato: form.fechaContrato ? form.fechaContrato : '',
       // FechaFacturacion: form.fechaFactExp ? form.fechaFactExp : '',
       FechaFacturacion: null,
@@ -650,6 +667,15 @@ export class ContratoEditComponent implements OnInit {
         await this.GetShipmentCondition();
         this.contratoEditForm.controls.condicionEmbarque.setValue(data.CondicionEmbarqueId);
       }
+
+      if (data.EstadoPagoFacturaId) {
+        await this.GetEstadoPagoFactura();
+        this.contratoEditForm.controls.estadoPagoFactura.setValue(data.EstadoPagoFacturaId);
+      }
+
+      if (data.FechaPagoFactura)
+        this.contratoEditForm.controls.fechaPagoFactura.setValue(data.FechaPagoFactura.substring(0, 10));
+
       if (data.FechaEmbarque)
         this.contratoEditForm.controls.fechaEmbarque.setValue(data.FechaEmbarque.substring(0, 10));
       if (data.FechaContrato)
