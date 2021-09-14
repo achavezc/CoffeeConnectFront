@@ -10,6 +10,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
+import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ContratoService } from '../../../../../../services/contrato.service';
 import { host } from '../../../../../../shared/hosts/main.host';
@@ -32,6 +33,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private empresaService: EmpresaService,
+    private notaIngresoService: NotaIngresoService,
     private contratoService: ContratoService) { }
 
 
@@ -81,7 +83,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   listaNotaIngreso = [];
   private tempDataLoteDetalle = [];
   filtrosLotesID: any = {};
-
+  detalle: any;
 
 
   ngOnInit(): void {
@@ -758,7 +760,8 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
   }
   agregarNotaIngreso(e) {
-
+    this.obtenerDetalleNotaIngreso(e[0].NotaIngresoPlantaId);
+    /*
     var listFilter=[];
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == e[0].NotaIngresoPlantaId);
       if (listFilter.length == 0)
@@ -783,9 +786,77 @@ export class OrdenProcesoEditComponent implements OnInit {
       else 
       {
         this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroNotaIngresoAlmacenPlanta + ".");
-      }
+      }}*/
+  }
+  obtenerDetalleNotaIngreso(id) {
+    this.spinner.show();
+    this.notaIngresoService.ConsultarPorId(Number(id))
+      .subscribe(res => {
+
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.detalle = res.Result.Data;
+            if (this.detalle != null) {
+             this.agregarNotaIngresoGrilla(res.Result.Data);
+            } else {
+              this.spinner.hide();
+              this.modalService.dismissAll();
+            }
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, msgError: res.Result.Message };
+            this.modalService.dismissAll();
+          } else {
+            this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+            this.modalService.dismissAll();
+          }
+        } else {
+          this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+          this.modalService.dismissAll();
+        }
+      },
+        err => {
+          this.spinner.hide();
+          this.modalService.dismissAll();
+          console.log(err);
+          this.errorGeneral = { isError: false, msgError: this.msgErrorGenerico };
+        }
+      );
   }
 
+  agregarNotaIngresoGrilla(data){
+    var listFilter=[];
+    listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == data.NotaIngresoPlantaId);
+    if (listFilter.length == 0)
+    {
+      this.filtrosLotesID.NotaIngresoPlantaId = Number(data.NotaIngresoPlantaId);
+      let object: any = {};
+      object.NotaIngresoPlantaId = data.NotaIngresoPlantaId
+      object.NumeroGuiaRemision = data.NumeroGuiaRemision
+      object.NumeroIngresoPlanta = data.Numero 
+      object.FechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/")
+      object.RendimientoPorcentaje = data.RendimientoPorcentaje 
+      object.HumedadPorcentaje=  data.HumedadPorcentaje
+      
+      object.PorcentajeExportable=  data.ExportablePorcentajeAnalisisFisico
+      object.PorcentajeDescarte=  data.DescartePorcentajeAnalisisFisico
+      object.PorcentajeCascarilla=  data.CascarillaPorcentajeAnalisisFisico
+      object.KilosExportables =Number( data.KilosNetos * data.ExportablePorcentajeAnalisisFisico);
+      object.SacosCalculo =Number( object.KilosExportables / 69);
+      object.CantidadPesado =  data.Cantidad  
+      object.KilosBrutosPesado =  data.KilosBrutos
+      object.TaraPesado =  data.Tara
+      object.KilosNetosPesado = data.KilosNetos
+      this.listaNotaIngreso.push(object);
+      this.tempDataLoteDetalle = this.listaNotaIngreso;
+      this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+      this.spinner.hide();
+      this.modalService.dismissAll();     
+    }
+    else 
+    {
+      this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroNotaIngresoAlmacenPlanta + ".");
+    }
+  }
 
   eliminarLote(select) {
     let form = this;
