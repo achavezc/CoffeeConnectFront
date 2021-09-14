@@ -208,6 +208,7 @@ export class AduanasComponent implements OnInit {
                 obj.FechaEnvioDocumentos = formatDate(obj.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en');
                 obj.FechaLlegadaDocumentos = formatDate(obj.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en');
                 obj.FechaPagoFactura = formatDate(obj.FechaPagoFactura, 'yyyy-MM-dd', 'en');
+                obj.FechaEstampado = formatDate(obj.FechaEstampado, 'yyyy-MM-dd', 'en');
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
