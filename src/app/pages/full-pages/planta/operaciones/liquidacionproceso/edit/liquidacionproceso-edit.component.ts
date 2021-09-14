@@ -13,7 +13,7 @@ import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ReqLiquidacionProceso, LiquidacionProcesoPlantaDetalle, LiquidacionProcesoPlantaResultado } from '../../../../../../services/models/req-liquidacion-proceso';
 import { host } from '../../../../../../shared/hosts/main.host';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import {OrdenProcesoService} from '../../../../../../services/ordenproceso.service';
+import {OrdenProcesoServicePlanta} from '../../../../../../Services/orden-proceso-planta.service';
 import{LiquidacionProcesoPlantaService} from '../../../../../../services/liquidacionproceso-planta.service';
 
 @Component({
@@ -69,7 +69,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     private dateUtil: DateUtil,
     private empresaService: EmpresaService,
     private maestroUtil: MaestroUtil,
-    private ordenProcesoService : OrdenProcesoService,
+    private ordenProcesoService : OrdenProcesoServicePlanta,
     private liquidacionProcesoPlantaService : LiquidacionProcesoPlantaService
   ) {
 

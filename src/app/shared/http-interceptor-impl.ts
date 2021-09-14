@@ -24,6 +24,7 @@ export class HttpInterceptorImpl implements HttpInterceptor {
     if(req.url.includes("/SocioFincaCertificacion/Registrar") 
     || req.url.includes("/SocioFincaCertificacion/DescargarArchivo")
     || req.url.includes("/FincaMapa/Registrar")
+    || req.url.includes("/OrdenProceso/Registrar")
     ){
       contenType = 'multipart/form-data'
     }
