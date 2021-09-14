@@ -296,7 +296,7 @@
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Nro. Contenedores</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="numeroContenedores"
-                                    class="form-control" placeholder="Marca"
+                                    class="form-control" placeholder="Nro. Contenedores"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.numeroContenedores.invalid, 'is-valid': submittedEdit && !fedit.numeroContenedores.invalid }">
                             
                             </div>
@@ -314,8 +314,13 @@
                             </div>
                             <div class="col-12 col-md-4">
                             <label for="embarqueStatus">Status de Embarque</label>
-                            <input type="text" class="form-control" id="basicInput" formControlName="embarqueStatus"
-                                    disabled class="form-control">
+                            <ng-select [items]="listEstadoEmbarque" formControlName="embarqueStatus"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="embarqueStatus"
+                                    placeholder="Seleccionar Estado de Embarque"
+                                    [ngClass]="{ 'is-invalid': submitted && fedit.embarqueStatus.invalid, 'is-valid': submitted && !fedit.embarqueStatus.invalid }"
+                                    [(ngModel)]="selectEstadoEmbarque">
+                                </ng-select>
+                           
                                 
                             </div> 
                             <div class="col-12 col-md-4">

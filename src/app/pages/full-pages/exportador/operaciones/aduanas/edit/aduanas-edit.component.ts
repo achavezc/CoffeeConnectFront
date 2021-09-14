@@ -29,7 +29,6 @@ export class AduanasEditComponent implements OnInit {
 
   login: ILogin;
   aduanasFormEdit: FormGroup;
-  listaEmbarqueStatus: any[];
   selectEstado: any;
   submittedEdit = false;
   submitted = false;
@@ -37,9 +36,10 @@ export class AduanasEditComponent implements OnInit {
   numero: any = "";
   fechaRegistro: any;
   esEdit = false;
-  listaLaboratorios: any[];
+  
   listaEstado: any[];
-  selectLaboratorio: any;
+  listEstadoEmbarque: any[];
+  selectEstadoEmbarque: any;
   rows = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
   selectEmpresa: any[] = [];
@@ -164,6 +164,17 @@ export class AduanasEditComponent implements OnInit {
           console.error(err);
         }
       );
+
+      this.maestroService.obtenerMaestros("EstadoSeguimientoAduana")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listEstadoEmbarque = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
   }
 
   receiveMessage($event) {
@@ -205,7 +216,7 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('floid').setValue(this.selectContrato[0].FloId);
     this.aduanasFormEdit.get('mesEmbarque').setValue(formatDate(this.selectContrato[0].FechaEmbarque, 'MM/yyyy', 'en'));
     this.aduanasFormEdit.get('statusPagoFactura').setValue(this.selectContrato[0].EstadoPagoFactura);
-    this.aduanasFormEdit.get('fechaPagoFactura').setValue(formatDate(this.selectContrato[0].EstadoPagoFactura, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaPagoFactura').setValue(formatDate(this.selectContrato[0].FechaPagoFactura, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('certificacion').setValue(this.selectContrato[0].TipoCertificacion);
     this.aduanasFormEdit.get('cantidadDefectos').setValue(this.selectContrato[0].PreparacionCantidadDefectos);
     
@@ -443,6 +454,7 @@ export class AduanasEditComponent implements OnInit {
         Number(this.selectContrato[0].ContratoId),
         Number(this.selectExportador[0].EmpresaProveedoraAcreedoraId),
         Number(this.selectProductor[0].EmpresaProveedoraAcreedoraId),
+        this.aduanasFormEdit.get('courier').value,
         this.login.Result.Data.EmpresaId,
         this.numero,
         this.aduanasFormEdit.get('marca').value,
@@ -454,7 +466,7 @@ export class AduanasEditComponent implements OnInit {
         this.aduanasFormEdit.get('fechaRecepcion').value ? this.aduanasFormEdit.get('fechaRecepcion').value : null,
         this.aduanasFormEdit.get('naviera').value,
         this.aduanasFormEdit.get('observacion').value,
-        this.aduanasFormEdit.get('courier').value,
+       
         listCertificaciones,
         this.aduanasFormEdit.get('fechaEmbarque').value,
         this.aduanasFormEdit.get('fechaFac').value,

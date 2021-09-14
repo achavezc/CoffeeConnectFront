@@ -4,6 +4,7 @@ export class ReqAduanas {
         ContratoId: number,
         EmpresaExportadoraId: number,
         EmpresaProductoraId: number,
+        Courier: string,
         EmpresaId: number,
         Numero: string,
         Marca: string,
@@ -15,7 +16,7 @@ export class ReqAduanas {
         FechaRecepcionMuestra: Date,
         NavieraId: string,
         Observacion: string,
-        Courier: string,
+        
         Certificaciones: Certificaciones[],
         FechaEmbarque: Date,
         FechaFacturacion: Date,
@@ -34,6 +35,7 @@ export class ReqAduanas {
         this.ContratoId = ContratoId;
         this.EmpresaExportadoraId = EmpresaExportadoraId;
         this.EmpresaProductoraId = EmpresaProductoraId;
+        this.Courier = Courier;
         this.EmpresaId = EmpresaId;
         this.Marca = Marca;
         this.PO = PO;
@@ -58,6 +60,7 @@ export class ReqAduanas {
     ContratoId: number;
     EmpresaExportadoraId: number;
     EmpresaProductoraId: number;
+    Courier: string;
     EmpresaId: number;
     Numero: string;
     Marca: string;
@@ -69,7 +72,6 @@ export class ReqAduanas {
     FechaRecepcionMuestra: Date;
     NavieraId: string;
     Observacion: string;
-    Courier: string;
     Certificaciones: Certificaciones[];
     FechaEmbarque: Date;
     FechaFacturacion: Date;
