@@ -56,7 +56,7 @@
                             <div class="form-row">
                                 <div class="col-md-5 mb-4 form-group mb-2">
                                     <label for="agenciaAduanera" class="form-label">Agencia Aduanera </label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="agenciaAduanera"
+                                    <input type="text" formControlName="agenciaAduanera"
                                         class="form-control" id="agenciaAduanera" placeholder="Codigo"
                                         [ngClass]="{ 'is-invalid': submitted && f.agenciaAduanera.invalid, 'is-valid': submitted &&  !f.agenciaAduanera.invalid }" disabled>
                                 </div>
@@ -73,7 +73,7 @@
                             </div>
                                 <div class="col-md-5 mb-4 form-group mb-2">
                                     <label for="clienteFinal" class="form-label">Cliente Final </label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="clienteFinal"
+                                    <input type="text" formControlName="clienteFinal"
                                         class="form-control" id="clienteFinal" placeholder="Codigo"
                                         [ngClass]="{ 'is-invalid': submitted && f.clienteFinal.invalid, 'is-valid': submitted &&  !f.clienteFinal.invalid }" disabled>
                                 </div>
@@ -108,7 +108,7 @@
                             <div class="form-row">
                                 <div class="col-md-5 mb-4 form-group mb-2">
                                     <label for="exportador" class="form-label">Exportador </label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="exportador"
+                                    <input type="text"  formControlName="exportador"
                                         class="form-control" id="agenciaAduanera" placeholder="Exportador"
                                         [ngClass]="{ 'is-invalid': submitted && f.exportador.invalid, 'is-valid': submitted &&  !f.exportador.invalid }" disabled>
                                 </div>
@@ -124,7 +124,7 @@
                             </div>
                                 <div class="col-md-5 mb-4 form-group mb-2">
                                     <label for="clienteFinal" class="form-label"> Productor </label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="productor"
+                                    <input type="text" formControlName="productor"
                                         class="form-control" id="clienteFinal" placeholder="Productor"
                                         [ngClass]="{ 'is-invalid': submitted && f.clienteFinal.invalid, 'is-valid': submitted &&  !f.clienteFinal.invalid }" disabled>
                                 </div>
