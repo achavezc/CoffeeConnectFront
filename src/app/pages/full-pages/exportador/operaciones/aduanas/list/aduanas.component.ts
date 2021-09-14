@@ -9,6 +9,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { AduanaService } from '../../../../../../services/aduanas.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-aduanas',
@@ -46,26 +47,29 @@ export class AduanasComponent implements OnInit {
   selectExportador: any[] = [];
   selectProductor: any[] = [];
   selectContrato: any[] = [];
+  selectEmpresa: any[] = [];
   popUp = true;
 
   ngOnInit(): void {
     this.LoadForm();
-
     this.aduanasForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.aduanasForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
+  close() {
+    this.modalService.dismissAll();
+  }
   async LoadForm() {
     this.aduanasForm = this.fb.group({
       numeroContrato: [''],
-      codigo: [''],
       ruc: [''],
+      codigo: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
       estado: ['', [Validators.required]],
-      agenciaAduanera: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      clienteFinal: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      agenciaAduanera: ['', []],
+      clienteFinal: ['', []],
       exportador: [''],
       productor: ['']
     });
@@ -73,29 +77,28 @@ export class AduanasComponent implements OnInit {
     await this.LoadCombos();
   }
 
+  receiveMessage($event) {
+    this.selectEmpresa = $event
+    this.aduanasForm.get('agenciaAduanera').setValue(this.selectEmpresa[0].RazonSocial);
+    this.aduanasForm.get('ruc').setValue(this.selectEmpresa[0].Ruc);
+    this.modalService.dismissAll();
+  }
+
   receiveMessageContrato($event) {
     this.selectContrato = $event;
-    
-    this.aduanasForm.get('clientefinal').setValue(this.selectContrato[0].Cliente);
-    
-    
-    
+    this.aduanasForm.get('clienteFinal').setValue(this.selectContrato[0].Cliente);
     this.modalService.dismissAll();
   }
 
   receiveMessageExportador($event) {
-
     this.selectExportador = $event
-    
     this.aduanasForm.get('exportador').setValue(this.selectExportador[0].RazonSocial);
-   
     this.modalService.dismissAll();
   }
 
   receiveMessageProductor($event) {
     this.selectProductor = $event
     this.aduanasForm.get('productor').setValue(this.selectProductor[0].RazonSocial);
-   
     this.modalService.dismissAll();
   }
 
@@ -104,8 +107,6 @@ export class AduanasComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("EstadoAduana", function (res) {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
-
-
       }
     });
 
@@ -177,16 +178,15 @@ export class AduanasComponent implements OnInit {
       let request = {
         Numero: this.aduanasForm.value.codigo,
         NumeroContrato: this.aduanasForm.value.numeroContrato,
-        RucEmpresaExportadora: this.aduanasForm.value.ruc,
-        RazonSocial: this.aduanasForm.value.razonSocial,
+        RazonSocialCliente: this.aduanasForm.value.clienteFinal,
+        RazonSocialEmpresaAgenciaAduanera: this.aduanasForm.value.agenciaAduanera,
+        RucEmpresaAgenciaAduanera: this.aduanasForm.value.ruc,
+        RazonSocialEmpresaExportadora: this.aduanasForm.value.exportador,
+        RazonSocialEmpresaProductora: this.aduanasForm.value.productor,
         FechaInicio: new Date(this.aduanasForm.value.fechaInicio),
         FechaFin: new Date(this.aduanasForm.value.fechaFin),
-        RazonSocialEmpresaExportadora: this.aduanasForm.value.agenciaAduanera,
-        RazonSocialCliente: this.aduanasForm.value.clienteFinal,
-
         EstadoId: this.aduanasForm.controls["estado"].value ?? '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
-
       };
 
       this.spinner.show();
@@ -197,7 +197,17 @@ export class AduanasComponent implements OnInit {
           if (res.Result.Success) {
             if (!res.Result.ErrCode) {
               res.Result.Data.forEach((obj: any) => {
+                obj.MesEmbarque = formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
                 obj.FechaEmbarque = this.dateUtil.formatDate(new Date(obj.FechaEmbarque));
+                obj.EmpaqueTipo = obj.Empaque + '-' + obj.TipoEmpaque;
+                obj.FechaEnvioMuestra = formatDate(obj.FechaEnvioMuestra, 'yyyy-MM-dd', 'en');
+                obj.FechaRecepcionMuestra = formatDate(obj.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en');
+                obj.FechaRecepcionMuestra = formatDate(obj.FechaEstampado, 'yyyy-MM-dd', 'en');
+                obj.FechaEmbarque = formatDate(obj.FechaEmbarque, 'yyyy-MM-dd', 'en');
+                obj.FechaZarpeNave = formatDate(obj.FechaZarpeNave, 'yyyy-MM-dd', 'en');
+                obj.FechaEnvioDocumentos = formatDate(obj.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en');
+                obj.FechaLlegadaDocumentos = formatDate(obj.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en');
+                obj.FechaPagoFactura = formatDate(obj.FechaPagoFactura, 'yyyy-MM-dd', 'en');
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
