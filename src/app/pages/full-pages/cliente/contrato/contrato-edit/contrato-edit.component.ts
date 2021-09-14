@@ -82,6 +82,8 @@ export class ContratoEditComponent implements OnInit {
         numeroTracking: ['',],
         estado: ['',],
         fechaEmbarque: ['',],
+        fechaEnvioDocumentos: ['',],
+        fechaLlegadaDocumentos: ['',],
         exportador: ['',],
         estadoPlanta: ['',],
         productor: ['',],
@@ -159,6 +161,17 @@ export class ContratoEditComponent implements OnInit {
     {
       this.contratoFormEdit.controls["fechaEmbarque"].setValue(this.dateUtil.formatDate(new Date(data.FechaEmbarque)));
     }
+
+    if (data.FechaEnvioDocumentos)
+    {
+      this.contratoFormEdit.controls["fechaEnvioDocumentos"].setValue(this.dateUtil.formatDate(new Date(data.FechaEnvioDocumentos)));
+    }
+
+    if (data.FechaLlegadaDocumentos)
+    {
+      this.contratoFormEdit.controls["fechaLlegadaDocumentos"].setValue(this.dateUtil.formatDate(new Date(data.FechaLlegadaDocumentos)));
+    }
+
     
     this.contratoFormEdit.controls["exportador"].setValue(data.RazonSocialEmpresaExportadora);
     this.contratoFormEdit.controls["estadoPlanta"].setValue(data.EstadoSeguimiento);

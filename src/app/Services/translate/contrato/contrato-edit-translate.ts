@@ -12,7 +12,9 @@ export class ContratoEditTraduccion
     Button  = "CONTRATO.EDIT.Button";
     FechaEmbarque = "CONTRATO.EDIT.FechaEmbarque";
     SubTitle4 = "CONTRATO.EDIT.SubTitle4";
-    Exportador = "CONTRATO.EDIT.Exportador";
+    SubTitle5 = "CONTRATO.EDIT.SubTitle5";
+    FechaEnvioDocumentos = "CONTRATO.EDIT.FechaEnvioDocumentos";
+    FechaLlegadaDocumentos = "CONTRATO.EDIT.FechaLlegadaDocumentos";
     Estado = "CONTRATO.EDIT.Estado";
     Productor = "CONTRATO.EDIT.Productor";
     Producto = "CONTRATO.EDIT.Producto";

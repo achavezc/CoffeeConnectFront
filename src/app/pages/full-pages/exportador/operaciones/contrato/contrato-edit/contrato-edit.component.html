@@ -117,7 +117,7 @@
                                         [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-                                <label for="fechaContrato" class="col-lg-2 col-form-label">FEC. CONTRATO</label>
+                                <label for="fechaContrato" class="col-lg-2 col-form-label">FECHA CONTRATO</label>
                                 <div class="col-lg-3">
                                     <input type="date" class="form-control text-center" formControlName="fechaContrato"
                                         id="fechaContrato" date name="fechaContrato" placeholder="Fecha de contrato"
@@ -180,7 +180,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="fechaEmbarque" class="col-lg-4 col-form-label pr-0">FEC. EMBARQUE</label>
+                                <label for="fechaEmbarque" class="col-lg-4 col-form-label pr-0">FECHA EMBARQUE</label>
                                 <div class="col-lg-8">
                                     <input type="date" class="form-control text-center" formControlName="fechaEmbarque"
                                         id="fechaEmbarque" date name="fechaEmbarque" placeholder="Fecha de embarque"
@@ -188,6 +188,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
                                 <label for="fechaFactExp" class="col-lg-4 col-form-label pr-0">FEC. FACT./EXP.</label>
@@ -198,6 +199,31 @@
                                 </div>
                             </div>
                         </div> -->
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group row">
+                                <label for="estadoPagoFactura" class="col-lg-3 col-form-label pr-0">STATUS PAGO FACTURA</label>
+                                <div class="col-lg-9">
+                                    <ng-select [items]="listEstadoPagoFactura" formControlName="estadoPagoFactura"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="estadoPagoFactura"
+                                        placeholder="Estatus Pago Factura"
+                                        [ngClass]="{ 'is-invalid': f.estadoPagoFactura.invalid, 'is-valid': !f.estadoPagoFactura.invalid }"
+                                        [(ngModel)]="selectedEstadoPagoFactura">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group row">
+                                <label for="fechaPagoFactura" class="col-lg-4 col-form-label pr-0">FECHA PAGO FACTURA</label>
+                                <div class="col-lg-8">
+                                    <input type="date" class="form-control text-center" formControlName="fechaPagoFactura"
+                                        id="fechaPagoFactura" date name="fechaPagoFactura" placeholder="Fecha de Pago Factura"
+                                        [ngClass]="{ 'is-invalid': f.fechaPagoFactura.invalid, 'is-valid': !f.fechaPagoFactura.invalid }" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
