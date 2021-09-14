@@ -1,29 +1,35 @@
 export class ReqAduanas {
     constructor(
+        EmpresaId: number,
         AduanaId: number,
+        Numero: string,
         ContratoId: number,
+        EmpresaAgenciaAduaneraId: number,
         EmpresaExportadoraId: number,
         EmpresaProductoraId: number,
-        Courier: string,
-        EmpresaId: number,
-        Numero: string,
+        NumeroContratoInternoProductor: string,
+        FechaEmbarque: Date,
+        FechaZarpeNave: Date,
+        FechaFacturacion: Date,
+        Puerto: string,
         Marca: string,
         PO: string,
-        LaboratorioId: string,
+        NumeroContenedores: number,
+        EstadoSeguimientoId: string,
+        FechaEstampado: Date,
         FechaEnvioMuestra: Date,
-        NumeroSeguimientoMuestra: string,
-        EstadoMuestraId: string,
         FechaRecepcionMuestra: Date,
-        NavieraId: string,
+        EstadoMuestraId: string,
+        Courier: string,
+        NumeroSeguimientoMuestra: string,
         Observacion: string,
-        
+        FechaEnvioDocumentos: Date,
+        FechaLlegadaDocumentos: Date,        
         Certificaciones: Certificaciones[],
-        FechaEmbarque: Date,
-        FechaFacturacion: Date,
-        Usuario: string,
-        EmpresaAgenciaAduaneraId: number,
+        
         Detalle: Detalle[],
-        EstadoSeguimientoId: string) {
+        Usuario: string
+        ) {
             
         if (AduanaId != 0) {
             this.AduanaId = AduanaId
@@ -31,54 +37,67 @@ export class ReqAduanas {
         if (Numero != "") {
             this.Numero = Numero
         }
-
+        this.EmpresaId = EmpresaId;
         this.ContratoId = ContratoId;
         this.EmpresaExportadoraId = EmpresaExportadoraId;
         this.EmpresaProductoraId = EmpresaProductoraId;
-        this.Courier = Courier;
-        this.EmpresaId = EmpresaId;
+        this.NumeroContratoInternoProductor = NumeroContratoInternoProductor;
+        this.FechaEmbarque = FechaEmbarque;
+        this.FechaZarpeNave = FechaZarpeNave;
+        this.FechaFacturacion = FechaFacturacion;
+        this.Puerto = Puerto;
         this.Marca = Marca;
         this.PO = PO;
-        this.LaboratorioId = LaboratorioId;
+        this.NumeroContenedores = NumeroContenedores;
+        this.EstadoSeguimientoId = EstadoSeguimientoId;
+        this.FechaEstampado = FechaEstampado;
+        this.FechaRecepcionMuestra = FechaRecepcionMuestra;
+        this.Courier = Courier;
         this.FechaEnvioMuestra = FechaEnvioMuestra;
         this.NumeroSeguimientoMuestra = NumeroSeguimientoMuestra;
         this.EstadoMuestraId = EstadoMuestraId;
         this.FechaRecepcionMuestra = FechaRecepcionMuestra;
-        this.NavieraId = NavieraId;
         this.Observacion = Observacion;
-        this.Courier = Courier;
+        this.FechaEnvioDocumentos = FechaEnvioDocumentos;
+        this.FechaLlegadaDocumentos = FechaLlegadaDocumentos;
         this.Certificaciones = Certificaciones;
-        this.FechaEmbarque = FechaEmbarque;
-        this.FechaFacturacion = FechaFacturacion;
         this.Usuario = Usuario;
         this.EmpresaAgenciaAduaneraId = EmpresaAgenciaAduaneraId;
         this.Detalle = Detalle;
-        this.EstadoSeguimientoId = EstadoSeguimientoId;
+        
     }
 
+    EmpresaId: number;
     AduanaId: number;
+    Numero: string;
     ContratoId: number;
+    EmpresaAgenciaAduaneraId: number;
     EmpresaExportadoraId: number;
     EmpresaProductoraId: number;
-    Courier: string;
-    EmpresaId: number;
-    Numero: string;
+    NumeroContratoInternoProductor: string;
+    FechaEmbarque: Date;
+    FechaZarpeNave: Date;
+    FechaFacturacion: Date;
+    Puerto: string;
     Marca: string;
     PO: string;
-    LaboratorioId: string;
+    NumeroContenedores: number
+    EstadoSeguimientoId: string;
+    FechaEstampado: Date;
     FechaEnvioMuestra: Date;
+    FechaRecepcionMuestra: Date;
+
+    Courier: string;
+    
     NumeroSeguimientoMuestra: string;
     EstadoMuestraId: string;
-    FechaRecepcionMuestra: Date;
-    NavieraId: string;
     Observacion: string;
-    Certificaciones: Certificaciones[];
-    FechaEmbarque: Date;
-    FechaFacturacion: Date;
-    Usuario: string;
-    EmpresaAgenciaAduaneraId: number;
+    FechaEnvioDocumentos :Date;
+    FechaLlegadaDocumentos :Date;
+    Certificaciones: Certificaciones[];    
+    Usuario: string;    
     Detalle: Detalle[];
-    EstadoSeguimientoId: string;
+    
 }
 
 export class Certificaciones {

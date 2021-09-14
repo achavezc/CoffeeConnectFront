@@ -354,10 +354,6 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('marca').setValue(data.Marca);
     this.aduanasFormEdit.get('po').setValue(data.PO);
 
-
-    
-    
-
     this.aduanasFormEdit.get('producto').setValue(data.Producto);
     this.aduanasFormEdit.get('subproducto').setValue(data.SubProducto);
     this.aduanasFormEdit.get('calidad').setValue(data.Calidad);
@@ -368,7 +364,7 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('numeroContenedores').setValue(data.NumeroContenedores);
     this.aduanasFormEdit.get('statusPagoFactura').setValue(data.EstadoPagoFactura);
     this.aduanasFormEdit.get('pesoxsaco').setValue(data.PesoPorSaco);
-    this.aduanasFormEdit.get('embarqueStatus').setValue(data.EstadoSeguimientoDescripcion);
+    this.aduanasFormEdit.get('embarqueStatus').setValue(data.EstadoSeguimientoId);
     this.aduanasFormEdit.get('fechaPagoFactura').setValue(formatDate(data.FechaPagoFactura, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('totalkilosnetos').setValue(data.PesoKilos);
     this.aduanasFormEdit.get('fechaEstampado').setValue(formatDate(data.FechaEstampado, 'yyyy-MM-dd', 'en'));
@@ -450,30 +446,34 @@ export class AduanasEditComponent implements OnInit {
         listCertificaciones.push(certificacion);
       });
       let request = new ReqAduanas(
-        Number(this.id),
-        Number(this.selectContrato[0].ContratoId),
-        Number(this.selectExportador[0].EmpresaProveedoraAcreedoraId),
-        Number(this.selectProductor[0].EmpresaProveedoraAcreedoraId),
-        this.aduanasFormEdit.get('courier').value,
         this.login.Result.Data.EmpresaId,
+        Number(this.id),
         this.numero,
+        Number(this.selectContrato[0].ContratoId),
+        Number(this.selectEmpresa.length == 0? 0 :this.selectEmpresa[0].EmpresaProveedoraAcreedoraId),
+        Number(this.selectExportador.length == 0 ? 0 :this.selectExportador[0].EmpresaProveedoraAcreedoraId),
+        Number(this.selectProductor.length == 0 ? 0 :this.selectProductor[0].EmpresaProveedoraAcreedoraId),
+        this.aduanasFormEdit.get('numeroContratoInternoProductor').value,
+        this.aduanasFormEdit.get('fechaEmbarque').value ==""? null:  this.aduanasFormEdit.get('fechaEmbarque').value,
+        this.aduanasFormEdit.get('fechaZarpeNave').value == ""? null: this.aduanasFormEdit.get('fechaZarpeNave').value,
+        this.aduanasFormEdit.get('fechaFac').value == "" ? null: this.aduanasFormEdit.get('fechaFac').value,
+        this.aduanasFormEdit.get('puerto').value,
         this.aduanasFormEdit.get('marca').value,
         this.aduanasFormEdit.get('po').value,
-        this.aduanasFormEdit.get('laboratorio').value,
-        this.aduanasFormEdit.get('fechaRecojo').value,
+        Number(this.aduanasFormEdit.get('numeroContenedores').value),
+        this.aduanasFormEdit.get('embarqueStatus').value,
+        this.aduanasFormEdit.get('fechaEstampado').value == ""? null : this.aduanasFormEdit.get('fechaEstampado').value,
+        this.aduanasFormEdit.get('fechaEnvio').value == "" ? null: this.aduanasFormEdit.get('fechaEnvio').value,
+        this.aduanasFormEdit.get('fechaRecepcion').value == "" ? null : this.aduanasFormEdit.get('fechaRecepcion').value,
+        this.aduanasFormEdit.get('estadoEnvio').value,
+        this.aduanasFormEdit.get('courier').value,
         this.aduanasFormEdit.get('trackingNumber').value,
-        this.aduanasFormEdit.get('estado').value,
-        this.aduanasFormEdit.get('fechaRecepcion').value ? this.aduanasFormEdit.get('fechaRecepcion').value : null,
-        this.aduanasFormEdit.get('naviera').value,
         this.aduanasFormEdit.get('observacion').value,
-       
+        this.aduanasFormEdit.get('fechaEnvioDocumentos').value == ""? null : this.aduanasFormEdit.get('fechaEnvioDocumentos').value,
+        this.aduanasFormEdit.get('fechaLlegadaDocumentos').value == "" ? null : this.aduanasFormEdit.get('fechaLlegadaDocumentos').value,        
         listCertificaciones,
-        this.aduanasFormEdit.get('fechaEmbarque').value,
-        this.aduanasFormEdit.get('fechaFac').value,
-        this.login.Result.Data.NombreUsuario,
-        Number(this.selectEmpresa[0].EmpresaProveedoraAcreedoraId),
         listDetalle,
-        this.aduanasFormEdit.value.customsTrackingStatus
+        this.login.Result.Data.NombreUsuario
       );
       let json = JSON.stringify(request);
       this.spinner.show(undefined,
