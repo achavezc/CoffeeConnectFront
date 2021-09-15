@@ -224,12 +224,10 @@ export class AduanasComponent implements OnInit {
               if (!xls) {
               res.Result.Data.forEach((obj: any) => {
                 obj.MesEmbarque = formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
-                obj.FechaEmbarque = this.dateUtil.formatDate(new Date(obj.FechaEmbarque));
+                obj.FechaEmbarque = formatDate(obj.FechaEmbarque, 'yyyy-MM-dd', 'en');
                 obj.EmpaqueTipo = obj.Empaque + '-' + obj.TipoEmpaque;
                 obj.FechaEnvioMuestra = formatDate(obj.FechaEnvioMuestra, 'yyyy-MM-dd', 'en');
                 obj.FechaRecepcionMuestra = formatDate(obj.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en');
-                obj.FechaRecepcionMuestra = formatDate(obj.FechaEstampado, 'yyyy-MM-dd', 'en');
-                obj.FechaEmbarque = formatDate(obj.FechaEmbarque, 'yyyy-MM-dd', 'en');
                 obj.FechaZarpeNave = formatDate(obj.FechaZarpeNave, 'yyyy-MM-dd', 'en');
                 obj.FechaEnvioDocumentos = formatDate(obj.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en');
                 obj.FechaLlegadaDocumentos = formatDate(obj.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en');
