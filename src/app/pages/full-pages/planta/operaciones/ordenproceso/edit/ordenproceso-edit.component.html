@@ -345,13 +345,13 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group row">
-                                    <label for="productoTerminando" class="col-lg-4 col-form-label">PRODUCTO</label>
+                                    <label for="productoTerminado" class="col-lg-4 col-form-label">PRODUCTO</label>
                                     <div class="col-lg-8">
                                         <ng-select [items]="listProductoTerminado" formControlName="productoTerminado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="productoTerminando"
+                                        bindLabel="Label" bindValue="Codigo" id="productoTerminado"
                                         placeholder="Seleccionar Producto"
                                         (change)="changeSubProductoTerminado($event)"
-                                        [ngClass]="{ 'is-invalid': f.productoTerminando.invalid, 'is-valid': !f.productoTerminando.invalid }"
+                                        [ngClass]="{ 'is-invalid': f.productoTerminado.invalid, 'is-valid': !f.productoTerminado.invalid }"
                                         [(ngModel)]="selectedProductoTerminado">
                                         </ng-select>
                                     </div>
