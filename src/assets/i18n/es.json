@@ -197,6 +197,9 @@
 			"ControlCalidadExterna":
 				{
 					"Label":"Control Calidad Externa"
+				},
+				"Kardex": {
+					"Label": "Kardex"
 				}
 		},
 		"Administracion":
