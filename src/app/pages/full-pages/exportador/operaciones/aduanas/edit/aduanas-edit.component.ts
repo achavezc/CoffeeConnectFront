@@ -346,10 +346,10 @@ export class AduanasEditComponent implements OnInit {
     this.consultarCertificaciones(data.EmpresaExportadoraId, 'Exportador');
     this.consultarCertificaciones(data.EmpresaProductoraId, 'Productor');
     this.aduanasFormEdit.get('numeroContratoInternoProductor').setValue( data.NumeroContratoInternoProductor);
-    this.aduanasFormEdit.get('mesEmbarque').setValue(formatDate(data.FechaEmbarque, 'MM-yyyy', 'en'));
-    this.aduanasFormEdit.get('fechaEmbarque').setValue(formatDate(data.FechaEmbarque, 'yyyy-MM-dd', 'en'));
-    this.aduanasFormEdit.get('fechaZarpeNave').setValue(formatDate(data.FechaZarpeNave, 'yyyy-MM-dd', 'en'));
-    this.aduanasFormEdit.get('fechaFac').setValue(formatDate(data.FechaFacturacion, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('mesEmbarque').setValue(data.FechaEmbarque == null ? null : formatDate(data.FechaEmbarque, 'MM-yyyy', 'en'));
+    this.aduanasFormEdit.get('fechaEmbarque').setValue(data.FechaEmbarque == null ? null: formatDate(data.FechaEmbarque, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaZarpeNave').setValue(data.FechaZarpeNave == null ? null: formatDate(data.FechaZarpeNave, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaFac').setValue(data.FechaFacturacion == null ? null: formatDate(data.FechaFacturacion, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('puerto').setValue(data.Puerto);    
     this.aduanasFormEdit.get('marca').setValue(data.Marca);
     this.aduanasFormEdit.get('po').setValue(data.PO);
@@ -365,22 +365,22 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('statusPagoFactura').setValue(data.EstadoPagoFactura);
     this.aduanasFormEdit.get('pesoxsaco').setValue(data.PesoPorSaco);
     this.aduanasFormEdit.get('embarqueStatus').setValue(data.EstadoSeguimientoId);
-    this.aduanasFormEdit.get('fechaPagoFactura').setValue(formatDate(data.FechaPagoFactura, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaPagoFactura').setValue(data.FechaPagoFactura == null ? null: formatDate(data.FechaPagoFactura, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('totalkilosnetos').setValue(data.PesoKilos);
-    this.aduanasFormEdit.get('fechaEstampado').setValue(formatDate(data.FechaEstampado, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaEstampado').setValue(data.FechaEstampado == null ? null: formatDate(data.FechaEstampado, 'yyyy-MM-dd', 'en'));
     
     
 
-    this.aduanasFormEdit.get('fechaEnvio').setValue(formatDate(data.FechaEnvioMuestra, 'yyyy-MM-dd', 'en'));
-    this.aduanasFormEdit.controls["fechaRecepcion"].setValue(formatDate(data.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en') );
+    this.aduanasFormEdit.get('fechaEnvio').setValue(data.FechaEnvioMuestra == null ? null: formatDate(data.FechaEnvioMuestra, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.controls["fechaRecepcion"].setValue(data.FechaRecepcionMuestra == null ? null: formatDate(data.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('estadoEnvio').setValue(data.EstadoMuestraId);
     this.aduanasFormEdit.get('courier').setValue(data.Courier);
     this.aduanasFormEdit.get('trackingNumber').setValue(data.NumeroSeguimientoMuestra);
     this.aduanasFormEdit.get('observacion').setValue(data.Observacion);
     
 
-    this.aduanasFormEdit.get('fechaEnvioDocumentos').setValue(formatDate(data.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en'));
-    this.aduanasFormEdit.get('fechaLlegadaDocumentos').setValue(formatDate(data.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaEnvioDocumentos').setValue(data.FechaEnvioDocumentos == null ? null: formatDate(data.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaLlegadaDocumentos').setValue(data.FechaLlegadaDocumentos == null ? null: formatDate(data.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en'));
     
 
     //let arrayNotaIngreso = [];
