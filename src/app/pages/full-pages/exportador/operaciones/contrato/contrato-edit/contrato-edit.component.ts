@@ -1000,8 +1000,8 @@ export class ContratoEditComponent implements OnInit {
     const InvoiceIn = this.contratoEditForm.controls.invoiceIn;
   
 
-    if (this.tipoEmpresaId == '01') //Cooperativa
-     {
+    // if (this.tipoEmpresaId == '01') //Cooperativa
+    //  {
       contractFixingDate.setValidators(Validators.required);
       CreditNoteCommission.setValidators(Validators.required);
       ExpensesExpCosts.setValidators(Validators.required);
@@ -1016,21 +1016,21 @@ export class ContratoEditComponent implements OnInit {
       FixationState.setValidators(Validators.required);
       InvoiceIn.setValidators(Validators.required);
 
-    } else {
-      contractFixingDate.clearValidators();
-      CreditNoteCommission.clearValidators();
-      ExpensesExpCosts.clearValidators();
-      PriceLevelFixation.clearValidators();
-      PuTotalA.clearValidators();
-      PUTotalB.clearValidators();
-      PUTotalC.clearValidators();
-      Differential2.clearValidators();
-      TotalBilling1.clearValidators();
-      TotalBilling2.clearValidators();
-      TotalBilling3.clearValidators();
-      FixationState.clearValidators();
-      InvoiceIn.clearValidators();
-    }
+    // } else {
+    //   contractFixingDate.clearValidators();
+    //   CreditNoteCommission.clearValidators();
+    //   ExpensesExpCosts.clearValidators();
+    //   PriceLevelFixation.clearValidators();
+    //   PuTotalA.clearValidators();
+    //   PUTotalB.clearValidators();
+    //   PUTotalC.clearValidators();
+    //   Differential2.clearValidators();
+    //   TotalBilling1.clearValidators();
+    //   TotalBilling2.clearValidators();
+    //   TotalBilling3.clearValidators();
+    //   FixationState.clearValidators();
+    //   InvoiceIn.clearValidators();
+    // }
 
     contractFixingDate.updateValueAndValidity();
     CreditNoteCommission.updateValueAndValidity();
