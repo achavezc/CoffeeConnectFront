@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { resultMemoize } from '@ngrx/store';
+import { formatDate } from '@angular/common';
 
 @Injectable()
 export class DateUtil {
@@ -27,11 +28,15 @@ export class DateUtil {
     return years.length;
   }
 
-  formatDate(date: Date, separator?: string): string {
-    let result: string;
-    let d: number = date.getDate();
-    let m: string = '0' + (date.getMonth() + 1).toString().slice(-2);
-    let y: number = date.getFullYear();
+  formatDate(date: any, separator?: string): string {
+    let result: string = "";
+    if (date != null)
+    {
+
+     let date2 = new Date(date); 
+    let d: number = date2.getDate();
+    let m: string = '0' + (date2.getMonth() + 1).toString().slice(-2);
+    let y: number = date2.getFullYear();
     if(m.length == 3){
       m = m.slice(1);
     }
@@ -40,8 +45,8 @@ export class DateUtil {
     } else {
       result = `${d}/${m}/${y}`;
     }
+  }
 
     return result;
   }
-
 }
