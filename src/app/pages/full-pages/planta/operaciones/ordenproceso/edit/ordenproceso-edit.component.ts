@@ -150,6 +150,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   async autocompleteOrdenProcesoComercial(data){
     
     await this.cargarSubProducto(data.ProductoId);
+    await this.cargarSubProductoTerminado(data.ProductoId);
     this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
     this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
     this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
@@ -158,6 +159,34 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
     this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
     this.ordenProcesoEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
+
+
+    this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
+    this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
+    this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoId);
+    this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
+    this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
+    this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
+    this.ordenProcesoEditForm.controls.calidad.setValue(data.CalidadId);
+    this.ordenProcesoEditForm.controls.totalKilosBrutos.setValue(data.PesoPorSaco);
+    this.ordenProcesoEditForm.controls.grado.setValue(data.GradoId);
+    this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
+    this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
+    //this.ordenProcesoEditForm.controls.fechaInicio.setValue(data.EmpresaProcesadoraId);
+    //this.ordenProcesoEditForm.controls.fechaFin.setValue(data.EmpresaProcesadoraId);
+
+    this.ordenProcesoEditForm.controls.empaque.disable();
+    this.ordenProcesoEditForm.controls.tipo.disable();
+    this.ordenProcesoEditForm.controls.productoTerminado.disable();
+    this.ordenProcesoEditForm.controls.cantidad.disable();
+    this.ordenProcesoEditForm.controls.subProductoTerminado.disable();
+    this.ordenProcesoEditForm.controls.pesoSaco.disable();
+    this.ordenProcesoEditForm.controls.calidad.disable();
+    this.ordenProcesoEditForm.controls.totalKilosBrutos.disable();
+    this.ordenProcesoEditForm.controls.grado.disable();
+    this.ordenProcesoEditForm.controls.cantidadContenedores.disable();
+    this.ordenProcesoEditForm.controls.cantidadDefectos.disable();
+
     this.ordenProcesoEditForm.controls.tipoProceso.disable();
     this.ordenProcesoEditForm.controls.rucOrganizacion.disable();
     this.ordenProcesoEditForm.controls.nombreOrganizacion.disable();
@@ -209,7 +238,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       certificadora: ['', Validators.required],
       empaque: ['', Validators.required],
       tipo: ['', Validators.required],
-      productoTerminando: [],
+      productoTerminado: [],
       subProductoTerminado: ['', Validators.required],
       pesoSaco : ['', Validators.required],
       totalKilosBrutos: ['', Validators.required],
