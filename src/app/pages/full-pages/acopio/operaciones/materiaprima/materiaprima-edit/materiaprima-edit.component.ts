@@ -721,7 +721,6 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls["provCertificacion"].setValue(data.SocioFincaCertificacion);
     this.consultaMateriaPrimaFormEdit.controls["provZona"].setValue(data.Zona);
     this.consultaMateriaPrimaFormEdit.controls["provFinca"].setValue(data.Finca);
-    //this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(this.dateUtil.formatDate(new Date(data.FechaPesado),"/"));
     this.consultaMateriaPrimaFormEdit.controls["fechaCosecha"].setValue(formatDate(data.FechaPesado, 'yyyy-MM-dd', 'en'));
     this.consultaMateriaPrimaFormEdit.get('pesado').get("unidadMedida").setValue(data.UnidadMedidaIdPesado);
     this.consultaMateriaPrimaFormEdit.get('pesado').get("cantidad").setValue(data.CantidadPesado);

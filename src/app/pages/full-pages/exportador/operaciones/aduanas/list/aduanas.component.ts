@@ -223,16 +223,16 @@ export class AduanasComponent implements OnInit {
             if (!res.Result.ErrCode) {
               if (!xls) {
               res.Result.Data.forEach((obj: any) => {
-                obj.MesEmbarque = formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
-                obj.FechaEmbarque = formatDate(obj.FechaEmbarque, 'yyyy-MM-dd', 'en');
+                obj.MesEmbarque = obj.FechaEmbarque == null ? null : formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
+                obj.FechaEmbarque =this.dateUtil.formatDate(obj.FechaEmbarque);
                 obj.EmpaqueTipo = obj.Empaque + '-' + obj.TipoEmpaque;
-                obj.FechaEnvioMuestra = formatDate(obj.FechaEnvioMuestra, 'yyyy-MM-dd', 'en');
-                obj.FechaRecepcionMuestra = formatDate(obj.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en');
-                obj.FechaZarpeNave = formatDate(obj.FechaZarpeNave, 'yyyy-MM-dd', 'en');
-                obj.FechaEnvioDocumentos = formatDate(obj.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en');
-                obj.FechaLlegadaDocumentos = formatDate(obj.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en');
-                obj.FechaPagoFactura = formatDate(obj.FechaPagoFactura, 'yyyy-MM-dd', 'en');
-                obj.FechaEstampado = formatDate(obj.FechaEstampado, 'yyyy-MM-dd', 'en');
+                obj.FechaEnvioMuestra = this.dateUtil.formatDate(obj.FechaEnvioMuestra);
+                obj.FechaRecepcionMuestra = this.dateUtil.formatDate(obj.FechaRecepcionMuestra);
+                obj.FechaZarpeNave = this.dateUtil.formatDate(obj.FechaZarpeNave);
+                obj.FechaEnvioDocumentos = this.dateUtil.formatDate(obj.FechaEnvioDocumentos);
+                obj.FechaLlegadaDocumentos =  this.dateUtil.formatDate(obj.FechaLlegadaDocumentos);
+                obj.FechaPagoFactura =  this.dateUtil.formatDate(obj.FechaPagoFactura);
+                obj.FechaEstampado = this.dateUtil.formatDate(obj.FechaEstampado);
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
