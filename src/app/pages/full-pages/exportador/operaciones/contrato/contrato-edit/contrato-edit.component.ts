@@ -162,6 +162,7 @@ export class ContratoEditComponent implements OnInit {
       grado: [],
       pesoSacoKG: [, Validators.required],
       cantidadDefectos: [, Validators.required],
+      cantidadContenedores: [, Validators.required],
       responsableComercial: [, Validators.required],
       estado: [],
       file: new FormControl('', []),
@@ -490,6 +491,8 @@ export class ContratoEditComponent implements OnInit {
       PesoKilos: this.pesoNetoKilos ? this.pesoNetoKilos : 0,
       PesoPorSaco: form.pesoSacoKG ? parseFloat(form.pesoSacoKG) : 0,
       PreparacionCantidadDefectos: form.cantidadDefectos ? parseFloat(form.cantidadDefectos) : 0,
+      CantidadContenedores: form.cantidadContenedores ? parseFloat(form.cantidadContenedores) : 0,
+     
       // LaboratorioId: form.laboratorio ? form.laboratorio : '',
       LaboratorioId: '',
       // NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
@@ -759,7 +762,12 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
       if (data.PreparacionCantidadDefectos)
         this.contratoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
-      if (data.FechaRegistro) {
+     
+        if (data.CantidadContenedores)
+        this.contratoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
+     
+
+        if (data.FechaRegistro) {
         this.contratoEditForm.controls.fechaRegistro.setValue(data.FechaRegistro.substring(0, 10));
         this.fechaRegistro = data.FechaRegistro.substring(0, 10);
       }

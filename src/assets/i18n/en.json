@@ -215,6 +215,12 @@
 			}
 		}
 	},
+	"Exportacion": {
+		"Label": "Export",
+		"GestionExportacion": {
+			"Label": "Export Management"
+		}
+	},
 	"Exportador": {
 		"Label": "Exporter"
 	},

@@ -302,6 +302,12 @@
 	{
 		"Label":"Transporte"
 	},
+	"Exportacion": {
+		"Label": "Exportación",
+		"GestionExportacion": {
+			"Label": "Gestión de Exportación"
+		}
+	},
 	"Cliente":
 	{
 		"Label":"Cliente",

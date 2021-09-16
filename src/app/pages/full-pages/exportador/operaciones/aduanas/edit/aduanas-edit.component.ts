@@ -219,6 +219,8 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('fechaPagoFactura').setValue(formatDate(this.selectContrato[0].FechaPagoFactura, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('certificacion').setValue(this.selectContrato[0].TipoCertificacion);
     this.aduanasFormEdit.get('cantidadDefectos').setValue(this.selectContrato[0].PreparacionCantidadDefectos);
+    this.aduanasFormEdit.get('numeroContenedores').setValue(this.selectContrato[0].CantidadContenedores);
+
     
     
     this.modalService.dismissAll();

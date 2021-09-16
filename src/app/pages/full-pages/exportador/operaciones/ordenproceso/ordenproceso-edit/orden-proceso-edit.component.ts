@@ -92,7 +92,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       grado: [],
       totalKilosNetos: [],
       cantidadDefectos: [],
-      cantContenedores: [, Validators.required],
+      cantContenedores: [],
       responsableComercial: [],
       file: [],
       tipoProceso: [, Validators.required],
@@ -162,6 +162,9 @@ export class OrdenProcesoEditComponent implements OnInit {
 
     if (obj.PesoKilos)
       this.ordenProcesoEditForm.controls.totalKilosNetos.setValue(obj.PesoKilos);
+
+      if (obj.CantidadContenedores)
+      this.ordenProcesoEditForm.controls.cantContenedores.setValue(obj.CantidadContenedores);
 
     if (obj.Producto)
       this.ordenProcesoEditForm.controls.producto.setValue(obj.Producto);

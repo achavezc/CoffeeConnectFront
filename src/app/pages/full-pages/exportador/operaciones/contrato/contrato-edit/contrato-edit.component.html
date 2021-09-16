@@ -528,6 +528,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="form-group row">
+                                        <label for="cantidadContenedores" class="col-lg-5 col-form-label pr-0">NRO. DE CONTENEDORES</label>
+                                        <div class="col-lg-7">
+                                            <input type="number" name="cantidadContenedores" id="cantidadContenedores"
+                                                formControlName="cantidadContenedores" class="form-control text-right"
+                                                placeholder="Nro. de Contenedores" 
+                                                [ngClass]="{ 'is-invalid': f.cantidadContenedores.invalid, 'is-valid': !f.cantidadContenedores.invalid }">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
