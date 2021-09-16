@@ -150,6 +150,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   async autocompleteOrdenProcesoComercial(data){
     
     await this.cargarSubProducto(data.ProductoId);
+    await this.cargarSubProductoTerminado(data.ProductoId);
     this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
     this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
     this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
@@ -158,6 +159,34 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
     this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
     this.ordenProcesoEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
+
+
+    this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
+    this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
+    this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoId);
+    this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
+    this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
+    this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
+    this.ordenProcesoEditForm.controls.calidad.setValue(data.CalidadId);
+    this.ordenProcesoEditForm.controls.totalKilosBrutos.setValue(data.PesoPorSaco);
+    this.ordenProcesoEditForm.controls.grado.setValue(data.GradoId);
+    this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
+    this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
+    //this.ordenProcesoEditForm.controls.fechaInicio.setValue(data.EmpresaProcesadoraId);
+    //this.ordenProcesoEditForm.controls.fechaFin.setValue(data.EmpresaProcesadoraId);
+
+    this.ordenProcesoEditForm.controls.empaque.disable();
+    this.ordenProcesoEditForm.controls.tipo.disable();
+    this.ordenProcesoEditForm.controls.productoTerminado.disable();
+    this.ordenProcesoEditForm.controls.cantidad.disable();
+    this.ordenProcesoEditForm.controls.subProductoTerminado.disable();
+    this.ordenProcesoEditForm.controls.pesoSaco.disable();
+    this.ordenProcesoEditForm.controls.calidad.disable();
+    this.ordenProcesoEditForm.controls.totalKilosBrutos.disable();
+    this.ordenProcesoEditForm.controls.grado.disable();
+    this.ordenProcesoEditForm.controls.cantidadContenedores.disable();
+    this.ordenProcesoEditForm.controls.cantidadDefectos.disable();
+
     this.ordenProcesoEditForm.controls.tipoProceso.disable();
     this.ordenProcesoEditForm.controls.rucOrganizacion.disable();
     this.ordenProcesoEditForm.controls.nombreOrganizacion.disable();
@@ -209,7 +238,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       certificadora: ['', Validators.required],
       empaque: ['', Validators.required],
       tipo: ['', Validators.required],
-      productoTerminando: [],
+      productoTerminado: [],
       subProductoTerminado: ['', Validators.required],
       pesoSaco : ['', Validators.required],
       totalKilosBrutos: ['', Validators.required],
@@ -412,19 +441,19 @@ export class OrdenProcesoEditComponent implements OnInit {
       OrdenProcesoPlantaId: form.codeProcessOrder ? form.codeProcessOrder : 0,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       OrganizacionId: form.organizacionId ? form.organizacionId : 0,
-      TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
+      TipoProcesoId:  this.ordenProcesoEditForm.controls["tipoProceso"].value ? this.ordenProcesoEditForm.controls["tipoProceso"].value : '',
       OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : 0,
-      TipoCertificacionId: form.certificacion ? form.certificacion : 0,
-      EntidadCertificadoraId: form.certificadora ? form.certificadora : 0,
-      ProductoId: form.producto ? form.producto : 0,
-      SubProductoId: form.subProducto ? form.subProducto : 0,
-      ProductoIdTerminado: form.productoTerminado ? form.productoTerminado : 0,
-      SubProductoIdTerminado: form.subProductoTerminado ? form.subProductoTerminado : 0,
-      TipoProduccionId: form.tipoProduccion ? form.tipoProduccion : 0,
-      EmpaqueId: form.empaque ? form.empaque : 0,
-      TipoId: form.tipo ? form.tipo : 0,
-      CalidadId: form.calidad ? form.calidad : 0,
-      GradoId: form.grado ? form.grado : 0,
+      TipoCertificacionId: this.ordenProcesoEditForm.controls["certificacion"].value ? this.ordenProcesoEditForm.controls["certificacion"].value : 0,
+      EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : 0,
+      ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : 0,
+      SubProductoId: this.ordenProcesoEditForm.controls["subProducto"].value ?  this.ordenProcesoEditForm.controls["subProducto"].value : 0,
+      ProductoIdTerminado:  this.ordenProcesoEditForm.controls["productoTerminado"].value ? this.ordenProcesoEditForm.controls["productoTerminado"].value : 0,
+      SubProductoIdTerminado: this.ordenProcesoEditForm.controls["subProductoTerminado"].value ? this.ordenProcesoEditForm.controls["subProductoTerminado"].value : 0,
+      TipoProduccionId: this.ordenProcesoEditForm.controls["tipoProduccion"].value ?  this.ordenProcesoEditForm.controls["tipoProduccion"].value : 0,
+      EmpaqueId: this.ordenProcesoEditForm.controls["empaque"].value ? this.ordenProcesoEditForm.controls["empaque"].value  : 0,
+      TipoId: this.ordenProcesoEditForm.controls["tipo"].value  ? this.ordenProcesoEditForm.controls["tipo"].value  : 0,
+      CalidadId: this.ordenProcesoEditForm.controls["calidad"].value  ? this.ordenProcesoEditForm.controls["calidad"].value : 0,
+      GradoId: this.ordenProcesoEditForm.controls["grado"].value ? this.ordenProcesoEditForm.controls["grado"].value : 0,
       TotalSacos:  0,
       PesoPorSaco: form.pesoSaco ? form.pesoSaco : 0,
       PesoKilos: form.totalKilosBrutos ? form.totalKilosBrutos : 0,
