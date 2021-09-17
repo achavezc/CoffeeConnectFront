@@ -72,7 +72,7 @@
                                             style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                                             <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
                                         </div>
-                                        <app-contrato [popUp]="popUp" 
+                                        <app-contrato [popUp]="popUp"
                                             (agregarContratoEvent)="receiveMessageContrato($event)">
                                         </app-contrato>
                                     </div>
@@ -88,7 +88,7 @@
                                 <input type="text" class="form-control" id="basicInput" formControlName="ruc"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.ruc.invalid, 'is-valid': submittedEdit && !fedit.ruc.invalid }"
                                     disabled>
-                                
+
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput"></label>
@@ -191,11 +191,12 @@
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Nro. Contrato Interno-Productor</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="numeroContratoInternoProductor"
-                                    disabled class="form-control"
+                                <input type="text" class="form-control" id="basicInput"
+                                    formControlName="numeroContratoInternoProductor" disabled class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.numeroContratoInternoProductor.invalid, 'is-valid': submittedEdit && !fedit.numeroContratoInternoProductor.invalid }">
                                 <small class="form-text text-muted danger"
-                                    *ngIf="fedit.productor.errors?.required">Ingrese Número de Contrato Interno Productor</small>
+                                    *ngIf="fedit.productor.errors?.required">Ingrese Número de Contrato Interno
+                                    Productor</small>
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
@@ -210,21 +211,21 @@
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaEmbarque"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaEmbarque.invalid, 'is-valid': submittedEdit && !fedit.fechaEmbarque.invalid }">
-                            
+
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Fecha Zarpe de Nave</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaZarpeNave"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaZarpeNave.invalid, 'is-valid': submittedEdit && !fedit.fechaZarpeNave.invalid }">
-                            
+
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Fecha Fac./Exp.</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaFac"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaFac.invalid, 'is-valid': submittedEdit && !fedit.fechaFac.invalid }">
-                            
+
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
@@ -245,9 +246,9 @@
                                 <input type="text" class="form-control" id="basicInput" formControlName="po"
                                     class="form-control" placeholder="PO #"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.po.invalid, 'is-valid': submittedEdit && !fedit.po.invalid }">
-                            
+
                             </div>
-                        </div>    
+                        </div>
                         <div class="row"
                             style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                             <div class="card-subtitle-form">DATOS DEL CARGAMENTO A EMBARCAR</div>
@@ -283,9 +284,9 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Cantidad de Defectos</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="cantidadDefectos"
-                                    disabled class="form-control">
-                            </div>   
+                                <input type="text" class="form-control" id="basicInput"
+                                    formControlName="cantidadDefectos" disabled class="form-control">
+                            </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-4">
@@ -295,15 +296,15 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Nro. Contenedores</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="numeroContenedores"
-                                    class="form-control" placeholder="Nro. Contenedores"
-                                    disabled class="form-control">
-                            
+                                <input type="text" class="form-control" id="basicInput"
+                                    formControlName="numeroContenedores" class="form-control"
+                                    placeholder="Nro. Contenedores" disabled class="form-control">
+
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Status Pago Factura</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="statusPagoFactura"
-                                    disabled class="form-control">
+                                <input type="text" class="form-control" id="basicInput"
+                                    formControlName="statusPagoFactura" disabled class="form-control">
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
@@ -313,21 +314,21 @@
                                     disabled class="form-control">
                             </div>
                             <div class="col-12 col-md-4">
-                            <label for="embarqueStatus">Status de Embarque</label>
-                            <ng-select [items]="listEstadoEmbarque" formControlName="embarqueStatus"
+                                <label for="embarqueStatus">Status de Embarque</label>
+                                <ng-select [items]="listEstadoEmbarque" formControlName="embarqueStatus"
                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="embarqueStatus"
                                     placeholder="Seleccionar Estado de Embarque"
                                     [ngClass]="{ 'is-invalid': submitted && fedit.embarqueStatus.invalid, 'is-valid': submitted && !fedit.embarqueStatus.invalid }"
                                     [(ngModel)]="selectEstadoEmbarque">
                                 </ng-select>
-                           
-                                
-                            </div> 
+
+
+                            </div>
                             <div class="col-12 col-md-4">
                                 <label for="basicInput">Fecha Pago Factura</label>
-                                <input type="text" class="form-control" id="basicInput" formControlName="fechaPagoFactura"
-                                    disabled class="form-control">
-                            </div>  
+                                <input type="text" class="form-control" id="basicInput"
+                                    formControlName="fechaPagoFactura" disabled class="form-control">
+                            </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-4">
@@ -340,14 +341,14 @@
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaEstampado"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaEstampado.invalid, 'is-valid': submittedEdit && !fedit.fechaEstampado.invalid }">
-                         </div>
+                            </div>
                         </div>
                         <div class="row"
                             style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
                             <div class="card-subtitle-form">SEGUIMIENTO DE MUESTRAS</div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                            
+
                             <div class="col-12 col-md-6">
                                 <label for="basicInput">Fecha Envío</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaEnvio"
@@ -367,7 +368,7 @@
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaRecepcion"
                                     class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaRecepcion.invalid, 'is-valid': submittedEdit && !fedit.fechaRecepcion.invalid }">
-                            
+
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="basicInput">Tracking Number</label>
@@ -377,16 +378,16 @@
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                            <div class="col-12 col-md-6">                               
+                            <div class="col-12 col-md-6">
                                 <label for="customsTrackingStatus">ESTADO DE ENVIO</label>
-                                <ng-select [items]="listEstadoEnvio" formControlName="estadoEnvio"
-                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="estadoEnvio"
+                                <ng-select [items]="listEstadoEnvio" formControlName="estadoEnvio" class="form-control"
+                                    bindLabel="Label" bindValue="Codigo" id="estadoEnvio"
                                     placeholder="Seleccionar Estado de Envio"
                                     [ngClass]="{ 'is-invalid': submitted && fedit.estadoEnvio.invalid, 'is-valid': submitted && !fedit.estadoEnvio.invalid }"
                                     [(ngModel)]="selectEstadoEnvio">
                                 </ng-select>
                             </div>
-                            
+
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12">
@@ -408,17 +409,17 @@
                             <div class="card-subtitle-form">SEGUIMIENTO DE DOCUMENTOS</div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
-                            
+
                             <div class="col-12 col-md-6">
                                 <label for="basicInput">Fecha Envío Documentos</label>
-                                <input type="date" class="form-control" id="basicInput" formControlName="fechaEnvioDocumentos"
-                                    class="form-control"
+                                <input type="date" class="form-control" id="basicInput"
+                                    formControlName="fechaEnvioDocumentos" class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaEnvioDocumentos.invalid, 'is-valid': submittedEdit && !fedit.fechaEnvioDocumentos.invalid }">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="basicInput">Fecha Llegada Documentos</label>
-                                <input type="date" class="form-control" id="basicInput" formControlName="fechaLlegadaDocumentos"
-                                    class="form-control"
+                                <input type="date" class="form-control" id="basicInput"
+                                    formControlName="fechaLlegadaDocumentos" class="form-control"
                                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaLlegadaDocumentos.invalid, 'is-valid': submittedEdit && !fedit.fechaLlegadaDocumentos.invalid }">
                             </div>
                         </div>
@@ -426,14 +427,14 @@
 
                         <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
                             <small class="form-text text-muted danger"
-                              *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                          </div>
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                        </div>
                     </div>
 
                 </div>
-           
+
+            </div>
         </div>
-    </div>
 
     </section>
 
