@@ -347,7 +347,7 @@ export class AduanasEditComponent implements OnInit {
     this.consultarCertificaciones(data.EmpresaProductoraId, 'Productor');
     this.aduanasFormEdit.get('numeroContratoInternoProductor').setValue( data.NumeroContratoInternoProductor);
     this.aduanasFormEdit.get('mesEmbarque').setValue(data.FechaEmbarque == null ? null : formatDate(data.FechaEmbarque, 'MM-yyyy', 'en'));
-    this.aduanasFormEdit.get('fechaEmbarque').setValue(data.FechaEmbarque == null ? null: formatDate(data.FechaEmbarque, 'yyyy-MM-dd', 'en'));
+    this.aduanasFormEdit.get('fechaEmbarque').setValue(data.FechaEmbarquePlanta == null ? null: formatDate(data.FechaEmbarquePlanta, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('fechaZarpeNave').setValue(data.FechaZarpeNave == null ? null: formatDate(data.FechaZarpeNave, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('fechaFac').setValue(data.FechaFacturacion == null ? null: formatDate(data.FechaFacturacion, 'yyyy-MM-dd', 'en'));
     this.aduanasFormEdit.get('puerto').setValue(data.Puerto);    
