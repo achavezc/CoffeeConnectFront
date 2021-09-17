@@ -37,7 +37,7 @@ export class ContratoEditComponent implements OnInit {
   contratoEditForm: FormGroup;
   listCondicionEmbarque = [];
   listEstadoPagoFactura = [];
-  
+
 
   listPaises = [];
   listCiudades = [];
@@ -492,7 +492,7 @@ export class ContratoEditComponent implements OnInit {
       PesoPorSaco: form.pesoSacoKG ? parseFloat(form.pesoSacoKG) : 0,
       PreparacionCantidadDefectos: form.cantidadDefectos ? parseFloat(form.cantidadDefectos) : 0,
       CantidadContenedores: form.cantidadContenedores ? parseFloat(form.cantidadContenedores) : 0,
-     
+
       // LaboratorioId: form.laboratorio ? form.laboratorio : '',
       LaboratorioId: '',
       // NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
@@ -762,12 +762,12 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
       if (data.PreparacionCantidadDefectos)
         this.contratoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
-     
-        if (data.CantidadContenedores)
-        this.contratoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
-     
 
-        if (data.FechaRegistro) {
+      if (data.CantidadContenedores)
+        this.contratoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
+
+
+      if (data.FechaRegistro) {
         this.contratoEditForm.controls.fechaRegistro.setValue(data.FechaRegistro.substring(0, 10));
         this.fechaRegistro = data.FechaRegistro.substring(0, 10);
       }
@@ -893,11 +893,14 @@ export class ContratoEditComponent implements OnInit {
   }
 
   CalculateNetWeightKilos() {
-    let totalbags = this.contratoEditForm.value.totalSacos69Kg ? this.contratoEditForm.value.totalSacos69Kg : 0;
-    let sackweight = this.contratoEditForm.value.pesoSacoKG ? this.contratoEditForm.value.pesoSacoKG : 0;
+    let totalbags = this.contratoEditForm.value.totalSacos69Kg ? parseFloat(this.contratoEditForm.value.totalSacos69Kg) : 0;
+    let sackweight = this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0;
     let netweightkilos = totalbags * sackweight;
     let netkilosQQ = netweightkilos / 46;
     let netkilosLB = netweightkilos * 2.20462;
+    if (netkilosLB > 0) {
+      netkilosLB = parseFloat(netkilosLB.toFixed(2));
+    }
     this.reqAsignacionContratoAcopio.pesoNetoKGOro = netweightkilos;
     this.kilosNetosLB_B = netkilosLB;
     this.kilosNetosQQ_A = netkilosQQ;
@@ -1006,23 +1009,23 @@ export class ContratoEditComponent implements OnInit {
 
     const FixationState = this.contratoEditForm.controls.FixationState;
     const InvoiceIn = this.contratoEditForm.controls.invoiceIn;
-  
+
 
     // if (this.tipoEmpresaId == '01') //Cooperativa
     //  {
-      contractFixingDate.setValidators(Validators.required);
-      CreditNoteCommission.setValidators(Validators.required);
-      ExpensesExpCosts.setValidators(Validators.required);
-      PriceLevelFixation.setValidators(Validators.required);
-      PuTotalA.setValidators(Validators.required);
-      PUTotalB.setValidators(Validators.required);
-      PUTotalC.setValidators(Validators.required);
-      Differential2.setValidators(Validators.required);
-      TotalBilling1.setValidators(Validators.required);
-      TotalBilling2.setValidators(Validators.required);
-      TotalBilling3.setValidators(Validators.required);
-      FixationState.setValidators(Validators.required);
-      InvoiceIn.setValidators(Validators.required);
+    contractFixingDate.setValidators(Validators.required);
+    CreditNoteCommission.setValidators(Validators.required);
+    ExpensesExpCosts.setValidators(Validators.required);
+    PriceLevelFixation.setValidators(Validators.required);
+    PuTotalA.setValidators(Validators.required);
+    PUTotalB.setValidators(Validators.required);
+    PUTotalC.setValidators(Validators.required);
+    Differential2.setValidators(Validators.required);
+    TotalBilling1.setValidators(Validators.required);
+    TotalBilling2.setValidators(Validators.required);
+    TotalBilling3.setValidators(Validators.required);
+    FixationState.setValidators(Validators.required);
+    InvoiceIn.setValidators(Validators.required);
 
     // } else {
     //   contractFixingDate.clearValidators();
