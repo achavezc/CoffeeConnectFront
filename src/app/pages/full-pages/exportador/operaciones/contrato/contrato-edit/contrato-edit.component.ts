@@ -1010,7 +1010,6 @@ export class ContratoEditComponent implements OnInit {
     const FixationState = this.contratoEditForm.controls.FixationState;
     const InvoiceIn = this.contratoEditForm.controls.invoiceIn;
 
-
     // if (this.tipoEmpresaId == '01') //Cooperativa
     //  {
     contractFixingDate.setValidators(Validators.required);
@@ -1057,6 +1056,15 @@ export class ContratoEditComponent implements OnInit {
     InvoiceIn.updateValueAndValidity();
     FixationState.updateValueAndValidity();
 
+    const locFechaPagoFactura = this.contratoEditForm.controls.fechaPagoFactura;
+    this.contratoEditForm.controls.estadoPagoFactura.valueChanges.subscribe((spf: any) => {
+      if (spf === '01') {
+        locFechaPagoFactura.setValidators(Validators.required);
+      } else {
+        locFechaPagoFactura.clearValidators();
+      }
+      locFechaPagoFactura.updateValueAndValidity();
+    });
   }
 
 }

@@ -182,8 +182,9 @@
                             <div class="form-group row">
                                 <label for="fechaEmbarque" class="col-lg-4 col-form-label pr-0">FECHA EMBARQUE</label>
                                 <div class="col-lg-8">
-                                    <input type="date" class="form-control text-center" formControlName="fechaEmbarque"
-                                        id="fechaEmbarque" date name="fechaEmbarque" placeholder="Fecha de embarque"
+                                    <input type="date" date class="form-control text-center"
+                                        formControlName="fechaEmbarque" id="fechaEmbarque" date name="fechaEmbarque"
+                                        placeholder="Fecha de embarque"
                                         [ngClass]="{ 'is-invalid': f.fechaEmbarque.invalid, 'is-valid': !f.fechaEmbarque.invalid }" />
                                 </div>
                             </div>
@@ -203,7 +204,8 @@
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="form-group row">
-                                <label for="estadoPagoFactura" class="col-lg-3 col-form-label pr-0">STATUS PAGO FACTURA</label>
+                                <label for="estadoPagoFactura" class="col-lg-3 col-form-label pr-0">STATUS PAGO
+                                    FACTURA</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listEstadoPagoFactura" formControlName="estadoPagoFactura"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="estadoPagoFactura"
@@ -216,11 +218,14 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
-                                <label for="fechaPagoFactura" class="col-lg-4 col-form-label pr-0">FECHA PAGO FACTURA</label>
+                                <label for="fechaPagoFactura" class="col-lg-4 col-form-label pr-0">FECHA PAGO
+                                    FACTURA</label>
                                 <div class="col-lg-8">
-                                    <input type="date" class="form-control text-center" formControlName="fechaPagoFactura"
-                                        id="fechaPagoFactura" date name="fechaPagoFactura" placeholder="Fecha de Pago Factura"
-                                        [ngClass]="{ 'is-invalid': f.fechaPagoFactura.invalid, 'is-valid': !f.fechaPagoFactura.invalid }" />
+                                    <input type="date" date class="form-control text-center"
+                                        formControlName="fechaPagoFactura" id="fechaPagoFactura" name="fechaPagoFactura"
+                                        placeholder="Fecha de Pago Factura"
+                                        [ngClass]="{ 'is-invalid': f.fechaPagoFactura.invalid, 'is-valid': !f.fechaPagoFactura.invalid }"
+                                        [readonly]="!f.estadoPagoFactura.value || f.estadoPagoFactura.value=='02'" />
                                 </div>
                             </div>
                         </div>
@@ -394,7 +399,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row" >
+                            <div class="form-row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group row">
                                         <label for="observaciones" class="col-lg-3 col-form-label">OBSERVACIONES</label>
@@ -530,11 +535,12 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group row">
-                                        <label for="cantidadContenedores" class="col-lg-5 col-form-label pr-0">NRO. DE CONTENEDORES</label>
+                                        <label for="cantidadContenedores" class="col-lg-5 col-form-label pr-0">NRO. DE
+                                            CONTENEDORES</label>
                                         <div class="col-lg-7">
                                             <input type="number" name="cantidadContenedores" id="cantidadContenedores"
                                                 formControlName="cantidadContenedores" class="form-control text-right"
-                                                placeholder="Nro. de Contenedores" 
+                                                placeholder="Nro. de Contenedores"
                                                 [ngClass]="{ 'is-invalid': f.cantidadContenedores.invalid, 'is-valid': !f.cantidadContenedores.invalid }">
                                         </div>
                                     </div>
