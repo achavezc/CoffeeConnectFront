@@ -209,7 +209,7 @@
                                 <div class="col-lg-9">
                                     <ng-select [items]="listEstadoPagoFactura" formControlName="estadoPagoFactura"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="estadoPagoFactura"
-                                        placeholder="Estatus Pago Factura"
+                                        placeholder="Estatus Pago Factura" (change)="ChangeEstadoPagoFactura()"
                                         [ngClass]="{ 'is-invalid': f.estadoPagoFactura.invalid, 'is-valid': !f.estadoPagoFactura.invalid }"
                                         [(ngModel)]="selectedEstadoPagoFactura">
                                     </ng-select>

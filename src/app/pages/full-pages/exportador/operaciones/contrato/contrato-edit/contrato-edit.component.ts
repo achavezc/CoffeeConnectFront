@@ -1067,4 +1067,10 @@ export class ContratoEditComponent implements OnInit {
     });
   }
 
+  ChangeEstadoPagoFactura() {
+    if (!this.contratoEditForm.value.estadoPagoFactura || this.contratoEditForm.value.estadoPagoFactura === '02') {
+      this.contratoEditForm.controls.fechaPagoFactura.reset();
+    }
+  }
+
 }
