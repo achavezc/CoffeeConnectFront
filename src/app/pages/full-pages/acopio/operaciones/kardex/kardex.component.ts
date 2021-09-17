@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { host } from '../../../../../shared/hosts/main.host';
+import { KardexService } from '../../../../../services/kardex.service';
 
 @Component({
   selector: 'app-kardex',
@@ -13,7 +14,8 @@ export class KardexComponent implements OnInit {
   frmKardex: FormGroup;
   errorGeneral = { errorMessage: '', isError: false };
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private kardexService: KardexService) { }
 
   ngOnInit(): void {
     this.LoadForm();
@@ -32,13 +34,25 @@ export class KardexComponent implements OnInit {
   }
 
   Generar() {
-    let link = document.createElement('a');
-    document.body.appendChild(link);
-    link.href = `${host}Kardex/GenerarKardex`;
+    this.kardexService.Descargar().subscribe((res) => {
+      // this.blob = new Blob([data], { type: 'application/pdf' });
+
+      var downloadURL = window.URL.createObjectURL(res);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "help.pdf";
+      link.click();
+    }, (err) => {
+      console.log(err);
+    });
+    // let link = document.createElement('a');
+    // document.body.appendChild(link);
+    // link.href = `${host}kardex/GenerarKardex`;
+    // //http://localhost:62742/api/Kardex/GenerarKardex
     // link.download = "NotaCompra.pdf"
-    link.target = "_blank";
-    link.click();
-    link.remove();
+    // link.target = "_blank";
+    // link.click();
+    // link.remove();
   }
 
 }
