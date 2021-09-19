@@ -351,11 +351,13 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('productor').setValue(data.RazonSocialEmpresaProductora);
     this.consultarCertificaciones(data.EmpresaExportadoraId, 'Exportador');
     this.consultarCertificaciones(data.EmpresaProductoraId, 'Productor');
+   
+    this.aduanasFormEdit.get('mesEmbarque').setValue(formatDate(data.FechaEmbarque, 'MM-yyyy', 'en'));
     if (data.NumeroContratoInternoProductor)
       this.aduanasFormEdit.get('numeroContratoInternoProductor').setValue(data.NumeroContratoInternoProductor);
-    if (data.FechaEmbarque && data.FechaEmbarque.substring(0, 10) != '0001-01-01') {
-      this.aduanasFormEdit.get('mesEmbarque').setValue(formatDate(data.FechaEmbarque, 'MM-yyyy', 'en'));
-      this.aduanasFormEdit.get('fechaEmbarque').setValue(formatDate(data.FechaEmbarque, 'yyyy-MM-dd', 'en'));
+    if (data.FechaEmbarquePlanta && data.FechaEmbarquePlanta.substring(0, 10) != '0001-01-01') {
+      
+      this.aduanasFormEdit.get('fechaEmbarque').setValue(formatDate(data.FechaEmbarquePlanta, 'yyyy-MM-dd', 'en'));
     }
     if (data.FechaZarpeNave && data.FechaZarpeNave.substring(0, 10) != '0001-01-01')
       this.aduanasFormEdit.get('fechaZarpeNave').setValue(data.FechaZarpeNave == null ? null : formatDate(data.FechaZarpeNave, 'yyyy-MM-dd', 'en'));

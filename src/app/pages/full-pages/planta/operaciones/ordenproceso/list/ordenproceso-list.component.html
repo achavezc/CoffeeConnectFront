@@ -144,9 +144,8 @@
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0"
-                                                routerLink="/acopio/operaciones/empresatransporte-edit"
-                                                [queryParams]="{ id: row.EmpresaTransporteId}">{{
+                                                <a class="line-height-1 mb-0"
+                                                [routerLink]="['/planta/operaciones/ordenproceso-edit', row.OrdenProcesoPlantaId]">{{
                                                 name }}</a>
                                         </div>
                                     </div>
