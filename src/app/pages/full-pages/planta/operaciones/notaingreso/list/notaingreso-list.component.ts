@@ -121,6 +121,11 @@ export class NotaIngresoListComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("ProductoPlanta", function (res) {
       if (res.Result.Success) {
         form.listaProducto = res.Result.Data;
+        if (form.popUp) {
+          form.consultaNotaIngresoPlantaForm.controls.estado.setValue("03");
+          form.consultaNotaIngresoPlantaForm.controls.estado.disable();
+          form.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
+        }
       }
     });
     this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
@@ -245,7 +250,7 @@ export class NotaIngresoListComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       if (!group.value.fechaInicio || !group.value.fechaFin) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
-      } else if (!group.value.estado) {
+      } else if (!group.controls["estado"].value) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };

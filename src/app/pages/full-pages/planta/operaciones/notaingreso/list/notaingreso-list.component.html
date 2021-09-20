@@ -172,7 +172,7 @@
               [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
               [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
 
-              <ngx-datatable-column name="Numero Nota Ingreso" prop="Numero" width="40">
+              <ngx-datatable-column name="Numero Nota Ingreso" prop="Numero" width="40" *ngIf="!popUp">
 
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                   <div class="d-flex align-items-center">
@@ -185,7 +185,8 @@
               </ngx-datatable-column>
 
 
-
+              <ngx-datatable-column name="Numero Nota Ingreso" prop="Numero" width="40" *ngIf="popUp">
+              </ngx-datatable-column>
               <ngx-datatable-column name="Nro Guia Remision" prop="NumeroGuiaRemision" width="30">
               </ngx-datatable-column>
               <ngx-datatable-column name="Fecha Ingreso" prop="FechaRegistroCadena" width="30"></ngx-datatable-column>

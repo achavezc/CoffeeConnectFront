@@ -81,7 +81,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'ordenproceso-edit',
+        path: 'ordenproceso-edit/:id',
         component: OrdenProcesoEditComponent,
         data: {
           title: 'Edit'

@@ -630,11 +630,11 @@ export class OrdenProcesoEditComponent implements OnInit {
       if (data.TotalSacos)
         this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
       if (data.PesoPorSaco)
-        this.ordenProcesoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
+        this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
       if (data.PesoKilos)
-        this.ordenProcesoEditForm.controls.totalKilosNetos.setValue(data.PesoKilos);
+        this.ordenProcesoEditForm.controls.totalKilosBrutos.setValue(data.PesoKilos);
       if (data.CantidadContenedores)
-        this.ordenProcesoEditForm.controls.cantContenedores.setValue(data.CantidadContenedores);
+        this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
       if (data.Producto)
         this.ordenProcesoEditForm.controls.producto.setValue(data.Producto);
       if (data.SubProducto)
