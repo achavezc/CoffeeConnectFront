@@ -161,7 +161,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         totalQqkg: new FormControl('', []),
         observacion: new FormControl('', []),
         envases: new FormControl('', []),
-        trabajos: new FormControl('', [])
+        trabajos: new FormControl('', []),
+        numDefectos: new FormControl('', [])
       });
   }
   Load() {
@@ -197,14 +198,19 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   calcularSacos() {
-    var totalSacos = this.calcularTotalSacos();
+    this.calcularTotalSacos();
     this.rowsResultProceso.forEach(x => {
       var valueSacos = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
-      if (valueSacos != 0) {
-        var porcentajeSacos = ((valueSacos / totalSacos) * 100).toFixed(2);
+      var kg = Number(this.formGroupKg.get(x.Codigo + '%Kg').value);
+      if (valueSacos != 0 || kg != 0) {
+        var kilosNetos = valueSacos*69 + kg;
+        this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').setValue(kilosNetos);
+        var totalKilosNetos = this.calcularTotalKilosNetos();
+        var porcentajeKilosNetos = ((kilosNetos / totalKilosNetos) * 100).toFixed(2);
         var qqKg = (valueSacos / 46).toFixed(2);
         this.formGroupQqkg.get(x.Codigo + '%qqkg').setValue(qqKg);
-        this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').setValue(porcentajeSacos);
+        this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').setValue(porcentajeKilosNetos);
+        this.calcularTotalKg();
       }
     });
     this.calcularTotalPorcentaje();
@@ -224,12 +230,20 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.get('totalSacos').setValue(totalSacos);
     return totalSacos;
   }
+  calcularTotalKg() {
+    var totalKg = 0;
+    this.rowsResultProceso.forEach(x => {
+      totalKg = totalKg + Number(this.formGroupKg.get(x.Codigo + '%Kg').value);
+    });
+    this.liquidacionProcesoFormEdit.get('totalKg').setValue(totalKg);
+  }
   calcularTotalKilosNetos() {
     var totalKilosNetos = 0;
     this.rowsResultProceso.forEach(x => {
       totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
     });
     this.liquidacionProcesoFormEdit.get('totalKilosNetos').setValue(totalKilosNetos);
+    return totalKilosNetos;
   }
 
   get fedit() {

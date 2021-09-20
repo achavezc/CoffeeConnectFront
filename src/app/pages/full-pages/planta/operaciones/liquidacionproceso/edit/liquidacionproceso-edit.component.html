@@ -140,7 +140,7 @@
                     <ngx-datatable-column name="Kg. N" prop="Kg" width="50" [formGroup]="formGroupKg"
                       [summaryTemplate]="totalKg">
                       <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%Kg'">
+                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%Kg'" (input)="calcularSacos()">
 
                       </ng-template>
                     </ngx-datatable-column>
@@ -148,7 +148,7 @@
                       [formGroup]="formGroupKilosNetos" [summaryTemplate]="totalKilosNetos">
                       <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <input type="number" class="form-control" id="basicInput"
-                          [formControlName]="row.Codigo+'%kilosNetos'" (input)="calcularTotalKilosNetos()">
+                          [formControlName]="row.Codigo+'%kilosNetos'"  disabled>
 
                       </ng-template>
                     </ngx-datatable-column>
@@ -161,7 +161,7 @@
                       </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="QQ/46 Kg. N" prop="QQKg" width="50" [formGroup]="formGroupQqkg"
-                      [summaryTemplate]="totalQqkg">
+                      [summaryTemplate]="totalQqkg" disabled>
                       <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%qqkg'"
                           disabled>
@@ -203,6 +203,8 @@
                   <input type="text" class="form-control" id="basicInput" formControlName="envases">
                   <label for="basicInput">Trabajos Realizados</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="trabajos">
+                  <label for="basicInput">Numero de Defectos</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="numDefectos">
                 </div>
               </div>
               <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
