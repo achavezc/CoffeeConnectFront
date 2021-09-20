@@ -151,6 +151,12 @@ export class OrdenProcesoEditComponent implements OnInit {
     
     await this.cargarSubProducto(data.ProductoId);
     await this.cargarSubProductoTerminado(data.ProductoId);
+    
+    this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
+    this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
+    this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.Ruc);
+    this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
+
     this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
     this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
     this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
@@ -587,12 +593,18 @@ export class OrdenProcesoEditComponent implements OnInit {
   async AutocompleteFormEdit(data: any) {
     if (data) {
       let empaque_tipo = '';
+      if (data.EstadoId)
+      this.ordenProcesoEditForm.controls.estado.setValue(data.EstadoId);
       if (data.OrdenProcesoId)
         this.ordenProcesoEditForm.controls.idOrdenProceso.setValue(data.OrdenProcesoId);
+        //llamar al orden proceso id
+        this.SearchByidOrdenProceso(data.OrdenProcesoId);
+
       if (data.Numero)
         this.ordenProcesoEditForm.controls.nroOrden.setValue(data.Numero);
       if (data.FechaRegistro)
         this.ordenProcesoEditForm.controls.fechaCabe.setValue(data.FechaRegistro.substring(0, 10));
+      /*
       if (data.ContratoId)
         this.ordenProcesoEditForm.controls.idContrato.setValue(data.ContratoId);
       if (data.NumeroContrato)
@@ -613,6 +625,7 @@ export class OrdenProcesoEditComponent implements OnInit {
         this.ordenProcesoEditForm.controls.certificacion.setValue(data.Certificacion);
       if (data.FechaFinProceso)
         this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(data.FechaFinProceso.substring(0, 10));
+      */
       if (data.TipoProcesoId) {
         await this.GetTipoProcesos();
         this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
