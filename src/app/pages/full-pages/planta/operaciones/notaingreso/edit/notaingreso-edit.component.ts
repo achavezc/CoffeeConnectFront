@@ -79,6 +79,8 @@ export class NotaIngresoEditComponent implements OnInit {
   estadoAnalizado = "02";
   estadoAnulado = "00";
   estadoEnviadoAlmacen = "03";
+  PrdCafePergamino = "01";
+  SubPrdSeco = "02";
   @ViewChild(PesadoCafePlantaComponent) child;
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
   idPlantEntryNote = 0;
@@ -192,7 +194,16 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   changeSubProducto(e) {
+
     let filterProducto = e.Codigo;
+    if (filterProducto == this.PrdCafePergamino &&   this.notaIngredoFormEdit.get('subproducto').value != undefined &&  this.notaIngredoFormEdit.get('subproducto').value != this.SubPrdSeco)
+    {
+      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").disable();
+    }
+    else
+    {
+      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").enable();
+    } 
     this.cargarSubProducto(filterProducto);
     this.desactivarControl(filterProducto);
   }
@@ -203,7 +214,6 @@ export class NotaIngresoEditComponent implements OnInit {
       this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");
-
       this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
       this.notaIngredoFormEdit.get("pesado").get("calidad").disable();
       this.notaIngredoFormEdit.get("pesado").get("grado").disable();
@@ -263,6 +273,15 @@ export class NotaIngresoEditComponent implements OnInit {
 
   changeView(e) {
     let filterSubTipo = e.Codigo;
+
+    if ( this.notaIngredoFormEdit.get('producto').value == this.PrdCafePergamino &&  filterSubTipo != this.SubPrdSeco )
+    {
+      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").disable()
+    }
+    else
+    {
+      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").enable();
+    }
     if (filterSubTipo == "02") {
       this.viewTagSeco = true;
     }
@@ -446,7 +465,6 @@ export class NotaIngresoEditComponent implements OnInit {
     this.spinner.show();
     this.notaIngresoService.ConsultarPorId(Number(this.id))
       .subscribe(res => {
-
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;

@@ -12,7 +12,6 @@ import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { Router } from "@angular/router";
 import { ILogin } from '../../../../../../../../services/models/login';
 import { DateUtil } from '../../../../../../../../services/util/date-util';
-import { NotaSalidaAlmacenService } from '../../../../../../../../services/nota-salida-almacen.service';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { LoteService } from '../../../../../../../../services/lote.service';
 import { OrdenservicioControlcalidadService } from '../../../../../../../../services/ordenservicio-controlcalidad.service';
@@ -62,6 +61,7 @@ export class ControlCalidadComponent implements OnInit {
   estadoAnalizado = "02";
   estadoAnulado = "00";
   estadoEnviadoAlmacen = "03";
+
   btnGuardarCalidad = true;
   constructor(
     private spinner: NgxSpinnerService,
@@ -627,9 +627,11 @@ export class ControlCalidadComponent implements OnInit {
       this.formControlCalidad.controls['descartePorcentaje'].setValue(0 + "%");
     }
     else {
+      
       const exportGramos = Number(this.formControlCalidad.controls["exportGramos"].value);
       const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value)
-      const cascarillaGramos = Number(this.formControlCalidad.controls["cascarillaGramos"].value);
+      const cascarillaGramos = exportGramos - descarteGramos;
+      this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
       const totalRendExportable = exportGramos + descarteGramos + cascarillaGramos;
       this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
       this.formControlCalidad.controls['cascarillaPorcentaje'].setValue(cascarillaGramos == 0 ? "0%" : (Number(cascarillaGramos / totalRendExportable) * 100).toFixed(2) + "%");
@@ -676,6 +678,7 @@ export class ControlCalidadComponent implements OnInit {
     var form = this;
     let puntajeFinal: number = 0;
     var controlFormControlCalidad = this.formControlCalidad.controls;
+   
     controlFormControlCalidad["exportGramos"].setValue(this.detalle.ExportableGramosAnalisisFisico);
     controlFormControlCalidad["exportPorcentaje"].setValue(this.detalle.ExportablePorcentajeAnalisisFisico == null ? "" : this.detalle.ExportablePorcentajeAnalisisFisico + "%");
     controlFormControlCalidad["descarteGramos"].setValue(this.detalle.DescarteGramosAnalisisFisico);

@@ -12,14 +12,14 @@
                     <div class="card-body">
                         <form class="needs-validation" [formGroup]="aduanasForm">
                             <div class="form-row">
-                                <div class="col-md-6 mb-4 form-group mb-2">
+                                <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="codigo" class="form-label">Codigo </label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="codigo"
                                         class="form-control" id="codigo" placeholder="Codigo"
                                         [ngClass]="{ 'is-invalid': submitted && f.codigo.invalid, 'is-valid': submitted &&  !f.codigo.invalid }">
 
                                 </div>
-                                <div class="col-md-6 mb-4 form-group mb-2">
+                                <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="numeroContrato" class="form-label">N° CONTRATO</label>
                                     <input type="text" minlength="5" maxlength="50" formControlName="numeroContrato"
                                         class="form-control" id="numeroContrato"
@@ -27,11 +27,21 @@
                                         [ngClass]="{ 'is-invalid': submitted && f.numeroContrato.invalid, 'is-valid': submitted &&  !f.numeroContrato.invalid }">
 
                                 </div>
+
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar Estado"
+                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
                                
                                 
                             </div>
                             <div class="form-row">
-                                <div class="col-md-6 mb-4 form-group mb-2">
+                                <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaInicio" class="form-label">Fecha Inicio</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="date" date
@@ -40,7 +50,7 @@
                                     <small class="form-text text-muted danger"
                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
-                                <div class="col-md-6 mb-4 form-group mb-2">
+                                <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaFin" class="form-label">Fecha Fin</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
                                         name="fechaFin" placeholder="Seleccionar Fecha Fín" date
@@ -49,12 +59,7 @@
                                     <small class="form-text text-muted danger"
                                         *ngIf="error.isError">{{error.errorMessage}}</small>
                                 </div>
-                               
-                            </div>
-                            
-
-                            <div class="form-row">
-                                <div class="col-md-5 mb-4 form-group mb-2">
+                                <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="agenciaAduanera" class="form-label">Agencia Aduanera </label>
                                     <input type="text" formControlName="agenciaAduanera"
                                         class="form-control" id="agenciaAduanera" placeholder="Codigo"
@@ -71,10 +76,16 @@
                                 </button>
                                
                             </div>
-                                <div class="col-md-5 mb-4 form-group mb-2">
+                               
+                            </div>
+                            
+
+                            <div class="form-row">
+                               
+                                <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="clienteFinal" class="form-label">Cliente Final </label>
                                     <input type="text" formControlName="clienteFinal"
-                                        class="form-control" id="clienteFinal" placeholder="Codigo"
+                                        class="form-control" id="clienteFinal" placeholder="Cliente Final"
                                         [ngClass]="{ 'is-invalid': submitted && f.clienteFinal.invalid, 'is-valid': submitted &&  !f.clienteFinal.invalid }" disabled>
                                 </div>
                                 <div class="col-md-1 mb-4 form-group mb-2">
@@ -104,9 +115,7 @@
     
                                     </ng-template>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-5 mb-4 form-group mb-2">
+                                <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="exportador" class="form-label">Exportador </label>
                                     <input type="text"  formControlName="exportador"
                                         class="form-control" id="agenciaAduanera" placeholder="Exportador"
@@ -122,7 +131,7 @@
                                     </app-consultar-empresa>
                                 </ng-template>
                             </div>
-                                <div class="col-md-5 mb-4 form-group mb-2">
+                                <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="clienteFinal" class="form-label"> Productor </label>
                                     <input type="text" formControlName="productor"
                                         class="form-control" id="clienteFinal" placeholder="Productor"
@@ -139,18 +148,7 @@
                                     </ng-template>
                                 </div>
                             </div>
-
-                            <div class="form-row">
-                                <div class="col-md-6 mb-4 form-group mb-2">
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado"
-                                        placeholder="Seleccionar Estado"
-                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
-                                        [(ngModel)]="selectedEstado">
-                                    </ng-select>
-                                </div>
-                                </div>
+                         
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="aduanasForm.invalid"
