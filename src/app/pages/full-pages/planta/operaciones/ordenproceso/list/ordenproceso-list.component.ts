@@ -209,7 +209,7 @@ export class OrdenProcesoListComponent implements OnInit {
   }
   
   Nuevo(): void {
-    this.router.navigate(['/planta/operaciones/ordenproceso-edit']);
+    this.router.navigate(['/planta/operaciones/ordenproceso/create']);
   }
 
   Seleccionar(selected)

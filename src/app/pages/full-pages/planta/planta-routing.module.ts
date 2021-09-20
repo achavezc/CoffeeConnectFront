@@ -81,12 +81,19 @@ const routes: Routes = [
         }
       },
       {
-        path: 'ordenproceso-edit/:id',
+        path: 'ordenproceso/create',
         component: OrdenProcesoEditComponent,
         data: {
-          title: 'Edit'
+          title: 'Contratos'
         }
-      }
+      },
+      {
+        path: 'ordenproceso/update/:id',
+        component: OrdenProcesoEditComponent,
+        data: {
+          title: 'Contratos'
+        }
+      },
     ]
   }
 ];
