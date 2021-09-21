@@ -124,7 +124,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(data.SubProducto);
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
-    this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);
+    this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(data.TipoCertificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadora);
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(data.OrdenProcesoPlantaId);
     this.liquidacionProcesoFormEdit.controls["observacion"].setValue(data.Observacion);
@@ -151,7 +151,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         subproducto: new FormControl('', []),
         numOrdenProceso: new FormControl('', []),
         razonSocial: new FormControl('', []),
-        certificacion: new FormControl('', []),
+        tipoCertificacion: new FormControl('', []),
         certificadora: new FormControl('', []),
         ordenProcesoPlantaId: new FormControl('', []),
         totalSacos: new FormControl('', []),
@@ -382,7 +382,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(e[0].Numero);
     this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(e[0].SubProducto);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocialOrganizacion);
-    this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(e[0].TipoCertificacion);
+    this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(e[0].TipoCertificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
     this.consultarDetalleporId(e[0].OrdenProcesoPlantaId)
   }
