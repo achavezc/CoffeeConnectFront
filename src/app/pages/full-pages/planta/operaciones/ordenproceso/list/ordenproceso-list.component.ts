@@ -31,7 +31,7 @@ export class OrdenProcesoListComponent implements OnInit {
   selectedEstado: any;
   listTipoProceso: [] = [];
   selectedTipoProceso: any;
-
+  userSession: any;
   selected = [];
   limitRef: number = 10;
   rows = [];
@@ -46,6 +46,7 @@ export class OrdenProcesoListComponent implements OnInit {
   @Input() popUp = false;
   
   ngOnInit(): void {
+    this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
     this.ordenProcesoform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
@@ -144,7 +145,7 @@ export class OrdenProcesoListComponent implements OnInit {
         FechaFin: this.ordenProcesoform.value.fechaFin,
         TipoProcesoId:  this.ordenProcesoform.controls["tipoProceso"].value,
         EstadoId:  this.ordenProcesoform.controls["estado"].value,
-        EmpresaId: 1
+        EmpresaId: this.userSession.Result.Data.EmpresaId
     };
   }
 

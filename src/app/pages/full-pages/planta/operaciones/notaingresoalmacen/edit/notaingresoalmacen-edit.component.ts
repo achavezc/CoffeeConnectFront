@@ -185,8 +185,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
       this.consultaNotaIngresoAlmacenFormEdit.controls['cascarillaPorcentaje'].setValue(data.CascarillaPorcentajeAnalisisFisico);
       this.consultaNotaIngresoAlmacenFormEdit.controls['totalGramos'].setValue(data.TotalGramosAnalisisFisico);
       this.consultaNotaIngresoAlmacenFormEdit.controls['totalPorcentaje'].setValue(data.TotalPorcentajeAnalisisFisico);
-      this.consultaNotaIngresoAlmacenFormEdit.controls['humedadAnalsisFisico'].setValue(data.TotalAnalisisSensorial);
-      this.consultaNotaIngresoAlmacenFormEdit.controls['puntajeFinal'].setValue(data.HumedadPorcentajePesado);
+      this.consultaNotaIngresoAlmacenFormEdit.controls['humedadAnalsisFisico'].setValue(data.HumedadPorcentajeAnalisisFisico);
+      this.consultaNotaIngresoAlmacenFormEdit.controls['puntajeFinal'].setValue(data.TotalAnalisisSensorial);
     }
     this.spinner.hide();
   }
