@@ -123,7 +123,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["producto"].setValue(data.Producto);
     this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(data.SubProducto);
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
-    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocial);
+    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadora);
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(data.OrdenProcesoPlantaId);
@@ -381,7 +381,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["producto"].setValue(e[0].Producto);
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(e[0].Numero);
     this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(e[0].SubProducto);
-    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonOrganizacion);
+    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(e[0].TipoCertificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
     this.consultarDetalleporId(e[0].OrdenProcesoPlantaId)

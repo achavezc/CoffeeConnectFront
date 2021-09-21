@@ -41,9 +41,10 @@ export class LiquidacionProcesoComponent implements OnInit {
   rows = [];
   selected = [];
   tempData = [];
+  userSession: any;
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
-  userSession: any;
+  
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -112,7 +113,7 @@ export class LiquidacionProcesoComponent implements OnInit {
       FechaFin: this.liquidacionProcesoForm.value.fechaFinal ,
       TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
       EstadoId: form.estado ? form.estado : '',
-      EmpresaId: 1
+      EmpresaId: this.userSession.Result.Data.EmpresaId
     };
   }
 

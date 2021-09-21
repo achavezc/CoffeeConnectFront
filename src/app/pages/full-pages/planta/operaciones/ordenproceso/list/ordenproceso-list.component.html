@@ -153,17 +153,17 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nro Orden" prop="Numero" width="90" *ngIf="popUp">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro Contrato" prop="NumeroContrato" width="150">
+                            <ngx-datatable-column name="Nro Contrato" prop="NumeroContrato" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Ruc" prop="RucOrganizacion" width="100">
+                            <ngx-datatable-column name="Ruc" prop="RucOrganizacion" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Organizacion" prop="RazonOrganizacion" width="100">
+                            <ngx-datatable-column name="Organizacion" prop="RazonSocialOrganizacion" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="100">
+                            <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fe. Inicio Proceso" prop="FechaInicioProceso" width="100">
+                            <ngx-datatable-column name="Fe. Inicio Proceso" prop="FechaInicioProceso" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="70">
+                            <ngx-datatable-column name="Estado" prop="Estado" width="60">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge"
                                         [ngClass]="{'bg-light-success': status == 'Activo', 'bg-light-warning': status == 'Inactivo' }">

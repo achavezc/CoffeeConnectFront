@@ -115,7 +115,7 @@
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
                             [scrollbarH]="true" [selected]="selected" [selectionType]="'single'"
                             [selectCheck]="singleSelectCheck">
-                            <ngx-datatable-column name="N° ORDEN" prop="Numero" width="100">
+                            <ngx-datatable-column name="N° LIQUIDACIÓN" prop="Numero" width="100">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -131,11 +131,11 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="RUC" prop="RucOrganizacion" width="50">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="ORGANIZACION" prop="RazonOrganizacion" width="80">
+                            <ngx-datatable-column name="ORGANIZACION" prop="RazonSocialOrganizacion" width="80">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="FEC. REGISTRO" prop="FechaRegistro" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="FEC.  FIN  PROCESO" prop="TipoProceso" width="80">
+                            <ngx-datatable-column name="FEC.  FIN  PROCESO" prop="FechaFinProceso" width="80">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="TIPO DE PROCESO" prop="TipoProceso" width="100">
                             </ngx-datatable-column>
