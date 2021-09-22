@@ -457,40 +457,16 @@ export class ProyectosEditComponent implements OnInit {
     if (!this.proyectosEditForm.invalid) {
       const form = this;
       if (this.vCodeProject <= 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la creación del nuevo proyecto?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la creación del nuevo proyecto?.' , function (result) {
+          if (result.isConfirmed) {
             form.Create();
           }
         });
       } else if (this.vCodeProject > 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la modificación del proyecto?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la modificación del proyecto?.' , function (result) {
+          if (result.isConfirmed) {
             form.Update();
           }
         });

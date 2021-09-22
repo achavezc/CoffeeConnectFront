@@ -193,17 +193,24 @@ export class TransporteEditComponent implements OnInit {
         }
         else {
             if (this.vId <= 0) {
-                form.CreatePrecioDia();
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.Create();
+                    }
+                  });
             }
             else {
-
-                form.ActualizarPrecioDia();
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.Actualizar();
+                    }
+                  });
             }
 
         }
     }
 
-    ActualizarPrecioDia(): void {
+    Actualizar(): void {
 
         var request = this.getRequest();
         this.transporteService.Actualizar(request)
@@ -224,7 +231,7 @@ export class TransporteEditComponent implements OnInit {
 
     }
 
-    CreatePrecioDia(): void {
+    Create(): void {
 
         var request = this.getRequest();
         this.transporteService.Registrar(request)

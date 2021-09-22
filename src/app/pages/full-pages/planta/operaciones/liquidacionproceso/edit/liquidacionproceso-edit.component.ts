@@ -15,6 +15,7 @@ import { host } from '../../../../../../shared/hosts/main.host';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { LiquidacionProcesoPlantaService } from '../../../../../../services/liquidacionproceso-planta.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-liquidacionproceso-edit',
@@ -303,10 +304,23 @@ export class LiquidacionProcesoEditComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
+        const form = this;
       if (this.esEdit && this.id != 0) {
-        this.actualizarLiquidacionProcesoService(request);
-      } else {
-        this.registrarLiquidacionProcesoService(request);
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+          if (result.isConfirmed) {
+            form.actualizarLiquidacionProcesoService(request);
+          }
+        });
+        
+      } else 
+      {
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+          if (result.isConfirmed) {
+            form.registrarLiquidacionProcesoService(request);
+          }
+        });
+        
       }
 
 
@@ -314,6 +328,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   registrarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
+    
     this.liquidacionProcesoPlantaService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();

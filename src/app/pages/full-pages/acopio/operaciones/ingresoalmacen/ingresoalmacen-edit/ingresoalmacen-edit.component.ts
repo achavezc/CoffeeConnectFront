@@ -258,6 +258,7 @@ export class IngresoAlmacenEditComponent implements OnInit {
 
 
   guardar() {
+    const form = this;
     if (this.consultaMateriaPrimaFormEdit.invalid) {
       this.submittedEdit = true;
       return;
@@ -271,7 +272,11 @@ export class IngresoAlmacenEditComponent implements OnInit {
           fullScreen: true
         });
 
-      this.actualizarService();
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+          if (result.isConfirmed) {
+            form.actualizarService();
+          }
+        });  
 
     }
   }

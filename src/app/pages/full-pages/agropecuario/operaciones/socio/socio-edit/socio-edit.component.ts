@@ -206,40 +206,17 @@ export class SocioEditComponent implements OnInit {
       this.errorGenerico = { isError: false, msgError: '' };
       const form = this;
       if (!this.vId) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la creación del nuevo socio?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la creación del nuevo socio?.' , function (result) {
+          if (result.isConfirmed) {
             form.CreateSocio();
           }
         });
+
       } else {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de modificar el socio ${this.socioEditForm.value.codSocio}?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de modificar el socio ${this.socioEditForm.value.codSocio}?.` , function (result) {
+          if (result.isConfirmed) {
             form.UpdateSocio();
           }
         });

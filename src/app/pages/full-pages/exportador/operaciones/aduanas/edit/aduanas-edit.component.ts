@@ -424,6 +424,7 @@ export class AduanasEditComponent implements OnInit {
   }
 
   guardar() {
+    const form = this;
     if (this.aduanasFormEdit.invalid) {
 
       this.submittedEdit = true;
@@ -498,9 +499,18 @@ export class AduanasEditComponent implements OnInit {
           fullScreen: true
         });
       if (this.esEdit && this.id != 0) {
-        this.actualizar(request);
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
+          if (result.isConfirmed) {
+            form.actualizar(request);
+          }
+        });
+        
       } else {
-        this.registrar(request);
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
+          if (result.isConfirmed) {
+            form.registrar(request);
+          }
+        });
       }
     }
 

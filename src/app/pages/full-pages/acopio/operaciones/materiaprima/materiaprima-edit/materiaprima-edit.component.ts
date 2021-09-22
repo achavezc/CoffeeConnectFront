@@ -14,12 +14,10 @@ import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
-import { Subject } from 'rxjs';
-import { ControlCalidadComponent } from '../materiaprima-edit/controlCalidad/seco/controlCalidad.component';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 import { PesadoCafeComponent } from '../materiaprima-edit/pesadoCafe/pesadoCafe.component';
 import { ContratoService } from './../../../../../../services/contrato.service';
-
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -523,6 +521,7 @@ export class MateriaPrimaEditComponent implements OnInit {
   }
 
   guardar() {
+    const form = this;
     if (this.consultaMateriaPrimaFormEdit.invalid) {
       this.submittedEdit = true;
       return;
@@ -590,9 +589,18 @@ export class MateriaPrimaEditComponent implements OnInit {
           fullScreen: true
         });
       if (this.esEdit && this.id != 0) {
-        this.actualizarService(request);
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+          if (result.isConfirmed) {
+            form.actualizarService(request);
+          }
+        });   
       } else {
-        this.guardarService(request);
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+          if (result.isConfirmed) {
+            form.guardarService(request);
+          }
+        }); 
       }
     }
   }

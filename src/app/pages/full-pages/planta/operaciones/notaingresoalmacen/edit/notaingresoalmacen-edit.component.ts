@@ -9,7 +9,8 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { Router } from "@angular/router"
+import { Router } from "@angular/router";
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-notaingresoalmacen-edit',
@@ -77,7 +78,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   cargarForm() {
     this.consultaNotaIngresoAlmacenFormEdit = this.fb.group(
       {
-        almacen: new FormControl('', []),
+        almacen: new FormControl('', [ Validators.required]),
         guiaremision: new FormControl({ value: '', disabled: true }, []),
         fecharemision: new FormControl({ value: '', disabled: true }, []),
         tipoProduccion: new FormControl({ value: '', disabled: true }, []),
@@ -193,6 +194,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
 
 
   guardar() {
+    const form = this;
     if (this.consultaNotaIngresoAlmacenFormEdit.invalid) {
       this.submittedEdit = true;
       return;
@@ -206,7 +208,11 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
           fullScreen: true
         });
 
-     this.actualizarService();
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+          if (result.isConfirmed) {
+            form.actualizarService();
+          }
+        });     
     }
   }
   actualizarService() {

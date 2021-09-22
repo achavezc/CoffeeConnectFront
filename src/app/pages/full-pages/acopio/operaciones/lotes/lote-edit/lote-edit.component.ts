@@ -29,7 +29,7 @@ export class LoteEditComponent implements OnInit {
     private loteService: LoteService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private alert: AlertUtil,
+    private alertUtil: AlertUtil,
     private dateUtil: DateUtil,
     private modalService: NgbModal) { }
 
@@ -229,6 +229,13 @@ export class LoteEditComponent implements OnInit {
     if (!this.loteEditForm.invalid) {
       this.errorGeneral = { isError: false, msgError: '' };
       const form = this;
+
+      this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de actualizar el lote "${this.loteEditForm.value.nroLote}"?` , function (result) {
+        if (result.isConfirmed) {
+          form.UpdateLote();
+        }
+      });  
+
       swal.fire({
         title: '¿Estas Seguro?',
         text: `¿Está seguro de actualizar el lote "${this.loteEditForm.value.nroLote}"?`,
@@ -289,7 +296,7 @@ export class LoteEditComponent implements OnInit {
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
-          this.alert.alertOkCallback("Actualizado!", "Actualizado correctamente!", () => {
+          this.alertUtil.alertOkCallback("Actualizado!", "Actualizado correctamente!", () => {
             this.Cancel();
           });
         }

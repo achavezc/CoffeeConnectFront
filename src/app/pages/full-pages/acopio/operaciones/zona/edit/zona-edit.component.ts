@@ -201,11 +201,18 @@ export class ZonaEditComponent implements OnInit {
         }
         else {
             if (this.vId <= 0) {
-                form.Create();
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.Create();
+                    }
+                  });   
             }
             else {
-
-                form.Actualizar();
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.Actualizar();
+                    }
+                  });
             }
 
         }

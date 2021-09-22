@@ -310,21 +310,9 @@ export class NotaCompraEditComponent implements OnInit {
   Liquidar(): void {
     if (this.selectedEstado == '01') {
       const form = this;
-      swal.fire({
-        title: 'Confirmación',
-        text: `¿Estas seguro de liquidar la nota de compra?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then(function (result) {
-        if (result.value) {
+
+      this.alertUtil.alertRegistro('Confirmación', '¿Estas seguro de liquidar la nota de compra?.' , function (result) {
+        if (result.isConfirmed) {
           form.ProcesarLiquidacion();
         }
       });

@@ -227,18 +227,31 @@ export class AdelantoEditComponent implements OnInit {
     }
     else {
       if (this.id <= 0) {
-        form.CreatePrecioDia();
+
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
+          if (result.isConfirmed) {
+            form.Create();
+          }
+        });
+
+        
       }
       else {
 
-        form.ActualizarPrecioDia();
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
+          if (result.isConfirmed) {
+            form.Actualizar();
+          }
+        });
+
+        
       }
 
     }
   }
 
 
-  ActualizarPrecioDia(): void {
+  Actualizar(): void {
 
     var request = this.getRequest();
     this.adelantoService.Actualizar(request)
@@ -259,7 +272,7 @@ export class AdelantoEditComponent implements OnInit {
 
   }
 
-  CreatePrecioDia(): void {
+  Create(): void {
 
     var request = this.getRequest();
     this.adelantoService.Registrar(request)

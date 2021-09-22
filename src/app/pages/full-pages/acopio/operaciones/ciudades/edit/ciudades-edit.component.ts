@@ -8,7 +8,7 @@ import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ILogin } from '../../../../../../services/models/login';
-import { formatCurrency } from '@angular/common';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ciudades-edit',
@@ -148,11 +148,46 @@ export class CiudadesEditComponent implements OnInit {
     {
       if (this.vId <= 0)
       {
-        form.CreatePrecioDia();
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con el registro?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            form.CreatePrecioDia();
+          }
+        });
       }
       else{
 
-        form.ActualizarPrecioDia();
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con la actualización?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+             form.ActualizarPrecioDia();
+          }
+        });
+       
       }
           
     }    

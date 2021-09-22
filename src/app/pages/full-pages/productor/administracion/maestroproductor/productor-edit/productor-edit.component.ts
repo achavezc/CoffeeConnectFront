@@ -286,40 +286,18 @@ export class ProductorEditComponent implements OnInit {
     const form = this;
     if (!this.productorEditForm.invalid) {
       if (!this.vId) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la creación del nuevo productor?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la creación del nuevo productor?.` , function (result) {
+          if (result.isConfirmed) {
             form.Create();
           }
         });
+
+       
       } else if (this.vId > 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de actualizar el productor ${this.productorEditForm.value.codProductor}?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de actualizar el productor ${this.productorEditForm.value.codProductor}?.` , function (result) {
+          if (result.isConfirmed) {
             form.Update();
           }
         });

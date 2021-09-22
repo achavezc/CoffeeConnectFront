@@ -170,17 +170,27 @@ export class DetalleCatalogoEditComponent implements OnInit {
     {
       if (this.vId <= 0)
       {
-        form.CreatePrecioDia();
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+          if (result.isConfirmed) {
+            form.Create();
+          }
+        });   
+        
       }
       else{
 
-        form.ActualizarPrecioDia();
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+          if (result.isConfirmed) {
+            form.Actualizar();
+          }
+        });   
+        
       }
           
     }    
   }
 
-  ActualizarPrecioDia(): void {
+  Actualizar(): void {
     
     var request = this.getRequest();
     this.detalleCatalogoService.Actualizar(request)
@@ -201,7 +211,7 @@ export class DetalleCatalogoEditComponent implements OnInit {
   
 }
 
-  CreatePrecioDia(): void {
+  Create(): void {
     
       var request = this.getRequest();
       this.detalleCatalogoService.Registrar(request)

@@ -173,8 +173,8 @@ export class OrdenServicioEditComponent implements OnInit {
   }
 
   guardar() {
+    const form = this;
     if (this.ordenServicioFormEdit.invalid || this.errorGeneral.isError) {
-
       this.submittedEdit = true;
       return;
     }
@@ -203,16 +203,26 @@ export class OrdenServicioEditComponent implements OnInit {
           fullScreen: true
         });
       if (this.esEdit && this.id != 0) {
-        this.actualizarNotaSalidaService(request);
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+          if (result.isConfirmed) {
+            form.actualizar(request);
+          }
+        });
+        
       } else {
-        this.registrarNotaSalidaService(request);
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+          if (result.isConfirmed) {
+            form.registrar(request);
+          }
+        });
       }
     }
 
   }
 
 
-  registrarNotaSalidaService(request: ReqOrdenServicio) {
+  registrar(request: ReqOrdenServicio) {
     this.ordenservicioControlcalidadService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
@@ -241,7 +251,7 @@ export class OrdenServicioEditComponent implements OnInit {
         }
       );
   }
-  actualizarNotaSalidaService(request: ReqOrdenServicio) {
+  actualizar(request: ReqOrdenServicio) {
     this.ordenservicioControlcalidadService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();

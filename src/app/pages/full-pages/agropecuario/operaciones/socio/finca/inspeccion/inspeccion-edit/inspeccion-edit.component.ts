@@ -494,40 +494,15 @@ export class InspeccionEditComponent implements OnInit {
     if (!this.frmFincaInspeccionEdit.invalid) {
       const form = this;
       if (this.codeInternalInspection <= 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la creación de la inspección interna?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la creación de la inspección interna?.' , function (result) {
+          if (result.isConfirmed) {
             form.Create();
           }
         });
       } else {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la actualización?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+          if (result.isConfirmed) {
             form.Update();
           }
         });

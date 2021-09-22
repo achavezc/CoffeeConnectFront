@@ -16,6 +16,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 import { PesadoCafePlantaComponent } from './pesadocafe/pesadocafeplanta.component';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-notaingreso-edit',
@@ -194,16 +195,9 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   changeSubProducto(e) {
-
     let filterProducto = e.Codigo;
-    if (filterProducto == this.PrdCafePergamino &&   this.notaIngredoFormEdit.get('subproducto').value != undefined &&  this.notaIngredoFormEdit.get('subproducto').value != this.SubPrdSeco)
-    {
-      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").disable();
-    }
-    else
-    {
-      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").enable();
-    } 
+    let subproducto = this.notaIngredoFormEdit.get('subproducto').value;
+    this.validacionPorcentajeRend(filterProducto, subproducto);
     this.cargarSubProducto(filterProducto);
     this.desactivarControl(filterProducto);
   }
@@ -226,7 +220,6 @@ export class NotaIngresoEditComponent implements OnInit {
     }
   }
 
-
   desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
     var usuarioLogueado = this.login.Result.Data.NombreUsuario
     if (estado == this.estadoPesado && usuarioPesado == usuarioLogueado) {
@@ -239,7 +232,7 @@ export class NotaIngresoEditComponent implements OnInit {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
-      
+
 
       //Calidad Editable
       //NotaCompra ReadOnly
@@ -271,17 +264,19 @@ export class NotaIngresoEditComponent implements OnInit {
 
   }
 
-  changeView(e) {
-    let filterSubTipo = e.Codigo;
-
-    if ( this.notaIngredoFormEdit.get('producto').value == this.PrdCafePergamino &&  filterSubTipo != this.SubPrdSeco )
-    {
+  validacionPorcentajeRend(producto, subproducto) {
+    if (producto == this.PrdCafePergamino && subproducto != this.SubPrdSeco && subproducto != undefined) {
       this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").disable()
+      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").setValue("");
     }
-    else
-    {
+    else {
       this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").enable();
     }
+  }
+  changeView(e) {
+    let filterSubTipo = e.Codigo;
+    let producto = this.notaIngredoFormEdit.get('producto').value;
+    this.validacionPorcentajeRend(producto, filterSubTipo);
     if (filterSubTipo == "02") {
       this.viewTagSeco = true;
     }
@@ -337,14 +332,15 @@ export class NotaIngresoEditComponent implements OnInit {
 
   guardar() {
 
+    const form = this;
     if (this.notaIngredoFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
-      if(this.notaIngredoFormEdit.get('pesado').get("calidad").value == null || this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0){
+      if (this.notaIngredoFormEdit.get('pesado').get("calidad").value == null || this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0) {
         this.notaIngredoFormEdit.get('pesado').get("calidad").setValue("");
-      }  
-      if(this.notaIngredoFormEdit.get('pesado').get("grado").value == null || this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0){
+      }
+      if (this.notaIngredoFormEdit.get('pesado').get("grado").value == null || this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0) {
         this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
       }
 
@@ -393,9 +389,20 @@ export class NotaIngresoEditComponent implements OnInit {
           fullScreen: true
         });
       if (this.esEdit && this.id != 0) {
-        this.actualizarService(request);
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
+          if (result.isConfirmed) {
+            form.actualizarService(request);
+          }
+        });
+       
       } else {
-        this.guardarService(request);
+
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
+          if (result.isConfirmed) {
+            form.guardarService(request);
+          }
+        });
+       
       }
     }
   }
@@ -524,12 +531,13 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.get('pesado').get("chofer").setValue(data.ConductorEmpresaTransporte);
     this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
     this.notaIngredoFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
+    this.validacionPorcentajeRend(data.ProductoId,data.SubProductoId);
     this.estado = data.Estado
     this.numeroNotaIngreso = data.Numero;
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
     this.responsable = data.UsuarioPesado;
-    this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId : data.EmpresaOrigenId};
+    this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaOrigenId };
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
   }
@@ -591,7 +599,7 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
 
-  
+
 
   Documents(): void {
 

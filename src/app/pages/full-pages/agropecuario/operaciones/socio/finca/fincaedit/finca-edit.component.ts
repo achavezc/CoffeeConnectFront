@@ -183,43 +183,18 @@ export class FincaEditComponent implements OnInit {
     if (!this.socioFincaEditForm.invalid) {
       const form = this;
       if (this.codeFincaPartner > 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la actualización del socio finca?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización del socio finca?.' , function (result) {
+          if (result.isConfirmed) {
             form.Update();
           }
-        });
+        }); 
       } else {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con el registro del socio finca?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro del socio finca?' , function (result) {
+          if (result.isConfirmed) {
             form.Create();
           }
-        });
+        }); 
       }
     }
   }

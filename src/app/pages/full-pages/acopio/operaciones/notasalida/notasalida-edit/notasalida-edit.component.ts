@@ -224,6 +224,7 @@ export class NotaSalidaEditComponent implements OnInit {
   }
 
   guardar() {
+    const form = this;
     if (this.child.listaLotesDetalleId.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' }; }
     else {
       this.errorGeneral = { isError: false, errorMessage: '' };
@@ -283,9 +284,19 @@ export class NotaSalidaEditComponent implements OnInit {
           fullScreen: true
         });
       if (this.esEdit && this.id != 0) {
-        this.actualizarNotaSalidaService(request);
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+          if (result.isConfirmed) {
+            form.actualizarNotaSalidaService(request);
+          }
+        });
+
       } else {
-        this.registrarNotaSalidaService(request);
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+          if (result.isConfirmed) {
+            form.registrarNotaSalidaService(request);
+          }
+        });
+
       }
 
 

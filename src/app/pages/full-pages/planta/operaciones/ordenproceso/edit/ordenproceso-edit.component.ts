@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,8 +12,6 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
-import { EmpresaService } from '../../../../../../services/empresa.service';
-import { ContratoService } from '../../../../../../services/contrato.service';
 import { host } from '../../../../../../shared/hosts/main.host';
 
 @Component({
@@ -480,43 +478,19 @@ export class OrdenProcesoEditComponent implements OnInit {
       if (this.ValidateDataDetails() > 0) {
         const form = this;
         if (this.codeProcessOrder <= 0) {
-          swal.fire({
-            title: 'Confirmación',
-            text: `¿Está seguro de continuar con el registro?.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2F8BE6',
-            cancelButtonColor: '#F55252',
-            confirmButtonText: 'Si',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-danger ml-1'
-            },
-            buttonsStyling: false,
-          }).then((result) => {
-            if (result.value) {
+
+          this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+            if (result.isConfirmed) {
               form.Create();
             }
-          });
+          });   
         } else if (this.codeProcessOrder > 0) {
-          swal.fire({
-            title: 'Confirmación',
-            text: `¿Está seguro de continuar con la actualización?.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2F8BE6',
-            cancelButtonColor: '#F55252',
-            confirmButtonText: 'Si',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-danger ml-1'
-            },
-            buttonsStyling: false,
-          }).then((result) => {
-            if (result.value) {
+
+          this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+            if (result.isConfirmed) {
               form.Update();
             }
-          });
+          });   
         }
       } else {
         this.alertUtil.alertWarning('ADVERTENCIA!', 'No pueden existir datos vacios en el detalle, por favor corregir.');

@@ -365,40 +365,16 @@ export class FincaEditComponent implements OnInit {
       this.errorGeneral = { isError: false, msgError: '' };
       const form = this;
       if (this.vId > 0) {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la actualización del productor finca?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización del productor finca?.` , function (result) {
+          if (result.isConfirmed) {
             form.Update();
           }
         });
+
       } else {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la creación del productor finca?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
+
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la creación del productor finca?.` , function (result) {
+          if (result.isConfirmed) {
             form.Create();
           }
         });

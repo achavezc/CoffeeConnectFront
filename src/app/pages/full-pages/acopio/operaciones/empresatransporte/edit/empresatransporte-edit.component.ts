@@ -210,11 +210,19 @@ export class EmpresaTransporteEditComponent implements OnInit {
         }
         else {
             if (this.vId <= 0) {
-                form.CreatePrecioDia();
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.CreatePrecioDia();
+                    }
+                  });   
             }
             else {
 
-                form.ActualizarPrecioDia();
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.ActualizarPrecioDia();
+                    }
+                  });
             }
 
         }

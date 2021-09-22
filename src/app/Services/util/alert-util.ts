@@ -59,6 +59,25 @@ export class AlertUtil {
     })
   }
 
+  alertRegistro(title: String, mensaje: any, callback)
+  {
+    swal.fire({
+      title: title,
+      text: mensaje,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      callback(result);
+    });
+  }
 
   alertWarning(title: String, mensaje: any) {
     swal.fire({

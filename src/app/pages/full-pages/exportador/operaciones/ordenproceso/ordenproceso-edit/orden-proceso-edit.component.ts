@@ -228,40 +228,16 @@ export class OrdenProcesoEditComponent implements OnInit {
       if (this.ValidateDataDetails() <= 0) {
         const form = this;
         if (this.codeProcessOrder <= 0) {
-          swal.fire({
-            title: 'Confirmación',
-            text: `¿Está seguro de continuar con el registro?.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2F8BE6',
-            cancelButtonColor: '#F55252',
-            confirmButtonText: 'Si',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-danger ml-1'
-            },
-            buttonsStyling: false,
-          }).then((result) => {
-            if (result.value) {
+          this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
+            if (result.isConfirmed) {
               form.Create();
             }
           });
+
         } else if (this.codeProcessOrder > 0) {
-          swal.fire({
-            title: 'Confirmación',
-            text: `¿Está seguro de continuar con la actualización?.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2F8BE6',
-            cancelButtonColor: '#F55252',
-            confirmButtonText: 'Si',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-danger ml-1'
-            },
-            buttonsStyling: false,
-          }).then((result) => {
-            if (result.value) {
+
+          this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
+            if (result.isConfirmed) {
               form.Update();
             }
           });
