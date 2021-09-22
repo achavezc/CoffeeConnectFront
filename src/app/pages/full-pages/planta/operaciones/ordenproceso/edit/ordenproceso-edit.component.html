@@ -96,7 +96,7 @@
                                             bindLabel="Label" bindValue="Codigo" id="estado"
                                             placeholder="Seleccionar Estado"
                                             [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                            [(ngModel)]="selectedEstado">
+                                            [(ngModel)]="selectedEstado" >
                                         </ng-select>
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div>|
                 </div>
                 <div class="card mt-0">
                     <h5 class="card-header bg-primary text-white text-center align-middle p-0">ORDEN DE PROCESO</h5>
@@ -217,7 +217,7 @@
                                     <div class="col-lg-8">
                                         <ng-select [items]="listCertificacion" formControlName="certificacion" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="certificacion"
-                                        placeholder="Seleccionar Certificacion"
+                                        placeholder="Seleccionar Certificacion" [multiple]="true"
                                         [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
                                         [(ngModel)]="selectedCertificacion">
                                         </ng-select>
