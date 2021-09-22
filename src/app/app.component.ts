@@ -13,7 +13,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  constructor(private router: Router, ) {
+  constructor(private router: Router,) {
   }
 
   ngOnInit() {
@@ -23,8 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => window.scrollTo(0, 0));
 
-      
-     
+
+
   }
 
 
