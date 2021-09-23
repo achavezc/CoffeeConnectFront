@@ -630,7 +630,7 @@ export class ControlCalidadComponent implements OnInit {
       
       const exportGramos = Number(this.formControlCalidad.controls["exportGramos"].value);
       const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value)
-      const cascarillaGramos = exportGramos - descarteGramos;
+      const cascarillaGramos =Number(this.formControlCalidad.controls["cascarillaGramos"].value) //exportGramos - descarteGramos;
       this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
       const totalRendExportable = exportGramos + descarteGramos + cascarillaGramos;
       this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
