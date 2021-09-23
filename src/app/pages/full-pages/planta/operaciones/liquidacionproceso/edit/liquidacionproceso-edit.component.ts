@@ -91,9 +91,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       );
   }
 
-  
 
- 
+
+
   obtenerDetalle() {
     this.spinner.show();
     this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id))
@@ -189,20 +189,19 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["envases"].setValue(data.EnvasesProductos);
     this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
     this.numero = data.Numero;
-   
+
     data.Resultado.forEach(x => {
-      this.tempDataResultProceso.push( {Label : x.Referencia});
+      this.tempDataResultProceso.push({ Label: x.Referencia });
     });
     this.rowsResultProceso = [...this.tempDataResultProceso];
 
     data.Resultado.forEach(
-      x=>{
+      x => {
         this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos);
         this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN);
-        this.formGroupKilosNetos.get(x.ReferenciaId + '%kilosNetos').setValue(x.KilosNetos);
-        
       }
     );
+    this.calcularKilosNetos();
     this.tempMateriaPrima = data.Detalle;
     this.rowsMateriaPrima = [...this.tempMateriaPrima]
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
@@ -216,32 +215,39 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   }
 
-  calcularSacos() {
+  calcularKilosNetos() {
     this.rowsResultProceso.forEach(x => {
-      var valueSacos = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
-      var kg = Number(this.formGroupKg.get(x.Codigo + '%Kg').value);
-      if (valueSacos != 0 || kg != 0) {
-        var kilosNetos = valueSacos*69 + kg;
-        this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').setValue(kilosNetos);
-        var totalKilosNetos =  this.calcularTotalKilosNetos();
-        var porcentajeKilosNetos = ((kilosNetos / totalKilosNetos) * 100).toFixed(2);
-        
-        this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').setValue(porcentajeKilosNetos);
-        var qqKg = (valueSacos / 46).toFixed(2);
-        this.formGroupQqkg.get(x.Codigo + '%qqkg').setValue(qqKg);
-      }
+      var valueSacos = this.formGroupSacos.get(x.Codigo + '%sacos').value;
+      var kg = this.formGroupKg.get(x.Codigo + '%Kg').value;
+      var kilosNetos = Number(valueSacos) * 69 + Number(kg);
+      this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').setValue(kilosNetos == 0 ? "" : kilosNetos);
+      var qqKg = valueSacos / 46;
+      this.formGroupQqkg.get(x.Codigo + '%qqkg').setValue(qqKg == 0 ? "" : qqKg.toFixed(2));
+    });
+
+    this.calcularPorcentaje();
+
+  }
+
+  calcularPorcentaje() {
+    var totalKilosNetos = this.calcularTotalKilosNetos();
+    this.rowsResultProceso.forEach(x => {
+      var kilosNetos = Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
+      var porcentajeKilosNetos = (kilosNetos / totalKilosNetos) * 100;
+      this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').setValue(porcentajeKilosNetos == 0 ? "" : porcentajeKilosNetos.toFixed(2));
     });
     this.calcularTotalPorcentaje();
   }
+
   calcularTotalPorcentaje() {
     var totalPorcentaje = 0;
     this.rowsResultProceso.forEach(x => {
       totalPorcentaje = totalPorcentaje + Number(this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').value);
     });
-    this.liquidacionProcesoFormEdit.get('totalPorcentaje').setValue(Math.round(totalPorcentaje));
+    this.liquidacionProcesoFormEdit.get('totalPorcentaje').setValue(isNaN(totalPorcentaje) ? 0 : Math.round(totalPorcentaje));
   }
- 
-   calcularTotalKilosNetos() {
+
+  calcularTotalKilosNetos() {
     var totalKilosNetos = 0;
     this.rowsResultProceso.forEach(x => {
       totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
@@ -307,23 +313,22 @@ export class LiquidacionProcesoEditComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
-        const form = this;
+      const form = this;
       if (this.esEdit && this.id != 0) {
 
-        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.', function (result) {
           if (result.isConfirmed) {
             form.actualizarLiquidacionProcesoService(request);
           }
         });
-        
-      } else 
-      {
-        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+
+      } else {
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.', function (result) {
           if (result.isConfirmed) {
             form.registrarLiquidacionProcesoService(request);
           }
         });
-        
+
       }
 
 
@@ -331,7 +336,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   registrarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
-    
+
     this.liquidacionProcesoPlantaService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();

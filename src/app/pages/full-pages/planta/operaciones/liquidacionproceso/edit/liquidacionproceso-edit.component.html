@@ -134,13 +134,13 @@
                       [summaryTemplate]="totalSacos">
                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <input type="number" class="form-control" id="basicInput"
-                          [formControlName]="row.Codigo+'%sacos'" (input)="calcularSacos()">
+                          [formControlName]="row.Codigo+'%sacos'" (input)="calcularKilosNetos()">
                       </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Kg. N" prop="KGN" width="50" [formGroup]="formGroupKg"
                       [summaryTemplate]="totalKg">
                       <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%Kg'" (input)="calcularSacos()">
+                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%Kg'" (input)="calcularKilosNetos()">
 
                       </ng-template>
                     </ngx-datatable-column>
