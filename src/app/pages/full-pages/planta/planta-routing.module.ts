@@ -63,14 +63,14 @@ const routes: Routes = [
         component: LiquidacionProcesoComponent,
         data:
         {
-          title: 'list'
+          title: 'LiquidacionProcesoList'
         }
       },
       {
         path: 'liquidacionproceso-edit',
         component: LiquidacionProcesoEditComponent,
         data: {
-          title: 'Edit'
+          title: 'LiquidacionProcesoEdit'
         }
       },
       {

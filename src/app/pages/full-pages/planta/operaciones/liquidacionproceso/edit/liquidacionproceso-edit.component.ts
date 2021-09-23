@@ -91,6 +91,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       );
   }
 
+  
+
+ 
   obtenerDetalle() {
     this.spinner.show();
     this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id))
@@ -116,28 +119,6 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         }
       );
   }
-
-  cargarDataFormulario(data: any) {
-    this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(data.TipoProceso);
-    this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
-    this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
-    this.liquidacionProcesoFormEdit.controls["producto"].setValue(data.Producto);
-    this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(data.SubProducto);
-    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
-    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
-    this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(data.TipoCertificacion);
-    this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadora);
-    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(data.OrdenProcesoPlantaId);
-    this.liquidacionProcesoFormEdit.controls["observacion"].setValue(data.Observacion);
-    this.liquidacionProcesoFormEdit.controls["envases"].setValue(data.EnvasesProductos);
-    this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
-    this.numero = data.Numero;
-    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.responsable = data.UsuarioRegistro;
-    this.spinner.hide();
-
-  }
-
 
   get fns() {
     return this.liquidacionProcesoFormEdit.controls;
@@ -193,25 +174,61 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     });
   }
 
+  cargarDataFormulario(data: any) {
+    this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(data.TipoProceso);
+    this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
+    this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
+    this.liquidacionProcesoFormEdit.controls["producto"].setValue(data.Producto);
+    this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(data.SubProducto);
+    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
+    this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
+    this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(data.TipoCertificacion);
+    this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadora);
+    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(data.OrdenProcesoPlantaId);
+    this.liquidacionProcesoFormEdit.controls["observacion"].setValue(data.Observacion);
+    this.liquidacionProcesoFormEdit.controls["envases"].setValue(data.EnvasesProductos);
+    this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
+    this.numero = data.Numero;
+   
+    data.Resultado.forEach(x => {
+      this.tempDataResultProceso.push( {Label : x.Referencia});
+    });
+    this.rowsResultProceso = [...this.tempDataResultProceso];
+
+    data.Resultado.forEach(
+      x=>{
+        this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos);
+        this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN);
+        this.formGroupKilosNetos.get(x.ReferenciaId + '%kilosNetos').setValue(x.KilosNetos);
+        
+      }
+    );
+    this.tempMateriaPrima = data.Detalle;
+    this.rowsMateriaPrima = [...this.tempMateriaPrima]
+    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
+    this.responsable = data.UsuarioRegistro;
+    this.spinner.hide();
+
+  }
+
   openModal(modalOrdenProceso) {
     this.modalService.open(modalOrdenProceso, { windowClass: 'dark-modal', size: 'xl' });
 
   }
 
   calcularSacos() {
-    this.calcularTotalSacos();
     this.rowsResultProceso.forEach(x => {
       var valueSacos = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
       var kg = Number(this.formGroupKg.get(x.Codigo + '%Kg').value);
       if (valueSacos != 0 || kg != 0) {
         var kilosNetos = valueSacos*69 + kg;
         this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').setValue(kilosNetos);
-        var totalKilosNetos = this.calcularTotalKilosNetos();
+        var totalKilosNetos =  this.calcularTotalKilosNetos();
         var porcentajeKilosNetos = ((kilosNetos / totalKilosNetos) * 100).toFixed(2);
+        
+        this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').setValue(porcentajeKilosNetos);
         var qqKg = (valueSacos / 46).toFixed(2);
         this.formGroupQqkg.get(x.Codigo + '%qqkg').setValue(qqKg);
-        this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').setValue(porcentajeKilosNetos);
-        this.calcularTotalKg();
       }
     });
     this.calcularTotalPorcentaje();
@@ -223,22 +240,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     });
     this.liquidacionProcesoFormEdit.get('totalPorcentaje').setValue(Math.round(totalPorcentaje));
   }
-  calcularTotalSacos() {
-    var totalSacos = 0;
-    this.rowsResultProceso.forEach(x => {
-      totalSacos = totalSacos + Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
-    });
-    this.liquidacionProcesoFormEdit.get('totalSacos').setValue(totalSacos);
-    return totalSacos;
-  }
-  calcularTotalKg() {
-    var totalKg = 0;
-    this.rowsResultProceso.forEach(x => {
-      totalKg = totalKg + Number(this.formGroupKg.get(x.Codigo + '%Kg').value);
-    });
-    this.liquidacionProcesoFormEdit.get('totalKg').setValue(totalKg);
-  }
-  calcularTotalKilosNetos() {
+ 
+   calcularTotalKilosNetos() {
     var totalKilosNetos = 0;
     this.rowsResultProceso.forEach(x => {
       totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);

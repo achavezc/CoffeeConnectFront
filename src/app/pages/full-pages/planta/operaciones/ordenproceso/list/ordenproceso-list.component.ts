@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild,Output,EventEmitter , Input} from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
@@ -23,7 +23,8 @@ export class OrdenProcesoListComponent implements OnInit {
     private maestroService: MaestroService,
     private router: Router,
     private excelService: ExcelService,
-    private maestroUtil: MaestroUtil) { }
+    private maestroUtil: MaestroUtil,
+    private route: ActivatedRoute) { }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -44,6 +45,7 @@ export class OrdenProcesoListComponent implements OnInit {
   ordenProcesoform: FormGroup;
   @Output() seleccionarEvent = new EventEmitter<any>();
   @Input() popUp = false;
+  page: any;
   
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -51,6 +53,7 @@ export class OrdenProcesoListComponent implements OnInit {
     this.LoadCombos();
     this.ordenProcesoform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ordenProcesoform.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.page = this.route.routeConfig.data.title;
   }
 
   LoadForm(): void {
@@ -105,9 +108,20 @@ export class OrdenProcesoListComponent implements OnInit {
   }
 
   async GetListEstado() {
+    const form = this;
     let res = await this.maestroService.obtenerMaestros('EstadoOrdenProceso').toPromise();
     if (res.Result.Success) {
       this.listEstado= res.Result.Data;
+      if (this.popUp) {
+        switch (this.page) {
+          case "LiquidacionProcesoEdit":
+            form.selectedEstado = '01';
+            break;
+          default:
+            break;
+        }
+        this.ordenProcesoform.controls.estado.disable();
+      }
     }
   }
 

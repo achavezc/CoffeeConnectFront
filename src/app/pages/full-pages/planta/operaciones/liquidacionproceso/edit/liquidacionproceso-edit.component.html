@@ -130,14 +130,14 @@
                     [rows]="rowsResultProceso" [scrollbarH]="false" [summaryRow]="true" [summaryPosition]="'bottom'">
                     <ngx-datatable-column name="Referencia" prop="Label" width="100">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Sacos" prop="Sacos" width="50" [formGroup]="formGroupSacos"
+                    <ngx-datatable-column name="Sacos" prop="CantidadSacos" width="50" [formGroup]="formGroupSacos"
                       [summaryTemplate]="totalSacos">
-                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                     <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <input type="number" class="form-control" id="basicInput"
                           [formControlName]="row.Codigo+'%sacos'" (input)="calcularSacos()">
                       </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Kg. N" prop="Kg" width="50" [formGroup]="formGroupKg"
+                    <ngx-datatable-column name="Kg. N" prop="KGN" width="50" [formGroup]="formGroupKg"
                       [summaryTemplate]="totalKg">
                       <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%Kg'" (input)="calcularSacos()">
@@ -152,7 +152,7 @@
 
                       </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="%" prop="Porcentaje" width="50" [formGroup]="formGroupPorcentaje"
+                    <ngx-datatable-column name="%" prop="LiquidacionProcesoPlantaId" width="50" [formGroup]="formGroupPorcentaje"
                       [summaryTemplate]="totalPorcentaje">
                       <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <input type="number" class="form-control" id="basicInput"

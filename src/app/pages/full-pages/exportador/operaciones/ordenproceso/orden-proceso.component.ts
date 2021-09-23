@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, Output } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
@@ -28,7 +28,8 @@ export class OrdenProcesoComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private dateUtil: DateUtil,
     private maestroUtil: MaestroUtil,
-    private alertUtil: AlertUtil) {
+    private alertUtil: AlertUtil,
+    private route: ActivatedRoute) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -47,13 +48,14 @@ export class OrdenProcesoComponent implements OnInit {
   userSession: any;
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
-
+  page: any;
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.ordenProcesoForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
     this.ordenProcesoForm.controls.fechaInicial.setValue(this.dateUtil.currentMonthAgo());
     this.LoadCombos();
+    this.page = this.route.routeConfig.data.title;
   }
 
   LoadForm(): void {
@@ -76,11 +78,13 @@ export class OrdenProcesoComponent implements OnInit {
   }
 
   LoadCombos(): void {
+    const form = this;
     this.maestroUtil.obtenerMaestros('EstadoOrdenProceso', (res: any) => {
       if (res.Result.Success) {
         this.listEstados = res.Result.Data;
         if (this.popUp) {
-          this.ordenProcesoForm.controls.estado.setValue("01");
+
+          form.selectedEstado = '01';
           this.ordenProcesoForm.controls.estado.disable();
         }
       }
