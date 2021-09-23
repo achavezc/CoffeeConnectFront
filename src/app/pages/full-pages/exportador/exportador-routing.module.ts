@@ -9,6 +9,10 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproce
 import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.component';
 import { PreciosDiaComponent } from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
 import { PrecioDiaEditComponent } from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
+import { TipoCambioDiaComponent } from './operaciones/tipocambiodia/tipocambiodia-list/tipocambiodia-list.component';
+import { TipoCambioDiaEditComponent } from './operaciones/tipocambiodia/tipocambiodia-edit/tipocambiodia-edit.component';
+
+
 import { AduanasComponent } from './operaciones/aduanas/list/aduanas.component';
 import { AduanasEditComponent } from './operaciones/aduanas/edit/aduanas-edit.component';
 import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimiento/preciodia-rendimiento.component';
@@ -91,6 +95,21 @@ const routes: Routes = [
       {
         path: 'preciosdia/create',
         component: PrecioDiaEditComponent,
+        data: {
+          title: 'Precios del día'
+        }
+      }
+      ,
+      {
+        path: 'tipocambiodia/list',
+        component: TipoCambioDiaComponent,
+        data: {
+          title: 'Precios del día'
+        }
+      },
+      {
+        path: 'tipocambiodia/create',
+        component: TipoCambioDiaEditComponent,
         data: {
           title: 'Precios del día'
         }

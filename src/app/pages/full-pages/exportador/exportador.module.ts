@@ -26,6 +26,8 @@ import { OrdenProcesoComponent } from './operaciones/ordenproceso/orden-proceso.
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/ordenproceso-edit/orden-proceso-edit.component';
 import { PreciosDiaComponent } from './operaciones/preciosdia/preciosdia-list/preciosdia-list.component';
 import { PrecioDiaEditComponent } from './operaciones/preciosdia/preciosdia-edit/preciosdia-edit.component';
+import { TipoCambioDiaComponent } from './operaciones/tipocambiodia/tipocambiodia-list/tipocambiodia-list.component';
+import { TipoCambioDiaEditComponent } from './operaciones/tipocambiodia/tipocambiodia-edit/tipocambiodia-edit.component';
 import { ModalModule } from '../modals/modal.module'
 import { AduanasComponent } from './operaciones/aduanas/list/aduanas.component';
 import { AduanasEditComponent } from './operaciones/aduanas/edit/aduanas-edit.component';
@@ -44,6 +46,8 @@ import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendi
     OrdenProcesoEditComponent,
     PreciosDiaComponent,
     PrecioDiaEditComponent,
+    TipoCambioDiaComponent,
+    TipoCambioDiaEditComponent,
     AduanasComponent,
     AduanasEditComponent,
     PreciodiaRendimientoComponent,
@@ -77,6 +81,8 @@ import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendi
     OrdenProcesoEditComponent,
     PreciosDiaComponent,
     PrecioDiaEditComponent,
+    TipoCambioDiaComponent,
+    TipoCambioDiaEditComponent,
     AduanasComponent,
     AduanasEditComponent
   ],

@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">MAESTRO DE TIPO DE CAMBIO DEL DIA</div>
+    </div>
+</div>
+<form class="needs-validation" novalidate [formGroup]="precioDiaEditForm">
+   
+    <div class="card border-dark mb-3">
+        <div class="card-body">
+            <div class="form-row">
+                
+                
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="estado" class="col-md-4 col-form-label pr-0">Estado</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listEstado" formControlName="estado" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="estado" 
+                                placeholder="Seleccionar Estado" [(ngModel)]="selectedEstado"
+                                [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="codSocio" class="col-4 col-form-label pr-0">Tipo de Cambio del Dia</label>
+                        <div class="col-8">
+                            <input type="number" name="monto" id="monto" formControlName="monto"
+                                class="form-control" placeholder="Ingresar Tipo de Cambio" 
+                                [ngClass]="{ 'is-invalid': f.monto.invalid, 'is-valid': !f.monto.invalid }">
+                        </div>
+                    </div>
+                </div>                
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="fecRegistro" class="col-4 col-form-label pr-0">Fecha de
+                            Registro</label>
+                        <div class="col-8 pl-0">
+                            <input type="date" date name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
+                                class="form-control" placeholder="Seleccionar fecha de registro" 
+                                [ngClass]="{ 'is-invalid': f.fecRegistro.invalid, 'is-valid': !f.fecRegistro.invalid }">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
+                <div class="col-8 d-flex flex-sm-row flex-column">
+                  <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                  <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
+                    for="horizontal-form-1">{{responsable}}</label>
+                </div>
+               
+
+              </div>
+            <div class="row">
+                <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
+                    {{errorGeneral.errorMessage}}
+                </small>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <button class="btn btn-primary" (click)="Save()">Guardar</button>
+            <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
+        </div>
+    </div>
+</form>
+<div class="d-flex justify-content-center">
+    <ngx-spinner></ngx-spinner>
+</div>

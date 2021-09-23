@@ -283,6 +283,10 @@
 				{
 					"Label":"Precio del Día"
 				},
+		"TipoCambioDia":
+				{
+					"Label":"Tipo de Cambio"
+				},
 		"Aduanas":
 				{
 					"Label":"Aduanas"
