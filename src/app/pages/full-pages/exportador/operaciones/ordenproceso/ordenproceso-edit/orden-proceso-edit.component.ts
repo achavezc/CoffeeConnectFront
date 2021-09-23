@@ -46,7 +46,8 @@ export class OrdenProcesoEditComponent implements OnInit {
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   isLoading = false;
   fileName = "";
-
+  listCertificacion = [];
+  
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.codeProcessOrder = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
@@ -56,6 +57,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.userSession.Result.Data.RucEmpresa);
     this.ordenProcesoEditForm.controls.responsableComercial.setValue(this.userSession.Result.Data.NombreCompletoUsuario);
     this.GetTipoProcesos();
+    this.GetCertificacion();
     if (this.codeProcessOrder <= 0) {
       this.ordenProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
       this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
@@ -121,7 +123,12 @@ export class OrdenProcesoEditComponent implements OnInit {
     }
     this.modalService.dismissAll();
   }
-
+  async GetCertificacion() {
+    const res = await this.maestroService.obtenerMaestros('TipoCertificacion').toPromise();
+    if (res.Result.Success) {
+      this.listCertificacion = res.Result.Data;
+    }
+  }
   async AutocompleteDataContrato(obj: any) {
     let empaque_Tipo = '';
     if (obj.ContratoId)
@@ -142,8 +149,10 @@ export class OrdenProcesoEditComponent implements OnInit {
     if (obj.TipoProduccion)
       this.ordenProcesoEditForm.controls.tipoProduccion.setValue(obj.TipoProduccion);
 
-    if (obj.TipoCertificacion)
-      this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
+    if (obj.TipoCertificacionId)
+      await this.GetCertificacion();
+      //this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
+      this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacionId.split('|').map(String));
 
     if (obj.Empaque)
       empaque_Tipo = obj.Empaque;
@@ -339,8 +348,10 @@ export class OrdenProcesoEditComponent implements OnInit {
         this.ordenProcesoEditForm.controls.destino.setValue(data.Direccion);
       if (data.TipoProduccion)
         this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccion);
-      if (data.Certificacion)
-        this.ordenProcesoEditForm.controls.certificacion.setValue(data.Certificacion);
+      if (data.TipoCertificacionId)
+        await this.GetCertificacion();
+        //this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
+        this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
       if (data.FechaFinProceso)
         this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(data.FechaFinProceso.substring(0, 10));
       if (data.TipoProcesoId) {

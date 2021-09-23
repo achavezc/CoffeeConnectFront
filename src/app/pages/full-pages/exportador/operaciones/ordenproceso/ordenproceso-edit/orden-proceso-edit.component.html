@@ -158,10 +158,17 @@
                                     <div class="form-group row">
                                         <label for="certificacion" class="col-lg-5 col-form-label">CERTIFICACIÓN</label>
                                         <div class="col-lg-7">
-                                            <input type="text" class="form-control" formControlName="certificacion"
+                                          <!--   <input type="text" class="form-control" formControlName="certificacion"
                                                 id="certificacion" name="certificacion" placeholder="Certificación"
                                                 [readonly]="true"
                                                 [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }" />
+ -->
+                                                <ng-select [items]="listCertificacion" formControlName="certificacion" class="form-control"
+                                                bindLabel="Label" bindValue="Codigo" id="certificacion"
+                                                placeholder="Seleccionar Certificacion" [multiple]="true"
+                                                [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
+                                                [(ngModel)]="selectedCertificacion">
+                                                </ng-select>
                                         </div>
                                     </div>
                                 </div>
