@@ -176,7 +176,8 @@ export class OrdenProcesoEditComponent implements OnInit {
 
     await this.cargarSubProducto(data.ProductoId);
     await this.cargarSubProductoTerminado(data.ProductoId);
-
+    await this.GetCertificacion();
+    await this.GetCertificadora();
     this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
     this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
     this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.Ruc);
@@ -184,13 +185,14 @@ export class OrdenProcesoEditComponent implements OnInit {
 
     this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
     this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
-    this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
-
-
-
+    
+    //this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
+    //this.ordenProcesoEditForm.controls["certificacion"].setValue(data.TipoCertificacionId);
+    this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
     this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
+    this.ordenProcesoEditForm.controls["certificadora"].setValue(data.EntidadCertificadoraId);
 
-    this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
+    //this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
     this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
     this.ordenProcesoEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
 
