@@ -190,15 +190,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
     this.numero = data.Numero;
 
-    data.Resultado.forEach(x => {
-      this.tempDataResultProceso.push({ Label: x.Referencia });
-    });
-    this.rowsResultProceso = [...this.tempDataResultProceso];
-
     data.Resultado.forEach(
       x => {
-        this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos);
-        this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN);
+        this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos == 0 ? "": x.CantidadSacos);
+        this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN ==0 ? "": x.KGN);
       }
     );
     this.calcularKilosNetos();
