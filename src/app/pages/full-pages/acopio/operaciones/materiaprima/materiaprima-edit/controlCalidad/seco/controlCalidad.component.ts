@@ -9,7 +9,7 @@ import {
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
-import { Router } from "@angular/router";
+import { Router,ActivatedRoute } from "@angular/router";
 import { ILogin } from '../../../../../../../../services/models/login';
 import { DateUtil } from '../../../../../../../../services/util/date-util';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
@@ -61,8 +61,9 @@ export class ControlCalidadComponent implements OnInit {
   estadoAnalizado = "02";
   estadoAnulado = "00";
   estadoEnviadoAlmacen = "03";
-
+  page: any;
   btnGuardarCalidad = true;
+  calculocascarilla = 400;
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router, private dateUtil: DateUtil,
@@ -72,13 +73,15 @@ export class ControlCalidadComponent implements OnInit {
     private alertUtil: AlertUtil,
     private ordenServicio: OrdenservicioControlcalidadService,
     private acopioService: AcopioService,
-    private notaIngresoPlantaService: PlantaService
+    private notaIngresoPlantaService: PlantaService,
+    private route: ActivatedRoute
   ) {
 
   }
 
   ngOnInit(): void {
-
+    this.login = JSON.parse(localStorage.getItem("user"));
+    this.page = this.route.routeConfig.data.title;
     this.cargarForm();
     this.cargarCombos();
 
@@ -185,7 +188,8 @@ export class ControlCalidadComponent implements OnInit {
 
       });
     this.formControlCalidad.setValidators(this.comparisonValidator());
-    this.login = JSON.parse(localStorage.getItem("user"));
+    
+    this.desactivarControlesPlanta();
   }
 
   valorMinMax() {
@@ -629,8 +633,17 @@ export class ControlCalidadComponent implements OnInit {
     else {
       
       const exportGramos = Number(this.formControlCalidad.controls["exportGramos"].value);
-      const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value)
-      const cascarillaGramos =Number(this.formControlCalidad.controls["cascarillaGramos"].value) //exportGramos - descarteGramos;
+      const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value);
+      var cascarillaGramos = 0 ;
+      if (this.page == "NotaIngresoPlantaEdit")
+      {
+        cascarillaGramos = this.calculocascarilla-exportGramos - descarteGramos;
+      }
+      else
+      {
+        cascarillaGramos =Number(this.formControlCalidad.controls["cascarillaGramos"].value);
+      }
+      
       this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
       const totalRendExportable = exportGramos + descarteGramos + cascarillaGramos;
       this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
@@ -675,6 +688,8 @@ export class ControlCalidadComponent implements OnInit {
 
 
   obtenerDetalle() {
+
+    this.desactivarControlesPlanta();
     var form = this;
     let puntajeFinal: number = 0;
     var controlFormControlCalidad = this.formControlCalidad.controls;
@@ -752,6 +767,13 @@ export class ControlCalidadComponent implements OnInit {
     this.desactivarControles(this.detalle.EstadoId, this.detalle.UsuarioCalidad);
   }
 
+  desactivarControlesPlanta ()
+  {
+    if (this.page == "NotaIngresoPlantaEdit")
+    {
+      this.formControlCalidad.controls["cascarillaGramos"].disable();
+    }
+  }
   desactivarControles(estado: string, usuarioAnalizado: string) {
     var usuarioLogueado = this.login.Result.Data.NombreUsuario
     if (estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado) {

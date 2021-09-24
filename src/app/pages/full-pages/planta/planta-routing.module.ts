@@ -20,14 +20,14 @@ const routes: Routes = [
         path: 'notaingreso-list',
         component: NotaIngresoListComponent,
         data: {
-          title: 'List'
+          title: 'NotaIngresoPlantaList'
         }
       },
       {
         path: 'notaingreso-edit',
         component: NotaIngresoEditComponent,
         data: {
-          title: 'Edit'
+          title: 'NotaIngresoPlantaEdit'
         },
       },
       {
