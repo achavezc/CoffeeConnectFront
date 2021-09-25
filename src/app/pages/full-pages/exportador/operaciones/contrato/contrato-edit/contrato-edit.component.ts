@@ -567,13 +567,21 @@ export class ContratoEditComponent implements OnInit {
       .post(this.url + '/Registrar', formData, { headers })
       .subscribe((res: any) => {
         this.spinner.hide();
-        if (res.Result.Success) {
+        if (res.Result.Success) 
+        {
+          if (res.Result.ErrCode == '02') {
+            this.alertUtil.alertError('Validación', 'Ya existe un Contrato con el mismo número.');
+             
+          } else { 
           this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
             "Se registro correctamente el contrato.",
             () => {
               this.Cancelar();
             });
-        } else {
+          }
+        } 
+        else {
+          
           this.alertUtil.alertError("ERROR!", res.Result.Message);
         }
       }, (err: any) => {

@@ -67,8 +67,8 @@ export class ClienteEditComponent implements OnInit {
       tipoCliente: ['', Validators.required],
       codCliente: [''],
       cliente: ['', Validators.required],
-      nroRuc: [0],
-      telefono: [0],
+      nroRuc: [''],
+      telefono: [''],
       email: ['', Validators.required],
       direccion: ['', Validators.required],
       pais: [, Validators.required],
@@ -77,9 +77,9 @@ export class ClienteEditComponent implements OnInit {
       distrito: [''],
       ciudad: [''],
       descGerente: [''],
-      idGerente: [0],
+      idGerente: [''],
       descPresidente: [''],
-      idPresidente: [0],
+      idPresidente: [''],
       responsableComercial: [''],
       floId: [, Validators.required]
     });
