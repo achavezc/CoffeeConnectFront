@@ -537,7 +537,7 @@ export class ContratoEditComponent implements OnInit {
       const form = this;
       if (this.vId > 0) {
 
-        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la modificación del contrato?.` , function (result) {
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la modificación del contrato?.`, function (result) {
           if (result.isConfirmed) {
             form.Update();
           }
@@ -545,7 +545,7 @@ export class ContratoEditComponent implements OnInit {
 
       } else if (this.vId <= 0) {
 
-        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la creación del nuevo contrato?.` , function (result) {
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la creación del nuevo contrato?.`, function (result) {
           if (result.isConfirmed) {
             form.Create();
           }
@@ -567,21 +567,20 @@ export class ContratoEditComponent implements OnInit {
       .post(this.url + '/Registrar', formData, { headers })
       .subscribe((res: any) => {
         this.spinner.hide();
-        if (res.Result.Success) 
-        {
+        if (res.Result.Success) {
           if (res.Result.ErrCode == '02') {
             this.alertUtil.alertError('Validación', 'Ya existe un Contrato con el mismo número.');
-             
-          } else { 
-          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-            "Se registro correctamente el contrato.",
-            () => {
-              this.Cancelar();
-            });
+
+          } else {
+            this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+              "Se registro correctamente el contrato.",
+              () => {
+                this.Cancelar();
+              });
           }
-        } 
+        }
         else {
-          
+
           this.alertUtil.alertError("ERROR!", res.Result.Message);
         }
       }, (err: any) => {
@@ -935,10 +934,12 @@ export class ContratoEditComponent implements OnInit {
     if (this.contratoEditForm.value.invoiceIn === '01') {
       total = kgnetoslb * putotal;
     } else {
-      total = (kgnetosqq * putotal) * 100;
+      total = kgnetosqq * putotal;
     }
-    this.totalFacturar1 = total;
-    this.contratoEditForm.controls.TotalBilling1.setValue(total.toFixed(2));
+    if (total) {
+      this.totalFacturar1 = total;
+      this.contratoEditForm.controls.TotalBilling1.setValue(total.toFixed(2));
+    }
   }
 
   CalculateTotalBilling2() {
@@ -949,10 +950,12 @@ export class ContratoEditComponent implements OnInit {
     if (this.contratoEditForm.value.invoiceIn === '01') {
       total = kgnetoslb * putotal;
     } else {
-      total = (kgnetosqq * putotal) * 100;
+      total = kgnetosqq * putotal;
     }
-    this.totalFacturar2 = total;
-    this.contratoEditForm.controls.TotalBilling2.setValue(total.toFixed(2));
+    if (total) {
+      this.totalFacturar2 = total;
+      this.contratoEditForm.controls.TotalBilling2.setValue(total.toFixed(2));
+    }
   }
 
   CalculateTotalBilling3() {
@@ -963,10 +966,12 @@ export class ContratoEditComponent implements OnInit {
     if (this.contratoEditForm.value.invoiceIn === '01') {
       total = kgnetoslb * putotal;
     } else {
-      total = (kgnetosqq * putotal) * 100;
+      total = kgnetosqq * putotal;
     }
-    this.totalFacturar3 = total;
-    this.contratoEditForm.controls.TotalBilling3.setValue(total.toFixed(2));
+    if (total) {
+      this.totalFacturar3 = total;
+      this.contratoEditForm.controls.TotalBilling3.setValue(total.toFixed(2));
+    }
   }
 
   ChangeFacturar() {
