@@ -599,7 +599,12 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
-      this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
+      //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
+      this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
+      this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
+      this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
+      this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
+
       let empaque_tipo = '';
       if (data.EstadoId)
         this.ordenProcesoEditForm.controls.estado.setValue(data.EstadoId);
