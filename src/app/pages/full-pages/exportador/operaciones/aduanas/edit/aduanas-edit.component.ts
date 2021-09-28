@@ -209,7 +209,7 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('subproducto').setValue(this.selectContrato[0].SubProducto);
     this.aduanasFormEdit.get('calidad').setValue(this.selectContrato[0].Calidad);
     this.aduanasFormEdit.get('empaque').setValue(this.selectContrato[0].Empaque + " - " + this.selectContrato[0].TipoEmpaque);
-    this.aduanasFormEdit.get('cantidad').setValue(this.selectContrato[0].Empaque);
+    this.aduanasFormEdit.get('cantidad').setValue(this.selectContrato[0].TotalSacos);
     this.aduanasFormEdit.get('pesoxsaco').setValue(this.selectContrato[0].PesoPorSaco);
     this.aduanasFormEdit.get('totalkilosnetos').setValue(this.selectContrato[0].PesoKilos);
     this.aduanasFormEdit.get('clientefinal').setValue(this.selectContrato[0].Cliente);
