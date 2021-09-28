@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild,Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
@@ -11,7 +11,7 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
-import { formatCurrency } from '@angular/common';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -55,7 +55,7 @@ export class ContratoComponent implements OnInit {
   page: any;
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
-  
+
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -65,7 +65,7 @@ export class ContratoComponent implements OnInit {
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
     this.page = this.route.routeConfig.data.title;
-    
+
   }
 
   LoadForm(): void {
@@ -109,8 +109,7 @@ export class ContratoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('EstadoContrato', (res: any) => {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
-        if (this.popUp == true )
-        {
+        if (this.popUp == true) {
           switch (this.page) {
             case "Aduanas":
               this.selectedEstado = '03';
@@ -176,6 +175,8 @@ export class ContratoComponent implements OnInit {
           if (!xls) {
             res.Result.Data.forEach((obj: any) => {
               obj.FechaContratoString = this.dateUtil.formatDate(new Date(obj.FechaContrato));
+              obj.FechaFijacionContrato = this.dateUtil.formatDate(new Date(obj.FechaFijacionContrato));
+              obj.FechaEmbarque = formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
@@ -183,16 +184,66 @@ export class ContratoComponent implements OnInit {
             const vArrHeaderExcel = [
               new HeaderExcel("Contrato", "center"),
               new HeaderExcel("Fecha de Contrato", 'center', 'yyyy-MM-dd'),
-              new HeaderExcel("Id Cliente"),
+              new HeaderExcel("Tipo de Contrato"),
+              new HeaderExcel("Codigo Cliente"),
               new HeaderExcel("Cliente"),
+              new HeaderExcel("Certificacion"),
+              new HeaderExcel("Calidad"),
+              new HeaderExcel("Mes de Embarque"),
+              new HeaderExcel("Condición de Embarque"),
+              new HeaderExcel("Nro. Contenedor"),
+              new HeaderExcel("Cantidad"),
+              new HeaderExcel("Tipo de Empaque"),
+              new HeaderExcel("Kilos Netos"),
+              new HeaderExcel("Kg. Netos en QQ"),
+              new HeaderExcel("Kg. Neto en LB"),
+              new HeaderExcel("Fecha Fijación Contrato"),
+              new HeaderExcel("Estado de Fijación"),
+              new HeaderExcel("Precio Nivel Fijación"),
+              new HeaderExcel("Diferencial"),
+              new HeaderExcel("PU Total"),
+              new HeaderExcel("Precio a Facturar"),
+              new HeaderExcel("Nota de Crédito/Comisión"),
+              new HeaderExcel("Precio"),
+              new HeaderExcel("PRxFT"),
+              new HeaderExcel("Gastos de Exportación"),
+              new HeaderExcel("Precio de Venta"),
               new HeaderExcel("Producto"),
               new HeaderExcel("Tipo de Producción"),
-              new HeaderExcel("Calidad"),
               new HeaderExcel("Estado", "center")
             ];
 
             let vArrData: any[] = [];
-            this.tempData.forEach((x: any) => vArrData.push([x.Numero, x.FechaEmbarque, x.ClienteId, x.Cliente, x.Producto, x.TipoProduccion, x.Calidad, x.Estado]));
+            this.tempData.forEach((x: any) => vArrData.push([
+              x.Numero,
+              this.dateUtil.formatDate(x.FechaContratoString),
+              x.TipoContrato,
+              x.NumeroCliente,
+              x.Cliente,
+              x.TipoCertificacion,
+              x.Calidad,
+              formatDate(x.FechaEmbarque, 'MM/yyyy', 'en'),
+              x.CondicionEmbarque,
+              x.CantidadContenedores,
+              x.TotalSacos,
+              x.TipoEmpaque,
+              x.PesoKilos,
+              x.KilosNetosQQ,
+              x.KilosNetosLB,
+              this.dateUtil.formatDate(new Date(x.FechaFijacionContrato)),
+              x.EstadoFijacion,
+              x.PrecioNivelFijacion,
+              x.Diferencial,
+              x.PUTotalA,
+              x.TotalFacturar1,
+              x.NotaCreditoComision,
+              x.PUTotalB,
+              x.TotalFacturar2,
+              x.GastosExpCostos,
+              x.TotalFacturar3,
+              x.Producto,
+              x.TipoProduccion,
+              x.Estado]));
             this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Contratos');
           }
         } else {
