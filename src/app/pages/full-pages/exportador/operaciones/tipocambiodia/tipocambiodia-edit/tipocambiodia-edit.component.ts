@@ -82,7 +82,11 @@ export class TipoCambioDiaEditComponent implements OnInit {
     if (data.FechaRegistro) {
       this.precioDiaEditForm.controls.fecRegistro.setValue(data.FechaRegistro.substring(0, 10));
     }
-   
+    if (data.Fecha) {
+      this.precioDiaEditForm.controls.fecha.setValue(data.Fecha.substring(0, 10));
+    }
+
+
     this.spinner.hide();
   }
 
@@ -91,7 +95,8 @@ export class TipoCambioDiaEditComponent implements OnInit {
       
       monto: ['',Validators.required],
       estado: ['',Validators.required],
-      fecRegistro: ['',Validators.required]
+      fecha: ['',Validators.required],
+      fecRegistro: ['']
     });
     
   }
@@ -194,7 +199,8 @@ export class TipoCambioDiaEditComponent implements OnInit {
       EstadoId: this.precioDiaEditForm.controls["estado"].value ? this.precioDiaEditForm.controls["estado"].value: '',
       Monto: this.precioDiaEditForm.value.monto ? this.precioDiaEditForm.value.monto : '',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      Fecha: this.precioDiaEditForm.value.fecRegistro ? this.precioDiaEditForm.value.fecRegistro : '',
+      Fecha: this.precioDiaEditForm.value.fecha ? this.precioDiaEditForm.value.fecha : ''
+     
     };
   }
 

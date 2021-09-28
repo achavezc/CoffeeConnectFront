@@ -770,7 +770,7 @@
                                             <div class="col-lg-8">
                                                 <ng-select [items]="listFixationState" formControlName="FixationState"
                                                     class="form-control" bindLabel="Label" bindValue="Codigo"
-                                                    id="FixationState" placeholder="Estado fijación"
+                                                    id="FixationState" placeholder="Estado fijación" (change)="onChangeEstadoFijacion($event)"
                                                     [ngClass]="{ 'is-invalid': f.FixationState.invalid, 'is-valid': !f.FixationState.invalid }"
                                                     [(ngModel)]="selectedFixationState">
                                                 </ng-select>

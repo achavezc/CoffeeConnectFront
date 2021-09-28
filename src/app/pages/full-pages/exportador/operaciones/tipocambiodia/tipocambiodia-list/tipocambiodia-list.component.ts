@@ -142,6 +142,7 @@ export class TipoCambioDiaComponent implements OnInit {
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
             x.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro));
+            x.Fecha = this.dateUtil.formatDate(new Date(x.Fecha));
           });
           this.tempData = res.Result.Data;
           this.rows = [...this.tempData];

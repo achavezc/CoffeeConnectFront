@@ -555,6 +555,15 @@ export class ContratoEditComponent implements OnInit {
     }
   }
 
+  onChangeEstadoFijacion(event: any)
+  {
+    if (event.Codigo == "01")
+      {
+        const contractFixingDate = this.contratoEditForm.controls.contractFixingDate;
+        contractFixingDate.setValidators(Validators.required);
+        contractFixingDate.updateValueAndValidity();
+      }
+  }
   Create(): void {
     this.spinner.show();
     const request = this.GetRequest();
@@ -986,7 +995,7 @@ export class ContratoEditComponent implements OnInit {
 
   addValidations(): void {
 
-    const contractFixingDate = this.contratoEditForm.controls.contractFixingDate;
+    
     const CreditNoteCommission = this.contratoEditForm.controls.CreditNoteCommission;
     const ExpensesExpCosts = this.contratoEditForm.controls.ExpensesExpCosts;
     const PriceLevelFixation = this.contratoEditForm.controls.PriceLevelFixation;
@@ -1003,7 +1012,7 @@ export class ContratoEditComponent implements OnInit {
 
     // if (this.tipoEmpresaId == '01') //Cooperativa
     //  {
-    contractFixingDate.setValidators(Validators.required);
+    
     CreditNoteCommission.setValidators(Validators.required);
     ExpensesExpCosts.setValidators(Validators.required);
     PriceLevelFixation.setValidators(Validators.required);
@@ -1033,7 +1042,7 @@ export class ContratoEditComponent implements OnInit {
     //   InvoiceIn.clearValidators();
     // }
 
-    contractFixingDate.updateValueAndValidity();
+   
     CreditNoteCommission.updateValueAndValidity();
     ExpensesExpCosts.updateValueAndValidity();
     PriceLevelFixation.updateValueAndValidity();

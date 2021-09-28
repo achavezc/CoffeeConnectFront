@@ -3,6 +3,8 @@ import { host } from '../shared/hosts/main.host';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorHandling } from '../shared/util/error-handling';
+import { data } from '../shared/data/smart-data-table';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Injectable()
 export class MaestroService {
@@ -18,7 +20,6 @@ export class MaestroService {
       EmpresaId: 1,
       Idioma: lang
     };
-
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
 
