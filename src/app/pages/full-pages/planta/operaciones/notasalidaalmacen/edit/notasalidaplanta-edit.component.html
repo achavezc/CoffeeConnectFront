@@ -133,7 +133,7 @@
                 <small class="form-text text-muted danger"
                   *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
               </div>
-              <div class="col-md-12 justify-content-end !important" style="margin-top: 2rem;">
+              <div  class="card-footer text-right" style="margin-top: 2rem;">
                 <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
                   [disabled]="!id || id <= 0">Guia Remisión</button>
                 <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="ListaProductores()"
@@ -141,7 +141,7 @@
                 <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="RegistroSeguridad()"
                   [disabled]="!id || id <= 0">Registro de Seguridad</button>
                 <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
-                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
+                <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
                   (click)="cancelar()">Cancelar</button>
               </div>
               <!--   </ng-template>
