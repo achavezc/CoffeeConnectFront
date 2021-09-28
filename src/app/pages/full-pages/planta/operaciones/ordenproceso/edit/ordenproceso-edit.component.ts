@@ -479,7 +479,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       OrganizacionId: form.organizacionId ? form.organizacionId : 0,
       TipoProcesoId: this.ordenProcesoEditForm.controls["tipoProceso"].value ? this.ordenProcesoEditForm.controls["tipoProceso"].value : '',
-      OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : 0,
+      OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : null,
       TipoCertificacionId: this.ordenProcesoEditForm.controls["certificacion"].value ? this.ordenProcesoEditForm.controls["certificacion"].value.join('|') : '',
       EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : 0,
       ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : 0,
@@ -491,11 +491,11 @@ export class OrdenProcesoEditComponent implements OnInit {
       TipoId: this.ordenProcesoEditForm.controls["tipo"].value ? this.ordenProcesoEditForm.controls["tipo"].value : 0,
       CalidadId: this.ordenProcesoEditForm.controls["calidad"].value ? this.ordenProcesoEditForm.controls["calidad"].value : 0,
       GradoId: this.ordenProcesoEditForm.controls["grado"].value ? this.ordenProcesoEditForm.controls["grado"].value : 0,
-      TotalSacos: 0,
-      PesoPorSaco: form.pesoSaco ? form.pesoSaco : 0,
-      PesoKilos: form.totalKilosBrutos ? form.totalKilosBrutos : 0,
-      CantidadContenedores: form.cantidadContenedores ? form.cantidadContenedores : 0,
-      CantidadDefectos: form.cantidadDefectos ? form.cantidadDefectos : 0,
+      TotalSacos: this.ordenProcesoEditForm.controls["cantidad"].value ? this.ordenProcesoEditForm.controls["cantidad"].value : 0,
+      PesoPorSaco: this.ordenProcesoEditForm.controls["pesoSaco"].value ? this.ordenProcesoEditForm.controls["pesoSaco"].value : 0,
+      PesoKilos:  this.ordenProcesoEditForm.controls["totalKilosBrutos"].value ? this.ordenProcesoEditForm.controls["totalKilosBrutos"].value : 0,
+      CantidadContenedores: this.ordenProcesoEditForm.controls["cantidadContenedores"].value ? this.ordenProcesoEditForm.controls["cantidadContenedores"].value : 0,
+      CantidadDefectos: this.ordenProcesoEditForm.controls["cantidadDefectos"].value ? this.ordenProcesoEditForm.controls["cantidadDefectos"].value : 0,
       FechaInicioProceso: form.fechaFin ? form.fechaFin : '',
       FechaFinProceso: form.fechaFin ? form.fechaFin : '',
       Observacion: form.observaciones ? form.observaciones : '',
@@ -599,7 +599,12 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
-      this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
+      //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
+      this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
+      this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
+      this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
+      this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
+
       let empaque_tipo = '';
       if (data.EstadoId)
         this.ordenProcesoEditForm.controls.estado.setValue(data.EstadoId);
