@@ -22,6 +22,20 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4" *ngIf="vId > 0" >
+                    <div class="form-group row">
+                        <label for="fecRegistro" class="col-4 col-form-label pr-0">Fecha Registro</label>
+                        <div class="col-8 pl-0">
+                            <input type="text" name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
+                                class="form-control"  [readonly]="true"
+                                [ngClass]="{ 'is-invalid': f.fecRegistro.invalid, 'is-valid': !f.fecRegistro.invalid }">
+                        </div>
+                    </div>
+                </div>
+
+
+               
             </div>
             <div class="form-row">
                 <div class="col-lg-4 col-md-4 col-sm-4">
@@ -36,12 +50,11 @@
                 </div>                
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group row">
-                        <label for="fecRegistro" class="col-4 col-form-label pr-0">Fecha de
-                            Registro</label>
+                        <label for="fecha" class="col-4 col-form-label pr-0">Fecha</label>
                         <div class="col-8 pl-0">
-                            <input type="date" date name="fecRegistro" id="fecRegistro" formControlName="fecRegistro"
-                                class="form-control" placeholder="Seleccionar fecha de registro" 
-                                [ngClass]="{ 'is-invalid': f.fecRegistro.invalid, 'is-valid': !f.fecRegistro.invalid }">
+                            <input type="date" date name="fecha" id="fecha" formControlName="fecha"
+                                class="form-control" placeholder="Ingresar Fecha " 
+                                [ngClass]="{ 'is-invalid': f.fecha.invalid, 'is-valid': !f.fecha.invalid }">
                         </div>
                     </div>
                 </div>

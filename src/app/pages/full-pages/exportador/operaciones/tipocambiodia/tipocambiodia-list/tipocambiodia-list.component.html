@@ -41,7 +41,7 @@
                                     <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listEstado" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado"
-                                        placeholder="Seleccionar tipo cliente"
+                                        placeholder="Seleccionar Estado"
                                         [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
@@ -111,7 +111,9 @@
                             </ngx-datatable-column>
                             
                             
-                            <ngx-datatable-column name="Fecha" prop="FechaRegistro" width="100">
+                            <ngx-datatable-column name="Fecha" prop="Fecha" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
