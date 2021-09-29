@@ -161,10 +161,12 @@ export class ContratoComponent implements OnInit {
   }
 
   Buscar(): void {
-    this.Search();
+    this.Search(false);
   }
-
-  Search(xls = false): void {
+  Export(): void {
+    this.Search(true);
+  }
+  Search(xls?: any): void {
     if (!this.contratoForm.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
       const request = this.getRequest();
@@ -216,13 +218,13 @@ export class ContratoComponent implements OnInit {
             let vArrData: any[] = [];
             this.tempData.forEach((x: any) => vArrData.push([
               x.Numero,
-              this.dateUtil.formatDate(x.FechaContratoString),
+              x.FechaContratoString,
               x.TipoContrato,
               x.NumeroCliente,
               x.Cliente,
               x.TipoCertificacion,
               x.Calidad,
-              formatDate(x.FechaEmbarque, 'MM/yyyy', 'en'),
+              x.FechaEmbarque,
               x.CondicionEmbarque,
               x.CantidadContenedores,
               x.TotalSacos,
@@ -230,7 +232,7 @@ export class ContratoComponent implements OnInit {
               x.PesoKilos,
               x.KilosNetosQQ,
               x.KilosNetosLB,
-              this.dateUtil.formatDate(new Date(x.FechaFijacionContrato)),
+              x.FechaFijacionContrato,
               x.EstadoFijacion,
               x.PrecioNivelFijacion,
               x.Diferencial,

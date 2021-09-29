@@ -817,7 +817,7 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.FixationState.setValue(data.EstadoFijacionId);
       if (data.PrecioNivelFijacion)
         this.contratoEditForm.controls.PriceLevelFixation.setValue(data.PrecioNivelFijacion);
-      if (data.Diferencial)
+      if (data.Diferencial != null)
         this.contratoEditForm.controls.Differential2.setValue(data.Diferencial);
       if (data.PUTotalA) {
         this.precioUnitarioTotalA = data.PUTotalA;

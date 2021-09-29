@@ -104,7 +104,7 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button"
                                 [disabled]="!selected || selected.length <= 0" (click)="Cancel()" *ngIf="!popUp">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!rows || rows.length <= 0" *ngIf="!popUp">Exportar</button>
+                                [disabled]="!rows || rows.length <= 0" *ngIf="!popUp" (click)="Export()">Exportar</button>
                         </form>
                     </div>
                 </div>
