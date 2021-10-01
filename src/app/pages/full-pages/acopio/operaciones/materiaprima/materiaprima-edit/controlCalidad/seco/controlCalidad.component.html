@@ -494,13 +494,13 @@
                                                             </div>
                                                             <div class="row td-total">
 
-                                                                <div class="col-4"><label class="label-ToTal"> Total
+                                                                <div class="col-4"><label class="label-ToTal"> Puntaje Total
                                                                     </label></div>
 
                                                                 <div class="col-3"><input type="text"
                                                                         class="form-control" id="basicInput"
                                                                         style="border: 0; text-align: end;"
-                                                                        formControlName="PuntajeFinal" disabled></div>
+                                                                        formControlName="SubToTalSensorial" disabled></div>
                                                                 <div class="col-5"></div>
                                                             </div>
 
@@ -508,22 +508,41 @@
                                                         </div>
 
                                                     </div>
-                                                    <div class="row" style="margin-top: 1rem;">
+                                                    <div class="row" style="margin-top: 1rem;"
+                                                        [formGroup]="formDefectos">
                                                         <div class="col-12">
                                                             <h5 class="mt-0"
                                                                 style="text-align: start; font-size: 0.9rem;">Defectos
                                                             </h5>
                                                             <div class="row">
-                                                                <div class="col-4"> <label for="basicInput">Tasa</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="basicInput" formControlName="tasa">
+                                                                <div class="col-4"> <label for="basicInput" style="font-size: 1rem;">Tasa</label>
+                                                                    <input type="number" class="form-control square"
+                                                                        id="basicInput" formControlName="tasa" (input)="calcularSubTotalDefectos()">
                                                                 </div>
-                                                                <div class="col-4"> <label for="basicInput">Intensidad</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="basicInput" formControlName="intensidad">
+                                                                <div class="col-4"> <label
+                                                                        for="basicInput">Intensidad</label>
+                                                                    <input type="number" class="form-control square"
+                                                                        id="basicInput" formControlName="intensidad" (input)="calcularSubTotalDefectos()">
                                                                 </div>
-
+                                                                <div class="col-4">
+                                                                    <label for="basicInput"></label>
+                                                                    <input type="number" class="form-control square"
+                                                                        id="basicInput" formControlName="subtotal"
+                                                                        disabled>
+                                                                </div>
                                                             </div>
+
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group row" style="margin-top: 2rem;" >
+                                                                    <label  class="col-md-4 col-form-label" for="horizontal-form-1">Puntaje Final</label>
+                                                                    <div class="col-md-8">
+                                                                    <input type="number" class="form-control square"
+                                                                        id="basicInput" formControlName="puntajeFinal" disabled>
+                                                                    </div>
+                                                                
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <div class="row" style="margin-top: 1rem;">

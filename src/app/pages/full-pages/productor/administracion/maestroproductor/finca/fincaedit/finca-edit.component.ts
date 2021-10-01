@@ -329,9 +329,10 @@ export class FincaEditComponent implements OnInit {
       this.fincaEditForm.controls.longitud2.setValue(data.LonguitudDms);
     }
    
-    if (data.Nombre) {
-      this.fincaEditForm.controls.nombreProductor.setValue(data.Nombre);
+    if (data.NombreProductor) {
+      this.fincaEditForm.controls.nombreProductor.setValue(data.NombreProductor);
     }
+    
     
     this.spinner.hide();
   }

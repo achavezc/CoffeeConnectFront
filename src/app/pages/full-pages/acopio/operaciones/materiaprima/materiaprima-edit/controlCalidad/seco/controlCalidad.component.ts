@@ -64,6 +64,8 @@ export class ControlCalidadComponent implements OnInit {
   page: any;
   btnGuardarCalidad = true;
   calculocascarilla = 400;
+  formDefectos : FormGroup;
+  subtotalDefectos: number;
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router, private dateUtil: DateUtil,
@@ -167,6 +169,14 @@ export class ControlCalidadComponent implements OnInit {
 
 
   cargarForm() {
+    this.formDefectos = new FormGroup(
+      {
+        tasa:  new FormControl('', []),
+        intensidad:  new FormControl('', []),
+        subtotal:  new FormControl('', []),
+        puntajeFinal:  new FormControl('', [])
+      }
+    );
     this.formControlCalidad = new FormGroup(
       {
         exportGramos: new FormControl('', [Validators.required]),
@@ -184,10 +194,7 @@ export class ControlCalidadComponent implements OnInit {
         ObservacionAnalisisFisico: new FormControl('', []),
         ObservacionRegTostado: new FormControl('', []),
         ObservacionAnalisisSensorial: new FormControl('', []),
-        PuntajeFinal: new FormControl('', []),
-        tasa:  new FormControl('', []),
-        intensidad:  new FormControl('', [])
-
+        SubToTalSensorial: new FormControl('', [])
       });
     this.formControlCalidad.setValidators(this.comparisonValidator());
     
@@ -229,15 +236,18 @@ export class ControlCalidadComponent implements OnInit {
     else {
       this.tableSensorialRanking.controls['sensorialAtribRanking%' + i].setValue("");
     }
+    this.calcularSubTotalSensorial();
     this.calcularPuntajeFinal();
   }
-  calcularPuntajeFinal() {
-    let totalPuntajeFinal = 0;
+
+  calcularSubTotalSensorial() {
+    let SubToTalSensorial = 0;
     for (let i = 0; i < this.listaSensorialAtributos.length; i++) {
-      totalPuntajeFinal = Number(this.tableSensorialRanking.controls['sensorialAtrib%' + this.listaSensorialAtributos[i].Codigo].value) + totalPuntajeFinal;
+      SubToTalSensorial = Number(this.tableSensorialRanking.controls['sensorialAtrib%' + this.listaSensorialAtributos[i].Codigo].value) + SubToTalSensorial;
     }
-    this.formControlCalidad.controls["PuntajeFinal"].setValue(totalPuntajeFinal.toFixed(2));
+    this.formControlCalidad.controls["SubToTalSensorial"].setValue(SubToTalSensorial.toFixed(2));
   }
+
   calcularTotalDefPrimario() {
 
     let totalDefPrimarios: number = 0;
@@ -278,6 +288,22 @@ export class ControlCalidadComponent implements OnInit {
     };
   }
 
+  calcularSubTotalDefectos()
+  {
+  
+    this.subtotalDefectos = Number(this.formDefectos.controls['tasa'].value) * Number(this.formDefectos.controls['intensidad'].value);
+    this.formDefectos.controls['subtotal'].setValue(this.subtotalDefectos.toFixed(2));
+    this. calcularPuntajeFinal();
+
+  }
+
+  calcularPuntajeFinal()
+  {
+    const subTotalSensorial = this.formControlCalidad.controls['SubToTalSensorial'].value;
+    const totalAnalisisSensorial = subTotalSensorial - this.subtotalDefectos;
+   this.formDefectos.controls['puntajeFinal'].setValue(totalAnalisisSensorial.toFixed(2));
+  }
+
   actualizarAnalisisControlCalidad(e) {
     const form = this;
     swal.fire({
@@ -316,6 +342,7 @@ export class ControlCalidadComponent implements OnInit {
       let listaAnalisisSensorialDefectos = Array<AnalisisSensorialDefectoDetalleList>();
       let listaAnalisisSensorialAtrib = Array<AnalisisSensorialAtributoDetalleList>();
       var controlFormControlCalidad = this.formControlCalidad.controls;
+      var controlDefectos = this.formDefectos.controls;
       listaDetalleOlor = this.obtenerDetalleAnalisisFisicoOlor(this.tableOlor);
       listaDetalleColor = this.obtenerDetalleAnalisisFisicoColor(this.tableColor);
       listaDefectosPrimarios = this.obtenerDetalleDefectosPrimarios(this.tableDefectosPrimarios)
@@ -345,12 +372,15 @@ export class ControlCalidadComponent implements OnInit {
         Number((controlFormControlCalidad["totalPorcentaje"].value).split("%")[0]),
         controlFormControlCalidad["ObservacionRegTostado"].value,
         controlFormControlCalidad["ObservacionAnalisisSensorial"].value,
+        Number(controlFormControlCalidad["SubToTalSensorial"].value),
+        Number(controlDefectos["tasa"].value),
+        Number(controlDefectos["intensidad"].value),
         listaDefectosPrimarios,
         listaDefectosSecundarios,
         listaRegistroTostado,
         listaAnalisisSensorialDefectos,
         listaAnalisisSensorialAtrib,
-        Number(controlFormControlCalidad["PuntajeFinal"].value)
+        Number(controlFormControlCalidad["SubToTalSensorial"].value)
       );
       let json = JSON.stringify(this.reqControlCalidad);
       this.spinner.show(undefined,
@@ -693,8 +723,9 @@ export class ControlCalidadComponent implements OnInit {
 
     this.desactivarControlesPlanta();
     var form = this;
-    let puntajeFinal: number = 0;
+    let subToTalSensorial: number = 0;
     var controlFormControlCalidad = this.formControlCalidad.controls;
+    var controlDefectos = this.formDefectos.controls;
    
     controlFormControlCalidad["exportGramos"].setValue(this.detalle.ExportableGramosAnalisisFisico);
     controlFormControlCalidad["exportPorcentaje"].setValue(this.detalle.ExportablePorcentajeAnalisisFisico == null ? "" : this.detalle.ExportablePorcentajeAnalisisFisico + "%");
@@ -708,6 +739,8 @@ export class ControlCalidadComponent implements OnInit {
     controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalle.ObservacionAnalisisFisico);
     controlFormControlCalidad["ObservacionRegTostado"].setValue(this.detalle.ObservacionRegistroTostado);
     controlFormControlCalidad["ObservacionAnalisisSensorial"].setValue(this.detalle.ObservacionAnalisisSensorial);
+    controlDefectos["tasa"].setValue(this.detalle.DefectosTasaAnalisisSensorial);
+    controlDefectos["intensidad"].setValue(this.detalle.DefectosIntensidadAnalisisSensorial);
     form.responsable = this.detalle.UsuarioCalidad;
     if (this.detalle.FechaCalidad) {
       form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalle.FechaCalidad), "/");
@@ -744,7 +777,7 @@ export class ControlCalidadComponent implements OnInit {
     if (this.detalle.AnalisisSensorialAtributoDetalle != null) {
       let analisisSensorialAtributoDetalleList: AnalisisSensorialAtributoDetalleList[] = this.detalle.AnalisisSensorialAtributoDetalle;
       analisisSensorialAtributoDetalleList.forEach(function (value) {
-        puntajeFinal = puntajeFinal + value.Valor;
+        subToTalSensorial = subToTalSensorial + value.Valor;
         form.tableSensorialRanking.controls["sensorialAtrib%" + value.AtributoDetalleId].setValue(value.Valor);
         form.tableSensorialRanking.controls["sensorialAtribRanking%" + value.AtributoDetalleId].setValue(form.evaluar(value.Valor));
       });
@@ -764,8 +797,9 @@ export class ControlCalidadComponent implements OnInit {
 
       });
     }
-    var redondear = puntajeFinal.toFixed(2)
-    controlFormControlCalidad["PuntajeFinal"].setValue(redondear);
+    var redondear = subToTalSensorial.toFixed(2)
+    controlFormControlCalidad["SubToTalSensorial"].setValue(redondear);
+    this.calcularSubTotalDefectos();
     this.desactivarControles(this.detalle.EstadoId, this.detalle.UsuarioCalidad);
   }
 
