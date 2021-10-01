@@ -557,10 +557,16 @@ export class ContratoEditComponent implements OnInit {
 
   onChangeEstadoFijacion(event: any)
   {
-    if (event.Codigo == "01")
+    const contractFixingDate = this.contratoEditForm.controls.contractFixingDate;
+    if (event.Codigo == "02")
       {
-        const contractFixingDate = this.contratoEditForm.controls.contractFixingDate;
+       
         contractFixingDate.setValidators(Validators.required);
+        contractFixingDate.updateValueAndValidity();
+      }
+      else
+      {
+        contractFixingDate.clearValidators();
         contractFixingDate.updateValueAndValidity();
       }
   }

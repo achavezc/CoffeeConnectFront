@@ -129,7 +129,7 @@ export class MateriaPrimaEditComponent implements OnInit {
         }
       }
       );
-    this.cargarContratoAsignado();
+    
   }
 
   cargarForm() {
@@ -226,6 +226,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.cleanKilosBrutos();
   }
 
+
   changeView(e) {
     let filterSubTipo = e.Codigo;
     if (filterSubTipo == "02") {
@@ -235,6 +236,7 @@ export class MateriaPrimaEditComponent implements OnInit {
       this.viewTagSeco = false;
     }
     this.cleanKilosBrutos();
+    this.cargarContratoAsignado(this.selectProducto, filterSubTipo);
   }
 
   async cargarSubProducto(codigo: any) {
@@ -331,7 +333,10 @@ export class MateriaPrimaEditComponent implements OnInit {
     };
   }
 
-  cargarContratoAsignado() {
+  cargarContratoAsignado( tipoProducto , subTipoProducto) {
+
+    if ( tipoProducto == '01' && subTipoProducto != '02')
+    {
     let request =
     {
       "EmpresaId": this.login.Result.Data.EmpresaId
@@ -378,6 +383,7 @@ export class MateriaPrimaEditComponent implements OnInit {
           }
         );
     }
+  }
 
   }
   actualizarSaldoPendiente() {

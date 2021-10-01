@@ -1,5 +1,5 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, ViewChild, OnInit} from '@angular/core';
+import { FormGroup, FormBuilder, Validators , FormControl} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
@@ -68,8 +68,10 @@ export class FincaEditComponent implements OnInit {
   selectEmpresa: any[];
   FincaId = 0;
   esEdit = false;
+  nameProductor: any;
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
+    this.nameProductor = this.route.snapshot.params['title'];
     this.LoadForm();
     this.LoadCombos();
     this.AddValidations();
@@ -114,7 +116,7 @@ export class FincaEditComponent implements OnInit {
       estado: ['', [Validators.required]],
       latitud2: [],
       longitud2: [],
-      nombreProductor: []
+      nombreProductor:  new FormControl({ value: this.nameProductor, disabled: true }, []), 
     });
   }
 

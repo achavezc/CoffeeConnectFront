@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation , EventEmitter, Output} from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
@@ -44,6 +44,8 @@ export class ProductorComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
+  @Output()
+  nameProductor = new EventEmitter<String>();
 
   ngOnInit(): void {
     this.LoadForm();
@@ -184,8 +186,10 @@ export class ProductorComponent implements OnInit {
 
   GoFormListFinca(): void {
     if (this.selected && this.selected.length > 0) {
-      this.router.navigate([`/productor/administracion/productor/finca/list/${this.selected[0].ProductorId}`]);
+      this.router.navigate([`/productor/administracion/productor/finca/list/${this.selected[0].ProductorId}`, {title:this.selected[0].NombreRazonSocial}]);
     }
+  //  this.nameProductor.emit(this.selected[0].NombreRazonSocial);
+
   }
 
   OpenModal(modal: any): void {

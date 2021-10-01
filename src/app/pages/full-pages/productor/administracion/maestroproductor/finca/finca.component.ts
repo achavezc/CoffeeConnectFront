@@ -31,9 +31,11 @@ export class FincaComponent implements OnInit {
   tempRows = [];
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
+  nameProductor : any;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0;
+    this.nameProductor = this.route.snapshot.params['title'];
     if (this.vId > 0) {
       this.LoadForm();
       this.LoadDataForm();
@@ -80,7 +82,7 @@ export class FincaComponent implements OnInit {
   }
 
   New(): void {
-    this.router.navigate(['/productor/administracion/productor/finca/create'],
+    this.router.navigate(['/productor/administracion/productor/finca/create', {title: this.nameProductor}],
       { queryParams: { codProductor: this.vId } });
   }
 
