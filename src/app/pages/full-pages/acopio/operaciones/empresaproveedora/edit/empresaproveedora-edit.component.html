@@ -120,7 +120,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" type="button"
                         (click)="addRowDetail()">+</button>
-                    <label class="text-danger ml-2">*Todos los campos son obligatorios</label>
+                   <!--  <label class="text-danger ml-2">*Todos los campos son obligatorios</label> -->
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
@@ -176,8 +176,12 @@
                             <ng-template ngx-datatable-cell-template let-row="row" let-CodigoCertificacion="value"
                                 let-rowIndex="rowIndex">
                                 <div class="d-flex align-items-center">
-                                    <input type="text" date autofocus class="form-control form-control-sm text-center"
+                               <!--      <input type="text" date autofocus class="form-control form-control-sm text-center"
                                         [ngClass]="{ 'border-danger': !CodigoCertificacion, '': CodigoCertificacion }"
+                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'CodigoCertificacion')"
+                                        value="{{CodigoCertificacion}}"> -->
+                                        <input type="text" date autofocus class="form-control form-control-sm text-center"
+                                       
                                         (blur)="UpdateValuesGridDetails($event, rowIndex, 'CodigoCertificacion')"
                                         value="{{CodigoCertificacion}}">
                                 </div>

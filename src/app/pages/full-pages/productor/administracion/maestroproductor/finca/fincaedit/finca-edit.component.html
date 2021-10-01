@@ -5,6 +5,18 @@
     <div class="card-body">
         <form class="needs-validation" novalidate [formGroup]="fincaEditForm">
             <div class="form-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group row">
+                        <label for="nombreProductor" class="col-2 col-form-label pr-0">Productor</label>
+                        <div class="col-8">
+                            <input type="text" name="nombreProductor" id="nombreProductor" formControlName="nombreProductor"
+                                [ngClass]="{ 'is-invalid': f.nombreProductor.invalid, 'is-valid': !f.nombreProductor.invalid }"
+                                class="form-control" placeholder="Ingresar Productor">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group row">
                         <label for="nombreFinca" class="col-4 col-form-label pr-0">Nombre de la finca</label>
