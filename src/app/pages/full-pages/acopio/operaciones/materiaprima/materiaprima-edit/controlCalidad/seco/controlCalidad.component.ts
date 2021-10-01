@@ -184,7 +184,9 @@ export class ControlCalidadComponent implements OnInit {
         ObservacionAnalisisFisico: new FormControl('', []),
         ObservacionRegTostado: new FormControl('', []),
         ObservacionAnalisisSensorial: new FormControl('', []),
-        PuntajeFinal: new FormControl('', [])
+        PuntajeFinal: new FormControl('', []),
+        tasa:  new FormControl('', []),
+        intensidad:  new FormControl('', [])
 
       });
     this.formControlCalidad.setValidators(this.comparisonValidator());
