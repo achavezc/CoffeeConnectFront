@@ -22,6 +22,9 @@ export class ReqControlCalidad {
     TotalPorcentajeAnalisisFisico?: number,
     ObservacionRegistroTostado?: string,
     ObservacionAnalisisSensorial?: string,
+    SubTotalAnalisisSensorial?: number,
+    DefectosTasaAnalisisSensorial?: number,
+    DefectosIntensidadAnalisisSensorial?: number,
     AnalisisFisicoDefectoPrimarioDetalleList?: AnalisisFisicoDefectoPrimarioDetalleList[],
     AnalisisFisicoDefectoSecundarioDetalleList?: AnalisisFisicoDefectoSecundarioDetalleList[],
     RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[],
@@ -126,6 +129,9 @@ export class ReqControlCalidad {
         {
             this.NotaIngresoPlantaId = NotaIngresoPlantaId
         }
+        this.SubTotalAnalisisSensorial = SubTotalAnalisisSensorial,
+        this.DefectosTasaAnalisisSensorial = DefectosTasaAnalisisSensorial,
+        this.DefectosIntensidadAnalisisSensorial = DefectosIntensidadAnalisisSensorial,
 
         this.EmpresaId = EmpresaId,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
@@ -151,6 +157,9 @@ export class ReqControlCalidad {
     UsuarioCalidad?: string;
     ObservacionRegistroTostado?: string;
     ObservacionAnalisisSensorial?: string;
+    SubTotalAnalisisSensorial?: number;
+    DefectosTasaAnalisisSensorial?: number;
+    DefectosIntensidadAnalisisSensorial?: number;
     AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[];
     AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[];
     AnalisisFisicoDefectoPrimarioDetalleList?: AnalisisFisicoDefectoPrimarioDetalleList[];
