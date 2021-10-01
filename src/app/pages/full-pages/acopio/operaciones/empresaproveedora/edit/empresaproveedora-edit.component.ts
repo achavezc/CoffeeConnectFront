@@ -248,7 +248,8 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             return;
         }
         else {
-      /*       if(!this.validarCertificaciones()){
+            /*
+             if(!this.validarCertificaciones()){
                 this.submitted = true;
                 this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
                 return;
@@ -270,7 +271,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
 
                 }
     
-           // }
+            //}
         }
     }
 
@@ -327,8 +328,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     }
 
     getRequest(): any {
-        var lstCert = this.rowsDetails.filter(x => x.TipoCertificacionId
-            && x.CodigoCertificacion)
+        var lstCert = this.rowsDetails.filter(x => x.TipoCertificacionId )
             lstCert.forEach( x => x.EmpresaProveedoraAcreedoraId = this.vId)  ;
             
         return {

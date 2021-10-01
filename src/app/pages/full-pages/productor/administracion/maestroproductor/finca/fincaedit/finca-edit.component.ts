@@ -113,7 +113,8 @@ export class FincaEditComponent implements OnInit {
       centroEducativo: [],
       estado: ['', [Validators.required]],
       latitud2: [],
-      longitud2: []
+      longitud2: [],
+      nombreProductor: []
     });
   }
 
@@ -325,6 +326,11 @@ export class FincaEditComponent implements OnInit {
     if (data.LonguitudDms) {
       this.fincaEditForm.controls.longitud2.setValue(data.LonguitudDms);
     }
+   
+    if (data.Nombre) {
+      this.fincaEditForm.controls.nombreProductor.setValue(data.Nombre);
+    }
+    
     this.spinner.hide();
   }
 

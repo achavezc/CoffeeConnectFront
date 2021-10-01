@@ -4,7 +4,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-
+import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../services/socio-finca.service';
@@ -24,6 +24,7 @@ export class FincaEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private router: Router,
+    private maestroUtil: MaestroUtil,
     private socioFincaService: SocioFincaService,
     private route: ActivatedRoute,
     private maestroService: MaestroService,
@@ -35,6 +36,34 @@ export class FincaEditComponent implements OnInit {
   selectedFinca: any;
   selectedEstado: any;
   codeFincaPartner: number;
+
+  listDepartamentos: any[];
+  listProvincias: any[];
+  listFuentesEnergia: any[];
+  listDistritos: any[];
+  listFuentesAgua: any[];
+  listMaterialVivienda: any[];
+  listZonas: any[];
+  listInternet: any[];
+  listSenialTelefonica: any[];
+  listEstableSalud: any[];
+  listFlagsCentroEducativo: any[];
+  listCentrosEducativos: any[];
+  selectedDepartamento: any;
+  selectedProvincia: any;
+  selectedFuenteEnergia: any;
+  selectedDistrito: any;
+  selectedFuenteAgua: any;
+  selectedMaterialVivienda: any;
+  
+  selectedZona: any;
+  selectedInternet: any;
+  selectedSenialTelefonica: any;
+  selectedEstableSalud: any;
+  selectedFlagCentroEdu: any;
+  selectedCentroEdu: any;
+
+
   objParams: any;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
   vSessionUser: any;
@@ -51,7 +80,7 @@ export class FincaEditComponent implements OnInit {
     this.codeFincaPartner = this.route.snapshot.params['fincapartner'] ? parseInt(this.route.snapshot.params['fincapartner']) : 0
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
-    this.GetEstados();
+    this.LoadCombos();
     if (this.codeFincaPartner > 0) {
       this.SearchById();
     } else {
@@ -74,7 +103,6 @@ export class FincaEditComponent implements OnInit {
   LoadForm(): void {
     this.socioFincaEditForm = this.fb.group({
       idSocio: [],
-      idProductor: [],
       idSocioFinca: [],
       finca: [, [Validators.required]],
       viasAcceso: [''],
@@ -84,9 +112,168 @@ export class FincaEditComponent implements OnInit {
       cultivo: [''],
       precipitacion: [''],
       nroPersonalCosecha: [],
-      estado: ['', [Validators.required]]
+      nombreSocio: [],
+
+      idProductorFinca: [],
+      idProductor: [],
+      nombreFinca: ['', []],
+      latitud: [],
+      direccion: ['', []],
+      longitud: [],
+      departamento: ['', []],
+      altitud: [],
+      provincia: ['', []],
+      fuenteEnergia: [],
+      distrito: ['', []],
+      fuenteAgua: [],
+      zona: ['', []],
+      nroAnimalesMenores: [],
+      materialVivienda: [],
+      fInternet: [],
+      suelo: [],
+      senialTelefonica: [],
+      establecimientoSalud: [],
+      tiempoUnidadCentroSalud: [],
+      fCentroEducativo: [],
+      centroEducativo: [],
+      estado: ['', []],
+      latitud2: [],
+      longitud2: [],
+
+      areaTotal: [],
+      areaCafe: [],
+      crecimiento: [],
+      bosque: [],
+      purma: [],
+      panLlevar: [],
+      vivienda: []
+
+
     });
   }
+
+  async GetDepartments() {
+    this.listDepartamentos = [];
+    const res: any = await this.maestroUtil.GetDepartmentsAsync('PE');
+    if (res.Result.Success) {
+      this.listDepartamentos = res.Result.Data;
+    }
+  }
+
+  async GetProvincias() {
+    this.listProvincias = [];
+    const res: any = await this.maestroUtil.GetProvincesAsync(this.selectedDepartamento, 'PE');
+    if (res.Result.Success) {
+      this.listProvincias = res.Result.Data;
+    }
+  }
+
+  async GetDistritos() {
+    this.listDistritos = [];
+    const res: any = await this.maestroUtil.GetDistrictsAsync(this.selectedDepartamento, this.selectedProvincia, 'PE');
+    if (res.Result.Success) {
+      this.listDistritos = res.Result.Data;
+    }
+  }
+
+  async GetZonas() {
+    this.listZonas = [];
+    const res: any = await this.maestroUtil.GetZonasAsync(this.selectedDistrito);
+    if (res.Result.Success) {
+      this.listZonas = res.Result.Data;
+    }
+  }
+
+  async LoadCombos() {
+    let res: any = {};
+    this.GetDepartments();
+    res = await this.maestroService.obtenerMaestros('NivelEducativo').toPromise();
+    if (res.Result.Success) {
+      this.listCentrosEducativos = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
+    if (res.Result.Success) {
+      this.listEstados = res.Result.Data;
+      if (this.codeFincaPartner <= 0) {
+        this.socioFincaEditForm.controls.estado.setValue('01');
+      }
+    }
+
+    res = await this.maestroService.obtenerMaestros('FuenteEnergia').toPromise();
+    if (res.Result.Success) {
+      this.listFuentesEnergia = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('FuenteAgua').toPromise();
+    if (res.Result.Success) {
+      this.listFuentesAgua = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('MaterialVivienda').toPromise();
+    if (res.Result.Success) {
+      this.listMaterialVivienda = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('SiNo').toPromise();
+    if (res.Result.Success) {
+      this.listInternet = res.Result.Data;
+      this.listEstableSalud = res.Result.Data;
+      this.listFlagsCentroEducativo = res.Result.Data;
+    }
+
+    res = await this.maestroService.obtenerMaestros('ProveedorTelefonia').toPromise();
+    if (res.Result.Success) {
+      this.listSenialTelefonica = res.Result.Data;
+    }
+  }
+
+  
+  onChangeDepartament(event: any): void {
+    this.spinner.show();
+    const form = this;
+    this.listProvincias = [];
+    this.listDistritos = [];
+    this.listZonas = [];
+    this.socioFincaEditForm.controls.distrito.reset();
+    this.socioFincaEditForm.controls.zona.reset();
+    this.socioFincaEditForm.controls.provincia.reset();
+    this.maestroUtil.GetProvinces(event.Codigo, event.CodigoPais, (res: any) => {
+      if (res.Result.Success) {
+        form.listProvincias = res.Result.Data;
+        this.spinner.hide();
+      }
+    });
+  }
+
+  onChangeProvince(event: any): void {
+    this.spinner.show();
+    const form = this;
+    this.listDistritos = [];
+    this.listZonas = [];
+    this.socioFincaEditForm.controls.distrito.reset();
+    this.socioFincaEditForm.controls.zona.reset();
+    this.maestroUtil.GetDistricts(this.selectedDepartamento, event.Codigo, event.CodigoPais,
+      (res: any) => {
+        if (res.Result.Success) {
+          form.listDistritos = res.Result.Data;
+          this.spinner.hide();
+        }
+      });
+  }
+
+  onChangeDistrito(event: any): void {
+    this.spinner.show();
+    this.listZonas = [];
+    this.socioFincaEditForm.controls.zona.reset();
+    this.maestroUtil.GetZonas(event.Codigo, (res: any) => {
+      if (res.Result.Success) {
+        this.listZonas = res.Result.Data;
+        this.spinner.hide();
+      }
+    });
+  }
+
 
   get f() {
     return this.socioFincaEditForm.controls;
@@ -158,6 +345,89 @@ export class FincaEditComponent implements OnInit {
       this.socioFincaEditForm.controls.estado.setValue(data.EstadoId);
     }
     this.rows = data.FincaEstimado;
+
+    this.socioFincaEditForm.controls.idProductorFinca.setValue(data.ProductorFincaId);
+    this.codeFincaPartner = data.ProductorFincaId
+    this.socioFincaEditForm.controls.idProductor.setValue(data.ProductorId);
+    this.socioFincaEditForm.controls.nombreFinca.setValue(data.Nombre);
+    if (data.Latitud) {
+      this.socioFincaEditForm.controls.latitud.setValue(data.Latitud);
+    }
+    this.socioFincaEditForm.controls.direccion.setValue(data.Direccion);
+    if (data.Longuitud) {
+      this.socioFincaEditForm.controls.longitud.setValue(data.Longuitud);
+    }
+    await this.GetDepartments();
+    this.socioFincaEditForm.controls.departamento.setValue(data.DepartamentoId);
+    if (data.Altitud) {
+      this.socioFincaEditForm.controls.altitud.setValue(data.Altitud);
+    }
+    await this.GetProvincias();
+    this.socioFincaEditForm.controls.provincia.setValue(data.ProvinciaId);
+    if (data.FuenteEnergiaId)
+      this.socioFincaEditForm.controls.fuenteEnergia.setValue(data.FuenteEnergiaId);
+    await this.GetDistritos();
+    this.socioFincaEditForm.controls.distrito.setValue(data.DistritoId);
+    if (data.FuenteAguaId)
+      this.socioFincaEditForm.controls.fuenteAgua.setValue(data.FuenteAguaId);
+    if (data.ZonaId) {
+      await this.GetZonas();
+      if (this.listZonas.length > 0) {
+        this.socioFincaEditForm.controls.zona.setValue(data.ZonaId);
+      }
+    }
+    if (data.CantidadAnimalesMenores)
+      this.socioFincaEditForm.controls.nroAnimalesMenores.setValue(data.CantidadAnimalesMenores);
+    if (data.MaterialVivienda)
+      this.socioFincaEditForm.controls.materialVivienda.setValue(data.MaterialVivienda);
+    if (data.InternetId)
+      this.socioFincaEditForm.controls.fInternet.setValue(data.InternetId);
+    if (data.Suelo)
+      this.socioFincaEditForm.controls.suelo.setValue(data.Suelo);
+    if (data.SenialTelefonicaId)
+      this.socioFincaEditForm.controls.senialTelefonica.setValue(data.SenialTelefonicaId);
+    if (data.EstablecimientoSaludId)
+      this.socioFincaEditForm.controls.establecimientoSalud.setValue(data.EstablecimientoSaludId);
+    if (data.TiempoTotalEstablecimientoSalud)
+      this.socioFincaEditForm.controls.tiempoUnidadCentroSalud.setValue(data.TiempoTotalEstablecimientoSalud);
+    if (data.CentroEducativoId)
+      this.socioFincaEditForm.controls.fCentroEducativo.setValue(data.CentroEducativoId);
+    if (data.CentroEducativoNivel)
+      this.socioFincaEditForm.controls.centroEducativo.setValue(data.CentroEducativoNivel.split('|').map(String));
+    if (data.EstadoId) {
+      this.socioFincaEditForm.controls.estado.setValue(data.EstadoId);
+    }
+    if (data.LatitudDms) {
+      this.socioFincaEditForm.controls.latitud2.setValue(data.LatitudDms);
+    }
+    if (data.LonguitudDms) {
+      this.socioFincaEditForm.controls.longitud2.setValue(data.LonguitudDms);
+    }
+
+
+    if (data.AreaTotal) {
+      this.socioFincaEditForm.controls.areaTotal.setValue(data.AreaTotal);
+    }
+    if (data.AreaCafeEnProduccion) {
+      this.socioFincaEditForm.controls.areaCafe.setValue(data.AreaCafeEnProduccion);
+    }
+    if (data.Crecimiento) {
+      this.socioFincaEditForm.controls.crecimiento.setValue(data.Crecimiento);
+    }
+    if (data.Bosque) {
+      this.socioFincaEditForm.controls.bosque.setValue(data.Bosque);
+    }
+    if (data.Purma) {
+      this.socioFincaEditForm.controls.purma.setValue(data.Purma);
+    }
+    if (data.PanLlevar) {
+      this.socioFincaEditForm.controls.panLlevar.setValue(data.PanLlevar);
+    }
+    if (data.Vivienda) {
+      this.socioFincaEditForm.controls.vivienda.setValue(data.Vivienda);
+    }
+
+
     this.spinner.hide();
   }
 
