@@ -36,7 +36,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  selectOrganizacion = [];
+  selectedEmpresa = [];
   popupModel;
   login: ILogin;
   private tempData = [];
@@ -137,7 +137,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
       let objectDestino: any = {};
       objectDestino.OrganizacionId = data.EmpresaIdDestino;
-      this.selectOrganizacion.push(objectDestino);
+      this.selectedEmpresa.push(objectDestino);
       let objectTransporte: any = {};
       objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
       objectTransporte.TransporteId = data.TransporteId;
@@ -186,6 +186,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
           placa: new FormControl('', []),
           numconstanciamtc: new FormControl('', []),
           motivoSalida: new FormControl('', [Validators.required]),
+          numReferencia: new FormControl('', []),
           observacion: new FormControl('', [])
         }),
       });
@@ -202,7 +203,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   }
 
   openModal(modalEmpresa) {
-    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg' });
+    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
 
   }
 
@@ -266,7 +267,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         this.numero,
         this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").value,
         "",
-        Number(this.selectOrganizacion[0].OrganizacionId),
+        Number(this.selectedEmpresa[0].EmpresaProveedoraAcreedoraId),
         Number(this.child.selectedT[0].EmpresaTransporteId),
         Number(this.child.selectedT[0].TransporteId),
         this.child.selectedT[0].NumeroConstanciaMTC,
@@ -405,14 +406,12 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     link.remove();
   }
 
-  GetDataEmpresa(event: any): void {
-    this.selectOrganizacion = event;
-    if (this.selectOrganizacion[0]) {
-      this.notaSalidaFormEdit.controls["destinatario"].setValue(this.selectOrganizacion[0].RazonSocial);
-      this.notaSalidaFormEdit.controls["ruc"].setValue(this.selectOrganizacion[0].Ruc);
-      this.notaSalidaFormEdit.controls["dirDestino"].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
 
-    }
+  GetEmpresa($event) {
+    this.selectedEmpresa = $event
+    this.notaSalidaFormEdit.get('destinatario').setValue(this.selectedEmpresa[0].RazonSocial);
+    this.notaSalidaFormEdit.get('ruc').setValue(this.selectedEmpresa[0].Ruc);
+    this.notaSalidaFormEdit.get('dirDestino').setValue(this.selectedEmpresa[0].Direccion + " - " + this.selectedEmpresa[0].Distrito + " - " + this.selectedEmpresa[0].Provincia + " - " + this.selectedEmpresa[0].Departamento);
     this.modalService.dismissAll();
   }
 }

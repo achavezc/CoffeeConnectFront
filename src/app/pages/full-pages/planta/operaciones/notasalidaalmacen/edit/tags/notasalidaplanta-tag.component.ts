@@ -152,7 +152,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   }
 
   openModalTransportista(modalTransportista) {
-    this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'lg' });
+    this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'xl' });
     this.cargarTransportista();
   }
 
@@ -197,7 +197,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   }
 
   cargarformTagNotaSalida() {
-    this.maestroService.obtenerMaestros("MotivoSalida")
+    this.maestroService.obtenerMaestros("MotivoSalidaPlanta")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaMotivoTranslado = res.Result.Data;

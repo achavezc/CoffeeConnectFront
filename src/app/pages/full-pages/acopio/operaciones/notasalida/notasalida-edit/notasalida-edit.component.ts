@@ -202,7 +202,7 @@ export class NotaSalidaEditComponent implements OnInit {
   }
 
   openModal(modalEmpresa) {
-    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'lg' });
+    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
 
   }
 
