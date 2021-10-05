@@ -266,7 +266,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         this.notaSalidaFormEdit.get("almacen").value,
         this.numero,
         this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").value,
-        "",
+        this.notaSalidaFormEdit.get('tagcalidad').get("numReferencia").value,
         Number(this.selectedEmpresa[0].EmpresaProveedoraAcreedoraId),
         Number(this.child.selectedT[0].EmpresaTransporteId),
         Number(this.child.selectedT[0].TransporteId),
