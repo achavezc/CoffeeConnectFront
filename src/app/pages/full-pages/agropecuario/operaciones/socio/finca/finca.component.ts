@@ -41,10 +41,11 @@ export class FincaComponent implements OnInit {
   selected = [];
   @ViewChild(DatatableComponent) table: DatatableComponent;
   codeProducer: any;
-
+  nameProductor : any;
   ngOnInit(): void {
     this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0
     this.codeProducer = this.route.snapshot.params['producer'] ? parseInt(this.route.snapshot.params['producer']) : 0
+    this.nameProductor = this.route.snapshot.params['title'];
     if (this.codePartner) {
       this.LoadForm();
       this.SearchSocioById();
@@ -100,7 +101,7 @@ export class FincaComponent implements OnInit {
   New(): void {
     // this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.objParams.idProductor, idSocio: this.codePartner } });
     // this.router.navigate(['/agropecuario/operaciones/socio/finca/create'], { queryParams: { idProductor: this.codeProducer, idSocio: this.codePartner } });
-    this.router.navigate([`/agropecuario/operaciones/socio/finca/create/${this.codePartner}/${this.codeProducer}`]);
+    this.router.navigate([`/agropecuario/operaciones/socio/finca/create/${this.codePartner}/${this.codeProducer}`,{title: this.nameProductor}]);
   }
 
   Certifications(): void {

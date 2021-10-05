@@ -335,7 +335,7 @@ export class MateriaPrimaEditComponent implements OnInit {
 
   cargarContratoAsignado( tipoProducto , subTipoProducto) {
 
-    if ( tipoProducto == '01' && subTipoProducto != '02')
+    if ( tipoProducto == '01' && subTipoProducto == '02')
     {
     let request =
     {

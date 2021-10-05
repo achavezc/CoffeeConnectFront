@@ -718,8 +718,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.rowsDetails[index].KilosBrutos = parseFloat(event.target.value)
     else if (prop === 'tara')
       this.rowsDetails[index].Tara = parseFloat(event.target.value)
-    else if (prop === 'klNetos')
-      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value)
+    else if (prop === 'KilosExportables')
+      this.rowsDetails[index].KilosExportables = parseFloat(event.target.value)
   }
 
   Print(): void {
@@ -868,6 +868,7 @@ export class OrdenProcesoEditComponent implements OnInit {
         this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroNotaIngresoAlmacenPlanta + ".");
       }}*/
   }
+
   obtenerDetalleNotaIngreso(id) {
     this.spinner.show();
     this.notaIngresoService.ConsultarPorId(Number(id))
@@ -920,6 +921,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.PorcentajeDescarte = data.DescartePorcentajeAnalisisFisico
       object.PorcentajeCascarilla = data.CascarillaPorcentajeAnalisisFisico
       object.KilosExportables = Number(data.KilosNetos * data.ExportablePorcentajeAnalisisFisico);
+      
       object.SacosCalculo = Number(object.KilosExportables / 69);
       object.CantidadPesado = data.Cantidad
       object.KilosBrutosPesado = data.KilosBrutos
@@ -930,6 +932,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.rowsDetails = [...this.tempDataLoteDetalle];
       this.spinner.hide();
       this.modalService.dismissAll();
+   
     }
     else {
       this.alertUtil.alertWarning("Oops...!", "Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].Numero + ".");

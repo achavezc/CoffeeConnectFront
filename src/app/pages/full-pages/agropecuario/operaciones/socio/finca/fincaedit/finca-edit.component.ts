@@ -73,11 +73,12 @@ export class FincaEditComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   codePartner: Number;
   codeProducer: Number;
-
+  nameProductor: any;
   ngOnInit(): void {
     this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0
     this.codeProducer = this.route.snapshot.params['producer'] ? parseInt(this.route.snapshot.params['producer']) : 0
     this.codeFincaPartner = this.route.snapshot.params['fincapartner'] ? parseInt(this.route.snapshot.params['fincapartner']) : 0
+    this.nameProductor = this.route.snapshot.params['title'];
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
@@ -117,6 +118,7 @@ export class FincaEditComponent implements OnInit {
       idProductorFinca: [],
       idProductor: [],
       nombreFinca: ['', []],
+
       latitud: [],
       direccion: ['', []],
       longitud: [],
@@ -137,6 +139,7 @@ export class FincaEditComponent implements OnInit {
       fCentroEducativo: [],
       centroEducativo: [],
       estado: ['', []],
+
       latitud2: [],
       longitud2: [],
 
@@ -150,6 +153,34 @@ export class FincaEditComponent implements OnInit {
 
 
     });
+
+    this.socioFincaEditForm.controls["nombreSocio"].setValue(this.nameProductor);
+    this.socioFincaEditForm.controls["nombreSocio"].disable();
+
+    this.socioFincaEditForm.controls["latitud"].disable();
+    this.socioFincaEditForm.controls["direccion"].disable();
+    this.socioFincaEditForm.controls["longitud"].disable();
+    this.socioFincaEditForm.controls["departamento"].disable();
+    this.socioFincaEditForm.controls["altitud"].disable();
+    this.socioFincaEditForm.controls["provincia"].disable();
+    this.socioFincaEditForm.controls["fuenteEnergia"].disable();
+    this.socioFincaEditForm.controls["distrito"].disable();
+
+    this.socioFincaEditForm.controls["fuenteAgua"].disable();
+    this.socioFincaEditForm.controls["zona"].disable();
+    this.socioFincaEditForm.controls["nroAnimalesMenores"].disable();
+    this.socioFincaEditForm.controls["materialVivienda"].disable();
+    this.socioFincaEditForm.controls["fInternet"].disable();
+    this.socioFincaEditForm.controls["suelo"].disable();
+
+    
+    this.socioFincaEditForm.controls["senialTelefonica"].disable();
+    this.socioFincaEditForm.controls["establecimientoSalud"].disable();
+    this.socioFincaEditForm.controls["tiempoUnidadCentroSalud"].disable();
+    this.socioFincaEditForm.controls["fCentroEducativo"].disable();
+    this.socioFincaEditForm.controls["centroEducativo"].disable();
+    this.socioFincaEditForm.controls["estado"].disable();
+  
   }
 
   async GetDepartments() {
@@ -159,7 +190,84 @@ export class FincaEditComponent implements OnInit {
       this.listDepartamentos = res.Result.Data;
     }
   }
-
+  onChangeFinca(event: any): void {
+    this.SearchProducerFincaById(event.ProductorFincaId);
+  }
+  SearchProducerFincaById(idProductorFinca): void {
+    this.spinner.show();
+    this.productorFincaService.SearcById({ ProductorFincaId: idProductorFinca })
+      .subscribe((res: any) => {
+        if (res.Result.Success) {
+          this.AutocompleteFormProductor(res.Result.Data);
+        }
+      }, (err: any) => {
+        console.log(err);
+      });
+  }
+  async AutocompleteFormProductor(data: any) {
+    this.socioFincaEditForm.controls.idProductorFinca.setValue(data.ProductorFincaId);
+    //this.FincaId = data.ProductorFincaId
+    this.socioFincaEditForm.controls.idProductor.setValue(data.ProductorId);
+    this.socioFincaEditForm.controls.nombreFinca.setValue(data.Nombre);
+    if (data.Latitud) {
+      this.socioFincaEditForm.controls.latitud.setValue(data.Latitud);
+    }
+    this.socioFincaEditForm.controls.direccion.setValue(data.Direccion);
+    if (data.Longuitud) {
+      this.socioFincaEditForm.controls.longitud.setValue(data.Longuitud);
+    }
+    await this.GetDepartments();
+    this.socioFincaEditForm.controls.departamento.setValue(data.DepartamentoId);
+    if (data.Altitud) {
+      this.socioFincaEditForm.controls.altitud.setValue(data.Altitud);
+    }
+    await this.GetProvincias();
+    this.socioFincaEditForm.controls.provincia.setValue(data.ProvinciaId);
+    if (data.FuenteEnergiaId)
+      this.socioFincaEditForm.controls.fuenteEnergia.setValue(data.FuenteEnergiaId);
+    await this.GetDistritos();
+    this.socioFincaEditForm.controls.distrito.setValue(data.DistritoId);
+    if (data.FuenteAguaId)
+      this.socioFincaEditForm.controls.fuenteAgua.setValue(data.FuenteAguaId);
+    if (data.ZonaId) {
+      await this.GetZonas();
+      if (this.listZonas.length > 0) {
+        this.socioFincaEditForm.controls.zona.setValue(data.ZonaId);
+      }
+    }
+    if (data.CantidadAnimalesMenores)
+      this.socioFincaEditForm.controls.nroAnimalesMenores.setValue(data.CantidadAnimalesMenores);
+    if (data.MaterialVivienda)
+      this.socioFincaEditForm.controls.materialVivienda.setValue(data.MaterialVivienda);
+    if (data.InternetId)
+      this.socioFincaEditForm.controls.fInternet.setValue(data.InternetId);
+    if (data.Suelo)
+      this.socioFincaEditForm.controls.suelo.setValue(data.Suelo);
+    if (data.SenialTelefonicaId)
+      this.socioFincaEditForm.controls.senialTelefonica.setValue(data.SenialTelefonicaId);
+    if (data.EstablecimientoSaludId)
+      this.socioFincaEditForm.controls.establecimientoSalud.setValue(data.EstablecimientoSaludId);
+    if (data.TiempoTotalEstablecimientoSalud)
+      this.socioFincaEditForm.controls.tiempoUnidadCentroSalud.setValue(data.TiempoTotalEstablecimientoSalud);
+    if (data.CentroEducativoId)
+      this.socioFincaEditForm.controls.fCentroEducativo.setValue(data.CentroEducativoId);
+    if (data.CentroEducativoNivel)
+      this.socioFincaEditForm.controls.centroEducativo.setValue(data.CentroEducativoNivel.split('|').map(String));
+    if (data.EstadoId) {
+      this.socioFincaEditForm.controls.estado.setValue(data.EstadoId);
+    }
+    if (data.LatitudDms) {
+      this.socioFincaEditForm.controls.latitud2.setValue(data.LatitudDms);
+    }
+    if (data.LonguitudDms) {
+      this.socioFincaEditForm.controls.longitud2.setValue(data.LonguitudDms);
+    }
+   
+    if (data.NombreProductor) {
+      this.socioFincaEditForm.controls.nombreProductor.setValue(data.NombreProductor);
+    }
+    this.spinner.hide();
+  }
   async GetProvincias() {
     this.listProvincias = [];
     const res: any = await this.maestroUtil.GetProvincesAsync(this.selectedDepartamento, 'PE');
@@ -426,7 +534,7 @@ export class FincaEditComponent implements OnInit {
     if (data.Vivienda) {
       this.socioFincaEditForm.controls.vivienda.setValue(data.Vivienda);
     }
-
+    this.SearchProducerFincaById(data.ProductorFincaId);
 
     this.spinner.hide();
   }
@@ -436,16 +544,24 @@ export class FincaEditComponent implements OnInit {
       SocioFincaId: this.codeFincaPartner ?? 0,
       SocioId: this.codePartner ?? 0,
       ProductorFincaId: this.socioFincaEditForm.value.finca,
-      ViasAccesoCentroAcopio: this.socioFincaEditForm.value.viasAcceso,
-      DistanciaKilometrosCentroAcopio: this.socioFincaEditForm.value.distanciaKM ?? null,
-      TiempoTotalFincaCentroAcopio: this.socioFincaEditForm.value.tiempoTotal ?? null,
-      MedioTransporte: this.socioFincaEditForm.value.medioTransporte,
-      Cultivo: this.socioFincaEditForm.value.cultivo,
-      Precipitacion: this.socioFincaEditForm.value.precipitacion,
-      CantidadPersonalCosecha: this.socioFincaEditForm.value.nroPersonalCosecha ?? null,
+      ViasAccesoCentroAcopio:this.socioFincaEditForm.controls["viasAcceso"].value,
+      DistanciaKilometrosCentroAcopio: this.socioFincaEditForm.controls["distanciaKM"].value ?? null,
+      TiempoTotalFincaCentroAcopio: this.socioFincaEditForm.controls["tiempoTotal"].value ?? null,
+      MedioTransporte: this.socioFincaEditForm.controls["medioTransporte"].value,
+      Cultivo: this.socioFincaEditForm.controls["cultivo"].value,
+      Precipitacion: this.socioFincaEditForm.controls["precipitacion"].value,
+      CantidadPersonalCosecha: this.socioFincaEditForm.controls["nroPersonalCosecha"].value ?? null,
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoId: this.socioFincaEditForm.value.estado,
-      FincaEstimado: this.rows.filter(x => x.Anio != 0 && x.Estimado != 0)
+      EstadoId: this.socioFincaEditForm.controls["estado"].value,
+      AreaTotal: this.socioFincaEditForm.controls["areaTotal"].value,
+      AreaCafeEnProduccion: this.socioFincaEditForm.controls["areaCafe"].value,
+      Crecimiento: this.socioFincaEditForm.controls["crecimiento"].value,
+      Bosque: this.socioFincaEditForm.controls["bosque"].value,
+      Purma: this.socioFincaEditForm.controls["purma"].value,
+      PanLlevar: this.socioFincaEditForm.controls["panLlevar"].value,
+      Vivienda: this.socioFincaEditForm.controls["vivienda"].value,
+      FincaEstimado: this.rows.filter(x => x.Anio != 0 && x.Estimado != 0),
+      //Precipitacion: this.socioFincaEditForm.value.precipitacion,
     }
   }
 

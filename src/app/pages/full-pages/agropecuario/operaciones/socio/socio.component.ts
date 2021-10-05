@@ -208,7 +208,7 @@ export class SocioComponent implements OnInit {
       //   queryParams: { idProductor: this.selected[0].ProductorId }
       // }
       // this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.selected[0].SocioId}`], navigationExtras);
-      this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.selected[0].SocioId}/${this.selected[0].ProductorId}`]);
+      this.router.navigate([`/agropecuario/operaciones/socio/finca/list/${this.selected[0].SocioId}/${this.selected[0].ProductorId}`, {title:this.selected[0].NombreRazonSocial}]);
     }
   }
 

@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header text-center">
-        DATOS ADICIONALES DE LA FINCA
+        DATOS DE LA FINCA
     </div>
     <div class="card-body">
         <form class="needs-validation" novalidate [formGroup]="socioFincaEditForm">
@@ -49,9 +49,15 @@
                     <div class="form-group row">
                         <label for="nombreFinca" class="col-4 col-form-label pr-0">Nombre de la finca</label>
                         <div class="col-8">
-                            <input type="text" name="nombreFinca" id="nombreFinca" formControlName="nombreFinca"
+                            <!-- <input type="text" name="nombreFinca" id="nombreFinca" formControlName="nombreFinca"
                                 [ngClass]="{ 'is-invalid': f.nombreFinca.invalid, 'is-valid': !f.nombreFinca.invalid }"
-                                class="form-control" placeholder="Ingresar nombre de la finca">
+                                class="form-control" placeholder="Ingresar nombre de la finca"> -->
+                                <ng-select [items]="listFincas" formControlName="finca" class="form-control"
+                                bindLabel="Nombre" bindValue="ProductorFincaId" id="finca"
+                                placeholder="Seleccionar finca" [(ngModel)]="selectedFinca"
+                                (change)="onChangeFinca($event)"
+                                [ngClass]="{ 'is-invalid': f.finca.invalid, 'is-valid': !f.finca.invalid }">
+                                </ng-select>
                         </div>
                     </div>
                 </div>
@@ -403,7 +409,7 @@
             <div class="form-row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
-                        <label for="areaTotal" class="col-4 col-form-label pr-0">Área Total</label>
+                        <label for="areaTotal" class="col-4 col-form-label pr-0">Área Total (HA)</label>
                         <div class="col-8">
                             <input type="text" name="areaTotal" id="areaTotal"
                                 formControlName="medioTransporte"
@@ -414,7 +420,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
-                        <label for="areaCafe" class="col-4 col-form-label pr-0">Área de Café en Producción</label>
+                        <label for="areaCafe" class="col-4 col-form-label pr-0">Área de Café en Producción (HA)</label>
                         <div class="col-8">
                             <input type="text" name="areaCafe" id="areaCafe" formControlName="areaCafe"
                                 [ngClass]="{ 'is-invalid': f.areaCafe.invalid, 'is-valid': !f.areaCafe.invalid }"
@@ -424,7 +430,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
-                        <label for="crecimiento" class="col-4 col-form-label pr-0">Crecimiento</label>
+                        <label for="crecimiento" class="col-4 col-form-label pr-0">Crecimiento (HA)</label>
                         <div class="col-8">
                             <input type="text" name="crecimiento" id="crecimiento" formControlName="crecimiento"
                                 [ngClass]="{ 'is-invalid': f.crecimiento.invalid, 'is-valid': !f.crecimiento.invalid }"
@@ -437,7 +443,7 @@
             <div class="form-row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
-                        <label for="bosque" class="col-4 col-form-label pr-0">Bosque</label>
+                        <label for="bosque" class="col-4 col-form-label pr-0">Bosque (HA)</label>
                         <div class="col-8">
                             <input type="text" name="bosque" id="bosque"
                                 formControlName="bosque"
@@ -448,7 +454,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
-                        <label for="purma" class="col-4 col-form-label pr-0">Purma</label>
+                        <label for="purma" class="col-4 col-form-label pr-0">Purma (HA)</label>
                         <div class="col-8">
                             <input type="text" name="purma" id="purma" formControlName="purma"
                                 [ngClass]="{ 'is-invalid': f.purma.invalid, 'is-valid': !f.purma.invalid }"
@@ -458,7 +464,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
-                        <label for="panLlevar" class="col-4 col-form-label pr-0">Pan Llevar</label>
+                        <label for="panLlevar" class="col-4 col-form-label pr-0">Pan Llevar (HA)</label>
                         <div class="col-8">
                             <input type="text" name="panLlevar" id="panLlevar" formControlName="panLlevar"
                                 [ngClass]="{ 'is-invalid': f.panLlevar.invalid, 'is-valid': !f.panLlevar.invalid }"
