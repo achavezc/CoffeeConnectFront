@@ -135,8 +135,9 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       this.notaSalidaFormEdit.get('tagcalidad').get("numconstanciamtc").setValue(data.NumeroConstanciaMTC);
       this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").setValue(data.MotivoSalidaId);
       this.notaSalidaFormEdit.get('tagcalidad').get("observacion").setValue(data.Observacion);
+      this.notaSalidaFormEdit.get('tagcalidad').get("numReferencia").setValue(data.MotivoSalidaReferencia);
       let objectDestino: any = {};
-      objectDestino.OrganizacionId = data.EmpresaIdDestino;
+      objectDestino.EmpresaProveedoraAcreedoraId = data.EmpresaIdDestino;
       this.selectedEmpresa.push(objectDestino);
       let objectTransporte: any = {};
       objectTransporte.EmpresaTransporteId = data.EmpresaTransporteId;
@@ -147,7 +148,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       objectTransporte.MarcaCarretaId = data.MarcaCarretaId;
       objectTransporte.PlacaCarreta = data.PlacaCarreta;
       objectTransporte.Conductor = data.Conductor;
-      objectTransporte.Licencia = data.Licencia;
+      objectTransporte.Licencia = data.LicenciaConductor;
       this.child.selectedT.push(objectTransporte);
       this.numero = data.Numero;
       this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");

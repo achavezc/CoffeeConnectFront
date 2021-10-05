@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
@@ -8,7 +8,6 @@ import { ILogin } from '../../../../../../../services/models/login';
 import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { LoteService } from '../../../../../../../services/lote.service';
-import { TransportistaService } from '../../../../../../../services/transportista.service';
 import { Observable } from 'rxjs';
 
 
@@ -29,7 +28,6 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   listaEstado: any[];
   selectAlmacenLote: any;
   consultaLotes: FormGroup;
-  consultaTransportistas: FormGroup;
   selectEstado: any[];
   listaProducto: any[];
   listaSubProducto: any[];
@@ -46,14 +44,11 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   notaSalidaFormEdit : FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   error: any = { isError: false, errorMessage: '' };
-  errorTransportista: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selected = [];
   selectedT = [];
   selectLoteDetalle = [];
-  public rowsT = [];
-  private tempDataT = [];
   popupModel;
   login: ILogin;
   private tempData = [];
@@ -66,7 +61,6 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   public limitRefT = 10;
   filtrosLotes: any = {};
   filtrosLotesID: any = {};
-  filtrosTransportista: any = {};
   listaNotaIngreso = [];
   valueMotivoSalidaTransf = '02';
   estadoAnalizado = '02';
@@ -85,7 +79,6 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private dateUtil: DateUtil,
     private loteService: LoteService,
-    private transportistaService: TransportistaService,
     private controlContainer: ControlContainer
   ) { }
 
@@ -153,8 +146,9 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
 
   openModalTransportista(modalTransportista) {
     this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'xl' });
-    this.cargarTransportista();
+
   }
+
 
   clear() {
     this.consultaLotes.controls['numeroLote'].reset;
@@ -168,32 +162,6 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     this.consultaLotes.controls['rzsocial'].reset;
     this.selectEstado = [];
     this.rows = [];
-  }
-
-
-  cargarTransportista() {
-    this.consultaTransportistas = new FormGroup(
-      {
-        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
-        ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20)])
-      }
-    );
-    this.consultaTransportistas.setValidators(this.comparisonValidatorTransportista())
-  }
-
-
-  public comparisonValidatorTransportista(): ValidatorFn {
-    return (group: FormGroup): ValidationErrors => {
-      let rzsocial = group.controls['rzsocial'].value;
-      let ruc = group.controls['ruc'].value;
-      if (rzsocial == "" && ruc == "") {
-        this.errorTransportista = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
-      }
-      else {
-        this.errorTransportista = { isError: false, errorMessage: '' };
-      }
-      return;
-    };
   }
 
   cargarformTagNotaSalida() {
@@ -291,14 +259,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     this.tableLotes.offset = 0;
   }
 
-  filterUpdateT(event) {
-    const val = event.target.value.toLowerCase();
-    const temp = this.tempDataT.filter(function (d) {
-      return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-    this.rowsT = temp;
-    this.tableTranspotistas.offset = 0;
-  }
+  
   compareTwoDates(): void {
     let vBeginDate = new Date(this.consultaLotes.value.fechaInicio);
     let vEndDate = new Date(this.consultaLotes.value.fechaFinal);
@@ -320,15 +281,11 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
-  updateLimitT(limit) {
-    this.limitRefT = limit.target.value;
-  }
+ 
   get f() {
     return this.consultaLotes.controls;
   }
-  get fT() {
-    return this.consultaTransportistas.controls;
-  }
+
   get fedit() {
     return this.tagNotadeSalida.controls;
   }
@@ -360,64 +317,20 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     };
   }
 
-  buscarTransportista() {
-
-    if (this.consultaTransportistas.invalid || this.errorTransportista.isError) {
-      this.submittedT = true;
-      return;
-    } else {
-      this.selectedT = [];
-      this.submittedT = false;
-      this.filtrosTransportista.RazonSocial = this.consultaTransportistas.controls['rzsocial'].value;
-      this.filtrosTransportista.Ruc = this.consultaTransportistas.controls['ruc'].value;
-      this.filtrosTransportista.EmpresaId = 1;
-      this.spinner.show(undefined,
-        {
-          type: 'ball-triangle-path',
-          size: 'large',
-          bdColor: 'rgba(0, 0, 0, 0.8)',
-          color: '#fff',
-          fullScreen: true
-        });
-      this.transportistaService.Consultar(this.filtrosTransportista)
-        .subscribe(res => {
-          this.spinner.hide();
-          if (res.Result.Success) {
-            if (res.Result.ErrCode == "") {
-              this.tempDataT = res.Result.Data;
-              this.rowsT = [...this.tempDataT];
-            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-              this.errorTransportista = { isError: true, errorMessage: res.Result.Message };
-            } else {
-              this.errorTransportista = { isError: true, errorMessage: this.mensajeErrorGenerico };
-            }
-          } else {
-            this.errorTransportista = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        },
-          err => {
-            this.spinner.hide();
-            console.error(err);
-            this.errorTransportista = { isError: false, errorMessage: this.mensajeErrorGenerico };
-          }
-        );
-    }
-
-  };
-  seleccionarTransportista(e) {
-
-    this.tagNotadeSalida.get('propietario').setValue(e[0].RazonSocial);
-    this.tagNotadeSalida.get('domiciliado').setValue(e[0].Direccion);
-    this.tagNotadeSalida.get('ruc').setValue(e[0].Ruc);
-    this.tagNotadeSalida.get('conductor').setValue(e[0].Conductor);
-    this.tagNotadeSalida.get('brevete').setValue(e[0].Licencia);
-    this.tagNotadeSalida.get('codvehicular').setValue(e[0].ConfiguracionVehicular);
-    this.tagNotadeSalida.get('marca').setValue(e[0].MarcaTractor);
-    this.tagNotadeSalida.get('placa').setValue(e[0].PlacaTractor);
-    this.tagNotadeSalida.get('numconstanciamtc').setValue(e[0].NumeroConstanciaMTC);
-
+  seleccionarTransportista($event) {
+    this.selectedT = $event;
+    this.tagNotadeSalida.get('propietario').setValue(this.selectedT[0].RazonSocial);
+    this.tagNotadeSalida.get('domiciliado').setValue(this.selectedT[0].Direccion);
+    this.tagNotadeSalida.get('ruc').setValue(this.selectedT[0].Ruc);
+    this.tagNotadeSalida.get('conductor').setValue(this.selectedT[0].Conductor);
+    this.tagNotadeSalida.get('brevete').setValue(this.selectedT[0].Licencia);
+    this.tagNotadeSalida.get('codvehicular').setValue(this.selectedT[0].ConfiguracionVehicular);
+    this.tagNotadeSalida.get('marca').setValue(this.selectedT[0].MarcaTractor);
+    this.tagNotadeSalida.get('placa').setValue(this.selectedT[0].PlacaTractor);
+    this.tagNotadeSalida.get('numconstanciamtc').setValue(this.selectedT[0].NumeroConstanciaMTC);
     this.modalService.dismissAll();
   }
+  
   buscar() {
     if (this.consultaLotes.invalid || this.error.isError) {
       this.submitted = true;

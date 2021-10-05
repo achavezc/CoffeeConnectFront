@@ -96,26 +96,19 @@
         <div class="card">
           <div class="card-content">
             <div class="card-body">
-              <!-- Nav-tabs -->
-              <!-- <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
-                  <li [ngbNavItem]="1">
-                    <a ngbNavLink class="nav-link d-flex align-items-center">
-                      <span class="d-none d-sm-block">Nota de Salida</span>
-                    </a>
-                    <ng-template ngbNavContent>-->
               <app-tagNotasalidaPlanta formGroupName="tagcalidad" [selectAlmacen]="selectAlmacen"
                 [submittedEdit]="submittedEdit"></app-tagNotasalidaPlanta>
 
-              <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
-                <div class="col-8 d-flex flex-sm-row flex-column">
-                  <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Responsable</label>
-                  <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+              <div *ngIf="esEdit" class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 1rem;">
+                <div class="col-12 d-flex flex-sm-row flex-column">
+                  <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
+                  <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
                     for="horizontal-form-1">{{responsable}}</label>
                 </div>
-                <div class="col-8 d-flex flex-sm-row flex-column">
-                  <label class="col-md-2 col-form-label card-text" for="horizontal-form-1">Fecha Nota
+                <div class="col-12 d-flex flex-sm-row flex-column">
+                  <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Fecha Nota
                     Salida</label>
-                  <label class="col-md-12 col-form-label card-text" style="font-weight: bold;"
+                  <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
                     for="horizontal-form-1">{{fechaRegistro}}</label>
                 </div>
 
