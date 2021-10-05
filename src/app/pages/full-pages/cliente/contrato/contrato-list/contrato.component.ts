@@ -220,7 +220,7 @@ export class ContratoClienteComponent implements OnInit {
       Idioma: lang
     };
   }
-
+//test
   Buscar(lang: string): void {
     var lenguaje = localStorage.getItem("language");
     lang = lang == '' ? (lenguaje == null ? this.translate.getDefaultLang() : lenguaje) : lang;
