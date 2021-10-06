@@ -456,7 +456,7 @@ export class FincaEditComponent implements OnInit {
     this.rows = data.FincaEstimado;
 
     this.socioFincaEditForm.controls.idProductorFinca.setValue(data.ProductorFincaId);
-    this.codeFincaPartner = data.ProductorFincaId
+    this.codeFincaPartner = data.SocioFincaId;
     this.socioFincaEditForm.controls.idProductor.setValue(data.ProductorId);
     this.socioFincaEditForm.controls.nombreFinca.setValue(data.Nombre);
     if (data.Latitud) {
