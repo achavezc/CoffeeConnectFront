@@ -264,7 +264,7 @@ export class FincaEditComponent implements OnInit {
     }
    
     if (data.NombreProductor) {
-      this.socioFincaEditForm.controls.nombreProductor.setValue(data.NombreProductor);
+      this.socioFincaEditForm.controls.nombreSocio.setValue(data.NombreProductor);
     }
     this.spinner.hide();
   }
