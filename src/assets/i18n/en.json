@@ -165,9 +165,7 @@
 			"RecepcionProductoTerminado": {
 				"Label": "Finished Product Reception"
 			},
-			"LiquidacionCompra": {
-				"Label": "Purchase Settlement"
-			},
+			
 			"IngresoAlmacen": {
 				"Label": "Warehouse Entry"
 			},
@@ -270,7 +268,11 @@
 		"Label": "Tesoreria",
 		"Adelanto": {
 			"Label": "Adelantos"
-		}
+		},
+		"LiquidacionCompra":
+				{
+					"Label":"Liquidacion de Compra"
+				}
 	},
 	"CONTRATO": {
 		"LIST": {

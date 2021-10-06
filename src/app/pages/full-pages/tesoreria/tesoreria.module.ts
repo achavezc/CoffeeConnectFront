@@ -23,11 +23,15 @@ import { AdelantoComponent } from './adelanto/list/adelanto.component';
 import { AdelantoEditComponent } from './adelanto/edit/adelanto-edit.component';
 import { AcopioModule } from '../acopio/acopio.module';
 import { AgropecuarioModule } from '../agropecuario/agropecuario.module';
-//import { NotacompraListComponent } from '../acopio/operaciones/notacompra/notacompra-list.component';
+import { NotaCompraEditComponent } from '../tesoreria/notacompra/notacompra-edit/nota-compra-edit.component';
+import { NotacompraListComponent } from '../tesoreria/notacompra/notacompra-list.component';
+
 @NgModule({
   declarations: [
     AdelantoComponent,
-    AdelantoEditComponent
+    AdelantoEditComponent,
+    NotaCompraEditComponent,
+    NotacompraListComponent
     //NotacompraListComponent
   ],
   imports: [
@@ -52,6 +56,10 @@ import { AgropecuarioModule } from '../agropecuario/agropecuario.module';
     FileUploadModule,
     AcopioModule,
     AgropecuarioModule
+  ],
+  exports:
+  [
+    NotacompraListComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

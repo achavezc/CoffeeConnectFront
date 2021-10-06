@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdelantoComponent } from '../tesoreria/adelanto/list/adelanto.component';
 
 import { AdelantoEditComponent } from '../tesoreria/adelanto/edit/adelanto-edit.component';
+import {NotacompraListComponent} from '../tesoreria/notacompra/notacompra-list.component';
+import{NotaCompraEditComponent} from '../tesoreria/notacompra/notacompra-edit/nota-compra-edit.component';
 
 const routes: Routes = [
     {
@@ -22,7 +24,21 @@ const routes: Routes = [
                 data: {
                     title: 'AdelantoEdit'
                 }
-            }
+            },
+            {
+                path: 'notasdecompra-list',
+                component: NotacompraListComponent,
+                data: {
+                  title: 'Liquidación de compra'
+                }
+              },
+              {
+                path: 'notacompra/update/:id',
+                component: NotaCompraEditComponent,
+                data: {
+                  title: 'Actualizar Liquidación de compra'
+                }
+              }
         ]
     }
 ];

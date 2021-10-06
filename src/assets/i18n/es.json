@@ -178,10 +178,7 @@
 				{
 					"Label":"Recepcion Producto Terminado"
 				},
-			"LiquidacionCompra":
-				{
-					"Label":"Liquidacion de Compra"
-				},
+			
 			"IngresoAlmacen":
 				{
 					"Label":"Ingreso Almacén"
@@ -381,7 +378,11 @@
 		"Adelanto":
 		{
 			"Label":"Adelantos"
-		}
+		},
+		"LiquidacionCompra":
+				{
+					"Label":"Liquidacion de Compra"
+				}
 	},
 "CONTRATO":
 {

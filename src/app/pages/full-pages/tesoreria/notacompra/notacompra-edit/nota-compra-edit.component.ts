@@ -4,11 +4,11 @@ import { FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
 
-import { NotaCompraService } from '../../../../../../services/nota-compra.service';
-import { MaestroService } from '../../../../../../services/maestro.service';
-import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { host } from '../../../../../../shared/hosts/main.host';
-import { ILogin } from '../../../../../../services/models/login';
+import { NotaCompraService } from '../../../../../services/nota-compra.service';
+import { MaestroService } from '../../../../../services/maestro.service';
+import { AlertUtil } from '../../../../../services/util/alert-util';
+import { host } from '../../../../../shared/hosts/main.host';
+import { ILogin } from '../../../../../services/models/login';
 
 @Component({
   selector: 'app-nota-compra-edit',
@@ -57,7 +57,7 @@ export class NotaCompraEditComponent implements OnInit {
       this.LoadForm();
       this.SearchById();
     } else {
-      this.router.navigate['/acopio/operaciones/notasdecompra-list'];
+      this.router.navigate['/tesoreria/notasdecompra-list'];
     }
   }
 
@@ -359,7 +359,7 @@ export class NotaCompraEditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate(['/acopio/operaciones/notasdecompra-list']);
+    this.router.navigate(['/tesoreria/notasdecompra-list']);
   }
 
   async GetPreciosRendimiento(valorid, exporporcen) {

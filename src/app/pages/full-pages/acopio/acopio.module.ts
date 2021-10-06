@@ -34,7 +34,6 @@ import { NotaSalidaEditComponent } from "./operaciones/notasalida/notasalida-edi
 import { PesadoCafeComponent } from "./operaciones/materiaprima/materiaprima-edit/pesadoCafe/pesadoCafe.component";
 import { ControlCalidadComponent } from "./operaciones/materiaprima/materiaprima-edit/controlCalidad/seco/controlCalidad.component";
 import { ControlCalidadComponentHumedo } from "./operaciones/materiaprima/materiaprima-edit/controlCalidad/humedo/controlCalidadHumedo.component";
-import { NotacompraListComponent } from './operaciones/notacompra/notacompra-list.component';
 import { IngresoAlmacenComponent } from './operaciones/ingresoalmacen/ingreso-almacen.component';
 import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
@@ -43,7 +42,6 @@ import { CiudadesEditComponent } from './operaciones/ciudades/edit/ciudades-edit
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
 
 import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenservicio-edit/ordenservicio-edit.component';
-import { NotaCompraEditComponent } from './operaciones/notacompra/notacompra-edit/nota-compra-edit.component';
 import { NotaCompraComponent } from "./operaciones/materiaprima/materiaprima-edit/notacompra/notacompra.component";
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
 import { TagNotaSalidaEditComponent } from './operaciones/notasalida/notasalida-edit/notasalida/tag-notasalida.component';
@@ -93,7 +91,6 @@ import { KardexComponent } from './operaciones/kardex/kardex.component';
     EmpresaTransporteEditComponent,
     MateriaPrimaEditComponent,
     NotaSalidaEditComponent,
-    NotacompraListComponent,
     PesadoCafeComponent,
     ControlCalidadComponent,
     ControlCalidadComponentHumedo,
@@ -102,7 +99,6 @@ import { KardexComponent } from './operaciones/kardex/kardex.component';
     NotaSalidaComponent,
     OrdenServicioComponent,
     OrdenServicioEditComponent,
-    NotaCompraEditComponent,
     NotaCompraComponent,
     LoteEditComponent,
     TagNotaSalidaEditComponent,
@@ -123,8 +119,7 @@ import { KardexComponent } from './operaciones/kardex/kardex.component';
     OrdenServicioComponent,
     OrdenServicioEditComponent,
     TagOrdenServicioComponent,
-    DetalleLoteComponent,
-    NotacompraListComponent
+    DetalleLoteComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
