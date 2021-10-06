@@ -411,8 +411,8 @@
                     <div class="form-group row">
                         <label for="areaTotal" class="col-4 col-form-label pr-0">Área Total (HA)</label>
                         <div class="col-8">
-                            <input type="text" name="areaTotal" id="areaTotal"
-                                formControlName="medioTransporte"
+                            <input type="number" name="areaTotal" id="areaTotal"
+                                formControlName="areaTotal"
                                 [ngClass]="{ 'is-invalid': f.areaTotal.invalid, 'is-valid': !f.areaTotal.invalid }"
                                 class="form-control" placeholder="Ingresar Área Total">
                         </div>
@@ -422,7 +422,7 @@
                     <div class="form-group row">
                         <label for="areaCafe" class="col-4 col-form-label pr-0">Área de Café en Producción (HA)</label>
                         <div class="col-8">
-                            <input type="text" name="areaCafe" id="areaCafe" formControlName="areaCafe"
+                            <input type="number" name="areaCafe" id="areaCafe" formControlName="areaCafe"
                                 [ngClass]="{ 'is-invalid': f.areaCafe.invalid, 'is-valid': !f.areaCafe.invalid }"
                                 class="form-control" placeholder="Ingresar Área de Café en Producción">
                         </div>
@@ -432,7 +432,7 @@
                     <div class="form-group row">
                         <label for="crecimiento" class="col-4 col-form-label pr-0">Crecimiento (HA)</label>
                         <div class="col-8">
-                            <input type="text" name="crecimiento" id="crecimiento" formControlName="crecimiento"
+                            <input type="number" name="crecimiento" id="crecimiento" formControlName="crecimiento"
                                 [ngClass]="{ 'is-invalid': f.crecimiento.invalid, 'is-valid': !f.crecimiento.invalid }"
                                 class="form-control" placeholder="Ingresar Crecimiento">
                         </div>
@@ -445,7 +445,7 @@
                     <div class="form-group row">
                         <label for="bosque" class="col-4 col-form-label pr-0">Bosque (HA)</label>
                         <div class="col-8">
-                            <input type="text" name="bosque" id="bosque"
+                            <input type="number" name="bosque" id="bosque"
                                 formControlName="bosque"
                                 [ngClass]="{ 'is-invalid': f.bosque.invalid, 'is-valid': !f.bosque.invalid }"
                                 class="form-control" placeholder="Ingresar Bosque">
@@ -456,7 +456,7 @@
                     <div class="form-group row">
                         <label for="purma" class="col-4 col-form-label pr-0">Purma (HA)</label>
                         <div class="col-8">
-                            <input type="text" name="purma" id="purma" formControlName="purma"
+                            <input type="number" name="purma" id="purma" formControlName="purma"
                                 [ngClass]="{ 'is-invalid': f.purma.invalid, 'is-valid': !f.purma.invalid }"
                                 class="form-control" placeholder="Ingresar purma">
                         </div>
@@ -466,7 +466,7 @@
                     <div class="form-group row">
                         <label for="panLlevar" class="col-4 col-form-label pr-0">Pan Llevar (HA)</label>
                         <div class="col-8">
-                            <input type="text" name="panLlevar" id="panLlevar" formControlName="panLlevar"
+                            <input type="number" name="panLlevar" id="panLlevar" formControlName="panLlevar"
                                 [ngClass]="{ 'is-invalid': f.panLlevar.invalid, 'is-valid': !f.panLlevar.invalid }"
                                 class="form-control" placeholder="Ingresar panLlevar">
                         </div>
@@ -479,7 +479,7 @@
                     <div class="form-group row">
                         <label for="vivienda" class="col-4 col-form-label pr-0">Vivienda</label>
                         <div class="col-8">
-                            <input type="text" name="vivienda" id="vivienda"
+                            <input type="number" name="vivienda" id="vivienda"
                                 formControlName="vivienda"
                                 [ngClass]="{ 'is-invalid': f.vivienda.invalid, 'is-valid': !f.vivienda.invalid }"
                                 class="form-control" placeholder="Ingresar Vivienda">
