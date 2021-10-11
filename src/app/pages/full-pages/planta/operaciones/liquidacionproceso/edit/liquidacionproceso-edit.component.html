@@ -200,11 +200,14 @@
                 </div>
                 <div class="col-7">
                   <label for="basicInput">Envases con su Productos</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="envases">
+                  <input type="text" class="form-control" id="basicInput" formControlName="envases" 
+                  [ngClass]="{ 'is-invalid': submittedEdit && fns.envases.invalid, 'is-valid': submittedEdit && !fns.envases.invalid }">
                   <label for="basicInput">Trabajos Realizados</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="trabajos">
+                  <input type="text" class="form-control" id="basicInput" formControlName="trabajos"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fns.trabajos.invalid, 'is-valid': submittedEdit && !fns.trabajos.invalid }">
                   <label for="basicInput">Numero de Defectos</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="numDefectos">
+                  <input type="text" class="form-control" id="basicInput" formControlName="numDefectos"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fns.numDefectos.invalid, 'is-valid': submittedEdit && !fns.numDefectos.invalid }">
                 </div>
               </div>
               <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">

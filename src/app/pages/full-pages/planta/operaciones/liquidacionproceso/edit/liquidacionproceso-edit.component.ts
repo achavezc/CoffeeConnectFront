@@ -297,7 +297,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.login.Result.Data.NombreUsuario,
         liquidacionProcesoPlantaDetalle,
         liquidacionProcesoPlantaResultado,
-        this.liquidacionProcesoFormEdit.get("numDefectos").value
+        Number(this.liquidacionProcesoFormEdit.get("numDefectos").value)
 
       );
       let json = JSON.stringify(request);
