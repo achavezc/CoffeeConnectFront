@@ -10,6 +10,7 @@ import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../services/socio-finca.service';
 import { ProductorFincaService } from '../../../../../../../services/productor-finca.service';
 import { MaestroService } from '../../../../../../../services/maestro.service';
+import { number } from 'ngx-custom-validators/src/app/number/validator';
 
 @Component({
   selector: 'app-finca-edit',
@@ -455,7 +456,7 @@ export class FincaEditComponent implements OnInit {
     this.rows = data.FincaEstimado;
 
     this.socioFincaEditForm.controls.idProductorFinca.setValue(data.ProductorFincaId);
-    this.codeFincaPartner = data.ProductorFincaId
+    this.codeFincaPartner = data.SocioFincaId;
     this.socioFincaEditForm.controls.idProductor.setValue(data.ProductorId);
     this.socioFincaEditForm.controls.nombreFinca.setValue(data.Nombre);
     if (data.Latitud) {
@@ -553,14 +554,14 @@ export class FincaEditComponent implements OnInit {
       CantidadPersonalCosecha: this.socioFincaEditForm.controls["nroPersonalCosecha"].value ?? null,
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: this.socioFincaEditForm.controls["estado"].value,
-      AreaTotal: this.socioFincaEditForm.controls["areaTotal"].value,
-      AreaCafeEnProduccion: this.socioFincaEditForm.controls["areaCafe"].value,
-      Crecimiento: this.socioFincaEditForm.controls["crecimiento"].value,
-      Bosque: this.socioFincaEditForm.controls["bosque"].value,
-      Purma: this.socioFincaEditForm.controls["purma"].value,
-      PanLlevar: this.socioFincaEditForm.controls["panLlevar"].value,
-      Vivienda: this.socioFincaEditForm.controls["vivienda"].value,
-      FincaEstimado: this.rows.filter(x => x.Anio != 0 && x.Estimado != 0),
+      AreaTotal: Number(this.socioFincaEditForm.controls["areaTotal"].value)? Number(this.socioFincaEditForm.controls["areaTotal"].value) : null,
+      AreaCafeEnProduccion: Number( this.socioFincaEditForm.controls["areaCafe"].value)? Number(this.socioFincaEditForm.controls["areaCafe"].value) : null,
+      Crecimiento: Number(this.socioFincaEditForm.controls["crecimiento"].value)? Number(this.socioFincaEditForm.controls["crecimiento"].value) : null,
+      Bosque: Number(this.socioFincaEditForm.controls["bosque"].value)? Number(this.socioFincaEditForm.controls["bosque"].value) : null,
+      Purma: Number(this.socioFincaEditForm.controls["purma"].value)? Number(this.socioFincaEditForm.controls["purma"].value) : null,
+      PanLlevar:Number(this.socioFincaEditForm.controls["panLlevar"].value)? Number(this.socioFincaEditForm.controls["panLlevar"].value) : null,
+      Vivienda: Number(this.socioFincaEditForm.controls["vivienda"].value)? Number(this.socioFincaEditForm.controls["vivienda"].value) : null,
+      FincaEstimado: this.rows.filter(x => x.Anio != 0 && x.Estimado != 0)
       //Precipitacion: this.socioFincaEditForm.value.precipitacion,
     }
   }
