@@ -54,6 +54,8 @@ import { DetalleLoteComponent } from "./operaciones/lotes/lote-edit/detalleLote/
 import{ZonaListComponent} from './operaciones/zona/list/zona-list.component';
 import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
 import { KardexComponent } from './operaciones/kardex/kardex.component';
+import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
+import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
 
 @NgModule({
   imports: [
@@ -108,7 +110,9 @@ import { KardexComponent } from './operaciones/kardex/kardex.component';
     DetalleLoteComponent,
     ZonaListComponent,
     ZonaEditComponent,
-    KardexComponent
+    KardexComponent,
+    KardexProcesoComponent,
+    KardexProcesoEditComponent
 
   ],
   exports: [

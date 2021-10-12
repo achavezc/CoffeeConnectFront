@@ -40,12 +40,11 @@
 
             <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 1rem;">
               <div class="col-12 col-md-5">
-                <label for="basicInput">Tipo de Proceso</label>
-                <input type="text" class="form-control" id="basicInput" formControlName="tipoProceso" disabled
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submittedEdit && fns.tipoProceso.invalid, 'is-valid': submittedEdit && !fns.tipoProceso.invalid }">
-                <small class="form-text text-muted danger" *ngIf="fns.tipoProceso.errors?.required">Ingrese
-                  Tipo de Proceso</small>
+                
+
+                <label for="basicInput">Numero de Orden de Proceso</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="numOrdenProceso"  [ngClass]="{ 'is-invalid': submittedEdit && fns.numOrdenProceso.invalid, 'is-valid': submittedEdit && !fns.numOrdenProceso.invalid }" disabled>
+                <small class="form-text text-muted danger" *ngIf="fns.numOrdenProceso.errors?.required">Seleccione Orden de Proceso</small>
 
                 <label for="basicInput">Ruc</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
@@ -80,8 +79,13 @@
                 </button>
               </div>
               <div class="col-12 col-md-5">
-                <label for="basicInput">Numero de Orden de Proceso</label>
-                <input type="text" class="form-control" id="basicInput" formControlName="numOrdenProceso" disabled>
+
+                <label for="basicInput">Tipo de Proceso</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="tipoProceso" disabled
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fns.tipoProceso.invalid, 'is-valid': submittedEdit && !fns.tipoProceso.invalid }">
+                <small class="form-text text-muted danger" *ngIf="fns.tipoProceso.errors?.required">Ingrese
+                  Tipo de Proceso</small>
                 <label for="basicInput"></label>
                 <input type="text" class="form-control" id="basicInput" formControlName="razonSocial" disabled>
 

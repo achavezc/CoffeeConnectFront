@@ -131,7 +131,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         tipoProduccion: ['', []],
         producto: new FormControl('', []),
         subproducto: new FormControl('', []),
-        numOrdenProceso: new FormControl('', []),
+        numOrdenProceso: new FormControl('', [Validators.required]),
         razonSocial: new FormControl('', []),
         tipoCertificacion: new FormControl('', []),
         certificadora: new FormControl('', []),
