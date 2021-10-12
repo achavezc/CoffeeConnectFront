@@ -685,13 +685,16 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   addRowDetail(): void {
     this.rowsDetails = [...this.rowsDetails, {
-      OrdenProcesoId: 0,
-      OrdenProcesoDetalleId: 0,
+      OrdenProcesoPlantaId: 0,
+      OrdenProcesoPlantaDetalleId: 0,
+      NotaIngresoPlantaId: 0,
       NroNotaIngresoPlanta: '',
       FechaNotaIngresoPlanta: '',
       RendimientoPorcentaje: 0,
       HumedadPorcentaje: 0,
       CantidadSacos: 0,
+      CantidadPesado:0,
+      KilosExportables:0,
       KilosBrutos: 0,
       Tara: 0,
       KilosNetos: 0
@@ -704,22 +707,11 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-    if (prop === 'nroNotaIP')
-      this.rowsDetails[index].NroNotaIngresoPlanta = event.target.value;
-    else if (prop === 'fecNotaIP')
-      this.rowsDetails[index].FechaNotaIngresoPlanta = event.target.value;
-    else if (prop === 'rendimiento')
-      this.rowsDetails[index].RendimientoPorcentaje = parseFloat(event.target.value)
-    else if (prop === 'humedad')
-      this.rowsDetails[index].HumedadPorcentaje = parseFloat(event.target.value)
-    else if (prop === 'cantSacos')
-      this.rowsDetails[index].CantidadSacos = parseFloat(event.target.value)
-    else if (prop === 'klBrutos')
-      this.rowsDetails[index].KilosBrutos = parseFloat(event.target.value)
-    else if (prop === 'tara')
-      this.rowsDetails[index].Tara = parseFloat(event.target.value)
+    if (prop === 'CantidadPesado')
+      this.rowsDetails[index].CantidadPesado =  parseFloat(event.target.value);
     else if (prop === 'KilosExportables')
-      this.rowsDetails[index].KilosExportables = parseFloat(event.target.value)
+      this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
+      
   }
 
   Print(): void {
@@ -910,6 +902,10 @@ export class OrdenProcesoEditComponent implements OnInit {
     if (listFilter.length == 0) {
       this.filtrosLotesID.NotaIngresoPlantaId = Number(data.NotaIngresoPlantaId);
       let object: any = {};
+      object.OrdenProcesoPlantaId = this.codeProcessOrder;
+      object.OrdenProcesoPlantaDetalleId = 0;
+      object.NotaIngresoPlantaId = data.NotaIngresoPlantaId;
+
       object.NotaIngresoPlantaId = data.NotaIngresoPlantaId
       object.NumeroGuiaRemision = data.NumeroGuiaRemision
       object.NumeroIngresoPlanta = data.Numero
