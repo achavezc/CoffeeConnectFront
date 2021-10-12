@@ -19,8 +19,8 @@ export class LoginPageComponent {
   errorGeneral: any = { isError: true, errorMessage: '' };
   mensajeErrorGenerico = 'Usuario/password incorrecto.';
   loginForm = new FormGroup({
-    username: new FormControl('manuelruiz11@gmail.com', [Validators.required]),
-    password: new FormControl('p@ssw0rd', [Validators.required]),
+    username: new FormControl('admin@gmail.com', [Validators.required]),
+    password: new FormControl('P@ssw0rd100', [Validators.required]),
     rememberMe: new FormControl(true)
   });
 

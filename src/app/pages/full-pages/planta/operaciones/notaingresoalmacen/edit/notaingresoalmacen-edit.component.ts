@@ -66,7 +66,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
 
   cargarcombos() {
     var form = this;
-    this.maestroUtil.obtenerMaestros("Almacen", function (res) {
+    this.maestroUtil.obtenerMaestros("AlmacenPlanta", function (res) {
       if (res.Result.Success) {
         form.listaAlmacen = res.Result.Data;
       }
