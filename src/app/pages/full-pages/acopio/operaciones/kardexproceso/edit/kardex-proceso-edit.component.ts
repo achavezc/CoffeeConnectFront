@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators , FormControl} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
@@ -10,9 +10,8 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
-import { EmpresaService } from '../../../../../../services/empresa.service';
-import { ContratoService } from '../../../../../../services/contrato.service';
 import { host } from '../../../../../../shared/hosts/main.host';
+import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-kardex-proceso-edit',
@@ -30,15 +29,9 @@ export class KardexProcesoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil,
-    private empresaService: EmpresaService,
-    private contratoService: ContratoService) { }
+    private alertUtil: AlertUtil) { }
 
-  ordenProcesoEditForm: FormGroup;
-  listTipoProcesos = [];
-  selectedCertificado: any;
-  selectedTipoProceso: any;
-  userSession: any;
+  kardexProcesoEditForm: FormGroup;
   codeProcessOrder: Number;
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
@@ -46,23 +39,31 @@ export class KardexProcesoEditComponent implements OnInit {
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   isLoading = false;
   fileName = "";
-  listCertificacion = [];
   listaCertificado = [];
+  listaPlantaProceso = [];
+  listaTipoDocumento = [];
+  listaTipoOperacion = [];
+  listaCalidad = [];
+  selectedCertificado: any;
+  selectedPlantaProceso: any;
+  selectedTipoOperacion: any;
+  selectedTipoDocumento: any;
+  selectedCalidad: any;
   submittedEdit = false;
+  login: ILogin;
+  esEdit: true;
+  estado: any;
+  fechaRegistro: any;
+  numero: any = "";
   
   ngOnInit(): void {
-    this.userSession = JSON.parse(localStorage.getItem('user'));
+    this.login = JSON.parse(localStorage.getItem("user"));
     this.codeProcessOrder = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     this.LoadForm();
-    this.ordenProcesoEditForm.controls.razonSocialCabe.setValue(this.userSession.Result.Data.RazonSocialEmpresa);
-    this.ordenProcesoEditForm.controls.direccionCabe.setValue(this.userSession.Result.Data.DireccionEmpresa);
-    this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.userSession.Result.Data.RucEmpresa);
-    this.ordenProcesoEditForm.controls.responsableComercial.setValue(this.userSession.Result.Data.NombreCompletoUsuario);
-    this.GetTipoProcesos();
-    this.GetCertificacion();
+    this.LoadCombos();
     if (this.codeProcessOrder <= 0) {
-      this.ordenProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
-      this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
+      this.kardexProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
+      this.kardexProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
       // this.addRowDetail();
     } else if (this.codeProcessOrder > 0) {
       this.SearchByid();
@@ -70,55 +71,76 @@ export class KardexProcesoEditComponent implements OnInit {
   }
 
   LoadForm(): void {
-    this.ordenProcesoEditForm = this.fb.group({
-      certificado: [],
-      idOrdenProceso: [],
-      razonSocialCabe: [, Validators.required],
-      nroOrden: [],
-      direccionCabe: [, Validators.required],
-      fechaCabe: [, Validators.required],
-      nroRucCabe: [, Validators.required],
-      idContrato: [, Validators.required],
-      nroContrato: [, Validators.required],
-      idCliente: [, Validators.required],
-      codCliente: [, Validators.required],
-      cliente: [, Validators.required],
-      idDestino: [, Validators.required],
-      destino: [, Validators.required],
-      fecFinProcesoPlanta: [],
-      tipoProduccion: [],
-      certificacion: [],
-      porcenRendimiento: [, Validators.required],
-      empaqueTipo: [],
-      producto: [],
-      cantidad: [],
-      calidad: [],
-      pesoSacoKG: [],
-      grado: [],
-      totalKilosNetos: [],
-      cantidadDefectos: [],
-      cantContenedores: [],
-      responsableComercial: [],
-      file: [],
-      tipoProceso: [, Validators.required],
-      subProducto: [],
-      observaciones: [],
-      pathFile: [],
-      fileName: []
+    this.kardexProcesoEditForm = this.fb.group({
+      certificado: new FormControl('', []),
+      fechaRegistro: new FormControl('', [Validators.required]),
+      plantaProceso: new FormControl('', [Validators.required]),
+      tipoDocumento: new FormControl('', []),
+      tipoOperacion: new FormControl('', [Validators.required]),
+      nroComprobanteInterno: new FormControl('', []),
+      nroGuiaRemision: new FormControl('', []),
+      nroContrato: new FormControl('', []),
+      codCliente:new FormControl('', [Validators.required]),
+      cliente: new FormControl('', [Validators.required]),
+      fechaFactura: new FormControl('', []),
+      nroFactura: new FormControl('', []),
+      kgIngresados: new FormControl('', []),
+      nroSacosIngresados: new FormControl('', []),
+      qqIngresados: new FormControl('', []),
+      precioUnitarioCp: new FormControl('', []),
+      totalCp: new FormControl('', []),
+      nroSacosDespachados: new FormControl('', []),
+      kgDespachados: new FormControl('', []),
+      qqDespachados: new FormControl('', []),
+      precioUnitario: new FormControl('', []),
+      totalVenta: new FormControl('', []),
+      calidad: new FormControl('', [])
+      
     });
   }
 
   get f() {
-    return this.ordenProcesoEditForm.controls;
+    return this.kardexProcesoEditForm.controls;
   }
 
-  async GetTipoProcesos() {
-    const res = await this.maestroService.obtenerMaestros('TipoProceso').toPromise();
+  LoadCombos() {
+    this.GetPlantaProceso();
+    this.GetTipoOperacion();
+    this.GetTipoDocumentoInterno();
+    this.GetCertificado();
+    this.GetCalidad();
+}
+  async GetPlantaProceso() {
+    const res = await this.maestroService.obtenerMaestros('PlantaProcesoAlmacenKardexProceso').toPromise();
     if (res.Result.Success) {
-      this.listTipoProcesos = res.Result.Data;
+     this.listaPlantaProceso = res.Result.Data;
+    }
+
+  }
+  async GetTipoOperacion() {
+    const res = await this.maestroService.obtenerMaestros('TipoOperacionKardexProceso').toPromise();
+    if (res.Result.Success) {
+      this.listaTipoOperacion = res.Result.Data;
     }
   }
-
+  async GetTipoDocumentoInterno() {
+    const res = await this.maestroService.obtenerMaestros('TipoDocumentoInternoKardexProceso').toPromise();
+    if (res.Result.Success) {
+      this.listaTipoDocumento = res.Result.Data;
+    }
+  }
+  async GetCertificado() {
+    const res = await this.maestroService.obtenerMaestros('Certificado').toPromise();
+    if (res.Result.Success) {
+      this.listaCertificado = res.Result.Data;
+    }
+  }
+  async GetCalidad() {
+    const res = await this.maestroService.obtenerMaestros('Calidad').toPromise();
+    if (res.Result.Success) {
+      this.listaCalidad = res.Result.Data;
+    }
+  }
   GetDataModal(event: any): void {
     const obj = event[0];
     if (obj) {
@@ -126,36 +148,32 @@ export class KardexProcesoEditComponent implements OnInit {
     }
     this.modalService.dismissAll();
   }
-  async GetCertificacion() {
-    const res = await this.maestroService.obtenerMaestros('TipoCertificacion').toPromise();
-    if (res.Result.Success) {
-      this.listCertificacion = res.Result.Data;
-    }
-  }
+  
   async AutocompleteDataContrato(obj: any) {
+    this.LoadCombos();
     let empaque_Tipo = '';
     if (obj.ContratoId)
-      this.ordenProcesoEditForm.controls.idContrato.setValue(obj.ContratoId);
+      this.kardexProcesoEditForm.controls.idContrato.setValue(obj.ContratoId);
 
     if (obj.Numero)
-      this.ordenProcesoEditForm.controls.nroContrato.setValue(obj.Numero);
+      this.kardexProcesoEditForm.controls.nroContrato.setValue(obj.Numero);
 
     if (obj.ClienteId)
-      this.ordenProcesoEditForm.controls.idCliente.setValue(obj.ClienteId);
+      this.kardexProcesoEditForm.controls.idCliente.setValue(obj.ClienteId);
 
     if (obj.NumeroCliente)
-      this.ordenProcesoEditForm.controls.codCliente.setValue(obj.NumeroCliente);
+      this.kardexProcesoEditForm.controls.codCliente.setValue(obj.NumeroCliente);
 
     if (obj.Cliente)
-      this.ordenProcesoEditForm.controls.cliente.setValue(obj.Cliente);
+      this.kardexProcesoEditForm.controls.cliente.setValue(obj.Cliente);
 
     if (obj.TipoProduccion)
-      this.ordenProcesoEditForm.controls.tipoProduccion.setValue(obj.TipoProduccion);
+      this.kardexProcesoEditForm.controls.tipoProduccion.setValue(obj.TipoProduccion);
 
     if (obj.TipoCertificacionId)
-      await this.GetCertificacion();
-      //this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
-      this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacionId.split('|').map(String));
+     // await this.GetCertificacion();
+      //this.kardexProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
+      this.kardexProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacionId.split('|').map(String));
 
     if (obj.Empaque)
       empaque_Tipo = obj.Empaque;
@@ -164,41 +182,41 @@ export class KardexProcesoEditComponent implements OnInit {
     if (obj.TipoEmpaque)
       empaque_Tipo = empaque_Tipo + obj.TipoEmpaque;
     if (empaque_Tipo)
-      this.ordenProcesoEditForm.controls.empaqueTipo.setValue(empaque_Tipo);
+      this.kardexProcesoEditForm.controls.empaqueTipo.setValue(empaque_Tipo);
 
     if (obj.TotalSacos)
-      this.ordenProcesoEditForm.controls.cantidad.setValue(obj.TotalSacos);
+      this.kardexProcesoEditForm.controls.cantidad.setValue(obj.TotalSacos);
 
     if (obj.PesoPorSaco)
-      this.ordenProcesoEditForm.controls.pesoSacoKG.setValue(obj.PesoPorSaco);
+      this.kardexProcesoEditForm.controls.pesoSacoKG.setValue(obj.PesoPorSaco);
 
     if (obj.PesoKilos)
-      this.ordenProcesoEditForm.controls.totalKilosNetos.setValue(obj.PesoKilos);
+      this.kardexProcesoEditForm.controls.totalKilosNetos.setValue(obj.PesoKilos);
 
       if (obj.CantidadContenedores)
-      this.ordenProcesoEditForm.controls.cantContenedores.setValue(obj.CantidadContenedores);
+      this.kardexProcesoEditForm.controls.cantContenedores.setValue(obj.CantidadContenedores);
 
     if (obj.Producto)
-      this.ordenProcesoEditForm.controls.producto.setValue(obj.Producto);
+      this.kardexProcesoEditForm.controls.producto.setValue(obj.Producto);
 
     if (obj.SubProducto)
-      this.ordenProcesoEditForm.controls.subProducto.setValue(obj.SubProducto);
+      this.kardexProcesoEditForm.controls.subProducto.setValue(obj.SubProducto);
 
     if (obj.Calidad)
-      this.ordenProcesoEditForm.controls.calidad.setValue(obj.Calidad);
+      this.kardexProcesoEditForm.controls.calidad.setValue(obj.Calidad);
 
     if (obj.Grado)
-      this.ordenProcesoEditForm.controls.grado.setValue(obj.Grado);
+      this.kardexProcesoEditForm.controls.grado.setValue(obj.Grado);
 
     if (obj.PreparacionCantidadDefectos)
-      this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
+      this.kardexProcesoEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
   }
 
   GetDataEmpresa(event: any): void {
     const obj = event[0];
     if (obj) {
-      this.ordenProcesoEditForm.controls.idDestino.setValue(obj.EmpresaProveedoraAcreedoraId);
-      this.ordenProcesoEditForm.controls.destino.setValue(`${obj.Direccion} - ${obj.Distrito} - ${obj.Provincia} - ${obj.Departamento}`);
+      this.kardexProcesoEditForm.controls.idDestino.setValue(obj.EmpresaProveedoraAcreedoraId);
+      this.kardexProcesoEditForm.controls.destino.setValue(`${obj.Direccion} - ${obj.Distrito} - ${obj.Provincia} - ${obj.Departamento}`);
     }
     this.modalService.dismissAll();
   }
@@ -208,13 +226,13 @@ export class KardexProcesoEditComponent implements OnInit {
   }
 
   GetRequest(): any {
-    const form = this.ordenProcesoEditForm.value;
+    const form = this.kardexProcesoEditForm.value;
     if (this.codeProcessOrder > 0) {
       this.rowsDetails.forEach(x => { x.OrdenProcesoId = this.codeProcessOrder; })
     }
     const request = {
       OrdenProcesoId: form.idOrdenProceso ? form.idOrdenProceso : 0,
-      EmpresaId: this.userSession.Result.Data.EmpresaId,
+      EmpresaId: this.login.Result.Data.EmpresaId,
       EmpresaProcesadoraId: form.idDestino ? form.idDestino : 0,
       TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
       ContratoId: form.idContrato ? form.idContrato : 0,
@@ -224,7 +242,7 @@ export class KardexProcesoEditComponent implements OnInit {
       FechaFinProceso: form.fecFinProcesoPlanta ? form.fecFinProcesoPlanta : '',
       CantidadContenedores: form.cantContenedores ? form.cantContenedores : 0,
       EstadoId: '01',
-      UsuarioRegistro: this.userSession.Result.Data.NombreUsuario,
+      UsuarioRegistro: this.login.Result.Data.NombreUsuario,
       OrdenProcesoDetalle: this.rowsDetails.filter(x => x.NroNotaIngresoPlanta
         && x.FechaNotaIngresoPlanta && x.RendimientoPorcentaje
         && x.HumedadPorcentaje && x.CantidadSacos && x.KilosBrutos
@@ -236,7 +254,7 @@ export class KardexProcesoEditComponent implements OnInit {
   }
 
   Save(): void {
-    if (!this.ordenProcesoEditForm.invalid) {
+    if (!this.kardexProcesoEditForm.invalid) {
       if (this.ValidateDataDetails() <= 0) {
         const form = this;
         if (this.codeProcessOrder <= 0) {
@@ -264,7 +282,7 @@ export class KardexProcesoEditComponent implements OnInit {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
-    const file = this.ordenProcesoEditForm.value.file;
+    const file = this.kardexProcesoEditForm.value.file;
     this.ordenProcesoService.Create(file, request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
@@ -285,7 +303,7 @@ export class KardexProcesoEditComponent implements OnInit {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
-    const file = this.ordenProcesoEditForm.value.file;
+    const file = this.kardexProcesoEditForm.value.file;
     this.ordenProcesoService.Update(file, request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
@@ -305,9 +323,9 @@ export class KardexProcesoEditComponent implements OnInit {
   fileChange(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.ordenProcesoEditForm.patchValue({ file: file });
+      this.kardexProcesoEditForm.patchValue({ file: file });
     }
-    this.ordenProcesoEditForm.get('file').updateValueAndValidity();
+    this.kardexProcesoEditForm.get('file').updateValueAndValidity();
   }
 
   SearchByid(): void {
@@ -330,39 +348,39 @@ export class KardexProcesoEditComponent implements OnInit {
     if (data) {
       let empaque_tipo = '';
       if (data.OrdenProcesoId)
-        this.ordenProcesoEditForm.controls.idOrdenProceso.setValue(data.OrdenProcesoId);
+        this.kardexProcesoEditForm.controls.idOrdenProceso.setValue(data.OrdenProcesoId);
       if (data.Numero)
-        this.ordenProcesoEditForm.controls.nroOrden.setValue(data.Numero);
+        this.kardexProcesoEditForm.controls.nroOrden.setValue(data.Numero);
       if (data.FechaRegistro)
-        this.ordenProcesoEditForm.controls.fechaCabe.setValue(data.FechaRegistro.substring(0, 10));
+        this.kardexProcesoEditForm.controls.fechaCabe.setValue(data.FechaRegistro.substring(0, 10));
       if (data.ContratoId)
-        this.ordenProcesoEditForm.controls.idContrato.setValue(data.ContratoId);
+        this.kardexProcesoEditForm.controls.idContrato.setValue(data.ContratoId);
       if (data.NumeroContrato)
-        this.ordenProcesoEditForm.controls.nroContrato.setValue(data.NumeroContrato);
+        this.kardexProcesoEditForm.controls.nroContrato.setValue(data.NumeroContrato);
       if (data.ClienteId)
-        this.ordenProcesoEditForm.controls.idCliente.setValue(data.ClienteId);
+        this.kardexProcesoEditForm.controls.idCliente.setValue(data.ClienteId);
       if (data.NumeroCliente)
-        this.ordenProcesoEditForm.controls.codCliente.setValue(data.NumeroCliente);
+        this.kardexProcesoEditForm.controls.codCliente.setValue(data.NumeroCliente);
       if (data.RazonSocialCliente)
-        this.ordenProcesoEditForm.controls.cliente.setValue(data.RazonSocialCliente);
+        this.kardexProcesoEditForm.controls.cliente.setValue(data.RazonSocialCliente);
       if (data.EmpresaProcesadoraId)
-        this.ordenProcesoEditForm.controls.idDestino.setValue(data.EmpresaProcesadoraId);
+        this.kardexProcesoEditForm.controls.idDestino.setValue(data.EmpresaProcesadoraId);
       if (data.Direccion)
-        this.ordenProcesoEditForm.controls.destino.setValue(data.Direccion);
+        this.kardexProcesoEditForm.controls.destino.setValue(data.Direccion);
       if (data.TipoProduccion)
-        this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccion);
+        this.kardexProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccion);
       if (data.TipoCertificacionId)
-        await this.GetCertificacion();
-        //this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
-        this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
+       // await this.GetCertificacion();
+        //this.kardexProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
+        this.kardexProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
       if (data.FechaFinProceso)
-        this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(data.FechaFinProceso.substring(0, 10));
+        this.kardexProcesoEditForm.controls.fecFinProcesoPlanta.setValue(data.FechaFinProceso.substring(0, 10));
       if (data.TipoProcesoId) {
-        await this.GetTipoProcesos();
-        this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
+        //await this.GetTipoProcesos();
+        this.kardexProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
       }
       if (data.RendimientoEsperadoPorcentaje)
-        this.ordenProcesoEditForm.controls.porcenRendimiento.setValue(data.RendimientoEsperadoPorcentaje);
+        this.kardexProcesoEditForm.controls.porcenRendimiento.setValue(data.RendimientoEsperadoPorcentaje);
       if (data.Empaque)
         empaque_tipo = data.Empaque;
       if (empaque_tipo)
@@ -370,34 +388,34 @@ export class KardexProcesoEditComponent implements OnInit {
       if (data.TipoEmpaque)
         empaque_tipo = empaque_tipo + data.TipoEmpaque
       if (empaque_tipo)
-        this.ordenProcesoEditForm.controls.empaqueTipo.setValue(empaque_tipo);
+        this.kardexProcesoEditForm.controls.empaqueTipo.setValue(empaque_tipo);
       if (data.TotalSacos)
-        this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
+        this.kardexProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
       if (data.PesoPorSaco)
-        this.ordenProcesoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
+        this.kardexProcesoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
       if (data.PesoKilos)
-        this.ordenProcesoEditForm.controls.totalKilosNetos.setValue(data.PesoKilos);
+        this.kardexProcesoEditForm.controls.totalKilosNetos.setValue(data.PesoKilos);
       if (data.CantidadContenedores)
-        this.ordenProcesoEditForm.controls.cantContenedores.setValue(data.CantidadContenedores);
+        this.kardexProcesoEditForm.controls.cantContenedores.setValue(data.CantidadContenedores);
       if (data.Producto)
-        this.ordenProcesoEditForm.controls.producto.setValue(data.Producto);
+        this.kardexProcesoEditForm.controls.producto.setValue(data.Producto);
       if (data.SubProducto)
-        this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProducto);
+        this.kardexProcesoEditForm.controls.subProducto.setValue(data.SubProducto);
       if (data.Calidad)
-        this.ordenProcesoEditForm.controls.calidad.setValue(data.Calidad);
+        this.kardexProcesoEditForm.controls.calidad.setValue(data.Calidad);
       if (data.Grado)
-        this.ordenProcesoEditForm.controls.grado.setValue(data.Grado);
+        this.kardexProcesoEditForm.controls.grado.setValue(data.Grado);
       if (data.PreparacionCantidadDefectos)
-        this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
+        this.kardexProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
       if (data.Observacion)
-        this.ordenProcesoEditForm.controls.observaciones.setValue(data.Observacion);
+        this.kardexProcesoEditForm.controls.observaciones.setValue(data.Observacion);
       data.detalle.forEach(x => x.FechaNotaIngresoPlanta = x.FechaNotaIngresoPlanta.substring(0, 10));
       if (data.NombreArchivo) {
         this.fileName = data.NombreArchivo;
-        this.ordenProcesoEditForm.controls.fileName.setValue(data.NombreArchivo);
+        this.kardexProcesoEditForm.controls.fileName.setValue(data.NombreArchivo);
       }
       if (data.PathArchivo)
-        this.ordenProcesoEditForm.controls.pathFile.setValue(data.PathArchivo);
+        this.kardexProcesoEditForm.controls.pathFile.setValue(data.PathArchivo);
       this.rowsDetails = data.detalle;
     }
     this.spinner.hide();
@@ -470,7 +488,7 @@ export class KardexProcesoEditComponent implements OnInit {
   }
 
   Descargar(): void {
-    const rutaFile = this.ordenProcesoEditForm.value.pathFile;
+    const rutaFile = this.kardexProcesoEditForm.value.pathFile;
     let link = document.createElement('a');
     document.body.appendChild(link);
     link.href = `${host}OrdenProceso/DescargarArchivo?path=${rutaFile}`;

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors , FormControl} from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
@@ -32,17 +32,21 @@ export class KardexProcesoComponent implements OnInit {
     private router: Router,
     private excelService: ExcelService) { }
 
-  notaSalidaForm: any;
-  listDestinatarios: [] = [];
-  listTransportistas: [] = [];
-  listAlmacenes: [] = [];
-  listMotivos: [] = [];
-  listEstados: [] = [];
-  selectedDestinatario: any;
-  selectedTransportista: any;
-  selectedAlmacen: any;
-  selectedMotivo: any;
+  kardexProcesoForm: any;
+  listPlantaProceso: [];
+  listTipoDocumentoInterno: [];
+  listEstados: [];
+  listTipoOperacion = [];
+  listCalidad = [];
+  listCertificado = [];
+
+  selectedPlantaProceso: any;
+  selectedTipoDocumentoInterno: any;
   selectedEstado: any;
+  selectedTipoOperacion: any;
+  selectedCalidad: any;
+  selectedCertificado: any;
+
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
@@ -58,27 +62,29 @@ export class KardexProcesoComponent implements OnInit {
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    this.notaSalidaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
-    this.notaSalidaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.kardexProcesoForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
+    this.kardexProcesoForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
   }
 
   get f() {
-    return this.notaSalidaForm.value;
+    return this.kardexProcesoForm.value;
   }
 
   LoadForm(): void {
-    this.notaSalidaForm = this.fb.group({
-      nroNotaSalida: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
-      destinatario: [],
-      transportista: [],
-      fechaInicio: [, [Validators.required]],
-      fechaFin: [, [Validators.required]],
-      almacen: [''],
-      motivo: [''],
-      estado: ['', [Validators.required]]
+    this.kardexProcesoForm = this.fb.group({
+      nroContrato: new FormControl('', [Validators.minLength(10), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+      cliente: new FormControl('', []),
+      fechaInicio:  new FormControl('', [Validators.required]), 
+      fechaFin:  new FormControl('', [Validators.required]), 
+      tipoDocumentoInterno:  new FormControl('', []), 
+      estado: new FormControl('', [Validators.required]), 
+      tipoOperacion: new FormControl('', []),
+      calidad: new FormControl('', []),
+      certificado: new FormControl('', []),
+      plantaProceso: new FormControl('', [])
     });
-    this.notaSalidaForm.setValidators(this.comparisonValidator());
+    this.kardexProcesoForm.setValidators(this.comparisonValidator());
   }
 
   comparisonValidator(): ValidatorFn {
@@ -96,24 +102,15 @@ export class KardexProcesoComponent implements OnInit {
 
   LoadCombos(): void {
     let form = this;
-    this.empresaService.Consultar({ EmpresaId: 1 }).subscribe(res => {
+   
+    this.maestroUtil.obtenerMaestros("PlantaProcesoAlmacenKardexProceso", function (res) {
       if (res.Result.Success) {
-        form.listDestinatarios = res.Result.Data;
+        form.listPlantaProceso = res.Result.Data;
       }
     });
-    this.empTransporteService.Consultar({ EmpresaId: 1 }).subscribe(res => {
+    this.maestroUtil.obtenerMaestros("TipoDocumentoInternoKardexProceso", function (res) {
       if (res.Result.Success) {
-        form.listTransportistas = res.Result.Data;
-      }
-    })
-    this.maestroUtil.obtenerMaestros("Almacen", function (res) {
-      if (res.Result.Success) {
-        form.listAlmacenes = res.Result.Data;
-      }
-    });
-    this.maestroUtil.obtenerMaestros("MotivoSalida", function (res) {
-      if (res.Result.Success) {
-        form.listMotivos = res.Result.Data;
+        form.listTipoDocumentoInterno = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros("EstadoNotaSalidaAlmacen", function (res) {
@@ -124,18 +121,18 @@ export class KardexProcesoComponent implements OnInit {
   }
 
   compareTwoDates(): void {
-    let vBeginDate = new Date(this.notaSalidaForm.value.fechaInicio);
-    let vEndDate = new Date(this.notaSalidaForm.value.fechaFin);
+    let vBeginDate = new Date(this.kardexProcesoForm.value.fechaInicio);
+    let vEndDate = new Date(this.kardexProcesoForm.value.fechaFin);
 
     var anioFechaInicio = vBeginDate.getFullYear()
     var anioFechaFin = vEndDate.getFullYear()
 
     if (vEndDate < vBeginDate) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio.' };
-      this.notaSalidaForm.value.fechaInicio.setErrors({ isError: true })
+      this.kardexProcesoForm.value.fechaInicio.setErrors({ isError: true })
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'Por favor el Rango de fechas no puede ser mayor a 2 años.' };
-      this.notaSalidaForm.value.fechaFin.setErrors({ isError: true })
+      this.kardexProcesoForm.value.fechaFin.setErrors({ isError: true })
     } else {
       this.error = { isError: false, errorMessage: '' };
     }
@@ -159,22 +156,22 @@ export class KardexProcesoComponent implements OnInit {
   }
 
   Buscar(): void {
-    if (this.notaSalidaForm.invalid || this.errorGeneral.isError) {
+    if (this.kardexProcesoForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
     } else {
       this.selected = [];
       this.submitted = false;
       const request = {
-        Numero: this.notaSalidaForm.value.nroNotaSalida,
-        EmpresaIdDestino: this.notaSalidaForm.value.destinatario ?? null,
-        EmpresaTransporteId: this.notaSalidaForm.value.transportista ?? null,
-        AlmacenId: this.notaSalidaForm.value.almacen ?? '',
-        MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
-        FechaInicio: this.notaSalidaForm.value.fechaInicio,
-        FechaFin: this.notaSalidaForm.value.fechaFin,
+        Numero: this.kardexProcesoForm.value.nroNotaSalida,
+        EmpresaIdDestino: this.kardexProcesoForm.value.destinatario ?? null,
+        EmpresaTransporteId: this.kardexProcesoForm.value.transportista ?? null,
+        AlmacenId: this.kardexProcesoForm.value.almacen ?? '',
+        MotivoTrasladoId: this.kardexProcesoForm.value.motivo ?? '',
+        FechaInicio: this.kardexProcesoForm.value.fechaInicio,
+        FechaFin: this.kardexProcesoForm.value.fechaFin,
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-        EstadoId: this.notaSalidaForm.value.estado
+        EstadoId: this.kardexProcesoForm.value.estado
       }
 
       this.spinner.show();
@@ -272,13 +269,13 @@ export class KardexProcesoComponent implements OnInit {
   Export(): void {
     this.spinner.show();
     const request = {
-      Numero: this.notaSalidaForm.value.nroNotaSalida,
-      EmpresaIdDestino: this.notaSalidaForm.value.destinatario ?? null,
-      EmpresaTransporteId: this.notaSalidaForm.value.transportista ?? null,
-      AlmacenId: this.notaSalidaForm.value.almacen ?? '',
-      MotivoTrasladoId: this.notaSalidaForm.value.motivo ?? '',
-      FechaInicio: this.notaSalidaForm.value.fechaInicio,
-      FechaFin: this.notaSalidaForm.value.fechaFin,
+      Numero: this.kardexProcesoForm.value.nroNotaSalida,
+      EmpresaIdDestino: this.kardexProcesoForm.value.destinatario ?? null,
+      EmpresaTransporteId: this.kardexProcesoForm.value.transportista ?? null,
+      AlmacenId: this.kardexProcesoForm.value.almacen ?? '',
+      MotivoTrasladoId: this.kardexProcesoForm.value.motivo ?? '',
+      FechaInicio: this.kardexProcesoForm.value.fechaInicio,
+      FechaFin: this.kardexProcesoForm.value.fechaFin,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     }
 

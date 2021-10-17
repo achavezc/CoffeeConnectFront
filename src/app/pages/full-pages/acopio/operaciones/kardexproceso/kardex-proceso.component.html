@@ -10,43 +10,43 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="needs-validation" [formGroup]="notaSalidaForm">
+                        <form class="needs-validation" [formGroup]="kardexProcesoForm">
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroNotaSalida" class="form-label">Número de Contrato</label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="nroNotaSalida"
-                                        class="form-control" id="nroNotaSalida" placeholder="Número de nota de salida"
-                                        [ngClass]="{ 'is-invalid': submitted && f.nroNotaSalida.invalid, 'is-valid': submitted &&  !f.nroNotaSalida.invalid }">
+                                    <label for="nroContrato" class="form-label">Número de Contrato</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="nroContrato"
+                                        class="form-control" id="nroContrato" placeholder="Número de Contrato"
+                                        [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.nroNotaSalida.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                        *ngIf="f.nroContrato.errors?.minlength">Ingrese 5 a 50 letras</small>
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.nroNotaSalida.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                        *ngIf="f.nroContrato.errors?.maxlength">Ingrese 5 a 50 letras</small>
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.nroNotaSalida.errors?.pattern">Solo
+                                        *ngIf="f.nroContrato.errors?.pattern">Solo
                                         letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="destinatario" class="form-label">Cliente</label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="nroNotaSalida"
-                                        class="form-control" id="nroNotaSalida" placeholder="Número de nota de salida"
-                                        [ngClass]="{ 'is-invalid': submitted && f.nroNotaSalida.invalid, 'is-valid': submitted &&  !f.nroNotaSalida.invalid }">
+                                    <label for="cliente" class="form-label">Cliente</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="cliente"
+                                        class="form-control" id="cliente" placeholder="Cliente"
+                                        [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="transportista" class="form-label">Planta Proceso / Almacén</label>
-                                    <ng-select [items]="listTransportistas" formControlName="transportista"
-                                        class="form-control" bindLabel="RazonSocial" bindValue="EmpresaTransporteId"
-                                        id="transportista" placeholder="Transportista"
-                                        [ngClass]="{ 'is-invalid': submitted && f.transportista.invalid, 'is-valid': submitted && !f.transportista.invalid }"
-                                        [(ngModel)]="selectedTransportista">
+                                    <label for="plantaProceso" class="form-label">Planta Proceso / Almacén</label>
+                                    <ng-select [items]="listPlantaProceso" formControlName="plantaProceso"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo"
+                                        id="plantaProceso" placeholder="Planta Proceso / Almacén"
+                                        [ngClass]="{ 'is-invalid': f.plantaProceso.invalid, 'is-valid': !f.plantaProceso.invalid }"
+                                        [(ngModel)]="selectedPlantaProceso">
                                     </ng-select>
                                 </div>
                             </div>
-                            <div class="form-row">
+                           <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaInicio" class="form-label">Fecha Registro Inicial</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio"
                                         id="fechaInicio" name="fechaInicio" placeholder="date" date
-                                        [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
+                                        [ngClass]="{ 'is-invalid': f.fechaInicio.invalid, 'is-valid':  !f.fechaInicio.invalid }"
                                         (blur)="compareTwoDates()" />
                                     <small class="form-text text-muted danger"
                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
@@ -55,53 +55,53 @@
                                     <label for="fechaFin" class="form-label">Fecha Registro Final </label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
                                         name="fechaFin" placeholder="date" date
-                                        [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
+                                        [ngClass]="{ 'is-invalid':  f.fechaFin.invalid, 'is-valid': !f.fechaFin.invalid }"
                                         (blur)="compareTwoDates()" />
                                     <small class="form-text text-muted danger"
                                         *ngIf="error.isError">{{error.errorMessage}}</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="almacen" class="form-label">Tipo Documento Interno</label>
-                                    <ng-select [items]="listAlmacenes" formControlName="almacen" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="almacen" placeholder="Almacén"
-                                        [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }"
-                                        [(ngModel)]="selectedAlmacen">
+                                    <label for="tipoDocumentoInterno" class="form-label">Tipo Documento Interno</label>
+                                    <ng-select [items]="listTipoDocumentoInterno" formControlName="tipoDocumentoInterno" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="tipoDocumentoInterno" placeholder="Tipo Documento Interno"
+                                        [ngClass]="{ 'is-invalid': f.tipoDocumentoInterno.invalid, 'is-valid': !f.tipoDocumentoInterno.invalid }"
+                                        [(ngModel)]="selectedTipoDocumentoInterno">
                                     </ng-select>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="motivo" class="form-label">Tipo Operación</label>
-                                    <ng-select [items]="listMotivos" formControlName="motivo" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="motivo" placeholder="Motivo"
-                                        [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
-                                        [(ngModel)]="selectedMotivo">
+                                    <label for="tipoOperacion" class="form-label">Tipo Operación</label>
+                                    <ng-select [items]="listTipoOperacion" formControlName="tipoOperacion" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="tipoOperacion" placeholder="Tipo Operación"
+                                        [ngClass]="{ 'is-invalid': f.tipoOperacion.invalid, 'is-valid': !f.tipoOperacion.invalid }"
+                                        [(ngModel)]="selectedTipoOperacion">
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado" class="form-label">Calidad</label>
-                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
-                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
-                                        [(ngModel)]="selectedEstado">
+                                    <label for="calidad" class="form-label">Calidad</label>
+                                    <ng-select [items]="listCalidad" formControlName="calidad" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="calidad" placeholder="Calidad"
+                                        [ngClass]="{ 'is-invalid': f.calidad.invalid, 'is-valid': !f.calidad.invalid }"
+                                        [(ngModel)]="selectedCalidad">
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listEstados" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
-                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid':  !f.estado.invalid }"
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="motivo" class="form-label">Certificado</label>
-                                    <ng-select [items]="listMotivos" formControlName="motivo" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="motivo" placeholder="Motivo"
-                                        [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
-                                        [(ngModel)]="selectedMotivo">
+                                    <label for="certificado" class="form-label">Certificado</label>
+                                    <ng-select [items]="listCertificado" formControlName="certificado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="certificado" placeholder="Certificado"
+                                        [ngClass]="{ 'is-invalid': f.certificado.invalid, 'is-valid': !f.certificado.invalid }"
+                                        [(ngModel)]="selectedCertificado">
                                     </ng-select>
                                 </div>
                                
@@ -109,7 +109,7 @@
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!notaSalidaForm.valid"
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!kardexProcesoForm.valid"
                                 (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
