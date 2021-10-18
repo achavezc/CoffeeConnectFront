@@ -84,7 +84,8 @@ import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendi
     TipoCambioDiaComponent,
     TipoCambioDiaEditComponent,
     AduanasComponent,
-    AduanasEditComponent
+    AduanasEditComponent,
+    ContratoComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

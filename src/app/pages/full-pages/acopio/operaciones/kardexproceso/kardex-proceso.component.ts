@@ -2,16 +2,14 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors , FormControl} from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-import swal from 'sweetalert2';
 import { Router } from "@angular/router"
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
-import { NotaSalidaAlmacenService } from '../../../../../services/nota-salida-almacen.service';
-import { EmpresaService } from '../../../../../services/empresa.service';
-import { EmpresaTransporteService } from '../../../../../services/empresa-transporte.service';
+import{KardexProcesoService} from '../../../../../services/kardex-proceso.service'
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-kardex-proceso',
@@ -25,10 +23,9 @@ export class KardexProcesoComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
-    private notaSalidaService: NotaSalidaAlmacenService,
+    private kardexProcesoService: KardexProcesoService,
     private alertUtil: AlertUtil,
-    private empresaService: EmpresaService,
-    private empTransporteService: EmpresaTransporteService,
+    private modalService: NgbModal,
     private router: Router,
     private excelService: ExcelService) { }
 
@@ -46,6 +43,7 @@ export class KardexProcesoComponent implements OnInit {
   selectedTipoOperacion: any;
   selectedCalidad: any;
   selectedCertificado: any;
+  selectContrato: any[] = [];
 
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -58,6 +56,7 @@ export class KardexProcesoComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
   vSessionUser: any;
+  popUp = true;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -68,21 +67,23 @@ export class KardexProcesoComponent implements OnInit {
   }
 
   get f() {
-    return this.kardexProcesoForm.value;
+    return this.kardexProcesoForm.controls;
   }
+
 
   LoadForm(): void {
     this.kardexProcesoForm = this.fb.group({
-      nroContrato: new FormControl('', [Validators.minLength(10), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+      nroContrato: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
       cliente: new FormControl('', []),
+      plantaProceso: new FormControl('', []),
       fechaInicio:  new FormControl('', [Validators.required]), 
       fechaFin:  new FormControl('', [Validators.required]), 
       tipoDocumentoInterno:  new FormControl('', []), 
       estado: new FormControl('', [Validators.required]), 
       tipoOperacion: new FormControl('', []),
       calidad: new FormControl('', []),
-      certificado: new FormControl('', []),
-      plantaProceso: new FormControl('', [])
+      certificado: new FormControl('', [])
+      
     });
     this.kardexProcesoForm.setValidators(this.comparisonValidator());
   }
@@ -100,22 +101,38 @@ export class KardexProcesoComponent implements OnInit {
     };
   }
 
-  LoadCombos(): void {
+  LoadCombos() {
     let form = this;
    
-    this.maestroUtil.obtenerMaestros("PlantaProcesoAlmacenKardexProceso", function (res) {
+   this.maestroUtil.obtenerMaestros("PlantaProcesoAlmacenKardexProceso", function (res) {
       if (res.Result.Success) {
         form.listPlantaProceso = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("TipoDocumentoInternoKardexProceso", function (res) {
+ this.maestroUtil.obtenerMaestros("TipoDocumentoInternoKardexProceso", function (res) {
       if (res.Result.Success) {
         form.listTipoDocumentoInterno = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("EstadoNotaSalidaAlmacen", function (res) {
+    this.maestroUtil.obtenerMaestros("TipoOperacionKardexProceso", function (res) {
       if (res.Result.Success) {
-        form.listEstados = res.Result.Data;
+        form.listTipoOperacion = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("EstadoKardexProceso", function (res) {
+      if (res.Result.Success) {
+        form.listTipoOperacion = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("Calidad", function (res) {
+      if (res.Result.Success) {
+        form.listCalidad = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
+      if (res.Result.Success) {
+        form.listCertificado = res.Result.Data;
       }
     });
   }
@@ -163,20 +180,22 @@ export class KardexProcesoComponent implements OnInit {
       this.selected = [];
       this.submitted = false;
       const request = {
-        Numero: this.kardexProcesoForm.value.nroNotaSalida,
-        EmpresaIdDestino: this.kardexProcesoForm.value.destinatario ?? null,
-        EmpresaTransporteId: this.kardexProcesoForm.value.transportista ?? null,
-        AlmacenId: this.kardexProcesoForm.value.almacen ?? '',
-        MotivoTrasladoId: this.kardexProcesoForm.value.motivo ?? '',
+        NumeroContrato: this.kardexProcesoForm.value.nroContrato,
+        NumeroCliente: this.kardexProcesoForm.value.cliente,
+        PlantaProcesoAlmacenId: this.kardexProcesoForm.value.plantaProceso,
+        TipoDocumentoInternoId: this.kardexProcesoForm.value.tipoDocumentoInterno,
+        TipoOperacionId : this.kardexProcesoForm.value.tipoOperacion,
+        CalidadId: this.kardexProcesoForm.value.calidad,
+        TipoCertificacionId: this.kardexProcesoForm.value.certificado,
+        EstadoId: this.kardexProcesoForm.value.estado,
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
         FechaInicio: this.kardexProcesoForm.value.fechaInicio,
         FechaFin: this.kardexProcesoForm.value.fechaFin,
-        EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-        EstadoId: this.kardexProcesoForm.value.estado
       }
 
       this.spinner.show();
 
-      this.notaSalidaService.Consultar(request)
+      this.kardexProcesoService.Consultar(request)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -201,71 +220,25 @@ export class KardexProcesoComponent implements OnInit {
     }
   }
 
-  Anular(): void {
-    if (this.selected.length > 0) {
-      if (this.selected.length == 1) {
-        if (this.selected[0].EstadoId === "01") {
-          let form = this;
-          swal.fire({
-            title: '¿Estas seguro?',
-            text: `¿Está seguro de ANULAR la nota de salida "${this.selected[0].Numero}"?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2F8BE6',
-            cancelButtonColor: '#F55252',
-            confirmButtonText: 'Si',
-            customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-danger ml-1'
-            },
-            buttonsStyling: false,
-          }).then(function (result) {
-            if (result.value) {
-              form.AnularFila(form);
-            }
-          });
-        } else {
-          this.alertUtil.alertError("Validación", "Solo se puede anular los INGRESADOS.");
-        }
-      } else {
-        this.alertUtil.alertError("Validación", "Solo se puede anular de UNO en UNO.");
-      }
-    } else {
-      this.alertUtil.alertError("Validación", "No existen filas seleccionadas.");
-    }
-  }
+  openModal(modalEmpresa) {
+    this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
 
-  AnularFila(form: any): void {
-    form.spinner.show();
-    this.notaSalidaService.Anular({
-      NotaSalidaAlmacenId: this.selected[0].NotaSalidaAlmacenId,
-      Usuario: this.vSessionUser.Result.Data.NombreUsuario
-    }).subscribe((res: any) => {
-      if (res.Result.Success) {
-        if (!res.Result.ErrCode) {
-          form.spinner.hide();
-          form.alertUtil.alertOk("Confirmación",
-            `La nota de salida ${form.selected[0].Numero} fue ANULADO correctamente.`);
-          form.Buscar();
-        } else if (res.Result.Message && res.Result.ErrCode) {
-          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      } else {
-        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-      }
-    }, (err: any) => {
-      console.log(err);
-      form.spinner.hide();
-      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-    });
+  }
+  close() {
+    this.modalService.dismissAll();
   }
 
   nuevo() {
     this.router.navigate(['/operaciones/kardexProcesoEdit']);
   }
+  receiveMessageContrato($event) {
+    this.selectContrato = $event;
+    this.kardexProcesoForm.get('cliente').setValue(this.selectContrato[0].Cliente);
+    this.kardexProcesoForm.get('nroContrato').setValue(this.selectContrato[0].Numero);
 
+    
+    this.modalService.dismissAll();
+  }
   Export(): void {
     this.spinner.show();
     const request = {
@@ -279,7 +252,7 @@ export class KardexProcesoComponent implements OnInit {
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     }
 
-    this.notaSalidaService.Consultar(request)
+    this.kardexProcesoService.Consultar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

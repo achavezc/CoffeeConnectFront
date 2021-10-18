@@ -31,7 +31,34 @@
                                         class="form-control" id="cliente" placeholder="Cliente"
                                         [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
                                 </div>
-                                <div class="col-md-4 mb-4 form-group mb-2">
+                                <div class="col-md-1 mb-4 form-group mb-2">
+                                    <button type="button" class="btn btn-default" (click)="openModal(modalContrato)"
+                                        style="margin-top: 1.5rem;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <ng-template #modalContrato let-c="close" let-d="dismiss">
+                                        <div class="modal-header" style="text-align: center;">
+    
+                                            <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Registro de
+                                                Contratos</h4>
+                                            <button type="button" class="close" aria-label="Close" (click)="close()">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ngx-spinner></ngx-spinner>
+                                            <div class="row"
+                                                style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                                                <div class="card-subtitle-form modal-title">Criterios de Búsqueda</div>
+                                            </div>
+                                            <app-contrato [popUp]="popUp" 
+                                                (agregarContratoEvent)="receiveMessageContrato($event)">
+                                            </app-contrato>
+                                        </div>
+    
+                                    </ng-template>
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="plantaProceso" class="form-label">Planta Proceso / Almacén</label>
                                     <ng-select [items]="listPlantaProceso" formControlName="plantaProceso"
                                         class="form-control" bindLabel="Label" bindValue="Codigo"
@@ -105,15 +132,13 @@
                                     </ng-select>
                                 </div>
                                
-                            </div>
+                            </div> 
 
-                            <small class="form-text text-muted danger mb-1"
+                           <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!kardexProcesoForm.valid"
                                 (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
-                                [disabled]="!rows.length || !selected.length">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Export()"
                                 [disabled]="!rows.length">Exportar</button>
                         </form>
@@ -127,7 +152,6 @@
 <div class="d-flex justify-content-between align-items-center">
     <ngx-spinner></ngx-spinner>
 </div>
-
 <section id="ngx-datatable-filter">
     <div class="row">
         <div class="col-12">
@@ -157,7 +181,7 @@
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
 
-                            <ngx-datatable-column name="Nota Salida" prop="Numero" width="40">
+                            <ngx-datatable-column name="Fecha Registro" prop="Numero" width="40">
 
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
@@ -169,25 +193,51 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Almacén" prop="Almacen" width="100">
+                            <ngx-datatable-column name="Tipo Doc. Interno" prop="Almacen" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Destinatario" prop="Destinatario" width="150">
+                            <ngx-datatable-column name="Nro Comprobante Interno" prop="Destinatario" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Motivo" prop="Motivo" width="150">
+                            <ngx-datatable-column name="Planta Proceso/Almacen" prop="Motivo" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Transportista" prop="Transportista" width="150">
+                            <ngx-datatable-column name="Tipo de Operación" prop="Transportista" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Cant. Lotes" prop="CantidadLotes" width="100">
+                            <ngx-datatable-column name="Nro. Guia Remisión" prop="CantidadLotes" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Total Peso Bruto KGS" prop="PesoKilosBrutos" width="150">
+                            <ngx-datatable-column name="Cliente" prop="PesoKilosBrutos" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="100">
-                                <ng-template let-status="value" ngx-datatable-cell-template>
-                                    <div class="badge"
-                                        [ngClass]="{'bg-light-success': status == 'Ingresado', 'bg-light-danger': status == 'Anulado'}">
-                                        {{ status }}
-                                    </div>
-                                </ng-template>
+                            <ngx-datatable-column name="Nro. Contrato" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Certificado" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Calidad" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Factura" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Factura" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro Sacos Ingresados" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kg. Ingresados" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="QQ Ingresados" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Precio Unitario CP" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Total CP" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Sacos Despachados" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kg. Despachados" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="QQ Despachados" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Precio Unitario Venta" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Total Venta" prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Saldos en Kg." prop="PesoKilosBrutos" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Saldos en QQ" prop="PesoKilosBrutos" width="150">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>

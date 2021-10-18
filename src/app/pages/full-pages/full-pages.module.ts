@@ -48,6 +48,7 @@ import { TesoreriaModule } from "./tesoreria/tesoreria.module";
     MConsultarProductorComponent,
     ListFilterPipe
   ]
+ 
   // entryComponents: [
   //   MConsultarProductorComponent
   // ]

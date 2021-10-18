@@ -46,7 +46,7 @@ import { NotaCompraComponent } from "./operaciones/materiaprima/materiaprima-edi
 import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.component';
 import { TagNotaSalidaEditComponent } from './operaciones/notasalida/notasalida-edit/notasalida/tag-notasalida.component';
 import { TagOrdenServicioComponent } from './operaciones/ordenservicio/ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component'
-
+//import { ContratoComponent } from '../exportador/operaciones/contrato/contrato.component';
 
 import { IngresoAlmacenEditComponent } from './operaciones/ingresoalmacen/ingresoalmacen-edit/ingresoalmacen-edit.component';
 import { ModalModule } from '../modals/modal.module'
@@ -56,6 +56,7 @@ import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
 import { KardexComponent } from './operaciones/kardex/kardex.component';
 import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
 import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
+import {ExportadorModule} from './../exportador/exportador.module';
 
 @NgModule({
   imports: [
@@ -77,7 +78,8 @@ import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/karde
     QuillModule,
     MatchHeightModule,
     NgxSpinnerModule,
-    ModalModule
+    ModalModule,
+    ExportadorModule
   ],
   declarations: [
     CiudadesEditComponent,
@@ -113,7 +115,6 @@ import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/karde
     KardexComponent,
     KardexProcesoComponent,
     KardexProcesoEditComponent
-
   ],
   exports: [
     PesadoCafeComponent,
