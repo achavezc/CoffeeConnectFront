@@ -155,8 +155,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
     this.consultaNotaIngresoAlmacenFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
     this.consultaNotaIngresoAlmacenFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.Ruc);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocial);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.consultaNotaIngresoAlmacenFormEdit.controls["producto"].setValue(data.Producto);
     this.consultaNotaIngresoAlmacenFormEdit.controls["direccion"].setValue(data.Direccion);
     this.consultaNotaIngresoAlmacenFormEdit.controls["subproducto"].setValue(data.SubProducto);
@@ -173,7 +173,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.controls['rendimiento'].setValue(data.RendimientoPorcentajePesado);
     this.consultaNotaIngresoAlmacenFormEdit.controls['humedad'].setValue(data.HumedadPorcentajePesado);
     this.consultaNotaIngresoAlmacenFormEdit.controls['pesoxSaco'].setValue(data.PesoPorSaco);
-
+    this.login.Result.Data.DireccionEmpresa = data.RazonSocialOrganizacion;
+    this.login.Result.Data.RucEmpresa = data.RucOrganizacion;
     
     if (data.ProductoId == this.codigoCafeP)
     {
