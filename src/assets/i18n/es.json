@@ -311,7 +311,7 @@
 	},
 	"Cliente":
 	{
-		"Label":"Cliente",
+		"Label":"Tracking de Cliente",
 		"Tracking":
 		{
 			"Label":"Contrato"
