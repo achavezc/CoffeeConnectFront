@@ -16,7 +16,7 @@
                       <div class="form-row">
       
                         <div class="col-md-6 form-group" *ngIf="esEdit">
-                          <label class="card-forms" for="users-edit-name">N° ORDEN DE SERVICIO</label>
+                          <label class="card-forms" for="users-edit-name">N° KARDEX PROCESO</label>
                         </div>
       
                         <div class="col-md-6 form-group">
@@ -119,14 +119,13 @@
                                 [ngClass]="{ 'is-invalid': f.codCliente.invalid, 'is-valid': !f.codCliente.invalid }">
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1" style="padding-left: 0cm;">
-                            <ng-template #mdlConsultarContrato let-c="close" let-d="dismiss">
-                                <app-consultar-contrato (responseContrato)="GetDataModal($event)">
-                                </app-consultar-contrato>
-                            </ng-template>
-                            <button type="button" (click)="openModal(mdlConsultarContrato)" style="margin-top: 1.5rem;"
-                                class="btn btn-primary">
+                            <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-primary">
                                 <i class="fa fa-search"></i>
                             </button>
+                            <ng-template #modalEmpresa let-c="close" let-d="dismiss">
+                                <app-consultar-cliente (responseCliente)="GetDataModalClientes($event)">
+                                </app-consultar-cliente>
+                            </ng-template>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <label >CLIENTE</label>
@@ -226,7 +225,7 @@
                                 <label for="responsableComercial" class="col-lg-4 col-form-label">Responsable de
                                     Comercial</label>
                                 <div class="col-lg-7">
-                                   
+                                    {{responsable}}
                                 </div>
                             </div>
                         </div>
@@ -241,8 +240,6 @@
                                         *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                                 </div>
                                 <div class="col-lg-6 text-right">
-                                    <button type="button" class="btn btn-primary mr-1" (click)="Print()"
-                                        *ngIf="codeProcessOrder > 0">Imprimir</button>
                                     <button type="button" class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
                                     <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                                 </div>

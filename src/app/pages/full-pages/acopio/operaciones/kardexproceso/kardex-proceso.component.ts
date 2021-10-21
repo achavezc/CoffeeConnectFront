@@ -10,6 +10,7 @@ import{KardexProcesoService} from '../../../../../services/kardex-proceso.servic
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-kardex-proceso',
@@ -43,7 +44,7 @@ export class KardexProcesoComponent implements OnInit {
   selectedTipoOperacion: any;
   selectedCalidad: any;
   selectedCertificado: any;
-  selectContrato: any[] = [];
+  selectCliente: any[] = [];
 
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -82,8 +83,8 @@ export class KardexProcesoComponent implements OnInit {
       estado: new FormControl('', [Validators.required]), 
       tipoOperacion: new FormControl('', []),
       calidad: new FormControl('', []),
-      certificado: new FormControl('', [])
-      
+      certificado: new FormControl('', []),
+      clienteId: new FormControl('', [])
     });
     this.kardexProcesoForm.setValidators(this.comparisonValidator());
   }
@@ -122,7 +123,7 @@ export class KardexProcesoComponent implements OnInit {
 
     this.maestroUtil.obtenerMaestros("EstadoKardexProceso", function (res) {
       if (res.Result.Success) {
-        form.listTipoOperacion = res.Result.Data;
+        form.listEstados = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros("Calidad", function (res) {
@@ -172,7 +173,29 @@ export class KardexProcesoComponent implements OnInit {
     return this.selected.indexOf(row) === -1;
   }
 
-  Buscar(): void {
+  Exportar(): void {
+    let form = this;
+    swal.fire({
+      title: 'Confirmación',
+      text: `¿Está seguro de exportar la información visualizada?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        form.Buscar(true);
+      }
+    });
+  }
+
+  Buscar(exportExcel?: boolean): void {
     if (this.kardexProcesoForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -182,17 +205,17 @@ export class KardexProcesoComponent implements OnInit {
       const request = {
         NumeroContrato: this.kardexProcesoForm.value.nroContrato,
         NumeroCliente: this.kardexProcesoForm.value.cliente,
-        PlantaProcesoAlmacenId: this.kardexProcesoForm.value.plantaProceso,
-        TipoDocumentoInternoId: this.kardexProcesoForm.value.tipoDocumentoInterno,
-        TipoOperacionId : this.kardexProcesoForm.value.tipoOperacion,
-        CalidadId: this.kardexProcesoForm.value.calidad,
-        TipoCertificacionId: this.kardexProcesoForm.value.certificado,
+        PlantaProcesoAlmacenId: this.kardexProcesoForm.value.plantaProceso ?? '',
+        TipoDocumentoInternoId: this.kardexProcesoForm.value.tipoDocumentoInterno ?? '',
+        TipoOperacionId : this.kardexProcesoForm.value.tipoOperacion ?? '',
+        CalidadId: this.kardexProcesoForm.value.calidad ?? '',
+        TipoCertificacionId: this.kardexProcesoForm.value.certificado ?? '',
         EstadoId: this.kardexProcesoForm.value.estado,
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
         FechaInicio: this.kardexProcesoForm.value.fechaInicio,
         FechaFin: this.kardexProcesoForm.value.fechaFin,
       }
-
+      let json = JSON.stringify(request);
       this.spinner.show();
 
       this.kardexProcesoService.Consultar(request)
@@ -200,8 +223,78 @@ export class KardexProcesoComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (!res.Result.ErrCode) {
-              this.tempData = res.Result.Data;
-              this.rows = [...this.tempData];
+             
+              if (!exportExcel) {
+                res.Result.Data.forEach((obj: any) => {
+                  obj.FechaRegistro =this.dateUtil.formatDate(obj.FechaRegistro);
+                  obj.FechaFactura = this.dateUtil.formatDate(obj.FechaFactura);
+                  obj.SaldosKg = obj.KilosIngresados - obj.KilosDespachados;
+                  obj.SaldosQq = obj.QQIngresados - obj.QQDespachados;             
+
+                });
+                this.tempData = res.Result.Data;
+                this.rows = [...this.tempData];
+              } else {
+                let vArrHeaderExcel: HeaderExcel[] = [
+                  new HeaderExcel("Fecha Registro", "center"),
+                  new HeaderExcel("Tipo Doc. Interno", "center"),
+                  new HeaderExcel("Nro Comprobante Interno", "center"),
+                  new HeaderExcel("Planta Proceso/Almacen", "right", "#"),
+                  new HeaderExcel("Tipo de Operación"),
+                  new HeaderExcel("Nro. Guia Remisión"),
+                  new HeaderExcel("Cliente"),
+                  new HeaderExcel("Nro. Contrato"),
+                  new HeaderExcel("Certificado"),
+                  new HeaderExcel("Calidad"),
+                  new HeaderExcel("Fecha Factura"),
+                  new HeaderExcel("Nro. Factura"),
+                  new HeaderExcel("Nro Sacos Ingresados"),
+                  new HeaderExcel("Kg. Ingresados"),
+                  new HeaderExcel("QQ Ingresados", "center"),
+                  new HeaderExcel("Precio Unitario CP"),
+                  new HeaderExcel("Total CP"),
+                  new HeaderExcel("Nro. Sacos Despachados"),
+                  new HeaderExcel("Kg. Despachados"),
+                  new HeaderExcel("QQ Despachados"),
+                  new HeaderExcel("Precio Unitario Venta"),
+                  new HeaderExcel("Total Venta"),
+                  new HeaderExcel("Saldos en Kg."),
+                  new HeaderExcel("Saldos en QQ"),
+                  
+                ];
+
+                let vArrData: any[] = [];
+                for (let i = 0; i < res.Result.Data.length; i++) {
+                  vArrData.push([
+                    res.Result.Data[i].FechaRegistro,
+                    res.Result.Data[i].TipoDocumentoInterno,
+                    res.Result.Data[i].Numero,
+                    res.Result.Data[i].PlantaProcesoAlmacen,
+                    res.Result.Data[i].TipoOperacion,
+                    res.Result.Data[i].NumeroGuiaRemision,
+                    res.Result.Data[i].RazonSocial,
+                    res.Result.Data[i].NumeroContrato,
+                    res.Result.Data[i].TipoCertificacion,
+                    res.Result.Data[i].Calidad,
+                    res.Result.Data[i].FechaFactura,
+                    res.Result.Data[i].NumeroFactura,
+                    res.Result.Data[i].CantidadSacosIngresados,
+                    res.Result.Data[i].KilosIngresados,
+                    res.Result.Data[i].QQIngresados,
+                    res.Result.Data[i].PrecioUnitarioCP,
+                    res.Result.Data[i].TotalCP,
+                    res.Result.Data[i].CantidadSacosDespachados,
+                    res.Result.Data[i].KilosDespachados,
+                    res.Result.Data[i].QQDespachados,
+                    res.Result.Data[i].PrecioUnitarioVenta,
+                    res.Result.Data[i].TotalVenta,
+                    res.Result.Data[i].SaldosKg,
+                    res.Result.Data[i].SaldosQq
+                  ]);
+                }
+                this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosIngresoAlmacen');
+              }
+
             } else if (res.Result.Message && res.Result.ErrCode) {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {
@@ -229,73 +322,18 @@ export class KardexProcesoComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['/operaciones/kardexProcesoEdit']);
+    this.router.navigate(['/acopio/operaciones/kardexProcesoEdit']);
   }
-  receiveMessageContrato($event) {
-    this.selectContrato = $event;
-    this.kardexProcesoForm.get('cliente').setValue(this.selectContrato[0].Cliente);
-    this.kardexProcesoForm.get('nroContrato').setValue(this.selectContrato[0].Numero);
 
-    
+  GetDataModalClientes(event: any): void {
+    this.selectCliente = event;
+    if (this.selectCliente[0].ClienteId)
+    this.kardexProcesoForm.get('clienteId').setValue(this.selectCliente[0].ClienteId);
+    if (this.selectCliente[0].Numero)
+    this.kardexProcesoForm.get('cliente').setValue(this.selectCliente[0].Numero);
     this.modalService.dismissAll();
   }
-  Export(): void {
-    this.spinner.show();
-    const request = {
-      Numero: this.kardexProcesoForm.value.nroNotaSalida,
-      EmpresaIdDestino: this.kardexProcesoForm.value.destinatario ?? null,
-      EmpresaTransporteId: this.kardexProcesoForm.value.transportista ?? null,
-      AlmacenId: this.kardexProcesoForm.value.almacen ?? '',
-      MotivoTrasladoId: this.kardexProcesoForm.value.motivo ?? '',
-      FechaInicio: this.kardexProcesoForm.value.fechaInicio,
-      FechaFin: this.kardexProcesoForm.value.fechaFin,
-      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
-    }
-
-    this.kardexProcesoService.Consultar(request)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (!res.Result.ErrCode) {
-            const vArrHeaderExcel: HeaderExcel[] = [
-              new HeaderExcel("Nota Salida", "center"),
-              new HeaderExcel("Almacén"),
-              new HeaderExcel("Destinatario"),
-              new HeaderExcel("Motivo"),
-              new HeaderExcel("Transportista"),
-              new HeaderExcel("Cant. Lotes", "right"),
-              new HeaderExcel("Total Peso Bruto KGS", "right"),
-              new HeaderExcel("Estado")
-            ];
-            let vArrData: any[] = [];
-            for (let i = 0; i < res.Result.Data.length; i++) {
-              vArrData.push([
-                res.Result.Data[i].Numero,
-                res.Result.Data[i].Almacen,
-                res.Result.Data[i].Destinatario,
-                res.Result.Data[i].Motivo,
-                res.Result.Data[i].Transportista,
-                res.Result.Data[i].CantidadLotes,
-                res.Result.Data[i].PesoKilosBrutos,
-                res.Result.Data[i].Estado
-              ]);
-            }
-            this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosNotaSalida');
-          } else if (res.Result.Message && res.Result.ErrCode) {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.error(err);
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
-  }
+ 
+ 
 
 }

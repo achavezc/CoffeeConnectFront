@@ -5,13 +5,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
-import { host } from '../../../../../../shared/hosts/main.host';
+import{KardexProcesoService} from '../../../../../../services/kardex-proceso.service'
 import { ILogin } from '../../../../../../services/models/login';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-kardex-proceso-edit',
@@ -25,20 +24,16 @@ export class KardexProcesoEditComponent implements OnInit {
     private modalService: NgbModal,
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
-    private ordenProcesoService: OrdenProcesoService,
+    private kardexProcesoService: KardexProcesoService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil) { }
 
   kardexProcesoEditForm: FormGroup;
-  codeProcessOrder: Number;
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
-  rowsDetails = [];
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
-  isLoading = false;
-  fileName = "";
   listaCertificado = [];
   listaPlantaProceso = [];
   listaTipoDocumento = [];
@@ -51,21 +46,24 @@ export class KardexProcesoEditComponent implements OnInit {
   selectedCalidad: any;
   submittedEdit = false;
   login: ILogin;
-  esEdit: true;
+  esEdit = false;
   estado: any;
   fechaRegistro: any;
   numero: any = "";
+  selectCliente: any;
+  id : any;
+  responsable: any = "";
   
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
-    this.codeProcessOrder = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    this.id = this.route.snapshot.queryParams.id ? Number(this.route.snapshot.queryParams.id) : 0;
     this.LoadForm();
     this.LoadCombos();
-    if (this.codeProcessOrder <= 0) {
+    if (this.id <= 0) {
       this.kardexProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
       this.kardexProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
-      // this.addRowDetail();
-    } else if (this.codeProcessOrder > 0) {
+    } else if (this.id > 0) {
+      this.esEdit = true;
       this.SearchByid();
     }
   }
@@ -81,6 +79,7 @@ export class KardexProcesoEditComponent implements OnInit {
       nroGuiaRemision: new FormControl('', []),
       nroContrato: new FormControl('', []),
       codCliente:new FormControl('', [Validators.required]),
+      clienteId:new FormControl('', [Validators.required]),
       cliente: new FormControl('', [Validators.required]),
       fechaFactura: new FormControl('', []),
       nroFactura: new FormControl('', []),
@@ -130,7 +129,7 @@ export class KardexProcesoEditComponent implements OnInit {
     }
   }
   async GetCertificado() {
-    const res = await this.maestroService.obtenerMaestros('Certificado').toPromise();
+    const res = await this.maestroService.obtenerMaestros('TipoCertificacion').toPromise();
     if (res.Result.Success) {
       this.listaCertificado = res.Result.Data;
     }
@@ -212,59 +211,69 @@ export class KardexProcesoEditComponent implements OnInit {
       this.kardexProcesoEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
   }
 
-  GetDataEmpresa(event: any): void {
-    const obj = event[0];
-    if (obj) {
-      this.kardexProcesoEditForm.controls.idDestino.setValue(obj.EmpresaProveedoraAcreedoraId);
-      this.kardexProcesoEditForm.controls.destino.setValue(`${obj.Direccion} - ${obj.Distrito} - ${obj.Provincia} - ${obj.Departamento}`);
-    }
+  GetDataModalClientes(event: any): void {
+    this.selectCliente = event;
+    if (this.selectCliente[0].Numero)
+    this.kardexProcesoEditForm.get('codCliente').setValue(this.selectCliente[0].Numero);
+    if (this.selectCliente[0].RazonSocial)
+    this.kardexProcesoEditForm.get('cliente').setValue(this.selectCliente[0].RazonSocial);
+    if (this.selectCliente[0].ClienteId)
+    this.kardexProcesoEditForm.get('clienteId').setValue(this.selectCliente[0].ClienteId);
+
+    
     this.modalService.dismissAll();
   }
 
-  openModal(modalEmpresa: any): void {
-    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl', centered: true });
+  openModal(modalCliente: any): void {
+    this.modalService.open(modalCliente, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
   GetRequest(): any {
     const form = this.kardexProcesoEditForm.value;
-    if (this.codeProcessOrder > 0) {
-      this.rowsDetails.forEach(x => { x.OrdenProcesoId = this.codeProcessOrder; })
-    }
     const request = {
-      OrdenProcesoId: form.idOrdenProceso ? form.idOrdenProceso : 0,
-      EmpresaId: this.login.Result.Data.EmpresaId,
-      EmpresaProcesadoraId: form.idDestino ? form.idDestino : 0,
-      TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
-      ContratoId: form.idContrato ? form.idContrato : 0,
-      Numero: form.nroOrden ? form.nroOrden : '',
-      Observacion: form.observaciones ? form.observaciones : '',
-      RendimientoEsperadoPorcentaje: form.porcenRendimiento ? form.porcenRendimiento : 0,
-      FechaFinProceso: form.fecFinProcesoPlanta ? form.fecFinProcesoPlanta : '',
-      CantidadContenedores: form.cantContenedores ? form.cantContenedores : 0,
-      EstadoId: '01',
-      UsuarioRegistro: this.login.Result.Data.NombreUsuario,
-      OrdenProcesoDetalle: this.rowsDetails.filter(x => x.NroNotaIngresoPlanta
-        && x.FechaNotaIngresoPlanta && x.RendimientoPorcentaje
-        && x.HumedadPorcentaje && x.CantidadSacos && x.KilosBrutos
-        && x.Tara && x.KilosNetos),
-      NombreArchivo: form.fileName ? form.fileName : '',
-      PathArchivo: form.pathFile ? form.pathFile : ''
+      KardexProcesoId: this.id,
+      ContratoId: 0,
+      TipoDocumentoInternoId: form.tipoDocumento ?? '',
+      TipoOperacionId: form.tipoOperacion ?? '',
+      EmpresaId:  this.login.Result.Data.EmpresaId,
+      Numero: form.nroComprobanteInterno,
+      NumeroGuiaRemision: form.nroGuiaRemision,
+      NumeroContrato: form.nroContrato,
+      FechaContrato: null,
+      ClienteId: Number(form.clienteId),
+      TipoCertificacionId: form.certificado ?? '',
+      CalidadId: form.calidad ?? '',
+      CantidadSacosIngresados: Number(form.nroSacosIngresados),
+      CantidadSacosDespachados: Number(form.nroSacosDespachados),
+      KilosIngresados: Number(form.kgIngresados),
+      KilosDespachados: Number(form.kgDespachados),
+      QQIngresados: Number(form.qqIngresados),
+      QQDespachados: Number(form.qqDespachados),
+      FechaFactura: form.fechaFactura ,
+      NumeroFactura: form.nroFactura,
+      PrecioUnitarioCP: Number(form.precioUnitarioCp) ,
+      PrecioUnitarioVenta: Number(form.precioUnitario),
+      TotalVenta: Number(form.totalVenta),
+      TotalCP: Number(form.totalCp), 
+      PlantaProcesoAlmacenId: form.plantaProceso ?? '', 
+      FechaIngreso: form.fechaRegistro , 
+      Usuario: this.login.Result.Data.NombreUsuario
     }
+    let json = JSON.stringify(request);
     return request;
   }
 
   Save(): void {
     if (!this.kardexProcesoEditForm.invalid) {
-      if (this.ValidateDataDetails() <= 0) {
         const form = this;
-        if (this.codeProcessOrder <= 0) {
+        if (this.id <= 0) {
           this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
             if (result.isConfirmed) {
               form.Create();
             }
           });
 
-        } else if (this.codeProcessOrder > 0) {
+        } else if (this.id > 0) {
 
           this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
             if (result.isConfirmed) {
@@ -272,9 +281,7 @@ export class KardexProcesoEditComponent implements OnInit {
             }
           });
         }
-      } else {
-        this.alertUtil.alertWarning('ADVERTENCIA!', 'No pueden existir datos vacios en el detalle, por favor corregir.');
-      }
+      
     }
   }
 
@@ -282,8 +289,8 @@ export class KardexProcesoEditComponent implements OnInit {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
-    const file = this.kardexProcesoEditForm.value.file;
-    this.ordenProcesoService.Create(file, request).subscribe((res: any) => {
+    
+    this.kardexProcesoService.Registrar(request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se registro exitosamente.', () => {
@@ -303,8 +310,7 @@ export class KardexProcesoEditComponent implements OnInit {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
-    const file = this.kardexProcesoEditForm.value.file;
-    this.ordenProcesoService.Update(file, request).subscribe((res: any) => {
+    this.kardexProcesoService.Actualizar(request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se actualizo exitosamente.', () => {
@@ -320,18 +326,12 @@ export class KardexProcesoEditComponent implements OnInit {
     });
   }
 
-  fileChange(event: any): void {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.kardexProcesoEditForm.patchValue({ file: file });
-    }
-    this.kardexProcesoEditForm.get('file').updateValueAndValidity();
-  }
+  
 
   SearchByid(): void {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
-    this.ordenProcesoService.SearchById(this.codeProcessOrder).subscribe((res) => {
+    this.kardexProcesoService.ConsultarPorId(this.id).subscribe((res) => {
       if (res.Result.Success) {
         this.AutocompleteFormEdit(res.Result.Data);
       } else {
@@ -343,171 +343,78 @@ export class KardexProcesoEditComponent implements OnInit {
       this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
     });
   }
-
+  
   async AutocompleteFormEdit(data: any) {
+
     if (data) {
-      let empaque_tipo = '';
-      if (data.OrdenProcesoId)
-        this.kardexProcesoEditForm.controls.idOrdenProceso.setValue(data.OrdenProcesoId);
-      if (data.Numero)
-        this.kardexProcesoEditForm.controls.nroOrden.setValue(data.Numero);
       if (data.FechaRegistro)
-        this.kardexProcesoEditForm.controls.fechaCabe.setValue(data.FechaRegistro.substring(0, 10));
-      if (data.ContratoId)
-        this.kardexProcesoEditForm.controls.idContrato.setValue(data.ContratoId);
+        this.fechaRegistro = this.dateUtil.formatDate( data.FechaRegistro, '/');
+      if (data.Numero)
+        this.numero = data.Numero
+      if (data.UsuarioRegistro)
+      this.responsable = data.UsuarioRegistro;
+      if (data.Estado)
+      this.estado = data.Estado;
+      if (data.FechaIngreso)
+        this.kardexProcesoEditForm.controls.fechaRegistro.setValue(formatDate(data.FechaIngreso, 'yyyy-MM-dd', 'en'));
+      if (data.PlantaProcesoAlmacenId)
+        this.kardexProcesoEditForm.controls.plantaProceso.setValue(data.PlantaProcesoAlmacenId);
+      if (data.TipoDocumentoInternoId)
+        this.kardexProcesoEditForm.controls.tipoDocumento.setValue(data.TipoDocumentoInternoId);
+      if (data.TipoOperacionId)
+        this.kardexProcesoEditForm.controls.tipoOperacion.setValue(data.TipoOperacionId);
+      if (data.Numero)
+        this.kardexProcesoEditForm.controls.nroComprobanteInterno.setValue(data.Numero);
+      if (data.NumeroGuiaRemision)
+        this.kardexProcesoEditForm.controls.nroGuiaRemision.setValue(data.NumeroGuiaRemision);
       if (data.NumeroContrato)
         this.kardexProcesoEditForm.controls.nroContrato.setValue(data.NumeroContrato);
-      if (data.ClienteId)
-        this.kardexProcesoEditForm.controls.idCliente.setValue(data.ClienteId);
-      if (data.NumeroCliente)
-        this.kardexProcesoEditForm.controls.codCliente.setValue(data.NumeroCliente);
-      if (data.RazonSocialCliente)
-        this.kardexProcesoEditForm.controls.cliente.setValue(data.RazonSocialCliente);
-      if (data.EmpresaProcesadoraId)
-        this.kardexProcesoEditForm.controls.idDestino.setValue(data.EmpresaProcesadoraId);
-      if (data.Direccion)
-        this.kardexProcesoEditForm.controls.destino.setValue(data.Direccion);
-      if (data.TipoProduccion)
-        this.kardexProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccion);
+      if (data.CodigoCliente)
+        this.kardexProcesoEditForm.controls.codCliente.setValue(data.CodigoCliente);
+      if (data.RazonSocial)
+        this.kardexProcesoEditForm.controls.cliente.setValue(data.RazonSocial);
+        if (data.ClienteId)
+        this.kardexProcesoEditForm.controls.clienteId.setValue(data.ClienteId);
       if (data.TipoCertificacionId)
-       // await this.GetCertificacion();
-        //this.kardexProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
-        this.kardexProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
-      if (data.FechaFinProceso)
-        this.kardexProcesoEditForm.controls.fecFinProcesoPlanta.setValue(data.FechaFinProceso.substring(0, 10));
-      if (data.TipoProcesoId) {
-        //await this.GetTipoProcesos();
-        this.kardexProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
+        this.kardexProcesoEditForm.controls.certificado.setValue(data.TipoCertificacionId);
+      if (data.FechaFactura)
+        this.kardexProcesoEditForm.controls.fechaFactura.setValue(formatDate(data.FechaFactura, 'yyyy-MM-dd', 'en'));
+      if (data.NumeroFactura)
+        this.kardexProcesoEditForm.controls.nroFactura.setValue(data.NumeroFactura);
+      if (data.KilosIngresados)
+        this.kardexProcesoEditForm.controls.kgIngresados.setValue(data.KilosIngresados);
+      if (data.CantidadSacosIngresados) {
+        this.kardexProcesoEditForm.controls.nroSacosIngresados.setValue(data.CantidadSacosIngresados);
       }
-      if (data.RendimientoEsperadoPorcentaje)
-        this.kardexProcesoEditForm.controls.porcenRendimiento.setValue(data.RendimientoEsperadoPorcentaje);
-      if (data.Empaque)
-        empaque_tipo = data.Empaque;
-      if (empaque_tipo)
-        empaque_tipo = empaque_tipo + ' - '
-      if (data.TipoEmpaque)
-        empaque_tipo = empaque_tipo + data.TipoEmpaque
-      if (empaque_tipo)
-        this.kardexProcesoEditForm.controls.empaqueTipo.setValue(empaque_tipo);
-      if (data.TotalSacos)
-        this.kardexProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
-      if (data.PesoPorSaco)
-        this.kardexProcesoEditForm.controls.pesoSacoKG.setValue(data.PesoPorSaco);
-      if (data.PesoKilos)
-        this.kardexProcesoEditForm.controls.totalKilosNetos.setValue(data.PesoKilos);
-      if (data.CantidadContenedores)
-        this.kardexProcesoEditForm.controls.cantContenedores.setValue(data.CantidadContenedores);
-      if (data.Producto)
-        this.kardexProcesoEditForm.controls.producto.setValue(data.Producto);
-      if (data.SubProducto)
-        this.kardexProcesoEditForm.controls.subProducto.setValue(data.SubProducto);
-      if (data.Calidad)
-        this.kardexProcesoEditForm.controls.calidad.setValue(data.Calidad);
-      if (data.Grado)
-        this.kardexProcesoEditForm.controls.grado.setValue(data.Grado);
-      if (data.PreparacionCantidadDefectos)
-        this.kardexProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
-      if (data.Observacion)
-        this.kardexProcesoEditForm.controls.observaciones.setValue(data.Observacion);
-      data.detalle.forEach(x => x.FechaNotaIngresoPlanta = x.FechaNotaIngresoPlanta.substring(0, 10));
-      if (data.NombreArchivo) {
-        this.fileName = data.NombreArchivo;
-        this.kardexProcesoEditForm.controls.fileName.setValue(data.NombreArchivo);
-      }
-      if (data.PathArchivo)
-        this.kardexProcesoEditForm.controls.pathFile.setValue(data.PathArchivo);
-      this.rowsDetails = data.detalle;
+      if (data.QQIngresados)
+        this.kardexProcesoEditForm.controls.qqIngresados.setValue(data.QQIngresados);
+      if (data.PrecioUnitarioCP)
+        this.kardexProcesoEditForm.controls.precioUnitarioCp.setValue(data.PrecioUnitarioCP);
+      if (data.TotalCP)
+        this.kardexProcesoEditForm.controls.totalCp.setValue(data.TotalCP);
+      if (data.CantidadSacosDespachados)
+        this.kardexProcesoEditForm.controls.nroSacosDespachados.setValue(data.CantidadSacosDespachados);
+      if (data.KilosDespachados)
+        this.kardexProcesoEditForm.controls.kgDespachados.setValue(data.KilosDespachados);
+      if (data.QQDespachados)
+        this.kardexProcesoEditForm.controls.qqDespachados.setValue(data.QQDespachados);
+      if (data.PrecioUnitarioVenta)
+        this.kardexProcesoEditForm.controls.precioUnitario.setValue(data.PrecioUnitarioVenta);
+      if (data.TotalVenta)
+        this.kardexProcesoEditForm.controls.totalVenta.setValue(data.TotalVenta);     
+        if (data.CalidadId)
+        this.kardexProcesoEditForm.controls.calidad.setValue(data.CalidadId); 
     }
     this.spinner.hide();
   }
 
-  addRowDetail(): void {
-    this.rowsDetails = [...this.rowsDetails, {
-      OrdenProcesoId: 0,
-      OrdenProcesoDetalleId: 0,
-      NroNotaIngresoPlanta: '',
-      FechaNotaIngresoPlanta: '',
-      RendimientoPorcentaje: 0,
-      HumedadPorcentaje: 0,
-      CantidadSacos: 0,
-      KilosBrutos: 0,
-      Tara: 0,
-      KilosNetos: 0
-    }];
-  }
+ 
 
-  DeleteRowDetail(index: any): void {
-    this.rowsDetails.splice(index, 1);
-    this.rowsDetails = [...this.rowsDetails];
-  }
 
-  UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-    if (prop === 'nroNotaIP')
-      this.rowsDetails[index].NroNotaIngresoPlanta = event.target.value;
-    else if (prop === 'fecNotaIP')
-      this.rowsDetails[index].FechaNotaIngresoPlanta = event.target.value;
-    else if (prop === 'rendimiento')
-      this.rowsDetails[index].RendimientoPorcentaje = parseFloat(event.target.value)
-    else if (prop === 'humedad')
-      this.rowsDetails[index].HumedadPorcentaje = parseFloat(event.target.value)
-    else if (prop === 'cantSacos')
-      this.rowsDetails[index].CantidadSacos = parseFloat(event.target.value)
-    else if (prop === 'klBrutos')
-      this.rowsDetails[index].KilosBrutos = parseFloat(event.target.value)
-    else if (prop === 'tara')
-      this.rowsDetails[index].Tara = parseFloat(event.target.value)
-    else if (prop === 'klNetos')
-      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value)
-  }
 
-  Print(): void {
-    const form = this;
-    swal.fire({
-      title: 'Confirmación',
-      text: `¿Está seguro de continuar con impresión?.`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2F8BE6',
-      cancelButtonColor: '#F55252',
-      confirmButtonText: 'Si',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.value) {
-        let link = document.createElement('a');
-        document.body.appendChild(link);
-        link.href = `${host}OrdenProceso/Imprimir?id=${form.codeProcessOrder}`;
-        link.target = "_blank";
-        link.click();
-        link.remove();
-      }
-    });
-  }
 
-  Descargar(): void {
-    const rutaFile = this.kardexProcesoEditForm.value.pathFile;
-    let link = document.createElement('a');
-    document.body.appendChild(link);
-    link.href = `${host}OrdenProceso/DescargarArchivo?path=${rutaFile}`;
-    link.target = "_blank";
-    link.click();
-    link.remove();
-  }
-
-  ValidateDataDetails(): number {
-    let result = [];
-    result = this.rowsDetails.filter(x => !x.NroNotaIngresoPlanta
-      || !x.FechaNotaIngresoPlanta || !x.RendimientoPorcentaje
-      || !x.HumedadPorcentaje || !x.CantidadSacos || !x.KilosBrutos
-      || !x.Tara || !x.KilosNetos)
-
-    return result.length;
-  }
 
   Cancel(): void {
-    this.router.navigate(['/exportador/operaciones/ordenproceso/list']);
+    this.router.navigate(['/acopio/operaciones/kardexProceso']);
   }
 }
