@@ -56,7 +56,6 @@ import {ZonaEditComponent} from './operaciones/zona/edit/zona-edit.component';
 import { KardexComponent } from './operaciones/kardex/kardex.component';
 import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
 import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
-import {ExportadorModule} from './../exportador/exportador.module';
 
 @NgModule({
   imports: [
@@ -78,8 +77,7 @@ import {ExportadorModule} from './../exportador/exportador.module';
     QuillModule,
     MatchHeightModule,
     NgxSpinnerModule,
-    ModalModule,
-    ExportadorModule
+    ModalModule
   ],
   declarations: [
     CiudadesEditComponent,
