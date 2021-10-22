@@ -51,12 +51,15 @@ export class SocioComponent implements OnInit {
   @Input() popUp = false;
   page: any;
   @Output() agregarEvent = new EventEmitter<any>();
+
+  vSessionUser: any;
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.socioListForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.socioListForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.page = this.route.routeConfig.data.title;
+    this.vSessionUser = JSON.parse(localStorage.getItem('user')); 
 
   }
 
@@ -165,6 +168,7 @@ export class SocioComponent implements OnInit {
         NumeroDocumento: this.socioListForm.value.nroDocumento,
         EstadoId: this.socioListForm.controls["estado"].value ?? '',
         FechaInicio: new Date(this.socioListForm.value.fechaInicio),
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
         FechaFin: new Date(this.socioListForm.value.fechaFin)
       };
 

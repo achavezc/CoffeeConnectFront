@@ -229,7 +229,7 @@
 		"Label": "Transport"
 	},
 	"Cliente": {
-		"Label": "Customer",
+		"Label": "Customer Tracking",
 		"Tracking": {
 			"Label": "Contract"
 		}

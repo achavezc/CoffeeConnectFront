@@ -93,7 +93,9 @@ export class KardexProcesoEditComponent implements OnInit {
       qqDespachados: new FormControl('', []),
       precioUnitario: new FormControl('', []),
       totalVenta: new FormControl('', []),
-      calidad: new FormControl('', [])
+      calidad: new FormControl('', []),
+      saldosKg: new FormControl('', []),
+      saldosQq: new FormControl('', [])
       
     });
   }
@@ -140,77 +142,7 @@ export class KardexProcesoEditComponent implements OnInit {
       this.listaCalidad = res.Result.Data;
     }
   }
-  GetDataModal(event: any): void {
-    const obj = event[0];
-    if (obj) {
-      this.AutocompleteDataContrato(obj);
-    }
-    this.modalService.dismissAll();
-  }
   
-  async AutocompleteDataContrato(obj: any) {
-    this.LoadCombos();
-    let empaque_Tipo = '';
-    if (obj.ContratoId)
-      this.kardexProcesoEditForm.controls.idContrato.setValue(obj.ContratoId);
-
-    if (obj.Numero)
-      this.kardexProcesoEditForm.controls.nroContrato.setValue(obj.Numero);
-
-    if (obj.ClienteId)
-      this.kardexProcesoEditForm.controls.idCliente.setValue(obj.ClienteId);
-
-    if (obj.NumeroCliente)
-      this.kardexProcesoEditForm.controls.codCliente.setValue(obj.NumeroCliente);
-
-    if (obj.Cliente)
-      this.kardexProcesoEditForm.controls.cliente.setValue(obj.Cliente);
-
-    if (obj.TipoProduccion)
-      this.kardexProcesoEditForm.controls.tipoProduccion.setValue(obj.TipoProduccion);
-
-    if (obj.TipoCertificacionId)
-     // await this.GetCertificacion();
-      //this.kardexProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
-      this.kardexProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacionId.split('|').map(String));
-
-    if (obj.Empaque)
-      empaque_Tipo = obj.Empaque;
-    if (empaque_Tipo)
-      empaque_Tipo = empaque_Tipo + ' - '
-    if (obj.TipoEmpaque)
-      empaque_Tipo = empaque_Tipo + obj.TipoEmpaque;
-    if (empaque_Tipo)
-      this.kardexProcesoEditForm.controls.empaqueTipo.setValue(empaque_Tipo);
-
-    if (obj.TotalSacos)
-      this.kardexProcesoEditForm.controls.cantidad.setValue(obj.TotalSacos);
-
-    if (obj.PesoPorSaco)
-      this.kardexProcesoEditForm.controls.pesoSacoKG.setValue(obj.PesoPorSaco);
-
-    if (obj.PesoKilos)
-      this.kardexProcesoEditForm.controls.totalKilosNetos.setValue(obj.PesoKilos);
-
-      if (obj.CantidadContenedores)
-      this.kardexProcesoEditForm.controls.cantContenedores.setValue(obj.CantidadContenedores);
-
-    if (obj.Producto)
-      this.kardexProcesoEditForm.controls.producto.setValue(obj.Producto);
-
-    if (obj.SubProducto)
-      this.kardexProcesoEditForm.controls.subProducto.setValue(obj.SubProducto);
-
-    if (obj.Calidad)
-      this.kardexProcesoEditForm.controls.calidad.setValue(obj.Calidad);
-
-    if (obj.Grado)
-      this.kardexProcesoEditForm.controls.grado.setValue(obj.Grado);
-
-    if (obj.PreparacionCantidadDefectos)
-      this.kardexProcesoEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
-  }
-
   GetDataModalClientes(event: any): void {
     this.selectCliente = event;
     if (this.selectCliente[0].Numero)
@@ -382,12 +314,18 @@ export class KardexProcesoEditComponent implements OnInit {
       if (data.NumeroFactura)
         this.kardexProcesoEditForm.controls.nroFactura.setValue(data.NumeroFactura);
       if (data.KilosIngresados)
+      {
         this.kardexProcesoEditForm.controls.kgIngresados.setValue(data.KilosIngresados);
+        this.kardexProcesoEditForm.controls.saldosKg.setValue(Number(data.KilosIngresados) - Number(data.KilosDespachados));
+      }
       if (data.CantidadSacosIngresados) {
         this.kardexProcesoEditForm.controls.nroSacosIngresados.setValue(data.CantidadSacosIngresados);
       }
       if (data.QQIngresados)
+      {
         this.kardexProcesoEditForm.controls.qqIngresados.setValue(data.QQIngresados);
+        this.kardexProcesoEditForm.controls.saldosQq.setValue(Number(data.QQIngresados) - Number(data.QQDespachados));
+      }
       if (data.PrecioUnitarioCP)
         this.kardexProcesoEditForm.controls.precioUnitarioCp.setValue(data.PrecioUnitarioCP);
       if (data.TotalCP)
@@ -409,8 +347,20 @@ export class KardexProcesoEditComponent implements OnInit {
   }
 
  
+calcularSaldosKg()
+{
+  var KgIng = this.kardexProcesoEditForm.controls.kgIngresados.value;
+  var KgDesp = this.kardexProcesoEditForm.controls.kgDespachados.value;
+  this.kardexProcesoEditForm.controls.saldosKg.setValue(Number(KgIng) - Number(KgDesp));
+  
+}
 
-
+calcularSaldosQq()
+{
+  var QqIng = this.kardexProcesoEditForm.controls.qqIngresados.value;
+  var QqDesp = this.kardexProcesoEditForm.controls.qqDespachados.value;
+  this.kardexProcesoEditForm.controls.saldosQq.setValue(Number(QqIng) - Number(QqDesp));
+}
 
 
 

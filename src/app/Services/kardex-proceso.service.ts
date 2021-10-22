@@ -37,4 +37,13 @@ export class KardexProcesoService {
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
+
+  Anular(request: any, usuario :String): Observable<any> {
+    const url = `${this.url}/Anular`;
+    const body: any = {
+      KardexProcesoId: Number(request),
+      usuario: usuario
+    };
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
 }
