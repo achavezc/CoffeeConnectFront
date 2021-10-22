@@ -180,6 +180,9 @@
 			},
 			"Kardex": {
 				"Label": "Kardex"
+			},
+			"KardexProceso": {
+				"Label": "Kardex Proceso"
 			}
 		},
 		"Administracion": {
