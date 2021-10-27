@@ -905,24 +905,23 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.OrdenProcesoPlantaId = this.codeProcessOrder;
       object.OrdenProcesoPlantaDetalleId = 0;
       object.NotaIngresoPlantaId = data.NotaIngresoPlantaId;
-
-      object.NotaIngresoPlantaId = data.NotaIngresoPlantaId
       object.NumeroGuiaRemision = data.NumeroGuiaRemision
-      object.NumeroIngresoPlanta = data.Numero
-      object.FechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/")
-      object.RendimientoPorcentaje = data.RendimientoPorcentaje
-      object.HumedadPorcentaje = data.HumedadPorcentaje
+      object.NumeroIngresoPlanta = data.Numero;
+      object.FechaRegistroFinal = data.FechaRegistro;
+      object.FechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
+      object.RendimientoPorcentaje = data.RendimientoPorcentaje;
+      object.HumedadPorcentaje = data.HumedadPorcentaje;
 
-      object.PorcentajeExportable = data.ExportablePorcentajeAnalisisFisico
-      object.PorcentajeDescarte = data.DescartePorcentajeAnalisisFisico
-      object.PorcentajeCascarilla = data.CascarillaPorcentajeAnalisisFisico
+      object.PorcentajeExportable = data.ExportablePorcentajeAnalisisFisico;
+      object.PorcentajeDescarte = data.DescartePorcentajeAnalisisFisico;
+      object.PorcentajeCascarilla = data.CascarillaPorcentajeAnalisisFisico;
       object.KilosExportables = Number(data.KilosNetos * data.ExportablePorcentajeAnalisisFisico);
       
       object.SacosCalculo = Number(object.KilosExportables / 69);
-      object.CantidadPesado = data.Cantidad
-      object.KilosBrutosPesado = data.KilosBrutos
-      object.TaraPesado = data.Tara
-      object.KilosNetosPesado = data.KilosNetos
+      object.CantidadPesado = data.Cantidad;
+      object.KilosBrutosPesado = data.KilosBrutos;
+      object.TaraPesado = data.Tara;
+      object.KilosNetosPesado = data.KilosNetos;
       this.listaNotaIngreso.push(object);
       this.tempDataLoteDetalle = this.listaNotaIngreso;
       this.rowsDetails = [...this.tempDataLoteDetalle];
