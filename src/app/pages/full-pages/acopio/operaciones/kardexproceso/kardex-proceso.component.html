@@ -26,20 +26,14 @@
                                         letras y números</small>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-4">
-                                    <label for="cliente" class="form-label">Cliente</label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="cliente"
-                                        class="form-control" id="cliente" placeholder="Cliente"
-                                        [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
-                                </div>
-                                <div class="col-md-1 mb-1 form-group mb-1" style="margin-top: 1.5rem;">
-                                    <button type="button" (click)="openModal(modalCliente)" class="btn btn-primary">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                    <ng-template #modalCliente let-c="close" let-d="dismiss">
-                                        <app-consultar-cliente (responseCliente)="GetDataModalClientes($event)">
-                                        </app-consultar-cliente>
-                                    </ng-template>
-                                    
+                                   
+                                        <label for="cliente">Cliente</label>
+                                        <ng-select id="validationTooltip05" [items]="listaCliente" class="form-control"
+                                            [(ngModel)]="selectedCliente" formControlName="cliente" bindLabel="Label"
+                                            bindValue="Codigo" placeholder="Seleccionar Cliente"
+                                            [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
+                                        </ng-select>
+                                        
                                 </div>
                                 <div class="col-md-3 mb-3 form-group mb-3">
                                     <label for="plantaProceso" class="form-label">Planta Proceso / Almacén</label>
@@ -165,7 +159,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Numero" prop="Numero" width="150">
+                            <ngx-datatable-column name="Numero" prop="Numero" width="100">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -175,27 +169,27 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="40">
+                            <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo Doc. Interno" prop="TipoDocumentoInterno" width="100">
+                            <ngx-datatable-column name="Tipo Doc. Interno" prop="TipoDocumentoInterno" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro Comprobante Interno" prop="Numero" width="150">
+                            <ngx-datatable-column name="Nro Comprobante Interno" prop="NumeroComprobanteInterno" width="180">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Planta Proceso/Almacen" prop="PlantaProcesoAlmacen" width="150">
+                            <ngx-datatable-column name="Planta Proceso/Almacen" prop="PlantaProcesoAlmacen" width="180">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Tipo de Operación" prop="TipoOperacion" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro. Guia Remisión" prop="NumeroGuiaRemision" width="100">
+                            <ngx-datatable-column name="Nro. Guia Remisión" prop="NumeroGuiaRemision" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Cliente" prop="RazonSocial" width="150">
+                            <ngx-datatable-column name="Cliente" prop="Cliente" width="200">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro. Contrato" prop="NumeroContrato" width="150">
+                            <ngx-datatable-column name="Nro. Contrato" prop="NumeroContrato" width="120">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Certificado" prop="TipoCertificacion" width="150">
+                            <ngx-datatable-column name="Certificado" prop="TipoCertificacion" width="120">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Calidad" prop="Calidad" width="150">
+                            <ngx-datatable-column name="Calidad" prop="Calidad" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha Factura" prop="FechaFactura" width="150">
+                            <ngx-datatable-column name="Fecha Factura" prop="FechaFactura" width="120">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nro. Factura" prop="NumeroFactura" width="150">
                             </ngx-datatable-column>
@@ -207,9 +201,9 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Precio Unitario CP" prop="PrecioUnitarioCP" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Total CP" prop="TotalCP" width="150">
+                            <ngx-datatable-column name="Total CP" prop="TotalCP" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro. Sacos Despachados" prop="CantidadSacosDespachados" width="150">
+                            <ngx-datatable-column name="Nro. Sacos Despachados" prop="CantidadSacosDespachados" width="180">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Kg. Despachados" prop="KilosDespachados" width="150">
                             </ngx-datatable-column>
@@ -217,7 +211,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Precio Unitario Venta" prop="PrecioUnitarioVenta" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Total Venta" prop="TotalVenta" width="150">
+                            <ngx-datatable-column name="Total Venta" prop="TotalVenta" width="120">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Saldos en Kg." prop="SaldosKg" width="150">
                             </ngx-datatable-column>

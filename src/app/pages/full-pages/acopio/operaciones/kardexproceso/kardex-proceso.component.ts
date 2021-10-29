@@ -37,7 +37,7 @@ export class KardexProcesoComponent implements OnInit {
   listTipoOperacion = [];
   listCalidad = [];
   listCertificado = [];
-
+  listaCliente = [];
   selectedPlantaProceso: any;
   selectedTipoDocumentoInterno: any;
   selectedEstado: any;
@@ -45,7 +45,7 @@ export class KardexProcesoComponent implements OnInit {
   selectedCalidad: any;
   selectedCertificado: any;
   selectCliente: any[] = [];
-
+  selectedCliente: any;
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
@@ -137,6 +137,11 @@ export class KardexProcesoComponent implements OnInit {
         form.listCertificado = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros("ClientePlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaCliente = res.Result.Data;
+      }
+    });
   }
 
   compareTwoDates(): void {
@@ -205,7 +210,7 @@ export class KardexProcesoComponent implements OnInit {
       this.submitted = false;
       const request = {
         NumeroContrato: this.kardexProcesoForm.value.nroContrato,
-        NumeroCliente: this.kardexProcesoForm.value.cliente,
+        RucCliente: this.kardexProcesoForm.value.cliente,
         PlantaProcesoAlmacenId: this.kardexProcesoForm.value.plantaProceso ?? '',
         TipoDocumentoInternoId: this.kardexProcesoForm.value.tipoDocumentoInterno ?? '',
         TipoOperacionId : this.kardexProcesoForm.value.tipoOperacion ?? '',
@@ -273,7 +278,7 @@ export class KardexProcesoComponent implements OnInit {
                     res.Result.Data[i].PlantaProcesoAlmacen,
                     res.Result.Data[i].TipoOperacion,
                     res.Result.Data[i].NumeroGuiaRemision,
-                    res.Result.Data[i].RazonSocial,
+                    res.Result.Data[i].Cliente,
                     res.Result.Data[i].NumeroContrato,
                     res.Result.Data[i].TipoCertificacion,
                     res.Result.Data[i].Calidad,

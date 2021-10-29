@@ -39,11 +39,13 @@ export class KardexProcesoEditComponent implements OnInit {
   listaTipoDocumento = [];
   listaTipoOperacion = [];
   listaCalidad = [];
+  listaCliente = [];
   selectedCertificado: any;
   selectedPlantaProceso: any;
   selectedTipoOperacion: any;
   selectedTipoDocumento: any;
   selectedCalidad: any;
+  selectedCliente: any;
   submittedEdit = false;
   login: ILogin;
   esEdit = false;
@@ -78,8 +80,6 @@ export class KardexProcesoEditComponent implements OnInit {
       nroComprobanteInterno: new FormControl('', []),
       nroGuiaRemision: new FormControl('', []),
       nroContrato: new FormControl('', []),
-      codCliente:new FormControl('', [Validators.required]),
-      clienteId:new FormControl('', [Validators.required]),
       cliente: new FormControl('', [Validators.required]),
       fechaFactura: new FormControl('', []),
       nroFactura: new FormControl('', []),
@@ -110,6 +110,7 @@ export class KardexProcesoEditComponent implements OnInit {
     this.GetTipoDocumentoInterno();
     this.GetCertificado();
     this.GetCalidad();
+    this.GetCiente();
 }
   async GetPlantaProceso() {
     const res = await this.maestroService.obtenerMaestros('PlantaProcesoAlmacenKardexProceso').toPromise();
@@ -141,24 +142,17 @@ export class KardexProcesoEditComponent implements OnInit {
     if (res.Result.Success) {
       this.listaCalidad = res.Result.Data;
     }
+    
+  }
+
+  async GetCiente() {
+    const res = await this.maestroService.obtenerMaestros('ClientePlanta').toPromise();
+    if (res.Result.Success) {
+      this.listaCliente = res.Result.Data;
+    }
+    
   }
   
-  GetDataModalClientes(event: any): void {
-    this.selectCliente = event;
-    if (this.selectCliente[0].Numero)
-    this.kardexProcesoEditForm.get('codCliente').setValue(this.selectCliente[0].Numero);
-    if (this.selectCliente[0].RazonSocial)
-    this.kardexProcesoEditForm.get('cliente').setValue(this.selectCliente[0].RazonSocial);
-    if (this.selectCliente[0].ClienteId)
-    this.kardexProcesoEditForm.get('clienteId').setValue(this.selectCliente[0].ClienteId);
-
-    
-    this.modalService.dismissAll();
-  }
-
-  openModal(modalCliente: any): void {
-    this.modalService.open(modalCliente, { windowClass: 'dark-modal', size: 'xl', centered: true });
-  }
 
   GetRequest(): any {
     const form = this.kardexProcesoEditForm.value;
@@ -168,11 +162,10 @@ export class KardexProcesoEditComponent implements OnInit {
       TipoDocumentoInternoId: form.tipoDocumento ?? '',
       TipoOperacionId: form.tipoOperacion ?? '',
       EmpresaId:  this.login.Result.Data.EmpresaId,
-      Numero: form.nroComprobanteInterno,
+      NumeroComprobanteInterno: form.nroComprobanteInterno,
       NumeroGuiaRemision: form.nroGuiaRemision,
       NumeroContrato: form.nroContrato,
-      FechaContrato: null,
-      ClienteId: Number(form.clienteId),
+      RucCliente:form.cliente,
       TipoCertificacionId: form.certificado ?? '',
       CalidadId: form.calidad ?? '',
       CantidadSacosIngresados: Number(form.nroSacosIngresados),
@@ -181,7 +174,7 @@ export class KardexProcesoEditComponent implements OnInit {
       KilosDespachados: Number(form.kgDespachados),
       QQIngresados: Number(form.qqIngresados),
       QQDespachados: Number(form.qqDespachados),
-      FechaFactura: form.fechaFactura ,
+      FechaFactura: form.fechaFactura ==""? null: form.fechaFactura,
       NumeroFactura: form.nroFactura,
       PrecioUnitarioCP: Number(form.precioUnitarioCp) ,
       PrecioUnitarioVenta: Number(form.precioUnitario),
@@ -295,18 +288,14 @@ export class KardexProcesoEditComponent implements OnInit {
         this.kardexProcesoEditForm.controls.tipoDocumento.setValue(data.TipoDocumentoInternoId);
       if (data.TipoOperacionId)
         this.kardexProcesoEditForm.controls.tipoOperacion.setValue(data.TipoOperacionId);
-      if (data.Numero)
-        this.kardexProcesoEditForm.controls.nroComprobanteInterno.setValue(data.Numero);
+      if (data.NumeroComprobanteInterno)
+        this.kardexProcesoEditForm.controls.nroComprobanteInterno.setValue(data.NumeroComprobanteInterno);
       if (data.NumeroGuiaRemision)
         this.kardexProcesoEditForm.controls.nroGuiaRemision.setValue(data.NumeroGuiaRemision);
       if (data.NumeroContrato)
         this.kardexProcesoEditForm.controls.nroContrato.setValue(data.NumeroContrato);
-      if (data.CodigoCliente)
-        this.kardexProcesoEditForm.controls.codCliente.setValue(data.CodigoCliente);
-      if (data.RazonSocial)
-        this.kardexProcesoEditForm.controls.cliente.setValue(data.RazonSocial);
-        if (data.ClienteId)
-        this.kardexProcesoEditForm.controls.clienteId.setValue(data.ClienteId);
+      if (data.RucCliente)
+        this.kardexProcesoEditForm.controls.cliente.setValue(data.RucCliente);
       if (data.TipoCertificacionId)
         this.kardexProcesoEditForm.controls.certificado.setValue(data.TipoCertificacionId);
       if (data.FechaFactura)

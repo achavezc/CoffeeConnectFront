@@ -103,48 +103,34 @@
                     </div>
 
                     <div class="form-row" style="margin-left: 0.5rem;" >
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <label for="nroContrato"> N° CONTRATO</label>
 
                             <input type="text" formControlName="nroContrato"
                                 class="form-control" placeholder="Número de contrato"
                                 [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
                         </div>
-
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <label for="nroContrato">COD. CLIENTE</label>
-
-                            <input type="text" formControlName="codCliente"
-                                class="form-control" placeholder="Código Cliente" [readonly]="true"
-                                [ngClass]="{ 'is-invalid': f.codCliente.invalid, 'is-valid': !f.codCliente.invalid }">
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1" style="padding-left: 0cm;">
-                            <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-primary">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            <ng-template #modalEmpresa let-c="close" let-d="dismiss">
-                                <app-consultar-cliente (responseCliente)="GetDataModalClientes($event)">
-                                </app-consultar-cliente>
-                            </ng-template>
+                        <label for="cliente">Cliente</label>
+                        <ng-select id="validationTooltip05" [items]="listaCliente" class="form-control"
+                            [(ngModel)]="selectedCliente" formControlName="cliente" bindLabel="Label"
+                            bindValue="Codigo" placeholder="Seleccionar Cliente"
+                            [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
+                        </ng-select>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <label >CLIENTE</label>
-
-                            <input type="text" name="cliente" id="cliente" formControlName="cliente"
-                                class="form-control" placeholder="Cliente" [readonly]="true"
-                                [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
-
-                        </div>
-                    </div>
-
-                    <div class="form-row" style="margin-left: 0.5rem;">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <label for="nroContrato">Certificado</label>
+                        <label for="nroContrato">Certificado</label>
                             <ng-select id="validationTooltip05" [items]="listaCertificado" class="form-control"
                                 [(ngModel)]="selectedCertificado" formControlName="certificado" bindLabel="Label"
                                 bindValue="Codigo" placeholder="Seleccionar Certificado"
                                 [ngClass]="{ 'is-invalid': f.certificado.invalid, 'is-valid': !f.certificado.invalid }">
                             </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="margin-left: 0.5rem;">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            
                             <label for="calidad">Calidad</label>
                             <ng-select id="validationTooltip05" [items]="listaCalidad" class="form-control"
                                 [(ngModel)]="selectedCalidad" formControlName="calidad" bindLabel="Label"
@@ -229,14 +215,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="form-row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="form-group row">
-                                <label for="responsableComercial" class="col-lg-4 col-form-label">Responsable de
-                                    Comercial</label>
-                                <div class="col-lg-7">
-                                    {{responsable}}
-                                </div>
-                            </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                <label for="responsableComercial" >Responsable</label>
+                        </div>
+                        <div class="col-lg-4">
+                            {{responsable}}
                         </div>
                         
                     </div>
