@@ -174,7 +174,7 @@
 
               </div> -->
               <div class="col-md-4 mb-4 form-group mb-2">
-                <label for="validationTooltip09">SUB PRODUCTO</label>
+                <label for="validationTooltip09">Estado de Humedad</label>
                 <ng-select [items]="listaSubProducto" bindLabel="name" [(ngModel)]="selectSubProducto"
                   formControlName="subproducto" bindLabel="Label" bindValue="Codigo" class="form-control"
                   placeholder="Seleccionar Tipo Producto" (change)="changeView($event)"
@@ -189,7 +189,7 @@
                 <label for="validationTooltip09">CERTIFICACION</label>
                 <ng-select [items]="listaCertificacion" bindLabel="name" [(ngModel)]="selectedCertificacion"
                   formControlName="certificacion" bindLabel="Label" bindValue="Codigo" class="form-control"
-                  placeholder="Seleccionar Certificacion"
+                  placeholder="Seleccionar Certificacion" [multiple]="true"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.certificacion.invalid, 'is-valid': submittedEdit && !fedit.certificacion.invalid }">
                 </ng-select>
               </div>

@@ -197,6 +197,17 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       }
     );
     this.calcularKilosNetos();
+
+    
+    
+    data.Detalle.forEach(
+      x => {
+        var valorRounded = Math.round((x.KilosNetos + Number.EPSILON) * 100) / 100
+        x.KilosNetos = valorRounded
+        
+      }
+    );
+
     this.tempMateriaPrima = data.Detalle;
     this.rowsMateriaPrima = [...this.tempMateriaPrima]
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
