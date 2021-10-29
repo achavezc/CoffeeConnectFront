@@ -271,7 +271,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       idOrdenProcesoComercial: [],
       rucOrganizacion: ['', Validators.required],
       nombreOrganizacion: [],
-      certificadora: ['', Validators.required],
+      certificadora: ['', ],
       empaque: ['', Validators.required],
       tipo: ['', Validators.required],
       productoTerminado: [],
@@ -808,19 +808,20 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.RendimientoPorcentaje = data.RendimientoPorcentaje
       object.HumedadPorcentaje = data.HumedadPorcentaje
 
-      object.PorcentajeExportable = data.ExportablePorcentajeAnalisisFisico
-      object.PorcentajeDescarte = data.DescartePorcentajeAnalisisFisico
-      object.PorcentajeCascarilla = data.CascarillaPorcentajeAnalisisFisico
-      if(data.ExportablePorcentajeAnalisisFisico){
-        object.KilosExportables = Number(data.KilosNetos * data.ExportablePorcentajeAnalisisFisico);
+      object.PorcentajeExportable = data.PorcentajeExportable
+      object.PorcentajeDescarte = data.PorcentajeDescarte
+      object.PorcentajeCascarilla = data.PorcentajeCascarilla
+      if(data.PorcentajeExportable){
+        object.KilosExportables = Number(data.KilosNetos * data.PorcentajeExportable);
       }else{
         object.KilosExportables = Number(0);
       }
-      if(data.KilosExportables){
-        object.SacosCalculo = Number(object.KilosExportables / 69);
-      }else{
-        object.SacosCalculo = Number(0);
-      }
+      //if(data.KilosExportables){
+       // var valorRounded = Math.round(( Number(object.KilosExportables / 69) + Number.EPSILON) * 100) / 100
+        object.SacosCalculo = data.SacosCalculo;
+      //}else{
+      //  object.SacosCalculo = Number(0);
+      //}
      
       object.CantidadPesado = data.Cantidad
       object.KilosBrutosPesado = data.KilosBrutos
@@ -916,8 +917,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.PorcentajeDescarte = data.DescartePorcentajeAnalisisFisico;
       object.PorcentajeCascarilla = data.CascarillaPorcentajeAnalisisFisico;
       object.KilosExportables = Number(data.KilosNetos * data.ExportablePorcentajeAnalisisFisico);
-      
-      object.SacosCalculo = Number(object.KilosExportables / 69);
+      var valorRounded = Math.round(( Number(object.KilosExportables / 69) + Number.EPSILON) * 100) / 100
+      object.SacosCalculo = valorRounded;
       object.CantidadPesado = data.Cantidad;
       object.KilosBrutosPesado = data.KilosBrutos;
       object.TaraPesado = data.Tara;
@@ -931,6 +932,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     }
     else {
       this.alertUtil.alertWarning("Oops...!", "Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].Numero + ".");
+      this.spinner.hide();
     }
   }
 

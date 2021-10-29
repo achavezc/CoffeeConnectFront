@@ -257,7 +257,7 @@
                         <div class="form-row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group row">
-                                    <label for="subProducto" class="col-lg-4 col-form-label">SUB PRODUCTO</label>
+                                    <label for="subProducto" class="col-lg-4 col-form-label">Estado de Humedad</label>
                                     <div class="col-lg-8">
                                         <ng-select [items]="listSubProducto" formControlName="subProducto" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="subProducto"
@@ -293,7 +293,7 @@
                                 <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails"
                                 [loadingIndicator]="isLoading" [scrollbarV]="true">
 
-                                <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistroFinal" style="display: none;">
+                                <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistroFinal"  *ngIf="false">
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistro">
                                 </ngx-datatable-column>

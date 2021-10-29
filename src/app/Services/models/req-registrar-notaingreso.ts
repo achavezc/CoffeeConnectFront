@@ -1,3 +1,4 @@
+import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -38,7 +39,8 @@ export class ReqRegistrarPesadoNotaIngreso {
         EstadoId: string,
         FechaRegistro: Date,
         UsuarioPesado: string,
-        FechaPesado: Date
+        FechaPesado: Date,
+        Direccion : string
 
         ) {
         this.NotaIngresoPlantaId = NotaIngresoPlantaId;
@@ -75,6 +77,7 @@ export class ReqRegistrarPesadoNotaIngreso {
         this.FechaRegistro = FechaRegistro;
         this.UsuarioPesado = UsuarioPesado;
         this.FechaPesado = FechaPesado;
+        this.Direccion = Direccion;
     }
     NotaIngresoPlantaId:number;
     EmpresaId: number;
@@ -110,5 +113,6 @@ export class ReqRegistrarPesadoNotaIngreso {
     FechaRegistro: Date;
     UsuarioPesado: string;
     FechaPesado: Date;
+    Direccion: string;
 
 }

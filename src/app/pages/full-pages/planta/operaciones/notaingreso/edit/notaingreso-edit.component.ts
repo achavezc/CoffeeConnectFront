@@ -354,7 +354,7 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.controls["tipoProduccion"].value,
         this.notaIngredoFormEdit.controls["producto"].value,
         this.notaIngredoFormEdit.controls["subproducto"].value,
-        this.notaIngredoFormEdit.controls["certificacion"].value ? this.notaIngredoFormEdit.controls["certificacion"].value : '',
+        this.notaIngredoFormEdit.controls["certificacion"].value ? this.notaIngredoFormEdit.controls["certificacion"].value.join('|') : '',
         this.notaIngredoFormEdit.controls["certificadora"].value ? this.notaIngredoFormEdit.controls["certificadora"].value : '',
         this.notaIngredoFormEdit.get('pesado').get("motivo").value,
         this.notaIngredoFormEdit.get('pesado').get("empaque").value,
@@ -378,7 +378,8 @@ export class NotaIngresoEditComponent implements OnInit {
         "01",
         new Date(),
         this.login.Result.Data.NombreUsuario,
-        new Date()
+        new Date(),
+        this.notaIngredoFormEdit.controls["direccion"].value
       );
       this.spinner.show(undefined,
         {
@@ -510,7 +511,8 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);
     this.notaIngredoFormEdit.controls["subproducto"].setValue(data.SubProductoId);
-    this.notaIngredoFormEdit.controls["certificacion"].setValue(data.CertificacionId);
+    //this.notaIngredoFormEdit.controls["certificacion"].setValue(data.CertificacionId);
+    this.notaIngredoFormEdit.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
     this.notaIngredoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadoraId);
     this.notaIngredoFormEdit.get('pesado').get("motivo").setValue(data.MotivoIngresoId);
     this.notaIngredoFormEdit.get('pesado').get("empaque").setValue(data.EmpaqueId);

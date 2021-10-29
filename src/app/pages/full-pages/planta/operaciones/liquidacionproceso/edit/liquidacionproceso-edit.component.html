@@ -54,7 +54,7 @@
                 <label for="basicInput">Producto</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="producto" disabled>
 
-                <label for="basicInput">Sub Producto</label>
+                <label for="basicInput">Estado de Humedad</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="subproducto" disabled>
 
               </div>
@@ -164,7 +164,7 @@
 
                       </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="QQ/46 Kg. N" prop="QQKg" width="50" [formGroup]="formGroupQqkg"
+                    <ngx-datatable-column name="Kilos Netos / 46" prop="QQKg" width="70" [formGroup]="formGroupQqkg"
                       [summaryTemplate]="totalQqkg" disabled>
                       <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                         <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%qqkg'"
