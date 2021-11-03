@@ -197,9 +197,6 @@
 				},
 				"Kardex": {
 					"Label": "Kardex"
-				},
-				"KardexProceso": {
-					"Label": "Kardex Proceso"
 				}
 		},
 		"Administracion":
@@ -290,6 +287,9 @@
 		"Aduanas":
 				{
 					"Label":"Aduanas"
+				},
+				"KardexProceso": {
+					"Label": "Kardex Proceso"
 				}
 
 		},

@@ -127,12 +127,12 @@ export class KardexProcesoComponent implements OnInit {
         form.listEstados = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("Calidad", function (res) {
+    this.maestroUtil.obtenerMaestros("CalidadPlanta", function (res) {
       if (res.Result.Success) {
         form.listCalidad = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
+    this.maestroUtil.obtenerMaestros("TipoCertificacionPlanta", function (res) {
       if (res.Result.Success) {
         form.listCertificado = res.Result.Data;
       }
@@ -232,7 +232,7 @@ export class KardexProcesoComponent implements OnInit {
              
               if (!exportExcel) {
                 res.Result.Data.forEach((obj: any) => {
-                  obj.FechaRegistro =this.dateUtil.formatDate(obj.FechaRegistro);
+                  obj.FechaIngreso =this.dateUtil.formatDate(obj.FechaIngreso);
                   obj.FechaFactura = this.dateUtil.formatDate(obj.FechaFactura);
                   obj.SaldosKg = obj.KilosIngresados - obj.KilosDespachados;
                   obj.SaldosQq = obj.QQIngresados - obj.QQDespachados;             
@@ -272,7 +272,7 @@ export class KardexProcesoComponent implements OnInit {
                 let vArrData: any[] = [];
                 for (let i = 0; i < res.Result.Data.length; i++) {
                   vArrData.push([
-                    res.Result.Data[i].FechaRegistro,
+                    res.Result.Data[i].FechaIngreso,
                     res.Result.Data[i].TipoDocumentoInterno,
                     res.Result.Data[i].Numero,
                     res.Result.Data[i].PlantaProcesoAlmacen,
@@ -328,7 +328,7 @@ export class KardexProcesoComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['/acopio/operaciones/kardexProcesoEdit']);
+    this.router.navigate(['/exportador/operaciones/kardexProcesoEdit']);
   }
 
   GetDataModalClientes(event: any): void {

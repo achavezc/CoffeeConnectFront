@@ -155,13 +155,13 @@
                             <label for="kgIngresados">Kg. Ingresados</label>
 
                             <input type="number" name="kgIngresados" id="kgIngresados" formControlName="kgIngresados"
-                                class="form-control" placeholder="Kg. Ingresados" (input)="calcularSaldosKg()"
+                                class="form-control" placeholder="Kg. Ingresados" (input)="calcularKgIngresados()"
                                 [ngClass]="{ 'is-invalid': f.kgIngresados.invalid, 'is-valid': !f.kgIngresados.invalid }">                            
 
                             <label for="qqIngresados">QQ. Ingresados</label>
                             <input type="number" name="qqIngresados" id="qqIngresados" formControlName="qqIngresados"
-                                class="form-control" placeholder="QQ. Ingresados" (input)="calcularSaldosQq()"
-                                [ngClass]="{ 'is-invalid': f.qqIngresados.invalid, 'is-valid': !f.qqIngresados.invalid }">
+                                class="form-control" placeholder="QQ. Ingresados"
+                                [ngClass]="{ 'is-invalid': f.qqIngresados.invalid, 'is-valid': !f.qqIngresados.invalid }" disabled>
 
                             <label for="precioUnitarioCp">Precio Unitario CP</label>
                             <input type="number" name="precioUnitarioCp" id="precioUnitarioCp" formControlName="precioUnitarioCp"
@@ -187,17 +187,17 @@
 
                                 <label for="kgDespachados">Kg. Despachados</label>
                                 <input type="number" name="kgDespachados" id="kgDespachados" formControlName="kgDespachados"
-                                    class="form-control" placeholder="Kg. Despachados"  (input)="calcularSaldosKg()"
+                                    class="form-control" placeholder="Kg. Despachados"  (input)="calcularKgDespachados()"
                                     [ngClass]="{ 'is-invalid': f.kgDespachados.invalid, 'is-valid': !f.kgDespachados.invalid }">
 
                                     <label for="qqDespachados">QQ. Despachados</label>
                                 <input type="number" name="qqDespachados" id="qqDespachados" formControlName="qqDespachados"
-                                    class="form-control" placeholder="QQ. Despachados" (input)="calcularSaldosQq()"
-                                    [ngClass]="{ 'is-invalid': f.qqDespachados.invalid, 'is-valid': !f.qqDespachados.invalid }">
+                                    class="form-control" placeholder="QQ. Despachados"
+                                    [ngClass]="{ 'is-invalid': f.qqDespachados.invalid, 'is-valid': !f.qqDespachados.invalid }" disabled>
 
-                                    <label for="precioUnitario">Precio Unitatio Venta</label>
+                                    <label for="precioUnitario">Precio Unitario Venta</label>
                                 <input type="number" name="precioUnitario" id="precioUnitario" formControlName="precioUnitario"
-                                    class="form-control" placeholder="Precio Unitatio Venta" 
+                                    class="form-control" placeholder="Precio Unitario Venta" 
                                     [ngClass]="{ 'is-invalid': f.precioUnitario.invalid, 'is-valid': !f.precioUnitario.invalid }">
 
                                 <label for="totalVenta">Total Venta</label>

@@ -17,6 +17,8 @@ import { AduanasComponent } from './operaciones/aduanas/list/aduanas.component';
 import { AduanasEditComponent } from './operaciones/aduanas/edit/aduanas-edit.component';
 import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimiento/preciodia-rendimiento.component';
 import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendimiento/edit/precio-dia-rendimiento-edit.component';
+import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
+import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
 
 const routes: Routes = [
   {
@@ -149,6 +151,22 @@ const routes: Routes = [
         data: {
           title: 'Precio Día Rendimiento'
         }
+      },
+      {
+        path: 'kardexProceso',
+        component:  KardexProcesoComponent,
+        data: {
+          title: 'Kardex'
+        }
+       
+      },
+      {
+        path: 'kardexProcesoEdit',
+        component:  KardexProcesoEditComponent,
+        data: {
+          title: 'Kardex'
+        }
+        
       }
     ]
   }

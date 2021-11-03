@@ -132,13 +132,13 @@ export class KardexProcesoEditComponent implements OnInit {
     }
   }
   async GetCertificado() {
-    const res = await this.maestroService.obtenerMaestros('TipoCertificacion').toPromise();
+    const res = await this.maestroService.obtenerMaestros('TipoCertificacionPlanta').toPromise();
     if (res.Result.Success) {
       this.listaCertificado = res.Result.Data;
     }
   }
   async GetCalidad() {
-    const res = await this.maestroService.obtenerMaestros('Calidad').toPromise();
+    const res = await this.maestroService.obtenerMaestros('CalidadPlanta').toPromise();
     if (res.Result.Success) {
       this.listaCalidad = res.Result.Data;
     }
@@ -335,12 +335,38 @@ export class KardexProcesoEditComponent implements OnInit {
     this.spinner.hide();
   }
 
- 
+
+  calcularKgIngresados()
+  {
+    this.calcularQQIngresados();
+    this.calcularSaldosKg();
+    this.calcularSaldosQq;
+  }
+  calcularKgDespachados()
+  {
+    this.calcularQQDespachados();
+    this.calcularSaldosKg();
+    this.calcularSaldosQq();
+  }
 calcularSaldosKg()
 {
   var KgIng = this.kardexProcesoEditForm.controls.kgIngresados.value;
   var KgDesp = this.kardexProcesoEditForm.controls.kgDespachados.value;
-  this.kardexProcesoEditForm.controls.saldosKg.setValue(Number(KgIng) - Number(KgDesp));
+  this.kardexProcesoEditForm.controls.saldosKg.setValue((Number(KgIng) - Number(KgDesp)).toFixed(2));  
+}
+
+calcularQQIngresados()
+{
+  var KgIng = Number(this.kardexProcesoEditForm.controls.kgIngresados.value);
+  this.kardexProcesoEditForm.controls.qqIngresados.setValue((KgIng/46).toFixed(2));
+  
+}
+
+calcularQQDespachados()
+{
+  
+  var KgDesp = Number(this.kardexProcesoEditForm.controls.kgDespachados.value);
+  this.kardexProcesoEditForm.controls.qqDespachados.setValue((KgDesp/46).toFixed(2));
   
 }
 
@@ -348,12 +374,12 @@ calcularSaldosQq()
 {
   var QqIng = this.kardexProcesoEditForm.controls.qqIngresados.value;
   var QqDesp = this.kardexProcesoEditForm.controls.qqDespachados.value;
-  this.kardexProcesoEditForm.controls.saldosQq.setValue(Number(QqIng) - Number(QqDesp));
+  this.kardexProcesoEditForm.controls.saldosQq.setValue((Number(QqIng) - Number(QqDesp)).toFixed(2));
 }
 
 
 
   Cancel(): void {
-    this.router.navigate(['/acopio/operaciones/kardexProceso']);
+    this.router.navigate(['/exportador/operaciones/kardexProceso']);
   }
 }

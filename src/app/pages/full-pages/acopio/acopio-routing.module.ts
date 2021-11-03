@@ -23,8 +23,6 @@ import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.compo
 import { ZonaListComponent } from './operaciones/zona/list/zona-list.component';
 import { ZonaEditComponent } from './operaciones/zona/edit/zona-edit.component';
 import { KardexComponent } from './operaciones/kardex/kardex.component';
-import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
-import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
 
 const routes: Routes = [
   {
@@ -192,22 +190,6 @@ const routes: Routes = [
         data: {
           title: 'Kardex'
         }
-      },
-      {
-        path: 'kardexProceso',
-        component:  KardexProcesoComponent,
-        data: {
-          title: 'Kardex'
-        }
-       
-      },
-      {
-        path: 'kardexProcesoEdit',
-        component:  KardexProcesoEditComponent,
-        data: {
-          title: 'Kardex'
-        }
-        
       }
     ]
   }

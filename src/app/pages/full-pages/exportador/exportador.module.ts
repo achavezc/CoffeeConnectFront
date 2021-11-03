@@ -34,6 +34,8 @@ import { AduanasEditComponent } from './operaciones/aduanas/edit/aduanas-edit.co
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimiento/preciodia-rendimiento.component';
 import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendimiento/edit/precio-dia-rendimiento-edit.component';
+import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
+import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendi
     AduanasComponent,
     AduanasEditComponent,
     PreciodiaRendimientoComponent,
-    PrecioDiaRendimientoEditComponent
+    PrecioDiaRendimientoEditComponent,
+    KardexProcesoComponent,
+    KardexProcesoEditComponent
   ],
   imports: [
     CommonModule,

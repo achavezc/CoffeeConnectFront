@@ -180,9 +180,6 @@
 			},
 			"Kardex": {
 				"Label": "Kardex"
-			},
-			"KardexProceso": {
-				"Label": "Kardex Proceso"
 			}
 		},
 		"Administracion": {
@@ -220,6 +217,9 @@
 		"Label": "Export",
 		"GestionExportacion": {
 			"Label": "Export Management"
+		},
+		"KardexProceso": {
+			"Label": "Kardex Proceso"
 		}
 	},
 	"Exportador": {
