@@ -139,7 +139,7 @@ export class CertificacionEditComponent implements OnInit {
     await this.GetEntidadCertificadora();
     this.certificacionEditForm.controls.tipoCertificacion.setValue(data.TipoCertificacionId);
     this.certificacionEditForm.controls.entidadCertificadora.setValue(data.EntidadCertificadoraId);
-    this.certificacionEditForm.controls.fechaEmision.setValue(formatDate(data.FechaCaducidad, 'yyyy-MM-dd', 'en'));
+    this.certificacionEditForm.controls.fechaEmision.setValue(formatDate(data.FechaEmision, 'yyyy-MM-dd', 'en'));
     this.certificacionEditForm.controls.fechaExpiracion.setValue(formatDate(data.FechaCaducidad, 'yyyy-MM-dd', 'en'));
 
     this.certificacionEditForm.controls.fileName.setValue(data.NombreArchivo);
@@ -303,6 +303,7 @@ export class CertificacionEditComponent implements OnInit {
       SocioFincaId: Number(this.SocioFincaId),
       EntidadCertificadoraId: this.certificacionEditForm.value.entidadCertificadora,
       TipoCertificacionId: this.certificacionEditForm.value.tipoCertificacion,
+      FechaEmision: new Date(this.certificacionEditForm.value.fechaEmision) ?? null,
       FechaCaducidad: new Date(this.certificacionEditForm.value.fechaExpiracion) ?? null,
       NombreArchivo:  this.certificacionEditForm.value.fileName,
       DescripcionArchivo:  "",
