@@ -55,6 +55,9 @@ export class CertificacionListComponent implements OnInit {
             var fecha = new Date(obj.FechaCaducidad);
             obj.FechaCaducidad = this.dateUtil.formatDate(fecha, "/");
 
+            var fechaEmision = new Date(obj.FechaEmision);
+            obj.FechaEmision = this.dateUtil.formatDate(fechaEmision, "/");
+
           });
           this.tempRows = res.Result.Data;
           this.rows = this.tempRows;
