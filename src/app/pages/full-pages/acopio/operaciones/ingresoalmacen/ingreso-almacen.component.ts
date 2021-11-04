@@ -389,9 +389,10 @@ export class IngresoAlmacenComponent implements OnInit {
 
   ProcesarGenerarLote(request: any[]): void {
     let form = this;
-    for (let i = 0; i < request.length; i++) {
+    //for (let i = 0; i < request.length; i++) {
       form.spinner.show();
-      this.loteService.Generar(request[i])
+      //this.loteService.Generar(request[i])
+      this.loteService.Generar(request[0])
         .subscribe((res: any) => {
           if (!res.Result.Success) {
             if (res.Result.Message && res.Result.ErrCode) {
@@ -410,7 +411,7 @@ export class IngresoAlmacenComponent implements OnInit {
           form.spinner.hide();
           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         });
-    }
+    //}
   }
 
   Anular(): void {
