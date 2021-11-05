@@ -229,15 +229,14 @@ export class KardexProcesoComponent implements OnInit {
           this.spinner.hide();
           if (res.Result.Success) {
             if (!res.Result.ErrCode) {
-             
+              res.Result.Data.forEach((obj: any) => {
+                obj.FechaIngreso =this.dateUtil.formatDate(obj.FechaIngreso);
+                obj.FechaFactura = this.dateUtil.formatDate(obj.FechaFactura);
+                obj.SaldosKg = obj.KilosIngresados - obj.KilosDespachados;
+                obj.SaldosQq = obj.QQIngresados - obj.QQDespachados;             
+              });
               if (!exportExcel) {
-                res.Result.Data.forEach((obj: any) => {
-                  obj.FechaIngreso =this.dateUtil.formatDate(obj.FechaIngreso);
-                  obj.FechaFactura = this.dateUtil.formatDate(obj.FechaFactura);
-                  obj.SaldosKg = obj.KilosIngresados - obj.KilosDespachados;
-                  obj.SaldosQq = obj.QQIngresados - obj.QQDespachados;             
-
-                });
+               
                 this.tempData = res.Result.Data;
                 this.rows = [...this.tempData];
               } else {
