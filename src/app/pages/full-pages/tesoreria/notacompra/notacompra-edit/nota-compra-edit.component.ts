@@ -266,9 +266,9 @@ export class NotaCompraEditComponent implements OnInit {
       this.notaCompraEditForm.controls.qqKgPC.setValue(data.QQ55);
       this.notaCompraEditForm.controls.precioGuardadoAT.setValue(data.PrecioGuardado);
       this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioPagado);
-      this.notaCompraEditForm.controls.importeAT.setValue(data.Importe);
+      
       this.notaCompraEditForm.controls.adelantoAT.setValue(data.TotalAdelanto);
-      this.notaCompraEditForm.controls.totalPagarAT.setValue(data.TotalPagar);
+      
 
       /*
       if (this.vUserSession && this.vUserSession.Result && this.vUserSession.Result.Data
@@ -291,6 +291,18 @@ export class NotaCompraEditComponent implements OnInit {
         this.notaCompraEditForm.controls.precioPagadoAT.setValue(this.precioDia);
       } else {
         this.notaCompraEditForm.controls.precioPagadoAT.setValue(data.PrecioGuardado);
+      }
+
+      if (data.EstadoId == '01')
+      {
+       let totalImporte =  data.KilosNetosPagar * Number(this.notaCompraEditForm.controls.precioPagadoAT.value);
+       this.notaCompraEditForm.controls.importeAT.setValue(totalImporte.toFixed(2));
+       let totalPagar = totalImporte - data.TotalAdelanto;
+       this.notaCompraEditForm.controls.totalPagarAT.setValue(totalPagar.toFixed(2));
+      }
+      else{
+        this.notaCompraEditForm.controls.importeAT.setValue(data.Importe);
+        this.notaCompraEditForm.controls.totalPagarAT.setValue(data.TotalPagar);
       }
 
       this.notaCompraEditForm.controls.observacionNotaCompra.setValue(data.Observaciones);
