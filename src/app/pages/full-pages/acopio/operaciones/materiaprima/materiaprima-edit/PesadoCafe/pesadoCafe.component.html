@@ -67,7 +67,7 @@
                 <div class="col-md-9">
                   <div class="position-relative has-icon-left">
                     <textarea id="bordered-form-6" rows="4" class="form-control" formControlName="observacionPesado"
-                      name="notes"
+                      name="notes" maxlength="1000"
                       [ngClass]="{ 'is-invalid': submittedEdit && pesadoFormGroup.controls.observacionPesado.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.observacionPesado.invalid }"></textarea>
                     <div class="form-control-position">
                       <i class="ft-file"></i>
@@ -156,7 +156,7 @@
                 <div class="col-md-9">
                   <div class="position-relative has-icon-left">
                     <textarea id="bordered-form-6" rows="4" formControlName="ObservacionAnalisisFisico"
-                      class="form-control" name="notes" disabled></textarea>
+                      class="form-control" name="notes" maxlength="1000"   disabled></textarea>
                     <div class="form-control-position">
                       <i class="ft-file"></i>
                     </div>
