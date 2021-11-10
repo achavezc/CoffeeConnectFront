@@ -338,7 +338,7 @@ export class NotaCompraEditComponent implements OnInit {
       Usuario: this.vUserSession.Result.Data.NombreUsuario,
       MonedaId: this.notaCompraEditForm.value.monedaAT,
       PrecioPagado: this.notaCompraEditForm.value.precioPagadoAT,
-      Importe: this.notaCompraEditForm.value.importeAT
+      Importe: Number(this.notaCompraEditForm.value.importeAT)
     }
 
     this.notaCompraService.Liquidar(request)
