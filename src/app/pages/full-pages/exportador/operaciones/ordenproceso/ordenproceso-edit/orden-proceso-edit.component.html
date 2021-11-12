@@ -470,7 +470,7 @@
                             <div class="form-group row">
                                 <label for="observaciones" class="col-lg-3 col-form-label">OBSERVACIONES</label>
                                 <div class="col-lg-9 pl-0">
-                                    <textarea name="observaciones" id="observaciones" class="form-control"
+                                    <textarea name="observaciones" id="observaciones" class="form-control"  maxlength="1000"
                                         [ngClass]="{ 'is-invalid': f.observaciones.invalid, 'is-valid': !f.observaciones.invalid }"
                                         formControlName="observaciones" rows="2" cols=""></textarea>
                                 </div>

@@ -406,7 +406,7 @@
                                         <div class="col-lg-9">
                                             <textarea class="form-control" id="observaciones"
                                                 formControlName="observaciones" rows="4" placeholder="Observaciones"
-                                                maxlength="500"
+                                                maxlength="1000"
                                                 [ngClass]="{ 'is-invalid': f.observaciones.invalid, 'is-valid': !f.observaciones.invalid }"></textarea>
                                         </div>
                                     </div>
@@ -801,12 +801,11 @@
                                 <div class="form-row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group row">
-                                            <label for="PriceLevelFixation" class="col-lg-5 col-form-label pr-0">PRECIO
-                                                NIVEL FIJACIÓN (1)</label>
+                                            <label for="PriceLevelFixation" class="col-lg-5 col-form-label pr-0">NIVEL FIJACIÓN (1)</label>
                                             <div class="col-lg-7">
                                                 <input type="number" class="form-control text-right"
                                                     formControlName="PriceLevelFixation" id="PriceLevelFixation"
-                                                    name="PriceLevelFixation" placeholder="Precio nivel fijación"
+                                                    name="PriceLevelFixation" placeholder="Nivel fijación"
                                                     (blur)="CalculatePUTotalA()"
                                                     [ngClass]="{ 'is-invalid': f.PriceLevelFixation.invalid, 'is-valid': !f.PriceLevelFixation.invalid }" />
                                             </div>
@@ -838,12 +837,12 @@
                                 <div class="form-row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group row">
-                                            <label for="PuTotalA" class="col-lg-4 col-form-label pr-0">PU TOTAL A (1 +
+                                            <label for="PuTotalA" class="col-lg-4 col-form-label pr-0">Precio por QQ A (1 +
                                                 2)</label>
                                             <div class="col-lg-8">
                                                 <input type="number" class="form-control text-right"
                                                     formControlName="PuTotalA" id="PuTotalA" name="PuTotalA"
-                                                    placeholder="PU Total A (1 + 2)" [readonly]="true"
+                                                    placeholder="Precio por QQ A (1 + 2)" [readonly]="true"
                                                     [ngClass]="{ 'is-invalid': f.PuTotalA.invalid, 'is-valid': !f.PuTotalA.invalid }" />
                                             </div>
                                         </div>
@@ -891,12 +890,12 @@
                                 <div class="form-row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group row">
-                                            <label for="PUTotalB" class="col-lg-4 col-form-label pr-0">PU TOTAL B (A -
+                                            <label for="PUTotalB" class="col-lg-4 col-form-label pr-0">Precio por QQ B (A -
                                                 NC/C)</label>
                                             <div class="col-lg-8">
                                                 <input type="number" class="form-control text-right"
                                                     formControlName="PUTotalB" id="PUTotalB" name="PUTotalB"
-                                                    placeholder="PU Total B" [readonly]="true"
+                                                    placeholder="Precio por QQ B" [readonly]="true"
                                                     [ngClass]="{ 'is-invalid': f.PUTotalB.invalid, 'is-valid': !f.PUTotalB.invalid }" />
                                             </div>
                                         </div>
@@ -944,7 +943,7 @@
                                 <div class="form-row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group row">
-                                            <label for="PUTotalC" class="col-lg-5 col-form-label pr-0">PU TOTAL C (B -
+                                            <label for="PUTotalC" class="col-lg-5 col-form-label pr-0">Precio por QQ C (B -
                                                 G.EX/Cs)</label>
                                             <div class="col-lg-7">
                                                 <input type="number" class="form-control text-right"

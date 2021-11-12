@@ -177,7 +177,7 @@
                 <div class="col-md-9">
                   <div class="position-relative has-icon-left">
                     <textarea id="bordered-form-6" rows="4" formControlName="observacion" class="form-control"
-                      name="notes"
+                      name="notes"  maxlength="1000"
                       [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.observacion.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.observacion.invalid }"></textarea>
                     <div class="form-control-position">
                       <i class="ft-file"></i>
