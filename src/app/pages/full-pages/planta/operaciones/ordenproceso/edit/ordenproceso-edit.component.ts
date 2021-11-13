@@ -476,7 +476,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     const form = this.ordenProcesoEditForm.value;
 
     const request = {
-      OrdenProcesoPlantaId: form.codeProcessOrder ? form.codeProcessOrder : 0,
+      OrdenProcesoPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       OrganizacionId: form.organizacionId ? form.organizacionId : 0,
       TipoProcesoId: this.ordenProcesoEditForm.controls["tipoProceso"].value ? this.ordenProcesoEditForm.controls["tipoProceso"].value : '',
@@ -497,14 +497,17 @@ export class OrdenProcesoEditComponent implements OnInit {
       PesoKilos:  this.ordenProcesoEditForm.controls["totalKilosBrutos"].value ? this.ordenProcesoEditForm.controls["totalKilosBrutos"].value : 0,
       CantidadContenedores: this.ordenProcesoEditForm.controls["cantidadContenedores"].value ? this.ordenProcesoEditForm.controls["cantidadContenedores"].value : 0,
       CantidadDefectos: this.ordenProcesoEditForm.controls["cantidadDefectos"].value ? this.ordenProcesoEditForm.controls["cantidadDefectos"].value : 0,
-      FechaInicioProceso: form.fechaFin ? form.fechaFin : '',
-      FechaFinProceso: form.fechaFin ? form.fechaFin : '',
+      FechaInicioProceso: form.fechaFin ? form.fechaFin : null,
+      FechaFinProceso: form.fechaFin ? form.fechaFin : null,
       Observacion: form.observaciones ? form.observaciones : '',
       EstadoId: '01',
       Usuario: this.userSession.Result.Data.NombreUsuario,
       OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoPlantaId)
     }
+    let json = JSON.stringify(request);
     return request;
+
+    
   }
 
   Save(): void {
@@ -604,12 +607,12 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
       this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
       this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
-      this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
-
+      this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion); 
       let empaque_tipo = '';
       if (data.EstadoId)
         this.ordenProcesoEditForm.controls.estado.setValue(data.EstadoId);
       if (data.OrdenProcesoId)
+      this.codeProcessOrder = data.OrdenProcesoId
         this.ordenProcesoEditForm.controls.idOrdenProceso.setValue(data.OrdenProcesoId);
       if (data.Numero)
         this.ordenProcesoEditForm.controls.nroOrden.setValue(data.Numero);
@@ -628,7 +631,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
       this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
       this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
-      //this.ordenProcesoEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
+      this.ordenProcesoEditForm.controls.organizacionId.setValue(data.OrganizacionId);
 
 
       this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
@@ -804,7 +807,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.NotaIngresoPlantaId = data.NotaIngresoPlantaId
 
       object.NumeroIngresoPlanta = data.NumeroNotaIngresoPlanta
-      object.FechaRegistro = this.dateUtil.formatDate(new Date(data.FechaNotaIngresoPlanta), "/")
+      object.FechaRegistro = this.dateUtil.formatDate(data.FechaNotaIngresoPlanta)
       object.RendimientoPorcentaje = data.RendimientoPorcentaje
       object.HumedadPorcentaje = data.HumedadPorcentaje
 
@@ -909,7 +912,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.NumeroGuiaRemision = data.NumeroGuiaRemision
       object.NumeroIngresoPlanta = data.Numero;
       object.FechaRegistroFinal = data.FechaRegistro;
-      object.FechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
+      object.FechaRegistro = this.dateUtil.formatDate(data.FechaRegistro);
       object.RendimientoPorcentaje = data.RendimientoPorcentaje;
       object.HumedadPorcentaje = data.HumedadPorcentaje;
 

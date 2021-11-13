@@ -55,6 +55,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     errorGenerico = { isError: false, msgError: '' };
     submitted
     vSessionUser: ILogin;
+    
     @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
 
     ngOnInit(): void {
