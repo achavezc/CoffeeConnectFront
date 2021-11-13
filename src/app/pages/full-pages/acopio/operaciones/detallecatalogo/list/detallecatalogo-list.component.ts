@@ -8,6 +8,7 @@ import { DetalleCatalogoService } from '../../../../../../services/detallecatalo
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { ILogin } from '../../../../../../services/models/login';
 
 @Component({
   selector: 'app-detallecatalogo',
@@ -42,6 +43,8 @@ export class DetalleCatalogoComponent implements OnInit {
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
+  vSessionUser: ILogin;
+
 
   ngOnInit(): void {
     this.LoadForm();
@@ -106,7 +109,7 @@ export class DetalleCatalogoComponent implements OnInit {
     return {
       IdCatalogo: this.preciosdiaform.value.producto ?? '',
       EstadoId: this.preciosdiaform.value.estado ?? '',
-      EmpresaId: 1
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     };
   }
 
