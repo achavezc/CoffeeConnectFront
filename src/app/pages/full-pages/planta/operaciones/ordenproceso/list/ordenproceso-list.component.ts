@@ -171,8 +171,8 @@ export class OrdenProcesoListComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
-          x.FechaInicioProceso = this.dateUtil.formatDate(new Date(x.FechaInicioProceso))
-          x.FechaRegistro =  this.dateUtil.formatDate(new Date(x.FechaRegistro));
+          x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
+          x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
           });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
