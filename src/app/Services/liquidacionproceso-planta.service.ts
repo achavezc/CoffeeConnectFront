@@ -33,11 +33,12 @@ export class LiquidacionProcesoPlantaService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  ConsultaPorId(id: number): Observable<any> {
+  ConsultaPorId(id: number, empresaId: number): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
 
     const body: any = {
-      LiquidacionProcesoPlantaId: id
+      LiquidacionProcesoPlantaId: id,
+      EmpresaId : empresaId
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
