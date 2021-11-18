@@ -49,6 +49,7 @@ export class DetalleCatalogoComponent implements OnInit {
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
+    this.vSessionUser= JSON.parse(localStorage.getItem("user"));
     //this.preciosdiaform.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     //this.preciosdiaform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
   }
