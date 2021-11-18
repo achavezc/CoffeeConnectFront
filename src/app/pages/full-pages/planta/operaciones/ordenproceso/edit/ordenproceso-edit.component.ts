@@ -13,6 +13,7 @@ import { OrdenProcesoService } from '../../../../../../services/orden-proceso.se
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
 import { host } from '../../../../../../shared/hosts/main.host';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-ordenproceso-edit',
@@ -208,8 +209,6 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.ordenProcesoEditForm.controls.grado.setValue(data.GradoId);
     this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
     this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
-    //this.ordenProcesoEditForm.controls.fechaInicio.setValue(data.EmpresaProcesadoraId);
-    //this.ordenProcesoEditForm.controls.fechaFin.setValue(data.EmpresaProcesadoraId);
 
     this.ordenProcesoEditForm.controls.empaque.disable();
     this.ordenProcesoEditForm.controls.tipo.disable();
@@ -664,6 +663,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
       this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
       this.ordenProcesoEditForm.controls.totalKilosBrutos.setValue(data.PesoKilos);
+      this.ordenProcesoEditForm.controls.fechaInicio.setValue(data.FechaInicioProceso == null ? "" : formatDate(data.FechaInicioProceso, 'yyyy-MM-dd', 'en'));
+      this.ordenProcesoEditForm.controls.fechaFin.setValue(data.FechaFinProceso == null ? "" :formatDate(data.FechaFinProceso, 'yyyy-MM-dd', 'en'));
       
 
 

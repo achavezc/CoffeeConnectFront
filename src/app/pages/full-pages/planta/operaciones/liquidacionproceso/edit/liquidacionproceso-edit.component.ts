@@ -57,7 +57,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   responsable: "";
   listResultProceso = [];
   popUp = true;
-  sumKilosNetos=0;
+  sumKilosNetos: any =0;
 
   @ViewChild(DatatableComponent) tblResultProceso: DatatableComponent;
 
@@ -96,7 +96,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   obtenerDetalle() {
     this.spinner.show();
-    this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id))
+    this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id), Number(this.login.Result.Data.EmpresaId))
       .subscribe(res => {
 
         if (res.Result.Success) {
@@ -240,12 +240,32 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   calcularCascarilla()
   {
-    var totalKilosNetos = Number(this.liquidacionProcesoFormEdit.controls["totalKilosNetos"].value);
+    var totalKilosNetos = Number(this.calcularTotalKilosNetosSCascarilla());
     //var kilosNetos = Number(this.formGroupKilosNetos.get('14%kilosNetos').value);
-     this.formGroupKilosNetos.controls["14%kilosNetos"].setValue(this.sumKilosNetos - totalKilosNetos);
+    var cascarilla = this.sumKilosNetos - totalKilosNetos;
+     this.formGroupKilosNetos.controls["14%kilosNetos"].setValue(cascarilla.toFixed(2));
      //var porcentajeKilosNetos = (kilosNetos / totalKilosNetos) * 100;
     // this.formGroupPorcentaje.get('14%porcentaje').setValue(porcentajeKilosNetos == 0 ? "" : porcentajeKilosNetos.toFixed(2));
      //this.calcularTotalPorcentaje();
+  }
+  calcularTotalKilosNetosSCascarilla() {
+    var totalKilosNetos = 0;
+    this.rowsResultProceso.forEach(x => {
+      if(x.Codigo != '14')
+      {
+      totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
+      }
+    });
+    this.liquidacionProcesoFormEdit.get('totalKilosNetos').setValue(totalKilosNetos);
+    return totalKilosNetos;
+  }
+  calcularTotalKilosNetos() {
+    var totalKilosNetos = 0;
+    this.rowsResultProceso.forEach(x => {
+      totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
+    });
+    this.liquidacionProcesoFormEdit.get('totalKilosNetos').setValue(totalKilosNetos);
+    return totalKilosNetos;
   }
 
   calcularPorcentaje() {
@@ -266,14 +286,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.get('totalPorcentaje').setValue(isNaN(totalPorcentaje) ? 0 : Math.round(totalPorcentaje));
   }
 
-  calcularTotalKilosNetos() {
-    var totalKilosNetos = 0;
-    this.rowsResultProceso.forEach(x => {
-      totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
-    });
-    this.liquidacionProcesoFormEdit.get('totalKilosNetos').setValue(totalKilosNetos);
-    return totalKilosNetos;
-  }
+  
 
   get fedit() {
     return this.liquidacionProcesoFormEdit.controls;
@@ -471,7 +484,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       form.listMateriaPrima.forEach(x => {
       totalKilosNetos = totalKilosNetos + x.KilosNetos
     });
-    this.sumKilosNetos = totalKilosNetos;
+    this.sumKilosNetos = totalKilosNetos.toFixed(2);
     }
     return totalKilosNetos;
   }
@@ -508,7 +521,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   ImprimirLiquidacionProceso() {
     let link = document.createElement('a');
     document.body.appendChild(link);
-    link.href = `${host}LiquidacionProcesoPlanta/GenerarPDFLiquidacionProceso?id=1`;
+    link.href = `${host}LiquidacionProcesoPlanta/GenerarPDFLiquidacionProceso?id=${this.id}&empresaId=${this.login.Result.Data.EmpresaId}`;
     link.download = "ListaProductoresGR.pdf"
     link.target = "_blank";
     link.click();
