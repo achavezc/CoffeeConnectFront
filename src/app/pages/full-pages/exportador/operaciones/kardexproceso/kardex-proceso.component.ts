@@ -345,7 +345,7 @@ export class KardexProcesoComponent implements OnInit {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
-          text: "¿Estas seguro de anular el Adelanto?",
+          text: "¿Estas seguro de anular el Kardex de Proceso?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#2F8BE6',
