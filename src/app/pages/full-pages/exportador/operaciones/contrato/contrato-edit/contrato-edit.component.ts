@@ -145,7 +145,7 @@ export class ContratoEditComponent implements OnInit {
       floId: [, Validators.required],
       condicionEmbarque: [, Validators.required],
       estadoPagoFactura: [],
-      fechaEmbarque: [],
+      fechaEmbarque: [, Validators.required],
       fechaPagoFactura: [],
       // fechaFactExp: [],
       pais: [],

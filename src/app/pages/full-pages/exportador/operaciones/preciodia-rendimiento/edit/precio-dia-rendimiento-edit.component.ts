@@ -97,8 +97,9 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
 
   Save() {
     const form = this;
-    if (this.rowsDetails.filter(x => !x.Valor1 || !x.Valor2).length <= 0) {
-      if (this.idPriceDayPerformance == 0) {
+    //if (this.rowsDetails.filter(x => !x.Valor1 || !x.Valor2).length <= 0) {
+      if (this.rowsDetails.filter(x => !x.Valor1).length <= 0) {  
+    if (this.idPriceDayPerformance == 0) {
 
         this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
           if (result.isConfirmed) {
@@ -115,7 +116,7 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
         });
       }
     } else {
-      this.alertUtil.alertWarning('VALIDACIÓN', 'Las columnas "Valor 1" y "Valor 2" de todas las filas son obligatorias.');
+      this.alertUtil.alertWarning('VALIDACIÓN', 'Las columnas "Valor 1" de todas las filas son obligatorias.');
     }
   }
 

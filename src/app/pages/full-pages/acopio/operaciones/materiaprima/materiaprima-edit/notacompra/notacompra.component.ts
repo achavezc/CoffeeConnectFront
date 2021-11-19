@@ -418,6 +418,7 @@ export class NotaCompraComponent implements OnInit {
       if (result.Result.Success) {
         let listaPrecios = [] as any;
         const precios = result.Result.Data.filter(x => x.RendimientoInicio <= exportPorcen && x.RendimientoFin >= exportPorcen);
+        
         listaPrecios.push({
           Label: precios[0].Valor1,
           Codigo: 1

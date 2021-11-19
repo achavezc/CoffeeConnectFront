@@ -36,12 +36,16 @@ export class ContratoComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   listProductos: any[];
   listTipoProduccion: any[];
+  listEstadoFijacion: any[];
+  listCondicionEmbarque: any[];
   listCalidad: any[];
   listEstados: any[];
   listTipoContrato: any[];
   selectedProducto: any;
   selectedTipoProduccion: any;
   selectedCalidad: any;
+  selectedCondicionEmbarque: any;
+  selectedEstadoFijacion: any;
   selectedEstado: any;
   selectedTipoContrato: any;
   selected = [];
@@ -78,6 +82,8 @@ export class ContratoComponent implements OnInit {
       producto: [],
       tipoProduccion: [],
       calidad: [],
+      estadoFijacion: [],
+      condicionEmbarque: [],
       estado: ['', Validators.required],
       tipoContrato: []
     });
@@ -137,6 +143,16 @@ export class ContratoComponent implements OnInit {
         form.listCalidad = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros('CondicionEmbarque', (res: any) => {
+      if (res.Result.Success) {
+        form.listCondicionEmbarque = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros('ContratoEstadoFijacion', (res: any) => {
+      if (res.Result.Success) {
+        form.listEstadoFijacion = res.Result.Data;
+      }
+    });
     this.maestroUtil.obtenerMaestros('TipoContrato', (res: any) => {
       if (res.Result.Success) {
         form.listTipoContrato = res.Result.Data;
@@ -154,6 +170,8 @@ export class ContratoComponent implements OnInit {
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
       EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
+      CondicionEmbarqueId: this.contratoForm.value.condicionEmbarque ? this.contratoForm.value.condicionEmbarque : '',
+      EstadoFijacionId: this.contratoForm.value.estadoFijacion ? this.contratoForm.value.estadoFijacion : '',
       TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : ''

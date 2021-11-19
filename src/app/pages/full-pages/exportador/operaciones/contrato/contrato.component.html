@@ -91,6 +91,26 @@
                                         [(ngModel)]="selectedTipoContrato">
                                     </ng-select>
                                 </div>
+
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="condicionEmbarque" class="form-label">Condición de Embarque</label>
+                                    <ng-select [items]="listCondicionEmbarque" formControlName="condicionEmbarque"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="condicionEmbarque"
+                                        placeholder="Seleccionar Condición de Embarque"
+                                        [ngClass]="{ 'is-invalid': f.condicionEmbarque.invalid, 'is-valid': !f.condicionEmbarque.invalid }"
+                                        [(ngModel)]="selectedCondicionEmbarque">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="EstadoFijacion" class="form-label">Estado de Fijación</label>
+                                    <ng-select [items]="listEstadoFijacion" formControlName="estadoFijacion" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estadoFijacion"
+                                        placeholder="Seleccionar Estado de Fijación"
+                                        [ngClass]="{ 'is-invalid': f.estadoFijacion.invalid, 'is-valid': !f.estadoFijacion.invalid }"
+                                        [(ngModel)]="selectedEstadoFijacion">
+                                    </ng-select>
+                                </div>   
+
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
