@@ -81,8 +81,8 @@ export class NotaCompraComponent implements OnInit {
         kiloNetoPagarPC: ['',],
         monedaAT: ['',],
         qqKgPC: ['',],
-        precioDiaAT: [],
-        precioGuardadoAT: ['',],
+        precioDiaAT: ['', Validators.required],
+        precioGuardadoAT: ['',  ],
         precioPagadoAT: ['',],
         importeAT: ['',],
         tipo: ['', Validators.required],
@@ -95,6 +95,9 @@ export class NotaCompraComponent implements OnInit {
       });
   }
 
+  get f() {
+    return this.notaCompraForm.controls;
+  }
   async LoadCombos() {
     let res: any;
 

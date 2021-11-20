@@ -169,7 +169,7 @@
                                     formControlName="dsctoHumedadPC" (change)="changeDescuentoHumedad()"
                                     class="form-control form-control-sm text-right"
                                     placeholder="Ingrese Dscto. Por Humedad"
-                                    [ngClass]="{ 'is-invalid': subedit && notaCompraForm.controls.dsctoHumedadPC.invalid, 'is-valid': subedit && !notaCompraForm.controls.dsctoHumedadPC.invalid }"
+                                    [ngClass]="{ 'is-invalid': f.dsctoHumedadPC.invalid, 'is-valid': !f.dsctoHumedadPC.invalid }"
                                     required>
                             </td>
                             <td class="col-2"></td>
@@ -202,7 +202,7 @@
                             <td class="col-2">
                                 <ng-select [items]="listTipo" formControlName="tipo"
                                     class="form-control form-control-sm" bindLabel="Label" bindValue="Codigo" id="tipo"
-                                    placeholder="Seleccione Tipo" [(ngModel)]="selectedTipo">
+                                    placeholder="Seleccione Tipo" [(ngModel)]="selectedTipo" [ngClass]="{ 'is-invalid': f.tipo.invalid, 'is-valid': !f.tipo.invalid }">
                                 </ng-select>
                             </td>
                             <td class="col-1"></td>
@@ -247,7 +247,7 @@
                             <td class="col-2" *ngIf="estadoId != estadoLiquidado">
                                 <ng-select [items]="listPreciosDia" formControlName="precioDiaAT" class="form-control"
                                     bindLabel="Label" bindValue="Codigo" id="precioDiaAT"
-                                    placeholder="Seleccionar precio" [(ngModel)]="selectedPrecioDia"
+                                    placeholder="Seleccionar precio" [(ngModel)]="selectedPrecioDia"  [ngClass]="{ 'is-invalid': f.precioDiaAT.invalid, 'is-valid': !f.precioDiaAT.invalid }"
                                     (change)="ChangePrecioDia($event)">
                                 </ng-select>
                             </td>
