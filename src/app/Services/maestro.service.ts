@@ -5,19 +5,21 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorHandling } from '../shared/util/error-handling';
 import { data } from '../shared/data/smart-data-table';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { ILogin } from '../services/models/login';
 
 @Injectable()
 export class MaestroService {
   private url = `${host}Maestro`;
+  vSessionUser: ILogin;
 
   constructor(private http: HttpClient, private errorHandling: ErrorHandling) { }
 
   obtenerMaestros(codigoTabla: string, lang?: string) {
     const url = `${this.url}/Consultar`;
-
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     const body: any = {
       CodigoTabla: codigoTabla,
-      EmpresaId: 1,
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       Idioma: lang
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);

@@ -496,7 +496,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       PesoKilos:  this.ordenProcesoEditForm.controls["totalKilosBrutos"].value ? this.ordenProcesoEditForm.controls["totalKilosBrutos"].value : 0,
       CantidadContenedores: this.ordenProcesoEditForm.controls["cantidadContenedores"].value ? this.ordenProcesoEditForm.controls["cantidadContenedores"].value : 0,
       CantidadDefectos: this.ordenProcesoEditForm.controls["cantidadDefectos"].value ? this.ordenProcesoEditForm.controls["cantidadDefectos"].value : 0,
-      FechaInicioProceso: form.fechaFin ? form.fechaFin : null,
+      FechaInicioProceso: form.fechaInicio ? form.fechaInicio : null,
       FechaFinProceso: form.fechaFin ? form.fechaFin : null,
       Observacion: form.observaciones ? form.observaciones : '',
       EstadoId: '01',
