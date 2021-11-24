@@ -338,15 +338,30 @@ export class KardexProcesoEditComponent implements OnInit {
 
   calcularKgIngresados()
   {
+    this. calcularNroSacosIngresados();
     this.calcularQQIngresados();
     this.calcularSaldosKg();
-    this.calcularSaldosQq;
+    this.calcularSaldosQq();
+    
   }
   calcularKgDespachados()
   {
+    this.calcularNroSacosDespachados();
     this.calcularQQDespachados();
     this.calcularSaldosKg();
     this.calcularSaldosQq();
+   
+  }
+
+  calcularNroSacosIngresados()
+  {
+    var numSacosIngresados = Number(this.kardexProcesoEditForm.controls["kgIngresados"].value)/69
+    this.kardexProcesoEditForm.controls["nroSacosIngresados"].setValue(numSacosIngresados.toFixed(2));
+  }
+  calcularNroSacosDespachados()
+  {
+    var numSacosDespechados = Number(this.kardexProcesoEditForm.controls["kgDespachados"].value)/69
+    this.kardexProcesoEditForm.controls["nroSacosDespachados"].setValue(numSacosDespechados.toFixed(2));
   }
 calcularSaldosKg()
 {

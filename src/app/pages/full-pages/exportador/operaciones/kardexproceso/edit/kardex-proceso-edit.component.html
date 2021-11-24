@@ -151,7 +151,7 @@
                             <label for="nroSacosIngresados">Nro. Sacos Ingresados</label>
                             <input type="number" name="nroSacosIngresados" id="nroSacosIngresados" formControlName="nroSacosIngresados"
                                 class="form-control" placeholder="Número de contrato" 
-                                [ngClass]="{ 'is-invalid': f.nroSacosIngresados.invalid, 'is-valid': !f.nroSacosIngresados.invalid }">
+                                [ngClass]="{ 'is-invalid': f.nroSacosIngresados.invalid, 'is-valid': !f.nroSacosIngresados.invalid }" disabled>
                             <label for="kgIngresados">Kg. Ingresados</label>
 
                             <input type="number" name="kgIngresados" id="kgIngresados" formControlName="kgIngresados"
@@ -183,7 +183,7 @@
                             <label for="nroSacosDespachados">Nro. Sacos Despachados</label>
                             <input type="number" name="nroSacosDespachados" id="nroSacosDespachados" formControlName="nroSacosDespachados"
                                 class="form-control" placeholder="Nro. Sacos Despachados" 
-                                [ngClass]="{ 'is-invalid': f.nroSacosDespachados.invalid, 'is-valid': !f.nroSacosDespachados.invalid }">
+                                [ngClass]="{ 'is-invalid': f.nroSacosDespachados.invalid, 'is-valid': !f.nroSacosDespachados.invalid }" disabled>
 
                                 <label for="kgDespachados">Kg. Despachados</label>
                                 <input type="number" name="kgDespachados" id="kgDespachados" formControlName="kgDespachados"
