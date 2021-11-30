@@ -229,7 +229,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       var kg = this.formGroupKg.get(x.Codigo + '%Kg').value;
       var kilosNetos = Number(valueSacos) * 69 + Number(kg);
       this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').setValue(kilosNetos == 0 ? "" : kilosNetos);
-      var qqKg = valueSacos / 46;
+      var qqKg = kilosNetos / 46;
       this.formGroupQqkg.get(x.Codigo + '%qqkg').setValue(qqKg == 0 ? "" : qqKg.toFixed(2));
     });
     this.calcularCascarilla();
