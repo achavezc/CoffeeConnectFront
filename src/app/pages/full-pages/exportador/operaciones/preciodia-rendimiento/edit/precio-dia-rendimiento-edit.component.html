@@ -103,6 +103,7 @@
                                     <div class="d-flex align-items-center">
                                         <input type="number" class="form-control form-control-sm text-right"
                                             value="{{val2}}" (blur)="UpdatesValuesResults($event, rowIndex, 'v2')"
+                                            [ngClass]="{ 'border-danger': !val2, '': val2 }"
                                             >
                                     </div>
                                 </ng-template>
