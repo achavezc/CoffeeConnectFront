@@ -493,14 +493,14 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-1">
-                    <div class="col-lg-7"></div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-8">
                         <button class="btn btn-sm btn-primary" type="button" (click)="addRow()">Agregar Fila</button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-7"></div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-8">
                         <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows">
                             <ngx-datatable-column [sortable]="false">
                                 <ng-template ngx-datatable-cell-template let-row=" row" let-anio="value"
@@ -533,14 +533,33 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
+                            <ngx-datatable-column name="Estimado (QQ)" prop="EstimadoQq" [sortable]="false">
+                                <ng-template let-row=" row" let-estimadoQq="value" ngx-datatable-cell-template
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control form-control-sm text-right"
+                                          aria-valuemin=""  [readonly]="true"  value="{{estimadoQq}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
 
                             <ngx-datatable-column name="Consumido (Kilos)" prop="Consumido" [sortable]="false">
                                 <ng-template let-row=" row" let-saldo="value" ngx-datatable-cell-template
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
                                         <input type="number" autofocus class="form-control form-control-sm text-right"
-                                            (blur)="UpdateValue($event, rowIndex, 'saldo')" aria-valuemin=""
-                                            [readonly]="true" value="{{saldo}}">
+                                            (blur)="UpdateValue($event, rowIndex, 'saldo')" aria-valuemin="" [readonly]="true"
+                                           value="{{saldo}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Consumido (QQ)" prop="ConsumidoQq" [sortable]="false">
+                                <ng-template let-row=" row" let-consumidoQq="value" ngx-datatable-cell-template
+                                    let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus class="form-control form-control-sm text-right"
+                                           aria-valuemin=""  [readonly]="true" value="{{consumidoQq}}">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>

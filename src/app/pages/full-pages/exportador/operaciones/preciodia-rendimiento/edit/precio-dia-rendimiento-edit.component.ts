@@ -174,12 +174,44 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
   }
 
   UpdatesValuesResults(e: any, i: any, prop: any): void {
-    if (prop === 'v1')
-      this.rowsDetails[i].Valor1 = parseFloat(e.target.value)
+    if (prop === 'v1'){
+      for(var x = i ; x <this.rowsDetails.length; x++) { 
+        if (x == i )
+        {
+          this.rowsDetails[x].Valor1 = Number(e.target.value);
+        }
+        else {
+        var z = Number(this.rowsDetails[ x - 1].Valor1);
+        this.rowsDetails[x].Valor1 = Number((z + 0.1).toFixed(2));
+        }
+     }
+  }
     else if (prop === 'v2')
-      this.rowsDetails[i].Valor2 = parseFloat(e.target.value)
+    {
+      for(var x = i ; x <this.rowsDetails.length; x++) { 
+        if (x == i )
+        {
+          this.rowsDetails[x].Valor2 = Number(e.target.value);
+        }
+        else {
+        var z = Number(this.rowsDetails[x - 1].Valor2);
+        this.rowsDetails[x].Valor2 =  Number((z + 0.1).toFixed(2));
+        }
+    }
+  }
     else if (prop === 'v3')
-      this.rowsDetails[i].Valor3 = parseFloat(e.target.value)
+      {
+        for(var x = i ; x <this.rowsDetails.length; x++) { 
+          if (x == i )
+          {
+            this.rowsDetails[x].Valor3 = Number(e.target.value);
+          }
+          else {
+          var z = Number(this.rowsDetails[x - 1].Valor3);
+          this.rowsDetails[x].Valor3 =  Number((z + 0.1).toFixed(2));
+          }
+      }
+      }
   }
 
   Cancel() {

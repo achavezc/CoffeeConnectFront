@@ -453,8 +453,19 @@ export class FincaEditComponent implements OnInit {
     if (data.EstadoId) {
       this.socioFincaEditForm.controls.estado.setValue(data.EstadoId);
     }
-    this.rows = data.FincaEstimado;
-
+    var lista = [];
+    data.FincaEstimado.forEach(x => {
+            var object = {};
+            object  =   {
+                    Anio : x.Anio,
+                    Consumido : x.Consumido,
+                    Estimado : x.Estimado,
+                    ConsumidoQq :  (x.Consumido / 60).toFixed(2) ,
+                    EstimadoQq : (x.Estimado / 60).toFixed(2)
+                      }
+            lista.push(object);
+    });
+    this.rows  = lista;
     this.socioFincaEditForm.controls.idProductorFinca.setValue(data.ProductorFincaId);
     this.codeFincaPartner = data.SocioFincaId;
     this.socioFincaEditForm.controls.idProductor.setValue(data.ProductorId);
@@ -642,7 +653,7 @@ export class FincaEditComponent implements OnInit {
   }
 
   addRow(): void {
-    this.rows = [...this.rows, { Anio: 0, Estimado: 0, ProductoId: '', Consumido: 0 }];
+    this.rows = [...this.rows, { Anio: 0, Estimado: 0, EstimadoQq: 0, ProductoId: '', Consumido: 0 ,  ConsumidoQq: 0 }];
   }
 
   EliminarFila(index: any): void {
@@ -655,6 +666,13 @@ export class FincaEditComponent implements OnInit {
       this.rows[index].Anio = parseFloat(event.target.value)
     } else if (prop === 'estimado') {
       this.rows[index].Estimado = parseFloat(event.target.value)
+      var num = parseFloat(event.target.value) / 60;
+      this.rows[index].EstimadoQq = num.toFixed(2);
     }
+    /*else if (prop === 'saldo') {
+      this.rows[index].Consumido = parseFloat(event.target.value)
+      var num = parseFloat(event.target.value) / 60;
+      this.rows[index].ConsumidoQq = num.toFixed(2);
+    }*/
   }
 }

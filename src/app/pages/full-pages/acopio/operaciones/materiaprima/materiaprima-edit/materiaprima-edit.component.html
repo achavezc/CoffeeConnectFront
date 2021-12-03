@@ -328,6 +328,22 @@
                     </ng-select>
                   </div>
                 </div>
+                <label for="basicInput">Estimado (Kilos)</label>
+                <div class="form-group">
+                  <div class="controls">
+                    <input type="text" class="form-control" formControlName="estimado" id="validationTooltip10"
+                      name="estimado" placeholder="Estimado"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.estimado.invalid, 'is-valid': submittedEdit && !fedit.estimado.invalid }" disabled />
+                  </div>
+                </div>
+                <label for="basicInput">Consumido (Kilos)</label>
+                <div class="form-group">
+                  <div class="controls">
+                    <input type="text" class="form-control" formControlName="consumido" id="validationTooltip10"
+                      name="consumido" placeholder="Consumido"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.consumido.invalid, 'is-valid': submittedEdit && !fedit.consumido.invalid }" disabled />
+                  </div>
+                </div>
               </div>
               <!--<div class="col-12 col-md-2">
                 <button type="button" class="btn btn-default" (click)="cargarProveedor()">
@@ -351,6 +367,22 @@
                       placeholder="Seleccionar Tipo Producción"
                       [ngClass]="{ 'is-invalid': submittedEdit && fedit.tipoProduccion.invalid, 'is-valid': submittedEdit && !fedit.tipoProduccion.invalid }">
                     </ng-select>
+                  </div>
+                </div>
+                <label for="basicInput">Estimado (QQ)</label>
+                <div class="form-group">
+                  <div class="controls">
+                    <input type="text" class="form-control" formControlName="estimadoQq" id="validationTooltip10"
+                      name="estimadoQq" placeholder="Estimado QQ"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.estimadoQq.invalid, 'is-valid': submittedEdit && !fedit.estimadoQq.invalid }" disabled />
+                  </div>
+                </div>
+                <label for="basicInput">Consumido (QQ)</label>
+                <div class="form-group">
+                  <div class="controls">
+                    <input type="text" class="form-control" formControlName="consumidoQq" id="validationTooltip10"
+                      name="consumidoQq" placeholder="Consumido QQ"
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.consumidoQq.invalid, 'is-valid': submittedEdit && !fedit.consumidoQq.invalid }" disabled/>
                   </div>
                 </div>
 

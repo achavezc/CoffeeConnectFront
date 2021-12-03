@@ -91,7 +91,7 @@
                                     let-rowIndex="rowIndex">
                                     <div class="d-flex align-items-center">
                                         <input type="number" autofocus class="form-control form-control-sm text-right"
-                                            value="{{val1}}" (blur)="UpdatesValuesResults($event, rowIndex, 'v1')"
+                                            value="{{val1}}" (input)="UpdatesValuesResults($event, rowIndex, 'v1')"
                                             [ngClass]="{ 'border-danger': !val1, '': val1 }">
                                     </div>
                                 </ng-template>

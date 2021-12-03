@@ -160,6 +160,10 @@ export class MateriaPrimaEditComponent implements OnInit {
         fechaPesado: ['',],
         totalPergamino: ['',],
         rendimiento: ['',],
+        estimado: ['',],
+        consumido: ['',],
+        estimadoQq: ['',],
+        consumidoQq:  ['',],
         saldoPendiente: [''],
         pesado: this.fb.group({
           unidadMedida: new FormControl('', [Validators.required]),
@@ -842,9 +846,15 @@ export class MateriaPrimaEditComponent implements OnInit {
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
               if (res.Result.Data != null) {
+                this.consultaMateriaPrimaFormEdit.controls["estimado"].setValue(res.Result.Data.Estimado);
+                this.consultaMateriaPrimaFormEdit.controls["consumido"].setValue(res.Result.Data.Consumido);
+                this.consultaMateriaPrimaFormEdit.controls["estimadoQq"].setValue(res.Result.Data.Estimado!= 0? (Number(res.Result.Data.Estimado) /60).toFixed(2) : "");
+                this.consultaMateriaPrimaFormEdit.controls["consumidoQq"].setValue(res.Result.Data.Consumido!= 0? (Number(res.Result.Data.Consumido) /60).toFixed(2) : "");
+
                 if (res.Result.Data.SaldoPendiente <= 0) {
                   this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].setValue("02");
                   this.consultaMateriaPrimaFormEdit.controls["tipoProduccion"].disable();
+                
                 }
                 else if (res.Result.Data.SaldoPendiente < this.consultaMateriaPrimaFormEdit.get('pesado').get("kilosBruto").value) {
                   this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
