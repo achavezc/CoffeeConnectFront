@@ -224,6 +224,7 @@ export class NotacompraListComponent implements OnInit {
                   new HeaderExcel("Estado", "center"),
                   new HeaderExcel("Tipo", "center"),
                   new HeaderExcel("KG. Neto a Pagar", "right"),
+                  new HeaderExcel("Precio Pagado", "right"),
                   new HeaderExcel("Importe", "right")
                 ];
 
@@ -240,6 +241,7 @@ export class NotacompraListComponent implements OnInit {
                     res.Result.Data[i].Estado,
                     res.Result.Data[i].Tipo,
                     res.Result.Data[i].KilosNetosPagar,
+                    res.Result.Data[i].PrecioPagado,
                     res.Result.Data[i].Importe
                   ]);
                 }

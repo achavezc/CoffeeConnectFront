@@ -399,6 +399,8 @@ export class MateriaPrimaListComponent implements OnInit {
                   new HeaderExcel("Cantidad", "right"),
                   new HeaderExcel("Kilos Brutos", "right"),
                   new HeaderExcel("Kilos Netos", "right"),
+                  new HeaderExcel("Rendimiento", "right"),
+                  new HeaderExcel("Humedad", "right"),
                   new HeaderExcel("Fecha Registro", "center", "dd/mm/yyyy"),
                   new HeaderExcel("Estado", "center")
                 ];
@@ -416,6 +418,8 @@ export class MateriaPrimaListComponent implements OnInit {
                     this.tempData[i].CantidadPesado,
                     this.tempData[i].KilosBrutosPesado,
                     this.tempData[i].KilosNetosPesado,
+                    this.tempData[i].ExportablePorcentajeAnalisisFisico,
+                    this.tempData[i].HumedadPorcentajeAnalisisFisico,
                     new Date(this.tempData[i].FechaRegistro),
                     this.tempData[i].Estado
                   ]);
