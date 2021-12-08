@@ -15,7 +15,7 @@ export class KardexService {
     private errorHandling: ErrorHandling) { }
 
   Descargar() {
-    const url = `${this.url}/GenerarKardex`;
+    const url = `${this.url}/GenerarKardex?fechaInicio=01-10-2020&fechaFin=01-11-2022&empresaId=1`;
     return this.http.get(url, null);
   }
 }

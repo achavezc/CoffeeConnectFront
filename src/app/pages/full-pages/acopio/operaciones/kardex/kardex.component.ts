@@ -34,6 +34,7 @@ export class KardexComponent implements OnInit {
   }
 
   Generar() {
+    /*
     this.kardexService.Descargar().subscribe((res) => {
       // this.blob = new Blob([data], { type: 'application/pdf' });
 
@@ -45,14 +46,15 @@ export class KardexComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
-    // let link = document.createElement('a');
-    // document.body.appendChild(link);
-    // link.href = `${host}kardex/GenerarKardex`;
-    // //http://localhost:62742/api/Kardex/GenerarKardex
-    // link.download = "NotaCompra.pdf"
-    // link.target = "_blank";
-    // link.click();
-    // link.remove();
+    */
+     let link = document.createElement('a');
+     document.body.appendChild(link);
+     link.href = `${host}kardex/GenerarKardex?fechaInicio=01-10-2020&fechaFin=01-11-2022&empresaId=1`;
+     //http://localhost:62742/api/Kardex/GenerarKardex
+     link.download = "KardexPergamino.pdf"
+     link.target = "_blank";
+     link.click();
+     link.remove();
   }
 
 }
