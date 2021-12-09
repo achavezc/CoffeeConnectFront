@@ -12,20 +12,15 @@
                     <div class="card-body">
                         <form class="needs-validation" [formGroup]="frmKardex">
                             <div class="form-row">
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaRecepcion" class="form-label">Fecha Recepción</label>
+                                <div class="col-md-6 mb-6 form-group mb-2">
+                                    <label for="fechaRecepcion" class="form-label">Fecha Inicio</label>
                                     <input type="date" date formControlName="fechaRecepcion"
                                         class="form-control" id="fechaRecepcion" placeholder="Número de lote"
                                         [ngClass]="{ 'is-invalid': f.fechaRecepcion.invalid, 'is-valid': !f.fechaRecepcion.invalid }">
                                 </div>
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nroGuiaRecepcion" class="form-label">Nro Guia de Recepción</label>
-                                    <input type="date" date formControlName="nroGuiaRecepcion"
-                                        class="form-control" id="nroGuiaRecepcion" placeholder="Número de lote"
-                                        [ngClass]="{ 'is-invalid': f.nroGuiaRecepcion.invalid, 'is-valid': !f.nroGuiaRecepcion.invalid }">
-                                </div>
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="fechaNotaCompra" class="form-label">Fecha Nota de Compra</label>
+                                
+                                <div class="col-md-6 mb-6 form-group mb-2">
+                                    <label for="fechaNotaCompra" class="form-label">Fecha Fin</label>
                                     <input type="date" date formControlName="fechaNotaCompra"
                                         class="form-control" id="fechaNotaCompra" placeholder="Número de lote"
                                         [ngClass]="{ 'is-invalid': f.fechaNotaCompra.invalid, 'is-valid': !f.fechaNotaCompra.invalid }">
