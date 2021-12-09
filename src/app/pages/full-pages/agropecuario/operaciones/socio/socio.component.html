@@ -85,6 +85,19 @@
                                         placeholder="Seleccionar estado" [(ngModel)]="selectedEstado">
                                     </ng-select>
                                 </div>
+                                
+
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                <label for="validationTooltip09" class="form-label">Certificacion</label>
+                                
+                                <ng-select [items]="listCertificacion" bindLabel="name" [(ngModel)]="selectedCertificacion"
+                                formControlName="certificacion" bindLabel="Label" bindValue="Codigo" class="form-control"
+                                placeholder="Seleccionar Certificacion" [multiple]="true"
+                                [ngClass]="{ 'is-invalid':f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }">
+                            </ng-select>
+                           
+                        </div>
+
                             </div>
 
                             <small class="form-text text-muted danger mb-1"

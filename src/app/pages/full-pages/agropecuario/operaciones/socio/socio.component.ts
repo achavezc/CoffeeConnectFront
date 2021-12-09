@@ -51,6 +51,9 @@ export class SocioComponent implements OnInit {
   @Input() popUp = false;
   page: any;
   @Output() agregarEvent = new EventEmitter<any>();
+  listCertificacion: [] = [];
+  selectedCertificacion: any;
+
 
   vSessionUser: any;
   ngOnInit(): void {
@@ -71,7 +74,8 @@ export class SocioComponent implements OnInit {
       nombRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
-      estado: ['', [Validators.required]]
+      estado: ['', [Validators.required]],
+      certificacion: []
     });
     this.socioListForm.setValidators(this.comparisonValidator());
   }
@@ -98,6 +102,12 @@ export class SocioComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("TipoDocumento", function (res) {
       if (res.Result.Success) {
         form.listTiposDocumentos = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("Certificacion", function (res) {
+      if (res.Result.Success) {
+        form.listCertificacion = res.Result.Data;
       }
     });
   }
@@ -169,7 +179,8 @@ export class SocioComponent implements OnInit {
         EstadoId: this.socioListForm.controls["estado"].value ?? '',
         FechaInicio: new Date(this.socioListForm.value.fechaInicio),
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-        FechaFin: new Date(this.socioListForm.value.fechaFin)
+        FechaFin: new Date(this.socioListForm.value.fechaFin),
+        Certificacion :  this.socioListForm.controls["certificacion"].value ? this.socioListForm.controls["certificacion"].value.join('|') : ''
       };
 
       this.spinner.show();
