@@ -344,7 +344,7 @@
                         <div class="col-8">
                             <input type="number" name="distanciaKM" id="distanciaKM" formControlName="distanciaKM"
                                 [ngClass]="{ 'is-invalid': f.distanciaKM.invalid, 'is-valid': !f.distanciaKM.invalid }"
-                                class="form-control text-right" placeholder="Ingresar distancia KM">
+                                class="form-control" placeholder="Ingresar distancia KM">
                         </div>
                     </div>
                 </div>
@@ -354,7 +354,7 @@
                         <div class="col-8">
                             <input type="number" name="tiempoTotal" id="tiempoTotal" formControlName="tiempoTotal"
                                 [ngClass]="{ 'is-invalid': f.tiempoTotal.invalid, 'is-valid': !f.tiempoTotal.invalid }"
-                                class="form-control text-right" placeholder="Ingresar tiempo total">
+                                class="form-control" placeholder="Ingresar tiempo total">
                         </div>
                     </div>
                 </div>
@@ -373,12 +373,29 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group row">
-                        <label for="cultivo" class="col-4 col-form-label pr-0">Cultivo</label>
+                        <label for="validationTooltip09" class="col-4 col-form-label pr-0">Variedad</label>
+                        <div class="col-8">
+                        <ng-select [items]="listVariedad" bindLabel="name" [(ngModel)]="selectedVariedad"
+                        formControlName="cultivo" bindLabel="Label" bindValue="Codigo" class="form-control"
+                        placeholder="Seleccionar Variedad" [multiple]="true"
+                        [ngClass]="{ 'is-invalid':f.cultivo.invalid, 'is-valid': !f.cultivo.invalid }">
+                      </ng-select>
+                    </div>
+                       <!--<div class="checkbox" class="col-4 col-form-label pr-0">
+                            <input type="checkbox" 
+                              formControlName="cultivo">
+                            <label class="label-checkbox">Variedad</label>
+                          </div>--> 
+
+
+                      <!--  <label for="cultivo" class="col-4 col-form-label pr-0">Cultivo</label>
                         <div class="col-8">
                             <input type="text" name="cultivo" id="cultivo" formControlName="cultivo"
                                 [ngClass]="{ 'is-invalid': f.cultivo.invalid, 'is-valid': !f.cultivo.invalid }"
                                 class="form-control" placeholder="Ingresar cultivo">
                         </div>
+
+                        -->
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">

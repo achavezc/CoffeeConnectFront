@@ -50,12 +50,14 @@ export class FincaEditComponent implements OnInit {
   listEstableSalud: any[];
   listFlagsCentroEducativo: any[];
   listCentrosEducativos: any[];
+  listVariedad: any[];
   selectedDepartamento: any;
   selectedProvincia: any;
   selectedFuenteEnergia: any;
   selectedDistrito: any;
   selectedFuenteAgua: any;
   selectedMaterialVivienda: any;
+  selectedVariedad: any;
   
   selectedZona: any;
   selectedInternet: any;
@@ -335,6 +337,11 @@ export class FincaEditComponent implements OnInit {
     if (res.Result.Success) {
       this.listSenialTelefonica = res.Result.Data;
     }
+
+    res = await this.maestroService.obtenerMaestros('VariedadCafe').toPromise();
+    if (res.Result.Success) {
+      this.listVariedad = res.Result.Data;
+    }
   }
 
   
@@ -441,7 +448,7 @@ export class FincaEditComponent implements OnInit {
       this.socioFincaEditForm.controls.medioTransporte.setValue(data.MedioTransporte);
     }
     if (data.Cultivo) {
-      this.socioFincaEditForm.controls.cultivo.setValue(data.Cultivo);
+      this.socioFincaEditForm.controls.cultivo.setValue(data.Cultivo.split('|').map(String));
     }
     if (data.Precipitacion) {
       this.socioFincaEditForm.controls.precipitacion.setValue(data.Precipitacion);
@@ -560,7 +567,7 @@ export class FincaEditComponent implements OnInit {
       DistanciaKilometrosCentroAcopio: this.socioFincaEditForm.controls["distanciaKM"].value ?? null,
       TiempoTotalFincaCentroAcopio: this.socioFincaEditForm.controls["tiempoTotal"].value ?? null,
       MedioTransporte: this.socioFincaEditForm.controls["medioTransporte"].value,
-      Cultivo: this.socioFincaEditForm.controls["cultivo"].value,
+      Cultivo: this.socioFincaEditForm.controls["cultivo"].value ? this.socioFincaEditForm.controls["cultivo"].value.join('|') : '',
       Precipitacion: this.socioFincaEditForm.controls["precipitacion"].value,
       CantidadPersonalCosecha: this.socioFincaEditForm.controls["nroPersonalCosecha"].value ?? null,
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
