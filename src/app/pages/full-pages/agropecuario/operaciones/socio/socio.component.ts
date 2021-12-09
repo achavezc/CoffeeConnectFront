@@ -105,7 +105,7 @@ export class SocioComponent implements OnInit {
       }
     });
 
-    this.maestroUtil.obtenerMaestros("Certificacion", function (res) {
+    this.maestroUtil.obtenerMaestros("TipoCertificacion", function (res) {
       if (res.Result.Success) {
         form.listCertificacion = res.Result.Data;
       }
