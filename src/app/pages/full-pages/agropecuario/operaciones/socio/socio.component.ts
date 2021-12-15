@@ -244,7 +244,9 @@ export class SocioComponent implements OnInit {
       NumeroDocumento: this.socioListForm.value.nroDocumento,
       EstadoId: this.socioListForm.value.estado ?? '',
       FechaInicio: new Date(this.socioListForm.value.fechaInicio),
-      FechaFin: new Date(this.socioListForm.value.fechaFin)
+      FechaFin: new Date(this.socioListForm.value.fechaFin),
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
+      Certificacion :  this.socioListForm.controls["certificacion"].value ? this.socioListForm.controls["certificacion"].value.join('|') : ''
     };
 
     this.socioService.Consultar(request)
