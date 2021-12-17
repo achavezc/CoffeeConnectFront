@@ -86,7 +86,8 @@ export class MateriaPrimaEditComponent implements OnInit {
   saldoPendienteKG: any = 0;
   totalKilosNetos: any = 0;
   tipoProductoCafePg = "01";
-
+  readonly = false;
+  vSessionUser: any;
   @ViewChild(PesadoCafeComponent) child;
 
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
@@ -112,6 +113,7 @@ export class MateriaPrimaEditComponent implements OnInit {
     this.cargarForm();
     this.cargarcombos();
     this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.route.queryParams
       .subscribe(params => {
         this.status = params.status;
@@ -130,6 +132,26 @@ export class MateriaPrimaEditComponent implements OnInit {
       }
       );
     
+    //validacion de readonly
+    if(this.esModoEscritura(this.vSessionUser.Result.Data.OpcionesEscritura)){
+      this.consultaMateriaPrimaFormEdit.enable();
+      this.readonly= false;
+    }else {
+      this.consultaMateriaPrimaFormEdit.disable();
+      this.readonly= true;
+    }
+    //validacion de readonly
+  }
+  esModoEscritura(listaOpciones){
+    var result = true;
+    var pathActual = this.router.url;
+    const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
+    if(validOpcion.length > 0){
+      result = true;
+    }else{
+      result = false;
+    }
+    return result;  
   }
 
   cargarForm() {

@@ -42,7 +42,7 @@ export class MateriaPrimaListComponent implements OnInit {
   estadoAnalizado = "02";
   @ViewChild(DatatableComponent) table: DatatableComponent;
   vSessionUser: any;
-
+  readonly = false;
   // row data
   public rows = [];
   public ColumnMode = ColumnMode;
@@ -90,6 +90,28 @@ export class MateriaPrimaListComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.consultaMateriaPrimaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.consultaMateriaPrimaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    //validacion de readonly
+    if(this.esModoEscritura(this.vSessionUser.Result.Data.OpcionesEscritura)){
+      this.consultaMateriaPrimaForm.enable();
+      this.readonly= false;
+    }else {
+      //this.consultaMateriaPrimaForm.disable();
+      this.readonly= true;
+    }
+    //validacion de readonly
+  }
+
+  
+  esModoEscritura(listaOpciones){
+    var result = true;
+    var pathActual = this.router.url;
+    const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
+    if(validOpcion.length > 0){
+      result = true;
+    }else{
+      result = false;
+    }
+    return result;  
   }
 
   cargarForm() {
