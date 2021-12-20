@@ -240,8 +240,8 @@ export class LotesComponent implements OnInit {
                     res.Result.Data[i].TotalKilosBrutosPesado,
                     res.Result.Data[i].TotalKilosNetosPesado,
                     res.Result.Data[i].TotalAnalisisSensorial,
-                    res.Result.Data[i].PromedioRendimientoPorcentaje,
-                    res.Result.Data[i].PromedioHumedadPorcentaje,
+                    res.Result.Data[i].RendimientoPorcentaje,
+                    res.Result.Data[i].HumedadPorcentajeAnalisisFisico,
                     res.Result.Data[i].Estado
                   ]);
                 }
