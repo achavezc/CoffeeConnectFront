@@ -83,6 +83,8 @@ export class DetalleLoteComponent implements OnInit {
         object.CantidadPesado = x.CantidadPesado;
         object.KilosBrutosPesado = x.KilosBrutosPesado;
         object.KilosNetosPesado = x.KilosNetosPesado;
+        object.KilosNetosPagar =  Number(x.KilosNetosPagar)? Number(x.KilosNetosPagar) : 0;
+       
         object.TotalAnalisisSensorial = x.TotalAnalisisSensorial;
         object.RendimientoPorcentaje = x.RendimientoPorcentaje;
         object.HumedadPorcentaje = x.HumedadPorcentajeAnalisisFisico;
