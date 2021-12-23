@@ -119,6 +119,7 @@ export class IngresoAlmacenEditComponent implements OnInit {
         unidadMedida: new FormControl('', []),
         cantidad: new FormControl('', []),
         kilosBruto: new FormControl('', []),
+        kilosNetosPagar: new FormControl('', []),
         tara: new FormControl('', []),
         observacionPesado: new FormControl('', []),
         exportGramos: new FormControl('', []),
@@ -241,7 +242,8 @@ export class IngresoAlmacenEditComponent implements OnInit {
     this.consultaMateriaPrimaFormEdit.controls["humedad"].setValue(data.HumedadPorcentajeAnalisisFisico);
     this.consultaMateriaPrimaFormEdit.controls["puntajeFinal"].setValue(data.TotalAnalisisSensorial);
     this.consultaMateriaPrimaFormEdit.controls["almacen"].setValue(data.AlmacenId);
-
+    this.consultaMateriaPrimaFormEdit.controls["kilosNetosPagar"].setValue(data.KilosNetosPagar);
+    
 
     var form = this;
     if (data.AnalisisSensorialDefectoDetalle != null) {
