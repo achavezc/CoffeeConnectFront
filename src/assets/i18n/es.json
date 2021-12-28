@@ -195,8 +195,8 @@
 				{
 					"Label":"Control Calidad Externa"
 				},
-				"Kardex": {
-					"Label": "Kardex"
+				"KardexPergamino": {
+					"Label": "Kardex Pergamino"
 				}
 		},
 		"Administracion":
@@ -305,6 +305,10 @@
 	"Transporte":
 	{
 		"Label":"Transporte"
+	},
+	"Almacen":
+	{
+		"Label":"Almacén"
 	},
 	"Exportacion": {
 		"Label": "Exportación",
