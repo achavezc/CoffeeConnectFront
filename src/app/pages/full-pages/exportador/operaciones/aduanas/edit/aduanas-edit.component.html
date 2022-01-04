@@ -424,6 +424,197 @@
                             </div>
                         </div>
 
+                        <div class="row"
+                            style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                            <div class="card-subtitle-form">DATOS DEL CARGAMENTO A EMBARCAR</div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" type="button"
+                                        (click)="addRowDetail()">+</button>
+                                    <label class="text-danger ml-2">*Todos los campos son obligatorios</label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
+                                        [loadingIndicator]="isLoading" [scrollbarH]="false"  [selectionType]="'single'"  >
+
+                                        <ngx-datatable-column [sortable]="false" width="40">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger pt-0 pb-0"
+                                                        (click)="DeleteRowDetail(rowIndex)">-</button>
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Cantidad" prop="NroNotaIngresoPlanta" width="80"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-nroNotaIP="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="text" autofocus class="form-control form-control-sm"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'nroNotaIP')"
+                                                        [ngClass]="{ 'border-danger': !nroNotaIP, '': nroNotaIP }"
+                                                        value="{{nroNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Peso por Saco Kilos" prop="FechaNotaIngresoPlanta"  width="90"
+                                            [sortable]="false" width="180">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-fecNotaIP="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="text" autofocus class="form-control form-control-sm"
+                                                    (blur)="UpdateValuesGridDetails($event, rowIndex, 'nroNotaIP')"
+                                                    [ngClass]="{ 'border-danger': !nroNotaIP, '': nroNotaIP }"
+                                                    value="{{nroNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Total Kilos Netos" prop="RendimientoPorcentaje"  width="120"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row"
+                                                let-rendimiento="value" let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !rendimiento, '': rendimiento }"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'rendimiento')"
+                                                        value="{{rendimiento}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Nro Contenedor a Embarcar" prop="HumedadPorcentaje"  width="120"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-humedad="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !humedad, '': humedad }"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'humedad')"
+                                                        value="{{humedad}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Fecha Salidad a Planta" prop="CantidadSacos"  width="140"
+                                            [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-cantSacos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="date" date autofocus
+                                                    class="form-control form-control-sm text-center"
+                                                    [ngClass]="{ 'border-danger': !fecNotaIP, '': fecNotaIP }"
+                                                    (blur)="UpdateValuesGridDetails($event, rowIndex, 'fecNotaIP')"
+                                                    value="{{fecNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Fecha Zarpe Nave" prop="KilosBrutos" [sortable]="false"  width="130"> 
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klBrutos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="date" date autofocus
+                                                    class="form-control form-control-sm text-center"
+                                                    [ngClass]="{ 'border-danger': !fecNotaIP, '': fecNotaIP }"
+                                                    (blur)="UpdateValuesGridDetails($event, rowIndex, 'fecNotaIP')"
+                                                    value="{{fecNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Fecha Fac./Exp." prop="Tara" [sortable]="false"  width="120">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-tara="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="date" date autofocus
+                                                    class="form-control form-control-sm text-center"
+                                                    [ngClass]="{ 'border-danger': !fecNotaIP, '': fecNotaIP }"
+                                                    (blur)="UpdateValuesGridDetails($event, rowIndex, 'fecNotaIP')"
+                                                    value="{{fecNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Puerto" prop="KilosNetos" [sortable]="false"  width="70">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klNetos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !klNetos, '': klNetos }"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'klNetos')"
+                                                        value="{{klNetos}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Marca" prop="KilosNetos" [sortable]="false" width="70">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klNetos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !klNetos, '': klNetos }"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'klNetos')"
+                                                        value="{{klNetos}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="PO#" prop="KilosNetos" [sortable]="false" width="60">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klNetos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !klNetos, '': klNetos }"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'klNetos')"
+                                                        value="{{klNetos}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Estatus de Embarque" prop="KilosNetos" [sortable]="false" width="100">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klNetos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" autofocus
+                                                        class="form-control form-control-sm text-right"
+                                                        [ngClass]="{ 'border-danger': !klNetos, '': klNetos }"
+                                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'klNetos')"
+                                                        value="{{klNetos}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+
+                                        <ngx-datatable-column name="Fecha de Estampado" prop="KilosNetos" [sortable]="false" width="130">
+                                            <ng-template ngx-datatable-cell-template let-row="row" let-klNetos="value"
+                                                let-rowIndex="rowIndex">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="date" date autofocus
+                                                    class="form-control form-control-sm text-center"
+                                                    [ngClass]="{ 'border-danger': !fecNotaIP, '': fecNotaIP }"
+                                                    (blur)="UpdateValuesGridDetails($event, rowIndex, 'fecNotaIP')"
+                                                    value="{{fecNotaIP}}">
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+
+                                    </ngx-datatable>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row" style="margin-top: 2rem; margin-right: 6rem; margin-left: 6rem;">
                             <small class="form-text text-muted danger"

@@ -63,7 +63,7 @@ export class AduanasEditComponent implements OnInit {
   listEstadoEnvio: any[];
   selectEstadoEnvio: any;
 
-
+  rowsDetails = [];
   constructor(private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
@@ -183,6 +183,46 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('agencia').setValue(this.selectEmpresa[0].RazonSocial);
     this.modalService.dismissAll();
   }
+  
+  addRowDetail(): void {
+    this.rowsDetails = [...this.rowsDetails, {
+      OrdenProcesoId: 0,
+      OrdenProcesoDetalleId: 0,
+      NroNotaIngresoPlanta: '',
+      FechaNotaIngresoPlanta: '',
+      RendimientoPorcentaje: 0,
+      HumedadPorcentaje: 0,
+      CantidadSacos: 0,
+      KilosBrutos: 0,
+      Tara: 0,
+      KilosNetos: 0
+    }];
+  }
+  
+  DeleteRowDetail(index: any): void {
+    this.rowsDetails.splice(index, 1);
+    this.rowsDetails = [...this.rowsDetails];
+  }
+  
+  UpdateValuesGridDetails(event: any, index: any, prop: any): void {
+    if (prop === 'nroNotaIP')
+      this.rowsDetails[index].NroNotaIngresoPlanta = event.target.value;
+    else if (prop === 'fecNotaIP')
+      this.rowsDetails[index].FechaNotaIngresoPlanta = event.target.value;
+    else if (prop === 'rendimiento')
+      this.rowsDetails[index].RendimientoPorcentaje = parseFloat(event.target.value)
+    else if (prop === 'humedad')
+      this.rowsDetails[index].HumedadPorcentaje = parseFloat(event.target.value)
+    else if (prop === 'cantSacos')
+      this.rowsDetails[index].CantidadSacos = parseFloat(event.target.value)
+    else if (prop === 'klBrutos')
+      this.rowsDetails[index].KilosBrutos = parseFloat(event.target.value)
+    else if (prop === 'tara')
+      this.rowsDetails[index].Tara = parseFloat(event.target.value)
+    else if (prop === 'klNetos')
+      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value)
+  }
+
 
   receiveMessageExportador($event) {
 
