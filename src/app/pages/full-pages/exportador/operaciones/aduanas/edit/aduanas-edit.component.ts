@@ -186,16 +186,18 @@ export class AduanasEditComponent implements OnInit {
   
   addRowDetail(): void {
     this.rowsDetails = [...this.rowsDetails, {
-      OrdenProcesoId: 0,
-      OrdenProcesoDetalleId: 0,
-      NroNotaIngresoPlanta: '',
-      FechaNotaIngresoPlanta: '',
-      RendimientoPorcentaje: 0,
-      HumedadPorcentaje: 0,
-      CantidadSacos: 0,
-      KilosBrutos: 0,
-      Tara: 0,
-      KilosNetos: 0
+      Cantidad: 0,
+      PesoPorSacoKilos: 0,
+      TotalKilosNetos: 0,
+      NumeroContenedorEmbarcar: 0,
+      FechaSalidaPlanta: '',
+      FechaZarpeNave: '',
+      FechaFacturacion: '',
+      Puerto: '',
+      Marca: '',
+      PO: '',
+      EstadoSeguimientoId: 0,
+      FechaEstampado: ''
     }];
   }
   
@@ -205,22 +207,31 @@ export class AduanasEditComponent implements OnInit {
   }
   
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-    if (prop === 'nroNotaIP')
-      this.rowsDetails[index].NroNotaIngresoPlanta = event.target.value;
-    else if (prop === 'fecNotaIP')
-      this.rowsDetails[index].FechaNotaIngresoPlanta = event.target.value;
-    else if (prop === 'rendimiento')
-      this.rowsDetails[index].RendimientoPorcentaje = parseFloat(event.target.value)
-    else if (prop === 'humedad')
-      this.rowsDetails[index].HumedadPorcentaje = parseFloat(event.target.value)
-    else if (prop === 'cantSacos')
-      this.rowsDetails[index].CantidadSacos = parseFloat(event.target.value)
-    else if (prop === 'klBrutos')
-      this.rowsDetails[index].KilosBrutos = parseFloat(event.target.value)
-    else if (prop === 'tara')
-      this.rowsDetails[index].Tara = parseFloat(event.target.value)
-    else if (prop === 'klNetos')
-      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value)
+    if (prop === 'cantidad')
+      this.rowsDetails[index].Cantidad = event.target.value;
+    else if (prop == 'pesoPorSacoKilos')
+      this.rowsDetails[index].PesoPorSacoKilos = event.target.value;
+    else if (prop == 'totalKilosNetos')
+      this.rowsDetails[index].TotalKilosNetos = event.target.value;
+      else if (prop == 'numeroContenedorEmbarcar')
+      this.rowsDetails[index].NumeroContenedorEmbarcar = event.target.value;
+      else if (prop == 'fechaSalidaPlanta')
+      this.rowsDetails[index].FechaSalidaPlanta = event.target.value;
+    else if (prop === 'fechaZarpeNave')
+      this.rowsDetails[index].FechaZarpeNave = event.target.value;
+    else if (prop === 'fechaFacturacion')
+      this.rowsDetails[index].FechaFacturacion = event.target.value;
+    else if (prop === 'puerto')
+      this.rowsDetails[index].Puerto = event.target.value;
+      else if (prop === 'marca')
+      this.rowsDetails[index].Marca = event.target.value;
+      else if (prop === 'po')
+      this.rowsDetails[index].PO = event.target.value;
+    else if (prop === 'estadoSegId')
+      this.rowsDetails[index].EstadoSeguimientoId = event.target.value;
+    else if (prop === 'fechaEstampado')
+      this.rowsDetails[index].FechaEstampado = event.target.value;
+   
   }
 
 
@@ -475,10 +486,22 @@ export class AduanasEditComponent implements OnInit {
       let listCertificaciones: Certificaciones[] = [];
       let listDetalle: Detalle[] = [];
       let cargamentos: Cargamento[] = [];
+       
       this.rowsDetails.forEach(x =>
         {
           let cargamento: Cargamento = new Cargamento();
           cargamento.Cantidad = x.Cantidad;
+          cargamento.PesoPorSacoKilos = x.PesoPorSacoKilos;
+          cargamento.TotalKilosNetos = x.TotalKilosNetos;
+          cargamento.NumeroContenedorEmbarcar = x.NumeroContenedorEmbarcar;
+          cargamento.FechaSalidaPlanta = x.FechaSalidaPlanta;
+          cargamento.FechaZarpeNave = x.FechaZarpeNave;
+          cargamento.FechaFacturacion = x.FechaFacturacion;
+          cargamento.Puerto  = x.Puerto;
+          cargamento.Marca = x.Marca;
+          cargamento.PO = x.PO;
+          cargamento.EstadoSeguimientoId = x.EstadoSeguimientoId;
+          cargamento.FechaEstampado = x.FechaEstampado;
         });
       this.rows.forEach(x => {
         let detalle: Detalle = new Detalle();
