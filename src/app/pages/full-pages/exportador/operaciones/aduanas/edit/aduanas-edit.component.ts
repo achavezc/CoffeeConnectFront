@@ -6,7 +6,7 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from "@angular/router";
-import { Certificaciones, ReqAduanas, Detalle } from './../../../../../../services/models/req-aduanas-registrar';
+import { Certificaciones, ReqAduanas, Detalle, Cargamento } from './../../../../../../services/models/req-aduanas-registrar';
 import { OrdenservicioControlcalidadService } from './../../../../../../services/ordenservicio-controlcalidad.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ActivatedRoute } from '@angular/router';
@@ -296,7 +296,7 @@ export class AduanasEditComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
-  openModal(modalEmpresa) {
+ openModal (modalEmpresa) {
     //this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
 
     this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
@@ -471,8 +471,15 @@ export class AduanasEditComponent implements OnInit {
     }
     else {
       this.submittedEdit = false;
+      var x = this.rowsDetails;
       let listCertificaciones: Certificaciones[] = [];
       let listDetalle: Detalle[] = [];
+      let cargamentos: Cargamento[] = [];
+      this.rowsDetails.forEach(x =>
+        {
+          let cargamento: Cargamento = new Cargamento();
+          cargamento.Cantidad = x.Cantidad;
+        });
       this.rows.forEach(x => {
         let detalle: Detalle = new Detalle();
         detalle.NroNotaIngresoPlanta = x.NroNotaIngresoPlanta;
@@ -526,7 +533,8 @@ export class AduanasEditComponent implements OnInit {
         this.aduanasFormEdit.get('fechaLlegadaDocumentos').value == "" ? null : this.aduanasFormEdit.get('fechaLlegadaDocumentos').value,
         listCertificaciones,
         listDetalle,
-        this.login.Result.Data.NombreUsuario
+        this.login.Result.Data.NombreUsuario,
+        cargamentos
       );
       let json = JSON.stringify(request);
       this.spinner.show(undefined,

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ILogin } from '../../../../../services/models/login';
 import { ContratoService } from '../../../../../services/contrato.service';
@@ -10,6 +11,7 @@ import { ContratoEditTraduccion } from '../../../../../services/translate/contra
 import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-translate/core';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../services/util/date-util';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -39,6 +41,15 @@ export class ContratoEditComponent implements OnInit {
   login: ILogin;
   submittedEdit = false;
   ContratoEditTraduccion: ContratoEditTraduccion;
+  dropdownListExp = [];
+  dropdownListProd = [];
+  selectedItemsExp = [];
+  selectedItemsProd = [];
+  dropdownSettings = {};
+  rowsDetails = [];
+  listEstadoEnvio = [];
+  selectEstadoEnvio = [];
+  @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
 
   constructor(private modalService: NgbModal,
     private router: Router,
@@ -50,7 +61,12 @@ export class ContratoEditComponent implements OnInit {
     private dateUtil: DateUtil) {
 
   }
-
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
 
   ngOnInit(): void {
     this.ContratoEditTraduccion = new ContratoEditTraduccion();
@@ -76,26 +92,36 @@ export class ContratoEditComponent implements OnInit {
     this.contratoFormEdit = this.fb.group(
       {
         numeroContrato: ['',],
-        fechaContrato: ['',],
-        cliente: ['',],
-        courier: ['',],
-        numeroTracking: ['',],
-        estado: ['',],
-        fechaEmbarque: ['',],
-        fechaEnvioDocumentos: ['',],
-        fechaLlegadaDocumentos: ['',],
+        ruc: ['',],
+        agenciaAduanera: ['',],
+        clienteFinal: ['',],
+        floId: ['',],
         exportador: ['',],
-        estadoPlanta: ['',],
+        certificacionesExportador: ['',],
         productor: ['',],
-        producto: ['',],
-        calidad: ['',],
-        cantidad: ['',],
-        empaqueTipo: ['',],
-        grado: ['',],
-        pesoSaco: ['',],
-        pesoNeto: ['',]
-
-
+        certificacionesProductor:['',],
+        numeroContratoInterno:['',],
+        mesEmbarque:['',],
+        producto:['',],
+        subproducto:['',],
+        calidad:['',],
+        empaque:['',],
+        certificacion:['',],
+        cantidadDefectos:['',],
+        cantidad:['',],
+        nroContenedores:['',],
+        statusPago:['',],
+        pesoxSaco:['',],
+        fechaPagoFactura:['',],
+        totalKilosNetos:['',],
+        fechaEnvio:['',],
+        fechaRecepcion:['',],
+        estadoEnvio:['',],
+        courier:['',],
+        trackingNumber:['',],
+        observacion:['',],
+        fechaEnvioDocumentos:['',],
+        fechaLlegadaDocumentos:['',]
       });
   }
 
@@ -151,7 +177,42 @@ export class ContratoEditComponent implements OnInit {
     this.responsable = data.UsuarioRegistro;
     this.AduanaId = data.AduanaId;
     this.contratoFormEdit.controls["numeroContrato"].setValue(data.NumeroContrato);
-    this.contratoFormEdit.controls["fechaContrato"].setValue(this.dateUtil.formatDate(new Date(data.FechaContrato)));
+    this.contratoFormEdit.controls["ruc"].setValue(data.NumeroContrato);
+    this.contratoFormEdit.controls["agenciaAduanera"].setValue(data.RazonSocialEmpresaAgenciaAduanera);
+    this.contratoFormEdit.controls["clienteFinal"].setValue(data.RazonSocialCliente);
+    this.contratoFormEdit.controls["floId"].setValue(data.FloId);
+    this.contratoFormEdit.controls["exportador"].setValue(data.RazonSocialEmpresaExportadora);
+    this.contratoFormEdit.controls["productor"].setValue(data.RazonSocialEmpresaProductora);
+    this.contratoFormEdit.controls["numeroContratoInterno"].setValue(data.NumeroContrato);
+    this.contratoFormEdit.controls["mesEmbarque"].setValue(this.dateUtil.formatDate(new Date(data.FechaEmbarque)));
+    this.contratoFormEdit.controls["producto"].setValue(data.Producto);
+    this.contratoFormEdit.controls["subproducto"].setValue(data.SubProducto);
+    this.contratoFormEdit.controls["calidad"].setValue(data.Calidad);
+    this.contratoFormEdit.controls["empaque"].setValue( data.Empaque + " - " + data.TipoEmpaque);
+    this.contratoFormEdit.controls["certificacion"].setValue(data.TipoCertificacion);
+    this.contratoFormEdit.controls["cantidadDefectos"].setValue(data.PreparacionCantidadDefectos);
+    this.contratoFormEdit.controls["nroContenedores"].setValue(data.CantidadContenedores);
+    this.contratoFormEdit.controls["pesoxSaco"].setValue(data.PesoPorSaco);
+    this.contratoFormEdit.controls["totalKilosNetos"].setValue(data.PesoKilos);
+    if (data.FechaPagoFactura)
+      this.contratoFormEdit.get('fechaPagoFactura').setValue(data.FechaPagoFactura == null ? null : formatDate(data.FechaPagoFactura, 'dd/MM/yyyy', 'en'));
+    this.contratoFormEdit.controls["cantidad"].setValue(data.TotalSacos);
+    this.contratoFormEdit.controls["statusPago"].setValue(data.EstadoPagoFactura);
+    if (data.FechaEnvioMuestra)
+      this.contratoFormEdit.get('fechaEnvio').setValue(data.FechaEnvioMuestra == null ? null : formatDate(data.FechaEnvioMuestra, 'yyyy-MM-dd', 'en'));
+    if (data.FechaRecepcionMuestra)
+      this.contratoFormEdit.controls["fechaRecepcion"].setValue(data.FechaRecepcionMuestra == null ? null : formatDate(data.FechaRecepcionMuestra, 'yyyy-MM-dd', 'en'));
+    this.contratoFormEdit.get('estadoEnvio').setValue(data.EstadoMuestraId);
+    this.contratoFormEdit.get('courier').setValue(data.Courier);
+    this.contratoFormEdit.get('trackingNumber').setValue(data.NumeroSeguimientoMuestra);
+    this.contratoFormEdit.get('observacion').setValue(data.Observacion);
+    if (data.FechaEnvioDocumentos)
+    this.contratoFormEdit.get('fechaEnvioDocumentos').setValue(data.FechaEnvioDocumentos == null ? null : formatDate(data.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en'));
+  if (data.FechaLlegadaDocumentos)
+    this.contratoFormEdit.get('fechaLlegadaDocumentos').setValue(data.FechaLlegadaDocumentos == null ? null : formatDate(data.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en'));
+    this.rowsDetails = [...data.Cargamentos];
+    
+   /* this.contratoFormEdit.controls["fechaContrato"].setValue(this.dateUtil.formatDate(new Date(data.FechaContrato)));
     this.contratoFormEdit.controls["cliente"].setValue(data.RazonSocialCliente);
     this.contratoFormEdit.controls["courier"].setValue(data.Courier);
     this.contratoFormEdit.controls["numeroTracking"].setValue(data.NumeroSeguimientoMuestra);
@@ -182,7 +243,7 @@ export class ContratoEditComponent implements OnInit {
     this.contratoFormEdit.controls["empaqueTipo"].setValue(data.Empaque + ' - ' + data.TipoEmpaque);
     this.contratoFormEdit.controls["grado"].setValue(data.Grado);
     this.contratoFormEdit.controls["pesoSaco"].setValue(data.PesoPorSaco);
-    this.contratoFormEdit.controls["pesoNeto"].setValue(data.PesoKilos);
+    this.contratoFormEdit.controls["pesoNeto"].setValue(data.PesoKilos);*/
     this.spinner.hide();
   }
 

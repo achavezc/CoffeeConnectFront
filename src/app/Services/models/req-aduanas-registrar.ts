@@ -28,7 +28,8 @@ export class ReqAduanas {
         Certificaciones: Certificaciones[],
         
         Detalle: Detalle[],
-        Usuario: string
+        Usuario: string,
+        Cargamentos: Cargamento[]
         ) {
             
         if (AduanaId != 0) {
@@ -64,6 +65,7 @@ export class ReqAduanas {
         this.Usuario = Usuario;
         this.EmpresaAgenciaAduaneraId = EmpresaAgenciaAduaneraId;
         this.Detalle = Detalle;
+        this.Cargamentos = Cargamentos;
         
     }
 
@@ -97,6 +99,7 @@ export class ReqAduanas {
     Certificaciones: Certificaciones[];    
     Usuario: string;    
     Detalle: Detalle[];
+    Cargamentos : Cargamento[];
     
 }
 
@@ -112,4 +115,20 @@ export class Detalle {
     CantidadSacos: number;
     NumeroLote: string;
     KilosNetos: number;
+}
+
+export class Cargamento {
+    AduanaId: number;
+    Cantidad: number;
+    PesoPorSacoKilos: number;
+    TotalKilosNetos: number;
+    NumeroContenedorEmbarcar: string;
+    FechaSalidaPlanta: Date;
+    FechaZarpeNave: Date;
+    FechaFacturacion: Date;
+    Puerto: string;
+    Marca: string;
+    PO: string;
+    EstadoSeguimientoId: string;
+    FechaEstampado : number;
 }

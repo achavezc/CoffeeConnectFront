@@ -15,7 +15,300 @@
               </div>
 
             </div>
+            <div class="row"
+              style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+              <div class="card-subtitle-form">Datos Generales</div>
+            </div>
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+              <div class="col-12 col-md-3">
+                <label for="basicInput">Contrato N°</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="numeroContrato" disabled>
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">RUC/ Agencia Aduanera</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
+              </div>
+              <div class="col-12 col-md-5">
+                <label for="basicInput"></label>
+                <input type="text" class="form-control" id="basicInput" formControlName="agenciaAduanera" disabled>
+              </div>
+            </div>
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+              <div class="col-12 col-md-8">
+                <label for="basicInput">Cliente Final</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="clienteFinal" disabled>
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="basicInput">Flo id</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="floId" disabled>
+              </div>
+              
+            </div>
+            <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+              <div class="col-12 col-md-4">
+                  <label for="basicInput">Exportador</label>
+                  <input type="text" class="form-control" id="basicInput" formControlName="exportador"
+                      disabled class="form-control">
+              </div>
 
+              <div class="col-12 col-md-7">
+                  <label for="certificacionesExportador" class="form-label">Certificaciones Solicitadas
+                      Exportador</label>
+                  <ng-multiselect-dropdown [placeholder]="'Seleccionar Certificaciones'"
+                      formControlName="certificacionesExportador" [settings]="dropdownSettings"
+                      [data]="dropdownListExp" [(ngModel)]="selectedItemsExp"
+                      (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                  </ng-multiselect-dropdown>
+              </div>
+
+
+          </div>
+
+          <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+            <div class="col-12 col-md-4">
+                <label for="basicInput">Productor</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="productor"
+                    disabled class="form-control">
+            </div>
+            <div class="col-12 col-md-7">
+                <label for="estado" class="form-label">Certificaciones Solicitadas Productor</label>
+                <ng-multiselect-dropdown [placeholder]="'Seleccionar Certificaciones'"
+                    formControlName="certificacionesProductor" [settings]="dropdownSettings"
+                    [data]="dropdownListProd" [(ngModel)]="selectedItemsProd"  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+          <div class="col-12 col-md-8">
+            <label for="basicInput">Nro. Contrato Interno-Productor</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="numeroContratoInterno" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Mes Embarque</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="mesEmbarque" disabled>
+          </div>
+          
+        </div>
+        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Producto</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="producto" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Sub Producto</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="subproducto" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Calidad</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="calidad" disabled>
+          </div>
+        </div>
+        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Empaque/Tipo</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="empaque" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Certificación</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="certificacion" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Cantidad de Defectos</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="cantidadDefectos" disabled>
+          </div>
+        </div>
+        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Cantidad</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="cantidad" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Nro Contenedores</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="nroContenedores" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Status Pago Factura</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="statusPago" disabled>
+          </div>
+        </div>
+        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Peso por Saco Kg</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="pesoxSaco" disabled>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Fecha Pago Factura</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="fechaPagoFactura" disabled>
+          </div>
+        </div>
+        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+          <div class="col-12 col-md-4">
+            <label for="basicInput">Total Kilos Netos</label>
+            <input type="text" class="form-control" id="basicInput" formControlName="totalKilosNetos" disabled>
+          </div>
+        </div>
+        <div class="row"
+                            style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                            <div class="card-subtitle-form">DATOS DEL CARGAMENTO A EMBARCAR</div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                           
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
+                                        [scrollbarH]="false"  [selectionType]="'single'"  >
+
+                                        <ngx-datatable-column name="Cantidad" prop="Cantidad" width="80"
+                                            [sortable]="false">
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Peso por Saco Kilos" prop="PesoPorSacoKilos"  width="80"
+                                            [sortable]="false">
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Total Kilos Netos" prop="TotalKilosNetos"  width="80"
+                                            [sortable]="false">
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Nro Contenedor a Embarcar" prop="NumeroContenedorEmbarcar"  width="120"
+                                            [sortable]="false">
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Fecha Salida a Planta" prop="FechaSalidaPlanta"  width="140"
+                                            [sortable]="false">
+                                            
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Fecha Zarpe Nave" prop="FechaZarpeNave" [sortable]="false"  width="130"> 
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Fecha Fac./Exp." prop="FechaFacturacion" [sortable]="false"  width="120">
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Puerto" prop="Puerto" [sortable]="false"  width="70">
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Marca" prop="Marca" [sortable]="false" width="70">
+                                           
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="PO#" prop="PO" [sortable]="false" width="60">
+                                            
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Estado de Embarque" prop="EstadoSeguimiento" [sortable]="false" width="100">
+                                           
+                                        </ngx-datatable-column>
+
+
+                                        <ngx-datatable-column name="Fecha de Estampado" prop="FechaEstampado" [sortable]="false" width="130">
+                                            
+                                        </ngx-datatable-column>
+
+
+                                    </ngx-datatable>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"
+                            style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                            <div class="card-subtitle-form">SEGUIMIENTO DE MUESTRAS</div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+
+                            <div class="col-12 col-md-6">
+                                <label for="basicInput">Fecha Envío</label>
+                                <input type="date" class="form-control" id="basicInput" formControlName="fechaEnvio"
+                                    class="form-control" >
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="basicInput">Courier</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="courier"
+                                    placeholder="Courier" >
+                            </div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-6">
+                                <label for="basicInput">Fecha Recepción en Destino </label>
+                                <input type="date" class="form-control" id="basicInput" formControlName="fechaRecepcion"
+                                    class="form-control" >
+
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="basicInput">Tracking Number</label>
+                                <input type="text" class="form-control" id="basicInput" formControlName="trackingNumber"
+                                    placeholder="Tracking Number" >
+                            </div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12 col-md-6">
+                                <label for="customsTrackingStatus">ESTADO DE ENVIO</label>
+                                <ng-select [items]="listEstadoEnvio" formControlName="estadoEnvio" class="form-control"
+                                    bindLabel="Label" bindValue="Codigo" id="estadoEnvio"
+                                    placeholder="Seleccionar Estado de Envio"   [(ngModel)]="selectEstadoEnvio">
+                                </ng-select>
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+                            <div class="col-12">
+                                <label for="basicInput" style="font-size: 0.7rem;">OBSERVACIONES (ADDITIONAL
+                                    NOTES)</label>
+                                <div class="position-relative has-icon-left textarea">
+                                    <textarea id="bordered-form-6" rows="4" class="form-control"
+                                        formControlName="observacion" name="notes"></textarea>
+                                    <div class="form-control-position">
+                                        <i class="ft-file"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row"
+                            style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                            <div class="card-subtitle-form">SEGUIMIENTO DE DOCUMENTOS</div>
+                        </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+
+                            <div class="col-12 col-md-6">
+                                <label for="basicInput">Fecha Envío Documentos</label>
+                                <input type="date" class="form-control" id="basicInput"
+                                    formControlName="fechaEnvioDocumentos" class="form-control">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="basicInput">Fecha Llegada Documentos</label>
+                                <input type="date" class="form-control" id="basicInput"
+                                    formControlName="fechaLlegadaDocumentos" class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class="row"
+                        style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+                        <div class="card-subtitle-form">Logistica y Aduanas</div>
+                      </div>
+                        <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+
+                          <div class="col-12 col-md-8">
+                            <br>
+                            <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+            
+                              <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="AduanaId">
+                              </app-lista-documentos>
+                            </ng-template>
+                            <button class="btn btn-primary" (click)="openModal(mdlListDocuments)"> Imprimir Documentos y Certificados </button>
+                          </div>
+                        </div>
+                      
+            <!--
             <div class="row"
               style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
               <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle1 | translate }}</div>
@@ -166,7 +459,7 @@
                 <textarea id="bordered-form-6" rows="4" class="form-control" formControlName="provNombre"
                   name="notes"></textarea>
               </div>
-            </div>
+            </div>-->
 
             <br>
             <br>

@@ -23,6 +23,7 @@ import {ContratoClienteComponent} from '../cliente/contrato/contrato-list/contra
 import {ContratoEditComponent} from '../cliente/contrato/contrato-edit/contrato-edit.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { ModalModule } from '../modals/modal.module'
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ModalModule } from '../modals/modal.module'
     MatchHeightModule,
     ContratoRoutingModule,
     ModalModule,
-    FileUploadModule
+    FileUploadModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
