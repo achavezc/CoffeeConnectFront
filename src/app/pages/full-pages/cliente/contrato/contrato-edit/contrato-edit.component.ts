@@ -12,7 +12,8 @@ import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
-
+import { EmpresaProveedoraService } from '../../../../../services/empresaproveedora.service';
+import { MaestroService } from '../../../../../services/maestro.service';
 
 @Component({
   selector: 'app-contrato-edit',
@@ -23,10 +24,8 @@ import { formatDate } from '@angular/common';
 export class ContratoEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
-
   @ViewChild(DatatableComponent) table: DatatableComponent;
   contratoFormEdit: FormGroup;
-
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
 
@@ -49,6 +48,7 @@ export class ContratoEditComponent implements OnInit {
   rowsDetails = [];
   listEstadoEnvio = [];
   selectEstadoEnvio = [];
+  tempData = [];
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
 
   constructor(private modalService: NgbModal,
@@ -58,7 +58,9 @@ export class ContratoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private contratoService: ContratoService,
     private translate: TranslateService,
-    private dateUtil: DateUtil) {
+    private dateUtil: DateUtil,
+    private empresaProveedoraService: EmpresaProveedoraService,
+    private maestroService: MaestroService) {
 
   }
   onItemSelect(item: any) {
@@ -86,43 +88,62 @@ export class ContratoEditComponent implements OnInit {
       this.obtenerDetalle(event.lang);
     });
 
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 100,
+      allowSearchFilter: true
+    };
   }
 
   cargarForm() {
     this.contratoFormEdit = this.fb.group(
       {
-        numeroContrato: ['',],
-        ruc: ['',],
-        agenciaAduanera: ['',],
-        clienteFinal: ['',],
-        floId: ['',],
-        exportador: ['',],
-        certificacionesExportador: ['',],
-        productor: ['',],
-        certificacionesProductor:['',],
-        numeroContratoInterno:['',],
-        mesEmbarque:['',],
-        producto:['',],
-        subproducto:['',],
-        calidad:['',],
-        empaque:['',],
-        certificacion:['',],
-        cantidadDefectos:['',],
-        cantidad:['',],
-        nroContenedores:['',],
-        statusPago:['',],
-        pesoxSaco:['',],
-        fechaPagoFactura:['',],
-        totalKilosNetos:['',],
-        fechaEnvio:['',],
-        fechaRecepcion:['',],
-        estadoEnvio:['',],
-        courier:['',],
-        trackingNumber:['',],
-        observacion:['',],
-        fechaEnvioDocumentos:['',],
-        fechaLlegadaDocumentos:['',]
+        numeroContrato: new FormControl('', []),
+        ruc: new FormControl('', []),
+        agenciaAduanera: new FormControl('', []),
+        clienteFinal: new FormControl('', []),
+        floId: new FormControl('', []),
+        exportador: new FormControl('', []),
+        certificacionesExportador: new FormControl({value: '', disabled: true}, []),
+        productor: new FormControl('', []),
+        certificacionesProductor: new FormControl({value: '', disabled: true}, []),
+        numeroContratoInterno: new FormControl('', []),
+        mesEmbarque: new FormControl('', []),
+        producto: new FormControl('', []),
+        subproducto: new FormControl('', []),
+        calidad: new FormControl('', []),
+        empaque: new FormControl('', []),
+        certificacion: new FormControl('', []),
+        cantidadDefectos: new FormControl('', []),
+        cantidad: new FormControl('', []),
+        nroContenedores: new FormControl('', []),
+        statusPago: new FormControl('', []),
+        pesoxSaco: new FormControl('', []),
+        fechaPagoFactura: new FormControl('', []),
+        totalKilosNetos: new FormControl('', []),
+        fechaEnvio: new FormControl('', []),
+        fechaRecepcion: new FormControl('', []),
+        estadoEnvio:  new FormControl({value: '', disabled: true},[]),
+        courier: new FormControl('', []),
+        trackingNumber: new FormControl('', []),
+        observacion: new FormControl('', []),
+        fechaEnvioDocumentos: new FormControl('', []),
+        fechaLlegadaDocumentos: new FormControl('', []),
       });
+      this.maestroService.obtenerMaestros("EstadoMuestra")
+      .subscribe(res => {
+        if (res.Result.Success) {
+          this.listEstadoEnvio = res.Result.Data;
+        }
+      },
+        err => {
+          console.error(err);
+        }
+      );
   }
 
 
@@ -130,19 +151,6 @@ export class ContratoEditComponent implements OnInit {
     var x = this.AduanaId;
     this.modalService.open(mdlListDocuments, { size: 'xl', centered: true });
   }
-
-
-  clear() {
-  }
-
-
-  cargarcombos() {
-  }
-
-  get fedit() {
-    return this.contratoFormEdit.controls;
-  }
-
 
   cancelar() {
     this.router.navigate(['/cliente/contrato/list']);
@@ -177,14 +185,14 @@ export class ContratoEditComponent implements OnInit {
     this.responsable = data.UsuarioRegistro;
     this.AduanaId = data.AduanaId;
     this.contratoFormEdit.controls["numeroContrato"].setValue(data.NumeroContrato);
-    this.contratoFormEdit.controls["ruc"].setValue(data.NumeroContrato);
+    this.contratoFormEdit.controls["ruc"].setValue(data.RucEmpresaAgenciaAduanera);
     this.contratoFormEdit.controls["agenciaAduanera"].setValue(data.RazonSocialEmpresaAgenciaAduanera);
     this.contratoFormEdit.controls["clienteFinal"].setValue(data.RazonSocialCliente);
     this.contratoFormEdit.controls["floId"].setValue(data.FloId);
     this.contratoFormEdit.controls["exportador"].setValue(data.RazonSocialEmpresaExportadora);
     this.contratoFormEdit.controls["productor"].setValue(data.RazonSocialEmpresaProductora);
-    this.contratoFormEdit.controls["numeroContratoInterno"].setValue(data.NumeroContrato);
-    this.contratoFormEdit.controls["mesEmbarque"].setValue(this.dateUtil.formatDate(new Date(data.FechaEmbarque)));
+    this.contratoFormEdit.controls["numeroContratoInterno"].setValue(data.NumeroContratoInternoProductor);
+    this.contratoFormEdit.controls['mesEmbarque'].setValue(formatDate(data.FechaEmbarque, 'MM-yyyy', 'en'));
     this.contratoFormEdit.controls["producto"].setValue(data.Producto);
     this.contratoFormEdit.controls["subproducto"].setValue(data.SubProducto);
     this.contratoFormEdit.controls["calidad"].setValue(data.Calidad);
@@ -208,10 +216,38 @@ export class ContratoEditComponent implements OnInit {
     this.contratoFormEdit.get('observacion').setValue(data.Observacion);
     if (data.FechaEnvioDocumentos)
     this.contratoFormEdit.get('fechaEnvioDocumentos').setValue(data.FechaEnvioDocumentos == null ? null : formatDate(data.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en'));
+   
   if (data.FechaLlegadaDocumentos)
     this.contratoFormEdit.get('fechaLlegadaDocumentos').setValue(data.FechaLlegadaDocumentos == null ? null : formatDate(data.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en'));
     this.rowsDetails = [...data.Cargamentos];
     
+
+    data.Cargamentos.forEach((obj: any) => {
+      obj.FechaZarpeNave = this.dateUtil.formatDate(obj.FechaZarpeNave);
+      obj.FechaFacturacion =  this.dateUtil.formatDate(obj.FechaFacturacion);
+      obj.FechaEstampado  =  this.dateUtil.formatDate(obj.FechaEstampado);
+      obj.FechaSalidaPlanta =  this.dateUtil.formatDate(obj.FechaSalidaPlanta);
+    });
+    this.tempData = data.Cargamentos;
+    this.rowsDetails = [...this.tempData];
+
+
+  this.consultarCertificaciones(data.EmpresaProductoraId, 'Productor');
+  this.consultarCertificaciones(data.EmpresaExportadoraId, 'Exportador');
+  let selectarrayProd = [];
+  let selectarrayExp = [];
+  data.Certificaciones.forEach(x => {
+
+    let object = { item_id: x.TipoCertificacionId + "-" + x.EmpresaProveedoraAcreedoraId, item_text: x.Certificacion + "-" + x.CodigoCertificacion }
+    if (x.TipoId == '02') {
+      selectarrayExp.push(object);
+    }
+    else if (x.TipoId == '01') {
+      selectarrayProd.push(object);
+    }
+  });
+  this.selectedItemsProd = selectarrayProd;
+  this.selectedItemsExp = selectarrayExp;
    /* this.contratoFormEdit.controls["fechaContrato"].setValue(this.dateUtil.formatDate(new Date(data.FechaContrato)));
     this.contratoFormEdit.controls["cliente"].setValue(data.RazonSocialCliente);
     this.contratoFormEdit.controls["courier"].setValue(data.Courier);
@@ -247,13 +283,43 @@ export class ContratoEditComponent implements OnInit {
     this.spinner.hide();
   }
 
-  documentos() {
+  consultarCertificaciones(id: number, tipo: string) {
+    let request = { EmpresaProveedoraAcreedoraId: id }
 
+    this.empresaProveedoraService.ConsultarCertificaciones(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            let arrayCertificaciones = [];
+            res.Result.Data.Certificaciones.forEach(x => {
+              let object = { item_id: x.TipoCertificacionId + "-" + x.EmpresaProveedoraAcreedoraId, item_text: x.Certificacion + "-" + x.CodigoCertificacion }
+              arrayCertificaciones.push(object);
+
+            });
+            if (tipo == 'Exportador') {
+              this.dropdownListExp = arrayCertificaciones;
+            }
+            else if (tipo == 'Productor') {
+              this.dropdownListProd = arrayCertificaciones;
+            }
+
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
   }
-
-
-
-
 }
 
 

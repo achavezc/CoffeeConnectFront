@@ -118,7 +118,7 @@ export class Detalle {
 }
 
 export class Cargamento {
-    AduanaId: number;
+    AduanaId: Number;
     Cantidad: number;
     PesoPorSacoKilos: number;
     TotalKilosNetos: number;

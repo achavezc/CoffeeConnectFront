@@ -40,6 +40,8 @@ export class AduanasEditComponent implements OnInit {
   listaEstado: any[];
   listEstadoEmbarque: any[];
   selectEstadoEmbarque: any;
+  listEmbarque: any[];
+  selectEmbarque: any;
   rows = [];
   errorGeneral: any = { isError: false, errorMessage: '' };
   selectEmpresa: any[] = [];
@@ -189,18 +191,34 @@ export class AduanasEditComponent implements OnInit {
       Cantidad: 0,
       PesoPorSacoKilos: 0,
       TotalKilosNetos: 0,
-      NumeroContenedorEmbarcar: 0,
-      FechaSalidaPlanta: '',
-      FechaZarpeNave: '',
-      FechaFacturacion: '',
+      NumeroContenedorEmbarcar: '',
+      FechaSalidaPlanta: null,
+      FechaZarpeNave: null,
+      FechaFacturacion: null,
       Puerto: '',
       Marca: '',
       PO: '',
-      EstadoSeguimientoId: 0,
-      FechaEstampado: ''
+      EstadoSeguimientoId: '',
+      FechaEstampado: null
     }];
+    this.CargarStatusEmbarque();
+   
   }
   
+  CargarStatusEmbarque()
+  {
+    this.maestroService.obtenerMaestros("EstadoSeguimientoAduana")
+    .subscribe(res => {
+      if (res.Result.Success) {
+        this.listEmbarque = res.Result.Data;
+      }
+    },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
   DeleteRowDetail(index: any): void {
     this.rowsDetails.splice(index, 1);
     this.rowsDetails = [...this.rowsDetails];
@@ -208,13 +226,13 @@ export class AduanasEditComponent implements OnInit {
   
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
     if (prop === 'cantidad')
-      this.rowsDetails[index].Cantidad = event.target.value;
+      this.rowsDetails[index].Cantidad = parseFloat(event.target.value);
     else if (prop == 'pesoPorSacoKilos')
-      this.rowsDetails[index].PesoPorSacoKilos = event.target.value;
+      this.rowsDetails[index].PesoPorSacoKilos =  parseFloat(event.target.value);
     else if (prop == 'totalKilosNetos')
-      this.rowsDetails[index].TotalKilosNetos = event.target.value;
+      this.rowsDetails[index].TotalKilosNetos =  parseFloat(event.target.value);
       else if (prop == 'numeroContenedorEmbarcar')
-      this.rowsDetails[index].NumeroContenedorEmbarcar = event.target.value;
+      this.rowsDetails[index].NumeroContenedorEmbarcar =  event.target.value;
       else if (prop == 'fechaSalidaPlanta')
       this.rowsDetails[index].FechaSalidaPlanta = event.target.value;
     else if (prop === 'fechaZarpeNave')
@@ -228,7 +246,7 @@ export class AduanasEditComponent implements OnInit {
       else if (prop === 'po')
       this.rowsDetails[index].PO = event.target.value;
     else if (prop === 'estadoSegId')
-      this.rowsDetails[index].EstadoSeguimientoId = event.target.value;
+      this.rowsDetails[index].EstadoSeguimientoId = event.Codigo;
     else if (prop === 'fechaEstampado')
       this.rowsDetails[index].FechaEstampado = event.target.value;
    
@@ -443,9 +461,24 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('observacion').setValue(data.Observacion);
     if (data.FechaEnvioDocumentos)
       this.aduanasFormEdit.get('fechaEnvioDocumentos').setValue(data.FechaEnvioDocumentos == null ? null : formatDate(data.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en'));
+
     if (data.FechaLlegadaDocumentos)
       this.aduanasFormEdit.get('fechaLlegadaDocumentos').setValue(data.FechaLlegadaDocumentos == null ? null : formatDate(data.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en'));
+      this.CargarStatusEmbarque();
+      data.Cargamentos.forEach(obj => {
+        if (obj.FechaZarpeNave)
+        obj.FechaZarpeNave = formatDate(obj.FechaZarpeNave, 'yyyy-MM-dd', 'en'); 
 
+        if (obj.FechaFacturacion)
+        obj.FechaFacturacion = formatDate(obj.FechaFacturacion, 'yyyy-MM-dd', 'en'); 
+
+        if (obj.FechaEstampado)
+        obj.FechaEstampado = formatDate(obj.FechaEstampado, 'yyyy-MM-dd', 'en');
+
+        if (obj.FechaSalidaPlanta)
+        obj.FechaSalidaPlanta = formatDate(obj.FechaSalidaPlanta, 'yyyy-MM-dd', 'en');
+      });
+      this.rowsDetails = [...data.Cargamentos]
     //let arrayNotaIngreso = [];
     //data.Detalle.forEach(x => {
     // let object = {  NumeroNotaIngreso: x.NroNotaIngresoPlanta, Cantidad: x.CantidadSacos, KilosNetos: x.KilosNetos, Lote: x.NumeroLote}
@@ -490,6 +523,7 @@ export class AduanasEditComponent implements OnInit {
       this.rowsDetails.forEach(x =>
         {
           let cargamento: Cargamento = new Cargamento();
+          cargamento.AduanaId = this.id
           cargamento.Cantidad = x.Cantidad;
           cargamento.PesoPorSacoKilos = x.PesoPorSacoKilos;
           cargamento.TotalKilosNetos = x.TotalKilosNetos;
@@ -502,15 +536,16 @@ export class AduanasEditComponent implements OnInit {
           cargamento.PO = x.PO;
           cargamento.EstadoSeguimientoId = x.EstadoSeguimientoId;
           cargamento.FechaEstampado = x.FechaEstampado;
+          cargamentos.push(cargamento);
         });
-      this.rows.forEach(x => {
+     /* this.rows.forEach(x => {
         let detalle: Detalle = new Detalle();
         detalle.NroNotaIngresoPlanta = x.NroNotaIngresoPlanta;
         detalle.CantidadSacos = x.CantidadSacos;
         detalle.KilosNetos = x.KilosNetos;
         detalle.NumeroLote = x.NumeroLote
         listDetalle.push(detalle);
-      });
+      });*/
 
       this.selectedItemsExp.forEach(x => {
         let certificacion: Certificaciones = new Certificaciones();
