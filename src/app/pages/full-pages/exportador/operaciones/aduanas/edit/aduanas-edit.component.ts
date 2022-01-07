@@ -64,6 +64,7 @@ export class AduanasEditComponent implements OnInit {
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   listEstadoEnvio: any[];
   selectEstadoEnvio: any;
+  formGroupEmbarque: FormGroup;
 
   rowsDetails = [];
   constructor(private fb: FormBuilder,
@@ -79,6 +80,12 @@ export class AduanasEditComponent implements OnInit {
     private aduanaService: AduanaService) {
   }
   cargarForm() {
+    this.formGroupEmbarque = this.fb.group
+    (
+      {
+        embarque:new FormControl('', [])
+      }
+    );
     this.aduanasFormEdit = this.fb.group(
       {
         contrato: ['', [Validators.required]],
@@ -92,12 +99,6 @@ export class AduanasEditComponent implements OnInit {
         certificacionesProductor: new FormControl('', []),
         numeroContratoInternoProductor: new FormControl('', []),
         mesEmbarque: new FormControl('', []),
-        fechaEmbarque: new FormControl('', []),
-        fechaZarpeNave: new FormControl('', []),
-        fechaFac: new FormControl('', []),
-        puerto: new FormControl('', []),
-        marca: new FormControl('', []),
-        po: new FormControl('', []),
         producto: new FormControl('', []),
         subproducto: new FormControl('', []),
         calidad: new FormControl('', []),
@@ -108,10 +109,8 @@ export class AduanasEditComponent implements OnInit {
         numeroContenedores: new FormControl('', []),
         statusPagoFactura: new FormControl('', []),
         pesoxsaco: new FormControl('', []),
-        embarqueStatus: new FormControl('', []),
         fechaPagoFactura: new FormControl('', []),
         totalkilosnetos: new FormControl('', []),
-        fechaEstampado: new FormControl('', []),
         fechaEnvio: new FormControl('', []),
         courier: new FormControl('', []),
         fechaRecepcion: new FormControl('', []),
@@ -134,27 +133,7 @@ export class AduanasEditComponent implements OnInit {
         }
       );
 
-    // this.maestroService.obtenerMaestros("Naviera")
-    //   .subscribe(res => {
-    //     if (res.Result.Success) {
-    //       this.listaNaviera = res.Result.Data;
-    //     }
-    //   },
-    //     err => {
-    //       console.error(err);
-    //     }
-    //   );
 
-    // this.maestroService.obtenerMaestros("Laboratorio")
-    //   .subscribe(res => {
-    //     if (res.Result.Success) {
-    //       this.listaLaboratorios = res.Result.Data;
-    //     }
-    //   },
-    //     err => {
-    //       console.error(err);
-    //     }
-    //   );
 
     this.maestroService.obtenerMaestros("EstadoMuestra")
       .subscribe(res => {
@@ -185,8 +164,9 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('agencia').setValue(this.selectEmpresa[0].RazonSocial);
     this.modalService.dismissAll();
   }
-  
-  addRowDetail(): void {
+
+  async addRowDetail() {
+    await this.CargarStatusEmbarque();
     this.rowsDetails = [...this.rowsDetails, {
       Cantidad: 0,
       PesoPorSacoKilos: 0,
@@ -198,16 +178,21 @@ export class AduanasEditComponent implements OnInit {
       Puerto: '',
       Marca: '',
       PO: '',
-      EstadoSeguimientoId: '',
+      EstadoSeguimientoId: '02',
       FechaEstampado: null
     }];
-    this.CargarStatusEmbarque();
-   
+    
+    this.selectEmbarque = "02";
+
   }
-  
-  CargarStatusEmbarque()
-  {
-    this.maestroService.obtenerMaestros("EstadoSeguimientoAduana")
+
+  async CargarStatusEmbarque() {
+    var data = await this.maestroService.obtenerMaestros("EstadoSeguimientoAduana").toPromise();
+    if (data.Result.Success) {
+      this.listEmbarque = data.Result.Data;
+    }
+
+    /*this.maestroService.obtenerMaestros("EstadoSeguimientoAduana")
     .subscribe(res => {
       if (res.Result.Success) {
         this.listEmbarque = res.Result.Data;
@@ -216,24 +201,24 @@ export class AduanasEditComponent implements OnInit {
       err => {
         console.error(err);
       }
-    );
+    );*/
   }
 
   DeleteRowDetail(index: any): void {
     this.rowsDetails.splice(index, 1);
     this.rowsDetails = [...this.rowsDetails];
   }
-  
+
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
     if (prop === 'cantidad')
       this.rowsDetails[index].Cantidad = parseFloat(event.target.value);
     else if (prop == 'pesoPorSacoKilos')
-      this.rowsDetails[index].PesoPorSacoKilos =  parseFloat(event.target.value);
+      this.rowsDetails[index].PesoPorSacoKilos = parseFloat(event.target.value);
     else if (prop == 'totalKilosNetos')
-      this.rowsDetails[index].TotalKilosNetos =  parseFloat(event.target.value);
-      else if (prop == 'numeroContenedorEmbarcar')
-      this.rowsDetails[index].NumeroContenedorEmbarcar =  event.target.value;
-      else if (prop == 'fechaSalidaPlanta')
+      this.rowsDetails[index].TotalKilosNetos = parseFloat(event.target.value);
+    else if (prop == 'numeroContenedorEmbarcar')
+      this.rowsDetails[index].NumeroContenedorEmbarcar = event.target.value;
+    else if (prop == 'fechaSalidaPlanta')
       this.rowsDetails[index].FechaSalidaPlanta = event.target.value;
     else if (prop === 'fechaZarpeNave')
       this.rowsDetails[index].FechaZarpeNave = event.target.value;
@@ -241,15 +226,15 @@ export class AduanasEditComponent implements OnInit {
       this.rowsDetails[index].FechaFacturacion = event.target.value;
     else if (prop === 'puerto')
       this.rowsDetails[index].Puerto = event.target.value;
-      else if (prop === 'marca')
+    else if (prop === 'marca')
       this.rowsDetails[index].Marca = event.target.value;
-      else if (prop === 'po')
+    else if (prop === 'po')
       this.rowsDetails[index].PO = event.target.value;
     else if (prop === 'estadoSegId')
       this.rowsDetails[index].EstadoSeguimientoId = event.Codigo;
     else if (prop === 'fechaEstampado')
       this.rowsDetails[index].FechaEstampado = event.target.value;
-   
+
   }
 
 
@@ -317,6 +302,7 @@ export class AduanasEditComponent implements OnInit {
       itemsShowLimit: 100,
       allowSearchFilter: true
     };
+
   }
 
   onItemSelect(item: any) {
@@ -325,9 +311,7 @@ export class AduanasEditComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
- openModal (modalEmpresa) {
-    //this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
-
+  openModal(modalEmpresa) {
     this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
 
   }
@@ -369,14 +353,17 @@ export class AduanasEditComponent implements OnInit {
         }
       );
   }
-  obtenerDetalle() {
+  async obtenerDetalle() {
+
     this.spinner.show();
+    await this.CargarStatusEmbarque();
     let request = { AduanaId: Number(this.id) }
     this.aduanaService.ConsultarPorId(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
+            //this.formCargamentos(res.Result.Data);
             this.cargarDataFormulario(res.Result.Data);
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -397,6 +384,7 @@ export class AduanasEditComponent implements OnInit {
 
 
   async cargarDataFormulario(data: any) {
+
     let json = JSON.stringify(data);
     this.selectEmpresa[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaAgenciaAduaneraId };
     this.selectExportador[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaExportadoraId };
@@ -419,22 +407,9 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('productor').setValue(data.RazonSocialEmpresaProductora);
     this.consultarCertificaciones(data.EmpresaExportadoraId, 'Exportador');
     this.consultarCertificaciones(data.EmpresaProductoraId, 'Productor');
-   
     this.aduanasFormEdit.get('mesEmbarque').setValue(formatDate(data.FechaEmbarque, 'MM-yyyy', 'en'));
     if (data.NumeroContratoInternoProductor)
       this.aduanasFormEdit.get('numeroContratoInternoProductor').setValue(data.NumeroContratoInternoProductor);
-    if (data.FechaEmbarquePlanta && data.FechaEmbarquePlanta.substring(0, 10) != '0001-01-01') {
-      
-      this.aduanasFormEdit.get('fechaEmbarque').setValue(formatDate(data.FechaEmbarquePlanta, 'yyyy-MM-dd', 'en'));
-    }
-    if (data.FechaZarpeNave && data.FechaZarpeNave.substring(0, 10) != '0001-01-01')
-      this.aduanasFormEdit.get('fechaZarpeNave').setValue(data.FechaZarpeNave == null ? null : formatDate(data.FechaZarpeNave, 'yyyy-MM-dd', 'en'));
-    if (data.FechaFacturacion && data.FechaFacturacion.substring(0, 10) != '0001-01-01')
-      this.aduanasFormEdit.get('fechaFac').setValue(data.FechaFacturacion == null ? null : formatDate(data.FechaFacturacion, 'yyyy-MM-dd', 'en'));
-    this.aduanasFormEdit.get('puerto').setValue(data.Puerto);
-    this.aduanasFormEdit.get('marca').setValue(data.Marca);
-    this.aduanasFormEdit.get('po').setValue(data.PO);
-
     this.aduanasFormEdit.get('producto').setValue(data.Producto);
     this.aduanasFormEdit.get('subproducto').setValue(data.SubProducto);
     this.aduanasFormEdit.get('calidad').setValue(data.Calidad);
@@ -445,12 +420,9 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('numeroContenedores').setValue(data.NumeroContenedores);
     this.aduanasFormEdit.get('statusPagoFactura').setValue(data.EstadoPagoFactura);
     this.aduanasFormEdit.get('pesoxsaco').setValue(data.PesoPorSaco);
-    this.aduanasFormEdit.get('embarqueStatus').setValue(data.EstadoSeguimientoId);
     if (data.FechaPagoFactura)
       this.aduanasFormEdit.get('fechaPagoFactura').setValue(data.FechaPagoFactura == null ? null : formatDate(data.FechaPagoFactura, 'dd/MM/yyyy', 'en'));
     this.aduanasFormEdit.get('totalkilosnetos').setValue(data.PesoKilos);
-    if (data.FechaEstampado)
-      this.aduanasFormEdit.get('fechaEstampado').setValue(data.FechaEstampado == null ? null : formatDate(data.FechaEstampado, 'yyyy-MM-dd', 'en'));
     if (data.FechaEnvioMuestra)
       this.aduanasFormEdit.get('fechaEnvio').setValue(data.FechaEnvioMuestra == null ? null : formatDate(data.FechaEnvioMuestra, 'yyyy-MM-dd', 'en'));
     if (data.FechaRecepcionMuestra)
@@ -461,31 +433,21 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('observacion').setValue(data.Observacion);
     if (data.FechaEnvioDocumentos)
       this.aduanasFormEdit.get('fechaEnvioDocumentos').setValue(data.FechaEnvioDocumentos == null ? null : formatDate(data.FechaEnvioDocumentos, 'yyyy-MM-dd', 'en'));
-
     if (data.FechaLlegadaDocumentos)
       this.aduanasFormEdit.get('fechaLlegadaDocumentos').setValue(data.FechaLlegadaDocumentos == null ? null : formatDate(data.FechaLlegadaDocumentos, 'yyyy-MM-dd', 'en'));
-      this.CargarStatusEmbarque();
-      data.Cargamentos.forEach(obj => {
-        if (obj.FechaZarpeNave)
-        obj.FechaZarpeNave = formatDate(obj.FechaZarpeNave, 'yyyy-MM-dd', 'en'); 
 
-        if (obj.FechaFacturacion)
-        obj.FechaFacturacion = formatDate(obj.FechaFacturacion, 'yyyy-MM-dd', 'en'); 
-
-        if (obj.FechaEstampado)
+    data.Cargamentos.forEach(obj => {
+      if (obj.FechaZarpeNave)
+        obj.FechaZarpeNave = formatDate(obj.FechaZarpeNave, 'yyyy-MM-dd', 'en');
+      if (obj.FechaFacturacion)
+        obj.FechaFacturacion = formatDate(obj.FechaFacturacion, 'yyyy-MM-dd', 'en');
+      if (obj.FechaEstampado)
         obj.FechaEstampado = formatDate(obj.FechaEstampado, 'yyyy-MM-dd', 'en');
-
-        if (obj.FechaSalidaPlanta)
+      if (obj.FechaSalidaPlanta)
         obj.FechaSalidaPlanta = formatDate(obj.FechaSalidaPlanta, 'yyyy-MM-dd', 'en');
-      });
-      this.rowsDetails = [...data.Cargamentos]
-    //let arrayNotaIngreso = [];
-    //data.Detalle.forEach(x => {
-    // let object = {  NumeroNotaIngreso: x.NroNotaIngresoPlanta, Cantidad: x.CantidadSacos, KilosNetos: x.KilosNetos, Lote: x.NumeroLote}
-    //arrayNotaIngreso = [...arrayNotaIngreso, { NumeroNotaIngreso: x.NroNotaIngresoPlanta, Cantidad:  x.CantidadSacos, KilosNetos: x.KilosNetos, Lote: x.NumeroLote }];
-
-    // });
-    this.rows = data.Detalle;
+      obj.AduanaCargamentoId = obj.AduanaCargamentoId;
+    });
+    this.rowsDetails = [...data.Cargamentos]
     let selectarrayProd = [];
     let selectarrayExp = [];
     data.Certificaciones.forEach(x => {
@@ -500,10 +462,25 @@ export class AduanasEditComponent implements OnInit {
     });
     this.selectedItemsProd = selectarrayProd;
     this.selectedItemsExp = selectarrayExp;
+    this.formGroupEmbarque.controls["embarque"].setValue("02");
+    /*this.rowsDetails.forEach(x => {
+
+      this.formGroupEmbarque.controls[x.AduanaCargamentoId + "%embarque"].setValue("02");
+    })*/
+    //this.selectEmbarque = "02";
   }
 
   get fedit() {
     return this.aduanasFormEdit.controls;
+  }
+
+  formCargamentos(data: any) {
+    let groupsEmbarque = {}
+    data.Cargamentos.forEach(obj => {
+      groupsEmbarque[obj.AduanaCargamentoId + '%embarque'] = new FormControl('', []);
+
+    });
+    this.formGroupEmbarque = new FormGroup(groupsEmbarque);
   }
 
   guardar() {
@@ -519,33 +496,37 @@ export class AduanasEditComponent implements OnInit {
       let listCertificaciones: Certificaciones[] = [];
       let listDetalle: Detalle[] = [];
       let cargamentos: Cargamento[] = [];
-       
-      this.rowsDetails.forEach(x =>
-        {
-          let cargamento: Cargamento = new Cargamento();
-          cargamento.AduanaId = this.id
-          cargamento.Cantidad = x.Cantidad;
-          cargamento.PesoPorSacoKilos = x.PesoPorSacoKilos;
-          cargamento.TotalKilosNetos = x.TotalKilosNetos;
-          cargamento.NumeroContenedorEmbarcar = x.NumeroContenedorEmbarcar;
+
+      this.rowsDetails.forEach(x => {
+        let cargamento: Cargamento = new Cargamento();
+        cargamento.AduanaId = this.id
+        cargamento.Cantidad = x.Cantidad;
+        cargamento.PesoPorSacoKilos = x.PesoPorSacoKilos;
+        cargamento.TotalKilosNetos = x.TotalKilosNetos;
+        cargamento.NumeroContenedorEmbarcar = x.NumeroContenedorEmbarcar;
+        if (x.FechaSalidaPlanta == "")
+          cargamento.FechaSalidaPlanta = null;
+        else
           cargamento.FechaSalidaPlanta = x.FechaSalidaPlanta;
+        if (x.FechaZarpeNave == "")
+          cargamento.FechaZarpeNave = null;
+        else
           cargamento.FechaZarpeNave = x.FechaZarpeNave;
+        if (x.FechaFacturacion == "")
+          cargamento.FechaFacturacion = null;
+        else
           cargamento.FechaFacturacion = x.FechaFacturacion;
-          cargamento.Puerto  = x.Puerto;
-          cargamento.Marca = x.Marca;
-          cargamento.PO = x.PO;
-          cargamento.EstadoSeguimientoId = x.EstadoSeguimientoId;
+
+        cargamento.Puerto = x.Puerto;
+        cargamento.Marca = x.Marca;
+        cargamento.PO = x.PO;
+        cargamento.EstadoSeguimientoId = x.EstadoSeguimientoId;
+        if (x.FechaEstampado == "")
+          cargamento.FechaEstampado = null;
+        else
           cargamento.FechaEstampado = x.FechaEstampado;
-          cargamentos.push(cargamento);
-        });
-     /* this.rows.forEach(x => {
-        let detalle: Detalle = new Detalle();
-        detalle.NroNotaIngresoPlanta = x.NroNotaIngresoPlanta;
-        detalle.CantidadSacos = x.CantidadSacos;
-        detalle.KilosNetos = x.KilosNetos;
-        detalle.NumeroLote = x.NumeroLote
-        listDetalle.push(detalle);
-      });*/
+        cargamentos.push(cargamento);
+      });
 
       this.selectedItemsExp.forEach(x => {
         let certificacion: Certificaciones = new Certificaciones();
@@ -572,15 +553,7 @@ export class AduanasEditComponent implements OnInit {
         Number(this.selectExportador.length == 0 ? 0 : this.selectExportador[0].EmpresaProveedoraAcreedoraId),
         Number(this.selectProductor.length == 0 ? 0 : this.selectProductor[0].EmpresaProveedoraAcreedoraId),
         this.aduanasFormEdit.get('numeroContratoInternoProductor').value,
-        this.aduanasFormEdit.get('fechaEmbarque').value == "" ? null : this.aduanasFormEdit.get('fechaEmbarque').value,
-        this.aduanasFormEdit.get('fechaZarpeNave').value == "" ? null : this.aduanasFormEdit.get('fechaZarpeNave').value,
-        this.aduanasFormEdit.get('fechaFac').value == "" ? null : this.aduanasFormEdit.get('fechaFac').value,
-        this.aduanasFormEdit.get('puerto').value,
-        this.aduanasFormEdit.get('marca').value,
-        this.aduanasFormEdit.get('po').value,
         Number(this.aduanasFormEdit.get('numeroContenedores').value),
-        this.aduanasFormEdit.get('embarqueStatus').value,
-        this.aduanasFormEdit.get('fechaEstampado').value == "" ? null : this.aduanasFormEdit.get('fechaEstampado').value,
         this.aduanasFormEdit.get('fechaEnvio').value == "" ? null : this.aduanasFormEdit.get('fechaEnvio').value,
         this.aduanasFormEdit.get('fechaRecepcion').value == "" ? null : this.aduanasFormEdit.get('fechaRecepcion').value,
         this.aduanasFormEdit.get('estadoEnvio').value,
@@ -604,14 +577,14 @@ export class AduanasEditComponent implements OnInit {
           fullScreen: true
         });
       if (this.esEdit && this.id != 0) {
-        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.`, function (result) {
           if (result.isConfirmed) {
             form.actualizar(request);
           }
         });
-        
+
       } else {
-        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.`, function (result) {
           if (result.isConfirmed) {
             form.registrar(request);
           }
@@ -693,18 +666,6 @@ export class AduanasEditComponent implements OnInit {
   EliminarFila(index: any): void {
     this.rows.splice(index, 1);
     this.rows = [...this.rows];
-  }
-
-  UpdateValue(event: any, index: any, prop: any): void {
-    if (prop === 'numeroNotaIngreso') {
-      this.rows[index].NroNotaIngresoPlanta = event.target.value
-    } else if (prop === 'cantidad') {
-      this.rows[index].CantidadSacos = parseFloat(event.target.value)
-    } else if (prop === 'kilosnetos') {
-      this.rows[index].KilosNetos = parseFloat(event.target.value)
-    } else if (prop === 'lote') {
-      this.rows[index].NumeroLote = event.target.value
-    }
   }
 
   openModalDocumentos(customContent) {

@@ -8,15 +8,7 @@ export class ReqAduanas {
         EmpresaExportadoraId: number,
         EmpresaProductoraId: number,
         NumeroContratoInternoProductor: string,
-        FechaEmbarque: Date,
-        FechaZarpeNave: Date,
-        FechaFacturacion: Date,
-        Puerto: string,
-        Marca: string,
-        PO: string,
         NumeroContenedores: number,
-        EstadoSeguimientoId: string,
-        FechaEstampado: Date,
         FechaEnvioMuestra: Date,
         FechaRecepcionMuestra: Date,
         EstadoMuestraId: string,
@@ -43,15 +35,7 @@ export class ReqAduanas {
         this.EmpresaExportadoraId = EmpresaExportadoraId;
         this.EmpresaProductoraId = EmpresaProductoraId;
         this.NumeroContratoInternoProductor = NumeroContratoInternoProductor;
-        this.FechaEmbarque = FechaEmbarque;
-        this.FechaZarpeNave = FechaZarpeNave;
-        this.FechaFacturacion = FechaFacturacion;
-        this.Puerto = Puerto;
-        this.Marca = Marca;
-        this.PO = PO;
         this.NumeroContenedores = NumeroContenedores;
-        this.EstadoSeguimientoId = EstadoSeguimientoId;
-        this.FechaEstampado = FechaEstampado;
         this.FechaRecepcionMuestra = FechaRecepcionMuestra;
         this.Courier = Courier;
         this.FechaEnvioMuestra = FechaEnvioMuestra;
@@ -77,20 +61,12 @@ export class ReqAduanas {
     EmpresaExportadoraId: number;
     EmpresaProductoraId: number;
     NumeroContratoInternoProductor: string;
-    FechaEmbarque: Date;
-    FechaZarpeNave: Date;
-    FechaFacturacion: Date;
-    Puerto: string;
-    Marca: string;
-    PO: string;
     NumeroContenedores: number
     EstadoSeguimientoId: string;
     FechaEstampado: Date;
     FechaEnvioMuestra: Date;
     FechaRecepcionMuestra: Date;
-
     Courier: string;
-    
     NumeroSeguimientoMuestra: string;
     EstadoMuestraId: string;
     Observacion: string;

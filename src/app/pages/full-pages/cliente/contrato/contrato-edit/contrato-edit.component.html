@@ -15,17 +15,17 @@
               </div>
 
             </div>
-            <div class="row"
+            <div class="row" 
               style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-              <div class="card-subtitle-form">Datos Generales</div>
+              <div style="display: table-cell; " class="card-subtitle-form espacios">{{ContratoEditTraduccion.SubTitle1 | translate }}</div>
             </div>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-3">
-                <label for="basicInput">Contrato N°</label>
+                <label for="basicInput">{{ContratoEditTraduccion.NumContrato | translate }}</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="numeroContrato" disabled>
               </div>
               <div class="col-12 col-md-4">
-                <label for="basicInput">RUC/ Agencia Aduanera</label>
+                <label for="basicInput">{{ContratoEditTraduccion.RucAgencia | translate }}</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
               </div>
               <div class="col-12 col-md-5">
@@ -35,27 +35,26 @@
             </div>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-8">
-                <label for="basicInput">Cliente Final</label>
+                <label for="basicInput">{{ContratoEditTraduccion.ClienteFinal | translate }}</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="clienteFinal" disabled>
               </div>
               <div class="col-12 col-md-4">
-                <label for="basicInput">Flo id</label>
+                <label for="basicInput">{{ContratoEditTraduccion.FloId | translate }}</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="floId" disabled>
               </div>
               
             </div>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-4">
-                  <label for="basicInput">Exportador</label>
+                  <label for="basicInput">{{ContratoEditTraduccion.Exportador | translate }}</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="exportador"
                       disabled class="form-control">
               </div>
 
               <div class="col-12 col-md-7">
-                  <label for="certificacionesExportador" class="form-label">Certificaciones Solicitadas
-                      Exportador</label>
+                  <label for="certificacionesExportador" class="form-label">{{ContratoEditTraduccion.CertificacionExp | translate }}</label>
                   <ng-multiselect-dropdown [placeholder]="'Seleccionar Certificaciones'"
-                      formControlName="certificacionesExportador" [settings]="dropdownSettings"
+                      formControlName="certificacionesExportador" [settings]="dropdownSettings"  [disabled]="true"
                       [data]="dropdownListExp" [(ngModel)]="selectedItemsExp"
                       (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                   </ng-multiselect-dropdown>
@@ -66,90 +65,90 @@
 
           <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
             <div class="col-12 col-md-4">
-                <label for="basicInput">Productor</label>
+                <label for="basicInput">{{ContratoEditTraduccion.Productor | translate }}</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="productor"
                     disabled class="form-control">
             </div>
             <div class="col-12 col-md-7">
-                <label for="estado" class="form-label">Certificaciones Solicitadas Productor</label>
+                <label for="estado" class="form-label">{{ContratoEditTraduccion.CertificacionProd | translate }}</label>
                 <ng-multiselect-dropdown [placeholder]="'Seleccionar Certificaciones'"
-                    formControlName="certificacionesProductor" [settings]="dropdownSettings"
+                    formControlName="certificacionesProductor" [settings]="dropdownSettings" [disabled]="true"
                     [data]="dropdownListProd" [(ngModel)]="selectedItemsProd"  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
             </div>
         </div>
         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
           <div class="col-12 col-md-8">
-            <label for="basicInput">Nro. Contrato Interno-Productor</label>
+            <label for="basicInput">{{ContratoEditTraduccion.NroContratoInterno | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="numeroContratoInterno" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Mes Embarque</label>
+            <label for="basicInput">{{ContratoEditTraduccion.MesEmbarque | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="mesEmbarque" disabled>
           </div>
           
         </div>
         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
           <div class="col-12 col-md-4">
-            <label for="basicInput">Producto</label>
+            <label for="basicInput">{{ContratoEditTraduccion.Producto | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="producto" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Sub Producto</label>
+            <label for="basicInput">{{ContratoEditTraduccion.SubProducto | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="subproducto" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Calidad</label>
+            <label for="basicInput">{{ContratoEditTraduccion.Calidad | translate }} </label>
             <input type="text" class="form-control" id="basicInput" formControlName="calidad" disabled>
           </div>
         </div>
         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
           <div class="col-12 col-md-4">
-            <label for="basicInput">Empaque/Tipo</label>
+            <label for="basicInput"> {{ContratoEditTraduccion.Empaque | translate }} </label>
             <input type="text" class="form-control" id="basicInput" formControlName="empaque" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Certificación</label>
+            <label for="basicInput"> {{ContratoEditTraduccion.Certificacion | translate }} </label>
             <input type="text" class="form-control" id="basicInput" formControlName="certificacion" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Cantidad de Defectos</label>
+            <label for="basicInput">{{ContratoEditTraduccion.CantidadDefectos | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="cantidadDefectos" disabled>
           </div>
         </div>
         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
           <div class="col-12 col-md-4">
-            <label for="basicInput">Cantidad</label>
+            <label for="basicInput">{{ContratoEditTraduccion.Cantidad | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="cantidad" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Nro Contenedores</label>
+            <label for="basicInput">{{ContratoEditTraduccion.NroContenedores | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="nroContenedores" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Status Pago Factura</label>
+            <label for="basicInput">{{ContratoEditTraduccion.StatusPago | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="statusPago" disabled>
           </div>
         </div>
         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
           <div class="col-12 col-md-4">
-            <label for="basicInput">Peso por Saco Kg</label>
+            <label for="basicInput">{{ContratoEditTraduccion.PesoxSaco | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="pesoxSaco" disabled>
           </div>
           <div class="col-12 col-md-4">
-            <label for="basicInput">Fecha Pago Factura</label>
+            <label for="basicInput">{{ContratoEditTraduccion.FechaPagoFactura | translate }} </label>
             <input type="text" class="form-control" id="basicInput" formControlName="fechaPagoFactura" disabled>
           </div>
         </div>
         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
           <div class="col-12 col-md-4">
-            <label for="basicInput">Total Kilos Netos</label>
+            <label for="basicInput">{{ContratoEditTraduccion.TotalKilosNetos | translate }}</label>
             <input type="text" class="form-control" id="basicInput" formControlName="totalKilosNetos" disabled>
           </div>
         </div>
         <div class="row"
                             style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                            <div class="card-subtitle-form">DATOS DEL CARGAMENTO A EMBARCAR</div>
+                            <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle2 | translate }}</div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                            
@@ -158,57 +157,57 @@
                                     <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
                                         [scrollbarH]="false"  [selectionType]="'single'"  >
 
-                                        <ngx-datatable-column name="Cantidad" prop="Cantidad" width="80"
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblCantidad | translate" prop="Cantidad" width="80"
                                             [sortable]="false">
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Peso por Saco Kilos" prop="PesoPorSacoKilos"  width="80"
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblPesoxKilos | translate" prop="PesoPorSacoKilos"  width="80"
                                             [sortable]="false">
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Total Kilos Netos" prop="TotalKilosNetos"  width="80"
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblTotalKilosNetos | translate" prop="TotalKilosNetos"  width="80"
                                             [sortable]="false">
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Nro Contenedor a Embarcar" prop="NumeroContenedorEmbarcar"  width="120"
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblNroContenedor | translate" prop="NumeroContenedorEmbarcar"  width="120"
                                             [sortable]="false">
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Fecha Salida a Planta" prop="FechaSalidaPlanta"  width="140"
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblFechaSalidaPlanta | translate" prop="FechaSalidaPlanta"  width="140"
                                             [sortable]="false">
                                             
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Fecha Zarpe Nave" prop="FechaZarpeNave" [sortable]="false"  width="130"> 
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblFechaZarpe | translate" prop="FechaZarpeNave" [sortable]="false"  width="130"> 
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Fecha Fac./Exp." prop="FechaFacturacion" [sortable]="false"  width="120">
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblFechaFact | translate" prop="FechaFacturacion" [sortable]="false"  width="120">
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Puerto" prop="Puerto" [sortable]="false"  width="70">
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblPuerto | translate" prop="Puerto" [sortable]="false"  width="70">
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Marca" prop="Marca" [sortable]="false" width="70">
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblMarca | translate" prop="Marca" [sortable]="false" width="70">
                                            
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="PO#" prop="PO" [sortable]="false" width="60">
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblPo | translate" prop="PO" [sortable]="false" width="60">
                                             
                                         </ngx-datatable-column>
 
-                                        <ngx-datatable-column name="Estado de Embarque" prop="EstadoSeguimiento" [sortable]="false" width="100">
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblEstadoEmbarque | translate" prop="EstadoSeguimiento" [sortable]="false" width="100">
                                            
                                         </ngx-datatable-column>
 
 
-                                        <ngx-datatable-column name="Fecha de Estampado" prop="FechaEstampado" [sortable]="false" width="130">
+                                        <ngx-datatable-column [name]="ContratoEditTraduccion.tblFechaEstampado | translate" prop="FechaEstampado" [sortable]="false" width="130">
                                             
                                         </ngx-datatable-column>
 
@@ -219,37 +218,37 @@
                         </div>
                         <div class="row"
                             style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                            <div class="card-subtitle-form">SEGUIMIENTO DE MUESTRAS</div>
+                            <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle3 | translate }}</div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
 
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Fecha Envío</label>
+                                <label for="basicInput">{{ContratoEditTraduccion.FechaEnvio | translate }}</label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaEnvio"
                                     class="form-control" disabled>
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Courier</label>
+                                <label for="basicInput">{{ContratoEditTraduccion.Courier | translate }}</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="courier"
                                     placeholder="Courier" disabled >
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Fecha Recepción en Destino </label>
+                                <label for="basicInput">{{ContratoEditTraduccion.FechaRecepcionDestino | translate }} </label>
                                 <input type="date" class="form-control" id="basicInput" formControlName="fechaRecepcion"
                                     class="form-control" disabled >
 
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Tracking Number</label>
+                                <label for="basicInput">{{ContratoEditTraduccion.NumTracking | translate }}</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="trackingNumber"
                                     placeholder="Tracking Number" disabled >
                             </div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12 col-md-6">
-                                <label for="customsTrackingStatus">ESTADO DE ENVIO</label>
+                                <label for="customsTrackingStatus">{{ContratoEditTraduccion.EstadoEnvio | translate }}</label>
                                 <ng-select [items]="listEstadoEnvio" formControlName="estadoEnvio" class="form-control"
                                     bindLabel="Label" bindValue="Codigo" id="estadoEnvio"
                                     placeholder="Seleccionar Estado de Envio"   [(ngModel)]="selectEstadoEnvio">
@@ -259,8 +258,7 @@
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
                             <div class="col-12">
-                                <label for="basicInput" style="font-size: 0.7rem;">OBSERVACIONES (ADDITIONAL
-                                    NOTES)</label>
+                                <label for="basicInput" style="font-size: 0.7rem;">{{ContratoEditTraduccion.Observaciones | translate }}</label>
                                 <div class="position-relative has-icon-left textarea">
                                     <textarea id="bordered-form-6" rows="4" class="form-control"
                                         formControlName="observacion" name="notes" disabled></textarea>
@@ -274,17 +272,17 @@
 
                         <div class="row"
                             style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                            <div class="card-subtitle-form">SEGUIMIENTO DE DOCUMENTOS</div>
+                            <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle4 | translate }}</div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
 
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Fecha Envío Documentos</label>
+                                <label for="basicInput">{{ContratoEditTraduccion.FechaEnvioDocumentos | translate }}</label>
                                 <input type="date" class="form-control" id="basicInput"
                                     formControlName="fechaEnvioDocumentos" class="form-control" disabled>
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="basicInput">Fecha Llegada Documentos</label>
+                                <label for="basicInput">{{ContratoEditTraduccion.FechaLlegadaDocumentos | translate }}</label>
                                 <input type="date" class="form-control" id="basicInput"
                                     formControlName="fechaLlegadaDocumentos" class="form-control" disabled>
                             </div>
@@ -293,7 +291,7 @@
 
                         <div class="row"
                         style="margin-right: 6rem; margin-left: 6rem; text-align: center; margin-top: 2rem; background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-                        <div class="card-subtitle-form">Logistica y Aduanas</div>
+                        <div class="card-subtitle-form">{{ContratoEditTraduccion.SubTitle5 | translate }}</div>
                       </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
 
@@ -304,7 +302,7 @@
                               <app-lista-documentos [codeForm]="'frmMdlListDocumentsAduana'" [code]="AduanaId">
                               </app-lista-documentos>
                             </ng-template>
-                            <button class="btn btn-primary" (click)="openModal(mdlListDocuments)"> Imprimir Documentos y Certificados </button>
+                            <button class="btn btn-primary" (click)="openModal(mdlListDocuments)"> {{ContratoEditTraduccion.Button | translate }}</button>
                           </div>
                         </div>
                       
