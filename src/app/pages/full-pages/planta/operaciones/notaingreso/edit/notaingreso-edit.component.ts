@@ -202,6 +202,15 @@ export class NotaIngresoEditComponent implements OnInit {
     this.desactivarControl(filterProducto);
   }
 
+  imprimir(): void {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}NotaIngresoPlanta/GenerarPDFNotaIngreso?id=${this.id}`;
+    link.download = "GuiaRemision.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
   desactivarControl(codigo) {
     if (codigo != this.productoOroVerde) {
       this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
