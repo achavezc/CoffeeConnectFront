@@ -23,8 +23,10 @@ export class ReqControlCalidad {
     ObservacionRegistroTostado?: string,
     ObservacionAnalisisSensorial?: string,
     SubTotalAnalisisSensorial?: number,
-    DefectosTasaAnalisisSensorial?: number,
-    DefectosIntensidadAnalisisSensorial?: number,
+    Taza?: number,
+    Intensidad?: number,
+    TazaIntensidad?: number,
+    PuntajeFinal?: number,
     AnalisisFisicoDefectoPrimarioDetalleList?: AnalisisFisicoDefectoPrimarioDetalleList[],
     AnalisisFisicoDefectoSecundarioDetalleList?: AnalisisFisicoDefectoSecundarioDetalleList[],
     RegistroTostadoIndicadorDetalleList?: RegistroTostadoIndicadorDetalleList[],
@@ -130,9 +132,10 @@ export class ReqControlCalidad {
             this.NotaIngresoPlantaId = NotaIngresoPlantaId
         }
         this.SubTotalAnalisisSensorial = SubTotalAnalisisSensorial,
-        this.DefectosTasaAnalisisSensorial = DefectosTasaAnalisisSensorial,
-        this.DefectosIntensidadAnalisisSensorial = DefectosIntensidadAnalisisSensorial,
-
+        this.Taza = Taza,
+        this.Intensidad = Intensidad,
+        this.TazaIntensidad = TazaIntensidad,
+        this.PuntajeFinal = PuntajeFinal,
         this.EmpresaId = EmpresaId,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
         this.HumedadPorcentajeAnalisisFisico = HumedadPorcentajeAnalisisFisico,       
@@ -158,8 +161,10 @@ export class ReqControlCalidad {
     ObservacionRegistroTostado?: string;
     ObservacionAnalisisSensorial?: string;
     SubTotalAnalisisSensorial?: number;
-    DefectosTasaAnalisisSensorial?: number;
-    DefectosIntensidadAnalisisSensorial?: number;
+    Taza?: number;
+    Intensidad?: number;
+    TazaIntensidad?: number;
+    PuntajeFinal?: number;
     AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[];
     AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[];
     AnalisisFisicoDefectoPrimarioDetalleList?: AnalisisFisicoDefectoPrimarioDetalleList[];
