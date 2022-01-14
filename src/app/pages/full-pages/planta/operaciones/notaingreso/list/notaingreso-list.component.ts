@@ -72,6 +72,8 @@ export class NotaIngresoListComponent implements OnInit {
     this.cargarcombos();
     this.consultaNotaIngresoPlantaForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.consultaNotaIngresoPlantaForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
+    this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
   }
 
@@ -111,7 +113,9 @@ export class NotaIngresoListComponent implements OnInit {
         tipoProducto: new FormControl('', []),
         subProducto: new FormControl('', []),
         estado: new FormControl('', [Validators.required]),
-        motivo: new FormControl('', [])
+        motivo: new FormControl('', []),
+        fechaGuiaRemisionInicio: new FormControl('', [Validators.required]),
+        fechaGuiaRemisionFin: new FormControl('', [Validators.required,])
       });
     this.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
   }
@@ -174,6 +178,8 @@ export class NotaIngresoListComponent implements OnInit {
         "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
         "FechaInicio": this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value,
         "FechaFin": this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value,
+        "FechaGuiaRemisionInicio": this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionInicio'].value,
+        "FechaGuiaRemisionFin" : this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionFin'].value
 
       }
       this.spinner.show(undefined,
@@ -190,10 +196,8 @@ export class NotaIngresoListComponent implements OnInit {
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
               res.Result.Data.forEach(obj => {
-
-                var fecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistroCadena = this.dateUtil.formatDate(fecha, "/");
-
+                obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro), "/");
+                obj.FechaGuiaRemision =  this.dateUtil.formatDate(new Date(obj.FechaGuiaRemision), "/");
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];

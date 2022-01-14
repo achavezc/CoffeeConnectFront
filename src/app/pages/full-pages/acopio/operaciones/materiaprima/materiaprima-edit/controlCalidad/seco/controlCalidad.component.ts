@@ -375,6 +375,8 @@ export class ControlCalidadComponent implements OnInit {
         Number(controlFormControlCalidad["SubToTalSensorial"].value),
         Number(controlDefectos["tasa"].value),
         Number(controlDefectos["intensidad"].value),
+        Number(controlDefectos["subtotal"].value),
+        Number(controlDefectos["puntajeFinal"].value),
         listaDefectosPrimarios,
         listaDefectosSecundarios,
         listaRegistroTostado,
@@ -739,8 +741,8 @@ export class ControlCalidadComponent implements OnInit {
     controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalle.ObservacionAnalisisFisico);
     controlFormControlCalidad["ObservacionRegTostado"].setValue(this.detalle.ObservacionRegistroTostado);
     controlFormControlCalidad["ObservacionAnalisisSensorial"].setValue(this.detalle.ObservacionAnalisisSensorial);
-    controlDefectos["tasa"].setValue(this.detalle.DefectosTasaAnalisisSensorial);
-    controlDefectos["intensidad"].setValue(this.detalle.DefectosIntensidadAnalisisSensorial);
+    controlDefectos["tasa"].setValue(this.detalle.Taza);
+    controlDefectos["intensidad"].setValue(this.detalle.Intensidad);
     form.responsable = this.detalle.UsuarioCalidad;
     if (this.detalle.FechaCalidad) {
       form.fechaCalidad = form.dateUtil.formatDate(new Date(this.detalle.FechaCalidad), "/");
