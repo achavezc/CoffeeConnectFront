@@ -170,6 +170,13 @@
                     id="validationTooltip04" placeholder="Nro Brevete"
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.numeroBrevete.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.numeroBrevete.invalid }">
                 </div>
+                
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Marca</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="marca" class="form-control"
+                    id="validationTooltip04" placeholder="Marca"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.marca.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.marca.invalid }">
+                </div>
 
               </div>
               <div class="form-group row last mb-3">

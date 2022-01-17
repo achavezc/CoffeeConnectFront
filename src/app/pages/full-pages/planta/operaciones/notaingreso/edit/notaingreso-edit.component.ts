@@ -157,6 +157,7 @@ export class NotaIngresoEditComponent implements OnInit {
           placaVehiculo: new FormControl('', [Validators.required]),
           chofer: new FormControl('', [Validators.required]),
           numeroBrevete: new FormControl('', [Validators.required]),
+          marca: new FormControl('', [Validators.required]),
           observacion: new FormControl('', [])
         })
       });
@@ -388,7 +389,8 @@ export class NotaIngresoEditComponent implements OnInit {
         new Date(),
         this.login.Result.Data.NombreUsuario,
         new Date(),
-        this.notaIngredoFormEdit.controls["direccion"].value
+        this.notaIngredoFormEdit.controls["direccion"].value,
+        this.notaIngredoFormEdit.get('pesado').get("marca").value
       );
       this.spinner.show(undefined,
         {
@@ -542,6 +544,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.get('pesado').get("chofer").setValue(data.ConductorEmpresaTransporte);
     this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
     this.notaIngredoFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
+    this.notaIngredoFormEdit.get('pesado').get("marca").setValue(data.Marca);
     this.validacionPorcentajeRend(data.ProductoId,data.SubProductoId);
     this.estado = data.Estado
     this.numeroNotaIngreso = data.Numero;
