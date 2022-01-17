@@ -29,6 +29,7 @@ export class AduanasEditComponent implements OnInit {
 
   login: ILogin;
   aduanasFormEdit: FormGroup;
+  formControlEmbarque: FormGroup;
   selectEstado: any;
   submittedEdit = false;
   submitted = false;
@@ -36,10 +37,9 @@ export class AduanasEditComponent implements OnInit {
   numero: any = "";
   fechaRegistro: any;
   esEdit = false;
-
   listaEstado: any[];
   listEstadoEmbarque: any[];
-  selectEstadoEmbarque: any;
+  selectEstadoEmbarque: any[] = [];
   listEmbarque: any[];
   selectEmbarque: any;
   rows = [];
@@ -64,7 +64,6 @@ export class AduanasEditComponent implements OnInit {
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   listEstadoEnvio: any[];
   selectEstadoEnvio: any;
-  formGroupEmbarque: FormGroup;
 
   rowsDetails = [];
   constructor(private fb: FormBuilder,
@@ -80,12 +79,6 @@ export class AduanasEditComponent implements OnInit {
     private aduanaService: AduanaService) {
   }
   cargarForm() {
-    this.formGroupEmbarque = this.fb.group
-    (
-      {
-        embarque:new FormControl('', [])
-      }
-    );
     this.aduanasFormEdit = this.fb.group(
       {
         contrato: ['', [Validators.required]],
@@ -118,9 +111,14 @@ export class AduanasEditComponent implements OnInit {
         estadoEnvio: [],
         observacion: new FormControl('', []),
         fechaEnvioDocumentos: new FormControl('', []),
-        fechaLlegadaDocumentos: new FormControl('', [])
-
+        fechaLlegadaDocumentos: new FormControl('', []),
+        
       });
+
+     /* this.formControlEmbarque = this.fb.group({
+        embarque:new FormControl('', [])
+      })
+     this.CargarStatusEmbarque();*/
 
     this.maestroService.obtenerMaestros("EstadoMuestra")
       .subscribe(res => {
@@ -139,6 +137,7 @@ export class AduanasEditComponent implements OnInit {
       .subscribe(res => {
         if (res.Result.Success) {
           this.listEstadoEnvio = res.Result.Data;
+         
         }
       },
         err => {
@@ -150,6 +149,7 @@ export class AduanasEditComponent implements OnInit {
       .subscribe(res => {
         if (res.Result.Success) {
           this.listEstadoEmbarque = res.Result.Data;
+         
         }
       },
         err => {
@@ -166,7 +166,7 @@ export class AduanasEditComponent implements OnInit {
   }
 
   async addRowDetail() {
-    await this.CargarStatusEmbarque();
+    
     this.rowsDetails = [...this.rowsDetails, {
       Cantidad: 0,
       PesoPorSacoKilos: 0,
@@ -178,11 +178,9 @@ export class AduanasEditComponent implements OnInit {
       Puerto: '',
       Marca: '',
       PO: '',
-      EstadoSeguimientoId: '02',
+      EstadoSeguimientoId: '',
       FechaEstampado: null
     }];
-    
-    this.selectEmbarque = "02";
 
   }
 
@@ -190,6 +188,7 @@ export class AduanasEditComponent implements OnInit {
     var data = await this.maestroService.obtenerMaestros("EstadoSeguimientoAduana").toPromise();
     if (data.Result.Success) {
       this.listEmbarque = data.Result.Data;
+     // this.formGroupEmbarque.controls["embarque"].setValue("01");
     }
 
     /*this.maestroService.obtenerMaestros("EstadoSeguimientoAduana")
@@ -209,7 +208,8 @@ export class AduanasEditComponent implements OnInit {
     this.rowsDetails = [...this.rowsDetails];
   }
 
-  UpdateValuesGridDetails(event: any, index: any, prop: any): void {
+  UpdateValuesGridDetails(event: any, index: any, prop: any,  row: any): void {
+    var x = row;
     if (prop === 'cantidad')
       this.rowsDetails[index].Cantidad = parseFloat(event.target.value);
     else if (prop == 'pesoPorSacoKilos')
@@ -241,7 +241,6 @@ export class AduanasEditComponent implements OnInit {
   receiveMessageExportador($event) {
 
     this.selectExportador = $event
-
     this.aduanasFormEdit.get('exportador').setValue(this.selectExportador[0].RazonSocial);
     this.consultarCertificaciones(this.selectExportador[0].EmpresaProveedoraAcreedoraId, 'Exportador');
 
@@ -252,7 +251,6 @@ export class AduanasEditComponent implements OnInit {
     this.selectProductor = $event
     this.aduanasFormEdit.get('productor').setValue(this.selectProductor[0].RazonSocial);
     this.consultarCertificaciones(this.selectProductor[0].EmpresaProveedoraAcreedoraId, 'Productor');
-
     this.modalService.dismissAll();
   }
 
@@ -274,9 +272,6 @@ export class AduanasEditComponent implements OnInit {
     this.aduanasFormEdit.get('certificacion').setValue(this.selectContrato[0].TipoCertificacion);
     this.aduanasFormEdit.get('cantidadDefectos').setValue(this.selectContrato[0].PreparacionCantidadDefectos);
     this.aduanasFormEdit.get('numeroContenedores').setValue(this.selectContrato[0].CantidadContenedores);
-
-
-
     this.modalService.dismissAll();
   }
 
@@ -363,7 +358,7 @@ export class AduanasEditComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            //this.formCargamentos(res.Result.Data);
+            this.formCargamentos(res.Result.Data);
             this.cargarDataFormulario(res.Result.Data);
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
@@ -386,6 +381,7 @@ export class AduanasEditComponent implements OnInit {
   async cargarDataFormulario(data: any) {
 
     let json = JSON.stringify(data);
+   // this.formCargamentos(data);
     this.selectEmpresa[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaAgenciaAduaneraId };
     this.selectExportador[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaExportadoraId };
     this.selectProductor[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaProductoraId };
@@ -445,9 +441,10 @@ export class AduanasEditComponent implements OnInit {
         obj.FechaEstampado = formatDate(obj.FechaEstampado, 'yyyy-MM-dd', 'en');
       if (obj.FechaSalidaPlanta)
         obj.FechaSalidaPlanta = formatDate(obj.FechaSalidaPlanta, 'yyyy-MM-dd', 'en');
-      obj.AduanaCargamentoId = obj.AduanaCargamentoId;
+        this.selectEstadoEmbarque[obj.AduanaCargamentoId] = obj.EstadoSeguimientoId;
     });
     this.rowsDetails = [...data.Cargamentos]
+   
     let selectarrayProd = [];
     let selectarrayExp = [];
     data.Certificaciones.forEach(x => {
@@ -462,12 +459,10 @@ export class AduanasEditComponent implements OnInit {
     });
     this.selectedItemsProd = selectarrayProd;
     this.selectedItemsExp = selectarrayExp;
-    this.formGroupEmbarque.controls["embarque"].setValue("02");
-    /*this.rowsDetails.forEach(x => {
-
-      this.formGroupEmbarque.controls[x.AduanaCargamentoId + "%embarque"].setValue("02");
-    })*/
-    //this.selectEmbarque = "02";
+    var x = this.listEstadoEmbarque;
+    //this.aduanasFormEdit.get('formControlEmbarque').get('embarque').setValue('02');
+    //this.formControlEmbarque.get("embarque").setValue('02');
+    
   }
 
   get fedit() {
@@ -477,10 +472,10 @@ export class AduanasEditComponent implements OnInit {
   formCargamentos(data: any) {
     let groupsEmbarque = {}
     data.Cargamentos.forEach(obj => {
-      groupsEmbarque[obj.AduanaCargamentoId + '%embarque'] = new FormControl('', []);
+      groupsEmbarque[obj.AduanaCargamentoId + 'embarque'] = new FormControl('', []);
 
     });
-    this.formGroupEmbarque = new FormGroup(groupsEmbarque);
+   this.formControlEmbarque = new FormGroup(groupsEmbarque);
   }
 
   guardar() {

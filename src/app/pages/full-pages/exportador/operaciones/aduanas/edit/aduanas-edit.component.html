@@ -47,6 +47,14 @@
                             <div class="card-subtitle-form">DATOS GENERALES</div>
                         </div>
                         <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+
+
+
+
+                       
+
+
+
                             <div class="col-12 col-md-3">
                                 <label for="basicInput">Contrato N°</label>
                                 <input type="text" class="form-control" id="basicInput" formControlName="contrato"
@@ -357,6 +365,18 @@
                                     (click)="addRowDetail()">+</button>
                                 <!--<label class="text-danger ml-2">*Todos los campos son obligatorios</label>-->
                             </div>
+
+                       <!-- <div formGroupName = "formControlEmbarque">
+                          <ng-select [items]="listEstadoEmbarque"  width="140"  formControlName="embarque"
+                            class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Status Emb."
+                            [(ngModel)]="selectEstadoEmbarque"  id="embarque" >
+                        </ng-select>
+                    </div>-->
+
+                           
+
+
+
                         </div>
                         <div class="form-row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -487,11 +507,11 @@
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column name="PO#" prop="PO" [sortable]="false" width="50">
+                                    <ngx-datatable-column name="PO#" prop="PO" [sortable]="false" width="50"  >
                                         <ng-template ngx-datatable-cell-template let-row="row" let-po="value"
                                             let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center">
-                                                <input type="text" autofocus
+                                                <input type="text" autofocus 
                                                     class="form-control form-control-sm text-right"
                                                     (blur)="UpdateValuesGridDetails($event, rowIndex, 'po')"
                                                     value="{{po}}">
@@ -499,24 +519,28 @@
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column name="Status de Emb." prop="EstadoSeguimientoId"  width="140" formGroup="formGroupEmbarque">
-                                        <ng-template ngx-datatable-cell-template let-row="row" let-estadoSegId="value"
+                                    <ngx-datatable-column name="Status de Emb." prop="EstadoSeguimientoId"  width="140" >
+                                        <ng-template ngx-datatable-cell-template let-row="row" let-estadoSegId="value" 
                                             let-rowIndex="rowIndex">
-                                            <ng-select [items]="listEmbarque"  width="140"  formControlName="embarque"
+                                            <div class="d-flex align-items-center" [formGroup] = "formControlEmbarque">
+                                            <ng-select [items]="listEstadoEmbarque"  width="140"   
                                                 class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Status Emb."
-                                                [(ngModel)]="selectEmbarque" 
+                                                [(ngModel)]="selectEstadoEmbarque[row.AduanaCargamentoId]"  id="embarque" [formControlName]="row.AduanaCargamentoId+'embarque'"
                                                 (change)="UpdateValuesGridDetails($event, rowIndex, 'estadoSegId')"
                                                 value="{{estadoSegId}}">
                                             </ng-select>
+                                        </div>
                                         </ng-template>
                                     </ngx-datatable-column>
 
+
+                                   
 
                                     <ngx-datatable-column name="Fecha de Estampado" prop="FechaEstampado" [sortable]="false" width="130">
                                         <ng-template ngx-datatable-cell-template let-row="row" let-fechaEstampado="value"
                                             let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center">
-                                                <input type="date" date autofocus style="width: 75%;"
+                                                <input type="date" date autofocus style="width: 75%;" 
                                                 class="form-control form-control-sm text-center"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'fechaEstampado')"
                                                 value="{{fechaEstampado}}">
