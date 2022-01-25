@@ -134,11 +134,11 @@ export class MateriaPrimaEditComponent implements OnInit {
     
     //validacion de readonly
     if(this.esModoEscritura(this.vSessionUser.Result.Data.OpcionesEscritura)){
-      this.consultaMateriaPrimaFormEdit.enable();
-      this.readonly= false;
+      //this.consultaMateriaPrimaFormEdit.enable();
+      //this.readonly= false;
     }else {
-      this.consultaMateriaPrimaFormEdit.disable();
-      this.readonly= true;
+      //this.consultaMateriaPrimaFormEdit.disable();
+      //this.readonly= true;
     }
     //validacion de readonly
   }
