@@ -17,7 +17,7 @@ import { formatDate } from '@angular/common';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 import { PesadoCafeComponent } from '../materiaprima-edit/pesadoCafe/pesadoCafe.component';
 import { ContratoService } from './../../../../../../services/contrato.service';
-import swal from 'sweetalert2';
+import {AuthService} from './../../../../../../services/auth.service';
 
 
 @Component({
@@ -100,7 +100,8 @@ export class MateriaPrimaEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private socioFinca: SocioFincaService,
-    private contratoService: ContratoService
+    private contratoService: ContratoService,
+    private authService : AuthService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -133,26 +134,14 @@ export class MateriaPrimaEditComponent implements OnInit {
       );
     
     //validacion de readonly
-    if(this.esModoEscritura(this.vSessionUser.Result.Data.OpcionesEscritura)){
-      //this.consultaMateriaPrimaFormEdit.enable();
-      //this.readonly= false;
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    /*if(this.readonly){
+      this.consultaMateriaPrimaFormEdit.disable();
     }else {
-      //this.consultaMateriaPrimaFormEdit.disable();
-      //this.readonly= true;
-    }
-    //validacion de readonly
+       this.consultaMateriaPrimaFormEdit.enable();
+    }*/
   }
-  esModoEscritura(listaOpciones){
-    var result = true;
-    var pathActual = this.router.url;
-    const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
-    if(validOpcion.length > 0){
-      result = true;
-    }else{
-      result = false;
-    }
-    return result;  
-  }
+  
 
   cargarForm() {
     let x = this.selectSubProducto;

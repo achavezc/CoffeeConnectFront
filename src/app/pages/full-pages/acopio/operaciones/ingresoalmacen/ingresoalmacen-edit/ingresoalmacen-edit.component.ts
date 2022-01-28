@@ -10,7 +10,7 @@ import { formatDate } from '@angular/common';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { Router } from "@angular/router"
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { AnalisisSensorialDefectoDetalleList } from '../../../../../../services/models/req-controlcalidad-actualizar'
 
 @Component({
@@ -24,7 +24,7 @@ export class IngresoAlmacenEditComponent implements OnInit {
   esEdit = true;
   consultaMateriaPrimaFormEdit: FormGroup;
   submittedEdit = false;
-  login: ILogin;
+  vSessionUser: any;
   listaAlmacen: any[];
   selectAlmacen: any;
   id: Number = 0;
@@ -38,6 +38,7 @@ export class IngresoAlmacenEditComponent implements OnInit {
   listaSensorialDefectos: any[];
   tableSensorialDefectos: FormGroup;
   usuario: "";
+  readonly: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +50,8 @@ export class IngresoAlmacenEditComponent implements OnInit {
     private maestroService: MaestroService,
     private alertUtil: AlertUtil,
     private router: Router,
+    private authService : AuthService
+
   ) {
 
   }
@@ -56,7 +59,7 @@ export class IngresoAlmacenEditComponent implements OnInit {
   ngOnInit(): void {
     this.cargarForm();
     this.cargarcombos();
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {
@@ -67,6 +70,8 @@ export class IngresoAlmacenEditComponent implements OnInit {
         }
       }
       );
+
+      this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   cargarcombos() {

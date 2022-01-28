@@ -178,9 +178,9 @@
                                 [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
                                 data-placement="top" title="Solo INGRESADOS y con ALMACEN." (click)="GenerarLote()"
-                                [disabled]="!rows.length || !selected.length" *ngIf="!popUp">Generar Lotes</button>
+                                [disabled]="!rows.length || !selected.length || readonly==true" *ngIf="!popUp" >Generar Lotes</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
-                                [disabled]="!rows.length || !selected.length" *ngIf="!popUp">Anular</button>
+                                [disabled]="!rows.length || !selected.length || readonly==true" *ngIf="!popUp">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
                                 [disabled]="!rows.length" *ngIf="!popUp">Exportar</button>
                         </form>

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
-
+import {AuthService} from './../../../../../services/auth.service';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
@@ -26,7 +26,8 @@ export class LotesComponent implements OnInit {
     private excelService: ExcelService,
     private spinner: NgxSpinnerService,
     private loteService: LoteService,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private authService : AuthService) { }
 
   banLoteForm: any;
   listTypeDocuments: Observable<any>;
@@ -52,6 +53,7 @@ export class LotesComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
   vSessionUser: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -59,6 +61,7 @@ export class LotesComponent implements OnInit {
     this.banLoteForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.banLoteForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

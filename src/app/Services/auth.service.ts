@@ -1,10 +1,10 @@
-import { Router } from '@angular/router';
+import { Router} from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 //import firebase from 'firebase/app'
 import { Observable } from 'rxjs/Observable';
 import { host } from '../shared/hosts/main.host';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ErrorHandling } from '../shared/util/error-handling';
 import { ILogin } from './models/login';
 
@@ -14,7 +14,7 @@ export class AuthService {
   private userDetails: any = null;
 
   constructor(public _firebaseAuth: AngularFireAuth, public router: Router, private http: HttpClient,
-    private errorHandling: ErrorHandling
+    private errorHandling: ErrorHandling, 
   ) {
     this.user = _firebaseAuth.authState;
     this.user.subscribe(
@@ -52,10 +52,7 @@ export class AuthService {
           resolve(data);
         }, 1000);
       });*/
-
-
   }
-
 
   logout() {
     this._firebaseAuth.signOut();
@@ -65,4 +62,39 @@ export class AuthService {
   isAuthenticated() {
     return true;
   }
+
+  esReadOnly(listaOpciones){
+    var result = true;
+    var readonly = true;
+    var pathActual = this.router.url;
+    const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
+    if(validOpcion.length > 0){
+      result = true;
+      readonly = false;
+    }else{
+      result = false;
+      readonly = true;
+    }
+    return readonly;  
+  }
+
+  esReadOnly2(listaOpciones, form){
+    var result = true;
+    var readonly = true;
+    var pathActual = this.router.url;
+    const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
+    if(validOpcion.length > 0){
+      result = true;
+      readonly = false;
+      form.enable();
+    }else{
+      result = false;
+      readonly = true;
+      form.disable();
+    }
+    return readonly;  
+  }
+
+  
+
 }

@@ -12,6 +12,7 @@ import { EmpresaService } from '../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../services/empresa-transporte.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-nota-salida',
@@ -30,7 +31,8 @@ export class NotaSalidaComponent implements OnInit {
     private empresaService: EmpresaService,
     private empTransporteService: EmpresaTransporteService,
     private router: Router,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private authService : AuthService) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -54,6 +56,7 @@ export class NotaSalidaComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
   vSessionUser: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -61,6 +64,12 @@ export class NotaSalidaComponent implements OnInit {
     this.notaSalidaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.notaSalidaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+
+    /*if(this.authService.esModoEscritura(this.vSessionUser.Result.Data.OpcionesEscritura)){
+      this.readonly= false;
+    }else {
+      this.readonly= true;
+    }*/
   }
 
   get f() {

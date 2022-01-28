@@ -12,6 +12,7 @@ import { ExcelService } from '../../../../../shared/util/excel.service';
 import { NotaIngresoAlmacenService } from '../../../../../services/nota-ingreso-almacen.service';
 import { LoteService } from '../../../../../services/lote.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-ingreso-almacen',
@@ -28,7 +29,8 @@ export class IngresoAlmacenComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private ingresoAlmacenService: NotaIngresoAlmacenService,
     private loteService: LoteService,
-    private alertUtil: AlertUtil) {
+    private alertUtil: AlertUtil,
+    private authService : AuthService) {
     // this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -59,6 +61,7 @@ export class IngresoAlmacenComponent implements OnInit {
   @Input() popUp = false;
   @Input() lote;
   @Output() agregarEvent = new EventEmitter<any>();
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -66,6 +69,8 @@ export class IngresoAlmacenComponent implements OnInit {
     this.ingresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ingresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.userSession = JSON.parse(localStorage.getItem('user'));
+
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
 
   }
 

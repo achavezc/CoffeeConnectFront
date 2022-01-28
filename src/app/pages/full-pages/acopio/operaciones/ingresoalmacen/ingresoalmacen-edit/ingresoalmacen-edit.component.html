@@ -7,9 +7,9 @@
 
             <div class="row">
               <div class="col-12 col-md-8">
-                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
-                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
-                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                <div class="card-title-empresa">{{vSessionUser.Result.Data.RazonSocialEmpresa}}</div>
+                <div class="card-subtitle-empresa">{{vSessionUser.Result.Data.DireccionEmpresa}}</div>
+                <div class="card-subtitle-empresa">RUC: {{vSessionUser.Result.Data.RucEmpresa}}
                 </div>
               </div>
               <div class="col-12 col-md-4">
@@ -384,7 +384,7 @@
   </section>
 
   <div class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
-    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
+    <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()"   [disabled]="readonly==true">Guardar</button>
     <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
   </div>
   <div class="d-flex justify-content-between align-items-center">

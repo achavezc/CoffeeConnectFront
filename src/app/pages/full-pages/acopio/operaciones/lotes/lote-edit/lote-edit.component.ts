@@ -5,7 +5,7 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { LoteService } from '../../../../../../services/lote.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -31,7 +31,8 @@ export class LoteEditComponent implements OnInit {
     private maestroService: MaestroService,
     private alertUtil: AlertUtil,
     private dateUtil: DateUtil,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private authService : AuthService) { }
 
   loteEditForm: any;
   listAlmacenes: any[];
@@ -54,6 +55,7 @@ export class LoteEditComponent implements OnInit {
   estadoAnalizado = "02";
   estadoAnulado = "00";
   btnContrato = true;
+  readonly: boolean;
 
   login: ILogin;
   ngOnInit(): void {
@@ -67,6 +69,9 @@ export class LoteEditComponent implements OnInit {
     else {
       this.disabledControl = 'disabled';
     }
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+     (this.readonly)? this.loteEditForm.disable() : this.loteEditForm.enable();
+
   }
 
   LoadForm(): void {
