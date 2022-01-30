@@ -66,7 +66,7 @@ export class AuthService {
   esReadOnly(listaOpciones){
     var result = true;
     var readonly = true;
-    var pathActual = this.router.url;
+    var pathActual = this.router.url.split('?')[0] ;
     const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
     if(validOpcion.length > 0){
       result = true;
@@ -81,7 +81,7 @@ export class AuthService {
   esReadOnly2(listaOpciones, form){
     var result = true;
     var readonly = true;
-    var pathActual = this.router.url;
+    var pathActual = this.router.url.split('?')[0] ;
     const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
     if(validOpcion.length > 0){
       result = true;
