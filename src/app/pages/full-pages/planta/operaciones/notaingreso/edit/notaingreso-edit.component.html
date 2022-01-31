@@ -6,9 +6,9 @@
           <div class="card-header" style="margin-bottom: 2rem;">
             <div class="row">
               <div class="col-12 col-md-8">
-                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
-                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
-                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                <div class="card-title-empresa">{{vSessionUser.Result.Data.RazonSocialEmpresa}}</div>
+                <div class="card-subtitle-empresa">{{vSessionUser.Result.Data.DireccionEmpresa}}</div>
+                <div class="card-subtitle-empresa">RUC: {{vSessionUser.Result.Data.RucEmpresa}}
                 </div>
               </div>
               <div class="col-12 col-md-4">
@@ -251,7 +251,7 @@
                         *ngIf="esEdit">Documentos</button>
                         <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
                         [disabled]="!id || id <= 0" *ngIf="esEdit">Imprimir</button>
-                      <button type="submit"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar"
+                      <button type="submit"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar || readonly==true" 
                         (click)="guardar()">Guardar</button>
                       <button type="submit"  class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
                         (click)="cancelar()">Cancelar</button>
@@ -264,11 +264,11 @@
                     <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
                   </a>
                   <ng-template ngbNavContent *ngIf="viewTagSeco">
-                    <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form]="form"></app-controlCalidadSeco>
+                    <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form]="form" [readonly]="readonly"></app-controlCalidadSeco>
                   </ng-template>
 
                   <ng-template ngbNavContent *ngIf="!viewTagSeco">
-                    <app-controlCalidadHumedo *ngIf="detalle" [detalle]="detalle" [form]="form">
+                    <app-controlCalidadHumedo *ngIf="detalle" [detalle]="detalle" [form]="form" [readonly]="readonly">
                     </app-controlCalidadHumedo>
                   </ng-template>
 

@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Input, EventEmitter, Output } from "@angular/core";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NgxSpinnerService } from "ngx-spinner";
-import swal from 'sweetalert2';
 import { Router } from "@angular/router";
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: "app-notaingresoalmacen-list",
@@ -47,6 +45,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   listaAlmacen: Observable<any[]>;
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
+  readonly: boolean;
 
   // row data
   public rows = [];
@@ -59,11 +58,10 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   constructor(
     private router: Router,
     private maestroUtil: MaestroUtil,
-    private alertUtil: AlertUtil,
     private dateUtil: DateUtil,
-    private excelService: ExcelService,
     private spinner: NgxSpinnerService,
-    private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService
+    private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
+    private authService : AuthService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -73,7 +71,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.notaIngresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.notaIngresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
   compareTwoDates() {
     var anioFechaInicio = new Date(this.notaIngresoAlmacenForm.controls['fechaInicio'].value).getFullYear()

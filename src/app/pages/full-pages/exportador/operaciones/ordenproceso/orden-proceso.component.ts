@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
-
+import {AuthService} from './../../../../../services/auth.service';
 import { OrdenProcesoService } from '../../../../../services/orden-proceso.service';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { ExcelService } from '../../../../../shared/util/excel.service';
@@ -29,7 +29,8 @@ export class OrdenProcesoComponent implements OnInit {
     private dateUtil: DateUtil,
     private maestroUtil: MaestroUtil,
     private alertUtil: AlertUtil,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private authService : AuthService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -49,6 +50,8 @@ export class OrdenProcesoComponent implements OnInit {
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
   page: any;
+  readonly: boolean;
+
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
@@ -56,6 +59,7 @@ export class OrdenProcesoComponent implements OnInit {
     this.ordenProcesoForm.controls.fechaInicial.setValue(this.dateUtil.currentMonthAgo());
     this.LoadCombos();
     this.page = this.route.routeConfig.data.title;
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

@@ -90,10 +90,10 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
                                 data-placement="top" (click)="Agregar(selected)"
                                 [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()"
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" [disabled]="readonly==true"
                                 *ngIf="!popUp">Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!selected || selected.length <= 0" (click)="Anular()"
+                            <button class="btn btn-primary mr-1 mb-1" type="button" 
+                                [disabled]="!selected || selected.length <= 0 || readonly==true" (click)="Anular()"
                                 *ngIf="!popUp">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
                                 [disabled]="!rows || rows.length <= 0" (click)="Export()"

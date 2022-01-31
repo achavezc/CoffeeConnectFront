@@ -87,9 +87,9 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!notaSalidaForm.valid"
                                 (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" [disabled]="readonly==true">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
-                                [disabled]="!rows.length || !selected.length">Anular</button>
+                                [disabled]="!rows.length || !selected.length || readonly==true">Anular</button>
                         </form>
                     </div>
                 </div>

@@ -10,7 +10,7 @@ import { formatDate } from '@angular/common';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { Router } from "@angular/router";
-import swal from 'sweetalert2';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-notaingresoalmacen-edit',
@@ -22,7 +22,7 @@ import swal from 'sweetalert2';
 export class NotaIngresoAlmacenEditComponent implements OnInit {
   consultaNotaIngresoAlmacenFormEdit: FormGroup;
   submittedEdit = false;
-  login: ILogin;
+  vSessionUser: any;
   listaAlmacen: any[];
   selectAlmacen: any;
   id: Number = 0;
@@ -34,6 +34,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   viewCafeP: Boolean = false;
   codigoCafeP= "01";
   usuario="";
+  readonly: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -42,9 +43,9 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private maestroService: MaestroService,
     private alertUtil: AlertUtil,
     private router: Router,
+    private authService : AuthService
   ) {
 
   }
@@ -52,7 +53,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   ngOnInit(): void {
     this.cargarForm();
     this.cargarcombos();
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {
@@ -62,6 +63,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
         }
       }
       );
+      this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   cargarcombos() {
@@ -173,8 +175,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.controls['rendimiento'].setValue(data.RendimientoPorcentajePesado);
     this.consultaNotaIngresoAlmacenFormEdit.controls['humedad'].setValue(data.HumedadPorcentajePesado);
     this.consultaNotaIngresoAlmacenFormEdit.controls['pesoxSaco'].setValue(data.PesoPorSaco);
-    this.login.Result.Data.DireccionEmpresa = data.RazonSocialOrganizacion;
-    this.login.Result.Data.RucEmpresa = data.RucOrganizacion;
+    this.vSessionUser.Result.Data.DireccionEmpresa = data.RazonSocialOrganizacion;
+    this.vSessionUser.Result.Data.RucEmpresa = data.RucOrganizacion;
     
     if (data.ProductoId == this.codigoCafeP)
     {

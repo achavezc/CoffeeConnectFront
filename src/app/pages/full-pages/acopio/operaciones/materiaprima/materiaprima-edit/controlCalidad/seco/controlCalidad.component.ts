@@ -66,6 +66,8 @@ export class ControlCalidadComponent implements OnInit {
   calculocascarilla = 400;
   formDefectos : FormGroup;
   subtotalDefectos: number;
+  @Input() readonly;
+  
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router, private dateUtil: DateUtil,

@@ -4,12 +4,11 @@ import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
-import { ILogin } from '../../../../../../services/models/login';
+import {AuthService} from './../../../../../../services/auth.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { EmpresaService } from '../../../../../../services/empresa.service';
 import { ReqNotaSalidaPlanta, NotaSalidaAlmacenPlantaDetalleDTO } from '../../../../../../services/models/req-salidaalmaceplanta';
 import { TagNotaSalidaPlantaEditComponent } from './tags/notasalidaplanta-tag.component';
 import { host } from '../../../../../../shared/hosts/main.host';
@@ -38,8 +37,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selectedEmpresa = [];
   popupModel;
-  login: ILogin;
-  private tempData = [];
+  vSessionUser: any;
   public rows = [];
   public ColumnMode = ColumnMode;
   public limitRef = 10;
@@ -55,6 +53,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   almacen: "";
   responsable: "";
   empresa: any;
+  readonly: boolean;
 
 
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
@@ -66,8 +65,8 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private empresaService: EmpresaService,
-    private notaSalidaAlmacenPlantaService: NotaSalidaAlmacenPlantaService
+    private notaSalidaAlmacenPlantaService: NotaSalidaAlmacenPlantaService,
+    private authService : AuthService
 
   ) {
 
@@ -78,7 +77,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
     this.route.queryParams
       .subscribe(params => {
@@ -89,6 +88,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         }
       }
       );
+      this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   obtenerDetalle() {
@@ -174,7 +174,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         almacen: new FormControl('', [Validators.required]),
         destinatario: ['', [Validators.required]],
         ruc: new FormControl('', []),
-        dirPartida: [this.login.Result.Data.DireccionEmpresa, []],
+        dirPartida: [this.vSessionUser.Result.Data.DireccionEmpresa, []],
         dirDestino: new FormControl('', []),
         tagcalidad: this.fb.group({
           propietario: new FormControl('', [Validators.required]),
@@ -263,7 +263,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       );*/
       let request = new ReqNotaSalidaPlanta(
         Number(this.id),
-        Number(this.login.Result.Data.EmpresaId),
+        Number(this.vSessionUser.Result.Data.EmpresaId),
         this.notaSalidaFormEdit.get("almacen").value,
         this.numero,
         this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").value,
@@ -284,7 +284,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         Totaltara,
         this.child.listaNotaIngreso[0].CantidadPesado,
         "01",
-        this.login.Result.Data.NombreUsuario,
+        this.vSessionUser.Result.Data.NombreUsuario,
         list
 
       );

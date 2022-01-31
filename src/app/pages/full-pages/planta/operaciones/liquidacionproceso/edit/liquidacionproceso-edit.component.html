@@ -6,9 +6,9 @@
           <div class="card-header" style="margin-bottom: 2rem;">
             <div class="row">
               <div class="col-12 col-md-8">
-                <div class="card-title-empresa">{{login.Result.Data.RazonSocialEmpresa}}</div>
-                <div class="card-subtitle-empresa">{{login.Result.Data.DireccionEmpresa}}</div>
-                <div class="card-subtitle-empresa">RUC: {{login.Result.Data.RucEmpresa}}
+                <div class="card-title-empresa">{{vSessionUser.Result.Data.RazonSocialEmpresa}}</div>
+                <div class="card-subtitle-empresa">{{vSessionUser.Result.Data.DireccionEmpresa}}</div>
+                <div class="card-subtitle-empresa">RUC: {{vSessionUser.Result.Data.RucEmpresa}}
                 </div>
               </div>
               <div class="col-12 col-md-4">
@@ -241,7 +241,7 @@
                
                 <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
                   (click)="ImprimirLiquidacionProceso()" [disabled]="!id || id <= 0">Imprimir</button>
-                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()">Guardar</button>
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()" [disabled]="readonly==true">Guardar</button>
                 <button type="submit"class="btn btn-danger ml-1"
                   (click)="cancelar()">Cancelar</button>
               </div>

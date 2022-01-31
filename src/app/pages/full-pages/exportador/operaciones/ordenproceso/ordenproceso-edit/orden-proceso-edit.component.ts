@@ -5,13 +5,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
-import { EmpresaService } from '../../../../../../services/empresa.service';
-import { ContratoService } from '../../../../../../services/contrato.service';
 import { host } from '../../../../../../shared/hosts/main.host';
 
 @Component({
@@ -31,8 +29,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private empresaService: EmpresaService,
-    private contratoService: ContratoService) { }
+    private authService : AuthService) { }
 
   ordenProcesoEditForm: FormGroup;
   listTipoProcesos = [];
@@ -47,6 +44,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   isLoading = false;
   fileName = "";
   listCertificacion = [];
+  readonly: boolean;
   
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -65,6 +63,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     } else if (this.codeProcessOrder > 0) {
       this.SearchByid();
     }
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
   }
 
   LoadForm(): void {

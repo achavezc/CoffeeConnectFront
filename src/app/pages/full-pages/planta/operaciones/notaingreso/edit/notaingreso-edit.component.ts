@@ -16,7 +16,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 import { PesadoCafePlantaComponent } from './pesadocafe/pesadocafeplanta.component';
-import swal from 'sweetalert2';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-notaingreso-edit',
@@ -52,7 +52,7 @@ export class NotaIngresoEditComponent implements OnInit {
   listSub: any[];
   selected = [];
   popupModel;
-  login: ILogin;
+  vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   listTipoSocio: any[];
@@ -85,6 +85,7 @@ export class NotaIngresoEditComponent implements OnInit {
   @ViewChild(PesadoCafePlantaComponent) child;
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
   idPlantEntryNote = 0;
+  readonly: boolean;
 
   constructor(private modalService: NgbModal,
     private maestroService: MaestroService,
@@ -96,7 +97,8 @@ export class NotaIngresoEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private socioFinca: SocioFincaService
+    private socioFinca: SocioFincaService,
+    private authService : AuthService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -108,7 +110,7 @@ export class NotaIngresoEditComponent implements OnInit {
   ngOnInit(): void {
     this.cargarForm();
     this.cargarcombos();
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
       .subscribe(params => {
         this.status = params.status;
@@ -120,6 +122,7 @@ export class NotaIngresoEditComponent implements OnInit {
         else { this.disabledControl = 'disabled'; }
       }
       );
+      this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);;
   }
 
   cargarForm() {
@@ -231,7 +234,7 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
-    var usuarioLogueado = this.login.Result.Data.NombreUsuario
+    var usuarioLogueado = this.vSessionUser.Result.Data.NombreUsuario
     if (estado == this.estadoPesado && usuarioPesado == usuarioLogueado) {
       //Cabecera Editable
       //Pesado Editable
@@ -356,7 +359,7 @@ export class NotaIngresoEditComponent implements OnInit {
 
       let request = new ReqRegistrarPesadoNotaIngreso(
         Number(this.id),
-        this.login.Result.Data.EmpresaId,
+        this.vSessionUser.Result.Data.EmpresaId,
         this.notaIngredoFormEdit.controls["guiaremision"].value,
         this.notaIngredoFormEdit.controls["guiaremision"].value,
         this.notaIngredoFormEdit.controls["fecharemision"].value,
@@ -387,7 +390,7 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.get('pesado').get("observacion").value,
         "01",
         new Date(),
-        this.login.Result.Data.NombreUsuario,
+        this.vSessionUser.Result.Data.NombreUsuario,
         new Date(),
         this.notaIngredoFormEdit.controls["direccion"].value,
         this.notaIngredoFormEdit.get('pesado').get("marca").value

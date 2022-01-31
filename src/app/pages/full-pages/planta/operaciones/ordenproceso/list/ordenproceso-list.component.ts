@@ -6,8 +6,7 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ExcelService } from '../../../../../../shared/util/excel.service';
-import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-ordenproceso-list',
@@ -22,9 +21,8 @@ export class OrdenProcesoListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
-    private excelService: ExcelService,
-    private maestroUtil: MaestroUtil,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private authService : AuthService) { }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -32,7 +30,7 @@ export class OrdenProcesoListComponent implements OnInit {
   selectedEstado: any;
   listTipoProceso: [] = [];
   selectedTipoProceso: any;
-  userSession: any;
+  vSessionUser: any;
   selected = [];
   limitRef: number = 10;
   rows = [];
@@ -46,14 +44,16 @@ export class OrdenProcesoListComponent implements OnInit {
   @Output() seleccionarEvent = new EventEmitter<any>();
   @Input() popUp = false;
   page: any;
+  readonly: boolean;
   
   ngOnInit(): void {
-    this.userSession = JSON.parse(localStorage.getItem('user'));
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
     this.ordenProcesoform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ordenProcesoform.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.page = this.route.routeConfig.data.title;
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {
@@ -159,7 +159,7 @@ export class OrdenProcesoListComponent implements OnInit {
         FechaFin: this.ordenProcesoform.value.fechaFin,
         TipoProcesoId:  this.ordenProcesoform.controls["tipoProceso"].value,
         EstadoId:  this.ordenProcesoform.controls["estado"].value,
-        EmpresaId: this.userSession.Result.Data.EmpresaId
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     };
   }
 

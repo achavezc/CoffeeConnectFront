@@ -141,10 +141,10 @@
               <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
                 (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
                 *ngIf="popUp">Seleccionar</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" *ngIf="!popUp">Nuevo</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="anular()"
+              <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" *ngIf="!popUp"  [disabled]="readonly==true">Nuevo</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="anular()"
                 *ngIf="!popUp">Anular</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0" (click)="enviar()"
+              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="enviar()"
                 *ngIf="!popUp">Enviar a Almacen</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="exportar()"
                 *ngIf="!popUp">Exportar</button>

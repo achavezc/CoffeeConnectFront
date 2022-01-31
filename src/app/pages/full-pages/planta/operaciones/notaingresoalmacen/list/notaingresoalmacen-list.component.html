@@ -179,7 +179,7 @@
               <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
                 (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
                 *ngIf="popUp">Seleccionar</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" *ngIf="!popUp" (click)="nuevo()">Nuevo</button>
+              <button class="btn btn-primary mr-1 mb-1" type="button" *ngIf="!popUp" (click)="nuevo()" [disabled]="readonly==true">Nuevo</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" *ngIf="!popUp"
                 [disabled]="rows.length==0">Exportar</button>
             </form>

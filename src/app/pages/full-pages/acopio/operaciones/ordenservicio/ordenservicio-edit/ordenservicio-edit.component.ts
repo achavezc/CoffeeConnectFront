@@ -50,6 +50,7 @@ export class OrdenServicioEditComponent implements OnInit {
   id: Number = 0;
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estado: any;
+  readonly: boolean;
 
   constructor(private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -77,6 +78,7 @@ export class OrdenServicioEditComponent implements OnInit {
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
+    this.readonly = true;
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {

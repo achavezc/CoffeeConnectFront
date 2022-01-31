@@ -24,6 +24,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
 
   @Input() detalle: any;
   @Input() form;
+  @Input() readonly;
   tableOlor: FormGroup;
   tableColor: FormGroup;
   listaOlor: any[];

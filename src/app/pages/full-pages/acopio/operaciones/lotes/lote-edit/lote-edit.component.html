@@ -147,12 +147,11 @@
                                             </a>
 
                                             <ng-template ngbNavContent *ngIf="viewTagSeco">
-                                                <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle"
-                                                    [form]="form"></app-controlCalidadSeco>
+                                                <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form]="form" [readonly]="readonly"></app-controlCalidadSeco>
                                             </ng-template>
 
                                             <ng-template ngbNavContent *ngIf="!viewTagSeco">
-                                                <app-controlCalidadHumedo *ngIf="detalle" [detalle]="detalle">
+                                                <app-controlCalidadHumedo *ngIf="detalle" [detalle]="detalle" [readonly]="readonly">
                                                 </app-controlCalidadHumedo>
                                             </ng-template>
 

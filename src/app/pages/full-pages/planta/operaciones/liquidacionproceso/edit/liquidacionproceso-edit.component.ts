@@ -15,7 +15,7 @@ import { host } from '../../../../../../shared/hosts/main.host';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { LiquidacionProcesoPlantaService } from '../../../../../../services/liquidacionproceso-planta.service';
-import swal from 'sweetalert2';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-liquidacionproceso-edit',
@@ -41,7 +41,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   popupModel;
-  login: ILogin;
+  vSessionUser: any;
   private tempDataResultProceso = [];
   public rowsResultProceso = [];
   public rows = [];
@@ -58,6 +58,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   listResultProceso = [];
   popUp = true;
   sumKilosNetos: any =0;
+  readonly: boolean;
 
   @ViewChild(DatatableComponent) tblResultProceso: DatatableComponent;
 
@@ -71,13 +72,14 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     private empresaService: EmpresaService,
     private maestroUtil: MaestroUtil,
     private ordenProcesoService: OrdenProcesoServicePlanta,
-    private liquidacionProcesoPlantaService: LiquidacionProcesoPlantaService
+    private liquidacionProcesoPlantaService: LiquidacionProcesoPlantaService,
+    private authService : AuthService
   ) {
 
   }
 
   ngOnInit(): void {
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
     this.Load();
     this.route.queryParams
@@ -89,6 +91,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         }
       }
       );
+      this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.liquidacionProcesoFormEdit);
   }
 
 
@@ -96,7 +99,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   obtenerDetalle() {
     this.spinner.show();
-    this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id), Number(this.login.Result.Data.EmpresaId))
+    this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id), Number(this.vSessionUser.Result.Data.EmpresaId))
       .subscribe(res => {
 
         if (res.Result.Success) {
@@ -326,12 +329,12 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         Number(this.id),
         this.liquidacionProcesoFormEdit.get("ordenProcesoPlantaId").value,
         this.numero,
-        this.login.Result.Data.EmpresaId,
+        this.vSessionUser.Result.Data.EmpresaId,
         this.liquidacionProcesoFormEdit.get("observacion").value,
         this.liquidacionProcesoFormEdit.get("envases").value,
         this.liquidacionProcesoFormEdit.get("trabajos").value,
         '01',
-        this.login.Result.Data.NombreUsuario,
+        this.vSessionUser.Result.Data.NombreUsuario,
         liquidacionProcesoPlantaDetalle,
         liquidacionProcesoPlantaResultado,
         Number(this.liquidacionProcesoFormEdit.get("numDefectos").value)
@@ -521,7 +524,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   ImprimirLiquidacionProceso() {
     let link = document.createElement('a');
     document.body.appendChild(link);
-    link.href = `${host}LiquidacionProcesoPlanta/GenerarPDFLiquidacionProceso?id=${this.id}&empresaId=${this.login.Result.Data.EmpresaId}`;
+    link.href = `${host}LiquidacionProcesoPlanta/GenerarPDFLiquidacionProceso?id=${this.id}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
     link.download = "ListaProductoresGR.pdf"
     link.target = "_blank";
     link.click();

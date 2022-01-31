@@ -9,8 +9,8 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-liquidacionproceso',
@@ -27,7 +27,7 @@ export class LiquidacionProcesoComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private dateUtil: DateUtil,
     private maestroUtil: MaestroUtil,
-    private alertUtil: AlertUtil) {
+    private authService : AuthService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -41,17 +41,18 @@ export class LiquidacionProcesoComponent implements OnInit {
   rows = [];
   selected = [];
   tempData = [];
-  userSession: any;
+  vSessionUser: any;
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
-  
+  readonly: boolean;
 
   ngOnInit(): void {
-    this.userSession = JSON.parse(localStorage.getItem('user'));
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.liquidacionProcesoForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
     this.liquidacionProcesoForm.controls.fechaInicial.setValue(this.dateUtil.currentMonthAgo());
     this.LoadCombos();
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {
@@ -113,7 +114,7 @@ export class LiquidacionProcesoComponent implements OnInit {
       FechaFin: this.liquidacionProcesoForm.value.fechaFinal ,
       TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
       EstadoId: form.estado ? form.estado : '',
-      EmpresaId: this.userSession.Result.Data.EmpresaId
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     };
   }
 

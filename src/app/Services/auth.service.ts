@@ -63,7 +63,7 @@ export class AuthService {
     return true;
   }
 
-  esReadOnly(listaOpciones){
+  esReadOnly2(listaOpciones){
     var result = true;
     var readonly = true;
     var pathActual = this.router.url.split('?')[0] ;
@@ -78,23 +78,18 @@ export class AuthService {
     return readonly;  
   }
 
-  esReadOnly2(listaOpciones, form){
-    var result = true;
+  esReadOnly(listaOpciones, form? ){
     var readonly = true;
     var pathActual = this.router.url.split('?')[0] ;
     const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
     if(validOpcion.length > 0){
-      result = true;
       readonly = false;
       form.enable();
     }else{
-      result = false;
       readonly = true;
       form.disable();
     }
     return readonly;  
   }
-
-  
 
 }

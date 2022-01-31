@@ -10,9 +10,8 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
 import { EmpresaService } from '../../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../../services/empresa-transporte.service';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
-import { ILogin } from '../../../../../../services/models/login';
 
 
 @Component({
@@ -32,7 +31,8 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     private empresaService: EmpresaService,
     private empTransporteService: EmpresaTransporteService,
     private router: Router,
-    private notaSalidaPlantaService: NotaSalidaAlmacenPlantaService) { }
+    private notaSalidaPlantaService: NotaSalidaAlmacenPlantaService,
+    private authService : AuthService) { }
 
   notaSalidaForm: any;
   listDestinatarios: [] = [];
@@ -53,14 +53,15 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   selected = [];
-  vSessionUser: ILogin;
-
+  vSessionUser: any;
+  readonly: boolean;
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.notaSalidaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.notaSalidaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   get f() {

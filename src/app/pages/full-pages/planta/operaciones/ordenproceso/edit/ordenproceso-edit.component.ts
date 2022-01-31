@@ -14,6 +14,7 @@ import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proc
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
 import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-ordenproceso-edit',
@@ -33,7 +34,8 @@ export class OrdenProcesoEditComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private notaIngresoService: NotaIngresoService) { }
+    private notaIngresoService: NotaIngresoService,
+    private authService : AuthService) { }
 
 
   error: any = { isError: false, errorMessage: '' };
@@ -66,7 +68,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   selectOrganizacion = [];
   selectedEstado: any;
   selectedTipoProceso: any;
-  userSession: any;
+  vSessionUser: any;
   codeProcessOrder: Number;
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
@@ -83,16 +85,17 @@ export class OrdenProcesoEditComponent implements OnInit {
   private tempDataLoteDetalle = [];
   filtrosLotesID: any = {};
   detalle: any;
+  readonly: boolean;
 
 
   ngOnInit(): void {
-    this.userSession = JSON.parse(localStorage.getItem('user'));
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.codeProcessOrder = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     this.LoadForm();
-    this.ordenProcesoEditForm.controls.razonSocialCabe.setValue(this.userSession.Result.Data.RazonSocialEmpresa);
-    this.ordenProcesoEditForm.controls.direccionCabe.setValue(this.userSession.Result.Data.DireccionEmpresa);
-    this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.userSession.Result.Data.RucEmpresa);
-    this.ordenProcesoEditForm.controls.responsableComercial.setValue(this.userSession.Result.Data.NombreCompletoUsuario);
+    this.ordenProcesoEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
+    this.ordenProcesoEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
+    this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
+    this.ordenProcesoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     this.GetTipoProcesos();
     this.GetEstado();
     this.GetTipoProduccion();
@@ -111,6 +114,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     } else if (this.codeProcessOrder > 0) {
       this.SearchByid();
     }
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
   }
 
   agregarOrdenProceso(e) {
@@ -476,7 +480,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
     const request = {
       OrdenProcesoPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
-      EmpresaId: this.userSession.Result.Data.EmpresaId,
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       OrganizacionId: form.organizacionId ? form.organizacionId : 0,
       TipoProcesoId: this.ordenProcesoEditForm.controls["tipoProceso"].value ? this.ordenProcesoEditForm.controls["tipoProceso"].value : '',
       OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : null,
@@ -500,7 +504,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       FechaFinProceso: form.fechaFin ? form.fechaFin : null,
       Observacion: form.observaciones ? form.observaciones : '',
       EstadoId: '01',
-      Usuario: this.userSession.Result.Data.NombreUsuario,
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoPlantaId)
     }
     let json = JSON.stringify(request);

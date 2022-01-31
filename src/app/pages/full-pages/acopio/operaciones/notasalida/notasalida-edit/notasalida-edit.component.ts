@@ -5,7 +5,6 @@ import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
-import { ILogin } from '../../../../../../services/models/login';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +14,7 @@ import { ReqNotaSalida, NotaSalidaAlmacenDetalleDTO } from '../../../../../../se
 import { NotaSalidaAlmacenService } from '../../../../../../services/nota-salida-almacen.service';
 import { TagNotaSalidaEditComponent } from '../notasalida-edit/notasalida/tag-notasalida.component'
 import { host } from '../../../../../../shared/hosts/main.host';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-notasalidad-edit',
@@ -39,7 +39,7 @@ export class NotaSalidaEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selectedE = [];
   popupModel;
-  login: ILogin;
+  vSessionUser: any;
   private tempData = [];
   public rows = [];
   public ColumnMode = ColumnMode;
@@ -56,6 +56,7 @@ export class NotaSalidaEditComponent implements OnInit {
   almacen: "";
   responsable: "";
   empresa: any;
+  readonly: boolean;
 
 
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
@@ -68,7 +69,8 @@ export class NotaSalidaEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private empresaService: EmpresaService,
-    private notaSalidaAlmacenService: NotaSalidaAlmacenService
+    private notaSalidaAlmacenService: NotaSalidaAlmacenService,
+    private authService : AuthService
 
   ) {
 
@@ -80,8 +82,9 @@ export class NotaSalidaEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {
@@ -172,7 +175,7 @@ export class NotaSalidaEditComponent implements OnInit {
         almacen: new FormControl('', [Validators.required]),
         destinatario: ['', [Validators.required]],
         ruc: new FormControl('', []),
-        dirPartida: [this.login.Result.Data.DireccionEmpresa, []],
+        dirPartida: [this.vSessionUser.Result.Data.DireccionEmpresa, []],
         dirDestino: new FormControl('', []),
         tagcalidad: this.fb.group({
           propietario: new FormControl('', [Validators.required]),
@@ -251,7 +254,7 @@ export class NotaSalidaEditComponent implements OnInit {
       );
       let request = new ReqNotaSalida(
         Number(this.id),
-        Number(this.login.Result.Data.EmpresaId),
+        Number(this.vSessionUser.Result.Data.EmpresaId),
         this.notaSalidaFormEdit.get("almacen").value,
         this.numero,
         this.notaSalidaFormEdit.get('tagcalidad').get("motivotranslado").value,
@@ -270,7 +273,7 @@ export class NotaSalidaEditComponent implements OnInit {
         1,
         this.child.listaLotesDetalleId[0].KilosBrutos,
         null,
-        this.login.Result.Data.NombreUsuario,
+        this.vSessionUser.Result.Data.NombreUsuario,
         list,
         this.child.listaLotesDetalleId[0].CantidadPesado
       );

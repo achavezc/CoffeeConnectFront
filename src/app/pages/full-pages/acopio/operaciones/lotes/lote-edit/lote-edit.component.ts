@@ -56,8 +56,8 @@ export class LoteEditComponent implements OnInit {
   estadoAnulado = "00";
   btnContrato = true;
   readonly: boolean;
-
   login: ILogin;
+
   ngOnInit(): void {
     this.vId = parseInt(this.route.snapshot.params['id']);
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -71,7 +71,6 @@ export class LoteEditComponent implements OnInit {
     }
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
      (this.readonly)? this.loteEditForm.disable() : this.loteEditForm.enable();
-
   }
 
   LoadForm(): void {

@@ -11,7 +11,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
 import { Router } from "@angular/router"
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ILogin } from '../../../../../../services/models/login';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: "app-notaingreso-list",
@@ -44,9 +44,10 @@ export class NotaIngresoListComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estadoPesado = "01";
   estadoAnalizado = "02";
-  vSessionUser: ILogin;
+  vSessionUser: any;
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
+  readonly: boolean;
 
   // row data
   public rows = [];
@@ -63,7 +64,8 @@ export class NotaIngresoListComponent implements OnInit {
     private plantaService: PlantaService,
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
     private spinner: NgxSpinnerService,
-    private maestroService: MaestroService) {
+    private maestroService: MaestroService,
+    private authService : AuthService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
   ngOnInit(): void {
@@ -75,6 +77,7 @@ export class NotaIngresoListComponent implements OnInit {
     this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
     this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   get f() {
