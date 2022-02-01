@@ -1,4 +1,5 @@
 import { Router} from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 //import firebase from 'firebase/app'
@@ -14,7 +15,7 @@ export class AuthService {
   private userDetails: any = null;
 
   constructor(public _firebaseAuth: AngularFireAuth, public router: Router, private http: HttpClient,
-    private errorHandling: ErrorHandling, 
+    private errorHandling: ErrorHandling,  public activateRoute : ActivatedRoute
   ) {
     this.user = _firebaseAuth.authState;
     this.user.subscribe(
@@ -67,7 +68,7 @@ export class AuthService {
     var result = true;
     var readonly = true;
     var pathActual = this.router.url.split('?')[0] ;
-    const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
+    const validOpcion = listaOpciones.filter(x => x.Path.includes(pathActual));
     if(validOpcion.length > 0){
       result = true;
       readonly = false;
@@ -78,10 +79,42 @@ export class AuthService {
     return readonly;  
   }
 
+  obtenerUrl(urlInput){
+    let url: string =urlInput;
+    let urlParams: string[];
+    this.activateRoute.params.forEach(param =>
+       alert(param['whatever your param name is'])
+    );
+
+    this.activateRoute.paramMap.subscribe(params => {
+      var productid = params.get('productid');
+      console.log(productid);// OUTPUT 1534
+      
+    });
+
+    if (url.includes("?")) {
+        url = url.substr(0, url.indexOf('?'));
+    } else {
+        urlParams = this.router.url.toString().split(';')[0].split(',');
+
+        if (urlParams.length > 1) {
+            urlParams.shift(); // Remove first element which is page name
+
+            // Get entire splitting on each param
+            let fullUrlSegments: string[] =urlInput.split('/');
+            // Remove number of params from full URL
+            fullUrlSegments = fullUrlSegments.slice(0, fullUrlSegments.length - urlParams.length);
+
+            url = fullUrlSegments.join('/');
+        }
+    }
+
+    alert(url);
+  }
   esReadOnly(listaOpciones, form? ){
     var readonly = true;
     var pathActual = this.router.url.split('?')[0] ;
-    const validOpcion = listaOpciones.filter(x => x.Path == pathActual);
+    const validOpcion = listaOpciones.filter(x => x.Path.includes(pathActual));
     if(validOpcion.length > 0){
       readonly = false;
       form.enable();
