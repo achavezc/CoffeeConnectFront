@@ -114,7 +114,7 @@ export class AuthService {
   esReadOnly(listaOpciones, form? ){
     var readonly = true;
     var pathActual = this.router.url.split('?')[0] ;
-    const validOpcion = listaOpciones.filter(x => x.Path.includes(pathActual));
+    const validOpcion = listaOpciones.filter(x => pathActual.includes(x.Path));
     if(validOpcion.length > 0){
       readonly = false;
       form.enable();
