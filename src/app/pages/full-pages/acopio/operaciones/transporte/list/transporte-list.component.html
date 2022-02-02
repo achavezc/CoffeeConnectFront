@@ -74,7 +74,7 @@
                         <small class="form-text text-muted danger mb-1"
                         *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                     
-                    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" [disabled]="readonly==true">Nuevo</button>
                     <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Cancelar()">Cancelar</button>
                     
                     </div>

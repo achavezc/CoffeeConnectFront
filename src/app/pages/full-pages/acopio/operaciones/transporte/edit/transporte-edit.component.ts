@@ -1,14 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { TransporteService } from '../../../../../../services/transporte.service';
-import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ILogin } from '../../../../../../services/models/login';
-
-import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import {AuthService} from './../../../../../../services/auth.service';
 @Component({
     selector: 'app-transporte-edit',
     templateUrl: './transporte-edit.component.html',
@@ -18,15 +15,14 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 export class TransporteEditComponent implements OnInit {
 
     constructor(
-        private maestroUtil: MaestroUtil,
         private route: ActivatedRoute,
         private fb: FormBuilder,
-        private socioService: SocioService,
         private router: Router,
         private alertUtil: AlertUtil,
         private spinner: NgxSpinnerService,
         private maestroService: MaestroService,
-        private transporteService: TransporteService) { }
+        private transporteService: TransporteService,
+        private authService : AuthService) { }
 
     transporteEditForm: FormGroup;
     listMarcaTractor: [];
@@ -47,13 +43,12 @@ export class TransporteEditComponent implements OnInit {
     vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
     errorGenerico = { isError: false, msgError: '' };
     submitted
-    vSessionUser: ILogin;
+    vSessionUser: any;
+    readonly: boolean;
 
     ngOnInit() {
-       this.LoadForm();
-        
-        this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-        this.route.queryParams
+    this.LoadForm();
+    this.route.queryParams
             .subscribe(params => {
                 if (Number(params.idEmpresaTransporte)) {
                     this.vidEmpresaTransporte= Number(params.idEmpresaTransporte);
@@ -65,6 +60,8 @@ export class TransporteEditComponent implements OnInit {
                     
                 }
             });
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura,this.transporteEditForm);
     }
 
     ConsultarPorId() {

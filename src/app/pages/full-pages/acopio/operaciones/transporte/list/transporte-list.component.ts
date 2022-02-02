@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute,Router } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { TransporteService } from '../../../../../../services/transporte.service';
-import { MaestroService } from '../../../../../../services/maestro.service';
-import { ExcelService } from '../../../../../../shared/util/excel.service';
-import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-transporte',
@@ -21,10 +19,8 @@ export class TransporteListComponent implements OnInit {
     private transporteService: TransporteService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private maestroService: MaestroService,
     private router: Router,
-    private excelService: ExcelService,
-    private maestroUtil: MaestroUtil) { }
+    private authService : AuthService) { }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -37,6 +33,8 @@ export class TransporteListComponent implements OnInit {
   error: any = { isError: false, errorMessage: '' };
   submitted = false;
   idEmpresaTransporte = 0;
+  readonly: boolean;
+  vSessionUser: any;
   
   ngOnInit(): void {
     this.route.queryParams
@@ -46,6 +44,8 @@ export class TransporteListComponent implements OnInit {
             this.Search();
         }
     });
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
 

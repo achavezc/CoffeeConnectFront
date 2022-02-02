@@ -3,14 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { EmpresaTransporteService } from '../../../../../../services/empresatransporte.service';
-
 import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ILogin } from '../../../../../../services/models/login';
-import { formatCurrency } from '@angular/common';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+
 @Component({
     selector: 'app-empresatransporte-edit',
     templateUrl: './empresatransporte-edit.component.html',
@@ -28,7 +26,8 @@ export class EmpresaTransporteEditComponent implements OnInit {
         private alertUtil: AlertUtil,
         private spinner: NgxSpinnerService,
         private maestroService: MaestroService,
-        private empresaTransporteService: EmpresaTransporteService) { }
+        private empresaTransporteService: EmpresaTransporteService,
+        private authService : AuthService) { }
 
     empresaTransporteEditForm: FormGroup;
     listMoneda: [];
@@ -57,7 +56,8 @@ export class EmpresaTransporteEditComponent implements OnInit {
     vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
     errorGenerico = { isError: false, msgError: '' };
     submitted
-    vSessionUser: ILogin;
+    vSessionUser: any;
+    readonly: boolean;
 
     ngOnInit(): void {
         this.LoadForm();
@@ -71,6 +71,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
                     this.esEdit = true;
                 }
             });
+            this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura,this.empresaTransporteEditForm );
     }
 
     ConsultarPorId() {

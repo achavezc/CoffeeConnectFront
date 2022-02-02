@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UbigeoService } from '../../../../../../services/ubigeo.service';
-
 import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ILogin } from '../../../../../../services/models/login';
+import {AuthService} from './../../../../../../services/auth.service';
 import swal from 'sweetalert2';
 
 @Component({
@@ -21,12 +20,12 @@ export class CiudadesEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private socioService: SocioService,
     private router: Router,
     private alertUtil: AlertUtil,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private ubigeoService : UbigeoService) { }
+    private ubigeoService : UbigeoService,
+    private authService : AuthService) { }
 
   precioDiaEditForm: FormGroup;
   listMoneda: [];
@@ -45,7 +44,8 @@ export class CiudadesEditComponent implements OnInit {
   vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
   errorGenerico = { isError: false, msgError: '' };
   submittedEdit
-  vSessionUser: ILogin;
+  vSessionUser: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -59,6 +59,7 @@ export class CiudadesEditComponent implements OnInit {
         this.esEdit= true;
       }
     });
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.precioDiaEditForm);
   }
 
   ConsultarPorId() {

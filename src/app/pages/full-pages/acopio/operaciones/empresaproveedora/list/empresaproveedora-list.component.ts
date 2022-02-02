@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { EmpresaProveedoraService } from '../../../../../../services/empresaproveedora.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ExcelService } from '../../../../../../shared/util/excel.service';
-import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import { ILogin } from '../../../../../../services/models/login';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-empresatransporte',
@@ -23,8 +21,7 @@ export class EmpresaProveedoraListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
-    private excelService: ExcelService,
-    private maestroUtil: MaestroUtil) { }
+    private authService : AuthService) { }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
   
@@ -42,12 +39,14 @@ export class EmpresaProveedoraListComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
   empresaProveedoraform: FormGroup;
-  vSessionUser: ILogin;
+  vSessionUser: any;
+  readonly: boolean;
   
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

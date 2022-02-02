@@ -8,7 +8,7 @@ import { EmpresaTransporteService } from '../../../../../../services/empresatran
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
-import { ILogin } from '../../../../../../services/models/login';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-empresatransporte',
@@ -24,7 +24,8 @@ export class EmpresaTransporteListComponent implements OnInit {
     private maestroService: MaestroService,
     private router: Router,
     private excelService: ExcelService,
-    private maestroUtil: MaestroUtil) { }
+    private maestroUtil: MaestroUtil,
+    private authService : AuthService) { }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
   listSubProducto: [] = [];
@@ -43,12 +44,14 @@ export class EmpresaTransporteListComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
   empresaTransporteform: FormGroup;
-  vSessionUser: ILogin;
+  vSessionUser: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

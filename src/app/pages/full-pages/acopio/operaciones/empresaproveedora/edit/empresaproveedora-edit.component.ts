@@ -7,9 +7,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ILogin } from '../../../../../../services/models/login';
-import { formatCurrency } from '@angular/common';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 @Component({
     selector: 'app-empresaproveedora-edit',
@@ -28,7 +26,8 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         private alertUtil: AlertUtil,
         private spinner: NgxSpinnerService,
         private maestroService: MaestroService,
-        private empresaProveedoraService: EmpresaProveedoraService) { }
+        private empresaProveedoraService: EmpresaProveedoraService,
+        private authService : AuthService) { }
 
     empresaProveedoraEditForm: FormGroup;
 
@@ -54,7 +53,8 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
     errorGenerico = { isError: false, msgError: '' };
     submitted
-    vSessionUser: ILogin;
+    vSessionUser: any;
+    readonly: boolean;
     
     @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
 
@@ -70,6 +70,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
                     this.esEdit = true;
                 }
             });
+        this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.empresaProveedoraEditForm);
     }
 
     ConsultarPorId() {
