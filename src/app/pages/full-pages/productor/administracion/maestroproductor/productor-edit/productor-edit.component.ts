@@ -10,6 +10,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { ProductorService } from '../../../../../../services/productor.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-productor-edit',
@@ -26,7 +27,8 @@ export class ProductorEditComponent implements OnInit {
     private productorService: ProductorService,
     private alertUtil: AlertUtil,
     private maestroService: MaestroService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private authService : AuthService) { }
 
   productorEditForm: any;
   listEstados: Observable<any>;
@@ -61,6 +63,7 @@ export class ProductorEditComponent implements OnInit {
   errGeneral = { isError: false, message: '' };
   msgErrorGenerico = 'Ha ocurrido un error. Por favor comunicarse con el área de sistemas.';
   vSessionUser: any;
+  readonly: boolean;
 
   get f() {
     return this.productorEditForm.controls;
@@ -72,6 +75,7 @@ export class ProductorEditComponent implements OnInit {
     this.LoadDataInitial();
     this.addValidations();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.productorEditForm);
   }
 
   LoadForm(): void {

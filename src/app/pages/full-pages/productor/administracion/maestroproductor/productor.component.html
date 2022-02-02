@@ -96,11 +96,11 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!productorForm.valid"
                                 (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()" [disabled]="readonly==true">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="GoFormListFinca()"
                                 [disabled]="!selected || selected.length <= 0">Fincas</button>
                             <ng-template #mdlProducerDocuments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="'frmMdlProducerDocuments'"
+                                <app-lista-documentos [codeForm]="'frmMdlProducerDocuments'" [readonly] = "readonly"
                                     [code]="selected[0].ProductorId">
                                 </app-lista-documentos>
                             </ng-template>

@@ -39,6 +39,7 @@ export class MapasFincaComponent implements OnInit {
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
   fileName = "";
   closeResult: string;
+  @Input() readonly;
 
   constructor(
     private spinner: NgxSpinnerService,

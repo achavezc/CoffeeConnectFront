@@ -2,9 +2,8 @@ import { Component, ViewChild, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators , FormControl} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-import swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import {AuthService} from './../../../../../../../services/auth.service';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../../services/maestro.service';
@@ -29,7 +28,8 @@ export class FincaEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authService : AuthService
   ) { }
 
   fincaEditForm: any;
@@ -69,6 +69,8 @@ export class FincaEditComponent implements OnInit {
   FincaId = 0;
   esEdit = false;
   nameProductor: any;
+  readonly: boolean;
+
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0
     this.nameProductor = this.route.snapshot.params['title'];
@@ -77,7 +79,7 @@ export class FincaEditComponent implements OnInit {
     this.AddValidations();
     this.vCodProductor = undefined;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     if (this.vId > 0) {
       this.SearchProducerFincaById();
       this.esEdit = true;

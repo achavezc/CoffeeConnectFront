@@ -299,7 +299,7 @@
                         <div class="col-4 text-center" *ngIf="esEdit">
                             <label for="" class="mr-1">Mapa de la finca</label>
                             <ng-template #modalMapasFinca let-c="close" let-d="dismiss">
-                                <app-mapas-finca [FincaId]="FincaId" (empresaEvent)="receiveMessage($event)">
+                                <app-mapas-finca [FincaId]="FincaId" (empresaEvent)="receiveMessage($event)" [readonly] = "readonly">
                                 </app-mapas-finca>
                             </ng-template>
                             <button type="button" class="btn btn-sm btn-primary text-right"
@@ -308,7 +308,7 @@
                         <div class="col-4 text-center" *ngIf="esEdit">
                             <label for="" class="mr-1">FOTO GEOREFERENCIADAS</label>
                             <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="'frmMdlListaFotosGeoreferenciadas'" [code]="FincaId">
+                                <app-lista-documentos [codeForm]="'frmMdlListaFotosGeoreferenciadas'" [code]="FincaId" [readonly] = "readonly">
                                 </app-lista-documentos>
                             </ng-template>
                             <button class="btn btn-sm btn-primary" (click)="openModal(mdlListDocuments)"
@@ -317,7 +317,7 @@
                         <div class="col-4 text-center" *ngIf="esEdit">
                             <label for="" class="mr-1">DOCUMENTOS ADJUNTOS</label>
                             <ng-template #mdlAttachments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="'frmMdlAttachments'" [code]="FincaId">
+                                <app-lista-documentos [codeForm]="'frmMdlAttachments'" [code]="FincaId" [readonly] = "readonly">
                                 </app-lista-documentos>
                             </ng-template>
                             <button class="btn btn-sm btn-primary" (click)="openModal(mdlAttachments)"
@@ -334,7 +334,7 @@
         </form>
     </div>
     <div class="card-footer text-right">
-        <button class="btn btn-primary" (click)="Save()">Guardar</button>
+        <button class="btn btn-primary" (click)="Save()" [disabled]="readonly==true">Guardar</button>
         <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
     </div>
 </div>

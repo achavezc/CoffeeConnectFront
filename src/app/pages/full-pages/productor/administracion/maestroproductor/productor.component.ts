@@ -10,6 +10,7 @@ import { DateUtil } from '../../../../../services/util/date-util';
 import { ProductorService } from '../../../../../services/productor.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-productor',
@@ -26,7 +27,8 @@ export class ProductorComponent implements OnInit {
     private productorService: ProductorService,
     private router: Router,
     private modalService: NgbModal,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private authService : AuthService) {
   }
 
   productorForm: FormGroup;
@@ -46,12 +48,16 @@ export class ProductorComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   @Output()
   nameProductor = new EventEmitter<String>();
+  readonly: boolean;
+  vSessionUser: any;
 
   ngOnInit(): void {
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
     this.productorForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.productorForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

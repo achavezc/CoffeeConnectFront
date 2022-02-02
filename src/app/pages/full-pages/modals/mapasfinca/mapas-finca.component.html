@@ -24,7 +24,7 @@
       <div class="modal-header" style="text-align: center;">
 
         <h4 class="modal-title" style="font-size: 1rem;">AGREGAR DOCUMENTO</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -84,9 +84,9 @@
         </form>
       </div>
     </ng-template>
-    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModal(customContent)">Nuevo</button>
-    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalEditar(customContent)">Editar</button>
-    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="eliminar()">Eliminar</button>
+    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModal(customContent)" [disabled]="readonly==true">Nuevo</button>
+    <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalEditar(customContent)" [disabled]="readonly==true">Editar</button>
+    <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="eliminar()" [disabled]="readonly==true">Eliminar</button>
 
     <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
 

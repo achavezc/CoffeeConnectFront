@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { ProductorFincaService } from '../../../../../../services/productor-finca.service';
 import { ProductorService } from '../../../../../../services/productor.service';
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
@@ -23,7 +23,8 @@ export class FincaComponent implements OnInit {
     private productorService: ProductorService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private authService : AuthService) { }
 
   fincaForm: FormGroup;
   vId: number;
@@ -32,6 +33,8 @@ export class FincaComponent implements OnInit {
   limitRef = 10;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   nameProductor : any;
+  readonly: boolean;
+  vSessionUser: any;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseInt(this.route.snapshot.params['id']) : 0;
@@ -42,6 +45,8 @@ export class FincaComponent implements OnInit {
     } else {
 
     }
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   filterUpdate(event: any): void {
