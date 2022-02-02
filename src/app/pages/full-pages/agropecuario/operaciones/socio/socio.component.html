@@ -107,9 +107,9 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
                             (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
                             *ngIf="popUp">Seleccionar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()" *ngIf="!popUp">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()" *ngIf="!popUp" [disabled]="readonly==true">Nuevo</button>
                             <ng-template #mdlSocioDocuments let-c="close" let-d="dismiss">
-                                <app-lista-documentos [codeForm]="'frmMdlSocioDocuments'" [code]="selected[0].SocioId">
+                                <app-lista-documentos [codeForm]="'frmMdlSocioDocuments'" [code]="selected[0].SocioId"  [readonly]="readonly">
                                 </app-lista-documentos>
                             </ng-template>
                             <button class="btn btn-primary mr-1 mb-1" type="button"

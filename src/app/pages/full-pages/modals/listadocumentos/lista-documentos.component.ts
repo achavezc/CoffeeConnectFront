@@ -50,6 +50,7 @@ export class MListaDocumentosComponent implements OnInit {
   modalDocumentosTranslate: ModalDocumentosTranslate;
   page: any;
   visibleBoton: Boolean = true;
+  @Input() readonly;
 
   constructor(private spinner: NgxSpinnerService,
     private modalService: NgbModal,

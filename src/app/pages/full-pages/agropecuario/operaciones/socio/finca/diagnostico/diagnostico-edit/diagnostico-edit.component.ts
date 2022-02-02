@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import {AuthService} from './../../../../../../../../services/auth.service';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { DiagnosticoService } from '../../../../../../../../services/diagnostico.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
@@ -28,6 +28,7 @@ export class DiagnosticoEditComponent implements OnInit {
   userSession: any;
   codeDiagnostic: Number;
   fileName = '';
+  readonly: boolean;
 
   constructor(private fb: FormBuilder,
     private maestroService: MaestroService,
@@ -36,7 +37,8 @@ export class DiagnosticoEditComponent implements OnInit {
     private diagnosticoService: DiagnosticoService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private socioFincaService: SocioFincaService) {
+    private socioFincaService: SocioFincaService,
+    private authService : AuthService) {
     this.codeDiagnostic = this.route.snapshot.params['diagnostic'] ? parseInt(this.route.snapshot.params['diagnostic']) : 0;
     this.LoadInfrastructureTitles();
     this.LoadInfrastructureValues();
@@ -45,6 +47,7 @@ export class DiagnosticoEditComponent implements OnInit {
     if (this.codeDiagnostic > 0) {
       this.SearchById();
     }
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaDiagnosticoEdit);
   }
 
   ngOnInit(): void {

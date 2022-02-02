@@ -3,7 +3,6 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
@@ -11,6 +10,7 @@ import { SocioService } from '../../../../../../services/socio.service';
 import { SocioFincaService } from '../../../../../../services/socio-finca.service';
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-finca',
@@ -29,7 +29,8 @@ export class FincaComponent implements OnInit {
     private router: Router,
     private socioFincaService: SocioFincaService,
     private route: ActivatedRoute,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private authService : AuthService) { }
 
   fincaSocioForm: FormGroup;
   limitRef = 10;
@@ -42,7 +43,12 @@ export class FincaComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   codeProducer: any;
   nameProductor : any;
+  readonly: boolean;
+  vSessionUser: any;
+
   ngOnInit(): void {
+    
+    this.vSessionUser = JSON.parse(localStorage.getItem('user')); 
     this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0
     this.codeProducer = this.route.snapshot.params['producer'] ? parseInt(this.route.snapshot.params['producer']) : 0
     this.nameProductor = this.route.snapshot.params['title'];
@@ -59,6 +65,7 @@ export class FincaComponent implements OnInit {
     //     }
     //   }
     // });
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

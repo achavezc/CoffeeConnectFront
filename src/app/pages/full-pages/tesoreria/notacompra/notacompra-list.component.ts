@@ -5,7 +5,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
-
+import {AuthService} from './../../../../services/auth.service';
 import { MaestroUtil } from '../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../services/util/date-util';
 import { NotaCompraService } from '../../../../services/nota-compra.service';
@@ -30,7 +30,8 @@ export class NotacompraListComponent implements OnInit {
     private alertUtil: AlertUtil,
     private excelService: ExcelService,
     private router: Router,
-    private maestroService: MaestroService) {
+    private maestroService: MaestroService,
+    private authService : AuthService) {
     // this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -55,6 +56,7 @@ export class NotacompraListComponent implements OnInit {
   vSessionUser: any;
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
+  readonly: boolean;
 
   ngOnInit(): void {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -62,6 +64,7 @@ export class NotacompraListComponent implements OnInit {
     this.LoadCombos();
     this.consultaNotaCompraForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
     this.consultaNotaCompraForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

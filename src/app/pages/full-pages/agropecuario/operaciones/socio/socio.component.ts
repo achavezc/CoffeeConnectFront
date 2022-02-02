@@ -5,13 +5,13 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { SocioService } from '../../../../../services/socio.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-socio',
@@ -30,7 +30,8 @@ export class SocioComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private excelService: ExcelService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private authService : AuthService) {
   }
 
   socioListForm: FormGroup;
@@ -53,9 +54,9 @@ export class SocioComponent implements OnInit {
   @Output() agregarEvent = new EventEmitter<any>();
   listCertificacion: [] = [];
   selectedCertificacion: any;
-
-
+  readonly: boolean;
   vSessionUser: any;
+  
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
@@ -63,6 +64,8 @@ export class SocioComponent implements OnInit {
     this.socioListForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.page = this.route.routeConfig.data.title;
     this.vSessionUser = JSON.parse(localStorage.getItem('user')); 
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    var X = 0;
 
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import {AuthService} from './../../../../../../../services/auth.service';
 import { DiagnosticoService } from '../../../../../../../services/diagnostico.service';
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
@@ -27,6 +27,7 @@ export class DiagnosticoComponent implements OnInit {
   codeProducer: Number;
   codeFincaPartner: Number;
   msgErrGenerico = "Ha ocurrido un error interno.";
+  readonly: boolean;
 
   constructor(private fb: FormBuilder,
     private diagnosticoService: DiagnosticoService,
@@ -34,7 +35,8 @@ export class DiagnosticoComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
-    private maestroUtil: MaestroUtil) { }
+    private maestroUtil: MaestroUtil,
+    private authService : AuthService) { }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -44,6 +46,7 @@ export class DiagnosticoComponent implements OnInit {
     this.LoadForm();
     this.socioFincaDiagnosticoForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.socioFincaDiagnosticoForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

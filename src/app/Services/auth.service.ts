@@ -117,10 +117,14 @@ export class AuthService {
     const validOpcion = listaOpciones.filter(x => pathActual.includes(x.Path));
     if(validOpcion.length > 0){
       readonly = false;
-      form.enable();
+     // form.enable();
     }else{
       readonly = true;
-      form.disable();
+    // form.disable();
+    }
+    if (form != undefined)
+    {
+      readonly?form.disable(): form.enable();
     }
     return readonly;  
   }

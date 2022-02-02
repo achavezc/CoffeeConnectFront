@@ -43,7 +43,7 @@
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="New()" [disabled]="readonly==true">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Cancel()">Cancelar</button>
                         </form>
                     </div>

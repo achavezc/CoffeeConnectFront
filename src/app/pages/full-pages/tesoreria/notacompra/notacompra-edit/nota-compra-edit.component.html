@@ -557,7 +557,7 @@
             <button type="button" class="btn btn-primary" (click)="Print()"
                 *ngIf="selectedEstado == '02'">Imprimir</button>
             <button type="button" class="btn btn-primary" (click)="Liquidar()"
-                *ngIf="selectedEstado == '01'">Liquidar</button>
+                *ngIf="selectedEstado == '01'" [disabled]="readonly==true">Liquidar</button>
             <button type="button" class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
         </div>
     </div>

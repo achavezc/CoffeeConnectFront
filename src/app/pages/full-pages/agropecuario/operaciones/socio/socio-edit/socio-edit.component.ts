@@ -12,6 +12,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ProductorService } from '../../../../../../services/productor.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-socio-edit',
@@ -31,7 +32,8 @@ export class SocioEditComponent implements OnInit {
     private alertUtil: AlertUtil,
     private spinner: NgxSpinnerService,
     private productorService: ProductorService,
-    private maestroService: MaestroService) { }
+    private maestroService: MaestroService,
+    private authService : AuthService) { }
 
   socioEditForm: any;
   listTiposDocs: [] = [];
@@ -62,6 +64,7 @@ export class SocioEditComponent implements OnInit {
   @ViewChild(DatatableComponent) mTblProductores: DatatableComponent;
   @ViewChild("modalBusqProductores", { static: false }) modalBusqProductores: TemplateRef<any>;
   vSessionUser: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -75,6 +78,7 @@ export class SocioEditComponent implements OnInit {
       this.vId = parseInt(this.route.snapshot.params['id']);
       this.SearchById();
     }
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   // [Validators.minLength(5), Validators.maxLength(25), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),Validators.required ]

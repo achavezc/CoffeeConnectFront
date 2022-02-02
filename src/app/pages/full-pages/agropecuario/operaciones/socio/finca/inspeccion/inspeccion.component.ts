@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ActivatedRoute, Router } from '@angular/router';
-
+import {AuthService} from './../../../../../../../services/auth.service';
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { InspeccionInternaService } from '../../../../../../../services/inspeccion-interna.service';
 import { MaestroUtil } from '../../../../../../../services/util/maestro-util';
@@ -27,6 +27,7 @@ export class InspeccionComponent implements OnInit {
   codeFincaPartner: any;
   codePartner: any;
   codeProducer: any;
+  readonly: boolean;
 
   constructor(private fb: FormBuilder,
     private dateUtil: DateUtil,
@@ -34,7 +35,8 @@ export class InspeccionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private router: Router,
     private route: ActivatedRoute,
-    private maestroUtil: MaestroUtil) { }
+    private maestroUtil: MaestroUtil,
+    private authService : AuthService) { }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -45,6 +47,7 @@ export class InspeccionComponent implements OnInit {
     this.socioFincaInspeccionForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.socioFincaInspeccionForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
     this.LoadState();
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm() {

@@ -8,11 +8,11 @@
     <form [formGroup]="listaDocumentosForm" class="needs-validation">
         <ngx-spinner></ngx-spinner>
 
-        <button *ngIf="visibleBoton" class="btn btn-primary mr-1 mb-1" (click)="openModal(mdlAddFile)"
+        <button *ngIf="visibleBoton" class="btn btn-primary mr-1 mb-1" (click)="openModal(mdlAddFile)" [disabled]="readonly==true"
             type="button">{{modalDocumentosTranslate.Nuevo | translate}}</button>
         <button *ngIf="visibleBoton" class="btn btn-primary mr-1 mb-1" type="button"
-            (click)="openModalEdit(mdlAddFile)">{{modalDocumentosTranslate.Editar | translate}}</button>
-        <button *ngIf="visibleBoton" class="btn btn-primary mr-1 mb-1" type="button" (click)="eliminar()">{{modalDocumentosTranslate.Eliminar
+            (click)="openModalEdit(mdlAddFile)" [disabled]="readonly==true">{{modalDocumentosTranslate.Editar | translate}}</button>
+        <button *ngIf="visibleBoton" class="btn btn-primary mr-1 mb-1" type="button" (click)="eliminar()" [disabled]="readonly==true">{{modalDocumentosTranslate.Eliminar
             | translate}}</button>
 
         <small class="form-text text-muted danger" *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>

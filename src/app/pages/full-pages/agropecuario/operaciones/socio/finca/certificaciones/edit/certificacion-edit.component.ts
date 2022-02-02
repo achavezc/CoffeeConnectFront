@@ -11,6 +11,7 @@ import { MaestroService } from '../../../../../../../../services/maestro.service
 import swal from 'sweetalert2';
 import { formatDate } from '@angular/common';
 import { host } from '../../../../../../../../shared/hosts/main.host';
+import {AuthService} from './../../../../../../../../services/auth.service';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
@@ -41,6 +42,8 @@ export class CertificacionEditComponent implements OnInit {
   fileName = "";
   ProductorId = 0;
   SocioId = 0;
+  readonly: boolean;
+  vSessionUser: any;
  
   
   constructor(private spinner: NgxSpinnerService,
@@ -50,7 +53,8 @@ export class CertificacionEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private httpClient: HttpClient,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    private authService : AuthService
   ) {
 
   }
@@ -75,6 +79,8 @@ export class CertificacionEditComponent implements OnInit {
         this.cargarcombos();
       }
     });
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.certificacionEditForm);
   }
   cargarcombos() {
    this.GetEntidadCertificadora();

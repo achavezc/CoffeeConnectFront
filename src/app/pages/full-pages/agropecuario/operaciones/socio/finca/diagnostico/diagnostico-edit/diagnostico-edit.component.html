@@ -934,7 +934,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
-                    <button type="button" class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
+                    <button type="button" class="btn btn-primary mr-1" (click)="Save()" [disabled]="readonly==true">Guardar</button>
                     <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
                 </div>
             </div>

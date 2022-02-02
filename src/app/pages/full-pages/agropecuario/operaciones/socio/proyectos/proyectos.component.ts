@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { SocioProyectoService } from '../../../../../../services/socio-proyecto.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
 
@@ -22,20 +22,26 @@ export class ProyectosComponent implements OnInit {
   vCodePartner: number;
   errorGeneral = { isError: false, errorMessage: '' }
   vMsgErrorGeneric = 'Ocurrio un error interno';
+  readonly: boolean;
+  userSession: any;
+
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private socioProyectoService: SocioProyectoService,
     private spinner: NgxSpinnerService,
-    private dateUtil: DateUtil) { }
+    private dateUtil: DateUtil,
+    private authService : AuthService) { }
 
   ngOnInit(): void {
+    this.userSession = JSON.parse(localStorage.getItem('user'));
     this.vCodePartner = this.route.snapshot.params["id"] ? Number(this.route.snapshot.params["id"]) : 0
     if (this.vCodePartner > 0) {
       this.SearchProjectsByPartner();
     } else {
       this.Cancel();
     }
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   New(): void {

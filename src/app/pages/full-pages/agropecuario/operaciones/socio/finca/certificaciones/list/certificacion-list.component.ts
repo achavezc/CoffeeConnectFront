@@ -5,6 +5,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { CertificacionService } from '../../../../../../../../services/certificacion.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../../../services/util/date-util';
+import {AuthService} from './../../../../../../../../services/auth.service';
 @Component({
   selector: 'app-certificacion-list',
   templateUrl: './certificacion-list.component.html',
@@ -17,7 +18,8 @@ export class CertificacionListComponent implements OnInit {
     private certificacionService: CertificacionService,
     private alertUtil: AlertUtil,
     private router: Router,
-    private dateUtil: DateUtil
+    private dateUtil: DateUtil,
+    private authService : AuthService
     ) { }
   certificacionForm: FormGroup;
   limitRef = 10;
@@ -29,6 +31,9 @@ export class CertificacionListComponent implements OnInit {
   selected = [];
   ProductorId = 0;
   SocioId = 0;
+  readonly: boolean;
+  vSessionUser: any;
+
   ngOnInit(): void {
   
     this.route.queryParams.subscribe((params) => {
@@ -42,6 +47,8 @@ export class CertificacionListComponent implements OnInit {
         } 
       }
     });
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   SearchCertificacionesById(): void {

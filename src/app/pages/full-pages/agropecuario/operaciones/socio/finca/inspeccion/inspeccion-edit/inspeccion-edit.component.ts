@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router, ActivatedRoute } from '@angular/router';
-
+import {AuthService} from './../../../../../../../../services/auth.service';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { InspeccionInternaService } from '../../../../../../../../services/inspeccion-interna.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
@@ -39,6 +39,7 @@ export class InspeccionEditComponent implements OnInit {
   listStatus = [];
   selectedStatus: any;
   isEdit = false;
+  readonly: boolean;
 
   constructor(private fb: FormBuilder,
     private maestroServicio: MaestroService,
@@ -47,7 +48,8 @@ export class InspeccionEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private router: Router,
     private route: ActivatedRoute,
-    private socioFincaService: SocioFincaService) {
+    private socioFincaService: SocioFincaService,
+    private authService : AuthService) {
     this.codeInternalInspection = this.route.snapshot.params['internalinspection'] ? parseInt(this.route.snapshot.params['internalinspection']) : 0;
     this.LoadCriticalFor();
     this.LoadCoffeeVarieties();
@@ -79,6 +81,7 @@ export class InspeccionEditComponent implements OnInit {
     } else if (this.codeInternalInspection <= 0) {
       this.isEdit = false;
     }
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaInspeccionEdit);
   }
 
   LoadForm(): void {

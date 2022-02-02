@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import {AuthService} from './../../../../../../../services/auth.service';
 import { DateUtil } from '../../../../../../../services/util/date-util';
 import { MaestroService } from '../../../../../../../services/maestro.service';
 import { SocioProyectoService } from '../../../../../../../services/socio-proyecto.service';
@@ -39,7 +39,8 @@ export class ProyectosEditComponent implements OnInit {
   vMsgGenerico = 'Ocurrio un error interno.';
   vMsgGeneral = { isError: false, msgError: '' };
   arrRequirements = [];
-
+  readonly: boolean;
+  userSession: any;
 
   constructor(private fb: FormBuilder,
     private dateUtil: DateUtil,
@@ -48,7 +49,8 @@ export class ProyectosEditComponent implements OnInit {
     private router: Router,
     private socioProyectoService: SocioProyectoService,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil) {
+    private alertUtil: AlertUtil,
+    private authService : AuthService) {
     this.vCodePartner = this.route.snapshot.params["partner"] ? Number(this.route.snapshot.params["partner"]) : 0;
     this.vCodeProject = this.route.snapshot.params["project"] ? Number(this.route.snapshot.params["project"]) : 0;
     this.LoadRequirements();
@@ -64,6 +66,7 @@ export class ProyectosEditComponent implements OnInit {
     } else {
       this.GetProjectById();
     }
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.proyectosEditForm);
   }
 
   LoadForm(): void {

@@ -132,7 +132,7 @@
                                 data-placement="top" (click)="Agregar(selected)"
                                 [disabled]="!rows.length || !selected.length" *ngIf="popUp">Asociar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()" *ngIf="!popUp"
-                                [disabled]="selected.length <= 0">Anular</button>
+                                [disabled]="selected.length <= 0 || readonly==true" >Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()" *ngIf="!popUp"
                                 [disabled]="rows.length <= 0">Exportar</button>
                         </form>

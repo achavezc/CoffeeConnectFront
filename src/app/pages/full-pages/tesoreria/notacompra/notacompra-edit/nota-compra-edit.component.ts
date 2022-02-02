@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
-
 import { NotaCompraService } from '../../../../../services/nota-compra.service';
 import { MaestroService } from '../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { host } from '../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../services/models/login';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-nota-compra-edit',
@@ -23,7 +23,8 @@ export class NotaCompraEditComponent implements OnInit {
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private authService : AuthService) { }
 
   notaCompraEditForm: any;
   listEstados: [];
@@ -45,9 +46,10 @@ export class NotaCompraEditComponent implements OnInit {
   vMensajeGenerico = "Ha ocurrido un error interno.";
   CodigoSubProducto = "";
   precioDia = 0;
-  login: ILogin;
+  login: any;
   listPreciosDia: [];
   selectedPrecioDia: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'];
@@ -59,6 +61,7 @@ export class NotaCompraEditComponent implements OnInit {
     } else {
       this.router.navigate['/tesoreria/notasdecompra-list'];
     }
+    this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.notaCompraEditForm );
   }
 
   LoadForm(): void {

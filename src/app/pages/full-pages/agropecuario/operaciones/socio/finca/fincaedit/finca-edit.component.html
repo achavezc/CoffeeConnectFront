@@ -588,7 +588,7 @@
         </div>
     </div>
     <div class="card-footer text-right">
-        <button class="btn btn-primary mr-1" (click)="Save()">Guardar</button>
+        <button class="btn btn-primary mr-1" (click)="Save()" [disabled]="readonly==true">Guardar</button>
         <button class="btn btn-danger" (click)="Cancel()">Cancelar</button>
     </div>
 </div>

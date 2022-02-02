@@ -10,7 +10,7 @@ import { AlertUtil } from '../../../../../../../services/util/alert-util';
 import { SocioFincaService } from '../../../../../../../services/socio-finca.service';
 import { ProductorFincaService } from '../../../../../../../services/productor-finca.service';
 import { MaestroService } from '../../../../../../../services/maestro.service';
-import { number } from 'ngx-custom-validators/src/app/number/validator';
+import {AuthService} from './../../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-finca-edit',
@@ -29,7 +29,8 @@ export class FincaEditComponent implements OnInit {
     private socioFincaService: SocioFincaService,
     private route: ActivatedRoute,
     private maestroService: MaestroService,
-    private productorFincaService: ProductorFincaService) { }
+    private productorFincaService: ProductorFincaService,
+    private authService : AuthService) { }
 
   socioFincaEditForm: FormGroup;
   listFincas: any[];
@@ -77,6 +78,8 @@ export class FincaEditComponent implements OnInit {
   codePartner: Number;
   codeProducer: Number;
   nameProductor: any;
+  readonly: boolean;
+
   ngOnInit(): void {
     this.codePartner = this.route.snapshot.params['partner'] ? parseInt(this.route.snapshot.params['partner']) : 0
     this.codeProducer = this.route.snapshot.params['producer'] ? parseInt(this.route.snapshot.params['producer']) : 0
@@ -90,6 +93,7 @@ export class FincaEditComponent implements OnInit {
     } else {
       this.GetFincas(this.codeProducer);
     }
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     // this.route.queryParams.subscribe((params) => {
     //   this.objParams = params;
     //   this.LoadForm();
