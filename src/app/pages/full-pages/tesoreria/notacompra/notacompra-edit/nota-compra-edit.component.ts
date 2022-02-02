@@ -52,6 +52,7 @@ export class NotaCompraEditComponent implements OnInit {
   readonly: boolean;
 
   ngOnInit(): void {
+    this.login = JSON.parse(localStorage.getItem('user'));
     this.vId = this.route.snapshot.params['id'];
     if (this.vId) {
       this.vId = parseInt(this.route.snapshot.params['id']);
@@ -62,6 +63,7 @@ export class NotaCompraEditComponent implements OnInit {
       this.router.navigate['/tesoreria/notasdecompra-list'];
     }
     this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.notaCompraEditForm );
+    var x = 0;
   }
 
   LoadForm(): void {

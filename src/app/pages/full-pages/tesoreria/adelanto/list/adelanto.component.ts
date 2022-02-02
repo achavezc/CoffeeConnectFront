@@ -11,6 +11,7 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { AdelantoService } from '../../../../../services/adelanto.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-adelanto',
@@ -28,7 +29,8 @@ export class AdelantoComponent implements OnInit {
     private adelantoService: AdelantoService,
     private router: Router,
     private alertUtil: AlertUtil,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private authService : AuthService) { }
 
   adelantoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -51,6 +53,7 @@ export class AdelantoComponent implements OnInit {
   @Output() agregarContratoEvent = new EventEmitter<any>();
   mensajeErrorGenerico = "Ocurrio un error interno.";
   popUpNotaCompra = true;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -58,7 +61,7 @@ export class AdelantoComponent implements OnInit {
     this.LoadCombos();
     this.adelantoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.adelantoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

@@ -165,7 +165,7 @@
           </div>
           <div class="card-footer text-right">
             <button class="btn btn-primary" (click)="Print()" *ngIf="esEdit">Imprimir</button>
-            <button class="btn btn-primary ml-1" (click)="Save()">Guardar</button>
+            <button class="btn btn-primary ml-1" (click)="Save()"  [disabled]="readonly==true">Guardar</button>
             <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
           </div>
         </div>

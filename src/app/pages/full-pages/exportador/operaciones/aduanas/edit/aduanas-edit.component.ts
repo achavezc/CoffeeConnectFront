@@ -14,6 +14,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AduanaService } from '../../../../../../services/aduanas.service';
 import { EmpresaProveedoraService } from '../../../../../../services/empresaproveedora.service';
 import { formatDate } from '@angular/common';
+import {AuthService} from './../../../../../../services/auth.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class AduanasEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  login: ILogin;
+  login: any;
   aduanasFormEdit: FormGroup;
   formControlEmbarque: FormGroup;
   selectEstado: any;
@@ -61,6 +62,7 @@ export class AduanasEditComponent implements OnInit {
   popUp = true;
   //form = "aduanas";
   isLoading = false;
+  readonly: boolean;
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   listEstadoEnvio: any[];
   selectEstadoEnvio: any;
@@ -76,7 +78,33 @@ export class AduanasEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private empresaProveedoraService: EmpresaProveedoraService,
-    private aduanaService: AduanaService) {
+    private aduanaService: AduanaService,
+    private authService : AuthService) {
+  }
+
+  ngOnInit(): void {
+    this.login = JSON.parse(localStorage.getItem("user"));
+    this.cargarForm();
+    this.route.queryParams
+      .subscribe(params => {
+        if (Number(params.id)) {
+          this.id = Number(params.id);
+          this.esEdit = true;
+          this.obtenerDetalle();
+        }
+
+      });
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 100,
+      allowSearchFilter: true
+    };
+    this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.aduanasFormEdit);
   }
   cargarForm() {
     this.aduanasFormEdit = this.fb.group(
@@ -275,30 +303,7 @@ export class AduanasEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  ngOnInit(): void {
-    this.login = JSON.parse(localStorage.getItem("user"));
-    this.cargarForm();
-    this.route.queryParams
-      .subscribe(params => {
-        if (Number(params.id)) {
-          this.id = Number(params.id);
-          this.esEdit = true;
-          this.obtenerDetalle();
-        }
-
-      });
-
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 100,
-      allowSearchFilter: true
-    };
-
-  }
+ 
 
   onItemSelect(item: any) {
     console.log(item);

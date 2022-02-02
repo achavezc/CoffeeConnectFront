@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { formatDate } from '@angular/common';
 import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../../shared/util/excel.service';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-aduanas',
@@ -29,7 +30,8 @@ export class AduanasComponent implements OnInit {
     private aduanaService: AduanaService,
     private router: Router,
     private modalService: NgbModal,
-    private excelService: ExcelService,) {
+    private excelService: ExcelService,
+    private authService : AuthService) {
   }
 
   aduanasForm: FormGroup;
@@ -52,12 +54,14 @@ export class AduanasComponent implements OnInit {
   selectContrato: any[] = [];
   selectEmpresa: any[] = [];
   popUp = true;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
     this.aduanasForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.aduanasForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   close() {

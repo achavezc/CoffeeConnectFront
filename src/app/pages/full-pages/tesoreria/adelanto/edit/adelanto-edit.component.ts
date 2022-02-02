@@ -1,20 +1,15 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../../services/maestro.service';
-import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, Validators,  FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { host } from '../../../../../shared/hosts/main.host';
-import { ILogin } from '../../../../../services/models/login';
-import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { AdelantoService } from '../../../../../services/adelanto.service';
 import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../services/util/date-util';
-import { formatDate } from '@angular/common';
-import { Subject } from 'rxjs';
-
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-adelanto-edit',
@@ -41,7 +36,7 @@ export class AdelantoEditComponent implements OnInit {
   fechaRegistro: any;
   fechaPesado: any;
   responsable: "";
-  login: ILogin;
+  login: any;
   submittedEdit = false;
   numeroRecibo = "";
   esEdit = false;
@@ -52,16 +47,16 @@ export class AdelantoEditComponent implements OnInit {
   popUpSocio = true;
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
-
+  readonly: boolean;
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
     private alertUtil: AlertUtil,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private adelantoService: AdelantoService,
-    private dateUtil: DateUtil
+    private dateUtil: DateUtil,
+    private authService : AuthService
   ) {
 
   }
@@ -80,6 +75,7 @@ export class AdelantoEditComponent implements OnInit {
         }
       }
       );
+      this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.adelantoFormEdit);
   }
 
   cargarForm() {

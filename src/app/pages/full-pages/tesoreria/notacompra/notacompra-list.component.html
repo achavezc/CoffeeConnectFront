@@ -130,7 +130,7 @@
                                 [disabled]="!consultaNotaCompraForm.valid" (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
                                 data-placement="top" (click)="Agregar(selected)"
-                                [disabled]="!rows.length || !selected.length" *ngIf="popUp">Asociar</button>
+                                [disabled]="!rows.length || !selected.length || readonly==true" *ngIf="popUp">Asociar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()" *ngIf="!popUp"
                                 [disabled]="selected.length <= 0 || readonly==true" >Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()" *ngIf="!popUp"
