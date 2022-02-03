@@ -12,6 +12,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { TagOrdenServicioComponent } from '../ordenservicio-edit/tag-ordenservicio/tag-ordenservicio.component';
+import {AuthService} from './../../../../../../services/auth.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class OrdenServicioEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   estado: any;
   readonly: boolean;
+  vSessionUser: any;
 
   constructor(private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -60,7 +62,8 @@ export class OrdenServicioEditComponent implements OnInit {
     private ordenservicioControlcalidadService: OrdenservicioControlcalidadService,
     private alertUtil: AlertUtil,
     private route: ActivatedRoute,
-    private dateUtil: DateUtil) {
+    private dateUtil: DateUtil,
+    private authService : AuthService) {
   }
 
   receiveMessage($event) {
@@ -68,6 +71,8 @@ export class OrdenServicioEditComponent implements OnInit {
     this.ordenServicioFormEdit.get('destinatario').setValue(this.selectEmpresa[0].RazonSocial);
     this.ordenServicioFormEdit.get('ruc').setValue(this.selectEmpresa[0].Ruc);
     this.ordenServicioFormEdit.get('dirDestino').setValue(this.selectEmpresa[0].Direccion + " - " + this.selectEmpresa[0].Distrito + " - " + this.selectEmpresa[0].Provincia + " - " + this.selectEmpresa[0].Departamento);
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.modalService.dismissAll();
   }
 

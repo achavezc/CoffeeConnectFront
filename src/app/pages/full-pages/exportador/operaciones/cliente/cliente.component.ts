@@ -12,6 +12,7 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ILogin } from '../../../../../services/models/login';
 import { AlertUtil } from '../../../../../services/util/alert-util';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-cliente',
@@ -28,7 +29,8 @@ export class ClienteComponent implements OnInit {
     private router: Router,
     private excelService: ExcelService,
     private maestroUtil: MaestroUtil,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private authService : AuthService) { }
 
   clienteForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -46,6 +48,7 @@ export class ClienteComponent implements OnInit {
   msgErrorGenerico = 'Ocurrio un error interno.';
   login: ILogin;
   userSession: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
@@ -54,6 +57,7 @@ export class ClienteComponent implements OnInit {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.clienteForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.clienteForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

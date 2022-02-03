@@ -106,10 +106,10 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="ordenServConCalExtForm.invalid" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" (click)="Nuevo()" type="button"
+                            <button class="btn btn-primary mr-1 mb-1" (click)="Nuevo()" type="button"  [disabled]="readonly==true"
                                 >Nuevo</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()"
-                                [disabled]="!rows.length || !selected.length">Anular</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Anular()" 
+                                [disabled]="!rows.length || !selected.length || readonly==true">Anular</button>
                         </form>
                     </div>
                 </div>

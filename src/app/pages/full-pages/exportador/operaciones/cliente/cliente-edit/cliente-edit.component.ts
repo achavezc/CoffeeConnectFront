@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } fro
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { ClienteService } from '../../../../../../services/cliente.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
@@ -23,7 +23,8 @@ export class ClienteEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private maestroService: MaestroService,
-    private maestroUtil: MaestroUtil) { }
+    private maestroUtil: MaestroUtil,
+    private authService : AuthService) { }
 
   clienteEditForm: FormGroup;
   listTiposClientes: [] = [];
@@ -42,6 +43,7 @@ export class ClienteEditComponent implements OnInit {
   vSessionUser: any;
   errorGeneral = { isError: false, msgError: '' };
   vMsgErrorGenerico = 'Ocurrio un error interno.';
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -55,6 +57,7 @@ export class ClienteEditComponent implements OnInit {
     } else {
       this.clienteEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     }
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

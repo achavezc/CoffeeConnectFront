@@ -8,6 +8,7 @@ import { MaestroUtil } from './../../../../../services/util/maestro-util';
 import { DateUtil } from './../../../../../services/util/date-util';
 import { AlertUtil } from './../../../../../services/util/alert-util';
 import { OrdenservicioControlcalidadService } from './../../../../../services/ordenservicio-controlcalidad.service';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-orden-servicio',
@@ -23,7 +24,8 @@ export class OrdenServicioComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private ordenSerContCalidService: OrdenservicioControlcalidadService,
-    private router: Router) {
+    private router: Router,
+    private authService : AuthService) {
   }
 
   ordenServConCalExtForm: FormGroup;
@@ -44,6 +46,7 @@ export class OrdenServicioComponent implements OnInit {
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
   errorFecha: any = { isError: false, errorMessage: '' };
   vSessionUser: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -51,6 +54,7 @@ export class OrdenServicioComponent implements OnInit {
     this.ordenServConCalExtForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.ordenServConCalExtForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

@@ -77,9 +77,9 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="clienteForm.invalid"
                                 (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()"  [disabled]="readonly==true">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                                [disabled]="!selected || selected.length <= 0" (click)="Anular()">Anular</button>
+                                [disabled]="!selected || selected.length <= 0 ||  readonly==true" (click)="Anular()">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
                                 [disabled]="!rows || rows.length <= 0" (click)="Exportar()">Exportar</button>
                         </form>

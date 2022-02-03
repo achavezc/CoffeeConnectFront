@@ -124,7 +124,7 @@
                         *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                     </div>
                     <div class="card-footer text-right" style="margin-top: 2rem;">
-                      <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+                      <button class="btn btn-primary" (click)="guardar()" [disabled]="readonly==true">Guardar</button>
                       <button class="btn btn-danger ml-1" (click)="cancelar()">Cancelar</button>
                     </div>
 
@@ -136,7 +136,7 @@
                   </a>
 
                   <ng-template ngbNavContent *ngIf="viewTagSeco">
-                    <app-controlCalidadSeco [form]="form" [detalle]="detalle"></app-controlCalidadSeco>
+                    <app-controlCalidadSeco [form]="form" [detalle]="detalle" [readonly] = "readonly"></app-controlCalidadSeco>
                   </ng-template>
 
                   <ng-template ngbNavContent *ngIf="!viewTagSeco">
