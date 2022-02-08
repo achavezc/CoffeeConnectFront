@@ -102,7 +102,8 @@
                 </div>
             </div>
             <div class="card mt-0">
-                <h5 class="card-header bg-primary text-white text-center align-middle p-0">MAESTRO DE CONTRATOS</h5>
+                <h5 class="card-header bg-primary text-white text-center align-middle p-0" *ngIf="tipoEmpresaId == '01'; else elseBlock" >MAESTRO DE CONTRATOS</h5>
+                <ng-template #elseBlock> <h5 class="card-header bg-primary text-white text-center align-middle p-0">MAESTRO DE CONTRATOS DE VENTA</h5> </ng-template>
                 <div class="card-body">
                     <div class="form-row bg-primary align-middle mb-2">
                         <label class="text-white">DATOS GENERALES</label>
@@ -307,7 +308,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="form-row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group row">
+                                    <div class="form-group row" *ngIf="tipoEmpresaId == '01'">
                                         <label for="harvestPeriod" class="col-lg-3 col-form-label pr-0">PERIODO
                                             COSECHA</label>
                                         <div class="col-lg-5">
