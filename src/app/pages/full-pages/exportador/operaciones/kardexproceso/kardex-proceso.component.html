@@ -115,10 +115,10 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!kardexProcesoForm.valid"
                                 (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" [disabled]="readonly==true">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
                                 [disabled]="!rows.length">Exportar</button>
-                                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0"
+                                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
                                 (click)="anular()">Anular</button>
                         </form>
                     </div>

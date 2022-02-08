@@ -3,12 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { TipoCambioDiaService } from '../../../../../../services/tipocambiodia.service';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { SocioService } from '../../../../../../services/socio.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ILogin } from '../../../../../../services/models/login';
-import { formatCurrency } from '@angular/common';
 
 @Component({
   selector: 'app-tipocambiodia-edit',
@@ -26,7 +24,8 @@ export class TipoCambioDiaEditComponent implements OnInit {
     private alertUtil: AlertUtil,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private tipoCambioDiaService : TipoCambioDiaService) { }
+    private tipoCambioDiaService : TipoCambioDiaService,
+    private authService : AuthService) { }
 
   precioDiaEditForm: FormGroup;  
   listEstado: [];  
@@ -39,12 +38,14 @@ export class TipoCambioDiaEditComponent implements OnInit {
   vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
   errorGenerico = { isError: false, msgError: '' };
   submittedEdit
-  vSessionUser: ILogin;
+  vSessionUser: any;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.route.queryParams
     .subscribe(params => {
       if (Number(params.id)) {

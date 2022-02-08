@@ -6,10 +6,9 @@ import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { TipoCambioDiaService } from '../../../../../../services/tipocambiodia.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { ExcelService } from '../../../../../../shared/util/excel.service';
-import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import swal from 'sweetalert2';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-tipocambiodia',
@@ -24,8 +23,8 @@ export class TipoCambioDiaComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
-    private excelService: ExcelService,
-    private maestroUtil: MaestroUtil,private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private authService : AuthService) { }
 
   preciosdiaform: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent; 
@@ -41,6 +40,7 @@ export class TipoCambioDiaComponent implements OnInit {
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
+  readonly: boolean;
 
   ngOnInit(): void {
     this.LoadForm();
@@ -48,6 +48,7 @@ export class TipoCambioDiaComponent implements OnInit {
     this.preciosdiaform.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.preciosdiaform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

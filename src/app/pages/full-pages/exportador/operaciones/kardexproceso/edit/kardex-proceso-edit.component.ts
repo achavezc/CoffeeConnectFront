@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators , FormControl} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -11,6 +10,7 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import{KardexProcesoService} from '../../../../../../services/kardex-proceso.service'
 import { ILogin } from '../../../../../../services/models/login';
 import { formatDate } from '@angular/common';
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-kardex-proceso-edit',
@@ -28,7 +28,8 @@ export class KardexProcesoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private authService : AuthService) { }
 
   kardexProcesoEditForm: FormGroup;
   errorGeneral = { isError: false, msgError: '' };
@@ -47,7 +48,6 @@ export class KardexProcesoEditComponent implements OnInit {
   selectedCalidad: any;
   selectedCliente: any;
   submittedEdit = false;
-  login: ILogin;
   esEdit = false;
   estado: any;
   fechaRegistro: any;
@@ -55,12 +55,15 @@ export class KardexProcesoEditComponent implements OnInit {
   selectCliente: any;
   id : any;
   responsable: any = "";
-  
+  readonly: boolean;
+  userSession: any;
+ 
   ngOnInit(): void {
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.userSession = JSON.parse(localStorage.getItem("user"));
     this.id = this.route.snapshot.queryParams.id ? Number(this.route.snapshot.queryParams.id) : 0;
     this.LoadForm();
     this.LoadCombos();
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
     if (this.id <= 0) {
       this.kardexProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
       this.kardexProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
@@ -161,7 +164,7 @@ export class KardexProcesoEditComponent implements OnInit {
       ContratoId: 0,
       TipoDocumentoInternoId: form.tipoDocumento ?? '',
       TipoOperacionId: form.tipoOperacion ?? '',
-      EmpresaId:  this.login.Result.Data.EmpresaId,
+      EmpresaId:  this.userSession.Result.Data.EmpresaId,
       NumeroComprobanteInterno: form.nroComprobanteInterno,
       NumeroGuiaRemision: form.nroGuiaRemision,
       NumeroContrato: form.nroContrato,
@@ -182,7 +185,7 @@ export class KardexProcesoEditComponent implements OnInit {
       TotalCP: Number(form.totalCp), 
       PlantaProcesoAlmacenId: form.plantaProceso ?? '', 
       FechaIngreso: form.fechaRegistro , 
-      Usuario: this.login.Result.Data.NombreUsuario
+      Usuario: this.userSession.Result.Data.NombreUsuario
     }
     let json = JSON.stringify(request);
     return request;

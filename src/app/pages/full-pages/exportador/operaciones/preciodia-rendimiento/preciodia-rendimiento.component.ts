@@ -4,9 +4,8 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
-
+import {AuthService} from './../../../../../services/auth.service';
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
-import { MaestroService } from '../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { PrecioDiaRendimientoService } from '../../../../../services/precio-dia-rendimiento.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
@@ -30,15 +29,16 @@ export class PreciodiaRendimientoComponent implements OnInit {
   userSession: any;
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
+  readonly: boolean;
 
   constructor(private fb: FormBuilder,
     private maestroUtil: MaestroUtil,
-    private maestroService: MaestroService,
     private dateUtil: DateUtil,
     private precioDiaRendimientoService: PrecioDiaRendimientoService,
     private spinner: NgxSpinnerService,
     private router: Router,
-    private alertUtil: AlertUtil) {
+    private alertUtil: AlertUtil,
+    private authService : AuthService) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
@@ -46,6 +46,7 @@ export class PreciodiaRendimientoComponent implements OnInit {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.GetStatus();
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm() {
@@ -56,7 +57,6 @@ export class PreciodiaRendimientoComponent implements OnInit {
     });
 
     this.frmPrecioDiaRendimiento.setValidators(this.comparisonValidator());
-
     this.frmPrecioDiaRendimiento.controls.finaldate.setValue(this.dateUtil.currentDate());
     this.frmPrecioDiaRendimiento.controls.initialdate.setValue(this.dateUtil.currentMonthAgo());
   }

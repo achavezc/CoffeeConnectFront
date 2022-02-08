@@ -12,6 +12,7 @@ import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { ContratoService } from '../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { formatDate } from '@angular/common';
+import {AuthService} from './../../../../../services/auth.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class ContratoComponent implements OnInit {
     private contratoService: ContratoService,
     private router: Router,
     private route: ActivatedRoute,
-    private alertUtil: AlertUtil) { }
+    private alertUtil: AlertUtil,
+    private authService : AuthService) { }
 
   contratoForm: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -57,6 +59,7 @@ export class ContratoComponent implements OnInit {
   userSession: any;
   tipoEmpresaId = '';
   page: any;
+  readonly: boolean;
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
 
@@ -69,6 +72,7 @@ export class ContratoComponent implements OnInit {
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
     this.page = this.route.routeConfig.data.title;
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
 
   }
 

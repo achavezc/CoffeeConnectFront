@@ -2,17 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ILogin } from '../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { ContratoService } from '../../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
-
+import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-contrato-edit',
@@ -31,14 +29,12 @@ export class ContratoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private contratoService: ContratoService,
     private alertUtil: AlertUtil,
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private authService : AuthService) { }
 
-  login: ILogin;
   contratoEditForm: FormGroup;
   listCondicionEmbarque = [];
   listEstadoPagoFactura = [];
-
-
   listPaises = [];
   listCiudades = [];
   listProductos = [];
@@ -103,11 +99,12 @@ export class ContratoEditComponent implements OnInit {
   totalFacturar2;
   totalFacturar3;
   tipoEmpresaId = '';
+  readonly: boolean;
 
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.login = JSON.parse(localStorage.getItem("user"));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.tipoEmpresaId = this.vSessionUser.Result.Data.TipoEmpresaid;
     this.LoadForm();
     this.addValidations();

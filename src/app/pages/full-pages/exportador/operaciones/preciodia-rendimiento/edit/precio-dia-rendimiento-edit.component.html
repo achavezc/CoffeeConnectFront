@@ -131,7 +131,7 @@
                             *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                     </div>
                     <div class="col-lg-8 text-right">
-                        <button class="btn btn-primary mr-1" type="button" (click)="Save()">Guardar</button>
+                        <button class="btn btn-primary mr-1" type="button" (click)="Save()" [disabled]="readonly==true">Guardar</button>
                         <button class="btn btn-danger" type="button" (click)="Cancel()">Cancelar</button>
                     </div>
                 </div>

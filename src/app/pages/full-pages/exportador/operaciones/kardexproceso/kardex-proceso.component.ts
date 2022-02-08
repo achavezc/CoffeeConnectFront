@@ -11,6 +11,7 @@ import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
+import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
   selector: 'app-kardex-proceso',
@@ -28,7 +29,8 @@ export class KardexProcesoComponent implements OnInit {
     private alertUtil: AlertUtil,
     private modalService: NgbModal,
     private router: Router,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private authService : AuthService) { }
 
   kardexProcesoForm: any;
   listPlantaProceso: [];
@@ -59,6 +61,8 @@ export class KardexProcesoComponent implements OnInit {
   vSessionUser: any;
   popUp = true;
   estadoActivo = '01';
+  readonly: boolean;
+
 
   ngOnInit(): void {
     this.LoadForm();
@@ -66,6 +70,7 @@ export class KardexProcesoComponent implements OnInit {
     this.kardexProcesoForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.kardexProcesoForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   get f() {

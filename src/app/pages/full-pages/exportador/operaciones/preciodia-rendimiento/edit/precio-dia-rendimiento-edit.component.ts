@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
-
+import {AuthService} from './../../../../../../services/auth.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { PrecioDiaRendimientoService } from '../../../../../../services/precio-dia-rendimiento.service';
@@ -29,20 +28,22 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
   idPriceDayPerformance;
   messageGeneric = 'Ha ocurrido un error interno.';
   errorGeneral = { isError: false, msgError: '' };
+  readonly: boolean;
 
   constructor(private fb: FormBuilder,
-    private maestroUtil: MaestroUtil,
     private maestroService: MaestroService,
     private precioDiaRendimientoService: PrecioDiaRendimientoService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private route: ActivatedRoute,
     private router: Router,
-    private dateUtil: DateUtil) { }
+    private dateUtil: DateUtil,
+    private authService : AuthService) { }
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.idPriceDayPerformance = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
     this.LoadForm();
     if (this.idPriceDayPerformance > 0) {
       this.GetPriceDayPerformanceById();
