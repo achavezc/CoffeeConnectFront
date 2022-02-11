@@ -253,7 +253,7 @@ export class MateriaPrimaListComponent implements OnInit {
 
   anular() {
     if (this.selected.length > 0) {
-      if (this.selected[0].EstadoId == this.estadoPesado) {
+      if (this.selected[0].EstadoId == this.estadoAnalizado) {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
@@ -274,7 +274,7 @@ export class MateriaPrimaListComponent implements OnInit {
           }
         });
       } else {
-        this.alertUtil.alertError("Error", "Solo se puede anular guias con estado pesado")
+        this.alertUtil.alertError("Error", "Solo se puede anular guías con estado pesado o analizado.")
       }
     }
 
