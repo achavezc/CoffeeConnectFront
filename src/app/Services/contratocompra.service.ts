@@ -7,13 +7,13 @@ import { ErrorHandling } from '../shared/util/error-handling';
 @Injectable({
   providedIn: 'root'
 })
-export class ContratoService {
+export class ContratoCompraService {
 
   constructor(private http: HttpClient,
     private errorHandling: ErrorHandling) {
   }
 
-  private url = `${host}Contrato`;
+  private url = `${host}ContratoCompra`;
   
 
   Search(request: any): Observable<any> {
