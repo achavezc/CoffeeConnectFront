@@ -170,7 +170,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
-                                                [routerLink]="['/exportador/operaciones/contrato/update', row.ContratoId]">{{
+                                                routerLink="/exportador/operaciones/contratocompra/edit"  [queryParams]="{ id: row.ContratoCompraId, status: row.EstadoId}">{{
                                                 name }}</a>
                                         </div>
                                     </div>

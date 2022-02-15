@@ -286,7 +286,7 @@ export class ContratoCompraComponent implements OnInit {
   }
 
   Nuevo(): void {
-    this.router.navigate(['/exportador/operaciones/contrato/create'])
+    this.router.navigate(['/exportador/operaciones/contratocompra/edit'])
   }
 
   Cancel(): void {

@@ -7,10 +7,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { ContratoService } from '../../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
 import {AuthService} from './../../../../../../services/auth.service';
+import { ContratoCompraService } from '../../../../../../services/contratocompra.service';
 
 @Component({
   selector: 'app-contratocompra-edit',
@@ -27,7 +27,7 @@ export class ContratoCompraEditComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private route: ActivatedRoute,
-    private contratoService: ContratoService,
+    private contratoService: ContratoCompraService,
     private alertUtil: AlertUtil,
     private httpClient: HttpClient,
     private authService : AuthService) { }
@@ -83,7 +83,7 @@ export class ContratoCompraEditComponent implements OnInit {
   selectedFixationState: any;
   vId: number;
   vSessionUser: any;
-  private url = `${host}Contrato`;
+  private url = `${host}ContratoCompra`;
   mensajeErrorGenerico = "Ocurrio un error interno.";
   fileName = "";
   fechaRegistro: any;
@@ -100,9 +100,20 @@ export class ContratoCompraEditComponent implements OnInit {
   totalFacturar3;
   tipoEmpresaId = '';
   readonly: boolean;
+  esEdit = false;
+  id: Number = 0;
 
   ngOnInit(): void {
-    this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
+    this.route.queryParams
+    .subscribe(params => {
+      if (Number(params.id)) {
+        this.vId = Number(params.id);
+        this.esEdit = true;
+        this.SearchById();
+      }
+
+    });
+
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.tipoEmpresaId = this.vSessionUser.Result.Data.TipoEmpresaid;
@@ -110,11 +121,7 @@ export class ContratoCompraEditComponent implements OnInit {
     this.addValidations();
     this.LoadCombos();
     this.LoadDataInicial();
-    if (this.vId > 0) {
-      this.SearchById();
-    } else if (this.vId <= 0) {
-      this.fechaRegistro = this.dateUtil.currentDate();
-    }
+    
     this.reqAsignacionContratoAcopio = {
       contratoId: this.vId,
       pesoNetoKGOro: 0,
@@ -139,7 +146,7 @@ export class ContratoCompraEditComponent implements OnInit {
       productorId: [, Validators.required],
       ruc: [, Validators.required],
       cliente: [, Validators.required],
-      floId: [, Validators.required],
+      floId: [],
       condicionEntrega: [, Validators.required],
       estadoPagoFactura: [],
       fechaPagoFactura:[],
@@ -461,7 +468,6 @@ export class ContratoCompraEditComponent implements OnInit {
       FechaEntrega: form.fechaEntrega ? form.fechaEntrega : '',
       FechaContrato: form.fechaContrato ? form.fechaContrato : '',
       FechaFacturacion : form.fechaPagoFactura? form.fechaPagoFactura: '',
-      EstadoPagoFacturaId: form.estadoPagoFactura ? form.estadoPagoFactura : '',
       CalculoContratoId: form.calculo ? form.calculo : '',
       ProductoId: form.producto ? form.producto : '',
       SubProductoId: form.subProducto ? form.subProducto : '',
@@ -486,30 +492,13 @@ export class ContratoCompraEditComponent implements OnInit {
       // FechaRecepcionMuestra: form.fecRecepcionDestino ? form.fecRecepcionDestino : null,
       FechaRecepcionMuestra: null,
       ObservacionMuestra: form.observaciones ? form.observaciones : '',
-
-
-
-      NumeroFactura: form.numeroFactura? form.numeroFactura : '',
-      FechaFactura: form.fechaFactura ? form.fechaFactura : '',
-      PaisDestinoId: form.pais ? form.pais : '',
-      DepartamentoDestinoId: form.ciudad ? form.ciudad : '',
-      PeriodosCosecha: form.harvestPeriod ? form.harvestPeriod : '',
-      
-      CantidadContenedores: form.cantidadContenedores ? parseFloat(form.cantidadContenedores) : 0,
-
-      // LaboratorioId: form.laboratorio ? form.laboratorio : '',
-      
-      // NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
-      
-      // EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
-     
-      // NavieraId: form.naviera ? form.naviera : '',
       NavieraId: '',
       NombreArchivo: form.fileName ? form.fileName : '',
       DescripcionArchivo: '',
       PathArchivo: form.pathFile ? form.pathFile : '',
       EmpaqueId: form.empaque ? form.empaque : '',
       TipoId: form.tipo ? form.tipo : '',
+      TipoContratoId: form.contractType ? form.contractType : null,
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       EstadoId: form.estado ? form.estado : '01',
       FacturarEnId: form.invoiceIn ? form.invoiceIn : null,
@@ -520,6 +509,7 @@ export class ContratoCompraEditComponent implements OnInit {
       PrecioNivelFijacion: form.PriceLevelFixation ? form.PriceLevelFixation : 0,
       Diferencial: form.Differential2 ? form.Differential2 : 0,
       PUTotalA: this.precioUnitarioTotalA ? this.precioUnitarioTotalA : 0,
+      CantidadContenedores: form.cantidadContenedores ? parseFloat(form.cantidadContenedores) : 0,
       PUTotalB: this.precioUnitarioTotalB ? this.precioUnitarioTotalB : 0,
       PUTotalC: this.precioUnitarioTotalC ? this.precioUnitarioTotalC : 0,
       NotaCreditoComision: form.CreditNoteCommission ? form.CreditNoteCommission : 0,
@@ -527,14 +517,27 @@ export class ContratoCompraEditComponent implements OnInit {
       TotalFacturar1: this.totalFacturar1 ? this.totalFacturar1 : 0,
       TotalFacturar2: this.totalFacturar2 ? this.totalFacturar2 : 0,
       TotalFacturar3: this.totalFacturar3 ? this.totalFacturar3 : 0,
-      TipoContratoId: form.contractType ? form.contractType : null
+      EstadoPagoFacturaId: form.estadoPagoFactura ? form.estadoPagoFactura : '',
+      FechaPagoFactura: form.fechaPagoFactura ? form.fechaPagoFactura : '',
+      NumeroFactura: form.numeroFactura? form.numeroFactura : '',
+      FechaFactura: form.fechaFactura? form.fechaFactura : '',
+      FechaEntregaProducto : form.fechaEntregaProducto ? form.fechaEntregaProducto : ''
+      
+      // LaboratorioId: form.laboratorio ? form.laboratorio : '',
+      
+      // NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
+      
+      // EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
+     
+      // NavieraId: form.naviera ? form.naviera : '',
+      
     }
   }
 
   Guardar(): void {
     if (!this.contratoEditForm.invalid) {
       const form = this;
-      if (this.vId > 0) {
+      if (this.esEdit && this.vId != 0) {
 
         this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la modificación del contrato?.`, function (result) {
           if (result.isConfirmed) {
@@ -542,7 +545,7 @@ export class ContratoCompraEditComponent implements OnInit {
           }
         });
 
-      } else if (this.vId <= 0) {
+      } else {
 
         this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la creación del nuevo contrato?.`, function (result) {
           if (result.isConfirmed) {
@@ -634,7 +637,7 @@ export class ContratoCompraEditComponent implements OnInit {
 
   SearchById(): void {
     this.spinner.show();
-    this.contratoService.SearchById({ ContratoId: this.vId })
+    this.contratoService.SearchById({ ContratoCompraId: this.vId })
       .subscribe((res: any) => {
         if (res.Result.Success) {
           if (res.Result.Data) {
@@ -653,46 +656,33 @@ export class ContratoCompraEditComponent implements OnInit {
 
   async AutocompleteForm(data: any) {
     if (data) {
-      if (data.ContratoId)
-        this.contratoEditForm.controls.idContrato.setValue(data.ContratoId);
+      if (data.ContratoCompraId)
+        this.contratoEditForm.controls.idContrato.setValue(data.ContratoCompraId);
       if (data.Numero)
         this.contratoEditForm.controls.nroContrato.setValue(data.Numero);
-      if (data.ClienteId)
-        this.contratoEditForm.controls.idCliente.setValue(data.ClienteId);
-      if (data.NumeroCliente)
-        this.contratoEditForm.controls.ruc.setValue(data.NumeroCliente);
-      if (data.Cliente)
-        this.contratoEditForm.controls.cliente.setValue(data.Cliente);
-      if (data.FloId)
-        this.contratoEditForm.controls.floId.setValue(data.FloId);
-      if (data.CondicionEmbarqueId) {
+      if (data.ProductorId)
+        this.contratoEditForm.controls.productorId.setValue(data.ProductorId);
+      if (data.Productor)
+        this.contratoEditForm.controls.cliente.setValue(data.Productor);
+      if (data.RucProductor) 
+          this.contratoEditForm.controls.ruc.setValue(data.RucProductor);
+      if (data.condicionEntrega) {
         await this.GetShipmentCondition();
-        this.contratoEditForm.controls.condicionEntrega.setValue(data.CondicionEmbarqueId);
+        this.contratoEditForm.controls.condicionEntrega.setValue(data.CondicionEntregaId);
       }
-
       if (data.EstadoPagoFacturaId) {
         await this.GetEstadoPagoFactura();
         this.contratoEditForm.controls.estadoPagoFactura.setValue(data.EstadoPagoFacturaId);
       }
-
       if (data.FechaPagoFactura)
         this.contratoEditForm.controls.fechaPagoFactura.setValue(data.FechaPagoFactura.substring(0, 10));
-
-      if (data.FechaEmbarque)
-        this.contratoEditForm.controls.fechaEmbarque.setValue(data.FechaEmbarque.substring(0, 10));
+      if (data.FechaEntrega)
+        this.contratoEditForm.controls.fechaEntrega.setValue(data.FechaEntrega.substring(0, 10));
       if (data.FechaContrato)
         this.contratoEditForm.controls.fechaContrato.setValue(data.FechaContrato.substring(0, 10));
       // if (data.FechaFacturacion)
       //   this.contratoEditForm.controls.fechaFactExp.setValue(data.FechaFacturacion.substring(0, 10));
-      if (data.PaisDestinoId) {
-        await this.GetCountries();
-        this.contratoEditForm.controls.pais.setValue(data.PaisDestinoId);
-        this.onChangePais({ Codigo: this.selectedPais })
-      }
-      if (data.DepartamentoDestinoId) {
-        await this.GetCities();
-        this.contratoEditForm.controls.ciudad.setValue(data.DepartamentoDestinoId);
-      }
+     
       if (data.ProductoId) {
         await this.GetProducts();
         this.contratoEditForm.controls.producto.setValue(data.ProductoId);
@@ -888,7 +878,7 @@ export class ContratoCompraEditComponent implements OnInit {
     }
   }
   Cancelar(): void {
-    this.router.navigate(['/exportador/operaciones/contrato/list']);
+    this.router.navigate(['/exportador/operaciones/contratocompra/list']);
   }
 
   CalculateNetWeightKilos() {
