@@ -460,7 +460,7 @@ export class ContratoCompraEditComponent implements OnInit {
     return {
       ContratoCompraId: form.idContrato ? parseInt(form.idContrato) : 0,
       Numero: form.nroContrato ? form.nroContrato : '',
-      ProductorId: form.idCliente ? parseInt(form.idCliente) : 0,
+      ProductorId: form.productorId ? parseInt(form.productorId) : 0,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       ContratoVentaId: form.nroContratoVenta ? form.nroContratoVenta : '',
       FloId: form.floId ? form.floId.toString() : '',
@@ -716,8 +716,12 @@ export class ContratoCompraEditComponent implements OnInit {
         await this.GetMeasurementUnit();
         this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
       }
-
+      this.contratoEditForm.controls.condicionEntrega.setValue(data.CondicionEntregaId);
+      this.contratoEditForm.controls.numeroFactura.setValue(data.NumeroFactura);
       this.contratoEditForm.controls.responsableComercial.setValue(data.UsuarioRegistro)
+      this.contratoEditForm.controls.fechaEntregaProducto.setValue(data.FechaEntregaProducto.substring(0, 10));
+      this.contratoEditForm.controls.fechaFactura.setValue(data.FechaFactura.substring(0, 10));
+      this.contratoEditForm.controls.nroContratoVenta.setValue(data.ContratoVentaId);
 
       if (data.CalculoContratoId) {
         await this.GetCalculations();

@@ -288,9 +288,12 @@
 				{
 					"Label":"Aduanas"
 				},
-				"KardexProceso": {
+		"KardexProceso": {
 					"Label": "Kardex Proceso"
-				}
+				},
+		"ContratoCompra": {
+							"Label": "Contrato Compra"
+						}
 
 		},
 		"Administracion":
