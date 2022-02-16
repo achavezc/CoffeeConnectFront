@@ -126,7 +126,8 @@
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <input type="text" name="nroContratoVenta" id="nroContratoVenta" formControlName="nroContratoVenta"
                                         class="form-control" placeholder="Número de contrato Venta"
-                                        [ngClass]="{ 'is-invalid': f.nroContratoVenta.invalid, 'is-valid': !f.nroContratoVenta.invalid }">
+                                        [ngClass]="{ 'is-invalid': f.nroContratoVenta.invalid, 'is-valid': !f.nroContratoVenta.invalid }"
+                                        [readonly]="true">
                                 </div>
                             </div>
                         </div>
@@ -175,11 +176,11 @@
                                 <label for="condicionEntrega" class="col-lg-4 col-form-label pr-0">CONDICIÓN
                                     ENTREGA</label>
                                 <div class="col-lg-6">
-                                    <ng-select [items]="listCondicionEmbarque" formControlName="condicionEntrega"
+                                    <ng-select [items]="listCondicionEntrega" formControlName="condicionEntrega"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="condicionEntrega"
                                         placeholder="Condición de embarque"
                                         [ngClass]="{ 'is-invalid': f.condicionEntrega.invalid, 'is-valid': !f.condicionEntrega.invalid }"
-                                        [(ngModel)]="selectedCondEmbarque">
+                                        [(ngModel)]="selectedCondEntrega">
                                     </ng-select>
                                 </div>
                             </div>

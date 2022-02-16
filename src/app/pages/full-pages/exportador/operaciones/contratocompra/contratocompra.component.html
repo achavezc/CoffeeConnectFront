@@ -94,11 +94,11 @@
 
                                 <div class="col-md-3 mb-4 form-group mb-2">
                                     <label for="condicionEmbarque" class="form-label">Condición de Entrega</label>
-                                    <ng-select [items]="listCondicionEmbarque" formControlName="condicionEmbarque"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="condicionEmbarque"
+                                    <ng-select [items]="listCondicionEntrega" formControlName="condicionEntrega"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="condicionEntrega"
                                         placeholder="Seleccionar Condición de Embarque"
-                                        [ngClass]="{ 'is-invalid': f.condicionEmbarque.invalid, 'is-valid': !f.condicionEmbarque.invalid }"
-                                        [(ngModel)]="selectedCondicionEmbarque">
+                                        [ngClass]="{ 'is-invalid': f.condicionEntrega.invalid, 'is-valid': !f.condicionEntrega.invalid }"
+                                        [(ngModel)]="selectedCondicionEntrega">
                                     </ng-select>
                                 </div>
                                 <div class="col-md-3 mb-4 form-group mb-2">
@@ -178,21 +178,21 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column *ngIf="popUp" name="Contrato" prop="Numero" width="120">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha de Contrato" prop="FechaContratoString" width="150">
+                            <ngx-datatable-column name="Fecha de Contrato" prop="FechaContrato" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column  *ngIf="tipoEmpresaId === '01' "  name="Tipo Contrato" prop="TipoContrato" width="120">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Ruc" prop="RucProductor" width="150">
+                            <ngx-datatable-column name="Ruc Contrato Venta" prop="RucProductor" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Razon Social" prop="Cliente" width="250">
+                            <ngx-datatable-column name="Razon Social" prop="Productor" width="250">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Certificación" prop="TipoCertificacion" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Calidad" prop="Calidad" width="100">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Mes de Entrega" prop="FechaEmbarque" width="150">
+                            <ngx-datatable-column name="Mes de Entrega" prop="FechaEntrega" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Condicion de Entrega" prop="CondicionEmbarque" width="200">
+                            <ngx-datatable-column name="Condicion de Entrega" prop="CondicionEntrega" width="200">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nro. Contenedor" prop="CantidadContenedores" width="140">
                             </ngx-datatable-column>
