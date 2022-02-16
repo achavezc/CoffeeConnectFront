@@ -39,14 +39,14 @@ export class ContratoCompraComponent implements OnInit {
   listProductos: any[];
   listTipoProduccion: any[];
   listEstadoFijacion: any[];
-  listCondicionEmbarque: any[];
+  listCondicionEntrega: any[];
   listCalidad: any[];
   listEstados: any[];
   listTipoContrato: any[];
   selectedProducto: any;
   selectedTipoProduccion: any;
   selectedCalidad: any;
-  selectedCondicionEmbarque: any;
+  selectedCondicionEntrega: any;
   selectedEstadoFijacion: any;
   selectedEstado: any;
   selectedTipoContrato: any;
@@ -87,7 +87,7 @@ export class ContratoCompraComponent implements OnInit {
       tipoProduccion: [],
       calidad: [],
       estadoFijacion: [],
-      condicionEmbarque: [],
+      condicionEntrega: [],
       estado: ['', Validators.required],
       tipoContrato: []
     });
@@ -116,7 +116,7 @@ export class ContratoCompraComponent implements OnInit {
 
   LoadCombos(): void {
     const form = this;
-    this.maestroUtil.obtenerMaestros('EstadoContrato', (res: any) => {
+    this.maestroUtil.obtenerMaestros('EstadoContratoCompra', (res: any) => {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
         if (this.popUp == true) {
@@ -147,9 +147,9 @@ export class ContratoCompraComponent implements OnInit {
         form.listCalidad = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros('CondicionEmbarque', (res: any) => {
+    this.maestroUtil.obtenerMaestros('CondicionEntregaContratoCompra', (res: any) => {
       if (res.Result.Success) {
-        form.listCondicionEmbarque = res.Result.Data;
+        form.listCondicionEntrega = res.Result.Data;
       }
     });
     this.maestroUtil.obtenerMaestros('ContratoEstadoFijacion', (res: any) => {
@@ -157,7 +157,7 @@ export class ContratoCompraComponent implements OnInit {
         form.listEstadoFijacion = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros('TipoContrato', (res: any) => {
+    this.maestroUtil.obtenerMaestros('TipoContratoCompra', (res: any) => {
       if (res.Result.Success) {
         form.listTipoContrato = res.Result.Data;
       }
@@ -167,14 +167,14 @@ export class ContratoCompraComponent implements OnInit {
   getRequest(): any {
     return {
       Numero: this.contratoForm.value.nroContrato ? this.contratoForm.value.nroContrato : '',
-      RucProductorrr: this.contratoForm.value.ruc ? this.contratoForm.value.ruc : '',
+      RucProductor: this.contratoForm.value.ruc ? this.contratoForm.value.ruc : '',
       RazonSocial: this.contratoForm.value.descCliente ? this.contratoForm.value.descCliente : '',
       ProductoId: this.contratoForm.value.producto ? this.contratoForm.value.producto : '',
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
       EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
-      CondicionEmbarqueId: this.contratoForm.value.condicionEmbarque ? this.contratoForm.value.condicionEmbarque : '',
+      CondicionEntregaId: this.contratoForm.value.condicionEntrega ? this.contratoForm.value.condicionEntrega : '',
       EstadoFijacionId: this.contratoForm.value.estadoFijacion ? this.contratoForm.value.estadoFijacion : '',
       TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
@@ -198,9 +198,9 @@ export class ContratoCompraComponent implements OnInit {
           this.errorGeneral = { isError: false, msgError: '' };
           if (!xls) {
             res.Result.Data.forEach((obj: any) => {
-              obj.FechaContratoString = this.dateUtil.formatDate(obj.FechaContrato, '/');
+              obj.FechaContrato = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
-              obj.FechaEmbarque = obj.FechaEmbarque == null ? "": formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
+              obj.FechaEntrega = obj.FechaEntrega == null ? "" : formatDate(obj.FechaEntrega, 'MM/yyyy', 'en');
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
@@ -209,12 +209,12 @@ export class ContratoCompraComponent implements OnInit {
               new HeaderExcel("Contrato", "center"),
               new HeaderExcel("Fecha de Contrato", 'center', 'yyyy-MM-dd'),
               new HeaderExcel("Tipo de Contrato"),
-              new HeaderExcel("Codigo Cliente"),
-              new HeaderExcel("Cliente"),
+              new HeaderExcel("Ruc Contrato Venta"),
+              new HeaderExcel("Razon Social"),
               new HeaderExcel("Certificacion"),
               new HeaderExcel("Calidad"),
-              new HeaderExcel("Mes de Embarque"),
-              new HeaderExcel("Condición de Embarque"),
+              new HeaderExcel("Mes de Entrega"),
+              new HeaderExcel("Condición de Entrega"),
               new HeaderExcel("Nro. Contenedor"),
               new HeaderExcel("Cantidad"),
               new HeaderExcel("Tipo de Empaque"),

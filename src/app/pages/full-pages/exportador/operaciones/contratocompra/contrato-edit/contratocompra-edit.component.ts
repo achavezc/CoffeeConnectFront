@@ -33,7 +33,7 @@ export class ContratoCompraEditComponent implements OnInit {
     private authService : AuthService) { }
 
   contratoEditForm: FormGroup;
-  listCondicionEmbarque = [];
+  listCondicionEntrega = [];
   listEstadoPagoFactura = [];
   listPaises = [];
   listCiudades = [];
@@ -57,7 +57,7 @@ export class ContratoCompraEditComponent implements OnInit {
   listContractType = [];
   listInvoiceIn = [];
   listFixationState: [];
-  selectedCondEmbarque: any;
+  selectedCondEntrega: any;
   selectedEstadoPagoFactura: any;
   selectedPais: any;
   selectedCiudad: any;
@@ -233,26 +233,18 @@ export class ContratoCompraEditComponent implements OnInit {
     this.GetDegreePreparation();
     this.GetCertifiers();
     this.GetCertifications();
-    this.GetHarvestPeriod();
     this.GetTypesContracts();
     this.GetInvoicesIn();
     this.GetFixationsStates();
     this.spinner.hide();
   }
 
-  async GetHarvestPeriod() {
-    this.listHarvestPeriod = [];
-    const res = await this.maestroService.obtenerMaestros('PeriodoCosecha').toPromise();
-    if (res.Result.Success) {
-      this.listHarvestPeriod = res.Result.Data;
-    }
-  }
 
   async GetShipmentCondition() {
-    this.listCondicionEmbarque = [];
-    const res = await this.maestroService.obtenerMaestros('CondicionEmbarque').toPromise();
+    this.listCondicionEntrega = [];
+    const res = await this.maestroService.obtenerMaestros('CondicionEntregaContratoCompra').toPromise();
     if (res.Result.Success) {
-      this.listCondicionEmbarque = res.Result.Data;
+      this.listCondicionEntrega = res.Result.Data;
     }
   }
 
@@ -391,7 +383,7 @@ export class ContratoCompraEditComponent implements OnInit {
 
   async GetTypesContracts() {
     this.listContractType = [];
-    const res = await this.maestroService.obtenerMaestros('TipoContrato').toPromise();
+    const res = await this.maestroService.obtenerMaestros('TipoContratoCompra').toPromise();
     if (res.Result.Success) {
       this.listContractType = res.Result.Data;
     }
@@ -666,7 +658,7 @@ export class ContratoCompraEditComponent implements OnInit {
         this.contratoEditForm.controls.cliente.setValue(data.Productor);
       if (data.RucProductor) 
           this.contratoEditForm.controls.ruc.setValue(data.RucProductor);
-      if (data.condicionEntrega) {
+      if (data.CondicionEntregaId) {
         await this.GetShipmentCondition();
         this.contratoEditForm.controls.condicionEntrega.setValue(data.CondicionEntregaId);
       }
@@ -707,10 +699,6 @@ export class ContratoCompraEditComponent implements OnInit {
       }
       if (data.Monto)
         this.contratoEditForm.controls.precio.setValue(data.Monto);
-      if (data.PeriodosCosecha) {
-        await this.GetHarvestPeriod();
-        this.contratoEditForm.controls.harvestPeriod.setValue(data.PeriodosCosecha);
-      }
 
       if (data.UnidadMedicionId) {
         await this.GetMeasurementUnit();
