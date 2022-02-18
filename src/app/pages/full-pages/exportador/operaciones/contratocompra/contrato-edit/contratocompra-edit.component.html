@@ -178,7 +178,7 @@
                                 <div class="col-lg-6">
                                     <ng-select [items]="listCondicionEntrega" formControlName="condicionEntrega"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="condicionEntrega"
-                                        placeholder="Condición de embarque"
+                                        placeholder="Condición de Entrega"
                                         [ngClass]="{ 'is-invalid': f.condicionEntrega.invalid, 'is-valid': !f.condicionEntrega.invalid }"
                                         [(ngModel)]="selectedCondEntrega">
                                     </ng-select>
@@ -278,15 +278,15 @@
                         <label class="text-white">DETALLE DE LA COMPRA</label>
                     </div>
                     <div class="form-row">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="tipoEmpresaId == '01'">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <div class="form-group row">
-                                <label for="contractType" class="col-lg-5 col-form-label">TIPO DE CONTRATO</label>
+                                <label for="harvestPeriod" class="col-lg-5 col-form-label">PERIODO DE COSECHA</label>
                                 <div class="col-lg-7">
-                                    <ng-select [items]="listContractType" formControlName="contractType"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="contractType"
-                                        placeholder="Tipo de contrato"
-                                        [ngClass]="{ 'is-invalid': f.contractType.invalid, 'is-valid': !f.contractType.invalid }"
-                                        [(ngModel)]="selectedContractType">
+                                    <ng-select [items]="listHarvestPeriod" formControlName="harvestPeriod"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="harvestPeriod"
+                                        placeholder="Periodo de Cosecha"
+                                        [ngClass]="{ 'is-invalid': f.harvestPeriod.invalid, 'is-valid': !f.harvestPeriod.invalid }"
+                                        [(ngModel)]="selectedHarvestPeriod">
                                     </ng-select>
                                 </div>
                             </div>

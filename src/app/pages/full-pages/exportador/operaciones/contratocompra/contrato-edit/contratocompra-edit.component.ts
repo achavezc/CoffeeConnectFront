@@ -236,6 +236,7 @@ export class ContratoCompraEditComponent implements OnInit {
     this.GetTypesContracts();
     this.GetInvoicesIn();
     this.GetFixationsStates();
+    this. GetHarvestPeriod()
     this.spinner.hide();
   }
 
@@ -253,6 +254,13 @@ export class ContratoCompraEditComponent implements OnInit {
     const res = await this.maestroService.obtenerMaestros('EstadoPagoFactura').toPromise();
     if (res.Result.Success) {
       this.listEstadoPagoFactura = res.Result.Data;
+    }
+  }
+  async GetHarvestPeriod() {
+    this.listHarvestPeriod = [];
+    const res = await this.maestroService.obtenerMaestros('PeriodoCosecha').toPromise();
+    if (res.Result.Success) {
+      this.listHarvestPeriod = res.Result.Data;
     }
   }
 
@@ -513,7 +521,8 @@ export class ContratoCompraEditComponent implements OnInit {
       FechaPagoFactura: form.fechaPagoFactura ? form.fechaPagoFactura : '',
       NumeroFactura: form.numeroFactura? form.numeroFactura : '',
       FechaFactura: form.fechaFactura? form.fechaFactura : '',
-      FechaEntregaProducto : form.fechaEntregaProducto ? form.fechaEntregaProducto : ''
+      FechaEntregaProducto : form.fechaEntregaProducto ? form.fechaEntregaProducto : '',
+      PeriodosCosecha:  form.harvestPeriod ? form.harvestPeriod : ''
       
       // LaboratorioId: form.laboratorio ? form.laboratorio : '',
       
@@ -665,6 +674,10 @@ export class ContratoCompraEditComponent implements OnInit {
       if (data.EstadoPagoFacturaId) {
         await this.GetEstadoPagoFactura();
         this.contratoEditForm.controls.estadoPagoFactura.setValue(data.EstadoPagoFacturaId);
+      }
+      if (data.PeriodosCosecha) {
+        await this.GetHarvestPeriod();
+        this.contratoEditForm.controls.harvestPeriod.setValue(data.PeriodosCosecha);
       }
       if (data.FechaPagoFactura)
         this.contratoEditForm.controls.fechaPagoFactura.setValue(data.FechaPagoFactura.substring(0, 10));

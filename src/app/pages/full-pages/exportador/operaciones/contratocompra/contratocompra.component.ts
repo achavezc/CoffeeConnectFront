@@ -60,6 +60,8 @@ export class ContratoCompraComponent implements OnInit {
   tipoEmpresaId = '';
   page: any;
   readonly: boolean;
+  selectedEstadoPagoFactura : any;
+  listEstadoPagoFactura: any[];
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
 
@@ -89,7 +91,8 @@ export class ContratoCompraComponent implements OnInit {
       estadoFijacion: [],
       condicionEntrega: [],
       estado: ['', Validators.required],
-      tipoContrato: []
+      tipoContrato: [],
+      estadoPagoFactura : []
     });
   }
 
@@ -162,6 +165,12 @@ export class ContratoCompraComponent implements OnInit {
         form.listTipoContrato = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros('EstadoPagoFactura', (res: any) => {
+      if (res.Result.Success) {
+        form.listEstadoPagoFactura = res.Result.Data;
+      }
+    });
+    
   }
 
   getRequest(): any {
@@ -178,7 +187,8 @@ export class ContratoCompraComponent implements OnInit {
       EstadoFijacionId: this.contratoForm.value.estadoFijacion ? this.contratoForm.value.estadoFijacion : '',
       TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
-      FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : ''
+      FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
+      EstadoPagoFacturaId: this.contratoForm.value.estadoPagoFactura ? this.contratoForm.value.estadoPagoFactura : '',
     };
   }
 
@@ -201,21 +211,32 @@ export class ContratoCompraComponent implements OnInit {
               obj.FechaContrato = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
               obj.FechaEntrega = obj.FechaEntrega == null ? "" : formatDate(obj.FechaEntrega, 'MM/yyyy', 'en');
+              obj.FechaFactura = this.dateUtil.formatDate(obj.FechaFactura, '/');
+              obj.FechaPagoFactura = this.dateUtil.formatDate(obj.FechaPagoFactura, '/');
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
           } else {
             const vArrHeaderExcel = [
               new HeaderExcel("Contrato", "center"),
-              new HeaderExcel("Fecha de Contrato", 'center', 'yyyy-MM-dd'),
-              new HeaderExcel("Tipo de Contrato"),
-              new HeaderExcel("Ruc Contrato Venta"),
+              new HeaderExcel("Fecha de Contrato Compra", 'center', 'yyyy-MM-dd'), 
+              new HeaderExcel("Contrato Venta"),
+              new HeaderExcel("Ruc"),
               new HeaderExcel("Razon Social"),
+              new HeaderExcel("Departamento"),
+              new HeaderExcel("Provincia"),
+              new HeaderExcel("Distrito"),
+              new HeaderExcel("Condicion de Entrega"),
+              new HeaderExcel("Nro. Factura"),
+              new HeaderExcel("Fecha Factura"),
+              new HeaderExcel("Fecha Entrega Producto"),
+              new HeaderExcel("Status Pago Factura"),
+              new HeaderExcel("Fecha Pago Factura"),
+              new HeaderExcel("Periodo Cosecha"),
               new HeaderExcel("Certificacion"),
-              new HeaderExcel("Calidad"),
               new HeaderExcel("Mes de Entrega"),
-              new HeaderExcel("Condición de Entrega"),
               new HeaderExcel("Nro. Contenedor"),
+
               new HeaderExcel("Cantidad"),
               new HeaderExcel("Tipo de Empaque"),
               new HeaderExcel("Kilos Netos"),
@@ -241,14 +262,22 @@ export class ContratoCompraComponent implements OnInit {
             let vArrData: any[] = [];
             this.tempData.forEach((x: any) => vArrData.push([
               x.Numero,
-              x.FechaContratoString,
-              x.TipoContrato,
-              x.NumeroCliente,
-              x.Cliente,
+              x.FechaContrato,
+              x.NumeroContratoVenta,
+              x.RucProductor,
+              x.Productor,
+              x.Departamento,
+              x.Provincia,
+              x.Distrito,
+              x.CondicionEntrega,
+              x.NumeroFactura,
+              x.FechaFactura,
+              x.FechaEntregaProducto,
+              x.EstadoPagoFactura,
+              x.FechaPagoFactura,
+              x.PeriodosCosecha,
               x.TipoCertificacion,
-              x.Calidad,
-              x.FechaEmbarque,
-              x.CondicionEmbarque,
+              x.FechaEntrega,
               x.CantidadContenedores,
               x.TotalSacos,
               x.TipoEmpaque,
