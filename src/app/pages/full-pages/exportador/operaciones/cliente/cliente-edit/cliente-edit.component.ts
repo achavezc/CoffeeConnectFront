@@ -41,6 +41,7 @@ export class ClienteEditComponent implements OnInit {
   selectedCiudad: any;
   vId: number;
   vSessionUser: any;
+  tipoEmpresaId = '';
   errorGeneral = { isError: false, msgError: '' };
   vMsgErrorGenerico = 'Ocurrio un error interno.';
   readonly: boolean;
@@ -51,6 +52,9 @@ export class ClienteEditComponent implements OnInit {
     this.LoadCombos();
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    this.tipoEmpresaId = this.vSessionUser.Result.Data.TipoEmpresaid;
+    
+
     this.LoadDataInicial();
     if (this.vId > 0) {
       this.ConsultarPorId();
@@ -84,7 +88,8 @@ export class ClienteEditComponent implements OnInit {
       descPresidente: [''],
       idPresidente: [''],
       responsableComercial: [''],
-      floId: [, Validators.required]
+      floId: [, Validators.required],
+      codigoInterno: [''],
     });
     this.clienteEditForm.setValidators(this.comparisonValidator());
   }
@@ -330,6 +335,7 @@ export class ClienteEditComponent implements OnInit {
         Usuario: this.vSessionUser.Result.Data.NombreUsuario,
         EstadoId: '01',
         FloId: this.clienteEditForm.value.floId ? this.clienteEditForm.value.floId : '',
+        CodigoInterno: this.clienteEditForm.value.codigoInterno ? this.clienteEditForm.value.codigoInterno : '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
       }
     }
@@ -468,6 +474,8 @@ export class ClienteEditComponent implements OnInit {
 
     if (data.FloId)
       this.clienteEditForm.controls.floId.setValue(data.FloId);
+      if (data.CodigoInterno)
+      this.clienteEditForm.controls.codigoInterno.setValue(data.CodigoInterno);
     this.spinner.hide();
   }
 

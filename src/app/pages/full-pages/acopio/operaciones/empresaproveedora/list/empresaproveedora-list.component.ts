@@ -4,9 +4,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { EmpresaProveedoraService } from '../../../../../../services/empresaproveedora.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from './../../../../../../services/auth.service';
+import { HeaderExcel } from './../../../../../../services/models/headerexcel.model';
 
 @Component({
   selector: 'app-empresatransporte',
@@ -21,6 +23,7 @@ export class EmpresaProveedoraListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
+    private excelService: ExcelService,
     private authService : AuthService) { }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -118,20 +121,43 @@ export class EmpresaProveedoraListComponent implements OnInit {
     };
   }
 
-  Search(): void {
+  Search(xls = false): void {
     if (!this.empresaProveedoraform.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
       const request = this.getRequest();
       this.empresaProveedoraService.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
-        if (res.Result.Success) {
+        if (res.Result.Success) 
+        {
+          this.errorGeneral = { isError: false, msgError: '' };
+
+          if (!xls) {
           res.Result.Data.forEach(x => {
           x.FechaRegistro =  this.dateUtil.formatDate(new Date(x.FechaRegistro));
           });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
-          this.errorGeneral = { isError: false, msgError: '' };
-        } else {
+        }
+        else {
+          const vArrHeaderExcel = [
+            new HeaderExcel("Razón Social"),
+            new HeaderExcel("Ruc"),
+            new HeaderExcel("Dirección"),
+            new HeaderExcel("Departamento"),
+            new HeaderExcel("Provincia"),
+            new HeaderExcel("Distrito"),
+            new HeaderExcel("Clasificación"),
+            new HeaderExcel("Floid"),
+            new HeaderExcel("Estado")
+          ];
+
+          let vArrData: any[] = [];
+          this.tempData.forEach((x: any) => vArrData.push([x.RazonSocial, x.Ruc, x.Direccion, x.Departamento, x.Provincia, x.Distrito,x.Clasificacion,x.Floid,x.Estado]));
+          this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'EmpresaProveedora');
+        }
+
+        } 
+        else {
           this.errorGeneral = { isError: true, msgError: res.Result.Message };
         }
       }, (err: any) => {
@@ -144,10 +170,18 @@ export class EmpresaProveedoraListComponent implements OnInit {
     }
   }
 
+
+
+
+
   Buscar(): void {
-    this.Search();
+    this.Search(false);
   }
   
+  Exportar(): void {
+    this.Search(true);
+  }
+
   Nuevo(): void {
     this.router.navigate(['/acopio/operaciones/empresaproveedora-edit']);
   }
