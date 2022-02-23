@@ -206,11 +206,11 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="form-group row">
                                 <label for="estadoPagoFactura" class="col-lg-3 col-form-label pr-0">STATUS PAGO
-                                    FACTURA</label>
+                                    FACTURA VENTA</label>
                                 <div class="col-lg-9">
                                     <ng-select [items]="listEstadoPagoFactura" formControlName="estadoPagoFactura"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="estadoPagoFactura"
-                                        placeholder="Estatus Pago Factura" (change)="ChangeEstadoPagoFactura()"
+                                        placeholder="Estatus Pago Factura Venta" (change)="ChangeEstadoPagoFactura()"
                                         [ngClass]="{ 'is-invalid': f.estadoPagoFactura.invalid, 'is-valid': !f.estadoPagoFactura.invalid }"
                                         [(ngModel)]="selectedEstadoPagoFactura">
                                     </ng-select>
@@ -220,7 +220,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group row">
                                 <label for="fechaPagoFactura" class="col-lg-4 col-form-label pr-0">FECHA PAGO
-                                    FACTURA</label>
+                                    FACTURA VENTA</label>
                                 <div class="col-lg-8">
                                     <input type="date" date class="form-control text-center"
                                         formControlName="fechaPagoFactura" id="fechaPagoFactura" name="fechaPagoFactura"

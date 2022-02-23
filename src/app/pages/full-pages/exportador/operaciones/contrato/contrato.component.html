@@ -1,6 +1,6 @@
 <div class="row" *ngIf="!popUp">
     <div class="col-12">
-        <div class="content-header">BANDEJA DE REGISTRO DE CONTRATOS</div>
+        <div class="content-header">BANDEJA DE REGISTRO DE CONTRATOS DE VENTA</div>
     </div>
 </div>
 
@@ -111,6 +111,26 @@
                                     </ng-select>
                                 </div>   
 
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="estadoPagoFactura" class="form-label">Status Pago Factura Venta</label>
+                                    <ng-select [items]="listEstadoPagoFactura" formControlName="estadoPagoFactura" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estadoPagoFactura"
+                                        placeholder="Seleccionar Status Pago Factura Venta"
+                                        [ngClass]="{ 'is-invalid': f.estadoPagoFactura.invalid, 'is-valid': !f.estadoPagoFactura.invalid }"
+                                        [(ngModel)]="selectedEstadoPagoFactura">
+                                    </ng-select>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-row"  *ngIf="tipoEmpresaId != '01' ">
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="codigoInterno" class="form-label">Código Cliente</label>
+                                    <input type="text" formControlName="codigoInterno" class="form-control" id="codigoInterno"
+                                        placeholder="Código Interno" name="codigoInterno"
+                                        [ngClass]="{ 'is-invalid': f.codigoInterno.invalid, 'is-valid': !f.codigoInterno.invalid }">
+                                </div>
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
@@ -165,7 +185,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column *ngIf="!popUp" name="Contrato" prop="Numero" width="120">
+                            <ngx-datatable-column *ngIf="!popUp" name="Contrato Venta" prop="Numero" width="150">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -176,12 +196,15 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column *ngIf="popUp" name="Contrato" prop="Numero" width="120">
+                            <ngx-datatable-column *ngIf="popUp" name="Contrato Venta" prop="Numero" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha de Contrato" prop="FechaContratoString" width="150">
+                            <ngx-datatable-column name="Fecha de Contrato Venta" prop="FechaContratoString" width="200">
                             </ngx-datatable-column>
                             <ngx-datatable-column  *ngIf="tipoEmpresaId === '01' "  name="Tipo Contrato" prop="TipoContrato" width="120">
                             </ngx-datatable-column>
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Codigo Interno" prop="CodigoInterno" width="140">
+                            </ngx-datatable-column>
+                            
                             <ngx-datatable-column name="Codigo Cliente" prop="NumeroCliente" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Cliente" prop="Cliente" width="250">

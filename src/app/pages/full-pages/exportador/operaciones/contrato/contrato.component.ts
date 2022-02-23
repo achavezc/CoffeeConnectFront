@@ -62,8 +62,8 @@ export class ContratoComponent implements OnInit {
   readonly: boolean;
   @Input() popUp = false;
   @Output() agregarContratoEvent = new EventEmitter<any>();
-
-
+  selectedEstadoPagoFactura : any;
+  listEstadoPagoFactura: any[];
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.tipoEmpresaId = this.userSession.Result.Data.TipoEmpresaid;
@@ -89,7 +89,9 @@ export class ContratoComponent implements OnInit {
       estadoFijacion: [],
       condicionEmbarque: [],
       estado: ['', Validators.required],
-      tipoContrato: []
+      tipoContrato: [],
+      estadoPagoFactura : [],
+      codigoInterno: [],
     });
   }
 
@@ -162,6 +164,11 @@ export class ContratoComponent implements OnInit {
         form.listTipoContrato = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros('EstadoPagoFactura', (res: any) => {
+      if (res.Result.Success) {
+        form.listEstadoPagoFactura = res.Result.Data;
+      }
+    });
   }
 
   getRequest(): any {
@@ -178,7 +185,9 @@ export class ContratoComponent implements OnInit {
       EstadoFijacionId: this.contratoForm.value.estadoFijacion ? this.contratoForm.value.estadoFijacion : '',
       TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
-      FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : ''
+      FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
+      EstadoPagoFacturaId: this.contratoForm.value.estadoPagoFactura ? this.contratoForm.value.estadoPagoFactura : '',
+      CodigoInterno: this.contratoForm.value.codigoInterno ? this.contratoForm.value.codigoInterno : '',
     };
   }
 
