@@ -82,7 +82,7 @@
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
                                 </div>
-                                <div *ngIf="tipoEmpresaId === '01' " class="col-md-3 mb-4 form-group mb-2">
+                                <div *ngIf="tipoEmpresaId == '01' " class="col-md-3 mb-4 form-group mb-2">
                                     <label for="tipoContrato" class="form-label">Tipo de Contrato</label>
                                     <ng-select [items]="listTipoContrato" formControlName="tipoContrato" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado"
@@ -180,7 +180,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha de Contrato" prop="FechaContratoString" width="150">
                             </ngx-datatable-column>
-                            <ngx-datatable-column  *ngIf="tipoEmpresaId === '01' "  name="Tipo Contrato" prop="TipoContrato" width="120">
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId == '01'"  name="Tipo Contrato" prop="TipoContrato" width="120">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Codigo Cliente" prop="NumeroCliente" width="150">
                             </ngx-datatable-column>
