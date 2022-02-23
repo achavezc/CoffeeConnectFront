@@ -81,6 +81,7 @@ export class ContratoCompraEditComponent implements OnInit {
   selectedContractType: any;
   selectedInvoiceIn: any;
   selectedFixationState: any;
+  selectedMonedaFactura: any;
   vId: number;
   vSessionUser: any;
   private url = `${host}ContratoCompra`;
@@ -157,6 +158,8 @@ export class ContratoCompraEditComponent implements OnInit {
       producto: [, Validators.required],
       subProducto: [, Validators.required],
       moneda: [, Validators.required],
+      monedaFactura: [],
+      montoFactura:[],
       precio: [, Validators.required],
       tipoProduccion: [],
       unidadMedida: [],
@@ -473,7 +476,9 @@ export class ContratoCompraEditComponent implements OnInit {
       SubProductoId: form.subProducto ? form.subProducto : '',
       TipoProduccionId: form.tipoProduccion ? form.tipoProduccion : '',
       MonedadId: form.moneda ? form.moneda : '',
+      MonedaFacturaId: form.monedaFactura ? form.monedaFactura : '',
       Monto: form.precio ? parseFloat(form.precio) : 0,
+      MontoFactura: form.montoFactura ? parseFloat(form.montoFactura) : 0,
       UnidadMedicionId: form.unidadMedida ? form.unidadMedida : '',
       EntidadCertificadoraId: form.certificadora ? form.certificadora : '',
       TipoCertificacionId: form.certificacion ? form.certificacion.join('|') : '',
@@ -710,8 +715,16 @@ export class ContratoCompraEditComponent implements OnInit {
         await this.GetCurrencies();
         this.contratoEditForm.controls.moneda.setValue(data.MonedadId);
       }
+
+      if (data.MonedaFacturaId) {
+        await this.GetCurrencies();
+        this.contratoEditForm.controls.monedaFactura.setValue(data.MonedaFacturaId);
+      }
       if (data.Monto)
         this.contratoEditForm.controls.precio.setValue(data.Monto);
+
+        if (data.MontoFactura)
+        this.contratoEditForm.controls.montoFactura.setValue(data.MontoFactura);
 
       if (data.UnidadMedicionId) {
         await this.GetMeasurementUnit();
