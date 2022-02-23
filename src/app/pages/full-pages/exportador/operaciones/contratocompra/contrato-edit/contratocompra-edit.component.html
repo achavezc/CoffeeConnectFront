@@ -135,10 +135,10 @@
                     <div class="form-row">
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                             <div class="form-group row">
-                                <label for="ruc" class="col-lg-2 col-form-label">RUC PRODUCTOR</label>
+                                <label for="ruc" class="col-lg-1 col-form-label">RUC</label>
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <input type="text" name="ruc" id="ruc" formControlName="ruc"
-                                        class="form-control" placeholder="Código de cliente" [readonly]="true"
+                                        class="form-control" placeholder="Ruc" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.ruc.invalid, 'is-valid': !f.ruc.invalid }">
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -151,10 +151,10 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
-                                <label for="cliente" class="col-lg-1 col-form-label">CLIENTE</label>
+                                <label for="cliente" class="col-lg-2 col-form-label">Razon Social</label>
                                 <div class="col-lg-5">
                                     <input type="text" name="cliente" id="cliente" formControlName="cliente"
-                                        class="form-control" placeholder="Cliente" [readonly]="true"
+                                        class="form-control" placeholder="Razon Social" [readonly]="true"
                                         [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
                                 </div>
                             </div>
@@ -269,10 +269,40 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
 
+
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-group row">
+                                <label for="moneda" class="col-lg-5 col-form-label">MONEDA</label>
+                                <div class="col-lg-7">
+                                    <ng-select [items]="listMonedas" formControlName="monedaFactura" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="monedaFactura" placeholder="Moneda Factura"
+                                        [ngClass]="{ 'is-invalid': f.monedaFactura.invalid, 'is-valid': !f.moneda.invalid }"
+                                        [(ngModel)]="selectedMonedaFactura">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group row">
+                                <label for="montoFactura" class="col-lg-4 col-form-label">MONTO FACTURA</label>
+                                <div class="col-lg-8">
+                                    <input type="number" name="montoFactura" id="montoFactura" formControlName="montoFactura"
+                                        class="form-control text-right" placeholder="Monto Factura"
+                                        [ngClass]="{ 'is-invalid': f.montoFactura.invalid, 'is-valid': !f.montoFactura.invalid }">
+                                </div>
+                            </div>
+                        </div>
+                        
 
                     </div>
+
+
+
+
                     
                     <div class="form-row bg-primary align-middle mb-2">
                         <label class="text-white">DETALLE DE LA COMPRA</label>

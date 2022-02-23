@@ -49,9 +49,12 @@ export class ClienteComponent implements OnInit {
   login: ILogin;
   userSession: any;
   readonly: boolean;
+  tipoEmpresaId = '';
 
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
+    
+    this.tipoEmpresaId = this.userSession.Result.Data.TipoEmpresaid;
     this.LoadForm();
     this.LoadCombos();
     this.login = JSON.parse(localStorage.getItem("user"));
@@ -152,11 +155,15 @@ export class ClienteComponent implements OnInit {
               new HeaderExcel("Razón Social"),
               new HeaderExcel("Dirección"),
               new HeaderExcel("País"),
+              new HeaderExcel("Departamento"),
+              new HeaderExcel("Provincia"),
+              new HeaderExcel("Distrito"),
+              new HeaderExcel("Código Interno"),
               new HeaderExcel("Estado", "center")
             ];
 
             let vArrData: any[] = [];
-            this.tempData.forEach((x: any) => vArrData.push([x.Numero, x.TipoCliente, x.Ruc, x.RazonSocial, x.Direccion, x.Pais, x.Estado]));
+            this.tempData.forEach((x: any) => vArrData.push([x.Numero, x.TipoCliente, x.Ruc, x.RazonSocial, x.Direccion, x.Pais,x.Departamento,x.Provincia,x.Distrito,x.CodigoInterno,x.Estado]));
             this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Clientes');
           }
         } else {

@@ -213,6 +213,7 @@ export class ContratoCompraComponent implements OnInit {
               obj.FechaEntrega = obj.FechaEntrega == null ? "" : formatDate(obj.FechaEntrega, 'MM/yyyy', 'en');
               obj.FechaFactura = this.dateUtil.formatDate(obj.FechaFactura, '/');
               obj.FechaPagoFactura = this.dateUtil.formatDate(obj.FechaPagoFactura, '/');
+              obj.FechaEntregaProducto = this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;

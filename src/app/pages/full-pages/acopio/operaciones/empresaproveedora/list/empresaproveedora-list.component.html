@@ -56,7 +56,8 @@
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="empresaProveedoraform.invalid" (click)="Buscar()">Buscar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" [disabled]="readonly==true">Nuevo</button>
-
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
+                            [disabled]="!rows || rows.length <= 0" (click)="Exportar()">Exportar</button>
                         </form>
                     </div>
                 </div>
@@ -118,6 +119,8 @@
                             <ngx-datatable-column name="Provincia" prop="Provincia" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Distrito" prop="Distrito" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Floid" prop="Floid" width="200">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
