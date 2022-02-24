@@ -293,6 +293,9 @@
 				},
 		"ContratoCompra": {
 							"Label": "Contrato Compra"
+						},
+		"ContratoVenta": {
+							"Label": "Contrato Venta"
 						}
 
 		},
