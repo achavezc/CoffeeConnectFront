@@ -308,8 +308,24 @@ export class ContratoComponent implements OnInit {
               x.TotalFacturar3,
               x.Producto,
               x.TipoProduccion,
-              x.Estado]));
+              x.Estado,
+              this.tipoEmpresaId != '01' ?  x.ContratoCompra : "",
+              this.tipoEmpresaId != '01' ?  x.FechaContratoCompraString : "",
+              this.tipoEmpresaId != '01' ?  x.RucProductor : "",
+              this.tipoEmpresaId != '01' ?  x.Productor : "",
+              this.tipoEmpresaId != '01' ?  x.Distrito : "",
+              this.tipoEmpresaId != '01' ?  x.NumeroContenedor : "",
+              this.tipoEmpresaId != '01' ?  x.Cantidad : "",
+              this.tipoEmpresaId != '01' ?  x.TipoEmpaqueCompra : "",
+              this.tipoEmpresaId != '01' ?  x.KilosNetos : "",
+              this.tipoEmpresaId != '01' ?  x.FechaFijacionContratoCompraString : "",
+              this.tipoEmpresaId != '01' ?  x.NumeroFactura : "",
+              this.tipoEmpresaId != '01' ?  x.FechaFacturaString : "",
+              this.tipoEmpresaId != '01' ?  x.MontoFactura : "",
+              this.tipoEmpresaId != '01' ?  x.FechaEntregaProductoString : ""
+            ]));
 
+            /*
               if(this.tipoEmpresaId != '01'){
                 this.tempData.forEach((x: any) => vArrData.push([
                   x.ContratoCompra,
@@ -329,6 +345,7 @@ export class ContratoComponent implements OnInit {
                  ]));
   
               }
+              */
             this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Contratos');
           }
         } else {
