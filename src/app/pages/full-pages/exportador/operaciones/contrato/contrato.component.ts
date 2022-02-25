@@ -157,6 +157,10 @@ export class ContratoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('ContratoEstadoFijacion', (res: any) => {
       if (res.Result.Success) {
         form.listEstadoFijacion = res.Result.Data;
+        if (this.popUp == true) {
+          this.selectedEstadoFijacion = '02'
+          this.contratoForm.controls.estadoFijacion.disable();
+        }
       }
     });
     this.maestroUtil.obtenerMaestros('TipoContrato', (res: any) => {
@@ -217,7 +221,7 @@ export class ContratoComponent implements OnInit {
             const vArrHeaderExcel = [
               new HeaderExcel("Contrato", "center"),
               new HeaderExcel("Fecha de Contrato", 'center', 'yyyy-MM-dd'),
-              new HeaderExcel("Tipo de Contrato"),
+             // new HeaderExcel("Tipo de Contrato"),
               new HeaderExcel("Codigo Cliente"),
               new HeaderExcel("Cliente"),
               new HeaderExcel("Certificacion"),
@@ -251,7 +255,7 @@ export class ContratoComponent implements OnInit {
             this.tempData.forEach((x: any) => vArrData.push([
               x.Numero,
               x.FechaContratoString,
-              x.TipoContrato,
+            //  x.TipoContrato,
               x.NumeroCliente,
               x.Cliente,
               x.TipoCertificacion,

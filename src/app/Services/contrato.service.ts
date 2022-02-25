@@ -61,5 +61,7 @@ export class ContratoService {
     const url = `${this.url}/AsignarAcopio`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+ 
 }
 

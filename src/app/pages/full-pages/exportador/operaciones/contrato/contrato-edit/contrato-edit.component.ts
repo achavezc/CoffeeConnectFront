@@ -8,6 +8,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { ContratoService } from '../../../../../../services/contrato.service';
+import { ContratoCompraService } from '../../../../../../services/contratocompra.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
 import {AuthService} from './../../../../../../services/auth.service';
@@ -28,6 +29,7 @@ export class ContratoEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private contratoService: ContratoService,
+    private contratoCompraService: ContratoCompraService,
     private alertUtil: AlertUtil,
     private httpClient: HttpClient,
     private authService : AuthService) { }
@@ -40,6 +42,7 @@ export class ContratoEditComponent implements OnInit {
   listProductos = [];
   listSubProductos = [];
   listMonedas = [];
+  listMonedasFactura = [];
   listTipoProduccion = [];
   listUniMedida = [];
   listCertificadora = [];
@@ -64,6 +67,7 @@ export class ContratoEditComponent implements OnInit {
   selectedProducto: any;
   selectedSubProducto: any;
   selectedMoneda: any;
+  selectedMonedaFactura: any;
   selectedTipoProduccion: any;
   selectedUniMedida: any;
   selectedCertificadora: any;
@@ -100,7 +104,8 @@ export class ContratoEditComponent implements OnInit {
   totalFacturar3;
   tipoEmpresaId = '';
   readonly: boolean;
-
+  popUp = true;
+  selectContrato: any[] = [];
   ngOnInit(): void {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -194,7 +199,10 @@ export class ContratoEditComponent implements OnInit {
       TotalBilling2: [],
       ExpensesExpCosts: [],
       PUTotalC: [],
-      TotalBilling3: []
+      TotalBilling3: [],
+      numeroFactura:  [],
+      monedaFacturaVenta:  [],
+      montoFacturaVenta:  []
     });
   }
 
@@ -219,6 +227,7 @@ export class ContratoEditComponent implements OnInit {
     this.GetCities();
     this.GetProducts();
     this.GetCurrencies();
+    this.GetCurrenciesFactura();
     this.GetMeasurementUnit();
     this.GetCalculations();
     this.GetPackaging();
@@ -294,6 +303,14 @@ export class ContratoEditComponent implements OnInit {
       this.listMonedas = res.Result.Data;
     }
   }
+  async GetCurrenciesFactura() {
+    this.listMonedasFactura = [];
+    const res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listMonedasFactura = res.Result.Data;
+    }
+  }
+
 
   async GetMeasurementUnit() {
     this.listUniMedida = [];
@@ -450,6 +467,11 @@ export class ContratoEditComponent implements OnInit {
     this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
+  openModalContrato(modalEmpresa) {
+    this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
+
+  }
+
   openModalLG(modal: any): void {
     this.modalService.open(modal, { windowClass: 'dark-modal', size: 'lg', centered: true, scrollable: true });
   }
@@ -525,7 +547,11 @@ export class ContratoEditComponent implements OnInit {
       TotalFacturar1: this.totalFacturar1 ? this.totalFacturar1 : 0,
       TotalFacturar2: this.totalFacturar2 ? this.totalFacturar2 : 0,
       TotalFacturar3: this.totalFacturar3 ? this.totalFacturar3 : 0,
-      TipoContratoId: form.contractType ? form.contractType : null
+      TipoContratoId: form.contractType ? form.contractType : null,
+
+      NumeroFacturaVenta: form.numeroFactura ? form.numeroFactura : '',
+      MonedaFacturaVenta: form.monedaFacturaVenta ? form.monedaFacturaVenta : '',
+      MontoFacturaVenta: form.montoFacturaVenta ? form.montoFacturaVenta : 0
     }
   }
 
@@ -551,7 +577,9 @@ export class ContratoEditComponent implements OnInit {
       }
     }
   }
-
+  close() {
+    this.modalService.dismissAll();
+  }
   onChangeEstadoFijacion(event: any)
   {
     const contractFixingDate = this.contratoEditForm.controls.contractFixingDate;
@@ -713,6 +741,16 @@ export class ContratoEditComponent implements OnInit {
         await this.GetCurrencies();
         this.contratoEditForm.controls.moneda.setValue(data.MonedadId);
       }
+      if (data.MonedaIdFactura) {
+        await this.GetCurrenciesFactura();
+        this.contratoEditForm.controls.monedaFacturaVenta.setValue(data.MonedaIdFactura);
+      }
+      if (data.NumeroFactura) {
+        this.contratoEditForm.controls.numeroFactura.setValue(data.NumeroFactura);
+      }
+      if (data.MontoFactura) {
+        this.contratoEditForm.controls.montoFacturaVenta.setValue(data.MontoFactura);
+      }
       if (data.Monto)
         this.contratoEditForm.controls.precio.setValue(data.Monto);
       if (data.PeriodosCosecha) {
@@ -870,6 +908,42 @@ export class ContratoEditComponent implements OnInit {
     this.spinner.hide();
   }
 
+  receiveMessageContrato($event) {
+ 
+    this.selectContrato = $event;
+    this.AsignarContrato(this.selectContrato[0].ContratoId);
+   // this.modalService.dismissAll();
+  }
+
+ 
+  AsignarContrato(contratoId) {
+    this.spinner.show();
+    const request = {
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
+      ContratoCompraId:contratoId,
+      ContratoVentaId: this.vId,
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+    }
+    
+    this.contratoCompraService.AsignarContratoCompra(request)
+      .subscribe((res) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+         
+            this.alertUtil.alertOkCallback('Confirmación', 'Contrato Asignado Correctamente.',
+              () => {
+                this.modalService.dismissAll();
+              });
+          
+        } else {
+          this.alertUtil.alertError('ERROR', res.Result.Message);
+        }
+      }, (err) => {
+        this.spinner.hide();
+        console.log(err);
+      });
+  }
+
   Descargar() {
     var nombreFile = this.contratoEditForm.value.fileName;
     var rutaFile = this.contratoEditForm.value.pathFile;
@@ -888,6 +962,8 @@ export class ContratoEditComponent implements OnInit {
   Cancelar(): void {
     this.router.navigate(['/exportador/operaciones/contrato/list']);
   }
+
+
 
   CalculateNetWeightKilos() {
     let totalbags = this.contratoEditForm.value.totalSacos69Kg ? parseFloat(this.contratoEditForm.value.totalSacos69Kg) : 0;

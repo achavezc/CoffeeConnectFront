@@ -61,5 +61,10 @@ export class ContratoCompraService {
     const url = `${this.url}/AsignarAcopio`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+
+  AsignarContratoCompra(request: any): Observable<any> {
+    const url = `${this.url}/AsignarContratoCompra`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }
 
