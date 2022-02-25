@@ -911,7 +911,7 @@ export class ContratoEditComponent implements OnInit {
   receiveMessageContrato($event) {
  
     this.selectContrato = $event;
-    this.AsignarContrato(this.selectContrato[0].ContratoId);
+    this.AsignarContrato(this.selectContrato[0].ContratoCompraId);
    // this.modalService.dismissAll();
   }
 

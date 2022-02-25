@@ -157,10 +157,7 @@ export class ContratoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('ContratoEstadoFijacion', (res: any) => {
       if (res.Result.Success) {
         form.listEstadoFijacion = res.Result.Data;
-        if (this.popUp == true) {
-          this.selectedEstadoFijacion = '02'
-          this.contratoForm.controls.estadoFijacion.disable();
-        }
+        
       }
     });
     this.maestroUtil.obtenerMaestros('TipoContrato', (res: any) => {
