@@ -211,6 +211,11 @@ export class ContratoComponent implements OnInit {
               obj.FechaContratoString = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
               obj.FechaEmbarque = obj.FechaEmbarque == null ? "": formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
+
+              obj.FechaContratoCompraString = this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
+              obj.FechaFijacionContratoCompraString = this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
+              obj.FechaFacturaString = this.dateUtil.formatDate(obj.FechaFactura, '/');
+              obj.FechaEntregaProductoString = this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
@@ -218,6 +223,7 @@ export class ContratoComponent implements OnInit {
             const vArrHeaderExcel = [
               new HeaderExcel("Contrato", "center"),
               new HeaderExcel("Fecha de Contrato", 'center', 'yyyy-MM-dd'),
+               new HeaderExcel("Codigo Interno"),
              // new HeaderExcel("Tipo de Contrato"),
               new HeaderExcel("Codigo Cliente"),
               new HeaderExcel("Cliente"),
@@ -246,12 +252,35 @@ export class ContratoComponent implements OnInit {
               new HeaderExcel("Producto"),
               new HeaderExcel("Tipo de Producción"),
               new HeaderExcel("Estado", "center")
+
+            
             ];
+
+            if(this.tipoEmpresaId != '01'){
+              vArrHeaderExcel.push(
+                 new HeaderExcel("Contrato Compra"),
+                 new HeaderExcel("Fecha Contrato Compra"),
+                 new HeaderExcel("RUC"),
+                 new HeaderExcel("Razon Social"),
+                 new HeaderExcel("Distrito"),
+                 new HeaderExcel("Nro. Contenedor"),
+                 new HeaderExcel("Cantidad"),
+                 new HeaderExcel("Tipo de Empaque"),
+                 new HeaderExcel("Kilos Netos"),
+                 new HeaderExcel("Fecha Fijación Contrato"),
+                 new HeaderExcel("Nro. Factura"),
+                 new HeaderExcel("Fecha Factura"),
+                 new HeaderExcel("Monto Factura"),
+                 new HeaderExcel("Fecha Entrega Producto"),
+              )
+
+            }
 
             let vArrData: any[] = [];
             this.tempData.forEach((x: any) => vArrData.push([
               x.Numero,
               x.FechaContratoString,
+              x.CodigoInterno,
             //  x.TipoContrato,
               x.NumeroCliente,
               x.Cliente,
@@ -280,6 +309,26 @@ export class ContratoComponent implements OnInit {
               x.Producto,
               x.TipoProduccion,
               x.Estado]));
+
+              if(this.tipoEmpresaId != '01'){
+                this.tempData.forEach((x: any) => vArrData.push([
+                  x.ContratoCompra,
+                  x.FechaContratoCompraString,
+                  x.RucProductor,
+                  x.Productor,
+                  x.Distrito,
+                  x.NumeroContenedor,
+                  x.Cantidad,
+                  x.TipoEmpaqueCompra,
+                  x.KilosNetos,
+                  x.FechaFijacionContratoCompraString,
+                  x.NumeroFactura,
+                  x.FechaFacturaString,
+                  x.MontoFactura,
+                  x.FechaEntregaProductoString
+                 ]));
+  
+              }
             this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Contratos');
           }
         } else {

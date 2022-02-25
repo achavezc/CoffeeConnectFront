@@ -126,7 +126,7 @@
 
                             <div class="form-row"  *ngIf="tipoEmpresaId != '01' ">
                                 <div class="col-md-3 mb-4 form-group mb-2">
-                                    <label for="codigoInterno" class="form-label">Código Cliente</label>
+                                    <label for="codigoInterno" class="form-label">Código Interno</label>
                                     <input type="text" formControlName="codigoInterno" class="form-control" id="codigoInterno"
                                         placeholder="Código Interno" name="codigoInterno"
                                         [ngClass]="{ 'is-invalid': f.codigoInterno.invalid, 'is-valid': !f.codigoInterno.invalid }">
@@ -264,6 +264,35 @@
                                         {{ status }}
                                     </div>
                                 </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Contrato Compra" prop="ContratoCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Contrato Compra" prop="FechaContratoCompraString" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="RUC" prop="RucProductor" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Razon Social" prop="Productor" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Distrito" prop="Distrito" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Contenedor" prop="NumeroContenedor" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Cantidad" prop="Cantidad" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo de Empaque" prop="TipoEmpaqueCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Fijación Contrato" prop="FechaFijacionContratoCompraString" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Factura" prop="NumeroFactura" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Factura" prop="FechaFacturaString" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Monto Factura" prop="MontoFactura" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Entrega Producto" prop="FechaEntregaProductoString" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
