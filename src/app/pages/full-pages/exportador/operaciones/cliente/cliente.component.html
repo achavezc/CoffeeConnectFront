@@ -151,6 +151,8 @@
                             <ngx-datatable-column name="Distrito" prop="Distrito" width="200">
                             </ngx-datatable-column>
                             <ngx-datatable-column  *ngIf="tipoEmpresaId !='01'"  name="Código Interno" prop="CodigoInterno" width="120"></ngx-datatable-column>
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId !='01'"  name="FloId" prop="FloId" width="120"></ngx-datatable-column>
+                           
                             <ngx-datatable-column name="Estado" prop="Estado" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge"
