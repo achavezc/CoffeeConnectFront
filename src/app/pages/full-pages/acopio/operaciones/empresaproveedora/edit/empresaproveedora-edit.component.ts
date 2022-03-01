@@ -9,6 +9,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from './../../../../../../services/auth.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { ThrowStmt } from '@angular/compiler';
 @Component({
     selector: 'app-empresaproveedora-edit',
     templateUrl: './empresaproveedora-edit.component.html',
@@ -37,6 +38,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     listProvincia: [];
     listDistrito: [];
     listTipoCertificacion: [];
+    listEstadoCertificacion: [];
     responsable: any = '';
     esEdit = false;
     selectedEstado: any;
@@ -45,6 +47,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     selectedProvincia: any;
     selectedDistrito: any;
     selectedTipoCertificacion: any;
+    selectedEstadoCertificacion: any;
     rowsDetails = [];
     isLoading = false;
     activo = "01";
@@ -176,6 +179,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         var data = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
         if (data.Result.Success) {
             this.listEstado = data.Result.Data;
+            this.listEstadoCertificacion = data.Result.Data;
         }
 
         this.route.queryParams
@@ -199,7 +203,9 @@ export class EmpresaProveedoraEditComponent implements OnInit {
     addRowDetail(): void {
         this.rowsDetails = [...this.rowsDetails, {
             TipoCertificacionId: "01",
-            CodigoCertificacion: ""
+            CodigoCertificacion: "",
+            EstadoId : '',
+            FechaVigencia : ''
         }];
     }
 
@@ -208,6 +214,11 @@ export class EmpresaProveedoraEditComponent implements OnInit {
             this.rowsDetails[index].TipoCertificacionId = event.target.value;
         else if (prop === 'CodigoCertificacion')
             this.rowsDetails[index].CodigoCertificacion = event.target.value;
+        else if (prop === 'EstadoId')
+            this.rowsDetails[index].EstadoId = event.target.value;
+        else if (prop === 'FechaVigencia')
+            this.rowsDetails[index].FechaVigencia = event.target.value;
+
 
     }
     
