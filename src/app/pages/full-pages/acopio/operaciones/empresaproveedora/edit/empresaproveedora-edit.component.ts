@@ -204,8 +204,8 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         this.rowsDetails = [...this.rowsDetails, {
             TipoCertificacionId: "01",
             CodigoCertificacion: "",
-            EstadoId : '',
-            FechaVigencia : ''
+            EstadoId : "01",
+            FechaVigencia : null
         }];
     }
 
