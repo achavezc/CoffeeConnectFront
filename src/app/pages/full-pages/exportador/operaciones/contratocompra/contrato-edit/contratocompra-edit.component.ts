@@ -492,9 +492,7 @@ export class ContratoCompraEditComponent implements OnInit {
       LaboratorioId: '',
       NumeroSeguimientoMuestra: '',
       EstadoMuestraId: '',
-      // FechaEnvioMuestra: form.fecRecojoEnvioCurier ? form.fecRecojoEnvioCurier : null,
       FechaEnvioMuestra: null,
-      // FechaRecepcionMuestra: form.fecRecepcionDestino ? form.fecRecepcionDestino : null,
       FechaRecepcionMuestra: null,
       ObservacionMuestra: form.observaciones ? form.observaciones : '',
       NavieraId: '',
@@ -528,14 +526,6 @@ export class ContratoCompraEditComponent implements OnInit {
       FechaFactura: form.fechaFactura? form.fechaFactura : '',
       FechaEntregaProducto : form.fechaEntregaProducto ? form.fechaEntregaProducto : '',
       PeriodosCosecha:  form.harvestPeriod ? form.harvestPeriod : ''
-      
-      // LaboratorioId: form.laboratorio ? form.laboratorio : '',
-      
-      // NumeroSeguimientoMuestra: form.truckingNumber ? form.truckingNumber : '',
-      
-      // EstadoMuestraId: form.estadoSegMuestras ? form.estadoSegMuestras : '',
-     
-      // NavieraId: form.naviera ? form.naviera : '',
       
     }
   }
@@ -690,8 +680,6 @@ export class ContratoCompraEditComponent implements OnInit {
         this.contratoEditForm.controls.fechaEntrega.setValue(data.FechaEntrega.substring(0, 10));
       if (data.FechaContrato)
         this.contratoEditForm.controls.fechaContrato.setValue(data.FechaContrato.substring(0, 10));
-      // if (data.FechaFacturacion)
-      //   this.contratoEditForm.controls.fechaFactExp.setValue(data.FechaFacturacion.substring(0, 10));
      
       if (data.ProductoId) {
         await this.GetProducts();
@@ -730,11 +718,14 @@ export class ContratoCompraEditComponent implements OnInit {
         await this.GetMeasurementUnit();
         this.contratoEditForm.controls.unidadMedida.setValue(data.UnidadMedicionId);
       }
-      this.contratoEditForm.controls.condicionEntrega.setValue(data.CondicionEntregaId);
+      
       this.contratoEditForm.controls.numeroFactura.setValue(data.NumeroFactura);
-      this.contratoEditForm.controls.responsableComercial.setValue(data.UsuarioRegistro)
+     
+      if (data.FechaEntregaProducto)
       this.contratoEditForm.controls.fechaEntregaProducto.setValue(data.FechaEntregaProducto.substring(0, 10));
+      if (data.FechaFactura)
       this.contratoEditForm.controls.fechaFactura.setValue(data.FechaFactura.substring(0, 10));
+
       this.contratoEditForm.controls.nroContratoVenta.setValue(data.ContratoVentaId);
 
       if (data.CalculoContratoId) {
@@ -875,8 +866,9 @@ export class ContratoCompraEditComponent implements OnInit {
       if (data.EstadoContrato)
         this.estadoContrato = data.EstadoContrato;
       this.spinner.hide();
-    } else {
-    }
+    } 
+
+    this.contratoEditForm.controls.responsableComercial.setValue(data.UsuarioRegistro)
     this.spinner.hide();
   }
 

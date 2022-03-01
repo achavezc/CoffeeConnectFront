@@ -214,7 +214,8 @@ export class ContratoCompraComponent implements OnInit {
             res.Result.Data.forEach((obj: any) => {
               obj.FechaContrato = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
-              obj.FechaEntrega = obj.FechaEntrega == null ? "" : formatDate(obj.FechaEntrega, 'MM/yyyy', 'en');
+              obj.MesEntrega = obj.FechaEntrega == null ? "" : formatDate(obj.FechaEntrega, 'MM/yyyy', 'en');
+              obj.FechaEntrega = this.dateUtil.formatDate(obj.FechaEntrega, '/');
               obj.FechaFactura = this.dateUtil.formatDate(obj.FechaFactura, '/');
               obj.FechaPagoFactura = this.dateUtil.formatDate(obj.FechaPagoFactura, '/');
               obj.FechaEntregaProducto = this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
@@ -223,8 +224,8 @@ export class ContratoCompraComponent implements OnInit {
             this.tempData = this.rows;
           } else {
             const vArrHeaderExcel = [
-              new HeaderExcel("Contrato", "center"),
-              new HeaderExcel("Fecha de Contrato Compra", 'center', 'yyyy-MM-dd'), 
+              new HeaderExcel("Contrato Compra", "center"),
+              new HeaderExcel("Fecha Contrato Compra", 'center', 'yyyy-MM-dd'), 
               new HeaderExcel("Contrato Venta"),
               new HeaderExcel("Ruc"),
               new HeaderExcel("Razon Social"),
@@ -232,7 +233,10 @@ export class ContratoCompraComponent implements OnInit {
               new HeaderExcel("Provincia"),
               new HeaderExcel("Distrito"),
               new HeaderExcel("Condicion de Entrega"),
+              new HeaderExcel("Fecha Entrega"),
               new HeaderExcel("Nro. Factura"),
+              new HeaderExcel("Moneda Factura"),
+              new HeaderExcel("Monto Factura"),
               new HeaderExcel("Fecha Factura"),
               new HeaderExcel("Fecha Entrega Producto"),
               new HeaderExcel("Status Pago Factura"),
@@ -275,14 +279,17 @@ export class ContratoCompraComponent implements OnInit {
               x.Provincia,
               x.Distrito,
               x.CondicionEntrega,
+              x.FechaEntrega,
               x.NumeroFactura,
+              x.MonedaFactura,
+              x.MontoFactura,
               x.FechaFactura,
               x.FechaEntregaProducto,
               x.EstadoPagoFactura,
               x.FechaPagoFactura,
               x.PeriodosCosecha,
               x.TipoCertificacion,
-              x.FechaEntrega,
+              x.MesEntrega,
               x.CantidadContenedores,
               x.TotalSacos,
               x.TipoEmpaque,
