@@ -142,6 +142,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         this.GetClasificacion();
         this.GetEstados();
         this.GetTipoCertificacion();
+        this.GetEstadosCertificacion();
     }
 
     async GetClasificacion() {
@@ -179,7 +180,6 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         var data = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
         if (data.Result.Success) {
             this.listEstado = data.Result.Data;
-            this.listEstadoCertificacion = data.Result.Data;
         }
 
         this.route.queryParams
@@ -190,6 +190,14 @@ export class EmpresaProveedoraEditComponent implements OnInit {
                 }
             });
 
+
+    }
+    async GetEstadosCertificacion() {
+
+        var data = await this.maestroService.obtenerMaestros("EstadoCertificacion").toPromise();
+        if (data.Result.Success) {
+            this.listEstadoCertificacion = data.Result.Data;
+        }
 
     }
     async GetTipoCertificacion() {
