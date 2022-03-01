@@ -215,7 +215,9 @@ export class ContratoComponent implements OnInit {
               obj.FechaContratoCompraString = this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
               obj.FechaFijacionContratoCompraString = this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
               obj.FechaFacturaString = this.dateUtil.formatDate(obj.FechaFactura, '/');
+              obj.FechaFacturaCompraString = this.dateUtil.formatDate(obj.FechaFacturaCompra, '/');
               obj.FechaEntregaProductoString = this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
+              obj.FechaEntregaProductoCompraString = this.dateUtil.formatDate(obj.FechaEntregaProductoCompra, '/');
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;

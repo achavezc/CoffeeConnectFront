@@ -918,30 +918,42 @@ export class ContratoEditComponent implements OnInit {
  
   AsignarContrato(contratoId) {
     this.spinner.show();
-    const request = {
-      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-      ContratoCompraId:contratoId,
-      ContratoVentaId: this.vId,
-      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-    }
-    
-    this.contratoCompraService.AsignarContratoCompra(request)
-      .subscribe((res) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-         
-            this.alertUtil.alertOkCallback('Confirmación', 'Contrato Asignado Correctamente.',
-              () => {
-                this.modalService.dismissAll();
-              });
-          
-        } else {
-          this.alertUtil.alertError('ERROR', res.Result.Message);
+
+
+    // this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la asociación del contrato?.`, function (result) {
+    //   if (result.isConfirmed) 
+    //   {
+        const request = {
+          EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
+          ContratoCompraId:contratoId,
+          ContratoVentaId: this.vId,
+          Usuario: this.vSessionUser.Result.Data.NombreUsuario,
         }
-      }, (err) => {
-        this.spinner.hide();
-        console.log(err);
-      });
+        
+        this.contratoCompraService.AsignarContratoCompra(request)
+          .subscribe((res) => {
+            this.spinner.hide();
+            if (res.Result.Success) {
+             
+                this.alertUtil.alertOkCallback('Confirmación', 'Contrato Asociado Correctamente.',
+                  () => {
+                    this.modalService.dismissAll();
+                    this.SearchById();
+                  });
+              
+            } else {
+              this.alertUtil.alertError('ERROR', res.Result.Message);
+            }
+          }, (err) => {
+            this.spinner.hide();
+            console.log(err);
+          });
+
+    //   }
+    // });
+
+    
+    
   }
 
   Descargar() {

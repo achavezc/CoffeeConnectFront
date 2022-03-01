@@ -209,6 +209,26 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Cliente" prop="Cliente" width="250">
                             </ngx-datatable-column>
+
+
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Nro Factura Venta" prop="NumeroFactura" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Moneda Factura Venta" prop="MonedaFactura" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Monto Factura Venta" prop="MontoFactura" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Fecha Factura Venta" prop="FechaFacturaString" width="140">
+                            </ngx-datatable-column>
+
+
+
+
+
+
                             <ngx-datatable-column name="Certificación" prop="TipoCertificacion" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Calidad" prop="Calidad" width="100">
@@ -286,13 +306,13 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Fijación Contrato" prop="FechaFijacionContratoCompraString" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro. Factura" prop="NumeroFactura" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Nro. Factura" prop="NumeroFacturaCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha Factura" prop="FechaFacturaString" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Fecha Factura" prop="FechaFacturaCompraString" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Monto Factura" prop="MontoFactura" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Monto Factura" prop="MontoFacturaCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha Entrega Producto" prop="FechaEntregaProductoString" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Fecha Entrega Producto" prop="FechaEntregaProductoCompraString" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
