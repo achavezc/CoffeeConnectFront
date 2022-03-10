@@ -9,7 +9,9 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from './../../../../../../services/auth.service';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
+import { DateUtil } from '../../../../../../services/util/date-util';
 import { ThrowStmt } from '@angular/compiler';
+import { formatDate } from '@angular/common';
 @Component({
     selector: 'app-empresaproveedora-edit',
     templateUrl: './empresaproveedora-edit.component.html',
@@ -28,7 +30,9 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         private spinner: NgxSpinnerService,
         private maestroService: MaestroService,
         private empresaProveedoraService: EmpresaProveedoraService,
-        private authService : AuthService) { }
+        private authService : AuthService,
+        private dateUtil: DateUtil
+        ) { }
 
     empresaProveedoraEditForm: FormGroup;
 
@@ -114,6 +118,12 @@ export class EmpresaProveedoraEditComponent implements OnInit {
         this.empresaProveedoraEditForm.controls.direccion.setValue(data.Direccion);
         this.empresaProveedoraEditForm.controls.estado.setValue(data.EstadoId);
         await this.GetTipoCertificacion();
+       
+        data.Certificaciones.forEach(x => {
+            //x.FechaVigencia =   formatDate(x.FechaVigencia, 'dd/MM/yyyy', 'en');
+            x.FechaVigencia =   formatDate(x.FechaVigencia, 'yyyy-MM-dd', 'en');
+            });     
+
         this.rowsDetails = data.Certificaciones;
         this.spinner.hide();
     }

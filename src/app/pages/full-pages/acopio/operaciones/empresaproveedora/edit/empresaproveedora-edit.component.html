@@ -122,9 +122,9 @@
                         (click)="addRowDetail()">+</button>
                    <!--  <label class="text-danger ml-2">*Todos los campos son obligatorios</label> -->
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
-                        [loadingIndicator]="isLoading" [scrollbarV]="true">
+                        [loadingIndicator]="isLoading" [scrollbarV]="true" >
 
                         <ngx-datatable-column [sortable]="false" width="40">
                             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
@@ -203,16 +203,17 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="FECHA VIGENCIA" prop="FechaVigencia">
-                            <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
-                                ngx-datatable-cell-template>
+                        <ngx-datatable-column name="FECHA VIGENCIA" prop="FechaVigencia" width="180px">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-FechaVigencia="value"
+                            let-rowIndex="rowIndex">
+                                <div class="d-flex align-items-center">
+                                       
 
-                                <input type="date" class="form-control" class="form-control form-control-sm text-center"
-                                name="fechaInicio" placeholder="Fecha Vigencia" date
-                                (blur)="UpdateValuesGridDetails($event, rowIndex, 'FechaVigencia')"
-                                value="{{FechaVigencia}}"
-                                />
+                                        <input type="date" autofocus class="form-control form-control-sm text-center"
+                                        (blur)="UpdateValuesGridDetails($event, rowIndex, 'FechaVigencia')"
+                                        value="{{FechaVigencia}}">
 
+                                </div>
                             </ng-template>
                         </ngx-datatable-column>
 
