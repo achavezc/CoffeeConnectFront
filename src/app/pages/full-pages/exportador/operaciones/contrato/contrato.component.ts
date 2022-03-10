@@ -13,6 +13,7 @@ import { ContratoService } from '../../../../../services/contrato.service';
 import { AlertUtil } from '../../../../../services/util/alert-util';
 import { formatDate } from '@angular/common';
 import {AuthService} from './../../../../../services/auth.service';
+import { forEach } from 'core-js/core/array';
 
 
 @Component({
@@ -212,23 +213,43 @@ export class ContratoComponent implements OnInit {
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
               obj.FechaEmbarque = obj.FechaEmbarque == null ? "": formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
 
-              obj.FechaContratoCompraString = this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
-              obj.FechaFijacionContratoCompraString = this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
-              obj.FechaFacturaString = this.dateUtil.formatDate(obj.FechaFactura, '/');
-              obj.FechaFacturaCompraString = this.dateUtil.formatDate(obj.FechaFacturaCompra, '/');
-              obj.FechaEntregaProductoString = this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
-              obj.FechaEntregaProductoCompraString = this.dateUtil.formatDate(obj.FechaEntregaProductoCompra, '/');
+              obj.FechaContratoCompraString = obj.FechaContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
+              obj.FechaFijacionContratoCompraString = obj.FechaFijacionContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
+              obj.FechaFacturaString = obj.FechaFactura == null ? "": this.dateUtil.formatDate(obj.FechaFactura, '/');
+              obj.FechaFacturaCompraString = obj.FechaFacturaCompra == null ? "":  this.dateUtil.formatDate(obj.FechaFacturaCompra, '/');
+              obj.FechaEntregaProductoString = obj.FechaEntregaProducto == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
+              obj.FechaEntregaProductoCompraString = obj.FechaEntregaProductoCompra == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProductoCompra, '/');
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
-          } else {
+          } else 
+          {
+            debugger
             const vArrHeaderExcel = [
-              new HeaderExcel("Contrato", "center"),
-              new HeaderExcel("Fecha de Contrato", 'center', 'yyyy-MM-dd'),
-               new HeaderExcel("Codigo Interno"),
+              
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Contrato Venta":"Contrato", "center"),
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Fecha de Contrato Venta":"Fecha de Contrato", 'center', 'yyyy-MM-dd'),
+              
+              new HeaderExcel("Codigo Interno"),
              // new HeaderExcel("Tipo de Contrato"),
               new HeaderExcel("Codigo Cliente"),
-              new HeaderExcel("Cliente"),
+              new HeaderExcel("Cliente")
+            ];
+
+
+            if(this.tipoEmpresaId != '01')
+            {
+              vArrHeaderExcel.push(
+
+              new HeaderExcel("Nro Factura Venta"),
+              new HeaderExcel("Moneda Factura Venta"),
+              new HeaderExcel("Monto Factura Venta"),
+              new HeaderExcel("Status Factura Venta"),
+              new HeaderExcel("Fecha Factura Venta")
+              )
+            }
+
+            vArrHeaderExcel.push(
               new HeaderExcel("Certificacion"),
               new HeaderExcel("Calidad"),
               new HeaderExcel("Mes de Embarque"),
@@ -239,7 +260,7 @@ export class ContratoComponent implements OnInit {
               new HeaderExcel("Kilos Netos"),
               new HeaderExcel("Kg. Netos en QQ"),
               new HeaderExcel("Kg. Neto en LB"),
-              new HeaderExcel("Fecha Fijación Contrato"),
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Fecha Fijación Contrato Venta":"Fecha Fijación Contrato"),
               new HeaderExcel("Estado de Fijación"),
               new HeaderExcel("Nivel Fijación"),
               new HeaderExcel("Diferencial"),
@@ -255,8 +276,8 @@ export class ContratoComponent implements OnInit {
               new HeaderExcel("Tipo de Producción"),
               new HeaderExcel("Estado", "center")
 
-            
-            ];
+            )
+           
 
             if(this.tipoEmpresaId != '01'){
               vArrHeaderExcel.push(
@@ -279,57 +300,46 @@ export class ContratoComponent implements OnInit {
             }
 
             let vArrData: any[] = [];
-            this.tempData.forEach((x: any) => vArrData.push([
-              x.Numero,
-              x.FechaContratoString,
-              x.CodigoInterno,
-            //  x.TipoContrato,
-              x.NumeroCliente,
-              x.Cliente,
-              x.TipoCertificacion,
-              x.Calidad,
-              x.FechaEmbarque,
-              x.CondicionEmbarque,
-              x.CantidadContenedores,
-              x.TotalSacos,
-              x.TipoEmpaque,
-              x.PesoKilos,
-              x.KilosNetosQQ,
-              x.KilosNetosLB,
-              x.FechaFijacionContrato,
-              x.EstadoFijacion,
-              x.PrecioNivelFijacion,
-              x.Diferencial,
-              x.PUTotalA,
-              x.TotalFacturar1,
-              // x.NotaCreditoComision,
-              // x.PUTotalB,
-              x.TotalFacturar2,
-              x.GastosExpCostos,
-              x.PUTotalC,
-              x.TotalFacturar3,
-              x.Producto,
-              x.TipoProduccion,
-              x.Estado,
-              this.tipoEmpresaId != '01' ?  x.ContratoCompra : "",
-              this.tipoEmpresaId != '01' ?  x.FechaContratoCompraString : "",
-              this.tipoEmpresaId != '01' ?  x.RucProductor : "",
-              this.tipoEmpresaId != '01' ?  x.Productor : "",
-              this.tipoEmpresaId != '01' ?  x.Distrito : "",
-              this.tipoEmpresaId != '01' ?  x.NumeroContenedor : "",
-              this.tipoEmpresaId != '01' ?  x.Cantidad : "",
-              this.tipoEmpresaId != '01' ?  x.TipoEmpaqueCompra : "",
-              this.tipoEmpresaId != '01' ?  x.KilosNetos : "",
-              this.tipoEmpresaId != '01' ?  x.FechaFijacionContratoCompraString : "",
-              this.tipoEmpresaId != '01' ?  x.NumeroFactura : "",
-              this.tipoEmpresaId != '01' ?  x.FechaFacturaString : "",
-              this.tipoEmpresaId != '01' ?  x.MontoFactura : "",
-              this.tipoEmpresaId != '01' ?  x.FechaEntregaProductoString : ""
-            ]));
 
-            /*
-              if(this.tipoEmpresaId != '01'){
-                this.tempData.forEach((x: any) => vArrData.push([
+
+            if(this.tipoEmpresaId != '01')
+            {
+              this.tempData.forEach(function(x)
+              {
+                vArrData.push([
+                  x.Numero,
+                  x.FechaContratoString,
+                  x.CodigoInterno,               
+                  x.NumeroCliente,
+                  x.Cliente,
+                  x.NumeroFactura,
+                  x.MonedaFactura,
+                  x.MontoFactura,
+                  x.EstadoPagoFactura,
+                  x.FechaFacturaString,
+                  x.TipoCertificacion,
+                  x.Calidad,
+                  x.FechaEmbarque,
+                  x.CondicionEmbarque,
+                  x.CantidadContenedores,
+                  x.TotalSacos,
+                  x.TipoEmpaque,
+                  x.PesoKilos,
+                  x.KilosNetosQQ,
+                  x.KilosNetosLB,
+                  x.FechaFijacionContrato,
+                  x.EstadoFijacion,
+                  x.PrecioNivelFijacion,
+                  x.Diferencial,
+                  x.PUTotalA,
+                  x.TotalFacturar1,                 
+                  x.TotalFacturar2,
+                  x.GastosExpCostos,
+                  x.PUTotalC,
+                  x.TotalFacturar3,
+                  x.Producto,
+                  x.TipoProduccion,
+                  x.Estado,
                   x.ContratoCompra,
                   x.FechaContratoCompraString,
                   x.RucProductor,
@@ -340,14 +350,53 @@ export class ContratoComponent implements OnInit {
                   x.TipoEmpaqueCompra,
                   x.KilosNetos,
                   x.FechaFijacionContratoCompraString,
-                  x.NumeroFactura,
-                  x.FechaFacturaString,
-                  x.MontoFactura,
-                  x.FechaEntregaProductoString
-                 ]));
-  
-              }
-              */
+                  x.NumeroFacturaCompra,
+                  x.FechaFacturaCompraString,
+                  x.MontoFacturaCompra,
+                  x.FechaEntregaProductoCompraString]);
+
+              });
+            }
+            else            
+            {       
+
+              this.tempData.forEach(function(x)
+              {
+                vArrData.push([
+                  x.Numero,
+                  x.FechaContratoString,
+                  x.CodigoInterno,               
+                  x.NumeroCliente,
+                  x.Cliente,
+                  x.TipoCertificacion,
+                  x.Calidad,
+                  x.FechaEmbarque,
+                  x.CondicionEmbarque,
+                  x.CantidadContenedores,
+                  x.TotalSacos,
+                  x.TipoEmpaque,
+                  x.PesoKilos,
+                  x.KilosNetosQQ,
+                  x.KilosNetosLB,
+                  x.FechaFijacionContrato,
+                  x.EstadoFijacion,
+                  x.PrecioNivelFijacion,
+                  x.Diferencial,
+                  x.PUTotalA,
+                  x.TotalFacturar1,                 
+                  x.TotalFacturar2,
+                  x.GastosExpCostos,
+                  x.PUTotalC,
+                  x.TotalFacturar3,
+                  x.Producto,
+                  x.TipoProduccion,
+                  x.Estado
+                  ]);
+
+              });
+            }
+          
+
             this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Contratos');
           }
         } else {
@@ -413,5 +462,58 @@ export class ContratoComponent implements OnInit {
 
   Agregar(selected: any) {
     this.agregarContratoEvent.emit(selected)
+  }
+
+
+  Desasignar(): void {
+    if (this.selected.length > 0)
+    {
+      if (this.selected[0].EstadoId == '03')
+      {
+
+        const form = this;
+        swal.fire({
+          title: 'Confirmación',
+          text: `¿Está seguro de continuar con la desasignación del contrato?.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            form.DesasignarContrato();
+          }
+        });
+      }
+      else {
+        this.alertUtil.alertError("Error", "Solo se puede desasignar contratos con estado asignado.")
+      }
+    }
+  }
+
+  DesasignarContrato(): void {
+    this.spinner.show();
+    this.errorGeneral = { isError: false, msgError: '' };
+    this.contratoService.Desasignar({ ContratoVentaId: this.selected[0].ContratoId, Usuario: this.userSession.Result.Data.NombreUsuario })
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback('CONFIRMACIÓN', 'Contrato desagignado correctamente.', () => {
+            this.Buscar();
+          });
+        } else {
+          this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+      })
   }
 }

@@ -726,7 +726,7 @@ export class ContratoCompraEditComponent implements OnInit {
       if (data.FechaFactura)
       this.contratoEditForm.controls.fechaFactura.setValue(data.FechaFactura.substring(0, 10));
 
-      this.contratoEditForm.controls.nroContratoVenta.setValue(data.ContratoVentaId);
+      this.contratoEditForm.controls.nroContratoVenta.setValue(data.NumeroContratoVenta);
 
       if (data.CalculoContratoId) {
         await this.GetCalculations();

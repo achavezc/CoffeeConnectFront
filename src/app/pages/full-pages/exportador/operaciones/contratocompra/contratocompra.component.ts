@@ -357,7 +357,7 @@ export class ContratoCompraComponent implements OnInit {
   CancelContract(): void {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
-    this.contratoService.Cancel({ ContratoId: this.selected[0].ContratoId, Usuario: this.userSession.Result.Data.NombreUsuario })
+    this.contratoService.Cancel({ ContratoCompraId: this.selected[0].ContratoCompraId, Usuario: this.userSession.Result.Data.NombreUsuario })
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
