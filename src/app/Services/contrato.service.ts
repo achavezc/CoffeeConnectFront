@@ -62,6 +62,10 @@ export class ContratoService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  Desasignar(request: any): Observable<any> {
+    const url = `${this.url}/DesasignarContrato`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
  
 }
 

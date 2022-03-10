@@ -482,13 +482,15 @@
                                             </div>
         
                                         </ng-template>
-                                        <div class="form-group row">
+                                        <div class="form-group row" *ngIf="tipoEmpresaId != '01'">
                                             <label for="observaciones" class="col-lg-4 col-form-label">Asignar Contrato Compra</label>
                                             <button type="button" (click)="openModalContrato(modalContrato)" class="btn btn-primary">
                                                 <i class="fa fa-search"></i>
                                             </button>
                                         </div>
+                                        
                                     </div>
+                                   
                                 </div>
                             </div>
 

@@ -144,6 +144,8 @@
                             <button class="btn btn-primary mr-1 mb-1" type="button"
                                 [disabled]="!selected || selected.length <= 0  || readonly==true" (click)="Cancel()" *ngIf="!popUp">Anular</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
+                                [disabled]="!selected || selected.length <= 0  || readonly==true" (click)="Desasignar()" *ngIf="!popUp && tipoEmpresaId != '01'">Desasignar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button"
                                 [disabled]="!rows || rows.length <= 0" *ngIf="!popUp" (click)="Export()">Exportar</button>
                         </form>
                     </div>
@@ -185,7 +187,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column *ngIf="!popUp" name="Contrato Venta" prop="Numero" width="150">
+                            <ngx-datatable-column *ngIf="!popUp && tipoEmpresaId == '01'" name="Contrato" prop="Numero" width="150">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -196,10 +198,27 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column *ngIf="popUp" name="Contrato Venta" prop="Numero" width="150">
+                            <ngx-datatable-column *ngIf="!popUp && tipoEmpresaId != '01'" name="Contrato Venta" prop="Numero" width="150">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0"
+                                                [routerLink]="['/exportador/operaciones/contrato/update', row.ContratoId]">{{
+                                                name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Fecha de Contrato Venta" prop="FechaContratoString" width="200">
+   
+
+                           
+                           
+                            <ngx-datatable-column *ngIf="tipoEmpresaId != '01' " name="Fecha de Contrato Venta" prop="FechaContratoString" width="200">
                             </ngx-datatable-column>
+
+                            <ngx-datatable-column *ngIf="tipoEmpresaId == '01' " name="Fecha de Contrato" prop="FechaContratoString" width="200">
+                            </ngx-datatable-column>
+
                             <ngx-datatable-column  *ngIf="tipoEmpresaId == '01'"  name="Tipo Contrato" prop="TipoContrato" width="120">
                             </ngx-datatable-column>
                             <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Codigo Interno" prop="CodigoInterno" width="140">
@@ -221,9 +240,29 @@
                             <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Monto Factura Venta" prop="MontoFactura" width="140">
                             </ngx-datatable-column>
 
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Estado Pago Factura Venta" prop="EstadoPagoFactura" width="140">
+                            </ngx-datatable-column>
+
                             <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Fecha Factura Venta" prop="FechaFacturaString" width="140">
                             </ngx-datatable-column>
 
+                            
+                            
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId == '01' "  name="Nro Factura" prop="NumeroFactura" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId == '01' "  name="Moneda Factura" prop="MonedaFactura" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId == '01' "  name="Monto Factura" prop="MontoFactura" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId == '01' "  name="Estado Pago Factura" prop="EstadoPagoFactura" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId == '01' "  name="Fecha Factura" prop="FechaFacturaString" width="140">
+                            </ngx-datatable-column>
 
 
 
