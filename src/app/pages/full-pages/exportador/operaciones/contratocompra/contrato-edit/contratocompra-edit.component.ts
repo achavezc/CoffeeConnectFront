@@ -825,7 +825,7 @@ export class ContratoCompraEditComponent implements OnInit {
         this.contratoEditForm.controls.Differential2.setValue(data.Diferencial);
       if (data.PUTotalA) {
         this.precioUnitarioTotalA = data.PUTotalA;
-        this.contratoEditForm.controls.PuTotalA.setValue(data.PUTotalA.toFixed(2));
+        this.contratoEditForm.controls.PuTotalA.setValue(data.PUTotalA);
       }
       if (data.TotalFacturar1) {
         this.totalFacturar1 = data.TotalFacturar1;
@@ -835,7 +835,7 @@ export class ContratoCompraEditComponent implements OnInit {
         this.contratoEditForm.controls.CreditNoteCommission.setValue(data.NotaCreditoComision);
       if (data.PUTotalB) {
         this.precioUnitarioTotalB = data.PUTotalB;
-        this.contratoEditForm.controls.PUTotalB.setValue(data.PUTotalB.toFixed(2));
+        this.contratoEditForm.controls.PUTotalB.setValue(data.PUTotalB);
       }
       if (data.TotalFacturar2) {
         this.totalFacturar2 = data.TotalFacturar2;
@@ -845,7 +845,7 @@ export class ContratoCompraEditComponent implements OnInit {
         this.contratoEditForm.controls.ExpensesExpCosts.setValue(data.GastosExpCostos);
       if (data.PUTotalC) {
         this.precioUnitarioTotalC = data.PUTotalC;
-        this.contratoEditForm.controls.PUTotalC.setValue(data.PUTotalC.toFixed(2));
+        this.contratoEditForm.controls.PUTotalC.setValue(data.PUTotalC);
       }
       if (data.TotalFacturar3) {
         this.totalFacturar3 = data.TotalFacturar3;
@@ -916,7 +916,7 @@ export class ContratoCompraEditComponent implements OnInit {
     let differential = this.contratoEditForm.value.Differential2 ? parseFloat(this.contratoEditForm.value.Differential2) : 0;
     let putotal = priceLevel + differential;
     this.precioUnitarioTotalA = putotal;
-    this.contratoEditForm.controls.PuTotalA.setValue(putotal.toFixed(2));
+    this.contratoEditForm.controls.PuTotalA.setValue(putotal.toFixed(3));
     this.CalculatePUTotalB();
     this.CalculatePUTotalC();
     this.ChangeFacturar();
@@ -927,7 +927,7 @@ export class ContratoCompraEditComponent implements OnInit {
     let creditComission = this.contratoEditForm.value.CreditNoteCommission ? parseFloat(this.contratoEditForm.value.CreditNoteCommission) : 0;
     let putotalB = putotalA + creditComission;
     this.precioUnitarioTotalB = putotalB;
-    this.contratoEditForm.controls.PUTotalB.setValue(putotalB.toFixed(2));
+    this.contratoEditForm.controls.PUTotalB.setValue(putotalB.toFixed(3));
     this.ChangeFacturar();
   }
 
@@ -936,7 +936,7 @@ export class ContratoCompraEditComponent implements OnInit {
     let expenses = this.contratoEditForm.value.ExpensesExpCosts ? parseFloat(this.contratoEditForm.value.ExpensesExpCosts) : 0;
     let putotal = putotalB + expenses;
     this.precioUnitarioTotalC = putotal;
-    this.contratoEditForm.controls.PUTotalC.setValue(putotal.toFixed(2));
+    this.contratoEditForm.controls.PUTotalC.setValue(putotal.toFixed(3));
     this.ChangeFacturar();
   }
 
