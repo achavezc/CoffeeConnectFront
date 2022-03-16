@@ -203,12 +203,12 @@ export class AnticiposComponent implements OnInit {
   }
   
   agregarNotaIngreso(e) {
-    var request = this.getRequestAsociar(e[0].NotaCompraId);
+    var request = this.getRequestAsociar(e[0].NotaIngresoPlantaId);
     this.anticipoService.Asociar(request).subscribe((res: any) => {
       this.modalService.dismissAll();
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
-          this.alertUtil.alertOk('Asociado!', 'Adelanto Asociado.');
+          this.alertUtil.alertOk('Asociado!', 'Anticipo Asociado.');
           this.Search();
 
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
