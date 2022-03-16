@@ -275,7 +275,12 @@
 		"LiquidacionCompra":
 				{
 					"Label":"Liquidacion de Compra"
-				}
+				},
+				
+		"Anticipo":
+						{
+							"Label":"Anticipo"
+						}
 	},
 	"CONTRATO": {
 		"LIST": {

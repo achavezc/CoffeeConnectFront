@@ -5,6 +5,8 @@ import { AdelantoComponent } from '../tesoreria/adelanto/list/adelanto.component
 import { AdelantoEditComponent } from '../tesoreria/adelanto/edit/adelanto-edit.component';
 import {NotacompraListComponent} from '../tesoreria/notacompra/notacompra-list.component';
 import{NotaCompraEditComponent} from '../tesoreria/notacompra/notacompra-edit/nota-compra-edit.component';
+import {AnticiposComponent} from '../tesoreria/anticipos/list/anticipos.component';
+import {AnticiposEditComponent} from '../tesoreria/anticipos/edit/anticipos-edit.component';
 
 const routes: Routes = [
     {
@@ -23,6 +25,20 @@ const routes: Routes = [
                 component: AdelantoEditComponent,
                 data: {
                     title: 'AdelantoEdit'
+                }
+            },
+            {
+                path: 'anticipo/list',
+                component: AnticiposComponent,
+                data: {
+                    title: 'AnticiposList'
+                }
+            },
+            {
+                path: 'anticipo/edit',
+                component: AnticiposEditComponent,
+                data: {
+                    title: 'AnticiposEdit'
                 }
             },
             {

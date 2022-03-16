@@ -55,9 +55,12 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit"
                                 [disabled]="empresaProveedoraform.invalid" (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" [disabled]="readonly==true">Nuevo</button>
+                                <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
+                                (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
+                                *ngIf="popUp">Seleccionar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" *ngIf="!popUp" [disabled]="readonly==true">Nuevo</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button"
-                            [disabled]="!rows || rows.length <= 0" (click)="Exportar()">Exportar</button>
+                            [disabled]="!rows || rows.length <= 0" (click)="Exportar()" *ngIf="!popUp">Exportar</button>
                         </form>
                     </div>
                 </div>
@@ -99,7 +102,7 @@
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="false"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
                             <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="90">
-                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template *ngIf="!popUp">
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
                                             <a class="line-height-1 mb-0"
@@ -109,6 +112,8 @@
                                         </div>
                                     </div>
                                 </ng-template>
+                                <ngx-datatable-column *ngIf="popUp" name="Razon Social" prop="RazonSocial" width="60">
+                                </ngx-datatable-column>
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Ruc" prop="Ruc" width="150">
                             </ngx-datatable-column>

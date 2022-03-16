@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild,Input,Output,EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import {AuthService} from './../../../../../../services/auth.service';
 import { HeaderExcel } from './../../../../../../services/models/headerexcel.model';
 
 @Component({
-  selector: 'app-empresatransporte',
+  selector: 'app-empresaproveedora',
   templateUrl: './empresaproveedora-list.component.html',
   styleUrls: ['./empresaproveedora-list.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
@@ -44,6 +44,8 @@ export class EmpresaProveedoraListComponent implements OnInit {
   empresaProveedoraform: FormGroup;
   vSessionUser: any;
   readonly: boolean;
+  @Input() popUp = false;
+  @Output() agregarEvent = new EventEmitter<any>();
   
   ngOnInit(): void {
     this.LoadForm();
@@ -184,6 +186,10 @@ export class EmpresaProveedoraListComponent implements OnInit {
 
   Nuevo(): void {
     this.router.navigate(['/acopio/operaciones/empresaproveedora-edit']);
+  }
+
+  Agregar(selected: any) {
+    this.agregarEvent.emit(selected)
   }
 
 }

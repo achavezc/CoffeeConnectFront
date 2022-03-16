@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
-import { Router } from "@angular/router"
+import { Router,ActivatedRoute } from "@angular/router"
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from './../../../../../../services/auth.service';
 
@@ -48,6 +48,7 @@ export class NotaIngresoListComponent implements OnInit {
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
   readonly: boolean;
+  page: any;
 
   // row data
   public rows = [];
@@ -65,19 +66,21 @@ export class NotaIngresoListComponent implements OnInit {
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
-    private authService : AuthService) {
+    private authService : AuthService,
+    private route: ActivatedRoute) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
   ngOnInit(): void {
+    
     this.cargarForm();
     this.buscar();
-    this.cargarcombos();
     this.consultaNotaIngresoPlantaForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.consultaNotaIngresoPlantaForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
     this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
     this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    
   }
 
   get f() {
@@ -103,7 +106,7 @@ export class NotaIngresoListComponent implements OnInit {
     this.limitRef = limit.target.value;
   }
 
-  cargarForm() {
+  async cargarForm() {
     this.consultaNotaIngresoPlantaForm = new FormGroup(
       {
         notaIngreso: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
@@ -121,18 +124,39 @@ export class NotaIngresoListComponent implements OnInit {
         fechaGuiaRemisionFin: new FormControl('', [Validators.required,])
       });
     this.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
+
+    await this.cargarcombos()
   }
 
-  cargarcombos() {
+  async LoadFormPopup() {
+    this.page = this.route.routeConfig.data.title;
+    if (this.popUp) {
+      switch (this.page) {
+        case "AnticiposList":
+          this.selectedEstado = '02';
+          this.consultaNotaIngresoPlantaForm.controls['motivo'].disable();
+          this.selectedMotivo = "01";
+          
+          break;
+        default:
+          this.selectedEstado = '03';
+          break;
+      }
+      this.consultaNotaIngresoPlantaForm.controls['estado'].disable();
+      
+    }
+  }
+
+  async cargarcombos() {
     var form = this;
     this.maestroUtil.obtenerMaestros("ProductoPlanta", function (res) {
       if (res.Result.Success) {
         form.listaProducto = res.Result.Data;
-        if (form.popUp) {
+        /*if (form.popUp) {
           form.consultaNotaIngresoPlantaForm.controls.estado.setValue("03");
           form.consultaNotaIngresoPlantaForm.controls.estado.disable();
           form.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
-        }
+        }*/
       }
     });
     this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
@@ -146,6 +170,7 @@ export class NotaIngresoListComponent implements OnInit {
         form.listaMotivo = res.Result.Data;
       }
     });
+    await this.LoadFormPopup();
   }
 
   changeSubProducto(e) {

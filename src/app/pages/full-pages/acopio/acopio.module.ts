@@ -119,7 +119,8 @@ import { KardexComponent } from './operaciones/kardex/kardex.component';
     OrdenServicioComponent,
     OrdenServicioEditComponent,
     TagOrdenServicioComponent,
-    DetalleLoteComponent
+    DetalleLoteComponent,
+    EmpresaProveedoraListComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

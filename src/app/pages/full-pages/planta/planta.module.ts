@@ -78,7 +78,7 @@ import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproces
     LiquidacionProcesoEditComponent
   ],
   exports: [
-    PesadoCafePlantaComponent,
+    PesadoCafePlantaComponent,NotaIngresoListComponent
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

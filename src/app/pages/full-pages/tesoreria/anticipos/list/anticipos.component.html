@@ -1,0 +1,162 @@
+<div class="row" *ngIf="!popUp">
+    <div class="col-12">
+        <div class="content-header">BANDEJA DE ANTICIPOS</div>
+    </div>
+</div>
+
+<section id="tooltip-validation">
+    <ng-template #modalNotaIngreso let-c="close" let-d="dismiss">
+        <div class="modal-header" style="text-align: center;">
+
+            <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso / Ticket de Pesaje</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <app-notaingreso-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-notaingreso-list>
+        </div>
+    </ng-template>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="anticipoForm" novalidate>
+                            <div class="form-row">
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="nroRecibo" class="form-label">N° Recibo</label>
+                                    <input type="text" formControlName="nroRecibo" class="form-control" id="nroRecibo"
+                                        placeholder="Número de Recibo" name="nroRecibo"
+                                        [ngClass]="{ 'is-invalid': f.nroRecibo.invalid, 'is-valid': !f.nroRecibo.invalid }">
+                                </div>
+                            
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="fechaInicial" class="form-label">Fecha Inicial</label>
+                                    <input type="date" class="form-control" formControlName="fechaInicial" date
+                                        id="fechaInicial" name="fechaInicial" placeholder="Seleccionar fecha inicial"
+                                        [ngClass]="{ 'is-invalid': f.fechaInicial.invalid, 'is-valid': !f.fechaInicial.invalid }" />
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="fechaFinal" class="form-label">Fecha Final</label>
+                                    <input type="date" class="form-control" formControlName="fechaFinal" date
+                                        id="fechaFinal" name="fechaFinal" placeholder="Seleccionar fecha final"
+                                        [ngClass]="{ 'is-invalid': f.fechaFinal.invalid, 'is-valid': !f.fechaFinal.invalid }" />
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstado" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado"
+                                        placeholder="Seleccionar Estado"
+                                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                            
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="ruc" class="form-label">RUC</label>
+                                    <input type="text" formControlName="ruc" class="form-control"
+                                        id="ruc" placeholder="Ruc"
+                                        [ngClass]="{ 'is-invalid': f.ruc.invalid, 'is-valid': !f.ruc.invalid }">
+                                </div>
+                                <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="tipoProduccion" class="form-label">Razon Social</label>
+                                    <input type="text" formControlName="razonSocial" class="form-control"
+                                        id="razonSocial" placeholder="Razon Social"
+                                        [ngClass]="{ 'is-invalid': f.razonSocial.invalid, 'is-valid': !f.razonSocial.invalid }">
+                                </div>
+                               
+                                    <div class="col-md-3 mb-4 form-group mb-2">
+                                        <label for="numeroNotaIngreso" class="form-label">Nro Nota Ingreso</label>
+                                        <input type="text" formControlName="numeroNotaIngreso" class="form-control"
+                                            id="numeroNotaIngreso" placeholder="Nro Nota Compra"
+                                            [ngClass]="{ 'is-invalid': f.numeroNotaIngreso.invalid, 'is-valid': !f.numeroNotaIngreso.invalid }">
+                                    </div>
+                            </div>
+                            
+
+                            <small class="form-text text-muted danger mb-1"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" [disabled]="readonly == true">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
+                                (click)="anular()">Anular</button>
+
+                                <button type="submit" class="btn btn-primary mr-1 mb-1" [disabled]="selected.length==0"
+                                (click)="openModal(modalNotaIngreso)">Asociar NI</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Export()"
+                                [disabled]="!rows || rows.length <= 0">Exportar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
+                            <ngx-datatable-column name="Nro Recibo" prop="Numero" width="90">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0" routerLink="/tesoreria/anticipo/edit"
+                                                [queryParams]="{ id: row.AnticipoId}">{{
+                                                name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nota Ingreso" prop="NumeroNotaIngresoPlanta" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Ruc" prop="RucProveedor" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Razon Social" prop="RazonSocialProveedor" width="170">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Pago" prop="FechaPago" width="90">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Moneda" prop="Moneda" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Importe" prop="Monto" width="70">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado" prop="Estado" width="60">
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

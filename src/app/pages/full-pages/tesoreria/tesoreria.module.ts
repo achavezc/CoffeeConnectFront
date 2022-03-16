@@ -23,15 +23,20 @@ import { AdelantoComponent } from './adelanto/list/adelanto.component';
 import { AdelantoEditComponent } from './adelanto/edit/adelanto-edit.component';
 import { AcopioModule } from '../acopio/acopio.module';
 import { AgropecuarioModule } from '../agropecuario/agropecuario.module';
+import {PlantaModule} from '../planta/planta.module';
 import { NotaCompraEditComponent } from '../tesoreria/notacompra/notacompra-edit/nota-compra-edit.component';
 import { NotacompraListComponent } from '../tesoreria/notacompra/notacompra-list.component';
+import {AnticiposComponent} from '../tesoreria/anticipos/list/anticipos.component';
+import {AnticiposEditComponent} from '../tesoreria/anticipos/edit/anticipos-edit.component';
 
 @NgModule({
   declarations: [
     AdelantoComponent,
     AdelantoEditComponent,
     NotaCompraEditComponent,
-    NotacompraListComponent
+    NotacompraListComponent,
+    AnticiposComponent,
+    AnticiposEditComponent
     //NotacompraListComponent
   ],
   imports: [
@@ -55,7 +60,8 @@ import { NotacompraListComponent } from '../tesoreria/notacompra/notacompra-list
     TesoreriaRoutingModule,
     FileUploadModule,
     AcopioModule,
-    AgropecuarioModule
+    AgropecuarioModule,
+    PlantaModule
   ],
   exports:
   [

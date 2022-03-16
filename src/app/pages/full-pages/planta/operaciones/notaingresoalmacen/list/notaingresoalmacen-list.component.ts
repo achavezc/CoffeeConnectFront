@@ -170,7 +170,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['./operaciones/notaingresoalmacen-edit']);
+    this.router.navigate(['/planta/operaciones/notaingresoalmacen-edit']);
   }
   compareFechas() {
     var anioFechaInicio = new Date(this.notaIngresoAlmacenForm.controls['fechaInicio'].value).getFullYear()
