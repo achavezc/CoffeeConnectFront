@@ -271,12 +271,34 @@ export class ContratoComponent implements OnInit {
               new HeaderExcel("PRxFT"),
               new HeaderExcel("Gastos de Exportación"),
               new HeaderExcel("Precio Total"),
-              new HeaderExcel("Precio de Venta"),
+              new HeaderExcel("Precio de Venta")
+
+            )
+
+
+
+            if(this.tipoEmpresaId != '01'){
+              vArrHeaderExcel.push(
+                 new HeaderExcel("Precio QQ Venta"),
+                 new HeaderExcel("Precio QQ Compra"),
+                 new HeaderExcel("Utilidad Bruta"),
+                 new HeaderExcel("Gastos Exportación"),
+                 new HeaderExcel("Comisión"),
+                 new HeaderExcel("Utilidad Neta"),
+                 new HeaderExcel("Ganancia Neta")
+              )
+
+            }
+
+
+
+            vArrHeaderExcel.push(
               new HeaderExcel("Producto"),
               new HeaderExcel("Tipo de Producción"),
               new HeaderExcel("Estado", "center")
 
             )
+
            
 
             if(this.tipoEmpresaId != '01'){
@@ -337,6 +359,13 @@ export class ContratoComponent implements OnInit {
                   x.GastosExpCostos,
                   x.PUTotalC,
                   x.TotalFacturar3,
+                  x.PrecioQQVenta,
+                  x.PrecioQQCompra,
+                  x.UtilidadBruta,
+                  x.GastosExportacion,
+                  x.Comision,
+                  x.UtilidadNeta,
+                  x.GananciaNeta,
                   x.Producto,
                   x.TipoProduccion,
                   x.Estado,
