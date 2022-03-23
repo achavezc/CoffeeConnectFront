@@ -212,9 +212,7 @@ export class ContratoComponent implements OnInit {
               obj.FechaContratoString = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
               obj.FechaEmbarque = obj.FechaEmbarque == null ? "": formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
-              obj.PrecioQQVenta = obj.PrecioQQVenta.toFixed(2);
-              obj.UtilidadBruta = obj.UtilidadBruta.toFixed(2);
-              obj.UtilidadNeta = obj.UtilidadNeta.toFixed(2);
+
               obj.FechaContratoCompraString = obj.FechaContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
               obj.FechaFijacionContratoCompraString = obj.FechaFijacionContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
               obj.FechaFacturaString = obj.FechaFactura == null ? "": this.dateUtil.formatDate(obj.FechaFactura, '/');
@@ -267,13 +265,18 @@ export class ContratoComponent implements OnInit {
               new HeaderExcel("Nivel Fijación"),
               new HeaderExcel("Diferencial"),
               new HeaderExcel("Precio por QQ Total"),
+
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Precio por Libra":"Precio por QQ Total"),
+
+
               new HeaderExcel("Precio a Facturar"),
               //new HeaderExcel("Nota de Crédito/Comisión"),
               //new HeaderExcel("Precio"),
               new HeaderExcel("PRxFT"),
               new HeaderExcel("Gastos de Exportación"),
-              new HeaderExcel("Precio Total"),
-              new HeaderExcel("Precio de Venta")
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Precio Total por Libra":"Precio Total"),
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Importe Total":"Precio de Venta")
+              
 
             )
 
@@ -286,8 +289,8 @@ export class ContratoComponent implements OnInit {
                  new HeaderExcel("Utilidad Bruta"),
                  new HeaderExcel("Gastos Exportación"),
                  new HeaderExcel("Comisión"),
-                 new HeaderExcel("Utilidad Neta"),
-                 new HeaderExcel("Ganancia Neta")
+                 new HeaderExcel("Utilidad Neta QQ"),
+                 new HeaderExcel("Ganancia Neta en ($)")
               )
 
             }
@@ -318,7 +321,7 @@ export class ContratoComponent implements OnInit {
                  new HeaderExcel("Nro. Factura"),
                  new HeaderExcel("Fecha Factura"),
                  new HeaderExcel("Monto Factura"),
-                 new HeaderExcel("Fecha Entrega Producto"),
+                 new HeaderExcel("Fecha Entrega Producto")
               )
 
             }
