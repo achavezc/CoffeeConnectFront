@@ -163,9 +163,12 @@
                             <div class="form-group row">
                                 <label for="floId" class="col-lg-4 col-form-label">FLO ID</label>
                                 <div class="col-lg-8">
-                                    <input type="text" name="floId" id="floId" formControlName="floId"
-                                        class="form-control" placeholder="FLO ID" [readonly]="true"
-                                        [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }">
+                                    <ng-select [items]="listFloId" formControlName="floId"
+                                                    class="form-control" bindLabel="Certificacion" bindValue="CodigoCertificacion"
+                                                    id="floId" placeholder="FLO ID" (change)="ChangeFloId()"
+                                                    [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }"
+                                                    [(ngModel)]="selectedlistFloId">
+                                                </ng-select>
                                 </div>
                             </div>
                         </div>

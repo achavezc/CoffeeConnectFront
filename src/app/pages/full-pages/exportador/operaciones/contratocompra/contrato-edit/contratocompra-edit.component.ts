@@ -11,6 +11,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { host } from '../../../../../../shared/hosts/main.host';
 import {AuthService} from './../../../../../../services/auth.service';
 import { ContratoCompraService } from '../../../../../../services/contratocompra.service';
+import {EmpresaProveedoraService} from '../../../../../../services/empresaproveedora.service';
 
 @Component({
   selector: 'app-contratocompra-edit',
@@ -30,7 +31,8 @@ export class ContratoCompraEditComponent implements OnInit {
     private contratoService: ContratoCompraService,
     private alertUtil: AlertUtil,
     private httpClient: HttpClient,
-    private authService : AuthService) { }
+    private authService : AuthService,
+    private empresaProveedoraService: EmpresaProveedoraService) { }
 
   contratoEditForm: FormGroup;
   listCondicionEntrega = [];
@@ -103,6 +105,8 @@ export class ContratoCompraEditComponent implements OnInit {
   readonly: boolean;
   esEdit = false;
   id: Number = 0;
+  selectedlistFloId: any;
+  listFloId = [];
 
   ngOnInit(): void {
     this.route.queryParams
@@ -445,9 +449,26 @@ export class ContratoCompraEditComponent implements OnInit {
       this.contratoEditForm.controls.ruc.setValue(event[0].Ruc);
     if (event[0].RazonSocial)
       this.contratoEditForm.controls.cliente.setValue(event[0].RazonSocial);
-    if (event[0].FloId)
-      this.contratoEditForm.controls.floId.setValue(event[0].FloId);
+    this.ChangeFloId();
     this.modalService.dismissAll();
+  }
+
+  ChangeFloId()
+  {
+    
+    if (this.contratoEditForm.controls.productorId)
+    {
+      this.empresaProveedoraService.ConsultarPorId({"EmpresaProveedoraAcreedoraId": this.contratoEditForm.controls.productorId.value}).subscribe((res: any) => {
+        if (res.Result.Success) {
+          if (res.Result.Data) {
+            this.listFloId = res.Result.Data.Certificaciones;
+          } 
+        }
+      }, (err: any) => {
+        console.log(err);
+      });;
+    }
+
   }
 
   openModal(modalEmpresa: any): void {
@@ -466,7 +487,7 @@ export class ContratoCompraEditComponent implements OnInit {
       ProductorId: form.productorId ? parseInt(form.productorId) : 0,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       ContratoVentaId: form.nroContratoVenta ? form.nroContratoVenta : '',
-      FloId: form.floId ? form.floId.toString() : '',
+      FloId: this.selectedlistFloId ? this.selectedlistFloId : '',
       CondicionEntregaId: form.condicionEntrega ? form.condicionEntrega : '',
       FechaEntrega: form.fechaEntrega ? form.fechaEntrega : '',
       FechaContrato: form.fechaContrato ? form.fechaContrato : '',
@@ -657,7 +678,13 @@ export class ContratoCompraEditComponent implements OnInit {
       if (data.Numero)
         this.contratoEditForm.controls.nroContrato.setValue(data.Numero);
       if (data.ProductorId)
+      {
         this.contratoEditForm.controls.productorId.setValue(data.ProductorId);
+        this.ChangeFloId();
+        this.selectedlistFloId = data.FloId;
+      }
+
+        
       if (data.Productor)
         this.contratoEditForm.controls.cliente.setValue(data.Productor);
       if (data.RucProductor) 
