@@ -161,14 +161,14 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <div class="form-group row">
-                                <label for="floId" class="col-lg-4 col-form-label">FLO ID</label>
-                                <div class="col-lg-8">
-                                    <ng-select [items]="listFloId" formControlName="floId"
-                                                    class="form-control" bindLabel="Certificacion" bindValue="CodigoCertificacion"
-                                                    id="floId" placeholder="FLO ID" (change)="ChangeFloId()"
-                                                    [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }"
-                                                    [(ngModel)]="selectedlistFloId">
-                                                </ng-select>
+                                <label for="floId" class="col-lg-3 col-form-label">FLO ID</label>
+                                <div class="col-lg-9">
+                                                <ng-select [items]="listFloId" formControlName="floId"
+                                                class="form-control" bindLabel="Certificacion" bindValue="CodigoCertificacion"
+                                                id="floId" placeholder="Flo Id" [multiple]="true"
+                                                [ngClass]="{ 'is-invalid': f.floId.invalid, 'is-valid': !f.floId.invalid }"
+                                                [(ngModel)]="selectedlistFloId">
+                                            </ng-select>
                                 </div>
                             </div>
                         </div>

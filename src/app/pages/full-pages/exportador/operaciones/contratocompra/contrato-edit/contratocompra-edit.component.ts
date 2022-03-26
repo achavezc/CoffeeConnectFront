@@ -487,7 +487,7 @@ export class ContratoCompraEditComponent implements OnInit {
       ProductorId: form.productorId ? parseInt(form.productorId) : 0,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       ContratoVentaId: form.nroContratoVenta ? form.nroContratoVenta : '',
-      FloId: this.selectedlistFloId ? this.selectedlistFloId : '',
+      FloId: form.floId ? form.floId.join('|') : '',
       CondicionEntregaId: form.condicionEntrega ? form.condicionEntrega : '',
       FechaEntrega: form.fechaEntrega ? form.fechaEntrega : '',
       FechaContrato: form.fechaContrato ? form.fechaContrato : '',
@@ -681,7 +681,7 @@ export class ContratoCompraEditComponent implements OnInit {
       {
         this.contratoEditForm.controls.productorId.setValue(data.ProductorId);
         this.ChangeFloId();
-        this.selectedlistFloId = data.FloId;
+        this.contratoEditForm.controls.floId.setValue(data.FloId.split('|').map(String));
       }
 
         

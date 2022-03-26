@@ -234,16 +234,16 @@
                             <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Nro Factura Venta" prop="NumeroFactura" width="140">
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Moneda Factura Venta" prop="MonedaFactura" width="140">
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Moneda Factura Venta" prop="MonedaFactura" width="180">
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Monto Factura Venta" prop="MontoFactura" width="140">
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Monto Factura Venta" prop="MontoFactura" width="180">
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Estado Pago Factura Venta" prop="EstadoPagoFactura" width="140">
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Estado Pago Factura Venta" prop="EstadoPagoFactura" width="200">
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Fecha Factura Venta" prop="FechaFacturaString" width="140">
+                            <ngx-datatable-column  *ngIf="tipoEmpresaId != '01' "  name="Fecha Factura Venta" prop="FechaFacturaString" width="180">
                             </ngx-datatable-column>
 
                             
@@ -302,23 +302,33 @@
                             <ngx-datatable-column name="Precio por Libra" prop="PUTotalA" width="100" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Precio a Facturar" prop="TotalFacturar1" width="140">
+                            <ngx-datatable-column name="Importe Cliente ($)" prop="TotalFacturar1" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Comisión / NC" prop="NotaCreditoComision" width="140" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Precio LBS" prop="PUTotalB" width="140">
                             </ngx-datatable-column>
                             <!-- <ngx-datatable-column name="Nota de Crédito/Comisión" prop="NotaCreditoComision" width="200">
                             </ngx-datatable-column> -->
                             <!-- <ngx-datatable-column name="Precio" prop="PUTotalB" width="100">
                             </ngx-datatable-column> -->
-                            <ngx-datatable-column name="PRxFT" prop="TotalFacturar2" width="100">
+                            <ngx-datatable-column name="Importe Comisión ($)" prop="TotalFacturar2" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Gastos de Exportación" prop="GastosExpCostos" width="180">
+                            <ngx-datatable-column name="PRxFT" prop="TotalFacturar2" width="100" *ngIf="tipoEmpresaId == '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Gastos de Exportación" prop="GastosExpCostos" width="160">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Gastos Exportación" prop="GastosExportacion" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Precio Total" prop="PUTotalC" width="100" *ngIf="tipoEmpresaId == '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Precio Total en Libras" prop="PUTotalC" width="100" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Precio Total LBS" prop="PUTotalC" width="100" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Precio de Venta" prop="TotalFacturar3" width="140" *ngIf="tipoEmpresaId == '01' " >
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Importe Total" prop="TotalFacturar3" width="140" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Importe Total ($)" prop="TotalFacturar3" width="140" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
 
                             <ngx-datatable-column name="Precio QQ Venta" prop="PrecioQQVenta" width="180" *ngIf="tipoEmpresaId != '01' ">
@@ -327,8 +337,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Utilidad Bruta" prop="UtilidadBruta" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Gastos Exportación" prop="GastosExportacion" width="180" *ngIf="tipoEmpresaId != '01' ">
-                            </ngx-datatable-column>
+                            
                             <ngx-datatable-column name="Comisión" prop="Comision" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Utilidad Neta QQ" prop="UtilidadNeta" width="180" *ngIf="tipoEmpresaId != '01' ">
@@ -369,6 +378,20 @@
                             <ngx-datatable-column name="Tipo de Empaque" prop="TipoEmpaqueCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kg. Netos en QQ" prop="KilosNetosQQ" width="140" *ngIf="tipoEmpresaId == '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Quintales" prop="KilosNetosQQ" width="140" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nivel Fijación" prop="PrecioNivelFijacionCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Diferencial" prop="DiferencialCompra" width="140" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Precio QQ Compras" prop="PUTotalACompra" width="100" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Precio a Facturar" prop="TotalFacturar1" width="140" *ngIf="tipoEmpresaId == '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Importe ($)" prop="TotalFactura1Compra" width="140" *ngIf="tipoEmpresaId != '01' " >
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Fijación Contrato" prop="FechaFijacionContratoCompraString" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>

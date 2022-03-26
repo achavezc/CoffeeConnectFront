@@ -212,13 +212,14 @@ export class ContratoComponent implements OnInit {
               obj.FechaContratoString = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
               obj.FechaEmbarque = obj.FechaEmbarque == null ? "": formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
-
               obj.FechaContratoCompraString = obj.FechaContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
               obj.FechaFijacionContratoCompraString = obj.FechaFijacionContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
               obj.FechaFacturaString = obj.FechaFactura == null ? "": this.dateUtil.formatDate(obj.FechaFactura, '/');
               obj.FechaFacturaCompraString = obj.FechaFacturaCompra == null ? "":  this.dateUtil.formatDate(obj.FechaFacturaCompra, '/');
               obj.FechaEntregaProductoString = obj.FechaEntregaProducto == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
               obj.FechaEntregaProductoCompraString = obj.FechaEntregaProductoCompra == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProductoCompra, '/');
+              obj.PrecioQQVenta = obj.PrecioQQVenta.toFixed(2);
+              obj.PrecioQQCompra = obj.PrecioQQCompra.toFixed(2)
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
@@ -264,21 +265,27 @@ export class ContratoComponent implements OnInit {
               new HeaderExcel("Estado de Fijación"),
               new HeaderExcel("Nivel Fijación"),
               new HeaderExcel("Diferencial"),
-              new HeaderExcel("Precio por QQ Total"),
-
-              new HeaderExcel(this.tipoEmpresaId != '01'? "Precio por Libra":"Precio por QQ Total"),
-
-
-              new HeaderExcel("Precio a Facturar"),
-              //new HeaderExcel("Nota de Crédito/Comisión"),
-              //new HeaderExcel("Precio"),
-              new HeaderExcel("PRxFT"),
-              new HeaderExcel("Gastos de Exportación"),
-              new HeaderExcel(this.tipoEmpresaId != '01'? "Precio Total por Libra":"Precio Total"),
-              new HeaderExcel(this.tipoEmpresaId != '01'? "Importe Total":"Precio de Venta")
-              
 
             )
+            if(this.tipoEmpresaId == '01'){
+              vArrHeaderExcel.push(
+                new HeaderExcel("Precio por QQ Total"))
+            }
+            vArrHeaderExcel.push(
+            new HeaderExcel(this.tipoEmpresaId != '01'? "Precio por Libra":"Precio por QQ Total"),
+              new HeaderExcel(  this.tipoEmpresaId == '01'? "Precio a Facturar": "Importe cliente ($)"))
+
+            if(this.tipoEmpresaId != '01'){
+              vArrHeaderExcel.push(
+                new HeaderExcel("Comision /NC"),
+                new HeaderExcel("Precio LBS"))
+            }
+
+            vArrHeaderExcel.push(
+            new HeaderExcel(  this.tipoEmpresaId == '01'? "PRxFT": "Importe Comisión ($)"),
+              new HeaderExcel("Gastos de Exportación"),
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Precio Total por Libra":"Precio Total"),
+              new HeaderExcel(this.tipoEmpresaId != '01'? "Importe Total":"Precio de Venta"))
 
 
 
@@ -317,6 +324,13 @@ export class ContratoComponent implements OnInit {
                  new HeaderExcel("Cantidad"),
                  new HeaderExcel("Tipo de Empaque"),
                  new HeaderExcel("Kilos Netos"),
+
+                 new HeaderExcel("Quintales"),
+                 new HeaderExcel("Nivel Fijación"),
+                 new HeaderExcel("Diferencial"),
+                 new HeaderExcel("Precio QQ Compras"),
+                 new HeaderExcel("Importe ($)"),
+
                  new HeaderExcel("Fecha Fijación Contrato"),
                  new HeaderExcel("Nro. Factura"),
                  new HeaderExcel("Fecha Factura"),
@@ -359,13 +373,15 @@ export class ContratoComponent implements OnInit {
                   x.PrecioNivelFijacion,
                   x.Diferencial,
                   x.PUTotalA,
-                  x.TotalFacturar1,                 
+                  x.TotalFacturar1,
+                  x.NotaCreditoComision,
+                  x.PUTotalB,
                   x.TotalFacturar2,
                   x.GastosExpCostos,
                   x.PUTotalC,
                   x.TotalFacturar3,
-                  x.PrecioQQVenta,
-                  x.PrecioQQCompra,
+                  x.PrecioQQVenta.toFixed(2),
+                  x.PrecioQQCompra.toFixed(2),
                   x.UtilidadBruta,
                   x.GastosExportacion,
                   x.Comision,
@@ -383,6 +399,13 @@ export class ContratoComponent implements OnInit {
                   x.Cantidad,
                   x.TipoEmpaqueCompra,
                   x.KilosNetos,
+                  
+                  x.KilosNetosQQ,
+                  x.PrecioNivelFijacionCompra,
+                  x.DiferencialCompra,
+                  x.PUTotalACompra,
+                  x.TotalFactura1Compra,
+
                   x.FechaFijacionContratoCompraString,
                   x.NumeroFacturaCompra,
                   x.FechaFacturaCompraString,
@@ -419,7 +442,7 @@ export class ContratoComponent implements OnInit {
                   x.PUTotalA,
                   x.TotalFacturar1,                 
                   x.TotalFacturar2,
-                  x.GastosExpCostos,
+                  x.GastosExportacion,
                   x.PUTotalC,
                   x.TotalFacturar3,
                   x.Producto,
