@@ -212,14 +212,16 @@ export class ContratoComponent implements OnInit {
               obj.FechaContratoString = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
               obj.FechaEmbarque = obj.FechaEmbarque == null ? "": formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
+              obj.PrecioQQVenta = obj.PrecioQQVenta.toFixed(2);
+              obj.UtilidadBruta = obj.UtilidadBruta.toFixed(2);
+              obj.UtilidadNeta = obj.UtilidadNeta.toFixed(2);
               obj.FechaContratoCompraString = obj.FechaContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
               obj.FechaFijacionContratoCompraString = obj.FechaFijacionContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
               obj.FechaFacturaString = obj.FechaFactura == null ? "": this.dateUtil.formatDate(obj.FechaFactura, '/');
               obj.FechaFacturaCompraString = obj.FechaFacturaCompra == null ? "":  this.dateUtil.formatDate(obj.FechaFacturaCompra, '/');
               obj.FechaEntregaProductoString = obj.FechaEntregaProducto == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
               obj.FechaEntregaProductoCompraString = obj.FechaEntregaProductoCompra == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProductoCompra, '/');
-              obj.PrecioQQVenta = obj.PrecioQQVenta.toFixed(2);
-              obj.PrecioQQCompra = obj.PrecioQQCompra.toFixed(2)
+              obj.PrecioQQCompra = obj.PrecioQQCompra.toFixed(2);
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
@@ -264,8 +266,7 @@ export class ContratoComponent implements OnInit {
               new HeaderExcel(this.tipoEmpresaId != '01'? "Fecha Fijación Contrato Venta":"Fecha Fijación Contrato"),
               new HeaderExcel("Estado de Fijación"),
               new HeaderExcel("Nivel Fijación"),
-              new HeaderExcel("Diferencial"),
-
+              new HeaderExcel("Diferencial")
             )
             if(this.tipoEmpresaId == '01'){
               vArrHeaderExcel.push(

@@ -196,7 +196,7 @@ export class AnticiposComponent implements OnInit {
     var objId = [{ "Id": 0 }];
     objId[0].Id = idNotaCompra;
     return {
-      AnticipoId: this.selected[0].Anticipo,
+      AnticipoId: this.selected[0].AnticipoId,
       Usuario: this.userSession.Result.Data.NombreUsuario,
       NotasIngresoPlantaId: objId
     };
