@@ -278,7 +278,7 @@ export class KardexProcesoComponent implements OnInit {
                   vArrData.push([
                     res.Result.Data[i].FechaIngreso,
                     res.Result.Data[i].TipoDocumentoInterno,
-                    res.Result.Data[i].Numero,
+                    res.Result.Data[i].NumeroComprobanteInterno,
                     res.Result.Data[i].PlantaProcesoAlmacen,
                     res.Result.Data[i].TipoOperacion,
                     res.Result.Data[i].NumeroGuiaRemision,
