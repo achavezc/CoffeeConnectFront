@@ -92,6 +92,7 @@ export class ContratoCompraEditComponent implements OnInit {
   fechaRegistro: any;
   reqAsignacionContratoAcopio;
   estadoContrato: string;
+  estadoId: string;
   pesoNetoKilos;
   kilosNetosQQ_A;
   kilosNetosLB_B;
@@ -118,6 +119,7 @@ export class ContratoCompraEditComponent implements OnInit {
       }
 
     });
+   
 
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
@@ -556,11 +558,15 @@ export class ContratoCompraEditComponent implements OnInit {
       const form = this;
       if (this.esEdit && this.vId != 0) {
 
+        if (this.estadoId == "03")
+          this.getValidacion();
+          else{
         this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la modificación del contrato?.`, function (result) {
           if (result.isConfirmed) {
             form.Update();
           }
         });
+      }
 
       } else {
 
@@ -652,6 +658,13 @@ export class ContratoCompraEditComponent implements OnInit {
       });
   }
 
+  getValidacion()
+  {
+    this.alertUtil.alertWarning("Oops...!", "No se puede actualizar la Nota de Compra en el estado Asignado")
+   
+    
+  }
+
   SearchById(): void {
     this.spinner.show();
     this.contratoService.SearchById({ ContratoCompraId: this.vId })
@@ -683,7 +696,6 @@ export class ContratoCompraEditComponent implements OnInit {
         this.ChangeFloId();
         this.contratoEditForm.controls.floId.setValue(data.FloId.split('|').map(String));
       }
-
         
       if (data.Productor)
         this.contratoEditForm.controls.cliente.setValue(data.Productor);
@@ -799,6 +811,7 @@ export class ContratoCompraEditComponent implements OnInit {
       if (data.EstadoId) {
         this.contratoEditForm.controls.estado.setValue(data.EstadoId);
         this.reqAsignacionContratoAcopio.estadoContratoId = data.EstadoId;
+        this.estadoId = data.EstadoId;
       }
       this.contratoEditForm.controls.fileName.setValue(data.NombreArchivo);
       this.contratoEditForm.controls.pathFile.setValue(data.PathArchivo);
@@ -870,6 +883,9 @@ export class ContratoCompraEditComponent implements OnInit {
       }
       if (data.GastosExpCostos)
         this.contratoEditForm.controls.ExpensesExpCosts.setValue(data.GastosExpCostos);
+        else
+        this.contratoEditForm.controls.ExpensesExpCosts.setValue(0);
+
       if (data.PUTotalC) {
         this.precioUnitarioTotalC = data.PUTotalC;
         this.contratoEditForm.controls.PUTotalC.setValue(data.PUTotalC);
@@ -922,8 +938,8 @@ export class ContratoCompraEditComponent implements OnInit {
     let totalbags = this.contratoEditForm.value.totalSacos69Kg ? parseFloat(this.contratoEditForm.value.totalSacos69Kg) : 0;
     let sackweight = this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0;
     let netweightkilos = totalbags * sackweight;
-    let netkilosQQ = netweightkilos / 46;
-    let netkilosLB = netweightkilos * 2.20462;
+    let netkilosQQ = Number ((netweightkilos / 46).toFixed(2));
+    let netkilosLB = Number ((netweightkilos * 2.20462).toFixed(2));
     if (netkilosLB > 0) {
       netkilosLB = parseFloat(netkilosLB.toFixed(2));
     }
@@ -931,10 +947,10 @@ export class ContratoCompraEditComponent implements OnInit {
     this.kilosNetosLB_B = netkilosLB;
     this.kilosNetosQQ_A = netkilosQQ;
     this.reqAsignacionContratoAcopio.pesoNetoQQ = netkilosQQ;
-    this.pesoNetoKilos = netweightkilos;
-    this.contratoEditForm.controls.pesoKilos.setValue(netweightkilos.toFixed(2));
-    this.contratoEditForm.controls.NetKilosQQ.setValue(netkilosQQ.toFixed(2));
-    this.contratoEditForm.controls.NetKilosLB.setValue(netkilosLB.toFixed(2));
+    //this.pesoNetoKilos = netweightkilos;
+   // this.contratoEditForm.controls.pesoKilos.setValue(netweightkilos.toFixed(2));
+    this.contratoEditForm.controls.NetKilosQQ.setValue(netkilosQQ);
+    this.contratoEditForm.controls.NetKilosLB.setValue(netkilosLB);
     this.ChangeFacturar();
   }
 

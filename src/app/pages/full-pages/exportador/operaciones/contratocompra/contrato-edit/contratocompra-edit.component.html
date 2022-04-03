@@ -595,7 +595,7 @@
                                         <div class="col-lg-6">
                                             <input type="number" name="pesoKilos" id="pesoKilos"
                                                 formControlName="pesoKilos" class="form-control text-right"
-                                                placeholder="Peso" [readonly]="true"
+                                                placeholder="Peso"  (blur)="CalculateNetWeightKilos()"
                                                 [ngClass]="{ 'is-invalid': f.pesoKilos.invalid, 'is-valid': !f.pesoKilos.invalid }">
                                         </div>
                                     </div>

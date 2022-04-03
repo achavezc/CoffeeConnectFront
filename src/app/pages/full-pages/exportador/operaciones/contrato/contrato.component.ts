@@ -227,7 +227,6 @@ export class ContratoComponent implements OnInit {
             this.tempData = this.rows;
           } else 
           {
-            debugger
             const vArrHeaderExcel = [
               
               new HeaderExcel(this.tipoEmpresaId != '01'? "Contrato Venta":"Contrato", "center"),
@@ -381,8 +380,8 @@ export class ContratoComponent implements OnInit {
                   x.GastosExpCostos,
                   x.PUTotalC,
                   x.TotalFacturar3,
-                  x.PrecioQQVenta.toFixed(2),
-                  x.PrecioQQCompra.toFixed(2),
+                  (Number(x.PrecioQQVenta)).toFixed(2),
+                  (Number(x.PrecioQQCompra)).toFixed(2),
                   x.UtilidadBruta,
                   x.GastosExportacion,
                   x.Comision,
