@@ -592,7 +592,13 @@
                                     <div class="form-group row">
                                         <label for="pesoKilos" class="col-lg-6 col-form-label">PESO NETO EN
                                             KILOS</label>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6" *ngIf="tipoEmpresaId == '01'">
+                                            <input type="number" name="pesoKilos" id="pesoKilos"
+                                                formControlName="pesoKilos" class="form-control text-right"
+                                                placeholder="Peso"  readonly = "true"
+                                                [ngClass]="{ 'is-invalid': f.pesoKilos.invalid, 'is-valid': !f.pesoKilos.invalid }">
+                                        </div>
+                                        <div class="col-lg-6" *ngIf="tipoEmpresaId != '01'">
                                             <input type="number" name="pesoKilos" id="pesoKilos"
                                                 formControlName="pesoKilos" class="form-control text-right"
                                                 placeholder="Peso"  (blur)="CalculateNetWeightKilos()"

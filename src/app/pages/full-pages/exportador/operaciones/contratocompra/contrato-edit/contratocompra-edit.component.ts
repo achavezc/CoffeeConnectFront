@@ -937,18 +937,29 @@ export class ContratoCompraEditComponent implements OnInit {
   CalculateNetWeightKilos() {
     let totalbags = this.contratoEditForm.value.totalSacos69Kg ? parseFloat(this.contratoEditForm.value.totalSacos69Kg) : 0;
     let sackweight = this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0;
-    let netweightkilos = totalbags * sackweight;
-    let netkilosQQ = Number ((netweightkilos / 46).toFixed(2));
-    let netkilosLB = Number ((netweightkilos * 2.20462).toFixed(2));
-    if (netkilosLB > 0) {
-      netkilosLB = parseFloat(netkilosLB.toFixed(2));
+    let netweightkilos= 0;
+    if ( this.vSessionUser.Result.Data.EmpresaId == '01' ){
+    netweightkilos = totalbags * sackweight;
     }
+    else
+    {
+      netweightkilos = this.contratoEditForm.value.pesoKilos ? parseFloat(this.contratoEditForm.value.pesoKilos) : 0;
+    }
+
+    var netkilosQQ = (netweightkilos / 46).toFixed(2);
+    var netkilosLB = (netweightkilos * 2.20462).toFixed(2);
+    if (Number (netkilosLB) > 0) {
+      netkilosLB = netkilosLB;
+      }
     this.reqAsignacionContratoAcopio.pesoNetoKGOro = netweightkilos;
     this.kilosNetosLB_B = netkilosLB;
     this.kilosNetosQQ_A = netkilosQQ;
     this.reqAsignacionContratoAcopio.pesoNetoQQ = netkilosQQ;
-    //this.pesoNetoKilos = netweightkilos;
-   // this.contratoEditForm.controls.pesoKilos.setValue(netweightkilos.toFixed(2));
+
+    if ( this.vSessionUser.Result.Data.EmpresaId == '01' ){
+    this.pesoNetoKilos = netweightkilos;
+    this.contratoEditForm.controls.pesoKilos.setValue(netweightkilos.toFixed(2));
+    }
     this.contratoEditForm.controls.NetKilosQQ.setValue(netkilosQQ);
     this.contratoEditForm.controls.NetKilosLB.setValue(netkilosLB);
     this.ChangeFacturar();
