@@ -1,0 +1,233 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">Bandeja de Registro Kardex Planta</div>
+    </div>
+</div>
+
+<section id="tooltip-validation">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="needs-validation" [formGroup]="kardexProcesoForm">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="nroContrato" class="form-label">Número de Contrato</label>
+                                    <input type="text" minlength="5" maxlength="50" formControlName="nroContrato"
+                                        class="form-control" id="nroContrato" placeholder="Número de Contrato"
+                                        [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroContrato.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroContrato.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="f.nroContrato.errors?.pattern">Solo
+                                        letras y números</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-4">
+                                   
+                                        <label for="cliente">Cliente</label>
+                                        <ng-select id="validationTooltip05" [items]="listaCliente" class="form-control"
+                                            [(ngModel)]="selectedCliente" formControlName="cliente" bindLabel="Label"
+                                            bindValue="Codigo" placeholder="Seleccionar Cliente"
+                                            [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
+                                        </ng-select>
+                                        
+                                </div>
+                                <div class="col-md-3 mb-3 form-group mb-3">
+                                    <label for="plantaProceso" class="form-label">Planta Proceso / Almacén</label>
+                                    <ng-select [items]="listPlantaProceso" formControlName="plantaProceso"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo"
+                                        id="plantaProceso" placeholder="Planta Proceso / Almacén"
+                                        [ngClass]="{ 'is-invalid': f.plantaProceso.invalid, 'is-valid': !f.plantaProceso.invalid }"
+                                        [(ngModel)]="selectedPlantaProceso">
+                                    </ng-select>
+                                </div>
+                            </div>
+                           <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaInicio" class="form-label">Fecha Registro Inicial</label>
+                                    <input type="date" class="form-control" formControlName="fechaInicio"
+                                        id="fechaInicio" name="fechaInicio" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': f.fechaInicio.invalid, 'is-valid':  !f.fechaInicio.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="fechaFin" class="form-label">Fecha Registro Final </label>
+                                    <input type="date" class="form-control" formControlName="fechaFin" id="fechaFin"
+                                        name="fechaFin" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid':  f.fechaFin.invalid, 'is-valid': !f.fechaFin.invalid }"
+                                        (blur)="compareTwoDates()" />
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="tipoDocumentoInterno" class="form-label">Tipo Documento Interno</label>
+                                    <ng-select [items]="listTipoDocumentoInterno" formControlName="tipoDocumentoInterno" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="tipoDocumentoInterno" placeholder="Tipo Documento Interno"
+                                        [ngClass]="{ 'is-invalid': f.tipoDocumentoInterno.invalid, 'is-valid': !f.tipoDocumentoInterno.invalid }"
+                                        [(ngModel)]="selectedTipoDocumentoInterno">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="tipoOperacion" class="form-label">Tipo Operación</label>
+                                    <ng-select [items]="listTipoOperacion" formControlName="tipoOperacion" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="tipoOperacion" placeholder="Tipo Operación"
+                                        [ngClass]="{ 'is-invalid': f.tipoOperacion.invalid, 'is-valid': !f.tipoOperacion.invalid }"
+                                        [(ngModel)]="selectedTipoOperacion">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="calidad" class="form-label">Calidad</label>
+                                    <ng-select [items]="listCalidad" formControlName="calidad" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="calidad" placeholder="Calidad"
+                                        [ngClass]="{ 'is-invalid': f.calidad.invalid, 'is-valid': !f.calidad.invalid }"
+                                        [(ngModel)]="selectedCalidad">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstados" formControlName="estado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="estado" placeholder="Estado"
+                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid':  !f.estado.invalid }"
+                                        [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="certificado" class="form-label">Certificado</label>
+                                    <ng-select [items]="listCertificado" formControlName="certificado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="certificado" placeholder="Certificado"
+                                        [ngClass]="{ 'is-invalid': f.certificado.invalid, 'is-valid': !f.certificado.invalid }"
+                                        [(ngModel)]="selectedCertificado">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="certificado" class="form-label">Tipo Registro</label>
+                                    <ng-select [items]="listCertificado" formControlName="certificado" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="certificado" placeholder="Tipo Registro"
+                                        [ngClass]="{ 'is-invalid': f.certificado.invalid, 'is-valid': !f.certificado.invalid }"
+                                        [(ngModel)]="selectedCertificado">
+                                    </ng-select>
+                                </div>
+                            </div> 
+
+                           <small class="form-text text-muted danger mb-1"
+                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="!kardexProcesoForm.valid"
+                                (click)="Buscar()">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" [disabled]="readonly==true">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Exportar()"
+                                [disabled]="!rows.length">Exportar</button>
+                                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
+                                (click)="anular()">Anular</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <fieldset class="form-group">
+                            <label>Show
+                                <select name="users-list-select"
+                                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                    (click)="updateLimit($event)">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries</label>
+                            <label for="ngx-filter-ref" class="float-right">Search:
+                                <input id="ngx-filter-ref"
+                                    class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                    (keyup)="filterUpdate($event)" />
+                            </label>
+                        </fieldset>
+                        <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
+                            <ngx-datatable-column name="Numero" prop="Numero" width="100">
+                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <a class="line-height-1 mb-0" routerLink="/exportador/operaciones/kardexProcesoEdit"
+                                                [queryParams]="{ id: row.KardexProcesoId}">{{ name }}</a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Registro" prop="FechaIngreso" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo Doc. Interno" prop="TipoDocumentoInterno" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro Comprobante Interno" prop="NumeroComprobanteInterno" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Planta Proceso/Almacen" prop="PlantaProcesoAlmacen" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo de Operación" prop="TipoOperacion" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Guia Remisión" prop="NumeroGuiaRemision" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Cliente" prop="Cliente" width="200">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Contrato" prop="NumeroContrato" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Certificado" prop="TipoCertificacion" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Calidad" prop="Calidad" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Fecha Factura" prop="FechaFactura" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Factura" prop="NumeroFactura" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro Sacos Ingresados" prop="CantidadSacosIngresados" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kg. Ingresados" prop="KilosIngresados" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="QQ Ingresados" prop="QQIngresados" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Precio Unitario CP" prop="PrecioUnitarioCP" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Total CP" prop="TotalCP" width="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Nro. Sacos Despachados" prop="CantidadSacosDespachados" width="180">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Kg. Despachados" prop="KilosDespachados" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="QQ Despachados" prop="QQDespachados" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Precio Unitario Venta" prop="PrecioUnitarioVenta" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Total Venta" prop="TotalVenta" width="120">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Saldos en Kg." prop="SaldosKg" width="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Saldos en QQ" prop="SaldosQq" width="150">
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
