@@ -35,7 +35,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimiento/preciodia-rendimiento.component';
 import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendimiento/edit/precio-dia-rendimiento-edit.component';
 import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
-import {KardexPlantaComponent} from './operaciones/kardexplanta/kardex-planta.component';
+import {KardexPergaminoComponent} from './operaciones/kardexpergamino/kardex-pergamino.component';
 import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
 import { ContratoCompraComponent } from './operaciones/contratocompra/contratocompra.component';
 import { ContratoCompraEditComponent } from './operaciones/contratocompra/contrato-edit/contratocompra-edit.component';
@@ -58,7 +58,7 @@ import { ContratoCompraEditComponent } from './operaciones/contratocompra/contra
     PreciodiaRendimientoComponent,
     PrecioDiaRendimientoEditComponent,
     KardexProcesoComponent,
-    KardexPlantaComponent,
+    KardexPergaminoComponent,
     KardexProcesoEditComponent,
     ContratoCompraComponent,
     ContratoCompraEditComponent

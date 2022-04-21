@@ -14,12 +14,12 @@ import swal from 'sweetalert2';
 import {AuthService} from './../../../../../services/auth.service';
 
 @Component({
-  selector: 'app-kardex-planta',
-  templateUrl: './kardex-planta.component.html',
-  styleUrls: ['./kardex-planta.component.scss', '/assets/sass/libs/datatables.scss'],
+  selector: 'app-kardex-pergamino',
+  templateUrl: './kardex-pergamino.component.html',
+  styleUrls: ['./kardex-pergamino.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class KardexPlantaComponent implements OnInit {
+export class KardexPergaminoComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private maestroUtil: MaestroUtil,
