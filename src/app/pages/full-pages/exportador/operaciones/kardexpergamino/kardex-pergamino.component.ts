@@ -332,7 +332,7 @@ export class KardexPergaminoComponent implements OnInit {
   }
 
   nuevo() {
-    this.router.navigate(['/exportador/operaciones/kardexProcesoEdit']);
+    this.router.navigate(['/exportador/operaciones/KardexPergaminoEdit']);
   }
 
   GetDataModalClientes(event: any): void {

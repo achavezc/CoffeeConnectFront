@@ -220,6 +220,9 @@
 		},
 		"KardexProceso": {
 			"Label": "Kardex Proceso"
+		},
+		"KardexPergamino": {
+			"Label": "Kardex Pergamino"
 		}
 	},
 	"Exportador": {

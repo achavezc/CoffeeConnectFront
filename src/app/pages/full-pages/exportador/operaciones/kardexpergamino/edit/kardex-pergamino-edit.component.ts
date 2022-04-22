@@ -7,7 +7,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import{KardexProcesoService} from '../../../../../../services/kardex-proceso.service'
+import { KardexPlantaService } from '../../../../../../services/kardex-planta.service';
 import { ILogin } from '../../../../../../services/models/login';
 import { formatDate } from '@angular/common';
 import {AuthService} from '../../../../../../services/auth.service';
@@ -24,7 +24,7 @@ export class KardexPergaminoEditComponent implements OnInit {
     private modalService: NgbModal,
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
-    private kardexProcesoService: KardexProcesoService,
+    private kardexPlantaService: KardexPlantaService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
@@ -218,7 +218,7 @@ export class KardexPergaminoEditComponent implements OnInit {
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
     
-    this.kardexProcesoService.Registrar(request).subscribe((res: any) => {
+    this.kardexPlantaService.Registrar(request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se registro exitosamente.', () => {
@@ -238,7 +238,7 @@ export class KardexPergaminoEditComponent implements OnInit {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
-    this.kardexProcesoService.Actualizar(request).subscribe((res: any) => {
+    this.kardexPlantaService.Actualizar(request).subscribe((res: any) => {
       this.spinner.hide();
       if (res.Result.Success) {
         this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se actualizo exitosamente.', () => {
@@ -259,7 +259,7 @@ export class KardexPergaminoEditComponent implements OnInit {
   SearchByid(): void {
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
-    this.kardexProcesoService.ConsultarPorId(this.id).subscribe((res) => {
+    this.kardexPlantaService.ConsultarPorId(this.id).subscribe((res) => {
       if (res.Result.Success) {
         this.AutocompleteFormEdit(res.Result.Data);
       } else {
