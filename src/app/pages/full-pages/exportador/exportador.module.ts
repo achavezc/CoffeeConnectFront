@@ -36,6 +36,7 @@ import { PreciodiaRendimientoComponent } from './operaciones/preciodia-rendimien
 import { PrecioDiaRendimientoEditComponent } from './operaciones/preciodia-rendimiento/edit/precio-dia-rendimiento-edit.component';
 import {KardexProcesoComponent} from './operaciones/kardexproceso/kardex-proceso.component';
 import {KardexPergaminoComponent} from './operaciones/kardexpergamino/kardex-pergamino.component';
+import { KardexPergaminoEditComponent } from "./operaciones/kardexpergamino/edit/kardex-pergamino-edit.component";
 import {KardexProcesoEditComponent} from './operaciones/kardexproceso/edit/kardex-proceso-edit.component';
 import { ContratoCompraComponent } from './operaciones/contratocompra/contratocompra.component';
 import { ContratoCompraEditComponent } from './operaciones/contratocompra/contrato-edit/contratocompra-edit.component';
@@ -59,6 +60,7 @@ import { ContratoCompraEditComponent } from './operaciones/contratocompra/contra
     PrecioDiaRendimientoEditComponent,
     KardexProcesoComponent,
     KardexPergaminoComponent,
+    KardexPergaminoEditComponent,
     KardexProcesoEditComponent,
     ContratoCompraComponent,
     ContratoCompraEditComponent

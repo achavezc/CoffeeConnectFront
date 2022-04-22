@@ -1,0 +1,255 @@
+<form class="needs-validation" [formGroup]="kardexProcesoEditForm">
+    <section id="tooltip-validation">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+
+                <div class="card-header">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                      <div class="card-title-empresa">{{userSession.Result.Data.RazonSocialEmpresa}}</div>
+                      <div class="card-subtitle-empresa">{{userSession.Result.Data.DireccionEmpresa}}</div>
+                      <div class="card-subtitle-empresa">RUC: {{userSession.Result.Data.RucEmpresa}}</div>
+                    </div>
+                    <div class="col-12 col-md-4">
+      
+                      <div class="form-row">
+      
+                        <div class="col-md-6 form-group" *ngIf="esEdit">
+                          <label class="card-forms" for="users-edit-name">N° KARDEX PROCESO</label>
+                        </div>
+      
+                        <div class="col-md-6 form-group">
+                          <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{numero}}</label>
+                        </div>
+                      </div>
+                      <div class="form-row">
+      
+                        <div class="col-md-6 form-group" *ngIf="esEdit">
+                          <label class="card-forms" for="users-edit-email">FECHA</label>
+                        </div>
+                        <div class="col-md-6 form-group">
+                          <label class="card-forms" for="users-edit-username"
+                            style="font-weight: bold;">{{fechaRegistro}}</label>
+                        </div>
+                      </div>
+                      <div class="form-row">
+      
+                        <div class="col-md-6 form-group" *ngIf="esEdit">
+                          <label class="card-forms" for="users-edit-name">Estado</label>
+                        </div>
+      
+                        <div class="col-md-6 form-group">
+                          <label class="card-forms" for="users-edit-username" style="font-weight: bold;">{{estado}}</label>
+                        </div>
+                      </div>
+      
+                    </div>
+      
+                  </div>
+                </div>
+            
+                <h5 class="card-subtitle-1">KARDEX PROCESO Y PERGAMINO
+                </h5>
+                <div class="card-body">
+
+                    <div class="card-subtitle-2">
+                        <label>DATOS GENERALES</label>
+                    </div>
+
+                    <div class="form-row" style="margin-left: 0.5rem;">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label>Fecha Registro</label>
+                            <input type="date" date name="fecha" id="fecha" formControlName="fechaRegistro" class="form-control"
+                                placeholder="Fecha" [ngClass]="{ 'is-invalid': f.fechaRegistro.invalid, 'is-valid': !f.plantaProceso.invalid }">
+                            <label>Planta Proceso/Almacen</label>
+                            <ng-select id="validationTooltip05" [items]="listaPlantaProceso" class="form-control"
+                                [(ngModel)]="selectedPlantaProceso" formControlName="plantaProceso" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar Planta Proceso/Almacen"
+                                [ngClass]="{ 'is-invalid': f.plantaProceso.invalid, 'is-valid': !f.plantaProceso.invalid }">
+                            </ng-select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label for="nroContrato">Tipo Documento Interno</label>
+                            <ng-select id="validationTooltip05" [items]="listaTipoDocumento" class="form-control"
+                                [(ngModel)]="selectedTipoDocumento" formControlName="tipoDocumento" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar Tipo Documento"
+                                [ngClass]="{ 'is-invalid': f.tipoDocumento.invalid, 'is-valid':!f.tipoDocumento.invalid }">
+                            </ng-select>
+                            <label for="nroContrato">Tipo Operación</label>
+                            <ng-select id="validationTooltip05" [items]="listaTipoOperacion" class="form-control"
+                                [(ngModel)]="selectedTipoOperacion" formControlName="tipoOperacion" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar Tipo Operación"
+                                [ngClass]="{ 'is-invalid': f.tipoOperacion.invalid, 'is-valid':!f.tipoOperacion.invalid }">
+                            </ng-select>
+                            <label for="nroContrato">Tipo Registro</label>
+                            <ng-select id="validationTooltip05" [items]="listaTipoOperacion" class="form-control"
+                                [(ngModel)]="selectedTipoOperacion" formControlName="tipoOperacion" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar Tipo Operación"
+                                [ngClass]="{ 'is-invalid': f.tipoOperacion.invalid, 'is-valid':!f.tipoOperacion.invalid }">
+                            </ng-select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label for="nroComprobanteInterno">Nro. Comprobante Interno</label>
+                            <input type="text" formControlName="nroComprobanteInterno"
+                                class="form-control" placeholder="Número Comprobante Interno"
+                                [ngClass]="{ 'is-invalid': f.nroComprobanteInterno.invalid, 'is-valid': !f.nroComprobanteInterno.invalid }">
+
+                                <label for="nroGuiaRemision">Nro Guia Remision</label>
+                                <input type="text" formControlName="nroGuiaRemision"
+                                    class="form-control" placeholder="Número de Guia de Remisión" 
+                                    [ngClass]="{ 'is-invalid': f.nroGuiaRemision.invalid, 'is-valid': !f.nroGuiaRemision.invalid }">
+                        </div>
+                    </div>
+
+                    <div class="card-subtitle-2" style="margin-top: 2rem;">
+                        <label>DETALLE REGISTRO</label>
+                    </div>
+
+                    <div class="form-row" style="margin-left: 0.5rem;" >
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label for="nroContrato"> N° CONTRATO</label>
+
+                            <input type="text" formControlName="nroContrato"
+                                class="form-control" placeholder="Número de contrato"
+                                [ngClass]="{ 'is-invalid': f.nroContrato.invalid, 'is-valid': !f.nroContrato.invalid }">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                        <label for="cliente">Cliente</label>
+                        <ng-select id="validationTooltip05" [items]="listaCliente" class="form-control"
+                            [(ngModel)]="selectedCliente" formControlName="cliente" bindLabel="Label"
+                            bindValue="Codigo" placeholder="Seleccionar Cliente"
+                            [ngClass]="{ 'is-invalid': f.cliente.invalid, 'is-valid': !f.cliente.invalid }">
+                        </ng-select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                        <label for="nroContrato">Certificado</label>
+                            <ng-select id="validationTooltip05" [items]="listaCertificado" class="form-control"
+                                [(ngModel)]="selectedCertificado" formControlName="certificado" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar Certificado"
+                                [ngClass]="{ 'is-invalid': f.certificado.invalid, 'is-valid': !f.certificado.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="margin-left: 0.5rem;">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            
+                            <label for="calidad">Calidad</label>
+                            <ng-select id="validationTooltip05" [items]="listaCalidad" class="form-control"
+                                [(ngModel)]="selectedCalidad" formControlName="calidad" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar Calidad"
+                                [ngClass]="{ 'is-invalid': f.calidad.invalid, 'is-valid': !f.calidad.invalid }">
+                            </ng-select>
+                            <label for="fecha">FECHA FACTURA</label>
+                            <input type="date" date name="fechaFactura" id="fecha" formControlName="fechaFactura" class="form-control"
+                                placeholder="Fecha Factura" [ngClass]="{ 'is-invalid': f.fechaFactura.invalid, 'is-valid': !f.fechaFactura.invalid }">
+                            
+                            <label for="nroFactura">Nro. Factura</label>
+                            <input type="text" name="nroFactura" id="nroFactura" formControlName="nroFactura"
+                                class="form-control" placeholder="Número de Factura" 
+                                [ngClass]="{ 'is-invalid': f.nroFactura.invalid, 'is-valid': !f.nroFactura.invalid }">
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label for="nroSacosIngresados">Nro. Sacos Ingresados</label>
+                            <input type="number" name="nroSacosIngresados" id="nroSacosIngresados" formControlName="nroSacosIngresados"
+                                class="form-control" placeholder="Número de contrato" 
+                                [ngClass]="{ 'is-invalid': f.nroSacosIngresados.invalid, 'is-valid': !f.nroSacosIngresados.invalid }" disabled>
+                            <label for="kgIngresados">Kg. Ingresados</label>
+
+                            <input type="number" name="kgIngresados" id="kgIngresados" formControlName="kgIngresados"
+                                class="form-control" placeholder="Kg. Ingresados" (input)="calcularKgIngresados()"
+                                [ngClass]="{ 'is-invalid': f.kgIngresados.invalid, 'is-valid': !f.kgIngresados.invalid }">                            
+
+                            <label for="qqIngresados">QQ. Ingresados</label>
+                            <input type="number" name="qqIngresados" id="qqIngresados" formControlName="qqIngresados"
+                                class="form-control" placeholder="QQ. Ingresados"
+                                [ngClass]="{ 'is-invalid': f.qqIngresados.invalid, 'is-valid': !f.qqIngresados.invalid }" disabled>
+
+                            <label for="precioUnitarioCp">Precio Unitario CP</label>
+                            <input type="number" name="precioUnitarioCp" id="precioUnitarioCp" formControlName="precioUnitarioCp"
+                                class="form-control" placeholder="Precio Unitario CP" 
+                                [ngClass]="{ 'is-invalid': f.precioUnitarioCp.invalid, 'is-valid': !f.precioUnitarioCp.invalid }">
+
+                            <label for="totalCp">Total CP</label>
+                            <input type="number" name="totalCp" id="totalCp" formControlName="totalCp"
+                                class="form-control" placeholder="Total CP" 
+                                [ngClass]="{ 'is-invalid': f.totalCp.invalid, 'is-valid': !f.totalCp.invalid }">
+
+                                <label for="totalCp">Saldo Kilos</label>
+                                <input type="number" name="saldosKg" id="saldosKg" formControlName="saldosKg"
+                                    class="form-control" placeholder="Saldos Kilos" 
+                                    [ngClass]="{ 'is-invalid': f.saldosKg.invalid, 'is-valid': !f.saldosKg.invalid }" disabled>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label for="nroSacosDespachados">Nro. Sacos Despachados</label>
+                            <input type="number" name="nroSacosDespachados" id="nroSacosDespachados" formControlName="nroSacosDespachados"
+                                class="form-control" placeholder="Nro. Sacos Despachados" 
+                                [ngClass]="{ 'is-invalid': f.nroSacosDespachados.invalid, 'is-valid': !f.nroSacosDespachados.invalid }" disabled>
+
+                                <label for="kgDespachados">Kg. Despachados</label>
+                                <input type="number" name="kgDespachados" id="kgDespachados" formControlName="kgDespachados"
+                                    class="form-control" placeholder="Kg. Despachados"  (input)="calcularKgDespachados()"
+                                    [ngClass]="{ 'is-invalid': f.kgDespachados.invalid, 'is-valid': !f.kgDespachados.invalid }">
+
+                                    <label for="qqDespachados">QQ. Despachados</label>
+                                <input type="number" name="qqDespachados" id="qqDespachados" formControlName="qqDespachados"
+                                    class="form-control" placeholder="QQ. Despachados"
+                                    [ngClass]="{ 'is-invalid': f.qqDespachados.invalid, 'is-valid': !f.qqDespachados.invalid }" disabled>
+
+                                    <label for="precioUnitario">Precio Unitario Venta</label>
+                                <input type="number" name="precioUnitario" id="precioUnitario" formControlName="precioUnitario"
+                                    class="form-control" placeholder="Precio Unitario Venta" 
+                                    [ngClass]="{ 'is-invalid': f.precioUnitario.invalid, 'is-valid': !f.precioUnitario.invalid }">
+
+                                <label for="totalVenta">Total Venta</label>
+                                <input type="number" name="totalVenta" id="totalVenta" formControlName="totalVenta"
+                                    class="form-control" placeholder="Total Venta" 
+                                    [ngClass]="{ 'is-invalid': f.totalVenta.invalid, 'is-valid': !f.totalVenta.invalid }">
+
+                                    <label for="totalCp">Saldo Qq</label>
+                                    <input type="number" name="saldosQq" id="saldosQq" formControlName="saldosQq"
+                                        class="form-control" placeholder="Saldos Qq" 
+                                        [ngClass]="{ 'is-invalid': f.saldosQq.invalid, 'is-valid': !f.saldosQq.invalid }" disabled>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="form-row">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                <label for="responsableComercial" >Responsable</label>
+                        </div>
+                        <div class="col-lg-4">
+                            {{responsable}}
+                        </div>
+                        
+                    </div>
+                  
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <small class="form-text text-muted danger mb-1"
+                                        *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    <button type="button" class="btn btn-primary mr-1" (click)="Save()"  [disabled]="readonly==true">Guardar</button>
+                                    <button type="button" class="btn btn-danger" (click)="Cancel()">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</form>
+<div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+</div>
