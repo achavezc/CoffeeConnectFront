@@ -109,11 +109,11 @@
                                     </ng-select>
                                 </div>
                                 <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="certificado" class="form-label">Tipo Registro</label>
-                                    <ng-select [items]="listCertificado" formControlName="certificado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="certificado" placeholder="Tipo Registro"
-                                        [ngClass]="{ 'is-invalid': f.certificado.invalid, 'is-valid': !f.certificado.invalid }"
-                                        [(ngModel)]="selectedCertificado">
+                                    <label for="tipoRegistro" class="form-label">Tipo Registro</label>
+                                    <ng-select [items]="listaTipoRegistro" formControlName="tipoRegistro" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="tipoRegistro" placeholder="Tipo Registro"
+                                        [ngClass]="{ 'is-invalid': f.tipoRegistro.invalid, 'is-valid': !f.tipoRegistro.invalid }"
+                                        [(ngModel)]="selectedTipoRegistro">
                                     </ng-select>
                                 </div>
                             </div> 
@@ -166,15 +166,17 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Numero" prop="Numero" width="100">
+                            <ngx-datatable-column name="Numero" prop="Numero" width="150">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0" routerLink="/exportador/operaciones/kardexProcesoEdit"
-                                                [queryParams]="{ id: row.KardexProcesoId}">{{ name }}</a>
+                                            <a class="line-height-1 mb-0" routerLink="/exportador/operaciones/KardexPergaminoEdit"
+                                                [queryParams]="{ id: row.KardexPlantaId}">{{ name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo Registro" prop="TipoRegistro" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Registro" prop="FechaIngreso" width="100">
                             </ngx-datatable-column>

@@ -8,7 +8,6 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { KardexPlantaService } from '../../../../../../services/kardex-planta.service';
-import { ILogin } from '../../../../../../services/models/login';
 import { formatDate } from '@angular/common';
 import {AuthService} from '../../../../../../services/auth.service';
 
@@ -47,6 +46,8 @@ export class KardexPergaminoEditComponent implements OnInit {
   selectedTipoDocumento: any;
   selectedCalidad: any;
   selectedCliente: any;
+  selectedTipoRegistro: any;
+  listaTipoRegistro: any;
   submittedEdit = false;
   esEdit = false;
   estado: any;
@@ -98,8 +99,16 @@ export class KardexPergaminoEditComponent implements OnInit {
       totalVenta: new FormControl('', []),
       calidad: new FormControl('', []),
       saldosKg: new FormControl('', []),
-      saldosQq: new FormControl('', [])
-      
+      saldosQq: new FormControl('', []),
+      tipoRegistro: new FormControl('', []),
+      compraBruta : new FormControl('', []),
+      tara: new FormControl('', []),
+      humedad :new FormControl('', []),
+      rendimiento: new FormControl('', []),
+      tasa: new FormControl('', []),
+      aproxSacos: new FormControl('', []),
+      aproxExp: new FormControl('', []),
+      aproxSeg: new FormControl('', [])
     });
   }
 
@@ -114,6 +123,15 @@ export class KardexPergaminoEditComponent implements OnInit {
     this.GetCertificado();
     this.GetCalidad();
     this.GetCiente();
+    this.GetTipoRegistro();
+}
+
+async GetTipoRegistro() {
+  const res = await this.maestroService.obtenerMaestros('TipoRegistroKardex').toPromise();
+  if (res.Result.Success) {
+   this.listaTipoRegistro = res.Result.Data;
+  }
+
 }
   async GetPlantaProceso() {
     const res = await this.maestroService.obtenerMaestros('PlantaProcesoAlmacenKardexProceso').toPromise();
@@ -160,10 +178,11 @@ export class KardexPergaminoEditComponent implements OnInit {
   GetRequest(): any {
     const form = this.kardexProcesoEditForm.value;
     const request = {
-      KardexProcesoId: this.id,
+      KardexPlantaId: this.id,
       ContratoId: 0,
       TipoDocumentoInternoId: form.tipoDocumento ?? '',
       TipoOperacionId: form.tipoOperacion ?? '',
+      TipoRegistroId: this.selectedTipoRegistro,
       EmpresaId:  this.userSession.Result.Data.EmpresaId,
       NumeroComprobanteInterno: form.nroComprobanteInterno,
       NumeroGuiaRemision: form.nroGuiaRemision,
@@ -185,7 +204,16 @@ export class KardexPergaminoEditComponent implements OnInit {
       TotalCP: Number(form.totalCp), 
       PlantaProcesoAlmacenId: form.plantaProceso ?? '', 
       FechaIngreso: form.fechaRegistro , 
-      Usuario: this.userSession.Result.Data.NombreUsuario
+      Usuario: this.userSession.Result.Data.NombreUsuario,
+      CompraBruta:  Number(form.compraBruta),
+      Tara : Number(form.tara),
+      PorcentajeRendimiento : Number(form.rendimiento),
+      PorcentajeHumedad: Number(form.humedad),
+      Tasa: Number(form.tasa),
+      AproxExp : Number(form.aproxExp),
+      AproxSacos : Number(form.aproxSacos),
+      AproxSeg: Number(form.aproxSeg)
+
     }
     let json = JSON.stringify(request);
     return request;
@@ -320,20 +348,54 @@ export class KardexPergaminoEditComponent implements OnInit {
       }
       if (data.PrecioUnitarioCP)
         this.kardexProcesoEditForm.controls.precioUnitarioCp.setValue(data.PrecioUnitarioCP);
+
       if (data.TotalCP)
         this.kardexProcesoEditForm.controls.totalCp.setValue(data.TotalCP);
+
       if (data.CantidadSacosDespachados)
         this.kardexProcesoEditForm.controls.nroSacosDespachados.setValue(data.CantidadSacosDespachados);
+
       if (data.KilosDespachados)
         this.kardexProcesoEditForm.controls.kgDespachados.setValue(data.KilosDespachados);
+
       if (data.QQDespachados)
         this.kardexProcesoEditForm.controls.qqDespachados.setValue(data.QQDespachados);
+
       if (data.PrecioUnitarioVenta)
         this.kardexProcesoEditForm.controls.precioUnitario.setValue(data.PrecioUnitarioVenta);
+
       if (data.TotalVenta)
-        this.kardexProcesoEditForm.controls.totalVenta.setValue(data.TotalVenta);     
+        this.kardexProcesoEditForm.controls.totalVenta.setValue(data.TotalVenta);  
+
         if (data.CalidadId)
         this.kardexProcesoEditForm.controls.calidad.setValue(data.CalidadId); 
+
+        if (data.CompraBruta)
+        this.kardexProcesoEditForm.controls.compraBruta.setValue(data.CompraBruta); 
+
+        if (data.Tara)
+        this.kardexProcesoEditForm.controls.tara.setValue(data.Tara); 
+
+        if (data.PorcentajeRendimiento)
+        this.kardexProcesoEditForm.controls.rendimiento.setValue(data.PorcentajeRendimiento); 
+
+        if (data.PorcentajeHumedad)
+        this.kardexProcesoEditForm.controls.humedad.setValue(data.PorcentajeHumedad); 
+
+        if (data.Tasa)
+        this.kardexProcesoEditForm.controls.tasa.setValue(data.Tasa); 
+
+        if (data.AproxExp)
+        this.kardexProcesoEditForm.controls.aproxExp.setValue(data.AproxExp); 
+
+        if (data.AproxSacos)
+        this.kardexProcesoEditForm.controls.aproxSacos.setValue(data.AproxSacos); 
+
+        if (data.AproxSeg)
+        this.kardexProcesoEditForm.controls.aproxSeg.setValue(data.AproxSeg); 
+
+        if (data.TipoRegistroId)
+        this.selectedTipoRegistro = data.TipoRegistroId;
     }
     this.spinner.hide();
   }
@@ -345,6 +407,8 @@ export class KardexPergaminoEditComponent implements OnInit {
     this.calcularQQIngresados();
     this.calcularSaldosKg();
     this.calcularSaldosQq();
+    this.calcularAproxExp();
+    this.calcularTotalCP();
     
   }
   calcularKgDespachados()
@@ -353,13 +417,47 @@ export class KardexPergaminoEditComponent implements OnInit {
     this.calcularQQDespachados();
     this.calcularSaldosKg();
     this.calcularSaldosQq();
+  
    
+  }
+
+  calcularTotalCP()
+  {
+    var kgIngresados = Number(this.kardexProcesoEditForm.controls["kgIngresados"].value);
+    var precioUnitarioCp = Number(this.kardexProcesoEditForm.controls["precioUnitarioCp"].value);
+    var totalCp = kgIngresados * precioUnitarioCp;
+    this.kardexProcesoEditForm.controls["totalCp"].setValue(totalCp.toFixed(2));
+  }
+
+  calcularAproxExp()
+  {
+    var kgIngresados = Number(this.kardexProcesoEditForm.controls["kgIngresados"].value);
+    var rendimiento = Number(this.kardexProcesoEditForm.controls["rendimiento"].value);
+    var aproxExp = kgIngresados * rendimiento;
+    this.kardexProcesoEditForm.controls["aproxExp"].setValue(aproxExp.toFixed(2));
+    this.kardexProcesoEditForm.controls["aproxSacos"].setValue((aproxExp/69).toFixed(2));
+
   }
 
   calcularNroSacosIngresados()
   {
+    if (this.selectedTipoRegistro== '01')
+    {
     var numSacosIngresados = Number(this.kardexProcesoEditForm.controls["kgIngresados"].value)/69
     this.kardexProcesoEditForm.controls["nroSacosIngresados"].setValue(numSacosIngresados.toFixed(2));
+    }
+  }
+
+  validarTipoRegistro()
+  {
+    if (this.selectedTipoRegistro== '02')
+    {
+      this.kardexProcesoEditForm.controls["nroSacosIngresados"].enable();
+    }
+    else 
+    {
+      this.kardexProcesoEditForm.controls["nroSacosIngresados"].disable();
+    }
   }
   calcularNroSacosDespachados()
   {
@@ -398,6 +496,6 @@ calcularSaldosQq()
 
 
   Cancel(): void {
-    this.router.navigate(['/exportador/operaciones/kardexProceso']);
+    this.router.navigate(['/exportador/operaciones/kardexPergamino']);
   }
 }

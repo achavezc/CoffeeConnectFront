@@ -6,12 +6,12 @@ import { Router } from "@angular/router"
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../services/util/alert-util';
-import{KardexProcesoService} from '../../../../../services/kardex-proceso.service'
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
 import {AuthService} from './../../../../../services/auth.service';
+import { KardexPlantaService } from '../../../../../services/kardex-planta.service';
 
 @Component({
   selector: 'app-kardex-pergamino',
@@ -25,7 +25,7 @@ export class KardexPergaminoComponent implements OnInit {
     private maestroUtil: MaestroUtil,
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
-    private kardexProcesoService: KardexProcesoService,
+    private kardexPlantaService: KardexPlantaService,
     private alertUtil: AlertUtil,
     private modalService: NgbModal,
     private router: Router,
@@ -40,6 +40,7 @@ export class KardexPergaminoComponent implements OnInit {
   listCalidad = [];
   listCertificado = [];
   listaCliente = [];
+  listaTipoRegistro = [];
   selectedPlantaProceso: any;
   selectedTipoDocumentoInterno: any;
   selectedEstado: any;
@@ -48,6 +49,7 @@ export class KardexPergaminoComponent implements OnInit {
   selectedCertificado: any;
   selectCliente: any[] = [];
   selectedCliente: any;
+  selectedTipoRegistro: any;
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
@@ -90,7 +92,8 @@ export class KardexPergaminoComponent implements OnInit {
       tipoOperacion: new FormControl('', []),
       calidad: new FormControl('', []),
       certificado: new FormControl('', []),
-      clienteId: new FormControl('', [])
+      clienteId: new FormControl('', []),
+      tipoRegistro: new FormControl('', [])
     });
     this.kardexProcesoForm.setValidators(this.comparisonValidator());
   }
@@ -145,6 +148,11 @@ export class KardexPergaminoComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("ClientePlanta", function (res) {
       if (res.Result.Success) {
         form.listaCliente = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("TipoRegistroKardex", function (res) {
+      if (res.Result.Success) {
+        form.listaTipoRegistro = res.Result.Data;
       }
     });
   }
@@ -229,7 +237,7 @@ export class KardexPergaminoComponent implements OnInit {
       let json = JSON.stringify(request);
       this.spinner.show();
 
-      this.kardexProcesoService.Consultar(request)
+      this.kardexPlantaService.Consultar(request)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -246,6 +254,8 @@ export class KardexPergaminoComponent implements OnInit {
                 this.rows = [...this.tempData];
               } else {
                 let vArrHeaderExcel: HeaderExcel[] = [
+                  new HeaderExcel("Numero", "center"),
+                  new HeaderExcel("Tipo Registro", "center"),
                   new HeaderExcel("Fecha Registro", "center"),
                   new HeaderExcel("Tipo Doc. Interno", "center"),
                   new HeaderExcel("Nro Comprobante Interno", "center"),
@@ -276,6 +286,8 @@ export class KardexPergaminoComponent implements OnInit {
                 let vArrData: any[] = [];
                 for (let i = 0; i < res.Result.Data.length; i++) {
                   vArrData.push([
+                    res.Result.Data[i].Numero,
+                    res.Result.Data[i].TipoRegistro,
                     res.Result.Data[i].FechaIngreso,
                     res.Result.Data[i].TipoDocumentoInterno,
                     res.Result.Data[i].NumeroComprobanteInterno,
@@ -302,7 +314,7 @@ export class KardexPergaminoComponent implements OnInit {
                     res.Result.Data[i].SaldosQq
                   ]);
                 }
-                this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'DatosIngresoAlmacen');
+                this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'KardexPergamino');
               }
 
             } else if (res.Result.Message && res.Result.ErrCode) {
@@ -350,7 +362,7 @@ export class KardexPergaminoComponent implements OnInit {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
-          text: "¿Estas seguro de anular el Kardex de Proceso?",
+          text: "¿Estas seguro de anular el Kardex de Pergamino?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#2F8BE6',
@@ -382,12 +394,12 @@ export class KardexPergaminoComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.kardexProcesoService.Anular(this.selected[0].KardexProcesoId, this.vSessionUser.Result.Data.NombreUsuario)
+    this.kardexPlantaService.Anular(this.selected[0].KardexPlantaId, this.vSessionUser.Result.Data.NombreUsuario)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Anulado!', 'Kardex Poceso Anulado.');
+            this.alertUtil.alertOk('Anulado!', 'Kardex Pergamino Anulado.');
             this.Buscar();
 
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {

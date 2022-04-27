@@ -84,10 +84,10 @@
                                 [ngClass]="{ 'is-invalid': f.tipoOperacion.invalid, 'is-valid':!f.tipoOperacion.invalid }">
                             </ng-select>
                             <label for="nroContrato">Tipo Registro</label>
-                            <ng-select id="validationTooltip05" [items]="listaTipoOperacion" class="form-control"
-                                [(ngModel)]="selectedTipoOperacion" formControlName="tipoOperacion" bindLabel="Label"
-                                bindValue="Codigo" placeholder="Seleccionar Tipo Operación"
-                                [ngClass]="{ 'is-invalid': f.tipoOperacion.invalid, 'is-valid':!f.tipoOperacion.invalid }">
+                            <ng-select id="validationTooltip05" [items]="listaTipoRegistro" class="form-control"
+                                [(ngModel)]="selectedTipoRegistro" formControlName="tipoRegistro" bindLabel="Label"
+                                bindValue="Codigo" placeholder="Seleccionar Tipo Registro" (change)="validarTipoRegistro()"
+                                [ngClass]="{ 'is-invalid': f.tipoRegistro.invalid, 'is-valid':!f.tipoRegistro.invalid }">
                             </ng-select>
                         </div>
 
@@ -158,8 +158,16 @@
                             <input type="number" name="nroSacosIngresados" id="nroSacosIngresados" formControlName="nroSacosIngresados"
                                 class="form-control" placeholder="Número de contrato" 
                                 [ngClass]="{ 'is-invalid': f.nroSacosIngresados.invalid, 'is-valid': !f.nroSacosIngresados.invalid }" disabled>
-                            <label for="kgIngresados">Kg. Ingresados</label>
 
+                            <label for="totalCp">Compra Bruta</label>
+                            <input type="number" name="compraBruta" id="compraBruta" formControlName="compraBruta"
+                                class="form-control" placeholder="Compra Bruta" 
+                                [ngClass]="{ 'is-invalid': f.compraBruta.invalid, 'is-valid': !f.compraBruta.invalid }">
+                                <label for="tara">Tara </label>
+                                <input type="number" name="tara" id="tara" formControlName="tara"
+                                    class="form-control" placeholder="Tara" 
+                                    [ngClass]="{ 'is-invalid': f.tara.invalid, 'is-valid': !f.tara.invalid }">
+                            <label for="kgIngresados">Kg. Ingresados</label>
                             <input type="number" name="kgIngresados" id="kgIngresados" formControlName="kgIngresados"
                                 class="form-control" placeholder="Kg. Ingresados" (input)="calcularKgIngresados()"
                                 [ngClass]="{ 'is-invalid': f.kgIngresados.invalid, 'is-valid': !f.kgIngresados.invalid }">                            
@@ -169,9 +177,35 @@
                                 class="form-control" placeholder="QQ. Ingresados"
                                 [ngClass]="{ 'is-invalid': f.qqIngresados.invalid, 'is-valid': !f.qqIngresados.invalid }" disabled>
 
+                            <label for="rendimiento">Rendimiento (%)</label>
+                            <input type="number" name="rendimiento" id="rendimiento" formControlName="rendimiento"
+                                class="form-control" placeholder="Rendimiento" (input) = "calcularAproxExp()"
+                                [ngClass]="{ 'is-invalid': f.rendimiento.invalid, 'is-valid': !f.rendimiento.invalid }">
+                            
+                                <label for="tara">Humedad (%)</label>
+                                    <input type="number" name="humedad" id="humedad" formControlName="humedad"
+                                        class="form-control" placeholder="Humedad" 
+                                        [ngClass]="{ 'is-invalid': f.humedad.invalid, 'is-valid': !f.humedad.invalid }">
+                                        <label for="tara">Tasa</label>
+                                        <input type="text" name="tasa" id="tasa" formControlName="tasa"
+                                            class="form-control" placeholder="Tasa" 
+                                            [ngClass]="{ 'is-invalid': f.tasa.invalid, 'is-valid': !f.tasa.invalid }">
+                                            <label for="aproxSacos">Aprox. SACOS</label>
+                                            <input type="number" name="aproxSacos" id="aproxSacos" formControlName="aproxSacos"
+                                                class="form-control" placeholder="Aprox. SACOS" 
+                                                [ngClass]="{ 'is-invalid': f.aproxSacos.invalid, 'is-valid': !f.aproxSacos.invalid }" disabled>
+                                <label for="aproxExp">Aprox. EXP</label>
+                                <input type="number" name="aproxExp" id="aproxExp" formControlName="aproxExp"
+                                    class="form-control" placeholder="Aprox. EXP" 
+                                    [ngClass]="{ 'is-invalid': f.aproxExp.invalid, 'is-valid': !f.aproxExp.invalid }" disabled>
+                                    <label for="aproxExp">Aprox. SEG</label>
+                                    <input type="number" name="aproxSeg" id="aproxSeg" formControlName="aproxSeg"
+                                        class="form-control" placeholder="Aprox. EXP" 
+                                        [ngClass]="{ 'is-invalid': f.aproxSeg.invalid, 'is-valid': !f.aproxSeg.invalid }">
+
                             <label for="precioUnitarioCp">Precio Unitario CP</label>
                             <input type="number" name="precioUnitarioCp" id="precioUnitarioCp" formControlName="precioUnitarioCp"
-                                class="form-control" placeholder="Precio Unitario CP" 
+                                class="form-control" placeholder="Precio Unitario CP" (input) = "calcularTotalCP()"
                                 [ngClass]="{ 'is-invalid': f.precioUnitarioCp.invalid, 'is-valid': !f.precioUnitarioCp.invalid }">
 
                             <label for="totalCp">Total CP</label>
@@ -183,6 +217,12 @@
                                 <input type="number" name="saldosKg" id="saldosKg" formControlName="saldosKg"
                                     class="form-control" placeholder="Saldos Kilos" 
                                     [ngClass]="{ 'is-invalid': f.saldosKg.invalid, 'is-valid': !f.saldosKg.invalid }" disabled>
+
+                               
+
+                            
+                                
+                                    
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -215,6 +255,11 @@
                                     <input type="number" name="saldosQq" id="saldosQq" formControlName="saldosQq"
                                         class="form-control" placeholder="Saldos Qq" 
                                         [ngClass]="{ 'is-invalid': f.saldosQq.invalid, 'is-valid': !f.saldosQq.invalid }" disabled>
+
+                                        
+                                            
+                                               
+                                                
                         </div>
                     </div>
 
