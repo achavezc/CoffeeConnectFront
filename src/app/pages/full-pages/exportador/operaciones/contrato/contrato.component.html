@@ -77,7 +77,7 @@
                                     <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listEstados" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado"
-                                        placeholder="Seleccionar estado"
+                                        placeholder="Seleccionar estado" [multiple]="true"
                                         [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>

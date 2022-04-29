@@ -65,6 +65,7 @@ export class ContratoComponent implements OnInit {
   @Output() agregarContratoEvent = new EventEmitter<any>();
   selectedEstadoPagoFactura : any;
   listEstadoPagoFactura: any[];
+  selectedItemsProd = [];
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.tipoEmpresaId = this.userSession.Result.Data.TipoEmpresaid;
@@ -125,7 +126,11 @@ export class ContratoComponent implements OnInit {
         if (this.popUp == true) {
           switch (this.page) {
             case "Aduanas":
-              this.selectedEstado = '03';
+              let selectarrayProd = [];
+              selectarrayProd.push('01');
+              selectarrayProd.push('02');
+              selectarrayProd.push('03');
+              this.selectedEstado = selectarrayProd;
               break;
             default:
               this.selectedEstado = '01';
@@ -181,8 +186,8 @@ export class ContratoComponent implements OnInit {
       ProductoId: this.contratoForm.value.producto ? this.contratoForm.value.producto : '',
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
-      EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value : '',
-      EmpresaId: this.userSession.Result.Data.EmpresaId,
+      EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value.join('|') : '',
+      EmpresaId: 2,//this.userSession.Result.Data.EmpresaId,
       CondicionEmbarqueId: this.contratoForm.value.condicionEmbarque ? this.contratoForm.value.condicionEmbarque : '',
       EstadoFijacionId: this.contratoForm.value.estadoFijacion ? this.contratoForm.value.estadoFijacion : '',
       TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
@@ -212,16 +217,16 @@ export class ContratoComponent implements OnInit {
               obj.FechaContratoString = this.dateUtil.formatDate(obj.FechaContrato, '/');
               obj.FechaFijacionContrato = this.dateUtil.formatDate(obj.FechaFijacionContrato, '/');
               obj.FechaEmbarque = obj.FechaEmbarque == null ? "": formatDate(obj.FechaEmbarque, 'MM/yyyy', 'en');
-              obj.PrecioQQVenta = obj.PrecioQQVenta.toFixed(2);
-              obj.UtilidadBruta = obj.UtilidadBruta.toFixed(2);
-              obj.UtilidadNeta = obj.UtilidadNeta.toFixed(2);
+              obj.PrecioQQVenta = obj.PrecioQQVenta == null ? null : obj.PrecioQQVenta.toFixed(2);
+              obj.UtilidadBruta = obj.UtilidadBruta == null ? null : obj.UtilidadBruta.toFixed(2);
+              obj.UtilidadNeta = obj.UtilidadNeta == null ? null : obj.UtilidadNeta.toFixed(2);
               obj.FechaContratoCompraString = obj.FechaContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaContratoCompra, '/');
               obj.FechaFijacionContratoCompraString = obj.FechaFijacionContratoCompra == null ? "": this.dateUtil.formatDate(obj.FechaFijacionContratoCompra, '/');
               obj.FechaFacturaString = obj.FechaFactura == null ? "": this.dateUtil.formatDate(obj.FechaFactura, '/');
               obj.FechaFacturaCompraString = obj.FechaFacturaCompra == null ? "":  this.dateUtil.formatDate(obj.FechaFacturaCompra, '/');
               obj.FechaEntregaProductoString = obj.FechaEntregaProducto == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProducto, '/');
               obj.FechaEntregaProductoCompraString = obj.FechaEntregaProductoCompra == null ? "":this.dateUtil.formatDate(obj.FechaEntregaProductoCompra, '/');
-              obj.PrecioQQCompra = obj.PrecioQQCompra.toFixed(2);
+              obj.PrecioQQCompra =  obj.PrecioQQCompra == null ? null : obj.PrecioQQCompra.toFixed(2);
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
