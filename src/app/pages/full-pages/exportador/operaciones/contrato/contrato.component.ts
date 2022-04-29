@@ -187,7 +187,7 @@ export class ContratoComponent implements OnInit {
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
       EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value.join('|') : '',
-      EmpresaId: 2,//this.userSession.Result.Data.EmpresaId,
+      EmpresaId: this.userSession.Result.Data.EmpresaId,
       CondicionEmbarqueId: this.contratoForm.value.condicionEmbarque ? this.contratoForm.value.condicionEmbarque : '',
       EstadoFijacionId: this.contratoForm.value.estadoFijacion ? this.contratoForm.value.estadoFijacion : '',
       TipoContratoId: this.contratoForm.value.tipoContrato ? this.contratoForm.value.tipoContrato : '',
