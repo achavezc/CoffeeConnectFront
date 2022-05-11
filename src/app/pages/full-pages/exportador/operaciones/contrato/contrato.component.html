@@ -120,12 +120,23 @@
                                         [(ngModel)]="selectedEstadoPagoFactura">
                                     </ng-select>
                                 </div>
+                               
 
 
                             </div>
 
-                            <div class="form-row"  *ngIf="tipoEmpresaId != '01' ">
+                            <div class="form-row" >
                                 <div class="col-md-3 mb-4 form-group mb-2">
+                                    <label for="mesEmbarque" class="form-label">Mes de Embarque</label>
+                                    <ng-select [items]="listMesEmbarque" formControlName="mesEmbarque" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="mesEmbarque"
+                                        placeholder="Seleccionar Mes Embarque"
+                                        [ngClass]="{ 'is-invalid': f.mesEmbarque.invalid, 'is-valid': !f.mesEmbarque.invalid }"
+                                        [(ngModel)]="selectedMesEmbarque">
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-md-3 mb-4 form-group mb-2"  *ngIf="tipoEmpresaId != '01' ">
                                     <label for="codigoInterno" class="form-label">Código Interno</label>
                                     <input type="text" formControlName="codigoInterno" class="form-control" id="codigoInterno"
                                         placeholder="Código Interno" name="codigoInterno"

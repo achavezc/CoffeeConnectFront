@@ -34,11 +34,13 @@ export class ContratoClienteComponent implements OnInit {
   listCalidad: any[];
   listEstadoMuestra: any[];
   listEstadoSeguimiento: any[];
+  listMesEmbarque: any[];
   selectedProducto: any;
   selectedTipoProduccion: any;
   selectedCalidad: any;
   selectedEstadoMuestra: any;
   selectedEstadoSeguimiento: any;
+  selectedMesEmbarque : any;
   selected = [];
   limitRef = 10;
   rows = [];
@@ -81,7 +83,8 @@ export class ContratoClienteComponent implements OnInit {
       tipoProduccion: [],
       calidad: [],
       estadoMuestra: [],
-      estadoSeguimiento: []
+      estadoSeguimiento: [],
+      mesEmbarque: []
     });
   }
   cargarCliente(objLogin) {
@@ -202,6 +205,24 @@ export class ContratoClienteComponent implements OnInit {
         }
       }
     }, lang);
+
+    this.maestroUtil.obtenerMaestros('MesEmbarqueVenta', (res: any) => {
+      if (res.Result.Success) {
+        if (lang == 'en') {
+          var list = []
+          res.Result.Data.forEach(x => {
+            let object: any = {};
+            object.Codigo = x.Codigo;
+            object.Label = x.Mnemonico;
+            list.push(object);
+          });
+          form.listMesEmbarque = list;
+        }
+        else {
+        form.listMesEmbarque = res.Result.Data;
+        }
+      }
+    }, lang);
   }
 
   getRequest(lang: string): any {
@@ -217,7 +238,8 @@ export class ContratoClienteComponent implements OnInit {
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       FechaInicio: this.contratoForm.value.fechaInicial ? this.contratoForm.value.fechaInicial : '',
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
-      Idioma: lang
+      Idioma: lang,
+      MesEmbarque : this.contratoForm.value.mesEmbarque ? this.contratoForm.value.mesEmbarque : ''
     };
   }
 //test

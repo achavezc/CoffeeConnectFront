@@ -122,6 +122,18 @@
 
                             </div>
 
+                            <div class="form-row">
+                            <div class="col-md-3 mb-4 form-group mb-2">
+                                <label for="mesEmbarque" class="form-label">Mes de Embarque</label>
+                                <ng-select [items]="listMesEmbarque" formControlName="mesEmbarque" class="form-control"
+                                    bindLabel="Label" bindValue="Codigo" id="mesEmbarque"
+                                    placeholder="Seleccionar Mes Embarque"
+                                    [ngClass]="{ 'is-invalid': f.mesEmbarque.invalid, 'is-valid': !f.mesEmbarque.invalid }"
+                                    [(ngModel)]="selectedMesEmbarque">
+                                </ng-select>
+                            </div>
+                        </div>
+
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"

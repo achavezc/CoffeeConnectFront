@@ -43,6 +43,7 @@ export class ContratoComponent implements OnInit {
   listCondicionEmbarque: any[];
   listCalidad: any[];
   listEstados: any[];
+  listMesEmbarque: any[];
   listTipoContrato: any[];
   selectedProducto: any;
   selectedTipoProduccion: any;
@@ -51,6 +52,7 @@ export class ContratoComponent implements OnInit {
   selectedEstadoFijacion: any;
   selectedEstado: any;
   selectedTipoContrato: any;
+  selectedMesEmbarque : any;
   selected = [];
   limitRef = 10;
   rows = [];
@@ -94,6 +96,7 @@ export class ContratoComponent implements OnInit {
       tipoContrato: [],
       estadoPagoFactura : [],
       codigoInterno: [],
+      mesEmbarque: []
     });
   }
 
@@ -155,6 +158,13 @@ export class ContratoComponent implements OnInit {
         form.listCalidad = res.Result.Data;
       }
     });
+    this.maestroUtil.obtenerMaestros('MesEmbarqueVenta', (res: any) => {
+      if (res.Result.Success) {
+        form.listMesEmbarque = res.Result.Data;
+      }
+    });
+
+    
     this.maestroUtil.obtenerMaestros('CondicionEmbarque', (res: any) => {
       if (res.Result.Success) {
         form.listCondicionEmbarque = res.Result.Data;
@@ -195,6 +205,7 @@ export class ContratoComponent implements OnInit {
       FechaFin: this.contratoForm.value.fechaFinal ? this.contratoForm.value.fechaFinal : '',
       EstadoPagoFacturaId: this.contratoForm.value.estadoPagoFactura ? this.contratoForm.value.estadoPagoFactura : '',
       CodigoInterno: this.contratoForm.value.codigoInterno ? this.contratoForm.value.codigoInterno : '',
+      MesEmbarque : this.contratoForm.value.mesEmbarque ? this.contratoForm.value.mesEmbarque : '',
     };
   }
 
