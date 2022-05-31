@@ -84,8 +84,9 @@
                                                                                     class="form-control square"
                                                                                     id="basicInput"
                                                                                     formControlName="cascarillaGramos"
-                                                                                    (input)=" calcularTotalesRendExportable()">
-                                                                                <small
+                                                                                    (input)="calcularTotalesRendExportable()"
+                                                                                    >
+                                                                                    <small
                                                                                     class="form-text text-muted danger"
                                                                                     *ngIf="frendExport.cascarillaGramos.errors?.required">*Requerido</small>
                                                                             </td>

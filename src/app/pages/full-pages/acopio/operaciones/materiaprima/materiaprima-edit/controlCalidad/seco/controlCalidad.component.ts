@@ -674,13 +674,9 @@ export class ControlCalidadComponent implements OnInit {
       if (this.page == "NotaIngresoPlantaEdit")
       {
         cascarillaGramos = this.calculocascarilla-exportGramos - descarteGramos;
-      }
-      else
-      {
-        cascarillaGramos =Number(this.formControlCalidad.controls["cascarillaGramos"].value);
-      }
+        this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
+      }      
       
-      this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
       const totalRendExportable = exportGramos + descarteGramos + cascarillaGramos;
       this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
       this.formControlCalidad.controls['cascarillaPorcentaje'].setValue(cascarillaGramos == 0 ? "0%" : (Number(cascarillaGramos / totalRendExportable) * 100).toFixed(2) + "%");
