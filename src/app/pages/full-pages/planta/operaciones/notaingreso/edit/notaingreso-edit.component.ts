@@ -199,6 +199,7 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   changeSubProducto(e) {
+    
     let filterProducto = e.Codigo;
     let subproducto = this.notaIngredoFormEdit.get('subproducto').value;
     this.validacionPorcentajeRend(filterProducto, subproducto);
@@ -521,7 +522,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
     this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
-    this.notaIngredoFormEdit.controls["direccion"].setValue(data.Direccion);
+    this.notaIngredoFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
     this.notaIngredoFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);
     this.notaIngredoFormEdit.controls["subproducto"].setValue(data.SubProductoId);
