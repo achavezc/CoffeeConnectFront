@@ -22,9 +22,13 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { ExportadorModule } from "../exportador/exportador.module";
 import { NotaIngresoListComponent } from "./operaciones/notaingreso/list/notaingreso-list.component";
+//import { ControlCalidadComponent } from "./operaciones/controlcalidad/list/controlcalidad-list.component";
+
+
 import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaingreso-edit.component";
+//import{ControlCalidadEditComponent}from "./operaciones/controlcalidad/edit/controlcalidad-edit.component";
 import { NotaIngresoAlmacenListComponent } from "./operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component";
 import { NotaIngresoAlmacenEditComponent } from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
 import { PesadoCafePlantaComponent } from "./operaciones/notaingreso/edit/pesadocafe/pesadocafeplanta.component";
@@ -67,7 +71,9 @@ import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproces
     OrdenProcesoListComponent,
     OrdenProcesoEditComponent,
     NotaIngresoListComponent,
+  //  ControlCalidadListComponent,
     NotaIngresoEditComponent,
+   // ControlCalidadEditComponent,
     NotaIngresoAlmacenListComponent,
     NotaIngresoAlmacenEditComponent,
     PesadoCafePlantaComponent,

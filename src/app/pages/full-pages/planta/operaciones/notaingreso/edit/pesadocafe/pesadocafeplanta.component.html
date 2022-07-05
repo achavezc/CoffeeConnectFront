@@ -13,6 +13,14 @@
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.motivo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.motivo.invalid }">
                   </ng-select>
                 </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">Tipo</label>
+                  <ng-select [items]="listaTipo" bindLabel="name" [(ngModel)]="selectedTipo" class="form-control"
+                    placeholder="Seleccionar Tipo" formControlName="tipo" (change)="changeTipo($event)"
+                    bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tipo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tipo.invalid }">
+                  </ng-select>
+                </div>
               </div>
 
               <div class="form-row">
@@ -25,14 +33,11 @@
                   </ng-select>
                 </div>
                 <div class="col-md-6 mb-6 form-group mb-2">
-                  <label for="validationTooltip04">Tipo</label>
-                  <ng-select [items]="listaTipo" bindLabel="name" [(ngModel)]="selectedTipo" class="form-control"
-                    placeholder="Seleccionar Tipo" formControlName="tipo" (change)="changeTipo($event)"
-                    bindLabel="Label" bindValue="Codigo"
-                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tipo.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tipo.invalid }">
-                  </ng-select>
+                  <label for="validationTooltip04">Peso x Saco</label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="pesoSaco" class="form-control"
+                    id="validationTooltip08" placeholder="Peso x Saco"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.pesoSaco.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.pesoSaco.invalid }">
                 </div>
-
               </div>
 
               <div class="form-row">
@@ -43,22 +48,15 @@
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }">
                 </div>
                 <div class="col-md-6 mb-6 form-group mb-2">
-                  <label for="validationTooltip04">Peso x Saco</label>
-                  <input type="number" minlength="1" maxlength="20" formControlName="pesoSaco" class="form-control"
-                    id="validationTooltip08" placeholder="Peso x Saco"
-                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.pesoSaco.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.pesoSaco.invalid }">
-                </div>
-
-              </div>
-
-              <div class="form-row">
-                <div class="col-md-6 mb-6 form-group mb-2">
                   <label for="validationTooltip04">Peso Bruto KG</label>
                   <input type="number" minlength="1" maxlength="20" formControlName="kilosBrutos" class="form-control"
                     id="validationTooltip04" placeholder="Peso Bruto KG" (change)="changePesoBruto()"
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosBrutos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBrutos.invalid }">
                 </div>
-                <div class="col-md-6 mb-6 form-group mb-2">
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2" style="display: none;">
                   <label for="validationTooltip04">Calidad</label>
                   <ng-select [items]="listaCalidad" bindLabel="name" [(ngModel)]="selectedCalidad" class="form-control"
                     placeholder="Seleccionar Calidad" formControlName="calidad" bindLabel="Label" bindValue="Codigo"
@@ -76,44 +74,48 @@
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.tara.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.tara.invalid }">
                 </div>
                 <div class="col-md-6 mb-6 form-group mb-2">
-                  <label for="validationTooltip04">Grado</label>
-                  <ng-select [items]="listaGrado" bindLabel="name" [(ngModel)]="selectedGrado" class="form-control"
-                    placeholder="Seleccionar Grado" formControlName="grado" bindLabel="Label" bindValue="Codigo"
-                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.grado.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.grado.invalid }">
-                  </ng-select>
-                </div>
-
-              </div>
-
-              <div class="form-row">
-                <div class="col-md-6 mb-6 form-group mb-2">
                   <label for="validationTooltip04">Kilos Netos</label>
                   <input type="number" minlength="1" maxlength="20" formControlName="kilosNetos" class="form-control"
                     id="validationTooltip04" placeholder="Kilos Netos" disabled
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosNetos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosNetos.invalid }">
                 </div>
-                <div class="col-md-6 mb-6 form-group mb-2">
+     
+          
+               <!--- <div class="col-md-6 mb-6 form-group mb-2" style="display: none;">
+                  <label for="validationTooltip04">Grado</label>
+                  <ng-select [items]="listaGrado" bindLabel="name" [(ngModel)]="selectedGrado" class="form-control"
+                    placeholder="Seleccionar Grado" formControlName="grado" bindLabel="Label" bindValue="Codigo"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.grado.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.grado.invalid }">
+                  </ng-select>
+                </div>-->
+
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-6 form-group mb-2" style="display: none;" >
                   <label for="validationTooltip04">Cantidad Defectos</label>
                   <input type="number" minlength="1" maxlength="20" formControlName="cantidadDefectos"
                     class="form-control" id="validationTooltip08" placeholder="Cantidad Defectos"
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidadDefectos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidadDefectos.invalid }">
                 </div>
+                <div class="col-md-6 mb-6 form-group mb-2">
+                  <label for="validationTooltip04">% Humedad Recepcion </label>
+                  <input type="number" minlength="1" maxlength="20" formControlName="porcentajeHumedad"
+                    class="form-control" id="validationTooltip08" placeholder="% Humedad"
+                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeHumedad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeHumedad.invalid }">
+                </div>
+         
 
               </div>
 
               <div class="form-row">
-                <div class="col-md-6 mb-6 form-group mb-2">
+                <div class="col-md-6 mb-6 form-group mb-2" style="display: none;">
                   <label for="validationTooltip04">% Rendimiento</label>
                   <input type="number" minlength="1" maxlength="20" formControlName="porcentajeRendimiento"
                     class="form-control" id="validationTooltip04" placeholder="% Rendimiento"
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeRendimiento.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeRendimiento.invalid }">
                 </div>
-                <div class="col-md-6 mb-6 form-group mb-2">
-                  <label for="validationTooltip04">% Humedad</label>
-                  <input type="number" minlength="1" maxlength="20" formControlName="porcentajeHumedad"
-                    class="form-control" id="validationTooltip08" placeholder="% Humedad"
-                    [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.porcentajeHumedad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.porcentajeHumedad.invalid }">
-                </div>
+
 
               </div>
 

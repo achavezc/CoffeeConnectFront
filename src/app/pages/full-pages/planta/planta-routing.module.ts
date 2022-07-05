@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { NotaIngresoListComponent } from './operaciones/notaingreso/list/notaingreso-list.component';
+//import { ControlCalidadListComponent } from './operaciones/controlcalidad/list/controlcalidad-list.component';
 import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
+//import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
 import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
 import { NotaIngresoAlmacenEditComponent } from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
 import { NotaSalidaAlmacenComponent } from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
@@ -30,6 +31,22 @@ const routes: Routes = [
           title: 'NotaIngresoPlantaEdit'
         },
       },
+      //////////////////////agregando modulo controlcalidad///////////////////
+       //{
+      // path: 'controlcalidad-list',
+       // component: ControlCalidadListComponent,
+       // data: {
+        //  title: 'ControlCalidadPlantaList'
+       // }
+      //},
+      //{
+       // path: 'controlcalidad-edit',
+       // component: ControlCalidadEditComponent,
+        //data: {
+         // title: 'ControlCalidadPlantaEdit'
+        //},
+      //},
+      ///////////////////
       {
         path: 'notaingresoalmacen-list',
         component: NotaIngresoAlmacenListComponent,
