@@ -144,8 +144,8 @@
               <button class="btn btn-primary mr-1 mb-1" type="button" (click)="nuevo()" *ngIf="!popUp"  [disabled]="readonly==true">Nuevo</button>
               <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="anular()"
                 *ngIf="!popUp">Anular</button>
-              <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="enviar()"
-                *ngIf="!popUp">Enviar a Almacen</button>
+              <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="enviar()"
+                *ngIf="!popUp">Enviar a Almacen</button>-->
               <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="exportar()"
                 *ngIf="!popUp">Exportar</button>
             </form>
@@ -212,6 +212,8 @@
               <ngx-datatable-column name="Fecha Ingreso" prop="FechaRegistroCadena" width="100"></ngx-datatable-column>
               <ngx-datatable-column name="Organizacion" prop="RazonSocial" width="100"></ngx-datatable-column>
               <ngx-datatable-column name="Tipo Producto" prop="Producto" width="140">
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Certificacion" prop="Certificacion" width="140">
               </ngx-datatable-column>
               <ngx-datatable-column name="Estado de Humedad" prop="SubProducto" width="140"></ngx-datatable-column>
               <ngx-datatable-column name="Motivo" prop="MotivoIngreso" width="100"></ngx-datatable-column>

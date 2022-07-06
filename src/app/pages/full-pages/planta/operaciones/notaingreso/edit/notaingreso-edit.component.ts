@@ -210,7 +210,7 @@ export class NotaIngresoEditComponent implements OnInit {
   imprimir(): void {
     let link = document.createElement('a');
     document.body.appendChild(link);
-    link.href = `${host}NotaIngresoPlanta/GenerarPDFNotaIngreso?id=${this.id}&empresaId=${this.vSessionUser.result.data.empresaId}`;
+    link.href = `${host}NotaIngresoPlanta/GenerarPDFNotaIngreso?id=${this.id}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
     link.download = "GuiaRemision.pdf"
     link.target = "_blank";
     link.click();
