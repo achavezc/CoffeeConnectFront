@@ -7,11 +7,11 @@ const routes: Routes = [
   {
     path: 'acopio',
     loadChildren: () => import('../../pages/full-pages/acopio/acopio.module').then(m => m.AcopioModule)
-  },
+  },     
   {
     path: 'productor',
     loadChildren: () => import('./productor/productor.module').then(m => m.ProductorModule)
-  },
+  },                     
   {
     path: 'agropecuario',
     loadChildren: () => import('./agropecuario/agropecuario.module').then(m => m.AgropecuarioModule)
