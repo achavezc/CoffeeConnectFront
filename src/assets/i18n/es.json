@@ -241,7 +241,10 @@
 				"OrdenProceso":
 				{
 					"Label":"Orden de Proceso"
-					
+				},
+				"ControlCalidad":
+				{
+					"Label":"Control de Calidad"
 				}
 		},
 		"Administracion":
