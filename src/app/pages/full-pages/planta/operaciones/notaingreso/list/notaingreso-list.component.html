@@ -28,13 +28,13 @@
                 
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip08">Nro Guia Remision</label>
-                  <input type="text" minlength="8" maxlength="20" formControlName="numeroGuiaRemision"
+                  <input type="text" minlength="6" maxlength="20" formControlName="numeroGuiaRemision"
                     class="form-control" id="validationTooltip08" placeholder="Nro Guia Remision"
                     [ngClass]="{ 'is-invalid': submitted && f.numeroGuiaRemision.invalid, 'is-valid': submitted && !f.numeroGuiaRemision.invalid }">
-                  <small class="form-text text-muted danger" *ngIf="f.numeroGuiaRemision.errors?.minlength">Ingrese 8 a
+                  <small class="form-text text-muted danger" *ngIf="f.numeroGuiaRemision.errors?.minlength">Ingrese 6 a
                     20
                     letras</small>
-                  <small class="form-text text-muted danger" *ngIf="f.numeroGuiaRemision.errors?.maxlength">Ingrese 8 a
+                  <small class="form-text text-muted danger" *ngIf="f.numeroGuiaRemision.errors?.maxlength">Ingrese 6 a
                     20
                     letras</small>
                 </div>
