@@ -34,11 +34,19 @@ export class NotaIngresoEditComponent implements OnInit {
   closeResult: string;
   notaIngredoFormEdit: FormGroup;
   listaProducto: any[];
+  //nuevas variables
+  listaCampania:any[];
+  listaConcepto:any[];
+  //nuevas variables
   listaSubProducto: any[];
   listaTipoProveedor: any[];
   listaTipoProduccion: any[];
   listaCertificacion: any[];
   listaCertificadora: any[];
+  //nuevas variables 
+  selectedCampania:any;
+  selectedConcepto:any;
+  //nuevas variables
   selectedCertificacion: any;
   selectedCertificadora: any;
   selectTipoSocio: any;
@@ -141,6 +149,9 @@ export class NotaIngresoEditComponent implements OnInit {
         subproducto: ['', Validators.required],
         certificacion: ['', ],
         certificadora: ['', ],
+        campania:['',],
+        concepto:['',],
+        
         pesado: this.fb.group({
           motivo: new FormControl('', [Validators.required]),
           empaque: new FormControl('', [Validators.required]),
@@ -195,6 +206,24 @@ export class NotaIngresoEditComponent implements OnInit {
         form.listaCertificadora = res.Result.Data;
       }
     });
+    this.cargaCampania();
+    this.cargaConceptos();
+
+  }
+  async cargaCampania() {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
+    async cargaConceptos() {
+
+    var data = await this.maestroService.ConsultarConceptos("01").toPromise();
+    if (data.Result.Success) {
+      this.listaConcepto = data.Result.Data;
+    }
 
   }
 
@@ -394,7 +423,12 @@ export class NotaIngresoEditComponent implements OnInit {
         this.vSessionUser.Result.Data.NombreUsuario,
         new Date(),
         this.notaIngredoFormEdit.controls["direccion"].value,
-        this.notaIngredoFormEdit.get('pesado').get("marca").value
+        this.notaIngredoFormEdit.get('pesado').get("marca").value,
+        //////
+        this.notaIngredoFormEdit.controls["campania"].value,
+        this.notaIngredoFormEdit.controls["concepto"].value
+
+        ////
       );
       this.spinner.show(undefined,
         {
@@ -522,6 +556,10 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
     this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
+
+    this.notaIngredoFormEdit.controls["campania"].setValue(data.CodigoCampania);
+    this.notaIngredoFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
+
     this.notaIngredoFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
     this.notaIngredoFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);

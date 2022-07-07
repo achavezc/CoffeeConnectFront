@@ -324,7 +324,7 @@ export class ControlCalidadListComponent implements OnInit
     }
   }
 
-  enviar() {
+  Rechazado() {
     if (this.selected.length > 0) {
       if (this.selected[0].EstadoId == this.estadoAnalizado) {
         var form = this;

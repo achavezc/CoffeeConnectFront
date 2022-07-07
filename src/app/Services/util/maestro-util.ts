@@ -17,6 +17,8 @@ export class MaestroUtil {
       );
   }
 
+///similar a departamenti
+
   GetDepartments(pCodigoPais?: string, callback?: Function): void {
     const request = { CodigoPais: pCodigoPais }
     this.maestroService.ConsultarDepartamento(request)

@@ -27,12 +27,20 @@ export class NotaIngresoListComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   submitted = false;
   listaEstado: Observable<any[]>;
+  //variables nuevas
+  listaCampania:Observable<any>[];
+  listaConcepto:Observable<any>[];
+  //variables nuevas
   listaTipoDocumento: Observable<any[]>;
   listaProducto: Observable<any[]>;
   listaSubProducto: Observable<any[]>;
   listaMotivo: Observable<any[]>;
   selectedTipoDocumento: any;
   selectedEstado: any;
+  //variables nuevas
+  selectedCampania:any;
+  selectedConcepto:any;
+  //variables nuevas
   selectedMotivo: any;
   selectedProducto: any;
   selectedSubProducto: any;
@@ -119,6 +127,10 @@ export class NotaIngresoListComponent implements OnInit {
         tipoProducto: new FormControl('', []),
         subProducto: new FormControl('', []),
         estado: new FormControl('', [Validators.required]),
+        //campos agregados
+        Campania: new FormControl('',[]),
+        Concepto:new FormControl('',[]),
+        //campos agregados 
         motivo: new FormControl('', []),
         fechaGuiaRemisionInicio: new FormControl('', [Validators.required]),
         fechaGuiaRemisionFin: new FormControl('', [Validators.required,])
@@ -134,6 +146,7 @@ export class NotaIngresoListComponent implements OnInit {
       switch (this.page) {
         case "AnticiposList":
           this.selectedEstado = '02';
+          //this.selectedCampaña=
           this.consultaNotaIngresoPlantaForm.controls['motivo'].disable();
           this.selectedMotivo = "01";
           
@@ -149,7 +162,8 @@ export class NotaIngresoListComponent implements OnInit {
 
   async cargarcombos() {
     var form = this;
-    this.maestroUtil.obtenerMaestros("ProductoPlanta", function (res) {
+    this.maestroUtil.obtenerMaestros("ProductoPlanta", function (res) 
+    {
       if (res.Result.Success) {
         form.listaProducto = res.Result.Data;
         /*if (form.popUp) {
@@ -159,6 +173,8 @@ export class NotaIngresoListComponent implements OnInit {
         }*/
       }
     });
+
+
     this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
       if (res.Result.Success) {
         form.listaEstado = res.Result.Data;
@@ -170,8 +186,27 @@ export class NotaIngresoListComponent implements OnInit {
         form.listaMotivo = res.Result.Data;
       }
     });
+     this.cargaCampania();
+     this.cargaConceptos();
     await this.LoadFormPopup();
   }
+  async cargaCampania() {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
+    async cargaConceptos() {
+
+    var data = await this.maestroService.ConsultarConceptos("01").toPromise();
+    if (data.Result.Success) {
+      this.listaConcepto = data.Result.Data;
+    }
+
+  }
+
 
   changeSubProducto(e) {
     let filterProducto = e.Codigo;
@@ -203,7 +238,12 @@ export class NotaIngresoListComponent implements OnInit {
         "SubProductoId": this.consultaNotaIngresoPlantaForm.controls['subProducto'].value,
         "MotivoIngresoId": this.consultaNotaIngresoPlantaForm.controls['motivo'].value,
         "EstadoId": this.consultaNotaIngresoPlantaForm.controls['estado'].value,
-        "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
+    ///nuevos campos 
+    
+    "CodigoCampania": this.consultaNotaIngresoPlantaForm.controls['Campania'].value,
+    "CodigoTipoConcepto": this.consultaNotaIngresoPlantaForm.controls['Concepto'].value,
+    ///nuevos campos
+       "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
         "FechaInicio": this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value,
         "FechaFin": this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value,
         "FechaGuiaRemisionInicio": this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionInicio'].value,

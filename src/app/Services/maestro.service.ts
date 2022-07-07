@@ -29,6 +29,26 @@ export class MaestroService {
     const url = `${this.url}/ConsultarDepartamento`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
+ //nuevos servicios para el nota ingreso//
+ 
+ ConsultarCampanias(codigoTipo: any): Observable<any> {
+  const body: any = {
+    CodigoTipo: codigoTipo
+  };
+  const url = `${this.url}/ConsultarCampanias`;
+  return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+}
+ 
+ConsultarConceptos(codigoTipo: any): Observable<any> {
+  const body: any = {
+    CodigoTipo: codigoTipo
+  };
+  const url = `${this.url}/ConsultarConceptos`;
+  return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+}
+
+ //////
+
 
   ConsultarProductoPrecioDia(request: any): Observable<any> {
     const url = `${this.url}/ConsultarProductoPrecioDia`;

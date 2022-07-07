@@ -394,7 +394,10 @@ export class ControlCalidadEditComponent implements OnInit {
         this.vSessionUser.Result.Data.NombreUsuario,
         new Date(),
         this.notaIngredoFormEdit.controls["direccion"].value,
-        this.notaIngredoFormEdit.get('pesado').get("marca").value
+        this.notaIngredoFormEdit.get('pesado').get("marca").value,
+        "",
+        ""
+
       );
       this.spinner.show(undefined,
         {
@@ -522,6 +525,9 @@ export class ControlCalidadEditComponent implements OnInit {
     this.notaIngredoFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
     this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
+    
+
+
     this.notaIngredoFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
     this.notaIngredoFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);

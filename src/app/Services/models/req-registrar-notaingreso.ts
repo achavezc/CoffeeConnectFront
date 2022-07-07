@@ -41,7 +41,9 @@ export class ReqRegistrarPesadoNotaIngreso {
         UsuarioPesado: string,
         FechaPesado: Date,
         Direccion : string,
-        Marca : string
+        Marca : string,
+        CodigoCampania:string,
+        CodigoTipoConcepto:string
 
         ) {
         this.NotaIngresoPlantaId = NotaIngresoPlantaId;
@@ -80,6 +82,8 @@ export class ReqRegistrarPesadoNotaIngreso {
         this.FechaPesado = FechaPesado;
         this.Direccion = Direccion;
         this.Marca = Marca;
+        this.CodigoCampania = CodigoCampania;
+        this.CodigoTipoConcepto = CodigoTipoConcepto
     }
     NotaIngresoPlantaId:number;
     EmpresaId: number;
@@ -117,5 +121,6 @@ export class ReqRegistrarPesadoNotaIngreso {
     FechaPesado: Date;
     Direccion: string;
     Marca : string;
-
+    CodigoCampania:string;
+    CodigoTipoConcepto:string;
 }

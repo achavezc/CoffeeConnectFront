@@ -130,10 +130,25 @@
                     [(ngModel)]="selectedEstado">
                   </ng-select>
                 </div>
+                 <!--  campos creados nuevos -->
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip12">Campaña</label>
+                  <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
+                    bindValue="Codigo" id="validationTooltip12" placeholder="Campania"
+                    [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
+                    [(ngModel)]="selectedCampania">
+                  </ng-select>
+                </div>
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip12">Concepto</label>
+                  <ng-select [items]="listaConcepto" formControlName="Concepto" class="form-control" bindLabel="Label"
+                    bindValue="Codigo" id="validationTooltip12" placeholder="Concepto"
+                    [ngClass]="{ 'is-invalid': submitted && f.Concepto.invalid, 'is-valid': submitted && !f.Concepto.invalid }"
+                    [(ngModel)]="selectedConcepto">
+                  </ng-select>
+                </div>
+                 <!--  campos creados nuevos -->
 
-              
-
-              
               </div>
               <small class="form-text text-muted danger"
               *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
@@ -202,8 +217,12 @@
                 </ng-template>
               </ngx-datatable-column>
 
-
+       
               <ngx-datatable-column name="Numero Nota Ingreso" prop="Numero" width="90" *ngIf="popUp">
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Campaña" prop="CodigoCampania" width="90" >
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Concepto" prop="DescripcionConcepto" width="90">
               </ngx-datatable-column>
               <ngx-datatable-column name="Nro Guia Remisión" prop="NumeroGuiaRemision" width="140">
               </ngx-datatable-column>
