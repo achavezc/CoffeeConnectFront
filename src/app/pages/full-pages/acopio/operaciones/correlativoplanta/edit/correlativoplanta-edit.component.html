@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">Correlativo Planta</div>
+    </div>
+</div>
+<form class="needs-validation" novalidate [formGroup]="precioDiaEditForm">
+   
+    <div class="card border-dark mb-3">
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="codigo" class="col-md-4 col-form-label pr-0">Código</label>
+                        <div class="col-md-8">
+                            <input type="text" name="codigo" id="codigo" formControlName="codigo"
+                                class="form-control" placeholder="Ingresar Código" 
+                                [ngClass]="{ 'is-invalid': f.codigo.invalid, 'is-valid': !f.codigo.invalid }" [readonly]="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="descripcion" class="col-md-4 col-form-label pr-0">Descripción</label>
+                        <div class="col-md-8">
+                            <input type="text" name="descripcion" id="descripcion" formControlName="descripcion"
+                                class="form-control" placeholder="Ingresar Descripción" 
+                                [ngClass]="{ 'is-invalid': f.descripcion.invalid, 'is-valid': !f.descripcion.invalid }">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="tipoDocumento" class="col-md-4 col-form-label pr-0">Pais</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listProducto" formControlName="producto" class="form-control"
+                            bindLabel="Descripcion" bindValue="Codigo" id="listProducto"
+                                placeholder="Seleccionar Pais" [(ngModel)]="selectedProducto" 
+                                [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+         
+            </div>
+            <div class="form-row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group row">
+                        <label for="estado" class="col-md-4 col-form-label pr-0">Estado</label>
+                        <div class="col-md-8">
+                            <ng-select [items]="listEstado" formControlName="estado" class="form-control"
+                                bindLabel="Label" bindValue="Codigo" id="estado" 
+                                placeholder="Seleccionar Estado" [(ngModel)]="selectedEstado"
+                                [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row">
+                <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
+                    {{errorGeneral.errorMessage}}
+                </small>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <button class="btn btn-primary" (click)="Save()" [disabled]="readonly==true">Guardar</button>
+            <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
+        </div>
+    </div>
+</form>
+<div class="d-flex justify-content-center">
+    <ngx-spinner></ngx-spinner>
+</div>

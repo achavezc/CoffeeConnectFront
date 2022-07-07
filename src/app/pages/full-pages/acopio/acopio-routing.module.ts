@@ -23,6 +23,8 @@ import { LoteEditComponent } from './operaciones/lotes/lote-edit/lote-edit.compo
 import { ZonaListComponent } from './operaciones/zona/list/zona-list.component';
 import { ZonaEditComponent } from './operaciones/zona/edit/zona-edit.component';
 import { KardexComponent } from './operaciones/kardex/kardex.component';
+import { CorrelativoPlantaListComponent } from './operaciones/correlativoplanta/list/correlativoplanta-list.component';
+import { CorrelativoPlantaEditComponent } from './operaciones/correlativoplanta/edit/correlativoplanta-edit.component';
 
 const routes: Routes = [
   {
@@ -184,6 +186,24 @@ const routes: Routes = [
           title: 'Edit'
         }
       },
+ ///ruta de correlativopñanta
+ {
+  path: 'correlativoplanta-list',
+  component: CorrelativoPlantaListComponent,
+
+  data: {
+    title: 'List'
+  }
+},
+{
+  path: 'correlativoplanta-edit',
+  component: CorrelativoPlantaEditComponent,
+data: {
+   title: 'Edit'
+  }
+},
+      
+ ////rutacorrelativoplanta
       {
         path: 'kardex',
         component: KardexComponent,

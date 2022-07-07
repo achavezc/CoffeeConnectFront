@@ -39,6 +39,10 @@ import { LotesComponent } from './operaciones/lotes/lotes.component';
 import { NotaSalidaComponent } from './operaciones/notasalida/nota-salida.component';
 import { CiudadesListComponent } from './operaciones/ciudades/list/ciudades-list.component';
 import { CiudadesEditComponent } from './operaciones/ciudades/edit/ciudades-edit.component';
+////nuevos import
+import { CorrelativoPlantaListComponent } from './operaciones/correlativoplanta/list/correlativoplanta-list.component';
+import { CorrelativoPlantaEditComponent } from './operaciones/correlativoplanta/edit/correlativoplanta-edit.component';
+///nuevos import
 import { OrdenServicioComponent } from './operaciones/ordenservicio/orden-servicio.component';
 
 import { OrdenServicioEditComponent } from './operaciones/ordenservicio/ordenservicio-edit/ordenservicio-edit.component';
@@ -81,6 +85,10 @@ import { KardexComponent } from './operaciones/kardex/kardex.component';
   declarations: [
     CiudadesEditComponent,
     CiudadesListComponent,
+  ////Nuevas Compoenentes
+    CorrelativoPlantaEditComponent,
+    CorrelativoPlantaListComponent,
+  ////Nueva component
     DetalleCatalogoEditComponent,
     DetalleCatalogoComponent,
     MateriaPrimaListComponent,
