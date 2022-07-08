@@ -388,6 +388,12 @@
 			"Label":"Tabla de Tablas"
 			
 		}
+		,
+		"CorrelativoPlanta":
+		{
+			"Label":"Correlativo Planta"
+			
+		}
 		
 	},
 	

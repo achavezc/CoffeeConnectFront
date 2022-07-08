@@ -14,13 +14,13 @@
                             <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="nroNotaSalida" class="form-label">Número Nota Salida</label>
-                                    <input type="text" minlength="5" maxlength="50" formControlName="nroNotaSalida"
+                                    <input type="text" minlength="6" maxlength="50" formControlName="nroNotaSalida"
                                         class="form-control" id="nroNotaSalida" placeholder="Número de nota de salida"
                                         [ngClass]="{ 'is-invalid': submitted && f.nroNotaSalida.invalid, 'is-valid': submitted &&  !f.nroNotaSalida.invalid }">
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.nroNotaSalida.errors?.minlength">Ingrese 5 a 50 letras</small>
+                                        *ngIf="f.nroNotaSalida.errors?.minlength">Ingrese 6 a 50 letras</small>
                                     <small class="form-text text-muted danger"
-                                        *ngIf="f.nroNotaSalida.errors?.maxlength">Ingrese 5 a 50 letras</small>
+                                        *ngIf="f.nroNotaSalida.errors?.maxlength">Ingrese 6 a 50 letras</small>
                                     <small class="form-text text-muted danger"
                                         *ngIf="f.nroNotaSalida.errors?.pattern">Solo
                                         letras y números</small>

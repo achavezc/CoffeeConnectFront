@@ -74,6 +74,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
   compareTwoDates() {
+    /*
     var anioFechaInicio = new Date(this.notaIngresoAlmacenForm.controls['fechaInicio'].value).getFullYear()
     var anioFechaFin = new Date(this.notaIngresoAlmacenForm.controls['fechaFin'].value).getFullYear()
 
@@ -86,9 +87,11 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     } else {
       this.error = { isError: false, errorMessage: '' };
     }
-  }
+  }*/
+}
   get f() {
     return this.notaIngresoAlmacenForm.controls;
+   
   }
 
   filterUpdate(event) {
@@ -173,6 +176,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.router.navigate(['/planta/operaciones/notaingresoalmacen-edit']);
   }
   compareFechas() {
+   /*
     var anioFechaInicio = new Date(this.notaIngresoAlmacenForm.controls['fechaInicio'].value).getFullYear()
     var anioFechaFin = new Date(this.notaIngresoAlmacenForm.controls['fechaFin'].value).getFullYear()
     if (new Date(this.notaIngresoAlmacenForm.controls['fechaInicio'].value) > new Date(this.notaIngresoAlmacenForm.controls['fechaFin'].value)) {
@@ -183,7 +187,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
       this.notaIngresoAlmacenForm.controls['fechaInicio'].setErrors({ isError: true })
     } else {
       this.errorFecha = { isError: false, errorMessage: '' };
-    }
+    }*/
   }
 
   buscar() {

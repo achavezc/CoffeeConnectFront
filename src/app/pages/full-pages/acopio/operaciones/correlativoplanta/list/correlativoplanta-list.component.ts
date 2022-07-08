@@ -2,9 +2,10 @@ import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
-import { UbigeoService } from '../../../../../../services/ubigeo.service';
+//import { UbigeoService } from '../../../../../../services/ubigeo.service';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from './../../../../../../services/auth.service';
 
@@ -17,20 +18,29 @@ import {AuthService} from './../../../../../../services/auth.service';
 export class CorrelativoPlantaListComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private dateUtil: DateUtil,
-    private ubigeoService: UbigeoService,
+    //private ubigeoService: UbigeoService,
+    private maestroUtil: MaestroUtil,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private router: Router,
     private authService : AuthService) { }
 
-  preciosdiaform: FormGroup;
+  Correlativoplantaform: FormGroup;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   listSubProducto: [] = [];
-  listEstado: [] = [];
-  listProducto: [] = [];
+  
+  listaTipo: [] = [];
+  listaConcepto:[] =[];
+  listaCampania: [] = [];
+  listaActivo:[]=[];
+  
   selectedSubProducto: any;
-  selectedEstado: any;
-  selectedProducto: any;
+  
+  selectedTipo: any;
+  selectedConcepto:any;
+  selectedCampania: any;
+  selectedActivo:any;
+  
   selected = [];
   limitRef: number = 10;
   rows = [];
@@ -46,46 +56,80 @@ export class CorrelativoPlantaListComponent implements OnInit {
   ngOnInit(): void {
     this.LoadForm();
     this.LoadCombos();
-    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+
+    //this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {
-    this.preciosdiaform = this.fb.group({
+    this.Correlativoplantaform = this.fb.group({
       
-      producto: ['', Validators.required],
-      estado: ['', Validators.required]
+      campanhnia:['',],
+      codigoTipo:['',],
+      CodigoConcepto:['',],
+      activo:['',],
     });
   }
 
   get f() {
-    return this.preciosdiaform.controls;
+    return this.Correlativoplantaform.controls;
   }
 
   LoadCombos(): void {
-    this.GetPaises();
+
+    this.GetListTipo();
     this.GetListEstado();
 
   }
-
+  changeTipos(e) {
+    
+    let codigo = e.Codigo;
+    this.cargaCampania(codigo);
+    this.cargaConceptos(codigo);
+  }
 
 
   
-  async GetPaises() {
-    const res: any = await this.maestroService.ConsultarPaisAsync().toPromise();
-    if (res.Result.Success) {
-      this.listProducto = res.Result.Data;
+  async cargaCampania(codigo :any) {
+
+    var data = await this.maestroService.ConsultarCampanias(codigo).toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
     }
+
+  }
+    async cargaConceptos(codigo:any) {
+
+    var data = await this.maestroService.ConsultarConceptos(codigo).toPromise();
+    if (data.Result.Success) {
+      this.listaConcepto = data.Result.Data;
+    }
+
   }
 
-
-
+  async GetListTipo() {
+    var form = this;
+    this.maestroUtil.obtenerMaestros("TipoCorrelativoPlanta", function (res) 
+    {
+      if (res.Result.Success) {
+        form.listaTipo = res.Result.Data;
+        /*if (form.popUp) {
+          form.consultaNotaIngresoPlantaForm.controls.estado.setValue("03");
+          form.consultaNotaIngresoPlantaForm.controls.estado.disable();
+          form.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
+        }*/
+      }
+    });
+  }
   async GetListEstado() {
     let res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
-      this.listEstado = res.Result.Data;
+      this.listaActivo = res.Result.Data;
+      this.Correlativoplantaform.get('activo').setValue('01');
     }
   }
+  
+
 
   updateLimit(event: any): void {
     this.limitRef = event.target.value;
@@ -105,22 +149,34 @@ export class CorrelativoPlantaListComponent implements OnInit {
   }
 
   getRequest(): any {
+    var ActivoFinal =false; 
+    if(this.Correlativoplantaform.value.activo == "01" )
+    {
+       ActivoFinal = true;
+    }
     return {
-      CodigoPais: this.preciosdiaform.value.producto ?? '',
-      EmpresaId: 1
-    };
+      campanhnia: this.Correlativoplantaform.value.campanhnia,
+      Codigotipo: this.Correlativoplantaform.value.codigoTipo,
+      CodigoConcepto: this.Correlativoplantaform.value.CodigoConcepto,
+      activo: ActivoFinal
+  };
   }
 
   Search(): void {
-    if (!this.preciosdiaform.invalid && !this.errorGeneral.isError) {
+    if (!this.Correlativoplantaform.invalid && !this.errorGeneral.isError) {
       this.spinner.show();
       const request = this.getRequest();
-      this.ubigeoService.Consultar(request).subscribe((res: any) => {
+      this.maestroService.ConsultarCorrelativoPlanta(request).subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
-          /*res.Result.Data.forEach(x => {
-            x.FechaRegistro = this.dateUtil.formatDate(new Date(x.FechaRegistro));
-          });*/
+          res.Result.Data.forEach(x => {
+            if(x.Activo == true ){
+              x.ActivoNombre ='Activo';
+            }else
+            {
+            x.ActivoNombre = 'Inactivo'; 
+            }
+          });
           this.tempData = res.Result.Data;
           this.rows = [...this.tempData];
           this.errorGeneral = { isError: false, msgError: '' };
@@ -142,7 +198,7 @@ export class CorrelativoPlantaListComponent implements OnInit {
   }
 
   Nuevo(): void {
-    this.router.navigate(['/acopio/operaciones/ciudades-edit']);
+    this.router.navigate(['/acopio/operaciones/correlativoplanta-edit']);
   }
 
 }

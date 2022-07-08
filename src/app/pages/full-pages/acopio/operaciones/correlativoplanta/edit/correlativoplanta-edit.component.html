@@ -3,60 +3,95 @@
         <div class="content-header">Correlativo Planta</div>
     </div>
 </div>
-<form class="needs-validation" novalidate [formGroup]="precioDiaEditForm">
+<form class="needs-validation" novalidate [formGroup]="CorrelativoEditForm">
    
     <div class="card border-dark mb-3">
         <div class="card-body">
             <div class="form-row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group row">
-                        <label for="codigo" class="col-md-4 col-form-label pr-0">Código</label>
-                        <div class="col-md-8">
-                            <input type="text" name="codigo" id="codigo" formControlName="codigo"
-                                class="form-control" placeholder="Ingresar Código" 
-                                [ngClass]="{ 'is-invalid': f.codigo.invalid, 'is-valid': !f.codigo.invalid }" [readonly]="true">
-                        </div>
-                    </div>
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip04">Campaña</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="Campanha" class="form-control"
+                    id="validationTooltip04" placeholder="Campaña"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.Campanha.invalid, 'is-valid': submittedEdit &&  !f.Campanha.invalid }">
+                 
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group row">
-                        <label for="descripcion" class="col-md-4 col-form-label pr-0">Descripción</label>
-                        <div class="col-md-8">
-                            <input type="text" name="descripcion" id="descripcion" formControlName="descripcion"
-                                class="form-control" placeholder="Ingresar Descripción" 
-                                [ngClass]="{ 'is-invalid': f.descripcion.invalid, 'is-valid': !f.descripcion.invalid }">
-                        </div>
-                    </div>
+                
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip08">Codigo Tipo</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="CodigoTipo"
+                    class="form-control" id="validationTooltip08" placeholder="Codigo Tipo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.CodigoTipo.invalid, 'is-valid': submittedEdit && !f.CodigoTipo.invalid }">
+                 
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group row">
-                        <label for="tipoDocumento" class="col-md-4 col-form-label pr-0">Pais</label>
-                        <div class="col-md-8">
-                            <ng-select [items]="listProducto" formControlName="producto" class="form-control"
-                            bindLabel="Descripcion" bindValue="Codigo" id="listProducto"
-                                placeholder="Seleccionar Pais" [(ngModel)]="selectedProducto" 
-                                [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }">
-                            </ng-select>
-                        </div>
-                    </div>
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip06">Codigo Tipo Concepto</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="CodigoTipoConcepto" class="form-control"
+                    id="validationTooltip06" placeholder="Codigo Tipo Concepto"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.CodigoTipoConcepto.invalid, 'is-valid': submittedEdit && !f.CodigoTipoConcepto.invalid }">
+            
                 </div>
+              </div>
+
+
+              <div class="form-row">
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip04">Cantidad Digitos Planta</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="CantidadDigitosPlanta" class="form-control"
+                    id="validationTooltip04" placeholder="Cantidad Digitos Planta"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.CantidadDigitosPlanta.invalid, 'is-valid': submittedEdit &&  !f.CantidadDigitosPlanta.invalid }">
          
-            </div>
-            <div class="form-row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group row">
-                        <label for="estado" class="col-md-4 col-form-label pr-0">Estado</label>
-                        <div class="col-md-8">
-                            <ng-select [items]="listEstado" formControlName="estado" class="form-control"
-                                bindLabel="Label" bindValue="Codigo" id="estado" 
-                                placeholder="Seleccionar Estado" [(ngModel)]="selectedEstado"
-                                [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }">
-                            </ng-select>
-                        </div>
-                    </div>
                 </div>
-            </div>
-           
+                
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip08">Prefijo</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="Prefijo"
+                    class="form-control" id="validationTooltip08" placeholder="Prefijo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.Prefijo.invalid, 'is-valid': submittedEdit && !f.Prefijo.invalid }">
+                 
+                </div>
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip06">Contador</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="Contador" class="form-control"
+                    id="validationTooltip06" placeholder="Contador"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.Contador.invalid, 'is-valid': submittedEdit && !f.Contador.invalid }">
+               
+                </div>
+              </div>
+
+
+              <div class="form-row">
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip04">Tipo</label>
+                  <input type="text" minlength="1" maxlength="100" formControlName="Tipo" class="form-control"
+                    id="validationTooltip04" placeholder="Tipo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.Tipo.invalid, 'is-valid': submittedEdit &&  !f.Tipo.invalid }">
+            
+                </div>
+                
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip08">Concepto</label>
+                  <input type="text" minlength="1" maxlength="100" formControlName="Concepto"
+                    class="form-control" id="validationTooltip08" placeholder="Concepto"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.Concepto.invalid, 'is-valid': submittedEdit && !f.Concepto.invalid }">
+   
+                </div>
+                <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip12">Activo</label>
+                  <ng-select [items]="listActivo"formControlName="Activo" class="form-control" bindLabel="Label"
+                    bindValue="Codigo" id="validationTooltip12" placeholder="Activo"
+                    [ngClass]="{ 'is-invalid': submittedEdit&& f.Activo.valid, 'is-valid': submittedEdit && !f.Activo.valid }"
+                    [(ngModel)]="selectedActivo">
+                  </ng-select>
+                </div>
+               <!--- <div class="col-md-4 mb-4 form-group mb-2">
+                  <label for="validationTooltip06">Activo</label>
+                  <input type="text" minlength="1" maxlength="20" formControlName="Activo" class="form-control"
+                    id="validationTooltip06" placeholder="Activo"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.Activo.invalid, 'is-valid': submittedEdit && !f.Activo.invalid }">
+         
+                </div>-->
+              </div>
+       
             <div class="row">
                 <small *ngIf="errorGeneral.isError" class="form-text danger text-muted">
                     {{errorGeneral.errorMessage}}
@@ -64,7 +99,7 @@
             </div>
         </div>
         <div class="card-footer text-right">
-            <button class="btn btn-primary" (click)="Save()" [disabled]="readonly==true">Guardar</button>
+            <button class="btn btn-primary" (click)="Guardar()" [disabled]="readonly==true">Guardar</button>
             <button class="btn btn-danger ml-1" (click)="Cancel()">Cancelar</button>
         </div>
     </div>

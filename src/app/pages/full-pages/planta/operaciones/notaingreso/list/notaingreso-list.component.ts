@@ -289,6 +289,9 @@ export class NotaIngresoListComponent implements OnInit {
   }
 
   compareTwoDates() {
+   
+   
+   /*
     var anioFechaInicio = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value).getFullYear()
     var anioFechaFin = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value).getFullYear()
 
@@ -300,7 +303,7 @@ export class NotaIngresoListComponent implements OnInit {
       this.consultaNotaIngresoPlantaForm.controls['fechaFin'].setErrors({ isError: true })
     } else {
       this.error = { isError: false, errorMessage: '' };
-    }
+    }*/
   }
 
   compareFechas() {
@@ -339,6 +342,10 @@ export class NotaIngresoListComponent implements OnInit {
 
   anular() {
     if (this.selected.length > 0) {
+      if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
+       this.alertUtil.alertWarning("Error","No se puede Anular la operacion Procesada");
+      return;
+      }
       if (this.selected[0].EstadoId == this.estadoPesado) {
         var form = this;
         swal.fire({

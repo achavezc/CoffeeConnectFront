@@ -8,10 +8,11 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from './../../../../../../services/auth.service';
 import swal from 'sweetalert2';
+import { number } from 'ngx-custom-validators/src/app/number/validator';
 
 @Component({
   selector: 'app-ciudades-edit',
-  templateUrl: './correlativoplanta-edit.component.html',
+  templateUrl:'./correlativoplanta-edit.component.html',
   styleUrls: ['./correlativoplanta-edit.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
@@ -27,19 +28,21 @@ export class CorrelativoPlantaEditComponent implements OnInit {
     private ubigeoService : UbigeoService,
     private authService : AuthService) { }
 
-  precioDiaEditForm: FormGroup;
+  CorrelativoEditForm: FormGroup;
+  precioDiaEditForm:FormGroup;
   listMoneda: [];
-  listProducto: [];  
-  listEstado: [];
-  listSubProducto: [];
+  listaCampania: [];  
+  listaConcepto: [];
+  listActivo: [];
+
   responsable: any = '';
   esEdit = false;
   selectedMoneda: any;
   selectedProducto: any;
   selectedEstado: any;
-  selectedSubProducto: any;
+  selectedActivo: any;
   activo  = "01";
-  vId: number = 0;
+  CorrelativoPlantaId: number = 0;
   errorGeneral = { isError: false, errorMessage: '' };
   vMensajeErrorGenerico: string = 'Ha ocurrido un error interno.';
   errorGenerico = { isError: false, msgError: '' };
@@ -54,17 +57,17 @@ export class CorrelativoPlantaEditComponent implements OnInit {
     this.route.queryParams
     .subscribe(params => {
       if (Number(params.id)) {
-        this.vId = Number(params.id);
+        this.CorrelativoPlantaId = Number(params.id);
         this.ConsultarPorId();
         this.esEdit= true;
       }
     });
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.precioDiaEditForm);
+  //  this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.CorrelativoEditForm);
   }
 
   ConsultarPorId() {
     this.spinner.show();
-    this.ubigeoService.ConsultarPorId({ UbigeoId: this.vId }).subscribe((res: any) => {
+    this.maestroService.ConsultarCorrelativoPorId({ CorrelativoPlantaId: this.CorrelativoPlantaId }).subscribe((res: any) => {
      
       if (res.Result.Success) {
          this.CompletarFormulario(res.Result.Data);
@@ -78,50 +81,100 @@ export class CorrelativoPlantaEditComponent implements OnInit {
 
   async CompletarFormulario(data: any) {
 
-    if (data.Codigo) {
-      this.precioDiaEditForm.controls.codigo.setValue(data.Codigo);
+    if (data.Campanha) {
+      this.CorrelativoEditForm.controls.Campanha.setValue(data.Campanha);
     }
-    if (data.Descripcion) {
-      this.precioDiaEditForm.controls.descripcion.setValue(data.Descripcion);
+    if (data.CodigoTipo) {
+      this.CorrelativoEditForm.controls.CodigoTipo.setValue(data.CodigoTipo);
     }
-    if (data.CodigoPais) {
-      this.precioDiaEditForm.controls.producto.setValue(data.CodigoPais);
+    if (data.CodigoTipoConcepto) {
+      this.CorrelativoEditForm.controls.CodigoTipoConcepto.setValue(data.CodigoTipoConcepto);
     }
-    if (data.EstadoRegistro) {
-      this.precioDiaEditForm.controls.estado.setValue("01");
+    if (data.CantidadDigitosPlanta) {
+      this.CorrelativoEditForm.controls.CantidadDigitosPlanta.setValue(data.CantidadDigitosPlanta);
+    }
+   
+    if (data.Prefijo) {
+      this.CorrelativoEditForm.controls.Prefijo.setValue(data.Prefijo);
+    }
+   
+    if (data.Contador) {
+      this.CorrelativoEditForm.controls.Contador.setValue(data.Contador);
+    }
+   
+    if (data.Tipo) {
+      this.CorrelativoEditForm.controls.Tipo.setValue(data.Tipo);
+    }
+    if (data.Concepto) {
+      this.CorrelativoEditForm.controls.Concepto.setValue(data.Concepto);
+    }
+    if (data.activo) {
+      this.CorrelativoEditForm.controls.activo.setValue(data.activo);
     }
    
     this.spinner.hide();
   }
 
   LoadForm() {
-    this.precioDiaEditForm = this.fb.group({
-      codigo: ['', ],
-      descripcion: ['',Validators.required],
-      producto: ['', Validators.required],
-      estado: ['',Validators.required]
+    this.CorrelativoEditForm = this.fb.group({
+  
+      Campanha: ['',],
+      CodigoTipo: ['', ],
+      CodigoTipoConcepto: ['',],
+      CantidadDigitosPlanta: ['',],
+      Prefijo: ['',],
+      Contador: ['',],
+      Concepto:['',],
+      Tipo: ['',],
+      Activo: ['',]
     });
     
   }
 
   get f() {
-    return this.precioDiaEditForm.controls;
+    return this.CorrelativoEditForm.controls;
   }
 
    LoadCombos() {
-   this.GetPaises();
-   this.GetEstados();
+   this.cargaCampania();
+   this.cargaConceptos();
+   this.GetListEstado();
   }
+  async cargaCampania() {
 
-  async GetPaises() {
-    const res: any = await this.maestroService.ConsultarPaisAsync().toPromise();
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
+    async cargaConceptos() {
+
+    var data = await this.maestroService.ConsultarConceptos("01").toPromise();
+    if (data.Result.Success) {
+      this.listaConcepto = data.Result.Data;
+    }
+
+  }
+  async GetListEstado() {
+    let res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
-      this.listProducto = res.Result.Data;
+      this.listActivo = res.Result.Data;
     }
   }
 
-  async GetEstados() {
 
+
+  async GetPaises() {
+  
+  /*  const res: any = await this.maestroService.ConsultarPaisAsync().toPromise();
+    if (res.Result.Success) {
+      this.listProducto = res.Result.Data;
+    }*/
+  }
+
+  async GetEstados() {
+/*
     var data = await this.maestroService.obtenerMaestros("EstadoMaestro").toPromise();
     if (data.Result.Success) {
       this.listEstado = data.Result.Data;
@@ -130,74 +183,59 @@ export class CorrelativoPlantaEditComponent implements OnInit {
     this.route.queryParams
     .subscribe(params => {
       if (!Number(params.id)) {
-        this.precioDiaEditForm.controls.estado.setValue("01");
-        this.precioDiaEditForm.controls.estado.disable();
+        this.CorrelativoEditForm.controls.estado.setValue("01");
+        this.CorrelativoEditForm.controls.estado.disable();
       }
     });
-   
+  */ 
 
   }
 
-  Save(): void {
+  Guardar(): void {
     const form = this;
-    if (this.precioDiaEditForm.invalid) {
-      this.submittedEdit = true;
-      this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
-      return;
-      } 
-    else 
-    {
-      if (this.vId <= 0)
-      {
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con el registro?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
-            form.CreatePrecioDia();
-          }
-        });
-      }
-      else{
+    if (this.CorrelativoEditForm.invalid) {
+        this.submittedEdit = true;
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
+        return;
+    }
+    else {
+        /*
+         if(!this.validarCertificaciones()){
+            this.submitted = true;
+            this.errorGeneral = { isError: true, errorMessage: 'Por favor completar los campos OBLIGATORIOS.' };
+            return;
+        }else{ */
 
-        swal.fire({
-          title: 'Confirmación',
-          text: `¿Está seguro de continuar con la actualización?.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then((result) => {
-          if (result.value) {
-             form.ActualizarPrecioDia();
-          }
-        });
-       
-      }
-          
-    }    
-  }
+            if (this.CorrelativoPlantaId <= 0) {
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.Create();
+                    }
+                  });   
+            }
+            else {
+                this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.' , function (result) {
+                    if (result.isConfirmed) {
+                      form.Actualizar();
+                    }
+                  });
 
-  ActualizarPrecioDia(): void {
-    
+            }
+
+        //}
+    }
+}
+
+
+
+
+
+
+
+  Actualizar(): void {
+  
     var request = this.getRequest();
-    this.ubigeoService.Actualizar(request)
+    this.maestroService.ActualizarCorrelativo(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -212,13 +250,13 @@ export class CorrelativoPlantaEditComponent implements OnInit {
         console.log(err);
         this.spinner.hide();
       });
-  
+    
 }
 
-  CreatePrecioDia(): void {
+  Create(): void {
     
       var request = this.getRequest();
-      this.ubigeoService.Registrar(request)
+      this.maestroService.RegistrarCorrelativo(request)
         .subscribe((res: any) => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -238,26 +276,34 @@ export class CorrelativoPlantaEditComponent implements OnInit {
 
 
   getRequest(): any {
+    var ActivoFinal =false; 
+    if(this.CorrelativoEditForm.value.activo == "01" )
+    {
+       ActivoFinal = true;
+    }
     return {
-      IdUbigeo: this.vId ,
-      Codigo: this.precioDiaEditForm.value.codigo ? this.precioDiaEditForm.value.codigo : '',
-      Descripcion: this.precioDiaEditForm.value.descripcion ? this.precioDiaEditForm.value.descripcion : '',
-      UsuarioCreacion: this.vSessionUser.Result.Data.NombreUsuario,
-      FechaHoraCreacion: new Date(),
-      Usuario:  this.vSessionUser.Result.Data.NombreUsuario,
-      EstadoRegistro: true,
-      CodigoPais: this.precioDiaEditForm.controls["producto"].value ? this.precioDiaEditForm.controls["producto"].value: '',
-      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+      CorrelativoPlantaId: this.CorrelativoPlantaId ,
+      Campanha: this.CorrelativoEditForm.value.Campanha ? this.CorrelativoEditForm.value.Campanha : '',
+      CodigoTipo: this.CorrelativoEditForm.value.CodigoTipo ? this.CorrelativoEditForm.value.CodigoTipo : '',
+      
+      CodigoTipoConcepto: this.CorrelativoEditForm.value.CodigoTipoConcepto ? this.CorrelativoEditForm.value.CodigoTipoConcepto : '',
+      CantidadDigitosPlanta: String( this.CorrelativoEditForm.value.CantidadDigitosPlanta )?String( this.CorrelativoEditForm.value.CantidadDigitosPlanta) : '8',    
+      Prefijo:  this.CorrelativoEditForm.value.CodigoTipo ? this.CorrelativoEditForm.value.CodigoTipo : '',
+      Contador: this.CorrelativoEditForm.value.Contador ? this.CorrelativoEditForm.value.Contador : '',
+      Tipo: this.CorrelativoEditForm.value.Tipo ? this.CorrelativoEditForm.value.Tipo : '',
+      Concepto: this.CorrelativoEditForm.value.Concepto ? this.CorrelativoEditForm.value.Concepto : '',
+      Activo: ActivoFinal
     };
   }
 
   Cancel(): void {
-    this.router.navigate(['/acopio/operaciones/ciudades-list']);
+    this.router.navigate(['/acopio/operaciones/correlativoplanta-list']);
   }
 
  
 
-  comparisonValidator(): ValidatorFn {
+ // comparisonValidator(): ValidatorFn {
+    /*
     return (group: FormGroup): ValidationErrors => {
 
       if (!group.value.mCodProductor && !group.value.mNombRazonSocial && !group.value.mTipoDocumento) {
@@ -268,7 +314,7 @@ export class CorrelativoPlantaEditComponent implements OnInit {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
       return;
-    };
-  }
+    };*/
+  //}
 
 }

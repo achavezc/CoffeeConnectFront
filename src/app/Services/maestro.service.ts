@@ -47,6 +47,33 @@ ConsultarConceptos(codigoTipo: any): Observable<any> {
   return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
 }
 
+ConsultarCorrelativoPlanta(request: any): Observable<any> {
+  const url = `${this.url}/ConsultarCorrelativo`;
+  return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+}
+RegistrarCorrelativo(request: any): Observable<any> {
+  const url = `${this.url}/RegistrarCorrelativo`;
+  return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+}
+ActualizarCorrelativo(request: any): Observable<any> {
+  const url = `${this.url}/ActualizarCorrelativo`;
+  return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+}
+
+ConsultarCorrelativoPorId(request: any): Observable<any> {
+  const url = `${this.url}/ConsultarCorrelativoPorId`;
+  return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+}
+ 
+ConsultarTipoCorrelativo(codigoTipo: any): Observable<any> {
+  const body: any = {
+    CodigoTipo: codigoTipo
+  };
+  const url = `${this.url}/ConsultarTipoCorrelativo`;
+  return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+}
+
+
  //////
 
 

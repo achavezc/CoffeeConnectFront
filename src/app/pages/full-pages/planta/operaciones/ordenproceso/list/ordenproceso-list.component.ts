@@ -191,6 +191,7 @@ export class OrdenProcesoListComponent implements OnInit {
     }
   }
   compareTwoDates() {
+    /*
     var anioFechaInicio = new Date(this.ordenProcesoform.controls['fechaInicio'].value).getFullYear()
     var anioFechaFin = new Date(this.ordenProcesoform.controls['fechaFin'].value).getFullYear()
 
@@ -203,10 +204,12 @@ export class OrdenProcesoListComponent implements OnInit {
     } else {
       this.error = { isError: false, errorMessage: '' };
     }
+    */
   }
 
   
   compareFechas() {
+    /*
     var anioFechaInicio = new Date(this.ordenProcesoform.controls['fechaInicio'].value).getFullYear()
     var anioFechaFin = new Date(this.ordenProcesoform.controls['fechaFin'].value).getFullYear()
     if (new Date(this.ordenProcesoform.controls['fechaInicio'].value) > new Date(this.ordenProcesoform.controls['fechaFin'].value)) {
@@ -217,7 +220,7 @@ export class OrdenProcesoListComponent implements OnInit {
       this.ordenProcesoform.controls['fechaInicio'].setErrors({ isError: true })
     } else {
       this.errorFecha = { isError: false, errorMessage: '' };
-    }
+    }*/
   }
 
   Buscar(): void {

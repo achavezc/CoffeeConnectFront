@@ -10,45 +10,52 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="needs-validation" [formGroup]="preciosdiaform" novalidate>
+                        <form class="needs-validation" [formGroup]="Correlativoplantaform" novalidate>
                             <div class="form-row">
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="producto" class="form-label">Concepto</label>
-                                    <ng-select [items]="listProducto" formControlName="producto" class="form-control"
-                                        bindLabel="Descripcion" bindValue="Codigo" id="producto"
-                                        placeholder="Seleccionar Pais"
-                                        [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }"
-                                        [(ngModel)]="selectedProducto">
-                                    </ng-select>
-                                </div>
+                     
 
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado" class="form-label">Tipo</label>
-                                    <ng-select [items]="listEstado" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado"
-                                        placeholder="Seleccionar tipo cliente"
-                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                        [(ngModel)]="selectedEstado">
+                                  <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Tipo</label>
+                                    <ng-select [items]="listaTipo" formControlName="codigoTipo" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Seleccione Tipo"
+                                      (change)="changeTipos($event)"
+                                      [ngClass]="{ 'is-invalid': submitted && f.Tipo.invalid, 'is-valid': submitted && !f.Tipo.invalid }"
+                                      [(ngModel)]="selectedTipo">
                                     </ng-select>
-                                </div>
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado" class="form-label">Campaña</label>
-                                    <ng-select [items]="listEstado" formControlName="estado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="estado"
-                                        placeholder="Seleccionar tipo cliente"
-                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                        [(ngModel)]="selectedEstado">
+                                  </div>
+                                  <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Concepto</label>
+                                    <ng-select [items]="listaConcepto" formControlName="CodigoConcepto" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Descripcion"
+                                      [ngClass]="{ 'is-invalid': submitted && f.Concepto.invalid, 'is-valid': submitted && !f.Concepto.invalid }"
+                                      [(ngModel)]="selectedConcepto">
                                     </ng-select>
-                                </div>
-
+                                  </div>
+                                  <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Campaña</label>
+                                    <ng-select [items]="listaCampania" formControlName="campanhnia" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Seleccione un Año"
+                                      [ngClass]="{ 'is-invalid': submitted && f.campania.valid, 'is-valid': submitted && !f.campania.valid }"
+                                      [(ngModel)]="selectedCampania">
+                                    </ng-select>
+                                  </div>
+                                  <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Activo</label>
+                                    <ng-select [items]="listaActivo" formControlName="activo" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Seleccione Estado"
+                                      [ngClass]="{ 'is-invalid': submitted && f.Activo.valid, 'is-valid': submitted && !f.Activo.valid }"
+                                      [(ngModel)]="selectedActivo">
+                                    </ng-select>
+                                  </div>
+                          
 
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="preciosdiaform.invalid"
-                                (click)="Buscar()">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" [disabled]="readonly==true">Nuevo</button>
+                   
+                                <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Buscar()" [disabled]="readonly==false">Buscar</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" [disabled]="readonly==false">Nuevo</button>
                         </form>
                     </div>
                 </div>
@@ -91,32 +98,34 @@
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="false"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
                             
-                            <ngx-datatable-column name="CorrelaplantaId" prop="Codigo" width="90">
+                            <ngx-datatable-column name="CorrelativoPlantaId" prop="CorrelativoPlantaId" width="90">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
-                                            <a class="line-height-1 mb-0" routerLink="/acopio/operaciones/ciudades-edit"
-                                                [queryParams]="{ id: row.IdUbigeo}">{{
+                                            <a class="line-height-1 mb-0" routerLink="/acopio/operaciones/correlativoplanta-edit"
+                                                [queryParams]="{ id: row.CorrelativoPlantaId}">{{
                                                 name }}</a>
                                         </div>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Campaña"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="Campaña"prop="Campanha" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="CodigpTipo"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="CodigpTipo"prop="CodigoTipo" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="CodigoTipoConcepto"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="CodigoTipoConcepto"prop="CodigoTipoConcepto" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="CantidadDigistosPlanta"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="CantidadDigitosPlanta"prop="CantidadDigitosPlanta" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Prefijo"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="Prefijo"prop="Prefijo" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Contador"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="Contador"prop="Contador" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Tipo"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="Tipo"prop="Tipo" width="80">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Concepto"prop="Descripcion" width="80">
+                            <ngx-datatable-column name="Concepto"prop="Concepto" width="80">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Estado"prop="ActivoNombre" width="80">
                             </ngx-datatable-column>
                             
 
