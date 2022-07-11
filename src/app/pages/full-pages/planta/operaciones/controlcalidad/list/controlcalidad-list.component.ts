@@ -429,7 +429,10 @@ export class ControlCalidadListComponent implements OnInit
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)
   }
-  
+  aprobar() {
+
+  }
+
   exportar() {
     /*
     try {
