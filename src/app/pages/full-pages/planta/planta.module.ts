@@ -78,7 +78,7 @@ import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproces
     NotaIngresoAlmacenListComponent,
     NotaIngresoAlmacenEditComponent,
     PesadoCafePlantaComponent,
-    PesadoCafeCalidadPlantaComponent
+    PesadoCafeCalidadPlantaComponent,
     //PesadoCafeComponent,
     NotaSalidaAlmacenComponent,
     NotaSalidaPlantaEditComponent,

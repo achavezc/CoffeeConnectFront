@@ -119,7 +119,7 @@ export class ControlCalidadEditComponent implements OnInit {
           this.esEdit = true;
           this.obtenerDetalle()
         }
-   else { this.disabledControl = 'disabled'; }
+  // else { this.disabledControl = 'disabled'; }
       }
       );
    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);;
