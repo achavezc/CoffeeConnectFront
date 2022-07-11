@@ -24,7 +24,6 @@ import { ExportadorModule } from "../exportador/exportador.module";
 import { NotaIngresoListComponent } from "./operaciones/notaingreso/list/notaingreso-list.component";
 import { ControlCalidadListComponent } from "./operaciones/controlcalidad/list/controlcalidad-list.component";
 
-
 import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaingreso-edit.component";
@@ -78,8 +77,7 @@ import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproces
     NotaIngresoAlmacenListComponent,
     NotaIngresoAlmacenEditComponent,
     PesadoCafePlantaComponent,
-    PesadoCafeCalidadPlantaComponent
-    //PesadoCafeComponent,
+    PesadoCafeCalidadPlantaComponent,
     NotaSalidaAlmacenComponent,
     NotaSalidaPlantaEditComponent,
     TagNotaSalidaPlantaEditComponent,

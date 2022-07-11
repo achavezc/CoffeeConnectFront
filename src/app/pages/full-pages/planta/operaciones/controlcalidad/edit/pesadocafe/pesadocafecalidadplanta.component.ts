@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, Cont
 //import { EventEmitter } from 'events';
 
 @Component({
-  selector: '[formGroup] app-pesadoCafePlanta,[formGroupName] app-pesadoCafePlanta',
+  selector: '[formGroup] app-pesadocafeCalidadPlanta,[formGroupName] app-pesadocafeCalidadPlanta',
   templateUrl: './pesadocafeCalidadPlanta.component.html',
   styleUrls: ['./pesadocafeCalidadplanta.component.scss']
 })
