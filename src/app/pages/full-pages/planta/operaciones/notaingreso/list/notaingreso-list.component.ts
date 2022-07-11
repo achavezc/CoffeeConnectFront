@@ -54,6 +54,7 @@ export class NotaIngresoListComponent implements OnInit {
   estadoAnalizado = "02";
   vSessionUser: any;
   @Input() popUp = false;
+  @Input() estadoPes = false;
   @Output() agregarEvent = new EventEmitter<any>();
   readonly: boolean;
   page: any;
@@ -149,6 +150,10 @@ export class NotaIngresoListComponent implements OnInit {
           //this.selectedCampaña=
           this.consultaNotaIngresoPlantaForm.controls['motivo'].disable();
           this.selectedMotivo = "01";
+          
+          break;
+        case "ControlCalidadPlantaEdit":
+          this.selectedEstado = '01';
           
           break;
         default:

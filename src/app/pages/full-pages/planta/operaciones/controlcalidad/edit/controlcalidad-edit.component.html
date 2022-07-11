@@ -1,5 +1,17 @@
 <form class="needs-validation" [formGroup]="controlCalidadFormEdit">
     <section id="tooltip-validation">
+      <ng-template #modalNotaIngreso let-c="close" let-d="dismiss">
+        <div class="modal-header" style="text-align: center;">
+  
+          <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso Planta</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         <app-notaingreso-list (agregarEvent)="agregarNotaIngreso($event)" [popUp]="popUp" [estadoPes]="true"></app-notaingreso-list>
+        </div>
+      </ng-template>
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -24,30 +36,7 @@
                     </div>
   
                   </div>
-                  <!--<div class="form-row" >
-                       
-                        <div class="col-md-6 form-group">
-                          <label class="card-forms" for="users-edit-name">N° GUIA REFERENCIA</label>
-                        </div>
-                        
-                        <div class="col-md-6 form-group">
-              
-                          <div class="form-group" style="margin-bottom: 0.5rem !important;">
-                            <div class="controls">
-                              <input type="text" style="height:20px" id="users-edit-username" formControlName="guiaReferencia"  class="form-control" aria-invalid="false"
-                                [ngClass]="{ 'is-invalid': submittedEdit && fedit.guiaReferencia.invalid, 'is-valid': submittedEdit && !fedit.guiaReferencia.invalid }" >
-      
-                                <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.minlength">Ingrese 5 a 20
-                                  letras</small>
-                                <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.maxlength">Ingrese 5 a 20
-                                  letras</small>
-                                <small class="form-text text-muted danger" *ngIf="fedit.guiaReferencia.errors?.pattern">Solo letras y
-                                  números</small>
-                            </div>
-                          </div>
-      
-                        </div>
-                      </div> -->
+                 
                   <div class="form-row" *ngIf="esEdit">
   
                     <div class="col-md-6 form-group">
@@ -77,6 +66,24 @@
               <br>
               <br>
   
+              <div class="form-row">
+                <div class="col-md-3 mb-3 form-group mb-2">
+                  <label for="validationTooltip04">Nota Ingreso</label>
+                  <input type="text" minlength="8" maxlength="20" formControlName="notaIngreso" class="form-control"
+                    id="validationTooltip08" placeholder="Nota Ingreso"
+                    [ngClass]="{ 'is-invalid': submittedEdit && fedit.notaIngreso.invalid, 'is-valid': submittedEdit && !fedit.notaIngreso.invalid }"
+                    readonly>
+  
+  
+                </div>
+                <div class="col-md-1 mb-1 form-group mb-2">
+                  <button type="button" class="btn btn-default" style="margin-top: 1.5rem;"
+                    (click)="openModal(modalNotaIngreso)">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+
               <div class="form-row">
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip04">N° GUIA REMISION</label>

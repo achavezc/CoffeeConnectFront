@@ -86,6 +86,8 @@ export class ControlCalidadEditComponent implements OnInit {
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
   idPlantEntryNote = 0;
   readonly: boolean;
+  popUp = true;
+  msgErrorGenerico = 'Ocurrio un error interno.';
 
   constructor(private modalService: NgbModal,
     private maestroService: MaestroService,
@@ -141,7 +143,7 @@ export class ControlCalidadEditComponent implements OnInit {
         subproducto: ['', Validators.required],
         certificacion: ['', ],
         certificadora: ['', ],
-
+        notaIngreso: ['', ],
         pesado: this.fb.group({
           motivo: new FormControl('', [Validators.required]),
           empaque: new FormControl('', [Validators.required]),
@@ -233,6 +235,45 @@ export class ControlCalidadEditComponent implements OnInit {
       this.controlCalidadFormEdit.get("pesado").get("grado").enable();
       this.controlCalidadFormEdit.get("pesado").get("cantidadDefectos").enable();
     }
+  }
+
+  agregarNotaIngreso(e) {
+    this.obtenerDetalleNotaIngreso(e[0].NotaIngresoPlantaId);
+
+  }
+  obtenerDetalleNotaIngreso(id) {
+    this.spinner.show();
+    this.notaIngresoService.ConsultarPorId(Number(id))
+      .subscribe(res => {
+
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.detalle = res.Result.Data;
+            if (this.detalle != null) {
+              this.cargarDataFormulario(res.Result.Data);
+            } else {
+              this.spinner.hide();
+              this.modalService.dismissAll();
+            }
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, msgError: res.Result.Message };
+            this.modalService.dismissAll();
+          } else {
+            this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+            this.modalService.dismissAll();
+          }
+        } else {
+          this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+          this.modalService.dismissAll();
+        }
+      },
+        err => {
+          this.spinner.hide();
+          this.modalService.dismissAll();
+          console.log(err);
+          this.errorGeneral = { isError: false, msgError: this.msgErrorGenerico };
+        }
+      );
   }
 
   desactivarControles(estado: string, usuarioPesado: string, usuarioAnalizado: string) {
@@ -565,6 +606,7 @@ export class ControlCalidadEditComponent implements OnInit {
     this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaOrigenId };
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
     this.spinner.hide();
+    this.modalService.dismissAll();
   }
 
   async consultarSocioFinca() {
