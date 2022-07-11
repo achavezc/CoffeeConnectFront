@@ -293,7 +293,7 @@ export class ControlCalidadListComponent implements OnInit
   }
 
   nuevo() {
-    this.router.navigate(['/planta/operaciones/notaingreso-edit']);
+    this.router.navigate(['/planta/operaciones/controlcalidad-edit']);
   }
 
   anular() {

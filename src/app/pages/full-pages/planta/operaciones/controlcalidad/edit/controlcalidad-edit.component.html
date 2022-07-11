@@ -1,4 +1,4 @@
-<form class="needs-validation" [formGroup]="notaIngredoFormEdit">
+<form class="needs-validation" [formGroup]="controlCalidadFormEdit">
     <section id="tooltip-validation">
       <div class="row">
         <div class="col-12">
@@ -227,7 +227,7 @@
                         <div class="col-8 d-flex flex-sm-row flex-column">
                           <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
                           <label class="col-md-8 col-form-label card-text" style="font-weight: bold;"
-                            for="horizontal-form-1">{{responsable}}</label>
+                            for="horizontal-form-1">{{responsable}}</label> 
                         </div>
                         <div class="col-8 d-flex flex-sm-row flex-column">
                           <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Fecha Pesado</label>
@@ -251,15 +251,15 @@
                           *ngIf="esEdit">Documentos</button>
                           <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
                           [disabled]="!id || id <= 0" *ngIf="esEdit">Imprimir</button>
-                        <button type="submit"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar || readonly==true" 
+                        <button type="submit"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar || readonly==false" 
                           (click)="guardar()">Guardar</button>
                         <button type="submit"  class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
                           (click)="cancelar()">Cancelar</button>
                         </div>
                     </ng-template>
-  
-                  </li>
-                  <li [ngbNavItem]="2" style="display: none;">
+                    <!--style="display: none;"-->
+                  </li> 
+                  <li [ngbNavItem]="2">
                     <a ngbNavLink [class]="'nav-link ' + disabledControl + ' d-flex align-items-center'">
                       <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
                     </a>
@@ -274,7 +274,7 @@
   
   
                   </li>
-                  <!-- <li [ngbNavItem]="3">
+                  <!--<li [ngbNavItem]="3">
                       <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
                         <span class="d-none d-sm-block" style="font-size: 1.1rem;">Nota de Compra</span>
                       </a>

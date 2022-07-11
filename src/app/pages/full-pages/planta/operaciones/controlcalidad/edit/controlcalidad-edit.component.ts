@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { formatDate } from '@angular/common';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
-//import { PesadoCafePlantaComponent } from './pesadocafe/pesadocafeplanta.component';
+import { PesadoCafeCalidadPlantaComponent } from './pesadocafe/pesadocafecalidadplanta.component';
 import {AuthService} from './../../../../../../services/auth.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class ControlCalidadEditComponent implements OnInit {
   submitted = false;
   submittedEdit = false;
   closeResult: string;
-  notaIngredoFormEdit: FormGroup;
+  controlCalidadFormEdit: FormGroup;
   listaProducto: any[];
   listaSubProducto: any[];
   listaTipoProveedor: any[];
@@ -73,7 +73,7 @@ export class ControlCalidadEditComponent implements OnInit {
   viewTagSeco: boolean = false;
   detalle: any;
   unidadMedidaPesado: any;
-  form: string = "notaingresoplanta"
+  form: string = "controlcalidadplanta"
   btnGuardar = true;
   productoOroVerde = '02';
   estadoPesado = "01";
@@ -82,7 +82,7 @@ export class ControlCalidadEditComponent implements OnInit {
   estadoEnviadoAlmacen = "03";
   PrdCafePergamino = "01";
   SubPrdSeco = "02";
- // @ViewChild(PesadoCafePlantaComponent) child;
+ @ViewChild(PesadoCafeCalidadPlantaComponent) child;
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
   idPlantEntryNote = 0;
   readonly: boolean;
@@ -110,7 +110,7 @@ export class ControlCalidadEditComponent implements OnInit {
   ngOnInit(): void {
     this.cargarForm();
     this.cargarcombos();
-    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
+   this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
       .subscribe(params => {
         this.status = params.status;
@@ -119,15 +119,15 @@ export class ControlCalidadEditComponent implements OnInit {
           this.esEdit = true;
           this.obtenerDetalle()
         }
-        else { this.disabledControl = 'disabled'; }
+   else { this.disabledControl = 'disabled'; }
       }
       );
-      this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);;
+   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);;
   }
 
   cargarForm() {
 
-    this.notaIngredoFormEdit = this.fb.group(
+    this.controlCalidadFormEdit = this.fb.group(
       {
 
         guiaremision: ['', Validators.required],
@@ -141,6 +141,7 @@ export class ControlCalidadEditComponent implements OnInit {
         subproducto: ['', Validators.required],
         certificacion: ['', ],
         certificadora: ['', ],
+
         pesado: this.fb.group({
           motivo: new FormControl('', [Validators.required]),
           empaque: new FormControl('', [Validators.required]),
@@ -201,7 +202,7 @@ export class ControlCalidadEditComponent implements OnInit {
   changeSubProducto(e) {
     
     let filterProducto = e.Codigo;
-    let subproducto = this.notaIngredoFormEdit.get('subproducto').value;
+    let subproducto = this.controlCalidadFormEdit.get('subproducto').value;
     this.validacionPorcentajeRend(filterProducto, subproducto);
     this.cargarSubProducto(filterProducto);
     this.desactivarControl(filterProducto);
@@ -218,19 +219,19 @@ export class ControlCalidadEditComponent implements OnInit {
   }
   desactivarControl(codigo) {
     if (codigo != this.productoOroVerde) {
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
-      this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
-      this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
-      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
-      this.notaIngredoFormEdit.get("pesado").get("calidad").disable();
-      this.notaIngredoFormEdit.get("pesado").get("grado").disable();
-      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").disable();
+      this.controlCalidadFormEdit.get("pesado").get("pesoSaco").setValue("");
+      this.controlCalidadFormEdit.get("pesado").get("calidad").setValue([]);
+      this.controlCalidadFormEdit.get("pesado").get("grado").setValue([]);
+      this.controlCalidadFormEdit.get("pesado").get("cantidadDefectos").setValue("");
+      this.controlCalidadFormEdit.get("pesado").get("pesoSaco").disable();
+      this.controlCalidadFormEdit.get("pesado").get("calidad").disable();
+      this.controlCalidadFormEdit.get("pesado").get("grado").disable();
+      this.controlCalidadFormEdit.get("pesado").get("cantidadDefectos").disable();
     } else {
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").enable();
-      this.notaIngredoFormEdit.get("pesado").get("calidad").enable();
-      this.notaIngredoFormEdit.get("pesado").get("grado").enable();
-      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").enable();
+      this.controlCalidadFormEdit.get("pesado").get("pesoSaco").enable();
+      this.controlCalidadFormEdit.get("pesado").get("calidad").enable();
+      this.controlCalidadFormEdit.get("pesado").get("grado").enable();
+      this.controlCalidadFormEdit.get("pesado").get("cantidadDefectos").enable();
     }
   }
 
@@ -254,7 +255,7 @@ export class ControlCalidadEditComponent implements OnInit {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
-      this.notaIngredoFormEdit.disable();
+      this.controlCalidadFormEdit.disable();
 
       //Calidad Editable
       //NotaCompra Editable
@@ -262,7 +263,7 @@ export class ControlCalidadEditComponent implements OnInit {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
-      this.notaIngredoFormEdit.disable();
+      this.controlCalidadFormEdit.disable();
 
       //Calidad ReadOnly
       //NotaCompra Editable
@@ -270,7 +271,7 @@ export class ControlCalidadEditComponent implements OnInit {
       //Cabecera ReadOnly
       //Pesado ReadOnly
       this.btnGuardar = false;
-      this.notaIngredoFormEdit.disable();
+      this.controlCalidadFormEdit.disable();
 
       //Calidad ReadOnly
       //NotaCompra ReadOnly
@@ -280,16 +281,16 @@ export class ControlCalidadEditComponent implements OnInit {
 
   validacionPorcentajeRend(producto, subproducto) {
     if (producto == this.PrdCafePergamino && subproducto != this.SubPrdSeco && subproducto != undefined) {
-      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").disable()
-      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").setValue("");
+      this.controlCalidadFormEdit.get('pesado').get("porcentajeRendimiento").disable()
+      this.controlCalidadFormEdit.get('pesado').get("porcentajeRendimiento").setValue("");
     }
     else {
-      this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").enable();
+      this.controlCalidadFormEdit.get('pesado').get("porcentajeRendimiento").enable();
     }
   }
   changeView(e) {
     let filterSubTipo = e.Codigo;
-    let producto = this.notaIngredoFormEdit.get('producto').value;
+    let producto = this.controlCalidadFormEdit.get('producto').value;
     this.validacionPorcentajeRend(producto, filterSubTipo);
     if (filterSubTipo == "02") {
       this.viewTagSeco = true;
@@ -307,7 +308,7 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   get fedit() {
-    return this.notaIngredoFormEdit.controls;
+    return this.controlCalidadFormEdit.controls;
   }
 
   public comparisonValidator(): ValidatorFn {
@@ -347,54 +348,54 @@ export class ControlCalidadEditComponent implements OnInit {
   guardar() {
 
     const form = this;
-    if (this.notaIngredoFormEdit.invalid) {
+    if (this.controlCalidadFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
-      if (this.notaIngredoFormEdit.get('pesado').get("calidad").value == null || this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0) {
-        this.notaIngredoFormEdit.get('pesado').get("calidad").setValue("");
+      if (this.controlCalidadFormEdit.get('pesado').get("calidad").value == null || this.controlCalidadFormEdit.get('pesado').get("calidad").value.length == 0) {
+        this.controlCalidadFormEdit.get('pesado').get("calidad").setValue("");
       }
-      if (this.notaIngredoFormEdit.get('pesado').get("grado").value == null || this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0) {
-        this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
+      if (this.controlCalidadFormEdit.get('pesado').get("grado").value == null || this.controlCalidadFormEdit.get('pesado').get("grado").value.length == 0) {
+        this.controlCalidadFormEdit.get('pesado').get("grado").setValue("");
       }
 
       let request = new ReqRegistrarPesadoNotaIngreso(
         Number(this.id),
         this.vSessionUser.Result.Data.EmpresaId,
-        this.notaIngredoFormEdit.controls["guiaremision"].value,
-        this.notaIngredoFormEdit.controls["guiaremision"].value,
-        this.notaIngredoFormEdit.controls["fecharemision"].value,
+        this.controlCalidadFormEdit.controls["guiaremision"].value,
+        this.controlCalidadFormEdit.controls["guiaremision"].value,
+        this.controlCalidadFormEdit.controls["fecharemision"].value,
         this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId,
-        this.notaIngredoFormEdit.controls["tipoProduccion"].value,
-        this.notaIngredoFormEdit.controls["producto"].value,
-        this.notaIngredoFormEdit.controls["subproducto"].value,
-        this.notaIngredoFormEdit.controls["certificacion"].value ? this.notaIngredoFormEdit.controls["certificacion"].value.join('|') : '',
-        this.notaIngredoFormEdit.controls["certificadora"].value ? this.notaIngredoFormEdit.controls["certificadora"].value : '',
-        this.notaIngredoFormEdit.get('pesado').get("motivo").value,
-        this.notaIngredoFormEdit.get('pesado').get("empaque").value,
-        Number(this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").value),
-        Number(this.notaIngredoFormEdit.get('pesado').get("kilosNetos").value),
-        Number(this.notaIngredoFormEdit.get('pesado').get("tara").value),
-        this.notaIngredoFormEdit.get('pesado').get("calidad").value,
-        this.notaIngredoFormEdit.get('pesado').get("grado").value,
-        Number(this.notaIngredoFormEdit.get('pesado').get("cantidadDefectos").value),
-        Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
-        this.notaIngredoFormEdit.get('pesado').get("tipo").value,
-        Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
-        Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").value),
-        Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").value),
-        this.notaIngredoFormEdit.get('pesado').get("ruc").value,
-        this.notaIngredoFormEdit.get('pesado').get("transportista").value,
-        this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").value,
-        this.notaIngredoFormEdit.get('pesado').get("chofer").value,
-        this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").value,
-        this.notaIngredoFormEdit.get('pesado').get("observacion").value,
+        this.controlCalidadFormEdit.controls["tipoProduccion"].value,
+        this.controlCalidadFormEdit.controls["producto"].value,
+        this.controlCalidadFormEdit.controls["subproducto"].value,
+        this.controlCalidadFormEdit.controls["certificacion"].value ? this.controlCalidadFormEdit.controls["certificacion"].value.join('|') : '',
+        this.controlCalidadFormEdit.controls["certificadora"].value ? this.controlCalidadFormEdit.controls["certificadora"].value : '',
+        this.controlCalidadFormEdit.get('pesado').get("motivo").value,
+        this.controlCalidadFormEdit.get('pesado').get("empaque").value,
+        Number(this.controlCalidadFormEdit.get('pesado').get("kilosBrutos").value),
+        Number(this.controlCalidadFormEdit.get('pesado').get("kilosNetos").value),
+        Number(this.controlCalidadFormEdit.get('pesado').get("tara").value),
+        this.controlCalidadFormEdit.get('pesado').get("calidad").value,
+        this.controlCalidadFormEdit.get('pesado').get("grado").value,
+        Number(this.controlCalidadFormEdit.get('pesado').get("cantidadDefectos").value),
+        Number(this.controlCalidadFormEdit.get('pesado').get("pesoSaco").value),
+        this.controlCalidadFormEdit.get('pesado').get("tipo").value,
+        Number(this.controlCalidadFormEdit.get('pesado').get("cantidad").value),
+        Number(this.controlCalidadFormEdit.get('pesado').get("porcentajeHumedad").value),
+        Number(this.controlCalidadFormEdit.get('pesado').get("porcentajeRendimiento").value),
+        this.controlCalidadFormEdit.get('pesado').get("ruc").value,
+        this.controlCalidadFormEdit.get('pesado').get("transportista").value,
+        this.controlCalidadFormEdit.get('pesado').get("placaVehiculo").value,
+        this.controlCalidadFormEdit.get('pesado').get("chofer").value,
+        this.controlCalidadFormEdit.get('pesado').get("numeroBrevete").value,
+        this.controlCalidadFormEdit.get('pesado').get("observacion").value,
         "01",
         new Date(),
         this.vSessionUser.Result.Data.NombreUsuario,
         new Date(),
-        this.notaIngredoFormEdit.controls["direccion"].value,
-        this.notaIngredoFormEdit.get('pesado').get("marca").value,
+        this.controlCalidadFormEdit.controls["direccion"].value,
+        this.controlCalidadFormEdit.get('pesado').get("marca").value,
         "",
         ""
 
@@ -434,7 +435,7 @@ export class ControlCalidadEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             var form = this;
             this.alertUtil.alertOkCallback('Registrado!', 'Nota Ingreso Registrado.', function (result) {
-              form.router.navigate(['/planta/operaciones/notaingreso-list']);
+              form.router.navigate(['/planta/operaciones/controlcalidad-list']);
             }
             );
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -462,7 +463,7 @@ export class ControlCalidadEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             var form = this;
             this.alertUtil.alertOkCallback('Actualizado!', 'Nota Ingreso Actualizado.', function (result) {
-              form.router.navigate(['/planta/operaciones/notaingreso-list']);
+              form.router.navigate(['/planta/operaciones/controlcalidad-list']);
             }
             );
 
@@ -484,7 +485,7 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   cancelar() {
-    this.router.navigate(['/planta/operaciones/notaingreso-list']);
+    this.router.navigate(['/planta/operaciones/controlcalidad-list']);
   }
 
   obtenerDetalle() {
@@ -519,42 +520,42 @@ export class ControlCalidadEditComponent implements OnInit {
   async cargarDataFormulario(data: any) {
     this.idPlantEntryNote = data.NotaIngresoPlantaId;
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
-    this.notaIngredoFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
-    this.notaIngredoFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
-    this.notaIngredoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
-    this.notaIngredoFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
-    this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
-    this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
+    this.controlCalidadFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
+    this.controlCalidadFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
+    this.controlCalidadFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
+    this.controlCalidadFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
+    this.controlCalidadFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
+    this.controlCalidadFormEdit.controls["producto"].setValue(data.ProductoId);
     
 
 
-    this.notaIngredoFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
-    this.notaIngredoFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
+    this.controlCalidadFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
+    this.controlCalidadFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);
-    this.notaIngredoFormEdit.controls["subproducto"].setValue(data.SubProductoId);
+    this.controlCalidadFormEdit.controls["subproducto"].setValue(data.SubProductoId);
     //this.notaIngredoFormEdit.controls["certificacion"].setValue(data.CertificacionId);
-    this.notaIngredoFormEdit.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
-    this.notaIngredoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadoraId);
-    this.notaIngredoFormEdit.get('pesado').get("motivo").setValue(data.MotivoIngresoId);
-    this.notaIngredoFormEdit.get('pesado').get("empaque").setValue(data.EmpaqueId);
-    this.notaIngredoFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
-    this.notaIngredoFormEdit.get('pesado').get("cantidad").setValue(data.Cantidad);
-    this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").setValue(data.KilosBrutos);
-    this.notaIngredoFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
-    this.notaIngredoFormEdit.get('pesado').get("calidad").setValue(data.CalidadId);
-    this.notaIngredoFormEdit.get('pesado').get("tara").setValue(data.Tara);
-    this.notaIngredoFormEdit.get('pesado').get("kilosNetos").setValue(data.KilosNetos);
-    this.notaIngredoFormEdit.get('pesado').get("grado").setValue(data.GradoId);
-    this.notaIngredoFormEdit.get('pesado').get("cantidadDefectos").setValue(data.CantidadDefectos);
-    this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").setValue(data.RendimientoPorcentaje);
-    this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").setValue(data.HumedadPorcentaje);
-    this.notaIngredoFormEdit.get('pesado').get("transportista").setValue(data.RazonEmpresaTransporte);
-    this.notaIngredoFormEdit.get('pesado').get("ruc").setValue(data.RucEmpresaTransporte);
-    this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").setValue(data.PlacaTractorEmpresaTransporte);
-    this.notaIngredoFormEdit.get('pesado').get("chofer").setValue(data.ConductorEmpresaTransporte);
-    this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
-    this.notaIngredoFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
-    this.notaIngredoFormEdit.get('pesado').get("marca").setValue(data.Marca);
+    this.controlCalidadFormEdit.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
+    this.controlCalidadFormEdit.controls["certificadora"].setValue(data.EntidadCertificadoraId);
+    this.controlCalidadFormEdit.get('pesado').get("motivo").setValue(data.MotivoIngresoId);
+    this.controlCalidadFormEdit.get('pesado').get("empaque").setValue(data.EmpaqueId);
+    this.controlCalidadFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
+    this.controlCalidadFormEdit.get('pesado').get("cantidad").setValue(data.Cantidad);
+    this.controlCalidadFormEdit.get('pesado').get("kilosBrutos").setValue(data.KilosBrutos);
+    this.controlCalidadFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
+    this.controlCalidadFormEdit.get('pesado').get("calidad").setValue(data.CalidadId);
+    this.controlCalidadFormEdit.get('pesado').get("tara").setValue(data.Tara);
+    this.controlCalidadFormEdit.get('pesado').get("kilosNetos").setValue(data.KilosNetos);
+    this.controlCalidadFormEdit.get('pesado').get("grado").setValue(data.GradoId);
+    this.controlCalidadFormEdit.get('pesado').get("cantidadDefectos").setValue(data.CantidadDefectos);
+    this.controlCalidadFormEdit.get('pesado').get("porcentajeRendimiento").setValue(data.RendimientoPorcentaje);
+    this.controlCalidadFormEdit.get('pesado').get("porcentajeHumedad").setValue(data.HumedadPorcentaje);
+    this.controlCalidadFormEdit.get('pesado').get("transportista").setValue(data.RazonEmpresaTransporte);
+    this.controlCalidadFormEdit.get('pesado').get("ruc").setValue(data.RucEmpresaTransporte);
+    this.controlCalidadFormEdit.get('pesado').get("placaVehiculo").setValue(data.PlacaTractorEmpresaTransporte);
+    this.controlCalidadFormEdit.get('pesado').get("chofer").setValue(data.ConductorEmpresaTransporte);
+    this.controlCalidadFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
+    this.controlCalidadFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
+    this.controlCalidadFormEdit.get('pesado').get("marca").setValue(data.Marca);
     this.validacionPorcentajeRend(data.ProductoId,data.SubProductoId);
     this.estado = data.Estado
     this.numeroNotaIngreso = data.Numero;
@@ -569,11 +570,11 @@ export class ControlCalidadEditComponent implements OnInit {
   async consultarSocioFinca() {
     let request =
     {
-      "SocioFincaId": Number(this.notaIngredoFormEdit.controls["socioFincaId"].value)
+      "SocioFincaId": Number(this.controlCalidadFormEdit.controls["socioFincaId"].value)
     }
 
-    if (this.notaIngredoFormEdit.controls["producto"].value == "01" &&
-      this.notaIngredoFormEdit.controls["subproducto"].value == "02" && this.notaIngredoFormEdit.controls["provCertificacion"].value != "") {
+    if (this.controlCalidadFormEdit.controls["producto"].value == "01" &&
+      this.controlCalidadFormEdit.controls["subproducto"].value == "02" && this.controlCalidadFormEdit.controls["provCertificacion"].value != "") {
       this.socioFinca.SearchSocioFinca(request)
         .subscribe(res => {
           this.spinner.hide();
@@ -581,10 +582,10 @@ export class ControlCalidadEditComponent implements OnInit {
             if (res.Result.ErrCode == "") {
               if (res.Result.Data != null) {
                 if (res.Result.Data.SaldoPendiente == 0) {
-                  this.notaIngredoFormEdit.controls["tipoProduccion"].setValue("02");
-                  this.notaIngredoFormEdit.controls["tipoProduccion"].disable();
+                  this.controlCalidadFormEdit.controls["tipoProduccion"].setValue("02");
+                  this.controlCalidadFormEdit.controls["tipoProduccion"].disable();
                 }
-                else if (res.Result.Data.SaldoPendiente < this.notaIngredoFormEdit.get('pesado').get("kilosBruto").value) {
+                else if (res.Result.Data.SaldoPendiente < this.controlCalidadFormEdit.get('pesado').get("kilosBruto").value) {
                   this.alertUtil.alertWarning('Oops!', 'Solo puede ingresar ' + res.Result.Data.SaldoPendiente + ' Kilos Brutos');
                   this.btnGuardar = false;
                 }
@@ -615,9 +616,9 @@ export class ControlCalidadEditComponent implements OnInit {
     this.selectOrganizacion = event;
     if (this.selectOrganizacion[0]) {
       //this.notaIngredoFormEdit.controls['codigoOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
-      this.notaIngredoFormEdit.controls['direccion'].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
-      this.notaIngredoFormEdit.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
-      this.notaIngredoFormEdit.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
+      this.controlCalidadFormEdit.controls['direccion'].setValue(`${this.selectOrganizacion[0].Direccion} - ${this.selectOrganizacion[0].Distrito} - ${this.selectOrganizacion[0].Provincia} - ${this.selectOrganizacion[0].Departamento}`);
+      this.controlCalidadFormEdit.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
+      this.controlCalidadFormEdit.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
     }
     this.modalService.dismissAll();
   }
