@@ -5,9 +5,9 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, Cont
 
 @Component({
 
-  selector: '[formGroup] app-pesadocafeCalidadPlanta,[formGroupName] app-pesadocafeCalidadPlanta',
-  templateUrl: './pesadocafeCalidadPlanta.component.html',
-  styleUrls: ['./pesadocafeCalidadplanta.component.scss']
+  selector: '[formGroup] app-pesadoCafeCalidadPlanta,[formGroupName] app-pesadoCafeCalidadPlanta',
+  templateUrl: './pesadoCafeCalidadPlanta.component.html',
+  styleUrls: ['./pesadoCafeCalidadPlanta.component.scss']
 })
 export class PesadoCafeCalidadPlantaComponent implements OnInit {
   public pesadoFormGroup: FormGroup;
