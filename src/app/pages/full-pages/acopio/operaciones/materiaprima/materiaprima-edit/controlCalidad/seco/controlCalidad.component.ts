@@ -187,6 +187,12 @@ export class ControlCalidadComponent implements OnInit {
         descartePorcentaje: new FormControl('', []),
         cascarillaGramos: new FormControl('', [Validators.required]),
         cascarillaPorcentaje: new FormControl('', []),
+
+        cantidadControlCalidad: new FormControl('', [Validators.required]),
+        pesoBrutoControlCalidad: new FormControl('', [Validators.required]),
+        taraControlCalidad: new FormControl('', [Validators.required]),
+        kilosNetosControlCalidad: new FormControl('', [Validators.required]),
+
         humedad: new FormControl('', [Validators.required]),
         totalGramos: new FormControl('', []),
         totalPorcentaje: new FormControl('', []),
