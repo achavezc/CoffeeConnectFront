@@ -1,7 +1,11 @@
 export class ReqControlCalidad {
     constructor(
     EmpresaId: number,
-    
+    ControlCalidadId:number,
+    CantidadControlCalidad:number,
+    PesoBrutoControlCalidad:number,
+    TaraControlCalidad:number,
+    KilosNetosControlCalidad:number,
     HumedadPorcentajeAnalisisFisico: number,
     UsuarioCalidad: string,
     GuiaRecepcionMateriaPrimaId?: number,
@@ -137,11 +141,23 @@ export class ReqControlCalidad {
         this.TazaIntensidad = TazaIntensidad,
         this.PuntajeFinal = PuntajeFinal,
         this.EmpresaId = EmpresaId,
+        this.ControlCalidadId = ControlCalidadId,
+        this.CantidadControlCalidad = CantidadControlCalidad,
+        this.PesoBrutoControlCalidad = PesoBrutoControlCalidad,
+        this.TaraControlCalidad = TaraControlCalidad,
+        this.KilosNetosControlCalidad = KilosNetosControlCalidad,
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
         this.HumedadPorcentajeAnalisisFisico = HumedadPorcentajeAnalisisFisico,       
         this.UsuarioCalidad = UsuarioCalidad    
     }
     EmpresaId: number;
+    
+    ControlCalidadId:number;
+    CantidadControlCalidad:number;
+    PesoBrutoControlCalidad:number;
+    TaraControlCalidad:number;
+    KilosNetosControlCalidad:number;
+
     GuiaRecepcionMateriaPrimaId?: number;
     NotaSalidaAlmacenId?:number;
     LoteId?:number;

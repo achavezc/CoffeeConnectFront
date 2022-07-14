@@ -163,6 +163,11 @@ export class ControlCalidadComponentHumedo implements OnInit {
       listaDetalleColor = this.obtenerDetalleAnalisisFisicoColor(this.tableColor);
       this.reqControlCalidad = new ReqControlCalidad(
         this.login.Result.Data.EmpresaId,
+        0,
+        0,
+        0,
+        0,
+        0,
         Number(controlFormControlCalidad["humedad"].value),
         this.login.Result.Data.NombreCompletoUsuario,
         this.detalle.GuiaRecepcionMateriaPrimaId ? Number(this.detalle.GuiaRecepcionMateriaPrimaId) : null,
