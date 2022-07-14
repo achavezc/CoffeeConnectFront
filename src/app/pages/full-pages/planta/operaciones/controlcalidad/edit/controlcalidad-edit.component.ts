@@ -4,12 +4,13 @@ import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
+import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { host } from '../../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../../services/models/login';
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { ReqRegistrarPesadoNotaIngreso } from '../../../../../../services/models/req-registrar-notaingreso';
+import { ReqRegistrarPesadoControlCalidad } from '../../../../../../services/models/req-registrar-controlcalidad';
 import { Router } from "@angular/router"
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -44,6 +45,7 @@ export class ControlCalidadEditComponent implements OnInit {
   selectTipoSocio: any;
   selectTipoProveedor: any;
   selectTipoProduccion: any;
+  NotaIngresoPlantaId :any;
   selectedEstado: any;
   selectProducto: any;
   selectSubProducto: any;
@@ -95,6 +97,7 @@ export class ControlCalidadEditComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private notaIngresoService: NotaIngresoService,
+    private ControlCalidadService:ControlCalidadService,
     private maestroUtil: MaestroUtil,
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -400,10 +403,11 @@ export class ControlCalidadEditComponent implements OnInit {
         this.controlCalidadFormEdit.get('pesado').get("grado").setValue("");
       }
 
-      let request = new ReqRegistrarPesadoNotaIngreso(
+      let request = new ReqRegistrarPesadoControlCalidad(
         Number(this.id),
+        this.NotaIngresoPlantaId,
         this.vSessionUser.Result.Data.EmpresaId,
-        this.controlCalidadFormEdit.controls["guiaremision"].value,
+        this.numeroNotaIngreso,
         this.controlCalidadFormEdit.controls["guiaremision"].value,
         this.controlCalidadFormEdit.controls["fecharemision"].value,
         this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId,
@@ -441,14 +445,14 @@ export class ControlCalidadEditComponent implements OnInit {
         ""
 
       );
-      this.spinner.show(undefined,
-        {
-          type: 'ball-triangle-path',
-          size: 'medium',
-          bdColor: 'rgba(0, 0, 0, 0.8)',
-          color: '#fff',
-          fullScreen: true
-        });
+    //  this.spinner.show(undefined,
+      //  {
+        //  type: 'ball-triangle-path',
+         // size: 'medium',
+         // bdColor: 'rgba(0, 0, 0, 0.8)',
+         // color: '#fff',
+         // fullScreen: true
+        //});
       if (this.esEdit && this.id != 0) {
         this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
           if (result.isConfirmed) {
@@ -469,7 +473,7 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   guardarService(request: any) {
-    this.notaIngresoService.Registrar(request)
+    this.ControlCalidadService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -497,7 +501,7 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   actualizarService(request: any) {
-    this.notaIngresoService.Actualizar(request)
+    this.ControlCalidadService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
@@ -529,9 +533,10 @@ export class ControlCalidadEditComponent implements OnInit {
     this.router.navigate(['/planta/operaciones/controlcalidad-list']);
   }
 
+
   obtenerDetalle() {
     this.spinner.show();
-    this.notaIngresoService.ConsultarPorId(Number(this.id))
+    this.ControlCalidadService.ConsultarPorId(Number(this.id))
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
@@ -559,7 +564,9 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   async cargarDataFormulario(data: any) {
+    this.NotaIngresoPlantaId = data.NotaIngresoPlantaId;
     this.idPlantEntryNote = data.NotaIngresoPlantaId;
+    this.numeroNotaIngreso = data.Numero;
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.controlCalidadFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
     this.controlCalidadFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));

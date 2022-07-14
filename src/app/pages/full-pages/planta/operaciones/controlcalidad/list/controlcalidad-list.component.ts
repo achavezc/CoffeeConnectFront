@@ -4,6 +4,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { PlantaService } from '../../../../../../services/planta.service';
+import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -37,7 +38,7 @@ export class ControlCalidadListComponent implements OnInit
   selectedMotivo: any;
   selectedProducto: any;
   selectedSubProducto: any;
-  consultaNotaIngresoPlantaForm: FormGroup;
+  consultaControlCalidadPlantaForm: FormGroup;
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -64,6 +65,7 @@ export class ControlCalidadListComponent implements OnInit
     private alertUtil: AlertUtil,
     private dateUtil: DateUtil,
     private plantaService: PlantaService,
+    private ControlCalidadService :ControlCalidadService,
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
@@ -75,17 +77,17 @@ export class ControlCalidadListComponent implements OnInit
     
     this.cargarForm();
     this.buscar();
-    this.consultaNotaIngresoPlantaForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
-    this.consultaNotaIngresoPlantaForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
-    this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
-    this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
+    this.consultaControlCalidadPlantaForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.consultaControlCalidadPlantaForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
+    this.consultaControlCalidadPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.consultaControlCalidadPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     
   }
 
   get f() {
-    return this.consultaNotaIngresoPlantaForm.controls;
+    return this.consultaControlCalidadPlantaForm.controls;
   }
 
   filterUpdate(event) {
@@ -108,7 +110,7 @@ export class ControlCalidadListComponent implements OnInit
   }
 
   async cargarForm() {
-    this.consultaNotaIngresoPlantaForm = new FormGroup(
+    this.consultaControlCalidadPlantaForm = new FormGroup(
       {
         notaIngreso: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         codigoOrganizacion: new FormControl('', []),
@@ -124,7 +126,7 @@ export class ControlCalidadListComponent implements OnInit
         fechaGuiaRemisionInicio: new FormControl('', [Validators.required]),
         fechaGuiaRemisionFin: new FormControl('', [Validators.required,])
       });
-    this.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
+    this.consultaControlCalidadPlantaForm.setValidators(this.comparisonValidator())
 
     await this.cargarcombos()
   }
@@ -135,7 +137,7 @@ export class ControlCalidadListComponent implements OnInit
       switch (this.page) {
         case "AnticiposList":
           this.selectedEstado = '02';
-          this.consultaNotaIngresoPlantaForm.controls['motivo'].disable();
+          this.consultaControlCalidadPlantaForm.controls['motivo'].disable();
           this.selectedMotivo = "01";
           
           break;
@@ -143,7 +145,7 @@ export class ControlCalidadListComponent implements OnInit
           this.selectedEstado = '03';
           break;
       }
-      this.consultaNotaIngresoPlantaForm.controls['estado'].disable();
+      this.consultaControlCalidadPlantaForm.controls['estado'].disable();
       
     }
   }
@@ -160,7 +162,7 @@ export class ControlCalidadListComponent implements OnInit
         }*/
       }
     });
-    this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
+    this.maestroUtil.obtenerMaestros("EstadoControlCalidadPlanta", function (res) {
       if (res.Result.Success) {
         form.listaEstado = res.Result.Data;
       }
@@ -189,26 +191,26 @@ export class ControlCalidadListComponent implements OnInit
   }
 
   buscar() {
-    if (this.consultaNotaIngresoPlantaForm.invalid || this.errorGeneral.isError) {
+    if (this.consultaControlCalidadPlantaForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
     } else {
 
       this.submitted = false;
       var objRequest = {
-        "Numero": this.consultaNotaIngresoPlantaForm.controls['notaIngreso'].value,
-        "NumeroGuiaRemision": this.consultaNotaIngresoPlantaForm.controls['numeroGuiaRemision'].value,
-        "RazonSocialOrganizacion": this.consultaNotaIngresoPlantaForm.controls['organizacion'].value,
-        "RucOrganizacion": this.consultaNotaIngresoPlantaForm.controls['ruc'].value,
-        "ProductoId": this.consultaNotaIngresoPlantaForm.controls['tipoProducto'].value,
-        "SubProductoId": this.consultaNotaIngresoPlantaForm.controls['subProducto'].value,
-        "MotivoIngresoId": this.consultaNotaIngresoPlantaForm.controls['motivo'].value,
-        "EstadoId": this.consultaNotaIngresoPlantaForm.controls['estado'].value,
+        "Numero": this.consultaControlCalidadPlantaForm.controls['notaIngreso'].value,
+        "NumeroGuiaRemision": this.consultaControlCalidadPlantaForm.controls['numeroGuiaRemision'].value,
+        "RazonSocialOrganizacion": this.consultaControlCalidadPlantaForm.controls['organizacion'].value,
+        "RucOrganizacion": this.consultaControlCalidadPlantaForm.controls['ruc'].value,
+        "ProductoId": this.consultaControlCalidadPlantaForm.controls['tipoProducto'].value,
+        "SubProductoId": this.consultaControlCalidadPlantaForm.controls['subProducto'].value,
+        "MotivoIngresoId": this.consultaControlCalidadPlantaForm.controls['motivo'].value,
+        "EstadoId": this.consultaControlCalidadPlantaForm.controls['estado'].value,
         "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
-        "FechaInicio": this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value,
-        "FechaFin": this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value,
-        "FechaGuiaRemisionInicio": this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionInicio'].value,
-        "FechaGuiaRemisionFin" : this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionFin'].value
+        "FechaInicio": this.consultaControlCalidadPlantaForm.controls['fechaInicio'].value,
+        "FechaFin": this.consultaControlCalidadPlantaForm.controls['fechaFin'].value,
+        "FechaGuiaRemisionInicio": this.consultaControlCalidadPlantaForm.controls['fechaGuiaRemisionInicio'].value,
+        "FechaGuiaRemisionFin" : this.consultaControlCalidadPlantaForm.controls['fechaGuiaRemisionFin'].value
 
       }
       this.spinner.show(undefined,
@@ -219,7 +221,7 @@ export class ControlCalidadListComponent implements OnInit
           color: '#fff',
           fullScreen: true
         });
-      this.plantaService.Consultar(objRequest)
+      this.ControlCalidadService.Consultar(objRequest)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
@@ -250,32 +252,34 @@ export class ControlCalidadListComponent implements OnInit
   }
 
   compareTwoDates() {
-    var anioFechaInicio = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value).getFullYear()
-    var anioFechaFin = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value).getFullYear()
+   /*
+    var anioFechaInicio = new Date(this.consultaControlCalidadPlantaForm.controls['fechaInicio'].value).getFullYear()
+    var anioFechaFin = new Date(this.consultaControlCalidadPlantaForm.controls['fechaFin'].value).getFullYear()
 
-    if (new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value) < new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value)) {
+    if (new Date(this.consultaControlCalidadPlantaForm.controls['fechaFin'].value) < new Date(this.consultaControlCalidadPlantaForm.controls['fechaInicio'].value)) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
-      this.consultaNotaIngresoPlantaForm.controls['fechaFin'].setErrors({ isError: true })
+      this.consultaControlCalidadPlantaForm.controls['fechaFin'].setErrors({ isError: true })
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaNotaIngresoPlantaForm.controls['fechaFin'].setErrors({ isError: true })
+      this.consultaControlCalidadPlantaForm.controls['fechaFin'].setErrors({ isError: true })
     } else {
       this.error = { isError: false, errorMessage: '' };
-    }
+    }*/
   }
 
   compareFechas() {
-    var anioFechaInicio = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value).getFullYear()
-    var anioFechaFin = new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value).getFullYear()
-    if (new Date(this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value) > new Date(this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value)) {
+    /*
+    var anioFechaInicio = new Date(this.consultaControlCalidadPlantaForm.controls['fechaInicio'].value).getFullYear()
+    var anioFechaFin = new Date(this.consultaControlCalidadPlantaForm.controls['fechaFin'].value).getFullYear()
+    if (new Date(this.consultaControlCalidadPlantaForm.controls['fechaInicio'].value) > new Date(this.consultaControlCalidadPlantaForm.controls['fechaFin'].value)) {
       this.errorFecha = { isError: true, errorMessage: 'La fecha inicio no puede ser mayor a la fecha fin' };
-      this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].setErrors({ isError: true })
+      this.consultaControlCalidadPlantaForm.controls['fechaInicio'].setErrors({ isError: true })
     } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].setErrors({ isError: true })
+      this.consultaControlCalidadPlantaForm.controls['fechaInicio'].setErrors({ isError: true })
     } else {
       this.errorFecha = { isError: false, errorMessage: '' };
-    }
+    }*/
   }
 
 
@@ -298,6 +302,10 @@ export class ControlCalidadListComponent implements OnInit
 
   anular() {
     if (this.selected.length > 0) {
+      if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
+        this.alertUtil.alertWarning("Error","No se puede Anular la operacion Procesada");
+       return;
+      }
       if (this.selected[0].EstadoId == this.estadoPesado) {
         var form = this;
         swal.fire({
@@ -429,7 +437,36 @@ export class ControlCalidadListComponent implements OnInit
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)
   }
-  aprobar() {
+  Procesar() {
+    if (this.selected.length > 0) {
+      if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
+        this.ControlCalidadService.Aprobado("Procesado");
+       return;
+      }
+      if (this.selected[0].EstadoId == this.estadoPesado) {
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estado Aprobado?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.anularGuia();
+          }
+        });
+      } else {
+        this.alertUtil.alertError("Mensaje", "Solo Se puede Actualizar Estado Aprobado")
+      }
+    }
 
   }
 

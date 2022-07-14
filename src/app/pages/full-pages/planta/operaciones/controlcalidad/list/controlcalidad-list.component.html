@@ -11,7 +11,7 @@
         <div class="card">
           <div class="card-content">
             <div class="card-body">
-              <form class="needs-validation" [formGroup]="consultaNotaIngresoPlantaForm">
+              <form class="needs-validation" [formGroup]="consultaControlCalidadPlantaForm">
                 <div class="form-row">
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">Nro Nota de Ingreso</label>
@@ -145,8 +145,8 @@
                 <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="anular()"
                   *ngIf="!popUp">Anular</button>
 
-                  <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="aprobar()"
-                  *ngIf="!popUp">Aprobar</button>
+                  <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="Procesar()"
+                  *ngIf="!popUp">Procesar</button>
 
                   <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="Rechazado()"
                   *ngIf="!popUp">Rechazado</button>
@@ -202,8 +202,8 @@
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                     <div class="d-flex align-items-center">
                       <div class="cell-line-height">
-                        <a class="line-height-1 mb-0" routerLink="/planta/operaciones/notaingreso-edit"
-                          [queryParams]="{ id: row.NotaIngresoPlantaId, status: row.EstadoId}">{{ name }}</a>
+                        <a class="line-height-1 mb-0" routerLink="/planta/operaciones/controlcalidad-edit"
+                          [queryParams]="{ id: row.ControlCalidadPlantaId, status: row.EstadoId}">{{ name }}</a>
                       </div>
                     </div>
                   </ng-template>
