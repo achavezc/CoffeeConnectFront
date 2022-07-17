@@ -302,15 +302,12 @@ export class ControlCalidadListComponent implements OnInit
 
   anular() {
     if (this.selected.length > 0) {
-      if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
-        this.alertUtil.alertWarning("Error","No se puede Anular la operacion Procesada");
-       return;
-      }
-      if (this.selected[0].EstadoId == this.estadoPesado) {
+    
+      if (this.selected[0].EstadoCalidadId == this.estadoPesado) {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
-          text: "¿Estas seguro de anular la guia?",
+          text: "¿Estas seguro de anular?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#2F8BE6',
@@ -323,22 +320,19 @@ export class ControlCalidadListComponent implements OnInit
           buttonsStyling: false,
         }).then(function (result) {
           if (result.value) {
-            form.anularGuia();
+            form.anularCalidad();
           }
         });
-      } else {
-        this.alertUtil.alertError("Error", "Solo se puede anular guias con estado pesado")
-      }
+      } 
     }
   }
 
-  Rechazado() {
+  RechazadoCalidad() {
     if (this.selected.length > 0) {
-      if (this.selected[0].EstadoId == this.estadoAnalizado) {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
-          text: "¿Estas seguro de enviar a almacen?",
+          text: "¿Estas seguro de Rechazar?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#2F8BE6',
@@ -351,17 +345,98 @@ export class ControlCalidadListComponent implements OnInit
           buttonsStyling: false,
         }).then(function (result) {
           if (result.value) {
-            form.enviarAlmacenGuia();
+            form.RechazarControlCalidad();
           }
         });
-      } else {
-        this.alertUtil.alertError("Error", "Solo se puede enviar guias con estado analizado")
-      }
+     
     }
   }
+
+  RechazarControlCalidad(){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.ControlCalidadService.Rechazado(
+      {
+        "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+        "UsuarioUltimaActualizacion": this.vSessionUser.Result.Data.NombreUsuario
+      })
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Rechazado!', 'Control Calidad Rechazada.');
+            this.buscar();
+  
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+
+
+
+
+
+anularCalidad(){
+  this.spinner.show(undefined,
+    {
+      type: 'ball-triangle-path',
+      size: 'medium',
+      bdColor: 'rgba(0, 0, 0, 0.8)',
+      color: '#fff',
+      fullScreen: true
+    });
+  this.ControlCalidadService.Anular(
+    {
+      "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+      "Usuario": this.vSessionUser.Result.Data.NombreUsuario
+    })
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.alertUtil.alertOk('Anulado!', 'Control Calidad Anulado.');
+          this.buscar();
+
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.alertUtil.alertError('Error', res.Result.Message);
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      } else {
+        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+      }
+    );
+}
+
+
+
 
   anularGuia() {
-    this.spinner.show(undefined,
+   /* this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
         size: 'medium',
@@ -395,7 +470,7 @@ export class ControlCalidadListComponent implements OnInit
           console.log(err);
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
-      );
+      );*/
   }
 
   enviarAlmacenGuia() {
@@ -439,15 +514,10 @@ export class ControlCalidadListComponent implements OnInit
   }
   Procesar() {
     if (this.selected.length > 0) {
-      if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
-        this.ControlCalidadService.Aprobado("Procesado");
-       return;
-      }
-      if (this.selected[0].EstadoId == this.estadoPesado) {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
-          text: "¿Estado Aprobado?",
+          text: "¿Estas seguro de Procesar?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#2F8BE6',
@@ -460,15 +530,54 @@ export class ControlCalidadListComponent implements OnInit
           buttonsStyling: false,
         }).then(function (result) {
           if (result.value) {
-            form.anularGuia();
+            form.ProcesarCalidad();
           }
         });
-      } else {
-        this.alertUtil.alertError("Mensaje", "Solo Se puede Actualizar Estado Aprobado")
-      }
+     
     }
 
   }
+
+
+  ProcesarCalidad(){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.ControlCalidadService.Aprobado(
+      {
+        "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+        "UsuarioUltimaActualizacion": this.vSessionUser.Result.Data.NombreUsuario
+      })
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Porcesado!', 'Control Calidad Procesado.');
+            this.buscar();
+  
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+
+
 
   exportar() {
     /*

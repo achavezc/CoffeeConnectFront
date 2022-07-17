@@ -360,7 +360,7 @@ export class ControlCalidadComponent implements OnInit {
       listaAnalisisSensorialAtrib = this.obtenerAnalisisSensorialAtributos(this.tableSensorialRanking);
       this.reqControlCalidad = new ReqControlCalidad(
         this.login.Result.Data.EmpresaId,
-        1,
+        this.detalle.ControlCalidadPlantaId,
         Number(controlFormControlCalidad["cantidadControlCalidad"].value),
         Number(controlFormControlCalidad["pesoBrutoControlCalidad"].value),
         Number(controlFormControlCalidad["taraControlCalidad"].value),
@@ -418,7 +418,7 @@ export class ControlCalidadComponent implements OnInit {
       else if (this.form == "ordenServicio") {
         this.actualizarControlCalidadOrdenServicio(this.reqControlCalidad);
       }
-      else if (this.form == "notaingresoplanta") {
+      else if (this.form == "notaingresoplanta" || this.form == "controlcalidadplanta") {
         this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
       }
     }
@@ -740,6 +740,14 @@ export class ControlCalidadComponent implements OnInit {
     var controlFormControlCalidad = this.formControlCalidad.controls;
     var controlDefectos = this.formDefectos.controls;
    
+  
+
+    controlFormControlCalidad["cantidadControlCalidad"].setValue(this.detalle.CantidadControlCalidad);
+    controlFormControlCalidad["pesoBrutoControlCalidad"].setValue(this.detalle.PesoBrutoControlCalidad);
+    controlFormControlCalidad["taraControlCalidad"].setValue(this.detalle.TaraControlCalidad);
+    controlFormControlCalidad["kilosNetosControlCalidad"].setValue(this.detalle.KilosNetosControlCalidad);
+    ///Ddddddddddddddddddd
+
     controlFormControlCalidad["exportGramos"].setValue(this.detalle.ExportableGramosAnalisisFisico);
     controlFormControlCalidad["exportPorcentaje"].setValue(this.detalle.ExportablePorcentajeAnalisisFisico == null ? "" : this.detalle.ExportablePorcentajeAnalisisFisico + "%");
     controlFormControlCalidad["descarteGramos"].setValue(this.detalle.DescarteGramosAnalisisFisico);
@@ -818,7 +826,7 @@ export class ControlCalidadComponent implements OnInit {
 
   desactivarControlesPlanta ()
   {
-    if (this.page == "NotaIngresoPlantaEdit")
+    if (this.page == "NotaIngresoPlantaEdit" || this.page == "ControlCalidadPlantaEdit")
     {
       this.formControlCalidad.controls["cascarillaGramos"].disable();
     }
@@ -860,6 +868,9 @@ export class ControlCalidadComponent implements OnInit {
     }
     else if (this.form == "notaingresoplanta") {
       this.router.navigate(['/planta/operaciones/notaingreso-list']);
+    }
+    else if (this.form == "controlcalidadplanta") {
+      this.router.navigate(['/planta/operaciones/controlcalidad-list']);
     }
   }
 }

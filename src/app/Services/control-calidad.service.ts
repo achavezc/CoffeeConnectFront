@@ -21,7 +21,7 @@ export class ControlCalidadService {
   }
 
   Anular(request: any): Observable<any> {
-    const url = `${this.url}/Anular`;
+    const url = `${this.url}/AnularControlCalidad`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
   
@@ -42,8 +42,11 @@ export class ControlCalidadService {
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
   Aprobado(request: any): Observable<any> {
-    const url = `${this.url}/Aprobar`;
+    const url = `${this.url}/Procesar`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
-  
+  Rechazado(request: any): Observable<any> {
+    const url = `${this.url}/Rechazado`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
 }

@@ -148,7 +148,7 @@
                   <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="Procesar()"
                   *ngIf="!popUp">Procesar</button>
 
-                  <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="Rechazado()"
+                  <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="RechazadoCalidad()"
                   *ngIf="!popUp">Rechazado</button>
                 <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="enviar()"
                   *ngIf="!popUp">Enviar a Almacen</button>-->
@@ -240,7 +240,7 @@
                 <ngx-datatable-column name="Puntaje Final" prop="PuntajeFinal" width="100"></ngx-datatable-column>-->
                 <!-- <ngx-datatable-column name="Certificacion" prop="Certificacion" width="30"></ngx-datatable-column> -->
   
-                <ngx-datatable-column name="Estado" prop="Estado" width="150">
+                <ngx-datatable-column name="Estado" prop="EstadoCalidad" width="150">
                   <ng-template let-status="value" ngx-datatable-cell-template>
                     <div class="badge" [ngClass]="{
                             'bg-light-success': status == 'Pesado',
