@@ -326,7 +326,108 @@ export class ControlCalidadListComponent implements OnInit
       } 
     }
   }
+  anularCalidad(){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.ControlCalidadService.Anular(
+      {
+        "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+        "Usuario": this.vSessionUser.Result.Data.NombreUsuario
+      })
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Anulado!', 'Control Calidad Anulado.');
+            this.buscar();
+  
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
+  Procesar() {
+    if (this.selected.length > 0) {
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estas seguro de Procesar?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.ProcesarCalidad();
+          }
+        });
+     
+    }
 
+  }
+
+  ProcesarCalidad(){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.ControlCalidadService.Procesado(
+      {
+        "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+        "UsuarioUltimaActualizacion": this.vSessionUser.Result.Data.NombreUsuario,
+        "NotaIngresoPlantaId":this.selected[0].NotaIngresoPlantaId,
+        "CantidadProcesada":this.selected[0].CantidadControlCalidad,
+      })
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Porcesado!', 'Control Calidad Procesado.');
+            this.buscar();
+  
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }
   RechazadoCalidad() {
     if (this.selected.length > 0) {
         var form = this;
@@ -364,7 +465,9 @@ export class ControlCalidadListComponent implements OnInit
     this.ControlCalidadService.Rechazado(
       {
         "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
-        "UsuarioUltimaActualizacion": this.vSessionUser.Result.Data.NombreUsuario
+        "UsuarioUltimaActualizacion": this.vSessionUser.Result.Data.NombreUsuario,
+        "CantidadRechazada":this.selected[0].CantidadControlCalidad,
+        "KilosNetosRechazados":this.selected[0].KilosNetosControlCalidad
       })
       .subscribe(res => {
         this.spinner.hide();
@@ -393,48 +496,7 @@ export class ControlCalidadListComponent implements OnInit
 
 
 
-
-anularCalidad(){
-  this.spinner.show(undefined,
-    {
-      type: 'ball-triangle-path',
-      size: 'medium',
-      bdColor: 'rgba(0, 0, 0, 0.8)',
-      color: '#fff',
-      fullScreen: true
-    });
-  this.ControlCalidadService.Anular(
-    {
-      "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
-      "Usuario": this.vSessionUser.Result.Data.NombreUsuario
-    })
-    .subscribe(res => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        if (res.Result.ErrCode == "") {
-          this.alertUtil.alertOk('Anulado!', 'Control Calidad Anulado.');
-          this.buscar();
-
-        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-          this.alertUtil.alertError('Error', res.Result.Message);
-        } else {
-          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-        }
-      } else {
-        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-      }
-    },
-      err => {
-        this.spinner.hide();
-        console.log(err);
-        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-      }
-    );
-}
-
-
-
-
+  ///////////////////////////////////////////7
   anularGuia() {
    /* this.spinner.show(undefined,
       {
@@ -512,72 +574,6 @@ anularCalidad(){
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)
   }
-  Procesar() {
-    if (this.selected.length > 0) {
-        var form = this;
-        swal.fire({
-          title: '¿Estas seguro?',
-          text: "¿Estas seguro de Procesar?",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.ProcesarCalidad();
-          }
-        });
-     
-    }
-
-  }
-
-
-  ProcesarCalidad(){
-    this.spinner.show(undefined,
-      {
-        type: 'ball-triangle-path',
-        size: 'medium',
-        bdColor: 'rgba(0, 0, 0, 0.8)',
-        color: '#fff',
-        fullScreen: true
-      });
-    this.ControlCalidadService.Aprobado(
-      {
-        "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
-        "UsuarioUltimaActualizacion": this.vSessionUser.Result.Data.NombreUsuario
-      })
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Porcesado!', 'Control Calidad Procesado.');
-            this.buscar();
-  
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.alertUtil.alertError('Error', res.Result.Message);
-          } else {
-            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-          }
-        } else {
-          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-        }
-      );
-  }
-
-
 
   exportar() {
     /*

@@ -463,7 +463,7 @@ export class ControlCalidadComponent implements OnInit {
             var form = this;
             this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad', function (result) {
               if (result.isConfirmed) {
-                form.router.navigate(['/planta/operaciones/notaingreso-list']);
+                form.router.navigate(['/planta/operaciones/controlcalidad-list']);
               }
             }
             );

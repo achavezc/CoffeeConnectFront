@@ -41,12 +41,12 @@ export class ControlCalidadService {
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
-  Aprobado(request: any): Observable<any> {
-    const url = `${this.url}/Procesar`;
+  Procesado(request: any): Observable<any> {
+    const url = `${this.url}/ProcesarControlCalidad`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
   Rechazado(request: any): Observable<any> {
-    const url = `${this.url}/Rechazado`;
+    const url = `${this.url}/RechazarConrolCalidad`;
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 }
