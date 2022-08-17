@@ -226,6 +226,10 @@
 				{
 					"Label":"Nota de Ingreso"
 				},
+				"ControlCalidad":
+				{
+					"Label":"Control de Calidad"
+				},
 				"NotaIngresoAlmacen":
 				{
 					"Label":"Nota de Ingreso Almacen"
@@ -241,10 +245,6 @@
 				"OrdenProceso":
 				{
 					"Label":"Orden de Proceso"
-				},
-				"ControlCalidad":
-				{
-					"Label":"Control de Calidad"
 				}
 		},
 		"Administracion":
