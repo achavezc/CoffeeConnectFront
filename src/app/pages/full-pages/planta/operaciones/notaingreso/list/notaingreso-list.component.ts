@@ -348,7 +348,7 @@ export class NotaIngresoListComponent implements OnInit {
   anular() {
     if (this.selected.length > 0) {
       if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
-       this.alertUtil.alertWarning("Error","No se puede Anular la operacion Procesada");
+       this.alertUtil.alertWarning("Advertencia","No se puede Anular la operacion Procesada");
       return;
       }
       if (this.selected[0].EstadoId == this.estadoPesado) {
