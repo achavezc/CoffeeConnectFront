@@ -171,6 +171,8 @@ export class ControlCalidadEditComponent implements OnInit {
         })
       });
     this.desactivarControl("");
+
+    this.controlCalidadFormEdit.get('pesado').disable();
   }
 
   openModal(customContent) {
