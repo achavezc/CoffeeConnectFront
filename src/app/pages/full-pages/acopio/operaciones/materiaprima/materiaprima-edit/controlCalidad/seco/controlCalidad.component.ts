@@ -742,7 +742,7 @@ export class ControlCalidadComponent implements OnInit {
       const exportGramos = Number(this.formControlCalidad.controls["exportGramos"].value);
       const descarteGramos = Number(this.formControlCalidad.controls["descarteGramos"].value);
       var cascarillaGramos = 0 ;
-      if (this.page == "NotaIngresoPlantaEdit")
+      if (this.page == "ControlCalidadPlantaEdit")
       {
         cascarillaGramos = this.calculocascarilla-exportGramos - descarteGramos;
         this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
