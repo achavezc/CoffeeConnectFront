@@ -30,6 +30,23 @@
                                          </div>
                                     </div>
                                 </div>
+                                <div class="col-12 col-md-5">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group row" style="margin-top: 1rem;">
+                                                <label class="col-md-4 col-form-label card-text"
+                                                    for="horizontal-form-1">Tipo</label>
+                                                    <div class="col-md-8">
+                                                        <ng-select [items]="listaTipo" bindLabel="name" [(ngModel)]="selectedTipo" class="form-control"
+                                                        placeholder="Seleccionar Tipo" formControlName="tipo" (change)="changeTipo($event)"
+                                                        bindLabel="Label" bindValue="Codigo"
+                                                        [ngClass]="{ 'is-invalid':  formControlCalidad.controls.tipo.invalid, 'is-valid':  !formControlCalidad.controls.tipo.invalid }">
+                                                      </ng-select>
+                                                    </div>
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-5">
@@ -44,6 +61,23 @@
                                                             name="first-name">
                                                         <small class="form-text text-muted danger"
                                                             *ngIf="frendExport.pesoBrutoControlCalidad.errors?.required">*Requerido</small>
+                                                    </div>
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group row" style="margin-top: 1rem;">
+                                                <label class="col-md-4 col-form-label card-text"
+                                                    for="horizontal-form-1">Empaque</label>
+                                                    <div class="col-md-8">
+                                                        <ng-select [items]="listaEmpaque" bindLabel="name" [(ngModel)]="selectedEmpaque" class="form-control"
+                                                        placeholder="Seleccionar Empaque" formControlName="empaque" (change)="changeEmpaque($event)"
+                                                        bindLabel="Label" bindValue="Codigo"
+                                                        [ngClass]="{ 'is-invalid': formControlCalidad.controls.empaque.invalid, 'is-valid': !formControlCalidad.controls.empaque.invalid }">
+                                                      </ng-select>
                                                     </div>
                                             </div>
                                          </div>

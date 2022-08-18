@@ -6,6 +6,9 @@ export class ReqControlCalidad {
     PesoBrutoControlCalidad:number,
     TaraControlCalidad:number,
     KilosNetosControlCalidad:number,
+    ControlCalidadTipoId:string,
+    ControlCalidadEmpaqueId:string,
+
     HumedadPorcentajeAnalisisFisico: number,
     UsuarioCalidad: string,
     GuiaRecepcionMateriaPrimaId?: number,
@@ -146,6 +149,10 @@ export class ReqControlCalidad {
         this.PesoBrutoControlCalidad = PesoBrutoControlCalidad,
         this.TaraControlCalidad = TaraControlCalidad,
         this.KilosNetosControlCalidad = KilosNetosControlCalidad,
+
+        this.ControlCalidadTipoId= ControlCalidadTipoId,
+        this.ControlCalidadEmpaqueId=ControlCalidadEmpaqueId,
+
         this.GuiaRecepcionMateriaPrimaId = GuiaRecepcionMateriaPrimaId,
         this.HumedadPorcentajeAnalisisFisico = HumedadPorcentajeAnalisisFisico,       
         this.UsuarioCalidad = UsuarioCalidad    
@@ -157,7 +164,8 @@ export class ReqControlCalidad {
     PesoBrutoControlCalidad:number;
     TaraControlCalidad:number;
     KilosNetosControlCalidad:number;
-
+    ControlCalidadTipoId:string;
+    ControlCalidadEmpaqueId:string;
     GuiaRecepcionMateriaPrimaId?: number;
     NotaSalidaAlmacenId?:number;
     LoteId?:number;

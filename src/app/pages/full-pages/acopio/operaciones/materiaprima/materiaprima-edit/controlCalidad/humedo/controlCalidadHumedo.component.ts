@@ -168,6 +168,8 @@ export class ControlCalidadComponentHumedo implements OnInit {
         0,
         0,
         0,
+        "",
+        "",
         Number(controlFormControlCalidad["humedad"].value),
         this.login.Result.Data.NombreCompletoUsuario,
         this.detalle.GuiaRecepcionMateriaPrimaId ? Number(this.detalle.GuiaRecepcionMateriaPrimaId) : null,

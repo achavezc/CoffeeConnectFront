@@ -17,7 +17,7 @@ import { LoteService } from '../../../../../../../../services/lote.service';
 import { OrdenservicioControlcalidadService } from '../../../../../../../../services/ordenservicio-controlcalidad.service';
 import { ControlCalidadService } from '../controlCalidadServices';
 import { PlantaService } from '../../../../../../../../services/planta.service';
-
+import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 @Component({
   selector: 'app-controlCalidadSeco',
   templateUrl: './controlCalidad.component.html',
@@ -48,6 +48,14 @@ export class ControlCalidadComponent implements OnInit {
   listaSensorialRanking: any[];
   listaSensorialDefectos: any[];
   listaIndicadorTostado: any[];
+  listaEmpaque: any[];
+  selectedEmpaque: any;
+  listaTipo: any[];
+  selectedTipo: any;
+  CodigoSacao = "01";
+  CodigoTipoYute = "01";
+  taraYute = 0.7
+  tara = 0.2;
   reqControlCalidad: ReqControlCalidad;
   minSensorial: number;
   maxSensorial: number;
@@ -67,8 +75,8 @@ export class ControlCalidadComponent implements OnInit {
   formDefectos : FormGroup;
   subtotalDefectos: number;
   @Input() readonly;
-  
   constructor(
+    private maestroUtil: MaestroUtil,
     private spinner: NgxSpinnerService,
     private router: Router, private dateUtil: DateUtil,
     private maestroService: MaestroService,
@@ -91,8 +99,23 @@ export class ControlCalidadComponent implements OnInit {
 
   }
 
+  async cargaTipo() {
+
+    var data = await this.maestroService.obtenerMaestros("TipoEmpaque").toPromise();
+    if (data.Result.Success) {
+      this.listaTipo = data.Result.Data;
+    }
+  }
+  async cargaEmpaque() {
+    var data = await this.maestroService.obtenerMaestros("Empaque").toPromise();
+    if (data.Result.Success) {
+      this.listaEmpaque = data.Result.Data;
+    }
+  }
   async cargarCombos() {
     var form = this;
+    await this.cargaTipo();
+    await this.cargaEmpaque();
     var dataDefP = await this.maestroService.obtenerMaestros("DefectosPrimarios").toPromise();
     if (dataDefP.Result.Success) {
       form.listaDefectosPrimarios = dataDefP.Result.Data;
@@ -164,11 +187,41 @@ export class ControlCalidadComponent implements OnInit {
       })
       form.tableRegistroTostado = new FormGroup(group);
     }
+
     if (this.detalle) {
       this.obtenerDetalle();
     }
   }
+  changeEmpaque(e) {
+    this.calcularTara();
+  }
+  changeTipo(e) {
+    this.calcularTara();
+  }
+  calcularTara() {
+    var cantidad = this.formControlCalidad.controls['cantidadControlCalidad'].value;
+    var empaque = this.formControlCalidad.controls['empaque'].value;
+    var tipo = this.formControlCalidad.controls['tipo'].value;
+    var valor = 0;
+    if (empaque == this.CodigoSacao && tipo == this.CodigoTipoYute) {
+      var valor = cantidad * this.taraYute;
+    } else if (empaque == this.CodigoSacao && tipo != this.CodigoTipoYute) {
+      var valor = cantidad * this.tara;
+    }
 
+
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.formControlCalidad.controls['taraControlCalidad'].setValue(valorRounded);
+    this.calcularKilosNetos();
+  }
+
+  calcularKilosNetos(){
+    var tara = this.formControlCalidad.controls['taraControlCalidad'].value;
+    var kilosBrutos = this.formControlCalidad.controls['pesoBrutoControlCalidad'].value;
+    var valor = kilosBrutos - tara;
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.formControlCalidad.controls['kilosNetosControlCalidad'].setValue(valorRounded);
+  }
 
   cargarForm() {
     this.formDefectos = new FormGroup(
@@ -190,8 +243,10 @@ export class ControlCalidadComponent implements OnInit {
 
         cantidadControlCalidad: new FormControl('', [Validators.required]),
         pesoBrutoControlCalidad: new FormControl('', [Validators.required]),
-        taraControlCalidad: new FormControl('', [Validators.required]),
-        kilosNetosControlCalidad: new FormControl('', [Validators.required]),
+        taraControlCalidad: new FormControl('', []),
+        kilosNetosControlCalidad: new FormControl('', []),
+        tipo: new FormControl('', [Validators.required]),
+        empaque: new FormControl('', [Validators.required]),
 
         humedad: new FormControl('', [Validators.required]),
         totalGramos: new FormControl('', []),
@@ -205,7 +260,9 @@ export class ControlCalidadComponent implements OnInit {
         SubToTalSensorial: new FormControl('', [])
       });
     this.formControlCalidad.setValidators(this.comparisonValidator());
-    
+    this.formControlCalidad.get("taraControlCalidad").disable();
+    this.formControlCalidad.get("kilosNetosControlCalidad").disable();
+
     this.desactivarControlesPlanta();
   }
 
@@ -365,8 +422,9 @@ export class ControlCalidadComponent implements OnInit {
         Number(controlFormControlCalidad["pesoBrutoControlCalidad"].value),
         Number(controlFormControlCalidad["taraControlCalidad"].value),
         Number(controlFormControlCalidad["kilosNetosControlCalidad"].value),
+        String(controlFormControlCalidad["tipo"].value),
+        String(controlFormControlCalidad["empaque"].value),
 
-        
         Number(controlFormControlCalidad["humedad"].value),
         this.login.Result.Data.NombreUsuario,
         this.detalle.GuiaRecepcionMateriaPrimaId ? Number(this.detalle.GuiaRecepcionMateriaPrimaId) : null,
@@ -746,6 +804,8 @@ export class ControlCalidadComponent implements OnInit {
     controlFormControlCalidad["pesoBrutoControlCalidad"].setValue(this.detalle.PesoBrutoControlCalidad);
     controlFormControlCalidad["taraControlCalidad"].setValue(this.detalle.TaraControlCalidad);
     controlFormControlCalidad["kilosNetosControlCalidad"].setValue(this.detalle.KilosNetosControlCalidad);
+    controlFormControlCalidad["tipo"].setValue(this.detalle.ControlCalidadTipoId);
+    controlFormControlCalidad["empaque"].setValue(this.detalle.ControlCalidadEmpaqueId);
     ///Ddddddddddddddddddd
 
     controlFormControlCalidad["exportGramos"].setValue(this.detalle.ExportableGramosAnalisisFisico);
