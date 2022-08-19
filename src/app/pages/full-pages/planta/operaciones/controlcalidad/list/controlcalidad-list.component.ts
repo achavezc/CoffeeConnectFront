@@ -4,7 +4,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { PlantaService } from '../../../../../../services/planta.service';
-import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
+import { ControlCalidadService } from '../../../../../../services/control-calidad.service';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
