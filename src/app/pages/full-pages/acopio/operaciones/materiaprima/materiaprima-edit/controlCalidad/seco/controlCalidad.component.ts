@@ -15,7 +15,7 @@ import { DateUtil } from '../../../../../../../../services/util/date-util';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { LoteService } from '../../../../../../../../services/lote.service';
 import { OrdenservicioControlcalidadService } from '../../../../../../../../services/ordenservicio-controlcalidad.service';
-import { ControlCalidadService } from '../controlCalidadServices';
+import { ControlCalidadService } from '../../../../../../../../services/control-calidad.service';
 import { PlantaService } from '../../../../../../../../services/planta.service';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 @Component({
@@ -74,6 +74,7 @@ export class ControlCalidadComponent implements OnInit {
   calculocascarilla = 400;
   formDefectos : FormGroup;
   subtotalDefectos: number;
+  idPesado: any;
   @Input() readonly;
   constructor(
     private maestroUtil: MaestroUtil,
@@ -476,10 +477,42 @@ export class ControlCalidadComponent implements OnInit {
       else if (this.form == "ordenServicio") {
         this.actualizarControlCalidadOrdenServicio(this.reqControlCalidad);
       }
-      else if (this.form == "notaingresoplanta" || this.form == "controlcalidadplanta") {
+      else if (this.form == "notaingresoplanta" ) {
         this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
       }
+      else if (this.form == "controlcalidadplanta")
+      {
+        this.guardarService(this.detalle.requestPesado);
+        
+      }
     }
+  }
+
+  guardarService(request: any) {
+    this.controlCalidadService.Registrar(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.reqControlCalidad.ControlCalidadPlantaId = res.Result.Data;
+            this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
+            var form = this;
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+       
   }
 
   actualizarControlCalidadMateriaPrima(reqControlCalidad: any) {

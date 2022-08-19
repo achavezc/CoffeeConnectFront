@@ -261,10 +261,7 @@
                           *ngIf="esEdit">Documentos</button>
                           <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
                           [disabled]="!id || id <= 0" *ngIf="esEdit">Imprimir</button>
-                        <button type="submit"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardar || readonly==false" 
-                          (click)="guardar()">Guardar</button>
-                        <button type="submit"  class="btn btn-danger mb-2 mb-sm-0 mr-sm-2"
-                          (click)="cancelar()">Cancelar</button>
+                        
                         </div>
                     </ng-template>
                     <!--style="display: none;"-->
