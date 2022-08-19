@@ -15,7 +15,7 @@ import { DateUtil } from '../../../../../../../../services/util/date-util';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { LoteService } from '../../../../../../../../services/lote.service';
 import { OrdenservicioControlcalidadService } from '../../../../../../../../services/ordenservicio-controlcalidad.service';
-import { ControlCalidadService } from '../../../../../../../../services/control-calidad.service';
+import { ControlCalidadService } from '../../../../../../../../Services/controlcalidad.service';
 import { PlantaService } from '../../../../../../../../services/planta.service';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 @Component({

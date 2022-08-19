@@ -4,7 +4,7 @@ import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { PlantaService } from '../../../../../../services/planta.service';
-import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
+import { ControlCalidadService } from '../../../../../../Services/controlcalidad.service';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -465,9 +465,11 @@ export class ControlCalidadListComponent implements OnInit
     this.ControlCalidadService.Rechazado(
       {
         "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+        "NotaIngresoPlantaId": this.selected[0].NotaIngresoPlantaId,
+
         "UsuarioUltimaActualizacion": this.vSessionUser.Result.Data.NombreUsuario,
-        "CantidadRechazada":this.selected[0].CantidadControlCalidad,
-        "KilosNetosRechazados":this.selected[0].KilosNetosControlCalidad
+        "CantidadControlCalidad":this.selected[0].CantidadControlCalidad,
+        "KilosNetosControlCalidad":this.selected[0].KilosNetosControlCalidad
       })
       .subscribe(res => {
         this.spinner.hide();

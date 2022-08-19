@@ -6,7 +6,8 @@ import { ErrorHandling } from '../shared/util/error-handling';
 
 @Injectable({
   providedIn: 'root'
-}) 
+})
+
 export class ControlCalidadService {
 
   constructor(private http: HttpClient,
