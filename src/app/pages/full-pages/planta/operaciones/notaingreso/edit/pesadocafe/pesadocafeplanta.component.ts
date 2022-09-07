@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, Cont
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ILogin } from '../../../../../../../services/models/login';
 //import { EventEmitter } from 'events';
 import { TransportistaService } from '../../../../../../../services/transportista.service';
 @Component({
@@ -44,7 +45,7 @@ export class PesadoCafePlantaComponent implements OnInit {
   public limitRefT = 10;
   public ColumnMode = ColumnMode;
   @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
-
+  login: ILogin;
   constructor(private maestroUtil: MaestroUtil,
     private controlContainer: ControlContainer,
     private spinner: NgxSpinnerService,
@@ -55,6 +56,7 @@ export class PesadoCafePlantaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.login = JSON.parse(localStorage.getItem("user"));
     this.cargarcombos();
     this.cargarForm();
     this.pesadoFormGroup = <FormGroup>this.controlContainer.control;
@@ -125,7 +127,7 @@ export class PesadoCafePlantaComponent implements OnInit {
       this.submittedT = false;
       this.filtrosTransportista.RazonSocial = this.consultaTransportistas.controls['rzsocial'].value;
       this.filtrosTransportista.Ruc = this.consultaTransportistas.controls['ruc'].value;
-      this.filtrosTransportista.EmpresaId = 1;
+      this.filtrosTransportista.EmpresaId = this.login.Result.Data.EmpresaId;
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
