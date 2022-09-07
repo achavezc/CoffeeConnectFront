@@ -4,7 +4,7 @@ import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
-import { ControlCalidadService } from '../../../../../../Services/controlcalidad.service';
+import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { host } from '../../../../../../shared/hosts/main.host';
 import { ILogin } from '../../../../../../services/models/login';

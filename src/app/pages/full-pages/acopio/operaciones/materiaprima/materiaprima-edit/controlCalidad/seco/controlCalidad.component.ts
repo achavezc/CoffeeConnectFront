@@ -15,7 +15,7 @@ import { DateUtil } from '../../../../../../../../services/util/date-util';
 import { MaestroService } from '../../../../../../../../services/maestro.service';
 import { LoteService } from '../../../../../../../../services/lote.service';
 import { OrdenservicioControlcalidadService } from '../../../../../../../../services/ordenservicio-controlcalidad.service';
-import { ControlCalidadService } from '../../../../../../../../Services/controlcalidad.service';
+import { ControlCalidadService } from '../../../../../../../../Services/control-calidad.service';
 import { PlantaService } from '../../../../../../../../services/planta.service';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 @Component({
@@ -489,6 +489,9 @@ export class ControlCalidadComponent implements OnInit {
   }
 
   guardarService(request: any) {
+    if(this.reqControlCalidad.ControlCalidadPlantaId){
+      this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
+    }else{  
     this.controlCalidadService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
@@ -512,6 +515,8 @@ export class ControlCalidadComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );
+    }
+
        
   }
 

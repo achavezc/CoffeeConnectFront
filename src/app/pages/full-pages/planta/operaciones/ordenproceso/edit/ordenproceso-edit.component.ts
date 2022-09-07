@@ -12,6 +12,7 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
+import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
 import {AuthService} from './../../../../../../services/auth.service';
@@ -35,6 +36,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private notaIngresoService: NotaIngresoService,
+    private controlCalidad: ControlCalidadService,
     private authService : AuthService) { }
 
 
@@ -841,7 +843,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.rowsDetails = [...this.tempDataLoteDetalle];
   }
   agregarNotaIngreso(e) {
-    this.obtenerDetalleNotaIngreso(e[0].NotaIngresoPlantaId);
+    this.obtenerDetalleNotaIngreso(e[0].ControlCalidadPlantaId);
     /*
     var listFilter=[];
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == e[0].NotaIngresoPlantaId);
@@ -872,7 +874,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   obtenerDetalleNotaIngreso(id) {
     this.spinner.show();
-    this.notaIngresoService.ConsultarPorId(Number(id))
+    this.controlCalidad.ConsultarPorId(Number(id))
       .subscribe(res => {
 
         if (res.Result.Success) {

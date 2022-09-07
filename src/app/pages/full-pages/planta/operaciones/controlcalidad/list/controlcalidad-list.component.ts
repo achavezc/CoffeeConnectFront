@@ -5,7 +5,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { PlantaService } from '../../../../../../services/planta.service';
 
-import { ControlCalidadService } from '../../../../../../Services/controlcalidad.service';
+import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
 import { Observable } from 'rxjs';
@@ -144,7 +144,7 @@ export class ControlCalidadListComponent implements OnInit
           
           break;
         default:
-          this.selectedEstado = '03';
+          this.selectedEstado = '01';
           break;
       }
       this.consultaControlCalidadPlantaForm.controls['estado'].disable();

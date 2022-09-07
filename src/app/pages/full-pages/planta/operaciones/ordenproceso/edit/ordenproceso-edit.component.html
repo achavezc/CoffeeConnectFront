@@ -16,13 +16,13 @@
         <ng-template #modalLotes let-c="close" let-d="dismiss">
             <div class="modal-header" style="text-align: center;">
       
-              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso Planta</h4>
+              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Control Calidad Planta</h4>
               <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-             <app-notaingreso-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-notaingreso-list>
+             <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>
             </div>
           </ng-template>
         <div class="form-row">
