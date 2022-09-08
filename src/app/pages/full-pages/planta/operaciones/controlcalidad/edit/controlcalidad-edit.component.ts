@@ -624,9 +624,7 @@ export class ControlCalidadEditComponent implements OnInit {
     this.controlCalidadFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.controlCalidadFormEdit.controls["producto"].setValue(data.ProductoId);
     this.controlCalidadFormEdit.controls["notaIngreso"].setValue("");
-    
-
-
+  
     this.controlCalidadFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
     this.controlCalidadFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);
