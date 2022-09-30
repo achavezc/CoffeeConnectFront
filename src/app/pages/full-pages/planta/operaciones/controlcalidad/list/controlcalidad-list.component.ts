@@ -6,7 +6,8 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { PlantaService } from '../../../../../../services/planta.service';
 
 import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
-
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -72,6 +73,7 @@ export class ControlCalidadListComponent implements OnInit
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
     private authService : AuthService,
+    private excelService: ExcelService,
     private route: ActivatedRoute) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -192,7 +194,11 @@ export class ControlCalidadListComponent implements OnInit
 
   }
 
-  buscar() {
+  Exportar() {
+    this.buscar(true);
+  }
+
+  buscar(exportExcel?: boolean) {
     if (this.consultaControlCalidadPlantaForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -232,9 +238,65 @@ export class ControlCalidadListComponent implements OnInit
                 obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro), "/");
                 obj.FechaGuiaRemision =  this.dateUtil.formatDate(new Date(obj.FechaGuiaRemision), "/");
               });
+              if (!exportExcel) {
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
               this.selected = [];
+            }  else {
+              let vArrHeaderExcel: HeaderExcel[] = [
+                new HeaderExcel("N° Control Calidad", "center"),
+                new HeaderExcel("N° Nota Ingreso", "center"),
+                new HeaderExcel("Nro Guia Remisión", "center"),
+                new HeaderExcel("Fecha Guia Remision", "center", "dd/mm/yyyy"),
+                new HeaderExcel("Fecha Ingreso", "center", "dd/mm/yyyy"),
+                new HeaderExcel("Razon Social"),
+                new HeaderExcel("Tipo Producto", "center"),
+                new HeaderExcel("Certificacion", "center"),
+                new HeaderExcel("Estado de Humedad", "center"),
+                new HeaderExcel("Motivo", "center"),
+                new HeaderExcel("Cantidad Control Calidad", "right"),
+                new HeaderExcel("Peso Bruto Control Calidad", "right"),
+                new HeaderExcel("Tara Control Calidad", "right"),
+                new HeaderExcel("Kilos Netos Control Calidad"),
+                new HeaderExcel("% Rendimiento", "center"),
+                new HeaderExcel("% Humedad CC", "center"),
+                new HeaderExcel("Puntaje Final", "center"),
+                new HeaderExcel("Cantidad Almacen", "right"),
+                new HeaderExcel("Kilos Netos Almacen", "right"),
+                new HeaderExcel("Cantidad Disponible", "right"),
+                new HeaderExcel("Kilos Netos Disponibles", "right"),
+                new HeaderExcel("Estado", "right")
+              ];
+
+              let vArrData: any[] = [];
+              for (let i = 0; i < res.Result.Data.length; i++) {
+                vArrData.push([
+                  res.Result.Data[i].NumeroCalidadPlanta,
+                  res.Result.Data[i].Numero,
+                  res.Result.Data[i].NumeroGuiaRemision,
+                  res.Result.Data[i].FechaGuiaRemision,
+                  res.Result.Data[i].FechaRegistroCadena,
+                  res.Result.Data[i].RazonSocial,
+                  res.Result.Data[i].Producto,
+                  res.Result.Data[i].Certificacion,
+                  res.Result.Data[i].SubProducto,
+                  res.Result.Data[i].MotivoIngreso,
+                  res.Result.Data[i].CantidadControlCalidad,
+                  res.Result.Data[i].PesoBrutoControlCalidad,
+                  res.Result.Data[i].TaraControlCalidad,
+                  res.Result.Data[i].KilosNetosControlCalidad,
+                  res.Result.Data[i].RendimientoPorcentaje,
+                  res.Result.Data[i].HumedadPorcentaje,
+                  res.Result.Data[i].PuntajeFinal,
+                  res.Result.Data[i].CantidadProcesada,
+                  res.Result.Data[i].KilosNetosProcesado,
+                  res.Result.Data[i].CantidadDisponible,
+                  res.Result.Data[i].KilosNetosDisponibles,
+                  res.Result.Data[i].EstadoCalidad
+                ]);
+              }
+              this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'ContolCalidad');
+            }
             } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
               this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
             } else {

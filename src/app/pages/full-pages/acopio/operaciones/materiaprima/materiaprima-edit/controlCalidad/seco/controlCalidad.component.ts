@@ -18,6 +18,7 @@ import { OrdenservicioControlcalidadService } from '../../../../../../../../serv
 import { ControlCalidadService } from '../../../../../../../../Services/control-calidad.service';
 import { PlantaService } from '../../../../../../../../services/planta.service';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
+import { host } from '../../../../../../../../shared/hosts/main.host';
 @Component({
   selector: 'app-controlCalidadSeco',
   templateUrl: './controlCalidad.component.html',
@@ -75,6 +76,8 @@ export class ControlCalidadComponent implements OnInit {
   formDefectos : FormGroup;
   subtotalDefectos: number;
   idPesado: any;
+  btnImprimir = false;
+  vSessionUser: any;
   @Input() readonly;
   constructor(
     private maestroUtil: MaestroUtil,
@@ -94,9 +97,14 @@ export class ControlCalidadComponent implements OnInit {
 
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
+    this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.page = this.route.routeConfig.data.title;
     this.cargarForm();
     this.cargarCombos();
+    if(this.form=='controlcalidadplanta')
+    {
+      this.btnImprimir = true;
+    }
 
   }
 
@@ -970,5 +978,15 @@ export class ControlCalidadComponent implements OnInit {
     else if (this.form == "controlcalidadplanta") {
       this.router.navigate(['/planta/operaciones/controlcalidad-list']);
     }
+  }
+
+  imprimir(): void {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}NotaIngresoPlanta/GenerarPDFNotaIngreso?id=${this.detalle.ControlCalidadPlantaId}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
+    link.download = "GuiaRemision.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
   }
 }

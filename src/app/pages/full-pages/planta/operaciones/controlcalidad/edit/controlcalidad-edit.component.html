@@ -151,9 +151,9 @@
   
                 </div>
                 <div class="col-md-4 mb-4 form-group mb-2">
-                  <label for="validationTooltip04">NOMBRE ORGANIZACION</label>
+                  <label for="validationTooltip04">RAZON SOCIAL</label>
                   <input type="text" minlength="4" maxlength="100" formControlName="nombreOrganizacion"
-                    class="form-control" id="validationTooltip08" placeholder="Nombre Organizacion"
+                    class="form-control" id="validationTooltip08" placeholder="Razon Social"
                     [ngClass]="{ 'is-invalid': submittedEdit && fedit.nombreOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.nombreOrganizacion.invalid }"
                     readonly>
                 </div>
@@ -259,8 +259,7 @@
                       <div class="card-footer text-right" style="margin-top: 2rem;">
                         <button type="button"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModal(mdlListDocuments)"
                           *ngIf="esEdit">Documentos</button>
-                          <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()"
-                          [disabled]="!id || id <= 0" *ngIf="esEdit">Imprimir</button>
+                          
                         
                         </div>
                     </ng-template>
@@ -278,8 +277,9 @@
                       <app-controlCalidadHumedo *ngIf="detalle" [detalle]="detalle" [form]="form" [readonly]="readonly">
                       </app-controlCalidadHumedo>
                     </ng-template>
+                   
   
-  
+                    
                   </li>
                   <!--<li [ngbNavItem]="3">
                       <a ngbNavLink [class]="'nav-link ' + disabledNota + ' d-flex align-items-center'">
