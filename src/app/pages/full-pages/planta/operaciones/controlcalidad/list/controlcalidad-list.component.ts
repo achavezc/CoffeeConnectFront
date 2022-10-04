@@ -116,19 +116,20 @@ export class ControlCalidadListComponent implements OnInit
   async cargarForm() {
     this.consultaControlCalidadPlantaForm = new FormGroup(
       {
-        notaIngreso: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        notaIngreso: new FormControl('', [Validators.minLength(1), Validators.maxLength(20)]),
         codigoOrganizacion: new FormControl('', []),
-        numeroGuiaRemision: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
+        numeroGuiaRemision: new FormControl('', [Validators.minLength(1), Validators.maxLength(100)]),
         fechaInicio: new FormControl('', [Validators.required]),
         fechaFin: new FormControl('', [Validators.required,]),
-        organizacion: new FormControl('', [Validators.minLength(8), Validators.maxLength(100), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        organizacion: new FormControl('', [Validators.minLength(1), Validators.maxLength(100)]),
         ruc: new FormControl('', []),
         tipoProducto: new FormControl('', []),
         subProducto: new FormControl('', []),
         estado: new FormControl('', [Validators.required]),
         motivo: new FormControl('', []),
         fechaGuiaRemisionInicio: new FormControl('', [Validators.required]),
-        fechaGuiaRemisionFin: new FormControl('', [Validators.required,])
+        fechaGuiaRemisionFin: new FormControl('', [Validators.required,]),
+        NumeroControlCalidad: new FormControl('', [Validators.minLength(1), Validators.maxLength(20)])
       });
     this.consultaControlCalidadPlantaForm.setValidators(this.comparisonValidator())
 
@@ -168,7 +169,7 @@ export class ControlCalidadListComponent implements OnInit
     });
     this.maestroUtil.obtenerMaestros("EstadoControlCalidadPlanta", function (res) {
       if (res.Result.Success) {
-        form.listaEstado = res.Result.Data;
+        form.listaEstado = res.Result.Data.filter(function(e) { return e.Codigo !== '03' })
       }
     });
 
@@ -206,6 +207,7 @@ export class ControlCalidadListComponent implements OnInit
 
       this.submitted = false;
       var objRequest = {
+        "NumeroControlCalidad": this.consultaControlCalidadPlantaForm.controls['NumeroControlCalidad'].value,
         "Numero": this.consultaControlCalidadPlantaForm.controls['notaIngreso'].value,
         "NumeroGuiaRemision": this.consultaControlCalidadPlantaForm.controls['numeroGuiaRemision'].value,
         "RazonSocialOrganizacion": this.consultaControlCalidadPlantaForm.controls['organizacion'].value,

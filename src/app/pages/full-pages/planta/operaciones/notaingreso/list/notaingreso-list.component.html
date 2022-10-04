@@ -14,7 +14,7 @@
               <div class="form-row">
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip04">Nro Nota de Ingreso</label>
-                  <input type="text" minlength="6" maxlength="20" formControlName="notaIngreso" class="form-control"
+                  <input type="text" minlength="1" maxlength="20" formControlName="notaIngreso" class="form-control"
                     id="validationTooltip04" placeholder="Nro Nota de Ingreso"
                     [ngClass]="{ 'is-invalid': submitted && f.notaIngreso.invalid, 'is-valid': submitted &&  !f.notaIngreso.invalid }">
                   <small class="form-text text-muted danger" *ngIf="f.notaIngreso.errors?.minlength">Ingrese 6 a 20
@@ -27,7 +27,7 @@
                 
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip08">Nro Guia Remision</label>
-                  <input type="text" minlength="6" maxlength="20" formControlName="numeroGuiaRemision"
+                  <input type="text" minlength="1" maxlength="20" formControlName="numeroGuiaRemision"
                     class="form-control" id="validationTooltip08" placeholder="Nro Guia Remision"
                     [ngClass]="{ 'is-invalid': submitted && f.numeroGuiaRemision.invalid, 'is-valid': submitted && !f.numeroGuiaRemision.invalid }">
                   <small class="form-text text-muted danger" *ngIf="f.numeroGuiaRemision.errors?.minlength">Ingrese 6 a
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip06">RUC</label>
-                  <input type="text" minlength="5" maxlength="100" formControlName="ruc" class="form-control"
+                  <input type="text" minlength="1" maxlength="100" formControlName="ruc" class="form-control"
                     id="validationTooltip06" placeholder="Ruc"
                     [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
                   <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.minlength">Ingrese 5 a 20
@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip09">Razon Social</label>
-                  <input type="text" minlength="5" maxlength="100" formControlName="organizacion" class="form-control"
+                  <input type="text" minlength="1" maxlength="100" formControlName="organizacion" class="form-control"
                     id="validationTooltip06" placeholder="Razon Social"
                     [ngClass]="{ 'is-invalid': submitted && f.organizacion.invalid, 'is-valid': submitted && !f.organizacion.invalid }">
                 </div>

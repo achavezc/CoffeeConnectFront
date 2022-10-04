@@ -983,8 +983,8 @@ export class ControlCalidadComponent implements OnInit {
   imprimir(): void {
     let link = document.createElement('a');
     document.body.appendChild(link);
-    link.href = `${host}NotaIngresoPlanta/GenerarPDFNotaIngreso?id=${this.detalle.ControlCalidadPlantaId}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
-    link.download = "GuiaRemision.pdf"
+    link.href = `${host}ControlCalidad/GenerarPDFControlCalidad?id=${this.detalle.ControlCalidadPlantaId}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
+    link.download = "ControlCalidad.pdf"
     link.target = "_blank";
     link.click();
     link.remove();

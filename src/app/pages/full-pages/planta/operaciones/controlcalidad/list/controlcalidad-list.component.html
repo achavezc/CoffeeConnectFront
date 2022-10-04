@@ -13,9 +13,23 @@
             <div class="card-body">
               <form class="needs-validation" [formGroup]="consultaControlCalidadPlantaForm">
                 <div class="form-row">
+
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip04">Nro Control Calidad</label>
+                    <input type="text" minlength="1" maxlength="20" formControlName="NumeroControlCalidad" class="form-control"
+                      id="validationTooltip04" placeholder="Nro Control Calidad"
+                      [ngClass]="{ 'is-invalid': submitted && f.NumeroControlCalidad.invalid, 'is-valid': submitted &&  !f.NumeroControlCalidad.invalid }">
+                    <small class="form-text text-muted danger" *ngIf="f.notaIngreso.errors?.minlength">Ingrese 5 a 20
+                      letras</small>
+                    <small class="form-text text-muted danger" *ngIf="f.notaIngreso.errors?.maxlength">Ingrese 5 a 20
+                      letras</small>
+                    <small class="form-text text-muted danger" *ngIf="f.notaIngreso.errors?.pattern">Solo letras y
+                      números</small>
+                  </div>
+
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">Nro Nota de Ingreso</label>
-                    <input type="text" minlength="5" maxlength="20" formControlName="notaIngreso" class="form-control"
+                    <input type="text" minlength="1" maxlength="20" formControlName="notaIngreso" class="form-control"
                       id="validationTooltip04" placeholder="Nro Nota de Ingreso"
                       [ngClass]="{ 'is-invalid': submitted && f.notaIngreso.invalid, 'is-valid': submitted &&  !f.notaIngreso.invalid }">
                     <small class="form-text text-muted danger" *ngIf="f.notaIngreso.errors?.minlength">Ingrese 5 a 20
@@ -28,7 +42,7 @@
                   
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip08">Nro Guia Remision</label>
-                    <input type="text" minlength="8" maxlength="20" formControlName="numeroGuiaRemision"
+                    <input type="text" minlength="1" maxlength="20" formControlName="numeroGuiaRemision"
                       class="form-control" id="validationTooltip08" placeholder="Nro Guia Remision"
                       [ngClass]="{ 'is-invalid': submitted && f.numeroGuiaRemision.invalid, 'is-valid': submitted && !f.numeroGuiaRemision.invalid }">
                     <small class="form-text text-muted danger" *ngIf="f.numeroGuiaRemision.errors?.minlength">Ingrese 8 a
@@ -38,9 +52,12 @@
                       20
                       letras</small>
                   </div>
+         
+                </div>
+                <div class="form-row">
                   <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip06">Organizacion</label>
-                    <input type="text" minlength="5" maxlength="100" formControlName="ruc" class="form-control"
+                    <label for="validationTooltip06">RUc</label>
+                    <input type="text" minlength="1" maxlength="100" formControlName="ruc" class="form-control"
                       id="validationTooltip06" placeholder="Ruc"
                       [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
                     <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.minlength">Ingrese 5 a 20
@@ -48,8 +65,7 @@
                     <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.maxlength">Ingrese 5 a 20
                       letras</small>
                   </div>
-                </div>
-                <div class="form-row">
+
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">Fecha Inicio</label>
                     <input type="date" class="form-control" formControlName="fechaInicio" id="validationTooltip07"
@@ -67,15 +83,16 @@
                       (blur)="compareTwoDates()" />
                     <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                   </div>
-                  <div class="col-md-4 mb-4 form-group mb-2">
-                    <label for="validationTooltip09">Razon Social Organizacion</label>
-                    <input type="text" minlength="5" maxlength="100" formControlName="organizacion" class="form-control"
-                      id="validationTooltip06" placeholder="Ruc"
-                      [ngClass]="{ 'is-invalid': submitted && f.organizacion.invalid, 'is-valid': submitted && !f.organizacion.invalid }">
-                  </div>
+  
                 </div>
                 <div class="form-row">
-                 
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip09">Razon Social</label>
+                    <input type="text" minlength="1" maxlength="100" formControlName="organizacion" class="form-control"
+                      id="validationTooltip06" placeholder="Razon Social"
+                      [ngClass]="{ 'is-invalid': submitted && f.organizacion.invalid, 'is-valid': submitted && !f.organizacion.invalid }">
+                  </div>
+
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">Fecha Guia Remision Inicio</label>
                     <input type="date" class="form-control" formControlName="fechaGuiaRemisionInicio" id="validationTooltip07"
@@ -93,6 +110,12 @@
                       (blur)="compareTwoDates()" />
                     <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                   </div>
+           
+                 
+                </div>
+  
+                <div class="form-row">
+
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip12">Tipo Producto</label>
                     <ng-select [items]="listaProducto" formControlName="tipoProducto" class="form-control"
@@ -101,10 +124,8 @@
                       (change)="changeSubProducto($event)" [(ngModel)]="selectedProducto">
                     </ng-select>
                   </div>
-                 
-                </div>
-  
-                <div class="form-row">
+
+
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip12">Estado de Humedad</label>
                     <ng-select [items]="listaSubProducto" formControlName="subProducto" class="form-control"
@@ -121,7 +142,8 @@
                       [(ngModel)]="selectedMotivo">
                     </ng-select>
                   </div>
-  
+                </div>
+                <div class="form-row">
                   <div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip12">Estado</label>
                     <ng-select [items]="listaEstado" formControlName="estado" class="form-control" bindLabel="Label"
@@ -130,11 +152,10 @@
                       [(ngModel)]="selectedEstado">
                     </ng-select>
                   </div>
-  
-                
-  
-                
+
                 </div>
+  
+
                 <small class="form-text text-muted danger"
                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                 <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
