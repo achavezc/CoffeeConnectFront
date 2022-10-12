@@ -16,13 +16,14 @@
         <ng-template #modalLotes let-c="close" let-d="dismiss">
             <div class="modal-header" style="text-align: center;">
       
-              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Control Calidad Planta</h4>
+              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso a Almacen</h4>
               <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-             <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>
+                <app-notaingresoalmacen-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-notaingresoalmacen-list>
+            <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
             </div>
           </ng-template>
         <div class="form-row">
@@ -30,80 +31,69 @@
                 <div class="card mb-0">
                     <div class="card-body pb-0">
                         <div class="form-row">
-                            <div class="col-lg-9 col-md-9 col-sm-9">
-                                <div class="form-group row">
-                                    <div class="col-md-12">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label for="razonSocialCabelbl"></label>
                                         <input type="text" name="razonSocialCabe" id="razonSocialCabe"
                                             formControlName="razonSocialCabe" class="form-control"
                                             placeholder="Razón Social"
                                             [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
                                             [readonly]="true" />
-                                    </div>
-                                </div>
+                                    
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="form-group row">
-                                    <label for="nroOrden" class="col-md-4 col-form-label">N° DE ORDEN DE PROCESO</label>
-                                    <div class="col-md-8">
+                                    <label for="nroOrden">N° Orden</label>
                                         <input type="text" name="nroOrden" id="nroOrden" formControlName="nroOrden"
                                             class="form-control"
                                             [ngClass]="{ 'is-invalid': f.nroOrden.invalid, 'is-valid': !f.nroOrden.invalid }"
-                                            placeholder="Número de orden" [readonly]="true" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-lg-9 col-md-9 col-sm-9">
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <input type="text" name="direccionCabe" id="direccionCabe"
-                                            formControlName="direccionCabe" class="form-control"
-                                            [ngClass]="{ 'is-invalid': f.direccionCabe.invalid, 'is-valid': !f.direccionCabe.invalid }"
-                                            placeholder="Dirección" [readonly]="true" />
-                                    </div>
-                                </div>
+                                            placeholder="N° Orden" [readonly]="true" />
+                    
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="form-group row">
-                                    <label for="fechaCabe" class="col-md-4 col-form-label">FECHA</label>
-                                    <div class="col-md-8">
+                               
+                            <label for="fechaCabe" >FECHA</label>
+                                   
                                         <input type="date" class="form-control text-center" formControlName="fechaCabe"
                                             id="fechaCabe" date name="fechaCabe" placeholder="Seleccionar fechaCabe"
                                             [readonly]="true"
                                             [ngClass]="{ 'is-invalid': f.fechaCabe.invalid, 'is-valid': !f.fechaCabe.invalid }" />
-                                    </div>
-                                </div>
+                                   
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-lg-9 col-md-9 col-sm-9">
-                                <div class="form-group row">
-                                    <label for="nroRucCabe" class="col-md-1 col-form-label">RUC</label>
-                                    <div class="col-md-11">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                <label for="direccionCabelbl"> </label>
+                                        <input type="text" name="direccionCabe" id="direccionCabe"
+                                            formControlName="direccionCabe" class="form-control"
+                                            [ngClass]="{ 'is-invalid': f.direccionCabe.invalid, 'is-valid': !f.direccionCabe.invalid }"
+                                            placeholder="Dirección" [readonly]="true" />
+                            
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                               
+                                    <label for="nroRucCabe"> RUC</label>
+                                    
                                         <input type="text" name="nroRucCabe" id="nroRucCabe"
                                             formControlName="nroRucCabe" class="form-control" placeholder="Número R.U.C"
                                             [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid': !f.nroRucCabe.invalid }"
                                             [readonly]="true">
-                                    </div>
-                                </div>
+                                   
+                                
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="form-group row">
-                                    <label for="estado" class="col-md-4 col-form-label">ESTADO</label>
-                                    <div class="col-md-8">
+                                
+                                
+                                    <label for="estado" >ESTADO</label>
+                                    
                                         <ng-select [items]="listEstado" formControlName="estado" class="form-control"
                                             bindLabel="Label" bindValue="Codigo" id="estado"
                                             placeholder="Seleccionar Estado"
                                             [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                             [(ngModel)]="selectedEstado" >
                                         </ng-select>
-                                    </div>
-                                </div>
-
+                                    
                             </div>
-
                         </div>
+                        
                     </div>|
                 </div>
                 <div class="card mt-0">
@@ -115,60 +105,61 @@
 
                         <div class="form-row">
 
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="tipoProceso" class="col-lg-4 col-form-label">TIPO DE PROCESO</label>
-                                    <div class="col-lg-8">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                               
+                                    <label for="tipoProceso">TIPO DE PROCESO</label>
+                                    
                                         <ng-select [items]="listTipoProcesos" formControlName="tipoProceso"
                                             class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoProceso"
                                             placeholder="Seleccionar Tipo Proceso"
                                             [ngClass]="{ 'is-invalid': f.tipoProceso.invalid, 'is-valid': !f.tipoProceso.invalid }"
                                             [(ngModel)]="selectedTipoProceso">
                                         </ng-select>
-                                    </div>
-                                </div>
+                    
+                        
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="ordenProcesoComercial" class="col-lg-4 col-form-label">ORD. PROCESO
-                                        COMERCIAL</label>
-                                    <div class="col-lg-6">
+                            <div class="col-lg-7 col-md-7 col-sm-7">
+                                <div class="form-row">
+                                    <div class="col-lg-10 col-md-10 col-sm-10">
+                                    <label for="ordenProcesoComercial" >ORD. PROCESO COMERCIAL</label>
+                                    
                                         <input type="text" name="ordenProcesoComercial" id="ordenProcesoComercial"
                                             formControlName="ordenProcesoComercial" class="form-control"
                                             placeholder="ORD. PROCESO COMERCIAL" [readonly]="true"
                                             [ngClass]="{ 'is-invalid': f.ordenProcesoComercial.invalid, 'is-valid': !f.ordenProcesoComercial.invalid }">
                                     </div>
-                                    <div class="col-lg-2">
-
+                                    <div class="col-lg-2 col-md-2 col-sm-2">
                                         <button type="button" (click)="openModal(mdlOrdenProceso)"
-                                            class="btn btn-primary">
-                                            <i class="fa fa-search"></i>
-                                        </button>
+                                        class="btn btn-primary">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                         <div class="form-row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="rucOrganizacion" class="col-lg-4 col-form-label">RUC ORGANIZACION</label>
-                                    <div class="col-lg-8">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                               
+                                    <label for="rucOrganizacion" >RUC</label>
+                                    
                                         <input type="text" minlength="5" maxlength="20"
                                             formControlName="rucOrganizacion" class="form-control"
-                                            id="validationTooltip04" placeholder="RUC Organización"
+                                            id="validationTooltip04" placeholder="RUC"
                                             [ngClass]="{ 'is-invalid': f.rucOrganizacion.invalid, 'is-valid':  !f.rucOrganizacion.invalid }"
                                             readonly>
-                                    </div>
-                                </div>
+                                   
+                               
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-7 col-md-7 col-sm-7">
                                 <div class="form-group row">
-                                    <label for="ordenProcesoComercial" class="col-lg-4 col-form-label">NOM.
-                                        ORGANIZACION</label>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-10">
+                                    <label for="ordenProcesoComercial">RAZON SOCIAL</label>
+                                    
                                         <input type="text" minlength="8" maxlength="100"
                                             formControlName="nombreOrganizacion" class="form-control"
-                                            id="validationTooltip08" placeholder="Nombre Organizacion"
+                                            id="validationTooltip08" placeholder="RAZON SOCIAL"
                                             [ngClass]="{ 'is-invalid': f.nombreOrganizacion.invalid, 'is-valid': !f.nombreOrganizacion.invalid }"
                                             readonly>
                                     </div>
@@ -197,39 +188,23 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="tipoProduccion" class="col-lg-4 col-form-label">TIPO
-                                        PRODUCCIÓN</label>
-                                    <div class="col-lg-8">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                               
+                                    <label for="tipoProduccion"> TIPO PRODUCCIÓN </label>
+                                    
                                         <ng-select [items]="listTipoProduccion" formControlName="tipoProduccion" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="tipoProduccion"
                                         placeholder="Seleccionar Tipo Produccion"
                                         [ngClass]="{ 'is-invalid': f.tipoProduccion.invalid, 'is-valid': !f.tipoProduccion.invalid }"
                                         [(ngModel)]="selectedTipoProduccion">
                                         </ng-select>
-                                    </div>
-                                </div>
+                                   
+                               
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="certificacion" class="col-lg-4 col-form-label">CERTIFICACION</label>
-                                    <div class="col-lg-8">
-                                        <ng-select [items]="listCertificacion" formControlName="certificacion" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="certificacion"
-                                        placeholder="Seleccionar Certificacion" [multiple]="true"
-                                        [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
-                                        [(ngModel)]="selectedCertificacion">
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="producto" class="col-lg-4 col-form-label">PRODUCTO</label>
-                                    <div class="col-lg-8">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                
+                                    <label for="producto"> PRODUCTO </label>
+                                    
                                         <ng-select [items]="listProducto" formControlName="producto" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="producto"
                                         placeholder="Seleccionar Producto"
@@ -237,37 +212,53 @@
                                         [ngClass]="{ 'is-invalid': f.producto.invalid, 'is-valid': !f.producto.invalid }"
                                         [(ngModel)]="selectedProducto">
                                         </ng-select>
-                                    </div>
-                                </div>
+                                    
+                               
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="certificadora" class="col-lg-4 col-form-label">CERTIFICADORA</label>
-                                    <div class="col-lg-8">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                               
+                                    <label for="certificacion" >CERTIFICACION</label>
+                                    
+                                        <ng-select [items]="listCertificacion" formControlName="certificacion" class="form-control"
+                                        bindLabel="Label" bindValue="Codigo" id="certificacion"
+                                        placeholder="Seleccionar Certificacion" [multiple]="true"
+                                        [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid': !f.certificacion.invalid }"
+                                        [(ngModel)]="selectedCertificacion">
+                                        </ng-select>
+                                   
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                
+                                    <label for="certificadora"> CERTIFICADORA</label>
+                                   
                                         <ng-select [items]="listCertificadora" formControlName="certificadora" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="certificadora"
                                         placeholder="Seleccionar Certificadora"
                                         [ngClass]="{ 'is-invalid': f.certificadora.invalid, 'is-valid': !f.certificadora.invalid }"
                                         [(ngModel)]="selectedCertificadora">
                                         </ng-select>
-                                    </div>
+                            
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="subProducto" class="col-lg-4 col-form-label">Estado de Humedad</label>
-                                    <div class="col-lg-8">
+                           
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                               
+                                    <label for="subProducto"> Estado de Humedad</label>
+                                    
                                         <ng-select [items]="listSubProducto" formControlName="subProducto" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="subProducto"
                                         placeholder="Seleccionar Sub Producto"
                                         [ngClass]="{ 'is-invalid': f.subProducto.invalid, 'is-valid': !f.subProducto.invalid }"
                                         [(ngModel)]="selectedSubProducto">
                                         </ng-select>
-                                    </div>
+                                   
                                 </div>
-                            </div>
+                            
+                        </div>
+                        <div class="form-row">
+                            
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                
                             </div>

@@ -843,8 +843,8 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.rowsDetails = [...this.tempDataLoteDetalle];
   }
   agregarNotaIngreso(e) {
-    this.obtenerDetalleNotaIngreso(e[0].ControlCalidadPlantaId);
-    /*
+   // this.obtenerDetalleNotaIngreso(e[0].ControlCalidadPlantaId);
+    
     var listFilter=[];
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == e[0].NotaIngresoPlantaId);
       if (listFilter.length == 0)
@@ -869,10 +869,10 @@ export class OrdenProcesoEditComponent implements OnInit {
       else 
       {
         this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroNotaIngresoAlmacenPlanta + ".");
-      }}*/
+      }
   }
 
-  obtenerDetalleNotaIngreso(id) {
+ /* obtenerDetalleNotaIngreso(id) {
     this.spinner.show();
     this.controlCalidad.ConsultarPorId(Number(id))
       .subscribe(res => {
@@ -905,7 +905,7 @@ export class OrdenProcesoEditComponent implements OnInit {
           this.errorGeneral = { isError: false, msgError: this.msgErrorGenerico };
         }
       );
-  }
+  }*/
 
   agregarNotaIngresoGrilla(data) {
     var listFilter = [];
@@ -958,5 +958,8 @@ export class OrdenProcesoEditComponent implements OnInit {
     }
     );
   }
+
+
+  
 }
 
