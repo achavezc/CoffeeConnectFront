@@ -852,6 +852,8 @@ export class ControlCalidadComponent implements OnInit {
 
     controlFormControlCalidad["cantidadControlCalidad"].setValue(this.detalle.CantidadControlCalidad);
     controlFormControlCalidad["pesoBrutoControlCalidad"].setValue(this.detalle.PesoBrutoControlCalidad);
+
+    
     controlFormControlCalidad["taraControlCalidad"].setValue(this.detalle.TaraControlCalidad);
     controlFormControlCalidad["kilosNetosControlCalidad"].setValue(this.detalle.KilosNetosControlCalidad);
 
