@@ -79,6 +79,7 @@ export class ControlCalidadComponent implements OnInit {
   btnImprimir = false;
   vSessionUser: any;
   @Input() readonly;
+  activeIds: ['panel-1', 'panel-2']
   constructor(
     private maestroUtil: MaestroUtil,
     private spinner: NgxSpinnerService,
@@ -96,6 +97,7 @@ export class ControlCalidadComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activeIds = ['panel-1', 'panel-2']; //panels 1 and 2 are open
     this.login = JSON.parse(localStorage.getItem("user"));
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.page = this.route.routeConfig.data.title;
@@ -119,6 +121,7 @@ export class ControlCalidadComponent implements OnInit {
     var data = await this.maestroService.obtenerMaestros("Empaque").toPromise();
     if (data.Result.Success) {
       this.listaEmpaque = data.Result.Data;
+      
     }
   }
   async cargarCombos() {
@@ -223,6 +226,7 @@ export class ControlCalidadComponent implements OnInit {
     this.formControlCalidad.controls['taraControlCalidad'].setValue(valorRounded);
     this.calcularKilosNetos();
   }
+ 
 
   calcularKilosNetos(){
     var tara = this.formControlCalidad.controls['taraControlCalidad'].value;
@@ -271,7 +275,7 @@ export class ControlCalidadComponent implements OnInit {
     this.formControlCalidad.setValidators(this.comparisonValidator());
     this.formControlCalidad.get("taraControlCalidad").disable();
     this.formControlCalidad.get("kilosNetosControlCalidad").disable();
-
+   
     this.desactivarControlesPlanta();
   }
 
@@ -836,8 +840,8 @@ export class ControlCalidadComponent implements OnInit {
   }
 
 
-  obtenerDetalle() {
-
+  async obtenerDetalle() {
+    
     this.desactivarControlesPlanta();
     var form = this;
     let subToTalSensorial: number = 0;
@@ -850,8 +854,13 @@ export class ControlCalidadComponent implements OnInit {
     controlFormControlCalidad["pesoBrutoControlCalidad"].setValue(this.detalle.PesoBrutoControlCalidad);
     controlFormControlCalidad["taraControlCalidad"].setValue(this.detalle.TaraControlCalidad);
     controlFormControlCalidad["kilosNetosControlCalidad"].setValue(this.detalle.KilosNetosControlCalidad);
-    controlFormControlCalidad["tipo"].setValue(this.detalle.ControlCalidadTipoId);
-    controlFormControlCalidad["empaque"].setValue(this.detalle.ControlCalidadEmpaqueId);
+
+    await this.cargaTipo();
+    await this.cargaEmpaque();
+    controlFormControlCalidad["tipo"].setValue(this.detalle.TipoId);
+    controlFormControlCalidad["empaque"].setValue(this.detalle.EmpaqueId);
+
+   
     ///Ddddddddddddddddddd
 
     controlFormControlCalidad["exportGramos"].setValue(this.detalle.ExportableGramosAnalisisFisico);
@@ -926,10 +935,18 @@ export class ControlCalidadComponent implements OnInit {
     }
     var redondear = subToTalSensorial.toFixed(2)
     controlFormControlCalidad["SubToTalSensorial"].setValue(redondear);
+
     this.calcularSubTotalDefectos();
     this.desactivarControles(this.detalle.EstadoId, this.detalle.UsuarioCalidad);
+    var form = this;
+    setTimeout(this.myCallback,1000,form);
   }
 
+  myCallback(form) {
+    form.formControlCalidad.get("tipo").disable();
+    form.formControlCalidad.get("empaque").disable();
+  
+  }
   desactivarControlesPlanta ()
   {
     if (this.page == "NotaIngresoPlantaEdit" || this.page == "ControlCalidadPlantaEdit")
@@ -959,7 +976,7 @@ export class ControlCalidadComponent implements OnInit {
       this.btnGuardarCalidad = false;
       //NotaCompra ReadOnly
     }
-
+ 
   }
 
   cancelar() {

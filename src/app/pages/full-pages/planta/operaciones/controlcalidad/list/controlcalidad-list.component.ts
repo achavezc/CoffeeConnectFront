@@ -404,6 +404,7 @@ export class ControlCalidadListComponent implements OnInit
     this.ControlCalidadService.Anular(
       {
         "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+        "NotaIngresoPlantaId": this.selected[0].NotaIngresoPlantaId,
         "Usuario": this.vSessionUser.Result.Data.NombreUsuario
       })
       .subscribe(res => {
