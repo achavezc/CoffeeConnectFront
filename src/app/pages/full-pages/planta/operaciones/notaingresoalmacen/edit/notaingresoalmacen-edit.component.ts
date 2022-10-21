@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn, FormBuilder } from '@angular/forms';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
@@ -11,6 +12,7 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { Router } from "@angular/router";
 import {AuthService} from './../../../../../../services/auth.service';
+import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
 
 @Component({
   selector: 'app-notaingresoalmacen-edit',
@@ -35,6 +37,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   codigoCafeP= "01";
   usuario="";
   readonly: boolean;
+  detalle: any;
+  popUp = true;
 
   constructor(
     private fb: FormBuilder,
@@ -45,7 +49,9 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     private dateUtil: DateUtil,
     private alertUtil: AlertUtil,
     private router: Router,
-    private authService : AuthService
+    private authService : AuthService,
+    private notaIngresoService: NotaIngresoService,
+    private modalService: NgbModal
   ) {
 
   }
@@ -113,10 +119,57 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
         totalPorcentaje: new FormControl({ value: '', disabled: true }, []),
         humedadAnalsisFisico: new FormControl({ value: '', disabled: true }, []),
         puntajeFinal: new FormControl({ value: '', disabled: true }, []),
-        pesoxSaco: new FormControl({ value: '', disabled: true }, [])
+        pesoxSaco: new FormControl({ value: '', disabled: true }, []),
+        controlCalidad: ['', ]
 
       });
   }
+
+  agregarControlCalidad(e) {
+    this.obtenerDetalleNotaIngreso(e[0].NotaIngresoPlantaId);
+
+  }
+  openModal(customContent) {
+    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl', centered: true });
+  }
+  obtenerDetalleNotaIngreso(id) {
+    this.spinner.show();
+    this.notaIngresoService.ConsultarPorId(Number(id))
+      .subscribe(res => {
+
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.detalle = res.Result.Data;
+            if (this.detalle != null) {
+              this.cargarDataFormulario(res.Result.Data);
+              //this.detalle.requestPesado = this.obtenerRequest();
+            } else {
+              this.spinner.hide();
+              this.modalService.dismissAll();
+            }
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, msgError: res.Result.Message };
+            this.modalService.dismissAll();
+          } else {
+            this.errorGeneral = { isError: true, msgError: this.mensajeErrorGenerico };
+            this.modalService.dismissAll();
+          }
+        } else {
+          this.errorGeneral = { isError: true, msgError: this.mensajeErrorGenerico };
+          this.modalService.dismissAll();
+        }
+      },
+        err => {
+          this.spinner.hide();
+          this.modalService.dismissAll();
+          console.log(err);
+          this.errorGeneral = { isError: false, msgError: this.mensajeErrorGenerico };
+        }
+      );
+  }
+
+
+
 
   get fedit() {
     return this.consultaNotaIngresoAlmacenFormEdit.controls;

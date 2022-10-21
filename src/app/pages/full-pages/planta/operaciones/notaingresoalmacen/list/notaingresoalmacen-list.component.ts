@@ -25,10 +25,12 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   submitted = false;
   listaEstado: Observable<any[]>;
+  listaMotivo: Observable<any[]>;
   listaProducto: Observable<any[]>;
   listaSubProducto: any[];
   listaCertificacion: Observable<any[]>;
   selectedEstado: any;
+  selectedMotivo: any;
   selectedAlmacen: any;
   selectedProducto: any;
   selectedSubProducto: any;
@@ -69,8 +71,14 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.cargarForm();
     this.cargarcombos();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.notaIngresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
-    this.notaIngresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    //this.notaIngresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
+    //this.notaIngresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+
+    this.notaIngresoAlmacenForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.notaIngresoAlmacenForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
+    this.notaIngresoAlmacenForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
+    this.notaIngresoAlmacenForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
+
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
   compareTwoDates() {
@@ -114,8 +122,14 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   cargarForm() {
     this.notaIngresoAlmacenForm = new FormGroup(
       {
-        numeroIngresoAlmacen: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        numeroIngresoAlmacen: new FormControl('', []),
+        numeroControlCalidad: new FormControl('', []),
+        numeroNotaIngreso: new FormControl('', []),
+        numeroGuiRemision: new FormControl('', []),
+        fechaGuiaRemisionInicio: new FormControl('', []),
+        fechaGuiaRemisionFin: new FormControl('', []),
         codigoOrganizacion: new FormControl('', []),
+        motivo: new FormControl('', []),
         fechaInicio: new FormControl('', [Validators.required]),
         ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
@@ -128,7 +142,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         puntajeFinalFin: new FormControl('', []),
         puntajeFinalInicio: new FormControl('', []),
         certificacion: new FormControl('', []),
-        numeroIngresoPlanta: new FormControl('', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
+        numeroIngresoPlanta: new FormControl('', []),
         subproducto: new FormControl('', [])
       });
     this.notaIngresoAlmacenForm.setValidators(this.comparisonValidator())
@@ -155,6 +169,11 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("AlmacenPlanta", function (res) {
       if (res.Result.Success) {
         form.listaAlmacen = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaMotivo = res.Result.Data;
       }
     });
   }
@@ -199,13 +218,18 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
       this.submitted = false;
       var objRequest = {
         "Numero": this.notaIngresoAlmacenForm.controls['numeroIngresoAlmacen'].value,
-        "NumeroNotaIngresoPlanta": this.notaIngresoAlmacenForm.controls['numeroIngresoPlanta'].value,
+        "NumeroNotaIngresoPlanta": this.notaIngresoAlmacenForm.controls['numeroNotaIngreso'].value,
+        "NumeroControlCalidad": this.notaIngresoAlmacenForm.controls['numeroControlCalidad'].value,
+        "NumeroGuiaRemision": this.notaIngresoAlmacenForm.controls['numeroGuiRemision'].value,
         "NumeroOrganizacion": this.notaIngresoAlmacenForm.controls['codigoOrganizacion'].value,
         "RazonSocialOrganizacion": this.notaIngresoAlmacenForm.controls['rzsocial'].value,
         "RucOrganizacion": this.notaIngresoAlmacenForm.controls['ruc'].value,
         "ProductoId": this.notaIngresoAlmacenForm.controls['producto'].value,
         "SubProductoId": this.notaIngresoAlmacenForm.controls['subproducto'].value,
-        "EstadoId": '01',
+        "EstadoId": this.notaIngresoAlmacenForm.controls['estado'].value,
+        "FechaInicioGuiaRemision": this.notaIngresoAlmacenForm.controls['fechaGuiaRemisionInicio'].value,
+        "FechaFinGuiaRemision": this.notaIngresoAlmacenForm.controls['fechaGuiaRemisionFin'].value,
+
         "FechaInicio": this.notaIngresoAlmacenForm.controls['fechaInicio'].value,
         "FechaFin": this.notaIngresoAlmacenForm.controls['fechaFin'].value,
         "AlmacenId": this.notaIngresoAlmacenForm.controls['almacen'].value,

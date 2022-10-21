@@ -150,7 +150,7 @@ export class ControlCalidadListComponent implements OnInit
           this.selectedEstado = '01';
           break;
       }
-      this.consultaControlCalidadPlantaForm.controls['estado'].disable();
+      //this.consultaControlCalidadPlantaForm.controls['estado'].disable();
       
     }
   }
@@ -170,6 +170,16 @@ export class ControlCalidadListComponent implements OnInit
     this.maestroUtil.obtenerMaestros("EstadoControlCalidadPlanta", function (res) {
       if (res.Result.Success) {
         form.listaEstado = res.Result.Data.filter(function(e) { return e.Codigo !== '03' })
+
+        if (form.popUp) {
+          switch (form.page) {
+            case "Edit":
+              form.listaEstado = res.Result.Data.filter(function(e) { return e.Codigo !== '03' && e.Codigo != '04' && e.Codigo != '00' });
+              break;
+          }
+          //this.consultaControlCalidadPlantaForm.controls['estado'].disable();
+          
+        }
       }
     });
 

@@ -1,5 +1,20 @@
 <form class="needs-validation" [formGroup]="consultaNotaIngresoAlmacenFormEdit">
   <section id="tooltip-validation">
+
+    <ng-template #modalNotaIngreso let-c="close" let-d="dismiss">
+        
+      <div class="modal-header" style="text-align: center;">
+
+        <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso Planta</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-controlcalidad-list (agregarEvent)="agregarControlCalidad($event)" [popUp]="popUp" ></app-controlcalidad-list>
+      </div>
+    </ng-template>
+
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -65,6 +80,23 @@
 
               </div>
 
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-3 mb-3 form-group mb-2">
+                <label for="validationTooltip04">Control Calidad</label>
+                <input type="text" minlength="8" maxlength="20" formControlName="controlCalidad" class="form-control"
+                  id="validationTooltip08" placeholder="Control Calidad"
+                  readonly>
+
+
+              </div>
+              <div class="col-md-1 mb-1 form-group mb-2">
+                <button type="button" class="btn btn-default" style="margin-top: 1.5rem;"
+                  (click)="openModal(modalNotaIngreso)">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
             </div>
 
             <div class="form-row">
