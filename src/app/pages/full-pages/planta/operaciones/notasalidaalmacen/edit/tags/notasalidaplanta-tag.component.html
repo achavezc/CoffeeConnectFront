@@ -30,27 +30,18 @@
           <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
             [rows]="rowsLotesDetalle" [selected]="selectLoteDetalle" [selectionType]="'single'">
-            
-            <ngx-datatable-column name="N° Nota Ingreso a Almacen" prop="NumeroNotaIngresoAlmacenPlanta">
+            <ngx-datatable-column name="Cantidad" prop="Cantidad">
+            </ngx-datatable-column>      
+            <ngx-datatable-column name="Empaque" prop="Empaque">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Tipo Empaque" prop="TipoEmpaque">
             </ngx-datatable-column>
             <ngx-datatable-column name="Producto" prop="Producto">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Sub Producto" prop="SubProducto">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Calidad" prop="Calidad">
-            </ngx-datatable-column>
+            </ngx-datatable-column>           
             
-            <ngx-datatable-column name="Grado" prop="Grado">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="N° Defectos" prop="CantidadDefectos">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Sacos" prop="CantidadPesado">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutosPesado">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Tara" prop="TaraPesado">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Kilos Netos" prop="KilosNetosPesado">
+            <ngx-datatable-column name="Bruto" prop="PesoKilosBrutos">
+            </ngx-datatable-column>            
+            <ngx-datatable-column name="Netos" prop="PesoKilosNetos">
             </ngx-datatable-column>
           </ngx-datatable>
         </div>
