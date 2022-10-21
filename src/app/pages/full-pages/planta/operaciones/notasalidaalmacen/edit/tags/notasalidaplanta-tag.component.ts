@@ -98,18 +98,20 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   cargarDatos(detalle: any) {
     detalle.forEach(x => {
       let object: any = {};
+      object.NotaSalidaAlmacenPlantaDetalleId = x.NotaSalidaAlmacenPlantaDetalleId
+      object.NotaSalidaAlmacenPlantaId = x.NotaSalidaAlmacenPlantaId
       object.NotaIngresoAlmacenPlantaId = x.NotaIngresoAlmacenPlantaId
-      object.NumeroNotaIngresoAlmacenPlanta = x.NumeroNotaIngresoAlmacenPlanta
+      object.EmpaqueId = x.EmpaqueId 
+      object.Empaque = x.Empaque
+      object.TipoId = x.TipoId 
+      object.TipoEmpaque = x.TipoEmpaque 
       object.Producto = x.Producto
-      object.SubProducto = x.SubProducto 
-      object.Calidad = x.Calidad
-      object.Grado = x.Grado 
-      object.CantidadDefectos = x.CantidadDefectos 
-      object.CantidadPesado = x.CantidadPesado
-      object.KilosBrutosPesado = x.KilosBrutosPesado
-      object.TaraPesado = x.TaraPesado
-      object.KilosNetosPesado = x.KilosNetosPesado
-      object.CantidadPesado = x.CantidadPesado
+      object.SubProducto = x.SubProducto
+      object.Cantidad = x.Cantidad
+      object.PesoKilosBrutos = x.PesoKilosBrutos
+      object.PesoKilosNetos = x.PesoKilosNetos
+      object.Tara = x.Tara
+
       this.listaNotaIngreso.push(object);
     });
     this.tempDataLoteDetalle = this.listaNotaIngreso;
