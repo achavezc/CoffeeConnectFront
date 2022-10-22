@@ -741,15 +741,27 @@
 
 
         </div>
+        <div  class="col-md-4 justify-content-end !important" style="margin-top: 2rem;">
+            <ng-template #mdlListDocuments let-c="close" let-d="dismiss">
+              <app-lista-documentos [codeForm]="'frmMdlListDocumentsNoteIncome'" [code]="idPlantEntryNote">
+              </app-lista-documentos>
+            </ng-template>
+          </div>
+          <div *ngIf="esAlmacen" class="card-footer text-right" style="margin-top: 2rem;">
+            <button type="button"  class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModal(mdlListDocuments)"
+              >Documentos</button>
+              
+            </div>
+
         <div class="row">
             <div class="col-12">
 
 
                 <div class="card-footer text-right" style="margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" [disabled]="!btnGuardarCalidad || readonly==false"
-                        (click)="actualizarAnalisisControlCalidad($event)">Guardar</button>
+                        (click)="actualizarAnalisisControlCalidad($event)"  *ngIf="!esAlmacen">Guardar</button>
                     <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()" *ngIf="form==='controlcalidadplanta'">Imprimir</button>
-                    <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()">Cancelar</button>
+                    <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()" *ngIf="!esAlmacen">Cancelar</button>
                         
                 </div>
                 

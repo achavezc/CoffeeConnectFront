@@ -14,12 +14,25 @@ export class NotaIngresoAlmacenPlantaService {
     private errorHandling: ErrorHandling) {
   }
 
+  registrar(body: any): Observable<any> {
+    const url = `${this.url}/Registrar`;
+
+   
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
+  actualizarFinal(body: any): Observable<any> {
+    const url = `${this.url}/Actualizar`;
+
+   
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+  }
+
   enviarAlmacen(id: number, username: string): Observable<any> {
     const url = `${this.url}/Registrar`;
 
     const body: any = {
-      NotaIngresoPlantaId: id,
-      Usuario: username
+      NotaIngresoAlmacenPlantaId: id,
+      ControlCalidadPlantaId: username
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }

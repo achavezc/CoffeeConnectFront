@@ -8,6 +8,7 @@ import {
 } from '../../../../../../../../services/models/req-controlcalidad-actualizar'
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
 import { Router,ActivatedRoute } from "@angular/router";
 import { ILogin } from '../../../../../../../../services/models/login';
@@ -19,6 +20,7 @@ import { ControlCalidadService } from '../../../../../../../../Services/control-
 import { PlantaService } from '../../../../../../../../services/planta.service';
 import { MaestroUtil } from '../../../../../../../../services/util/maestro-util';
 import { host } from '../../../../../../../../shared/hosts/main.host';
+
 @Component({
   selector: 'app-controlCalidadSeco',
   templateUrl: './controlCalidad.component.html',
@@ -29,7 +31,7 @@ export class ControlCalidadComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() detalle: any;
   @Input() form;
-
+  @Input() esAlmacen;
 
   submitted = false;
   controlCalidadSeco: FormGroup;
@@ -91,7 +93,8 @@ export class ControlCalidadComponent implements OnInit {
     private ordenServicio: OrdenservicioControlcalidadService,
     private acopioService: AcopioService,
     private notaIngresoPlantaService: PlantaService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
   ) {
 
   }
@@ -108,8 +111,14 @@ export class ControlCalidadComponent implements OnInit {
       this.btnImprimir = true;
     }
 
-  }
+    if(this.esAlmacen){
+      this.formControlCalidad.disable();
+    }
 
+  }
+  openModal(customContent) {
+    this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl', centered: true });
+  }
   async cargaTipo() {
 
     var data = await this.maestroService.obtenerMaestros("TipoEmpaque").toPromise();
