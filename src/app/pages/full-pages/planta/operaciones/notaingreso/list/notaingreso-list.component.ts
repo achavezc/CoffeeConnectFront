@@ -270,7 +270,7 @@ export class NotaIngresoListComponent implements OnInit {
             if (res.Result.ErrCode == "") {
               res.Result.Data.forEach(obj => {
                 obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro), "/");
-                obj.FechaGuiaRemision =  this.dateUtil.formatDate(new Date(obj.FechaGuiaRemision), "/");
+                obj.FechaGuiaRemisionCadena =  this.dateUtil.formatDate(new Date(obj.FechaGuiaRemision), "/");
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];
