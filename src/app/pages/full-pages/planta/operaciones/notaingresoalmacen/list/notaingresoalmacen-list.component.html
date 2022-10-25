@@ -258,7 +258,7 @@
               </ngx-datatable-column>
               <ngx-datatable-column name="Nro Guia Remisión" prop="NumeroGuiaRemision" width="140">
               </ngx-datatable-column>
-              <ngx-datatable-column name="Fecha Guia Remision" prop="FechaGuiaRemisionCadena" width="140">
+              <ngx-datatable-column name="Fecha Guia Remision" prop="FechaGuiaRemision" width="140">
               </ngx-datatable-column>
               <ngx-datatable-column name="Fecha Ingreso" prop="FechaRegistro" width="100"></ngx-datatable-column>
               <ngx-datatable-column name="Razon Social" prop="RazonSocialEmpresaOrigen" width="100"></ngx-datatable-column>
@@ -270,20 +270,20 @@
               <ngx-datatable-column name="Motivo" prop="MotivoIngreso" width="100"></ngx-datatable-column>
           
               <!--se agrego 4 campos Nuevos en la grilla -->
-              <ngx-datatable-column name="Cantidad Control Calidad" prop="CantidadControlCalidad" width="100"></ngx-datatable-column> 
-              <ngx-datatable-column name="Peso Bruto Control Calidad" prop="PesoBrutoControlCalidad" width="100"></ngx-datatable-column> 
-              <ngx-datatable-column name="Tara Control Calidad" prop="TaraControlCalidad" width="100"></ngx-datatable-column> 
-              <ngx-datatable-column name="Kilos Netos Control Calidad" prop="KilosNetosControlCalidad"idth="100"></ngx-datatable-column> 
+              <ngx-datatable-column name="Cantidad Almacén" prop="Cantidad" width="100"></ngx-datatable-column> 
+              <ngx-datatable-column name="Peso Bruto Almacén" prop="PesoBruto" width="100"></ngx-datatable-column> 
+              <ngx-datatable-column name="Tara Almacén" prop="Tara" width="100"></ngx-datatable-column> 
+              <ngx-datatable-column name="Kilos Netos Almacén" prop="KilosNetos"idth="100"></ngx-datatable-column> 
 
 
               <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje"idth="100"></ngx-datatable-column> 
-              <ngx-datatable-column name="% Humedad CC" prop="HumedadPorcentaje"idth="100"></ngx-datatable-column> 
+              <ngx-datatable-column name="% Humedad CC" prop="HumedadPorcentajeAnalisisFisico"idth="100"></ngx-datatable-column> 
               <ngx-datatable-column name="Puntaje Final" prop="PuntajeFinal"idth="100"></ngx-datatable-column> 
 
 
               <!---- ya se agrego campo nuevos a la grilla -->
-              <ngx-datatable-column name="Cantidad Almacen" prop="CantidadProcesada" width="100"></ngx-datatable-column>
-              <ngx-datatable-column name="Kilos Netos Almacen" prop="KilosNetosProcesado" width="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Cantidad Orden Proceso" prop="CantidadOrdenProceso" width="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Kilos Netos Orden Proceso" prop="KilosNetosOrdenProceso" width="100"></ngx-datatable-column>
               <ngx-datatable-column name="Cantidad Disponible" prop="CantidadDisponible" width="100"></ngx-datatable-column>
               <ngx-datatable-column name="Kilos Netos Disponibles" prop="KilosNetosDisponibles" width="100"></ngx-datatable-column>
            <!-- estos campos no se usaran -->
@@ -294,7 +294,7 @@
               <ngx-datatable-column name="Estado" prop="Estado" width="150">
                 <ng-template let-status="value" ngx-datatable-cell-template>
                   <div class="badge" [ngClass]="{
-                          'bg-light-success': status == 'Pesado',
+                          'bg-light-success': status == 'Registrado',
                           'bg-light-danger': status == 'Anulado',
                           'bg-light-warning': status == 'Analizado'
                         }">
