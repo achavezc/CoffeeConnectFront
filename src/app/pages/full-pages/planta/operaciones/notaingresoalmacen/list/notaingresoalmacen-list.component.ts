@@ -69,7 +69,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cargarForm();
-    this.cargarcombos();
+    //this.cargarcombos();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     //this.notaIngresoAlmacenForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     //this.notaIngresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
@@ -119,7 +119,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.limitRef = limit.target.value;
   }
 
-  cargarForm() {
+ async cargarForm() {
     this.notaIngresoAlmacenForm = new FormGroup(
       {
         numeroIngresoAlmacen: new FormControl('', []),
@@ -145,10 +145,12 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         numeroIngresoPlanta: new FormControl('', []),
         subproducto: new FormControl('', [])
       });
-    this.notaIngresoAlmacenForm.setValidators(this.comparisonValidator())
+      await this.cargarcombos()
+    this.notaIngresoAlmacenForm.setValidators(this.comparisonValidator());
+    
   }
 
-  cargarcombos() {
+  async cargarcombos() {
     var form = this;
     this.maestroUtil.obtenerMaestros("EstadoNotaIngresoAlmacenPlanta", function (res) {
       if (res.Result.Success) {
@@ -176,6 +178,16 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         form.listaMotivo = res.Result.Data;
       }
     });
+
+    await this.LoadFormPopup();
+  }
+
+  async LoadFormPopup() {
+    if (this.popUp) {
+      this.selectedEstado = '01';
+      this.notaIngresoAlmacenForm.controls["estado"].setValue('01');
+      this.notaIngresoAlmacenForm.controls.estado.disable();
+    }
   }
 
   public comparisonValidator(): ValidatorFn {
