@@ -30,15 +30,14 @@
           <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
             [rows]="rowsLotesDetalle" [selected]="selectLoteDetalle" [selectionType]="'single'">
-            <ngx-datatable-column name="Cantidad" prop="Cantidad">
-            </ngx-datatable-column>      
+            <ngx-datatable-column name="Producto" prop="Producto">
+            </ngx-datatable-column>                 
             <ngx-datatable-column name="Empaque" prop="Empaque">
             </ngx-datatable-column>
             <ngx-datatable-column name="Tipo Empaque" prop="TipoEmpaque">
             </ngx-datatable-column>
-            <ngx-datatable-column name="Producto" prop="Producto">
-            </ngx-datatable-column>           
-            
+            <ngx-datatable-column name="Cantidad" prop="Cantidad">
+            </ngx-datatable-column>         
             <ngx-datatable-column name="Bruto" prop="PesoKilosBrutos">
             </ngx-datatable-column>            
             <ngx-datatable-column name="Netos" prop="PesoKilosNetos">
