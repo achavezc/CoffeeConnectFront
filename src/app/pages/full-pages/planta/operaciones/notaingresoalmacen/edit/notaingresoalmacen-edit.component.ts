@@ -312,7 +312,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
 
       this.consultaNotaIngresoAlmacenFormEdit.get("cantidadAlmacen").disable();
       this.consultaNotaIngresoAlmacenFormEdit.get("pesoBrutoAlmacen").disable();
-      this.calcularTara();
+      
     }else if( data.EstadoCalidadId == "01" && this.id == 0){
       this.consultaNotaIngresoAlmacenFormEdit.controls["cantidadAlmacen"].setValue("");
       this.consultaNotaIngresoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue("");
@@ -320,6 +320,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
       this.consultaNotaIngresoAlmacenFormEdit.controls["kilosNetosAlmacen"].setValue("");
       this.consultaNotaIngresoAlmacenFormEdit.get("cantidadAlmacen").enable();
       this.consultaNotaIngresoAlmacenFormEdit.get("pesoBrutoAlmacen").enable()
+      this.calcularTara();
     }
   if(this.id > 0){
     this.consultaNotaIngresoAlmacenFormEdit.controls["cantidadAlmacen"].setValue(data.Cantidad);
