@@ -221,11 +221,6 @@
                 [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
 
                 <ngx-datatable-column name="N° Control Calidad" prop="NumeroCalidadPlanta" width="120">
-                </ngx-datatable-column>
-  
-                <ngx-datatable-column name="N° Nota Ingreso" prop="Numero" width="120" *ngIf="!popUp">
-  
-                  
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                     <div class="d-flex align-items-center">
                       <div class="cell-line-height">
@@ -234,6 +229,12 @@
                       </div>
                     </div>
                   </ng-template>
+                </ngx-datatable-column>
+  
+                <ngx-datatable-column name="N° Nota Ingreso" prop="Numero" width="120" *ngIf="!popUp">
+  
+                  
+                  
                 </ngx-datatable-column>
   
                 
