@@ -191,7 +191,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
           observacion: new FormControl('', [])
         }),
       });
-    this.maestroService.obtenerMaestros("Almacen")
+    this.maestroService.obtenerMaestros("AlmacenPlanta")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaAlmacen = res.Result.Data;

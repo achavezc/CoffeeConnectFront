@@ -300,15 +300,20 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
 
   async cargarDataFormulario(data: any) {
  
+    
+
     this.controlCalidadPlantaId = data.ControlCalidadPlantaId;
     this.consultaNotaIngresoAlmacenFormEdit.controls["estadoCalidad"] = data.EstadoCalidadId;
-    if( data.EstadoCalidadId == "02" && this.id != 0){
+    if( data.EstadoCalidadId == "02" && this.id == 0){
       this.consultaNotaIngresoAlmacenFormEdit.controls["cantidadAlmacen"].setValue(data.CantidadControlCalidad);
       this.consultaNotaIngresoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue(data.PesoBrutoControlCalidad);
+      this.consultaNotaIngresoAlmacenFormEdit.controls["taraAlmacen"].setValue(data.TaraControlCalidad);
+      this.consultaNotaIngresoAlmacenFormEdit.controls["kilosNetosAlmacen"].setValue(data.KilosNetosControlCalidad);
+
       this.consultaNotaIngresoAlmacenFormEdit.get("cantidadAlmacen").disable();
       this.consultaNotaIngresoAlmacenFormEdit.get("pesoBrutoAlmacen").disable();
       this.calcularTara();
-    }else if( data.EstadoCalidadId == "01" && this.id != 0){
+    }else if( data.EstadoCalidadId == "01" && this.id == 0){
       this.consultaNotaIngresoAlmacenFormEdit.controls["cantidadAlmacen"].setValue("");
       this.consultaNotaIngresoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue("");
       this.consultaNotaIngresoAlmacenFormEdit.controls["taraAlmacen"].setValue("");
