@@ -856,7 +856,7 @@ export class OrdenProcesoEditComponent implements OnInit {
         object.NotaIngresoPlantaId = e[0].NotaIngresoAlmacenPlantaId;
        // object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
         object.NumeroIngresoPlanta = e[0].Numero;
-        object.FechaRegistroFinal = e[0].FechaRegistro;
+        object.FechaRegistroFinal = new Date (e[0].FechaRegistro);
         object.RendimientoPorcentaje =  e[0].RendimientoPorcentaje;
         object.HumedadPorcentaje=  e[0].HumedadPorcentaje;
         object.CantidadPesado =  e[0].CantidadControlCalidad;
@@ -913,7 +913,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       );
   }*/
 
-  agregarNotaIngresoGrilla(data) {
+  /*agregarNotaIngresoGrilla(data) {
     var listFilter = [];
     listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == data.NotaIngresoPlantaId);
     if (listFilter.length == 0) {
@@ -950,7 +950,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.alertUtil.alertWarning("Oops...!", "Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].Numero + ".");
       this.spinner.hide();
     }
-  }
+  }*/
 
   eliminarLote(select) {
     let form = this;

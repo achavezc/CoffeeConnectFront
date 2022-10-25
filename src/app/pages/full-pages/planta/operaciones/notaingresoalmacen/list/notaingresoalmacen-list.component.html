@@ -258,10 +258,10 @@
               </ngx-datatable-column>
               <ngx-datatable-column name="Nro Guia Remisión" prop="NumeroGuiaRemision" width="140">
               </ngx-datatable-column>
-              <ngx-datatable-column name="Fecha Guia Remision" prop="FechaGuiaRemision" width="140">
+              <ngx-datatable-column name="Fecha Guia Remision" prop="FechaGuiaRemisionCadena" width="140">
               </ngx-datatable-column>
               <ngx-datatable-column name="Fecha Ingreso" prop="FechaRegistro" width="100"></ngx-datatable-column>
-              <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Razon Social" prop="RazonSocialEmpresaOrigen" width="100"></ngx-datatable-column>
               <ngx-datatable-column name="Tipo Producto" prop="Producto" width="140">
               </ngx-datatable-column>
               <ngx-datatable-column name="Certificacion" prop="Certificacion" width="140">
@@ -291,7 +291,7 @@
               <ngx-datatable-column name="Puntaje Final" prop="PuntajeFinal" width="100"></ngx-datatable-column>-->
               <!-- <ngx-datatable-column name="Certificacion" prop="Certificacion" width="30"></ngx-datatable-column> -->
 
-              <ngx-datatable-column name="Estado Calidad" prop="EstadoCalidad" width="150">
+              <ngx-datatable-column name="Estado" prop="Estado" width="150">
                 <ng-template let-status="value" ngx-datatable-cell-template>
                   <div class="badge" [ngClass]="{
                           'bg-light-success': status == 'Pesado',
