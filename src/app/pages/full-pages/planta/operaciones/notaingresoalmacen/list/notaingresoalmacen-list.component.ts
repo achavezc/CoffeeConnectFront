@@ -257,7 +257,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
               res.Result.Data.forEach(obj => {
                 var fecha = new Date(obj.FechaRegistro);
                 obj.FechaRegistro = this.dateUtil.formatDate(fecha, "/");
-
+                obj.FechaGuiaRemision = this.dateUtil.formatDate(new Date(obj.FechaGuiaRemision), "/");
               });
               this.tempData = res.Result.Data;
               this.rows = [...this.tempData];

@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         
-                    </div>|
+                    </div>
                 </div>
                 <div class="card mt-0">
                     <h5 class="card-header bg-primary text-white text-center align-middle p-0">ORDEN DE PROCESO</h5>
@@ -282,13 +282,11 @@
                                 [rows]="rowsDetails" [selected]="selectLoteDetalle" [selectionType]="'single'"> -->
 
                                 <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails"
-                                [loadingIndicator]="isLoading" [scrollbarV]="true">
+                                [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle">
 
                                 <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistroFinal"  *ngIf="false">
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistro">
-                                </ngx-datatable-column>
-                                <ngx-datatable-column name="N° Nota Ingreso a Planta" prop="NumeroIngresoPlanta">
+                                <ngx-datatable-column name="N° Nota Ingreso a Almacen Planta" prop="NumeroIngresoPlanta">
                                 </ngx-datatable-column>
                                <!--  <ngx-datatable-column name="N° Nota Ingreso a Almacen" prop="Numero">
                                 </ngx-datatable-column> -->
@@ -307,11 +305,20 @@
                                 </ngx-datatable-column>
 
                                 <ngx-datatable-column name="Kilos Netos" prop="KilosNetosPesado">
+                                    <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetosPesado="value" let-rowIndex="rowIndex">
+                                        <div class="d-flex align-items-center">
+                                            <input type="number" autofocus
+                                                class="form-control form-control-sm text-right"
+                                                [ngClass]="{ 'border-danger': !KilosNetosPesado, '': KilosNetosPesado }"
+                                                (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetosPesado')"
+                                                value="{{KilosNetosPesado}}">
+                                        </div>
+                                    </ng-template>
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="% Humedad" prop="HumedadPorcentaje">
                                 </ngx-datatable-column>
                                 
-                                <ngx-datatable-column name="% Exportable" prop="PorcentajeExportable">
+                                <ngx-datatable-column name="% Exportable" prop="RendimientoPorcentaje">
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="% Descarte" prop="PorcentajeDescarte">
                                 </ngx-datatable-column>

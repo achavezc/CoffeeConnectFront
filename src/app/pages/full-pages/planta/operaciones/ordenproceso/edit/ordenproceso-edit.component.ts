@@ -721,6 +721,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.rowsDetails[index].CantidadPesado =  parseFloat(event.target.value);
     else if (prop === 'KilosExportables')
       this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
+      else if (prop === 'KilosNetosPesado')
+      this.rowsDetails[index].KilosNetosPesado = parseFloat(event.target.value);
       
   }
 
@@ -846,24 +848,28 @@ export class OrdenProcesoEditComponent implements OnInit {
    // this.obtenerDetalleNotaIngreso(e[0].ControlCalidadPlantaId);
     
     var listFilter=[];
-      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == e[0].NotaIngresoPlantaId);
+      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == e[0].NotaIngresoAlmacenPlantaId);
       if (listFilter.length == 0)
       {
         this.filtrosLotesID.NotaIngresoPlantaId = Number(e[0].NotaIngresoPlantaId);
         let object: any = {};
-        object.NotaIngresoPlantaId = e[0].NotaIngresoPlantaId
-        object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
-        object.NumeroIngresoPlanta = e[0].Numero 
-        object.FechaRegistro = this.dateUtil.formatDate(new Date(e[0].FechaRegistro), "/")
-        object.RendimientoPorcentaje = "";// e[0].RendimientoPorcentaje 
-        object.HumedadPorcentaje=  "";//e[0].HumedadPorcentajeAnalisisFisico
-         object.CantidadPesado =  "";//e[0].CantidadPesado 
-        object.KilosBrutosPesado =  "";//e[0].KilosBrutosPesado
-        object.TaraPesado =  "";//e[0].TaraPesado
-        object.KilosNetosPesado = "";//e[0].KilosNetosPesado
+        object.NotaIngresoPlantaId = e[0].NotaIngresoAlmacenPlantaId;
+       // object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
+        object.NumeroIngresoPlanta = e[0].Numero;
+        object.FechaRegistroFinal = e[0].FechaRegistro;
+        object.RendimientoPorcentaje =  e[0].RendimientoPorcentaje;
+        object.HumedadPorcentaje=  e[0].HumedadPorcentaje;
+        object.CantidadPesado =  e[0].CantidadControlCalidad;
+        object.TaraPesado =  e[0].TaraControlCalidad;
+        object.KilosNetosPesado = e[0].KilosNetosControlCalidad;
+        object.PorcentajeDescarte = e[0].DescartePorcentajeAnalisisFisico;
+        object.PorcentajeCascarilla = e[0].CascarillaPorcentajeAnalisisFisico;
+        object.KilosExportables = Number(e[0].KilosNetos * e[0].RendimientoPorcentaje);
+        var valorRounded = Math.round(( Number(object.KilosExportables / 69) + Number.EPSILON) * 100) / 100
+        object.SacosCalculo = valorRounded;
         this.listaNotaIngreso.push(object);
         this.tempDataLoteDetalle = this.listaNotaIngreso;
-        this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+        this.rowsDetails = [...this.tempDataLoteDetalle];
         this.modalService.dismissAll();     
       }
       else 
@@ -948,7 +954,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   eliminarLote(select) {
     let form = this;
-    this.alertUtil.alertSiNoCallback('Está seguro?', 'La NI ' + select[0].NotaIngresoPlantaId + ' se eliminará de su lista.', function (result) {
+    this.alertUtil.alertSiNoCallback('Está seguro?', 'La ' + select[0].NumeroIngresoPlanta + ' se eliminará de su lista.', function (result) {
       if (result.isConfirmed) {
         form.listaNotaIngreso = form.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId != select[0].NotaIngresoPlantaId)
         form.tempDataLoteDetalle  = form.listaNotaIngreso;
