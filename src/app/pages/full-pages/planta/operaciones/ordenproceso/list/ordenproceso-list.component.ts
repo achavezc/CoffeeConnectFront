@@ -59,8 +59,7 @@ export class OrdenProcesoListComponent implements OnInit {
   LoadForm(): void {
     this.ordenProcesoform = this.fb.group({
         numeroOrden: ['', ''],
-        ruc: ['', ''],
-        numeroContrato: ['', ''],
+        ruc: ['', ''],       
         organizacion: ['', ''],
         fechaInicio: ['', ''],
         estado: ['', ''],
@@ -152,8 +151,7 @@ export class OrdenProcesoListComponent implements OnInit {
       
     return {
         Numero: this.ordenProcesoform.value.numeroOrden,
-        RucOrganizacion: this.ordenProcesoform.value.ruc,
-        NumeroContrato: this.ordenProcesoform.value.numeroContrato,
+        RucOrganizacion: this.ordenProcesoform.value.ruc,       
         RazonSocialOrganizacion: this.ordenProcesoform.value.organizacion,
         FechaInicio: this.ordenProcesoform.value.fechaInicio,
         FechaFin: this.ordenProcesoform.value.fechaFin,

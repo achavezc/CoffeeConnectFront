@@ -20,21 +20,20 @@
                                   </div>
                              
 
+                                
+                            </div> 
+
+                            <div class="form-row">
+
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="validationTooltip04">Ruc</label>
                                     <input type="text" minlength="5" maxlength="100" formControlName="ruc"
                                     class="form-control" id="ruc" placeholder="Ruc"
                                     [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
                                   </div>
-                            </div> 
 
-                            <div class="form-row">
-                                <div class="col-md-6 mb-4 form-group mb-2">
-                                    <label for="numeroContrato" class="form-label">Nro Contrato</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="numeroContrato"
-                                    class="form-control" id="numeroContrato" placeholder="Nro Contrato"
-                                    [ngClass]="{ 'is-invalid': submitted && f.numeroContrato.invalid, 'is-valid': submitted && !f.numeroContrato.invalid }">
-                                </div>
+
+                             
 
                                 <div class="col-md-6 mb-4 form-group mb-2">
                                     <label for="organizacion" class="form-label">Razón Social</label>
@@ -152,18 +151,20 @@
                                 </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nro Orden" prop="Numero" width="90" *ngIf="popUp">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro Contrato" prop="NumeroContrato" width="60">
-                            </ngx-datatable-column>
+                            </ngx-datatable-column>                            
                             <ngx-datatable-column name="Ruc" prop="RucOrganizacion" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Razón Social" prop="RazonSocialOrganizacion" width="150">
+                            </ngx-datatable-column>                            
+                            <ngx-datatable-column name="Fecha Orden Proceso" prop="FechaOrdenProceso" width="60">
+                            </ngx-datatable-column>                            
+                            <ngx-datatable-column name="Tipo Proceso" prop="TipoProceso" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Empaque" prop="Empaque" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo" prop="Tipo" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="60">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Fe. Inicio Proceso" prop="FechaInicioProceso" width="60">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Fe. Fin Proceso" prop="FechaFinProceso" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="60">
                                

@@ -284,7 +284,7 @@
                                 <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails"
                                 [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle">
 
-                                <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistroFinal"  *ngIf="false">
+                                <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaRegistroFinal" >
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="N° Nota Ingreso a Almacen Planta" prop="NumeroIngresoPlanta">
                                 </ngx-datatable-column>
@@ -324,8 +324,8 @@
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="% Cascarilla" prop="PorcentajeCascarilla">
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje">
-                                </ngx-datatable-column>
+                                <!-- <ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje">
+                                </ngx-datatable-column> -->
                                <!--  <ngx-datatable-column name="Kilos Exportables" prop="KilosExportables">
                                 </ngx-datatable-column>  -->
                                 

@@ -858,13 +858,13 @@ export class OrdenProcesoEditComponent implements OnInit {
         object.NumeroIngresoPlanta = e[0].Numero;
         object.FechaRegistroFinal = new Date (e[0].FechaRegistro);
         object.RendimientoPorcentaje =  e[0].RendimientoPorcentaje;
-        object.HumedadPorcentaje=  e[0].HumedadPorcentaje;
-        object.CantidadPesado =  e[0].CantidadControlCalidad;
+        object.HumedadPorcentaje=  e[0].HumedadPorcentajeAnalisisFisico;
+        object.CantidadPesado =  e[0].CantidadDisponible;
         object.TaraPesado =  e[0].TaraControlCalidad;
-        object.KilosNetosPesado = e[0].KilosNetosControlCalidad;
+        object.KilosNetosPesado = e[0].KilosNetosDisponibles;
         object.PorcentajeDescarte = e[0].DescartePorcentajeAnalisisFisico;
         object.PorcentajeCascarilla = e[0].CascarillaPorcentajeAnalisisFisico;
-        object.KilosExportables = Number(e[0].KilosNetos * e[0].RendimientoPorcentaje);
+        object.KilosExportables = Number(e[0].KilosNetosDisponibles * e[0].RendimientoPorcentaje);
         var valorRounded = Math.round(( Number(object.KilosExportables / 69) + Number.EPSILON) * 100) / 100
         object.SacosCalculo = valorRounded;
         this.listaNotaIngreso.push(object);
