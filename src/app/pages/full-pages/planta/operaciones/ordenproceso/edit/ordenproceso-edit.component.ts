@@ -88,7 +88,8 @@ export class OrdenProcesoEditComponent implements OnInit {
   filtrosLotesID: any = {};
   detalle: any;
   readonly: boolean;
-
+  public limitRef = 20;
+  sumKilosNetos = 20;
 
   ngOnInit(): void {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -844,6 +845,13 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.tempDataLoteDetalle = this.listaNotaIngreso;
     this.rowsDetails = [...this.tempDataLoteDetalle];
   }
+  emptySumm() {
+    return null;
+  }
+  calcularKilosNetos()
+  {
+    return 20;
+  }
   agregarNotaIngreso(e) {
    // this.obtenerDetalleNotaIngreso(e[0].ControlCalidadPlantaId);
     
@@ -856,17 +864,18 @@ export class OrdenProcesoEditComponent implements OnInit {
         object.NotaIngresoPlantaId = e[0].NotaIngresoAlmacenPlantaId;
        // object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
         object.NumeroIngresoPlanta = e[0].Numero;
-        object.FechaRegistroFinal = new Date (e[0].FechaRegistro);
+        object.FechaRegistroFinal = e[0].FechaRegistro;
         object.RendimientoPorcentaje =  e[0].RendimientoPorcentaje;
-        object.HumedadPorcentaje=  e[0].HumedadPorcentajeAnalisisFisico;
-        object.CantidadPesado =  e[0].CantidadDisponible;
+        object.HumedadPorcentaje=  e[0].HumedadPorcentaje;
+        object.CantidadPesado =  e[0].CantidadControlCalidad;
         object.TaraPesado =  e[0].TaraControlCalidad;
-        object.KilosNetosPesado = e[0].KilosNetosDisponibles;
+        object.KilosNetosPesado = e[0].KilosNetosControlCalidad;
         object.PorcentajeDescarte = e[0].DescartePorcentajeAnalisisFisico;
         object.PorcentajeCascarilla = e[0].CascarillaPorcentajeAnalisisFisico;
-        object.KilosExportables = Number(e[0].KilosNetosDisponibles * e[0].RendimientoPorcentaje);
-        var valorRounded = Math.round(( Number(object.KilosExportables / 69) + Number.EPSILON) * 100) / 100
-        object.SacosCalculo = valorRounded;
+        var KilosExportables = Number(e[0].KilosNetos * (e[0].RendimientoPorcentaje/100))
+        object.KilosExportables = KilosExportables.toFixed(2);
+        var valorRounded = Number(KilosExportables / 69);
+        object.SacosCalculo = valorRounded.toFixed(2);
         this.listaNotaIngreso.push(object);
         this.tempDataLoteDetalle = this.listaNotaIngreso;
         this.rowsDetails = [...this.tempDataLoteDetalle];
@@ -874,7 +883,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       }
       else 
       {
-        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroNotaIngresoAlmacenPlanta + ".");
+        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroIngresoPlanta + ".");
       }
   }
 
