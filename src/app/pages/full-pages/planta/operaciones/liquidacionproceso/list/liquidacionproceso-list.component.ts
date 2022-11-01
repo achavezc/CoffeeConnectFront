@@ -57,8 +57,7 @@ export class LiquidacionProcesoComponent implements OnInit {
 
   LoadForm(): void {
     this.liquidacionProcesoForm = this.fb.group({
-        nroLiquidacion: new FormControl('', []),
-        nroContrato: new FormControl('', []),
+        nroLiquidacion: new FormControl('', []),        
         ruc: new FormControl('', []),
         fechaInicial: new FormControl('', []),
         fechaFinal: new FormControl('', []),
@@ -107,8 +106,7 @@ export class LiquidacionProcesoComponent implements OnInit {
     const form = this.liquidacionProcesoForm.value;
     return {
       Numero: form.nroLiquidacion ? form.nroLiquidacion : '',
-      RucOrganizacion: form.ruc ? form.ruc : '',
-      NumeroContrato: form.nroContrato ? form.nroContrato : '',
+      RucOrganizacion: form.ruc ? form.ruc : '',    
       RazonSocialOrganizacion: form.organizacion ? form.organizacion:'',
       FechaInicio: this.liquidacionProcesoForm.value.fechaInicial,
       FechaFin: this.liquidacionProcesoForm.value.fechaFinal ,
@@ -131,27 +129,27 @@ export class LiquidacionProcesoComponent implements OnInit {
           if (!xls) {
             res.Result.Data.forEach((obj: any) => {
               obj.FechaRegistroString = this.dateUtil.formatDate(obj.FechaRegistro);
-              obj.FechaFinProcesoString = this.dateUtil.formatDate(obj.FechaFinProceso);
+              obj.FechaOrdenProcesoString = this.dateUtil.formatDate(obj.FechaOrdenProceso);
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
           } else {
             const vArrHeaderExcel = [
-              new HeaderExcel("N° ORDEN", "center"),
-              new HeaderExcel("N° CONTRATO", 'center'),
+              new HeaderExcel("N° ORDEN", "center"),              
               new HeaderExcel("CÓDIGO", "center"),
               new HeaderExcel("CLIENTE"),
               new HeaderExcel("RUC", "center"),
               new HeaderExcel("EMPRESA PROCESADORA"),
               new HeaderExcel("TIPO PROCESO"),
+              new HeaderExcel("FECHA ORDEN PROCESO", "center", 'yyyy-MM-dd'),
               new HeaderExcel("FECHA REGISTRO", "center", 'yyyy-MM-dd'),
               new HeaderExcel("Estado", "center")
             ];
 
             let vArrData: any[] = [];
-            this.tempData.forEach((x: any) => vArrData.push([x.Numero, x.NumeroContrato,
+            this.tempData.forEach((x: any) => vArrData.push([x.Numero, 
             x.NumeroCliente, x.Cliente, x.Ruc, x.RazonSocialEmpresaProcesadora,
-            x.TipoProceso, x.FechaRegistro, x.Estado]));
+            x.TipoProceso,x.FechaOrdenProceso, x.FechaRegistro, x.Estado]));
             this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'Contratos');
           }
         } else {
