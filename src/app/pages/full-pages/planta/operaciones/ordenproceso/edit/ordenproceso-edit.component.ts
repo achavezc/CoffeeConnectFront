@@ -511,7 +511,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       Observacion: form.observaciones ? form.observaciones : '',
       EstadoId: '01',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoPlantaId)
+      OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId)
     }
     let json = JSON.stringify(request);
     return request;
@@ -703,15 +703,17 @@ export class OrdenProcesoEditComponent implements OnInit {
       OrdenProcesoPlantaId: 0,
       OrdenProcesoPlantaDetalleId: 0,
       NotaIngresoPlantaId: 0,
-      NroNotaIngresoPlanta: '',
-      FechaNotaIngresoPlanta: '',
-      RendimientoPorcentaje: 0,
-      HumedadPorcentaje: 0,
-      CantidadSacos: 0,
-      CantidadPesado:0,
+      NumeroIngresoPlanta: '',
+      FechaIngresoAlmacen: '',
+      CantidadNotaIngreso: 0,
+      KilosNetosNotaIngreso: 0,
+      PorcentajeHumedad: 0,
+      PorcentajeExportable:0,
+      PorcentajeDescarte:0,
+      PorcentajeCascarilla:0,
       KilosExportables:0,
-      KilosBrutos: 0,
-      Tara: 0,
+      SacosCalculo: 0,
+      Cantidad: 0,
       KilosNetos: 0
     }];
   }
@@ -722,12 +724,12 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-    if (prop === 'CantidadPesado')
-      this.rowsDetails[index].CantidadPesado =  parseFloat(event.target.value);
-    else if (prop === 'KilosExportables')
+    if (prop === 'Cantidad')
+      this.rowsDetails[index].Cantidad =  parseFloat(event.target.value);
+    else if (prop === 'KilosNetos')
+      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value);
+      else if (prop === 'KilosKilosExportablesNetosPesado')
       this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
-      else if (prop === 'KilosNetosPesado')
-      this.rowsDetails[index].KilosNetosPesado = parseFloat(event.target.value);
       
   }
 
@@ -774,7 +776,7 @@ export class OrdenProcesoEditComponent implements OnInit {
        || !x.FechaRegistro || !x.RendimientoPorcentaje
        || !x.HumedadPorcentaje)
   */
-    result = this.rowsDetails.filter(x => x.NotaIngresoPlantaId)
+    result = this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId)
     return result.length;
   }
 
@@ -818,18 +820,20 @@ export class OrdenProcesoEditComponent implements OnInit {
   cargarDatos(detalle: any) {
     detalle.forEach(data => {
       let object: any = {};
-      object.NotaIngresoPlantaId = data.NotaIngresoPlantaId
+      object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId
 
-      object.NumeroIngresoPlanta = data.NumeroNotaIngresoPlanta
-      object.FechaRegistro = this.dateUtil.formatDate(data.FechaNotaIngresoPlanta)
-      object.RendimientoPorcentaje = data.RendimientoPorcentaje
-      object.HumedadPorcentaje = data.HumedadPorcentaje
-
+      object.NumeroIngresoAlmacenPlanta = data.NumeroIngresoAlmacenPlanta
+      object.FechaIngresoAlmacen = this.dateUtil.formatDate(data.FechaIngresoAlmacen)
+      object.CantidadNotaIngreso = data.CantidadNotaIngreso
+      object.KilosNetosNotaIngreso = data.KilosNetosNotaIngreso
+      object.PorcentajeHumedad = data.PorcentajeHumedad
       object.PorcentajeExportable = data.PorcentajeExportable
       object.PorcentajeDescarte = data.PorcentajeDescarte
       object.PorcentajeCascarilla = data.PorcentajeCascarilla
+
+
       if(data.PorcentajeExportable){
-        object.KilosExportables = Number(data.KilosNetos * data.PorcentajeExportable);
+        object.KilosExportables = Number(data.KilosNetosNotaIngreso * data.PorcentajeExportable);
       }else{
         object.KilosExportables = Number(0);
       }
@@ -840,10 +844,9 @@ export class OrdenProcesoEditComponent implements OnInit {
       //  object.SacosCalculo = Number(0);
       //}
      
-      object.CantidadPesado = data.Cantidad
-      object.KilosBrutosPesado = data.KilosBrutos
-      object.TaraPesado = data.Tara
-      object.KilosNetosPesado = data.KilosNetos
+      object.Cantidad = data.Cantidad
+      object.KilosNetos = data.KilosNetos
+    
       this.listaNotaIngreso.push(object);
     });    
     this.tempDataLoteDetalle = this.listaNotaIngreso;
@@ -860,26 +863,36 @@ export class OrdenProcesoEditComponent implements OnInit {
    // this.obtenerDetalleNotaIngreso(e[0].ControlCalidadPlantaId);
     
     var listFilter=[];
-      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == e[0].NotaIngresoAlmacenPlantaId);
+      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId == e[0].NotaIngresoAlmacenPlantaId);
       if (listFilter.length == 0)
       {
-        this.filtrosLotesID.NotaIngresoPlantaId = Number(e[0].NotaIngresoPlantaId);
+        this.filtrosLotesID.NotaIngresoAlmacenPlantaId = Number(e[0].NotaIngresoAlmacenPlantaId);
         let object: any = {};
-        object.NotaIngresoPlantaId = e[0].NotaIngresoAlmacenPlantaId;
+        object.NotaIngresoAlmacenPlantaId = e[0].NotaIngresoAlmacenPlantaId;
        // object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
-        object.NumeroIngresoPlanta = e[0].Numero;
-        object.FechaRegistroFinal = e[0].FechaRegistro;
-        object.RendimientoPorcentaje =  e[0].RendimientoPorcentaje;
-        object.HumedadPorcentaje=  e[0].HumedadPorcentaje;
-        object.CantidadPesado =  e[0].CantidadControlCalidad;
-        object.TaraPesado =  e[0].TaraControlCalidad;
-        object.KilosNetosPesado = e[0].KilosNetosControlCalidad;
+        object.NumeroIngresoAlmacenPlanta = e[0].Numero;
+
+        
+
+        const [day, month, year] = e[0].FechaRegistro.split('-');
+
+
+        
+
+        object.FechaIngresoAlmacen = new Date(year, month ,day);
+        object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);;
+        object.CantidadNotaIngreso =  e[0].CantidadControlCalidad;        
+        object.KilosNetosNotaIngreso = e[0].KilosNetosControlCalidad;
+        object.PorcentajeHumedad=  e[0].HumedadPorcentaje;
+        object.PorcentajeExportable=  e[0].RendimientoPorcentaje;
         object.PorcentajeDescarte = e[0].DescartePorcentajeAnalisisFisico;
         object.PorcentajeCascarilla = e[0].CascarillaPorcentajeAnalisisFisico;
         var KilosExportables = Number(e[0].KilosNetos * (e[0].RendimientoPorcentaje/100))
         object.KilosExportables = KilosExportables.toFixed(2);
         var valorRounded = Number(KilosExportables / 69);
         object.SacosCalculo = valorRounded.toFixed(2);
+        object.Cantidad = object.CantidadNotaIngreso;
+        object.KilosNetos = object.KilosNetosNotaIngreso;
         this.listaNotaIngreso.push(object);
         this.tempDataLoteDetalle = this.listaNotaIngreso;
         this.rowsDetails = [...this.tempDataLoteDetalle];
@@ -967,9 +980,9 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   eliminarLote(select) {
     let form = this;
-    this.alertUtil.alertSiNoCallback('Está seguro?', 'La ' + select[0].NumeroIngresoPlanta + ' se eliminará de su lista.', function (result) {
+    this.alertUtil.alertSiNoCallback('Está seguro?', 'La ' + select[0].NumeroIngresoAlmacenPlanta + ' se eliminará de su lista.', function (result) {
       if (result.isConfirmed) {
-        form.listaNotaIngreso = form.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId != select[0].NotaIngresoPlantaId)
+        form.listaNotaIngreso = form.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId != select[0].NotaIngresoAlmacenPlantaId)
         form.tempDataLoteDetalle  = form.listaNotaIngreso;
         form.rowsDetails  = [...form.tempDataLoteDetalle];
         form.selectLoteDetalle = [];
