@@ -491,14 +491,14 @@ export class OrdenProcesoEditComponent implements OnInit {
       NumeroContrato: this.ordenProcesoEditForm.controls["numeroContrato"].value ? this.ordenProcesoEditForm.controls["numeroContrato"].value : '',
       OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : null,
       //TipoCertificacionId: this.ordenProcesoEditForm.controls["certificacion"].value ? this.ordenProcesoEditForm.controls["certificacion"].value.join('|') : '',
-      EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : 0,
-      ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : 0,
+      EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : '',
+      ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : '',
       //SubProductoId: this.ordenProcesoEditForm.controls["subProducto"].value ? this.ordenProcesoEditForm.controls["subProducto"].value : 0,
-      ProductoIdTerminado: this.ordenProcesoEditForm.controls["productoTerminado"].value ? this.ordenProcesoEditForm.controls["productoTerminado"].value : 0,
+      ProductoIdTerminado: this.ordenProcesoEditForm.controls["productoTerminado"].value ? this.ordenProcesoEditForm.controls["productoTerminado"].value : '',
       //SubProductoIdTerminado: this.ordenProcesoEditForm.controls["subProductoTerminado"].value ? this.ordenProcesoEditForm.controls["subProductoTerminado"].value : 0,
       //TipoProduccionId: this.ordenProcesoEditForm.controls["tipoProduccion"].value ? this.ordenProcesoEditForm.controls["tipoProduccion"].value : 0,
-      EmpaqueId: this.ordenProcesoEditForm.controls["empaque"].value ? this.ordenProcesoEditForm.controls["empaque"].value : 0,
-      TipoId: this.ordenProcesoEditForm.controls["tipo"].value ? this.ordenProcesoEditForm.controls["tipo"].value : 0,
+      EmpaqueId: this.ordenProcesoEditForm.controls["empaque"].value ? this.ordenProcesoEditForm.controls["empaque"].value : '',
+      TipoId: this.ordenProcesoEditForm.controls["tipo"].value ? this.ordenProcesoEditForm.controls["tipo"].value : '',
       //CalidadId: this.ordenProcesoEditForm.controls["calidad"].value ? this.ordenProcesoEditForm.controls["calidad"].value : 0,
       //GradoId: this.ordenProcesoEditForm.controls["grado"].value ? this.ordenProcesoEditForm.controls["grado"].value : 0,
       //TotalSacos: this.ordenProcesoEditForm.controls["cantidad"].value ? this.ordenProcesoEditForm.controls["cantidad"].value : 0,
@@ -625,6 +625,7 @@ export class OrdenProcesoEditComponent implements OnInit {
         this.ordenProcesoEditForm.controls.idOrdenProceso.setValue(data.OrdenProcesoId);
       if (data.Numero)
         this.ordenProcesoEditForm.controls.nroOrden.setValue(data.Numero);
+       
       if (data.FechaRegistro) {
         this.ordenProcesoEditForm.controls.fechaCabe.setValue(data.FechaRegistro.substring(0, 10));
       }
@@ -638,6 +639,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
       //this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
       this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
+      //this.ordenProcesoEditForm.controls.numeroContrato.setValue(data.NumeroContrato);
       this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
       //this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
       this.ordenProcesoEditForm.controls.organizacionId.setValue(data.OrganizacionId);
@@ -823,7 +825,9 @@ export class OrdenProcesoEditComponent implements OnInit {
       object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId
 
       object.NumeroIngresoAlmacenPlanta = data.NumeroIngresoAlmacenPlanta
-      object.FechaIngresoAlmacen = this.dateUtil.formatDate(data.FechaIngresoAlmacen)
+      object.FechaIngresoAlmacen = data.FechaIngresoAlmacen;
+      object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
+
       object.CantidadNotaIngreso = data.CantidadNotaIngreso
       object.KilosNetosNotaIngreso = data.KilosNetosNotaIngreso
       object.PorcentajeHumedad = data.PorcentajeHumedad
@@ -880,7 +884,7 @@ export class OrdenProcesoEditComponent implements OnInit {
         
 
         object.FechaIngresoAlmacen = new Date(year, month ,day);
-        object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);;
+        object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
         object.CantidadNotaIngreso =  e[0].CantidadControlCalidad;        
         object.KilosNetosNotaIngreso = e[0].KilosNetosControlCalidad;
         object.PorcentajeHumedad=  e[0].HumedadPorcentaje;

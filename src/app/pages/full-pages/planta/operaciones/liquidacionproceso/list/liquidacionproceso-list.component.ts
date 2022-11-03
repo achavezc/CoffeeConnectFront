@@ -129,7 +129,8 @@ export class LiquidacionProcesoComponent implements OnInit {
           if (!xls) {
             res.Result.Data.forEach((obj: any) => {
               obj.FechaRegistroString = this.dateUtil.formatDate(obj.FechaRegistro);
-              obj.FechaOrdenProcesoString = this.dateUtil.formatDate(obj.FechaOrdenProceso);
+              obj.FechaInicioProcesoString = this.dateUtil.formatDate(obj.FechaInicioProceso);
+              obj.FechaFinProcesoString = this.dateUtil.formatDate(obj.FechaFinProceso);
             });
             this.rows = res.Result.Data;
             this.tempData = this.rows;
