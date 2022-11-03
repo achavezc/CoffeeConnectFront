@@ -198,6 +198,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["observacion"].setValue(data.Observacion);
     this.liquidacionProcesoFormEdit.controls["envases"].setValue(data.EnvasesProductos);
     this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
+    this.liquidacionProcesoFormEdit.controls["numDefectos"].setValue(data.NumeroDefectos);
+
+    
+
     this.numero = data.Numero;
 
     data.Resultado.forEach(
@@ -322,11 +326,11 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         liquidacionProcesoPlantaResultado.push(objectResultProceso);
       }
       );
-
+      debugger
       let liquidacionProcesoPlantaDetalle: LiquidacionProcesoPlantaDetalle[] = [];
       this.listMateriaPrima.forEach(x => {
         let ObjectProcesoPlantaDetalle = new LiquidacionProcesoPlantaDetalle(
-          String(x.NotaIngresoPlantaId)
+          x.NotaIngresoAlmacenPlantaId,x.Descripcion,x.PorcentajeHumedad,x.Cantidad,x.KilosNetos,0,0
         );
         liquidacionProcesoPlantaDetalle.push(ObjectProcesoPlantaDetalle);
       });
@@ -378,7 +382,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   registrarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
-
+   debugger
     this.liquidacionProcesoPlantaService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
@@ -438,7 +442,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   agregarOrdenProceso(e) {
-    debugger
+    
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(e[0].OrdenProcesoPlantaId);
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(e[0].TipoProceso);
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(e[0].RucOrganizacion);
@@ -472,20 +476,39 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.ordenProcesoService.ConsultarPorId(OrdenProcesoPlantaId)
       .subscribe(res => {
         this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            this.listMateriaPrima = res.Result.Data.detalle;
+        if (res.Result.Success) 
+        {
+          if (res.Result.ErrCode == "") 
+          {
+            this.listMateriaPrima = [];
+            
+            res.Result.Data.detalle.forEach(data => 
+              {
+              let object: any = {};
+              object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId        
+              object.Descripcion = data.NumeroIngresoAlmacenPlanta
+              object.PorcentajeHumedad = data.PorcentajeHumedad;     
+              object.Cantidad = data.Cantidad
+              object.KilosNetos = data.KilosNetos
+            
+              this.listMateriaPrima.push(object);
+            }); 
+           
             this.tempMateriaPrima = this.listMateriaPrima;
             this.rowsMateriaPrima = [...this.tempMateriaPrima];
            // this.calcularKilosNetosNotas();
             this.calcularKilosNetosNotas();
             this.calcularKilosNetos();
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          }
+          else if (res.Result.Message != "" && res.Result.ErrCode != "") 
+          {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        } else {
+        } 
+        else 
+        {
           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         }
       },

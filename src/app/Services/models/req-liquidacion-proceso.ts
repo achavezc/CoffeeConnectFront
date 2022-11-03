@@ -53,18 +53,31 @@ export class LiquidacionProcesoPlantaDetalle
 {
     constructor(
     
-    NotaIngresoPlantaId: string,
+    NotaIngresoAlmacenPlantaId: number,
+    Descripcion: string,
+    PorcentajeHumedad: number,
+    Cantidad: number,
+    KilosNetos: number,
     LiquidacionProcesoPlantaDetalleId?: number,
-    LiquidacionProcesoPlantaId?: number
+    LiquidacionProcesoPlantaId?: number,
+
     )
     {
         this.LiquidacionProcesoPlantaDetalleId = LiquidacionProcesoPlantaDetalleId;
         this.LiquidacionProcesoPlantaId = LiquidacionProcesoPlantaId;
-        this.NotaIngresoPlantaId = NotaIngresoPlantaId;
+        this.NotaIngresoAlmacenPlantaId = NotaIngresoAlmacenPlantaId;
+        this.Descripcion = Descripcion;
+        this.PorcentajeHumedad = PorcentajeHumedad;
+        this.Cantidad = Cantidad;
+        this.KilosNetos = KilosNetos;
     }
     LiquidacionProcesoPlantaDetalleId: number;
     LiquidacionProcesoPlantaId: number;
-    NotaIngresoPlantaId: string;
+    NotaIngresoAlmacenPlantaId: number;
+    Descripcion: string;
+    PorcentajeHumedad: number;
+    Cantidad: number;
+    KilosNetos: number;
 }
 
 export class LiquidacionProcesoPlantaResultado 

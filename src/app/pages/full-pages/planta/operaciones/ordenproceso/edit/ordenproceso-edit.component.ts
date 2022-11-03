@@ -885,18 +885,18 @@ export class OrdenProcesoEditComponent implements OnInit {
 
         object.FechaIngresoAlmacen = new Date(year, month ,day);
         object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
-        object.CantidadNotaIngreso =  e[0].CantidadControlCalidad;        
-        object.KilosNetosNotaIngreso = e[0].KilosNetosControlCalidad;
-        object.PorcentajeHumedad=  e[0].HumedadPorcentaje;
+        object.CantidadNotaIngreso =  e[0].CantidadDisponible;        
+        object.KilosNetosNotaIngreso = e[0].KilosNetosDisponibles;
+        object.PorcentajeHumedad=  e[0].HumedadPorcentajeAnalisisFisico;
         object.PorcentajeExportable=  e[0].RendimientoPorcentaje;
         object.PorcentajeDescarte = e[0].DescartePorcentajeAnalisisFisico;
         object.PorcentajeCascarilla = e[0].CascarillaPorcentajeAnalisisFisico;
-        var KilosExportables = Number(e[0].KilosNetos * (e[0].RendimientoPorcentaje/100))
+        var KilosExportables = Number(e[0].KilosNetosDisponibles * (e[0].RendimientoPorcentaje/100))
         object.KilosExportables = KilosExportables.toFixed(2);
         var valorRounded = Number(KilosExportables / 69);
         object.SacosCalculo = valorRounded.toFixed(2);
-        object.Cantidad = object.CantidadNotaIngreso;
-        object.KilosNetos = object.KilosNetosNotaIngreso;
+        object.Cantidad = e[0].CantidadDisponible;
+        object.KilosNetos = e[0].KilosNetosDisponibles;
         this.listaNotaIngreso.push(object);
         this.tempDataLoteDetalle = this.listaNotaIngreso;
         this.rowsDetails = [...this.tempDataLoteDetalle];

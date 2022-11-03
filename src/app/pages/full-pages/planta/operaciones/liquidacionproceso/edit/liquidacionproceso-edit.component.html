@@ -45,8 +45,8 @@
                 <label for="basicInput">Numero de Orden de Proceso</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="numOrdenProceso"  [ngClass]="{ 'is-invalid': submittedEdit && fns.numOrdenProceso.invalid, 'is-valid': submittedEdit && !fns.numOrdenProceso.invalid }" disabled>
                 <small class="form-text text-muted danger" *ngIf="fns.numOrdenProceso.errors?.required">Seleccione Orden de Proceso</small>
- <label for="fechaFin" >Fecha de Termino Proceso</label>
-                <input type="text" class="form-control" id="basicInput" formControlName="fechaFinProceso" disabled>
+ <label for="fechaFin" >Fecha de Inicio Proceso</label>
+                <input type="text" class="form-control" id="basicInput" formControlName="fechaInicioProceso" disabled>
                 <label for="basicInput">Ruc</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
 
@@ -126,11 +126,11 @@
                     [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
                     [rows]="rowsMateriaPrima" [summaryRow]="true" [summaryPosition]="'bottom'">
 
-                    <ngx-datatable-column name="Descripcion" prop="NumeroIngresoAlmacenPlanta" width="50">
+                    <ngx-datatable-column name="Descripcion" prop="Descripcion" width="50">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Sacos" prop="Cantidad" width="50">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Humedad %" prop="HumedadPorcentaje" width="80" [summaryFunc]="emptySumm">
+                    <ngx-datatable-column name="Humedad %" prop="PorcentajeHumedad" width="80" [summaryFunc]="emptySumm">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="80" [summaryTemplate]="kilosNetosNotas">
                     </ngx-datatable-column>
