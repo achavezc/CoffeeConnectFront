@@ -718,9 +718,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-    if (prop === 'CantidadPesado')
-      this.rowsDetails[index].CantidadPesado =  parseFloat(event.target.value);
-    else if (prop === 'KilosExportables')
+    if (prop === 'KilosExportables')
       this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
       else if (prop === 'KilosNetosPesado')
       this.rowsDetails[index].KilosNetosPesado = parseFloat(event.target.value);
