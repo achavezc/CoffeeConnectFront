@@ -133,6 +133,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         ruc: new FormControl('', []),
         tipoProduccion: ['', []],
         producto: new FormControl('', []),
+        productoTerminado: new FormControl('', []),
         subproducto: new FormControl('', []),
         numOrdenProceso: new FormControl('', [Validators.required]),
         razonSocial: new FormControl('', []),
@@ -148,6 +149,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         envases: new FormControl('', []),
         trabajos: new FormControl('', []),
         numDefectos: new FormControl('', []),
+        fechaInicioProceso: [],
+        fechaFinProceso: [],
         totalKilosNetosNotas: new FormControl('', [])
       });
   }
@@ -183,7 +186,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
     this.liquidacionProcesoFormEdit.controls["producto"].setValue(data.Producto);
-    this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(data.SubProducto);
+    this.liquidacionProcesoFormEdit.controls["productoTerminado"].setValue(data.ProductoTerminado);
+    this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].setValue(this.dateUtil.formatDate(data.FechaInicioProceso));
+    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(this.dateUtil.formatDate(data.FechaFinProceso));
+    
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(data.TipoCertificacion);
@@ -192,6 +198,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["observacion"].setValue(data.Observacion);
     this.liquidacionProcesoFormEdit.controls["envases"].setValue(data.EnvasesProductos);
     this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
+    this.liquidacionProcesoFormEdit.controls["numDefectos"].setValue(data.NumeroDefectos);
+
+    
+
     this.numero = data.Numero;
 
     data.Resultado.forEach(
@@ -316,11 +326,11 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         liquidacionProcesoPlantaResultado.push(objectResultProceso);
       }
       );
-
+      debugger
       let liquidacionProcesoPlantaDetalle: LiquidacionProcesoPlantaDetalle[] = [];
       this.listMateriaPrima.forEach(x => {
         let ObjectProcesoPlantaDetalle = new LiquidacionProcesoPlantaDetalle(
-          String(x.NotaIngresoPlantaId)
+          x.NotaIngresoAlmacenPlantaId,x.Descripcion,x.PorcentajeHumedad,x.Cantidad,x.KilosNetos,0,0
         );
         liquidacionProcesoPlantaDetalle.push(ObjectProcesoPlantaDetalle);
       });
@@ -372,7 +382,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   registrarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
-
+   debugger
     this.liquidacionProcesoPlantaService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
@@ -432,17 +442,31 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   agregarOrdenProceso(e) {
-
+    
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(e[0].OrdenProcesoPlantaId);
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(e[0].TipoProceso);
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(e[0].RucOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(e[0].TipoProduccion);
     this.liquidacionProcesoFormEdit.controls["producto"].setValue(e[0].Producto);
+    this.liquidacionProcesoFormEdit.controls["productoTerminado"].setValue(e[0].ProductoTerminado);
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(e[0].Numero);
     this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(e[0].SubProducto);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(e[0].TipoCertificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
+   
+
+    if(e[0].FechaInicioProceso!= "")
+    {
+      this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].setValue(e[0].FechaInicioProceso);
+    }
+
+    if(e[0].FechaFinProceso!= "")
+    {
+      this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(e[0].FechaFinProceso);
+    }
+    
+
     this.consultarDetalleporId(e[0].OrdenProcesoPlantaId);
     //this.calcularCascarilla();
     //this.calcularPorcentaje();
@@ -452,20 +476,39 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.ordenProcesoService.ConsultarPorId(OrdenProcesoPlantaId)
       .subscribe(res => {
         this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            this.listMateriaPrima = res.Result.Data.detalle;
+        if (res.Result.Success) 
+        {
+          if (res.Result.ErrCode == "") 
+          {
+            this.listMateriaPrima = [];
+            
+            res.Result.Data.detalle.forEach(data => 
+              {
+              let object: any = {};
+              object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId        
+              object.Descripcion = data.NumeroIngresoAlmacenPlanta
+              object.PorcentajeHumedad = data.PorcentajeHumedad;     
+              object.Cantidad = data.Cantidad
+              object.KilosNetos = data.KilosNetos
+            
+              this.listMateriaPrima.push(object);
+            }); 
+           
             this.tempMateriaPrima = this.listMateriaPrima;
             this.rowsMateriaPrima = [...this.tempMateriaPrima];
            // this.calcularKilosNetosNotas();
             this.calcularKilosNetosNotas();
             this.calcularKilosNetos();
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          }
+          else if (res.Result.Message != "" && res.Result.ErrCode != "") 
+          {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
             this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
           }
-        } else {
+        } 
+        else 
+        {
           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         }
       },
