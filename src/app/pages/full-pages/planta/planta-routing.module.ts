@@ -8,6 +8,10 @@ import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaing
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
 import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
 import { NotaIngresoAlmacenEditComponent } from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
+import {NotaIngresoProductoTerminadoListComponent}from './operaciones/NotaIngresoProductoTerninadoAlmacen/list/notaingresoproducto-list.component';
+import {NotaIngresoProductoTerminadoEditComponent}from './operaciones/NotaIngresoProductoTerninadoAlmacen/edit/notaingresoproducto-edit.component';
+
+
 import { NotaSalidaAlmacenComponent } from './operaciones/notasalidaalmacen/list/notasalidaplanta-list.component';
 import { NotaSalidaPlantaEditComponent } from './operaciones/notasalidaalmacen/edit/notasalidaplanta-edit.component';
 import { LiquidacionProcesoComponent } from './operaciones/liquidacionproceso/list/liquidacionproceso-list.component';
@@ -61,6 +65,23 @@ const routes: Routes = [
           title: 'Edit'
         }
       },
+      ////////////////agregando modulo nota ingreso producto almancen/////
+      {
+        path: 'notaingresoproducto-list',
+        component: NotaIngresoProductoTerminadoListComponent,
+        data: {
+          title: 'List'
+        },
+      },
+      {
+       path: 'notaingresoproducto-edit',
+       component: NotaIngresoProductoTerminadoEditComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+
+    ////////////////////////////////////////77777
       {
         path: 'notasalidaplanta-list',
         component: NotaSalidaAlmacenComponent,
