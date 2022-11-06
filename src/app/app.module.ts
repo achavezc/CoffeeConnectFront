@@ -32,6 +32,9 @@ import { AlertUtil } from "./services/util/alert-util";
 import { DateUtil } from "./services/util/date-util";
 import { AcopioService, FiltrosMateriaPrima, FiltrosProveedor } from "./services/acopio.service";
 import { NotaIngresoAlmacenService } from "./services/nota-ingreso-almacen.service";
+import{NotaIngresoProductoTerminadoAlmacenPlantaService}from "./Services/nota-ingreso-producto.service";
+
+
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
 import { NotaCompraService } from './services/nota-compra.service';
@@ -88,6 +91,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FiltrosMateriaPrima,
     FiltrosProveedor,
     NotaIngresoAlmacenService,
+    NotaIngresoProductoTerminadoAlmacenPlantaService,
     MaestroService,
     MaestroUtil,
     AlertUtil,
