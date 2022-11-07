@@ -238,7 +238,7 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
 
       this.submitted = false;
       var objRequest = {
-        "Numero": this.notaIngresoProductoAlmacenForm.controls['numeroIngresoAlmacen'].value,
+        "Numero": this.notaIngresoProductoAlmacenForm.controls['Numero'].value,
         "NumeroNotaIngresoPlanta": this.notaIngresoProductoAlmacenForm.controls['numeroNotaIngreso'].value,
         "NumeroGuiaRemision": this.notaIngresoProductoAlmacenForm.controls['numeroGuiRemision'].value,
         "RazonSocialEmpresaOrigen": this.notaIngresoProductoAlmacenForm.controls['rzsocial'].value,

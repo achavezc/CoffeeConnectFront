@@ -4,6 +4,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
+import{NotaIngresoProductoTerminadoAlmacenPlantaService}from'../../../../../../Services/nota-ingreso-producto.service';
+import { ReqRegistrarNotaIngresoProducto } from '../../../../../../services/models/req-registrar-notaingresoproducto';
 import { ILogin } from '../../../../../../services/models/login';
 import { ActivatedRoute } from '@angular/router';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -37,6 +39,8 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
   viewCafeP: Boolean = false;
   codigoCafeP= "01";
   usuario="";
+  NotaIngresoProductoTerminadoAlmacenPlantaId:number =0;
+  AlmacenId:string;
   readonly: boolean;
   detalle: any;
   popUp = true;
@@ -48,6 +52,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
   selectedCertificadora: any;
   listaTipoProduccion: any[];
   listaTipo: any[];
+  selectedAlmacen:any;
   selectedTipo: any;
   selectTipoProduccion: any;
   disabledControl: string = '';
@@ -65,6 +70,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private maestroUtil: MaestroUtil,
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
+    private NotaIngresoProductoTerminadoAlmacenPlantaService:NotaIngresoProductoTerminadoAlmacenPlantaService,
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private alertUtil: AlertUtil,
@@ -86,7 +92,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
       .subscribe(params => {
         if (Number(params.id)) {
           this.id = Number(params.id);
-          this.obtenerDetalle();
+          this.ConsultarPorId();
 
         }
       }
@@ -149,87 +155,63 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
   cargarForm() {
     this.consultaNotaIngresoProductoAlmacenFormEdit = this.fb.group(
       {
-        almacen: new FormControl('', [Validators.required]),
-        guiaremision: new FormControl({ value: '', disabled: true }, []),
-        fecharemision: new FormControl({ value: '', disabled: true }, []),
-        tipoProduccion: new FormControl({ value: '', disabled: true }, []),
-        codigoOrganizacion: new FormControl({ value: '', disabled: true }, []),
-        nombreOrganizacion: new FormControl({ value: '', disabled: true }, []),
-        producto: new FormControl({ value: '', disabled: true }, []),
+        RazonSocialEmpresaOrigen:new FormControl({ value: '', disabled: true }, []),
+        RucEmpresaOrigen:new FormControl({ value: '', disabled: true }, []),
         direccion: new FormControl({ value: '', disabled: true }, []),
-        rucOrganizacion: new FormControl({ value: '', disabled: true }, []),
-        razonSocialOrganizacion:  new FormControl({ value: '', disabled: true }, []),
-        subproducto: new FormControl({ value: '', disabled: true }, []),
-        certificacion: new FormControl({ value: '', disabled: true }, []),
-        certificadora: new FormControl({ value: '', disabled: true }, []),
-        unidadMedidaDesc: new FormControl({ value: '', disabled: true }, []),
+        Numero:new FormControl({ value: '', disabled: true }, []),
+        NumeroNotaIngresoPlanta:new FormControl({ value: '', disabled: true }, []),
+        NumeroGuiaRemision: new FormControl({ value: '', disabled: true }, []),
         cantidad: new FormControl({ value: '', disabled: true }, []),
-        pesoBruto: new FormControl({ value: '', disabled: true }, []),
-        calidad: new FormControl({ value: '', disabled: true }, []),
-        tara: new FormControl({ value: '', disabled: true }, []),
-        grado: new FormControl({ value: '', disabled: true }, []),
-        kilosNetos: new FormControl({ value: '', disabled: true }, []),
-        cantidadDefectos: new FormControl({ value: '', disabled: true }, []),
-        rendimiento: new FormControl({ value: '', disabled: true }, []),
-        humedad: new FormControl({ value: '', disabled: true }, []),
-        exportGramos: new FormControl({ value: '', disabled: true }, []),
-        exportPorcentaje: new FormControl({ value: '', disabled: true }, []),
-        descarteGramos: new FormControl({ value: '', disabled: true }, []),
-        descartePorcentaje: new FormControl({ value: '', disabled: true }, []),
-        cascarillaGramos: new FormControl({ value: '', disabled: true }, []),
-        cascarillaPorcentaje: new FormControl({ value: '', disabled: true }, []),
-        totalGramos: new FormControl({ value: '', disabled: true }, []),
-        totalPorcentaje: new FormControl({ value: '', disabled: true }, []),
-        humedadAnalsisFisico: new FormControl({ value: '', disabled: true }, []),
-        puntajeFinal: new FormControl({ value: '', disabled: true }, []),
-        pesoxSaco: new FormControl({ value: '', disabled: true }, []),
-        controlCalidad: new FormControl({ value: '', disabled: true }, [Validators.required]),
-        numeroNotaIngreso: new FormControl({ value: '', disabled: true }, []),
-        fechaControlCalidad: new FormControl({ value: '', disabled: true }, []),
-        fechaNotaIngreso: new FormControl({ value: '', disabled: true }, []),
-        cantidadAlmacen: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        tipo: new FormControl({ value: '', disabled: true }, []),
-        pesoBrutoAlmacen: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        empaque: new FormControl({ value: '', disabled: true }, []),
-        taraAlmacen: new FormControl({ value: '', disabled: true }, []),
-        kilosNetosAlmacen: new FormControl({ value: '', disabled: true }, []),
-        estadoCalidad: new FormControl({ value: '', disabled: true }, []),
-        pesado: this.fb.group({
-          motivo: new FormControl({ value: '', disabled: true }, []),
-          empaque: new FormControl({ value: '', disabled: true }, []),
-          tipo: new FormControl({ value: '', disabled: true }, []),
-          cantidad: new FormControl({ value: '', disabled: true }, []),
-          kilosBrutos: new FormControl({ value: '', disabled: true }, []),
-          pesoSaco: new FormControl({ value: '', disabled: true }, []),
-          calidad: new FormControl({ value: '', disabled: true }, []),
-          tara: new FormControl({ value: '', disabled: true }, []),
-          kilosNetos: new FormControl({ value: '', disabled: true }, []),
-          grado: new FormControl({ value: '', disabled: true }, []),
-          cantidadDefectos: new FormControl({ value: '', disabled: true }, []),
-          porcentajeRendimiento: new FormControl({ value: '', disabled: true }, []),
-          porcentajeHumedad: new FormControl({ value: '', disabled: true }, []),
-          transportista: new FormControl({ value: '', disabled: true }, []),
-          ruc: new FormControl({ value: '', disabled: true }, []),
-          placaVehiculo: new FormControl({ value: '', disabled: true }, []),
-          chofer: new FormControl({ value: '', disabled: true }, []),
-          numeroBrevete: new FormControl({ value: '', disabled: true }, []),
-          marca: new FormControl({ value: '', disabled: true }, []),
-          observacion: new FormControl({ value: '', disabled: true }, [])
-        })
+        kgn:new FormControl({ value: '', disabled: true }, []),
+        KilosNetos:new FormControl({ value: '', disabled: true }, []),
+        KilosNetos46:new FormControl({ value: '', disabled: true }, []),
+        producto: new FormControl({ value: '', disabled: true }, []),
+        ProductoId: new FormControl({ value: '', disabled: true }, []),
+        subproducto: new FormControl({ value: '', disabled: true }, []),
+        SubProductoId: new FormControl({ value: '', disabled: true }, []),
+        motivo: new FormControl({ value: '', disabled: true }, []),
+        MotivoIngresoId: new FormControl({ value: '', disabled: true }, []),
+        Almacen: new FormControl('', ),
+        AlmacenId: new FormControl('',),
+        
+        
+        estado:new FormControl({ value: '', disabled: true }, []),
+        EstadoId:new FormControl({ value: '', disabled: true }, []),
+        EmpresaOrigen:new FormControl({ value: '', disabled: true }, []),
+        NotaIngresoProductoTerminadoAlmacenPlanta:new FormControl({ value: '', disabled: true }, []),
+
+        NotaIngresoPlanta:new FormControl({ value: '', disabled: true }, []),
+        NumeroNotaIngresoProductoTerminadoAlmacenPlanta:new FormControl({ value: '', disabled: true }, []),
+        NotaIngresoProductoTerminadoAlmacenPlantaId:new FormControl({ value: '', disabled: true }, []),
+        Empresa:new FormControl({ value: '', disabled: true }, []),
+        Tipo:new FormControl({ value: '', disabled: true }, []),
+        Empaque:new FormControl({ value: '', disabled: true }, []),
+        CantidadSalidaAlmacen:new FormControl({ value: '', disabled: true }, []),
+        KilosNetosSalidaAlmacen:new FormControl({ value: '', disabled: true }, []),
+        Usuario:new FormControl({ value: '', disabled: true }, []),
+        Observacion:new FormControl({ value: '', disabled: true }, []),
+        FechaRegistro:new FormControl({ value: '', disabled: true }, []),
+        UsuarioRegistro:new FormControl({ value: '', disabled: true }, []),
+        CantidadDisponible:new FormControl({ value: '', disabled: true }, []),
+        KilosNetosDisponibles:new FormControl({ value: '', disabled: true }, []),
+        LiquidacionProcesoPlanta:new FormControl({ value: '', disabled: true }, []),
+      //  LiquidacionProcesoPlantaId:new FormControl({ value: '', disabled: true }, [])
+
+
       });
       //this.consultaNotaIngresoAlmacenFormEdit.get('pesado').disable();
      // this.consultaNotaIngresoAlmacenFormEdit.disable();
 
   }
 
-  agregarControlCalidad(e) {
+ /* agregarControlCalidad(e) {
     this.obtenerDetalleControlCalidad(e[0].ControlCalidadPlantaId);
 
-  }
+  }*/
   openModal(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
-  obtenerDetalleControlCalidad(id) {
+  /*obtenerDetalleControlCalidad(id) {
     this.spinner.show();
     this.controlCalidadService.ConsultarPorId(Number(id))
       .subscribe(res => {
@@ -263,18 +245,15 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
           this.errorGeneral = { isError: false, msgError: this.mensajeErrorGenerico };
         }
       );
-  }
-
-
-
+  }*/
 
   get fedit() {
     return this.consultaNotaIngresoProductoAlmacenFormEdit.controls;
   }
 
-  obtenerDetalle() {
+  ConsultarPorId() {
     this.spinner.show();
-    this.notaIngresoAlmacenPlantaService.obtenerDetalle(Number(this.id))
+    this.NotaIngresoProductoTerminadoAlmacenPlantaService.ConsultarPorId(Number(this.id))
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
@@ -298,215 +277,115 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
       );
   }
 
-  async cargarDataFormulario(data: any) {
+  async cargarDataFormulario(data: any) { 
  
-    
+ 
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["RazonSocialEmpresaOrigen"].setValue(data.RazonSocialEmpresaOrigen);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["RucEmpresaOrigen"].setValue(data.RucEmpresaOrigen);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["direccion"].setValue(data.Direccion);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Numero"].setValue(data.Numero);
 
-    this.controlCalidadPlantaId = data.ControlCalidadPlantaId;
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["estadoCalidad"] = data.EstadoCalidadId;
-    if( data.EstadoCalidadId == "02" && this.id == 0){
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["cantidadAlmacen"].setValue(data.CantidadControlCalidad);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue(data.PesoBrutoControlCalidad);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["taraAlmacen"].setValue(data.TaraControlCalidad);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["kilosNetosAlmacen"].setValue(data.KilosNetosControlCalidad);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NumeroNotaIngresoPlanta"].setValue(data.NumeroNotaIngresoPlanta);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NotaIngresoProductoTerminadoAlmacenPlanta"].setValue(data.NotaIngresoProductoTerminadoAlmacenPlantaId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NumeroGuiaRemision"].setValue(data.NumeroGuiaRemision);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["cantidad"].setValue(data.Cantidad);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["kgn"].setValue(data.KGN);
 
-      this.consultaNotaIngresoProductoAlmacenFormEdit.get("cantidadAlmacen").disable();
-      this.consultaNotaIngresoProductoAlmacenFormEdit.get("pesoBrutoAlmacen").disable();
-      
-    }else if( data.EstadoCalidadId == "01" && this.id == 0){
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["cantidadAlmacen"].setValue("");
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue("");
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["taraAlmacen"].setValue("");
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["kilosNetosAlmacen"].setValue("");
-      this.consultaNotaIngresoProductoAlmacenFormEdit.get("cantidadAlmacen").enable();
-      this.consultaNotaIngresoProductoAlmacenFormEdit.get("pesoBrutoAlmacen").enable()
-      this.calcularTara();
-    }
-  if(this.id > 0){
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["cantidadAlmacen"].setValue(data.Cantidad);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue(data.PesoBruto);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["taraAlmacen"].setValue(data.Tara);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["kilosNetosAlmacen"].setValue(data.KilosNetos);
-  }
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["KilosNetos"].setValue(data.KilosNetos);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["KilosNetos46"].setValue(data.KilosNetos46);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["producto"].setValue(data.Producto);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["ProductoId"].setValue(data.ProductoId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["subproducto"].setValue(data.SubProducto);
+     
 
-    
-    this.numeroNota = data.Numero;
-    this.viewTagSeco = data.SubProductoId != "02" ? false : true;
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["controlCalidad"].setValue(data.NumeroCalidadPlanta);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["numeroNotaIngreso"].setValue(data.Numero);
-    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.responsable = data.UsuarioRegistro;
-    this.usuario = data.UsuarioRegistro;
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["almacen"].setValue(data.AlmacenId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
+   
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["motivo"].setValue(data.MotivoIngreso);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["MotivoIngresoId"].setValue(data.MotivoIngresoId);
 
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["fechaControlCalidad"].setValue(formatDate(data.FechaCalidad, 'yyyy-MM-dd', 'en'));
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["fechaNotaIngreso"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocialOrganizacion);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["producto"].setValue(data.Producto);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["direccion"].setValue(data.Direccion);
-    await this.cargarSubProducto(data.ProductoId);
+     this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Almacen"].setValue(data.AlmacenId);
+      /*if (  data.AlmacenId  == null){
+        //mostrar vacio
+        this.consultaNotaIngresoProductoAlmacenFormEdit.controls.Almacen.setValue('');
+ 
+      }else {
+        //mostrar valor
+       this.consultaNotaIngresoProductoAlmacenFormEdit.controls.Almacen.setValue(data.AlmacenId);
+      }*/
+     
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["AlmacenId"].setValue(data.AlmacenId);
+  
 
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["subproducto"].setValue(data.SubProductoId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["estado"].setValue(data.Estado);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["EstadoId"].setValue(data.EstadoId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Observacion"].setValue(data.Observacion)
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["FechaRegistro"].setValue(data.FechaRegistro);
+     this.consultaNotaIngresoProductoAlmacenFormEdit.controls["UsuarioRegistro"].setValue(data.UsuarioRegistro);
+     this.consultaNotaIngresoProductoAlmacenFormEdit.controls["CantidadDisponible"].setValue(data.CantidadDisponible);
+     this.consultaNotaIngresoProductoAlmacenFormEdit.controls["KilosNetosDisponibles"].setValue(data.KilosNetosDisponibles);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NumeroNotaIngresoProductoTerminadoAlmacenPlanta"].setValue(data.NumeroNotaIngresoProductoTerminadoAlmacenPlantaId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NotaIngresoPlanta"].setValue(data.NotaIngresoPlantaId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["CantidadSalidaAlmacen"].setValue(data.CantidadSalidaAlmacen);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["KilosNetosSalidaAlmacen"].setValue(data.KilosNetosSalidaAlmacen);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["LiquidacionProcesoPlanta"].setValue(data.LiquidacionProcesoPlantaId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["EmpresaOrigen"].setValue(data.EmpresaOrigenId);
 
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["certificadora"].setValue(data.EntidadCertificadoraId);
 
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["unidadMedidaDesc"].setValue(data.UnidadMedida);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["cantidad"].setValue(data.CantidadPesado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["pesoBruto"].setValue(data.KilosBrutosPesado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["calidad"].setValue(data.Calidad);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["tara"].setValue(data.TaraPesado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['grado'].setValue(data.Grado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['kilosNetos'].setValue(data.KilosNetosPesado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['cantidadDefectos'].setValue(data.CantidadDefectos);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['rendimiento'].setValue(data.RendimientoPorcentajePesado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['humedad'].setValue(data.HumedadPorcentajePesado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['pesoxSaco'].setValue(data.PesoPorSaco);
-    this.vSessionUser.Result.Data.DireccionEmpresa = data.RazonSocialOrganizacion;
-    this.vSessionUser.Result.Data.RucEmpresa = data.RucOrganizacion;
-    
-    if (data.ProductoId == this.codigoCafeP)
-    {
-      this.viewCafeP = true;
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['exportGramos'].setValue(data.ExportableGramosAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['exportPorcentaje'].setValue(data.ExportablePorcentajeAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['descarteGramos'].setValue(data.DescarteGramosAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['descartePorcentaje'].setValue(data.DescartePorcentajeAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['cascarillaGramos'].setValue(data.CascarillaGramosAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['cascarillaPorcentaje'].setValue(data.CascarillaPorcentajeAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['totalGramos'].setValue(data.TotalGramosAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['totalPorcentaje'].setValue(data.TotalPorcentajeAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['humedadAnalsisFisico'].setValue(data.HumedadPorcentajeAnalisisFisico);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls['puntajeFinal'].setValue(data.TotalAnalisisSensorial);
-    }
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("motivo").setValue(data.MotivoIngresoId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("empaque").setValue(data.EmpaqueId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("cantidad").setValue(data.Cantidad);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("kilosBrutos").setValue(data.KilosBrutos);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("calidad").setValue(data.CalidadId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("tara").setValue(data.Tara);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("kilosNetos").setValue(data.KilosNetos);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("grado").setValue(data.GradoId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("cantidadDefectos").setValue(data.CantidadDefectos);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("porcentajeRendimiento").setValue(data.RendimientoPorcentaje);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("porcentajeHumedad").setValue(data.HumedadPorcentaje);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("transportista").setValue(data.RazonEmpresaTransporte);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("ruc").setValue(data.RucEmpresaTransporte);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("placaVehiculo").setValue(data.PlacaTractorEmpresaTransporte);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("chofer").setValue(data.ConductorEmpresaTransporte);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.get('pesado').get("marca").setValue(data.Marca);
-    
-
-    await this.cargaTipo();
-    await this.cargaEmpaque();
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["tipo"].setValue(this.detalle.TipoId);
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls["empaque"].setValue(this.detalle.EmpaqueId);
 
 
     this.spinner.hide();
     this.modalService.dismissAll();
   }
 
-
-  changeEmpaque(e) {
-    this.calcularTara();
-  }
-  changeTipo(e) {
-    this.calcularTara();
-  }
-  calcularTara() {
-    var cantidad = this.consultaNotaIngresoProductoAlmacenFormEdit.controls['cantidadAlmacen'].value;
-    var empaque = this.consultaNotaIngresoProductoAlmacenFormEdit.controls['empaque'].value;
-    var tipo = this.consultaNotaIngresoProductoAlmacenFormEdit.controls['tipo'].value;
-    var valor = 0;
-    if (empaque == this.CodigoSacao && tipo == this.CodigoTipoYute) {
-      var valor = cantidad * this.taraYute;
-    } else if (empaque == this.CodigoSacao && tipo != this.CodigoTipoYute) {
-      var valor = cantidad * this.tara;
-    }
-
-
-    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['taraAlmacen'].setValue(valorRounded);
-    this.calcularKilosNetos();
-  }
-  calcularKilosNetos(){
-    var tara = this.consultaNotaIngresoProductoAlmacenFormEdit.controls['taraAlmacen'].value;
-    var kilosBrutos = this.consultaNotaIngresoProductoAlmacenFormEdit.controls['pesoBrutoAlmacen'].value;
-    var valor = kilosBrutos - tara;
-    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
-    this.consultaNotaIngresoProductoAlmacenFormEdit.controls['kilosNetosAlmacen'].setValue(valorRounded);
-  }
-
   guardar() {
+
     const form = this;
-    if (this.consultaNotaIngresoProductoAlmacenFormEdit.invalid  ) {
+    if (this.consultaNotaIngresoProductoAlmacenFormEdit.invalid) {
       this.submittedEdit = true;
-      return;
-    } else {
-      if(this.consultaNotaIngresoProductoAlmacenFormEdit.controls['controlCalidad'].value){
-        this.spinner.show(undefined,
-          {
-            type: 'ball-triangle-path',
-            size: 'medium',
-            bdColor: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            fullScreen: true
-          });
-  
-          this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.' , function (result) {
-            if (result.isConfirmed) {
-              if(form.id > 0){
-                form.actualizarServiceFinal();
-              }else{
-                
-                form.guardarService();
-              }
-             
-            }else{
-              form.spinner.hide();
-            }
-          });     
-      }else{
-        this.alertUtil.alertWarning('Validacion','debe buscar un control de calidad');
-      }
-    
+     
+      let request = (
+        Number(this.id),
+
+        this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NotaIngresoProductoTerminadoAlmacenPlantaId"].value,
+        this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Usuario"].value,
+        this.consultaNotaIngresoProductoAlmacenFormEdit.controls["AlmacenId"].value
+      
+        ////
+      );
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+      if (this.consultaNotaIngresoProductoAlmacenFormEdit && this.id != 0) {
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
+          if (result.isConfirmed) {
+            form.actualizarProductoTerminado(request);
+          }
+        });
+       
+      } /*else {
+
+        this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con el registro?.` , function (result) {
+          if (result.isConfirmed) {
+            form.guardarService(request);
+          }
+        });
+       
+      }*/
     }
   }
-  guardarService() {
-
-    let obj = {
-      'NotaIngresoAlmacenPlantaId': 0,
-      'ControlCalidadPlantaId': this.controlCalidadPlantaId,
-      'EmpresaId': this.vSessionUser.Result.Data.EmpresaId,
-      'AlmacenId': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['almacen'].value,
-      'Numero': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['numeroNotaIngreso'].value,
-      'TipoId': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['tipo'].value,
-      'EmpaqueId': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['empaque'].value,
-      'Cantidad': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['cantidadAlmacen'].value,
-      'PesoBruto': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['pesoBrutoAlmacen'].value,
-      'Tara': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['taraAlmacen'].value,
-      'KilosNetos': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['kilosNetosAlmacen'].value,
-      'Usuario': this.vSessionUser.Result.Data.NombreUsuario
-    };
-    this.notaIngresoAlmacenPlantaService.registrar(obj)
+  actualizarProductoTerminado(request) {
+    this.NotaIngresoProductoTerminadoAlmacenPlantaService.actualizar(this.NotaIngresoProductoTerminadoAlmacenPlantaId,this.usuario,this.AlmacenId)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             var form = this;
-            this.alertUtil.alertOkCallback('Registrado!', 'Ingreso Almacén Registrado.', function (result) {
-              //if(result.isConfirmed){
-              form.router.navigate(['/planta/operaciones/notaingresoalmacen-list']);
-              //}
+            this.alertUtil.alertOkCallback('Actualizado!', 'Nota Ingreso Producto Actualizado.', function (result) {
+              form.router.navigate(['/planta/operaciones/notaingresoproducto-list']);
             }
             );
 
@@ -527,84 +406,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
       );
   }
 
-  actualizarServiceFinal() {
-
-    let obj = {
-      'NotaIngresoAlmacenPlantaId': this.id,
-      'ControlCalidadPlantaId': this.controlCalidadPlantaId,
-      'AlmacenId': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['almacen'].value,
-      'TipoId': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['tipo'].value,
-      'EmpaqueId': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['empaque'].value,
-      'Cantidad': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['cantidadAlmacen'].value,
-      'PesoBruto': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['pesoBrutoAlmacen'].value,
-      'Tara': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['taraAlmacen'].value,
-      'KilosNetos': this.consultaNotaIngresoProductoAlmacenFormEdit.controls['kilosNetosAlmacen'].value,
-      'Usuario': this.vSessionUser.Result.Data.NombreUsuario,
-      'EstadoId': '01'
-    };
-    this.notaIngresoAlmacenPlantaService.actualizarFinal(obj)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-            this.alertUtil.alertOkCallback('Actualizado!', 'Ingreso Almacén Actualizado.', function (result) {
-              //if(result.isConfirmed){
-              form.router.navigate(['/planta/operaciones/notaingresoalmacen-list']);
-              //}
-            }
-            );
-
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
-  }
-
-
-  actualizarService() {
-
-    this.notaIngresoAlmacenPlantaService.actualizar(Number(this.id), this.usuario, this.consultaNotaIngresoProductoAlmacenFormEdit.controls["almacen"].value)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-            this.alertUtil.alertOkCallback('Actualizado!', 'Ingreso Almacén Actualizado.', function (result) {
-              //if(result.isConfirmed){
-              form.router.navigate(['/planta/operaciones/notaingresoalmacen-list']);
-              //}
-            }
-            );
-
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-          }
-        } else {
-          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-        }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
-  }
   cancelar() {
-    this.router.navigate(['/planta/operaciones/notaingresoalmacen-list']);
+    this.router.navigate(['/planta/operaciones/notaingresoproducto-list']);
   }
 }
