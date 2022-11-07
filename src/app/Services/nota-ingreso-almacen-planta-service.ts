@@ -28,7 +28,7 @@ export class NotaIngresoAlmacenPlantaService {
   }
 
   enviarAlmacen(id: number, username: string): Observable<any> {
-    const url = `${this.url}/Registrar`;
+    const url = `${this.url}/EnviarAlmacen`;
 
     const body: any = {
       NotaIngresoAlmacenPlantaId: id,
