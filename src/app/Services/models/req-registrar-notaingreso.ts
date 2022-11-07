@@ -43,8 +43,8 @@ export class ReqRegistrarPesadoNotaIngreso {
         Direccion : string,
         Marca : string,
         CodigoCampania:string,
-        CodigoTipoConcepto:string
-
+        CodigoTipoConcepto:string,
+        NotaIngresoPlantaDetalle: any[]
         ) {
         this.NotaIngresoPlantaId = NotaIngresoPlantaId;
         this.EmpresaId = EmpresaId;
@@ -83,7 +83,8 @@ export class ReqRegistrarPesadoNotaIngreso {
         this.Direccion = Direccion;
         this.Marca = Marca;
         this.CodigoCampania = CodigoCampania;
-        this.CodigoTipoConcepto = CodigoTipoConcepto
+        this.CodigoTipoConcepto = CodigoTipoConcepto;
+        this.NotaIngresoPlantaDetalle = NotaIngresoPlantaDetalle;
     }
     NotaIngresoPlantaId:number;
     EmpresaId: number;
@@ -123,4 +124,5 @@ export class ReqRegistrarPesadoNotaIngreso {
     Marca : string;
     CodigoCampania:string;
     CodigoTipoConcepto:string;
+    NotaIngresoPlantaDetalle: any[];
 }

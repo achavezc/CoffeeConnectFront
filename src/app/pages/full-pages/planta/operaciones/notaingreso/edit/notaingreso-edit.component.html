@@ -234,13 +234,145 @@
             <div class="card-body">
               <!-- Nav-tabs -->
               <ul ngbNav #nav="ngbNav" [activeId]="1" [destroyOnHide]="false" class="nav-pills justify-content-left">
-                <li [ngbNavItem]="1" [destroyOnHide]="false">
+                <li [ngbNavItem]="1" [destroyOnHide]="false" >
                   <a ngbNavLink class="nav-link d-flex align-items-center">
                     <span class="d-none d-sm-block" style="font-size: 1.1rem;">Pesado del Cafe</span>
                   </a>
                   <ng-template ngbNavContent>
                     <app-pesadoCafePlanta (miEvento)="consultarSocioFinca()" formGroupName="pesado"
-                      [submittedEdit]="submittedEdit"></app-pesadoCafePlanta>
+                      [submittedEdit]="submittedEdit"  *ngIf="flagOcultarPesado"></app-pesadoCafePlanta>
+
+                      <div class="row" style="margin-right: 6rem; margin-left: 6rem;"  *ngIf="flagOcultarExportable">
+                        <div class="form-row col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                          <label for="validationTooltip09">Motivo</label>
+                          <ng-select [items]="listaMotivo" bindLabel="name" [(ngModel)]="selectedMotivoo"
+                            formControlName="motivo" bindLabel="Label" bindValue="Codigo" class="form-control"
+                            placeholder="Seleccionar Motivo" 
+                            [ngClass]="{ 'is-invalid': submittedEdit && fedit.motivo.invalid, 'is-valid': submittedEdit && !fedit.motivo.invalid }">
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="form-row col-lg-12 col-md-12 col-sm-12" r=""><div><br></div></div>
+                        <div class="form-row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" type="button"
+                                    (click)="addRowDetail()">+</button>
+                            </div>
+                        </div>
+                        <div class="form-row" style="width: 1200px;">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
+                                    [loadingIndicator]="isLoading" [scrollbarH]="true"  [rowHeight]="'auto'" >
+
+                                    <ngx-datatable-column [sortable]="false" width="35">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                            <div class="d-flex align-items-center text-center">
+                                                <button type="button" class="btn btn-sm btn-danger pt-0 pb-0"
+                                                    (click)="DeleteRowDetail(rowIndex)">-</button>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" width="100"
+                                    [sortable]="false">
+                                    <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value"
+                                        let-rowIndex="rowIndex">
+                                        <div class="d-flex align-items-center">
+                                            <input type="number" autofocus class="form-control form-control-sm"
+                                                (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
+                                                [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
+                                                value="{{Cantidad}}">
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="200" >
+                                      <ng-template ngx-datatable-cell-template let-row="row" let-EmpaqueId="value" 
+                                          let-rowIndex="rowIndex">
+                                          <div class="d-flex align-items-center" >
+                                          <ng-select [items]="listaDetalleEmpaque"  width="140"   
+                                              class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Empaque"
+                                              (change)="UpdateValuesGridDetails($event, rowIndex, 'EmpaqueId')"
+                                              value="{{EmpaqueId}}">
+                                          </ng-select>
+                                      </div>
+                                      </ng-template>
+                                </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Tipo Empaque" prop="TipoId"  width="200" >
+                                  <ng-template ngx-datatable-cell-template let-row="row" let-TipoId="value" 
+                                      let-rowIndex="rowIndex">
+                                      <div class="d-flex align-items-center" >
+                                      <ng-select [items]="listaDetalleTipoEmpaque"  width="140"   
+                                          class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Tipo Empaque"
+                                          (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoId')"
+                                          value="{{TipoId}}">
+                                      </ng-select>
+                                  </div>
+                                  </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Descripcion" prop="SubProductoId"  width="280" >
+                              <ng-template ngx-datatable-cell-template let-row="row" let-SubProductoId="value" 
+                                  let-rowIndex="rowIndex">
+                                  <div class="d-flex align-items-center" style="width: 280px" >
+                                  <ng-select [items]="listaDetalleSubProducto"  width="280"   
+                                      class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Descripcion"
+                                      (change)="UpdateValuesGridDetails($event, rowIndex, 'SubProductoId')"
+                                      value="{{SubProductoId}}">
+                                  </ng-select>
+                              </div>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+
+                              <ngx-datatable-column name="Peso Bruto kg" prop="KilosBrutos" width="115"
+                                  [sortable]="false">
+                                  <ng-template ngx-datatable-cell-template let-row="row" let-KilosBrutos="value"
+                                      let-rowIndex="rowIndex">
+                                      <div class="d-flex align-items-center">
+                                          <input type="number" autofocus class="form-control form-control-sm"
+                                              (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosBrutos')"
+                                              [ngClass]="{ 'border-danger': !KilosBrutos, '': KilosBrutos }"
+                                              value="{{KilosBrutos}}">
+                                      </div>
+                                  </ng-template>
+                              </ngx-datatable-column>
+
+                              <ngx-datatable-column name="Tara" prop="Tara" width="75"
+                              [sortable]="false">
+                              <ng-template ngx-datatable-cell-template let-row="row" let-Tara="value"
+                                  let-rowIndex="rowIndex">
+                                  <div class="d-flex align-items-center">
+                                      <input type="number" autofocus class="form-control form-control-sm"
+                                          (blur)="UpdateValuesGridDetails($event, rowIndex, 'Tara')"
+                                          [ngClass]="{ 'border-danger': !Tara, '': Tara }"
+                                          value="{{Tara}}" disabled>
+                                  </div>
+                              </ng-template>
+                              </ngx-datatable-column>
+
+                              <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="95"
+                              [sortable]="false">
+                              <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value"
+                                  let-rowIndex="rowIndex">
+                                  <div class="d-flex align-items-center">
+                                      <input type="number" autofocus class="form-control form-control-sm"
+                                          (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
+                                          [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos }"
+                                          value="{{KilosNetos}}" disabled>
+                                  </div>
+                              </ng-template>
+                              </ngx-datatable-column>
+
+
+
+                          
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </div>
                     <div *ngIf="esEdit" class="row" style="margin-top: 2rem;">
                       <div class="col-8 d-flex flex-sm-row flex-column">
                         <label class="col-md-4 col-form-label card-text" for="horizontal-form-1">Responsable</label>
