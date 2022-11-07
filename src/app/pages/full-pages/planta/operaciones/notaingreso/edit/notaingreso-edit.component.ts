@@ -523,7 +523,7 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.controls["subproducto"].value,
         this.notaIngredoFormEdit.controls["certificacion"].value ? this.notaIngredoFormEdit.controls["certificacion"].value.join('|') : '',
         this.notaIngredoFormEdit.controls["certificadora"].value ? this.notaIngredoFormEdit.controls["certificadora"].value : '',
-        this.notaIngredoFormEdit.get('pesado').get("motivo").value,
+        this.notaIngredoFormEdit.get('pesado').get("motivo").value ?  this.notaIngredoFormEdit.get('pesado').get("motivo").value : this.notaIngredoFormEdit.controls["motivo"].value,
         this.notaIngredoFormEdit.get('pesado').get("empaque").value,
         Number(this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").value),
         Number(this.notaIngredoFormEdit.get('pesado').get("kilosNetos").value),
