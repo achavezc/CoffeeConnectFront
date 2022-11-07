@@ -154,6 +154,7 @@ export class NotaIngresoListComponent implements OnInit {
           break;
         case "ControlCalidadPlantaEdit":
           this.selectedEstado = '01';
+          this.selectedProducto = '01';
           
           break;
         default:
@@ -161,6 +162,7 @@ export class NotaIngresoListComponent implements OnInit {
           break;
       }
       this.consultaNotaIngresoPlantaForm.controls['estado'].disable();
+      this.consultaNotaIngresoPlantaForm.controls['tipoProducto'].disable();
       
     }
   }

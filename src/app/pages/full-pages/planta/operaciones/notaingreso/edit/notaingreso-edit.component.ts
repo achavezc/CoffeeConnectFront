@@ -104,6 +104,8 @@ export class NotaIngresoEditComponent implements OnInit {
   selectedDetalleTipoEmpaque: any;
   listaDetalleSubProducto: any[];
   selectedDetalleSubProducto: any;
+  listaMotivo: any[];
+  selectedMotivoo: any
   CodigoSacao = "01";
   CodigoTipoYute = "01";
   kilos = 7;
@@ -165,6 +167,7 @@ export class NotaIngresoEditComponent implements OnInit {
         certificadora: ['', ],
         campania:['',],
         concepto:['',],
+        motivo:['',],
         
         pesado: this.fb.group({
           motivo: new FormControl('', [Validators.required]),
@@ -237,6 +240,12 @@ export class NotaIngresoEditComponent implements OnInit {
       }
     });
 
+    this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaMotivo = res.Result.Data;
+      }
+    });
+    
     this.cargaCampania();
     this.cargaConceptos();
 
