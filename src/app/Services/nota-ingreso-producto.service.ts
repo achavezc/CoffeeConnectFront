@@ -44,7 +44,7 @@ export class NotaIngresoProductoTerminadoAlmacenPlantaService {
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
-  actualizar(NotaIngresoProductoTerminadoAlmacenPlantaId: number, usuario: string, almacenId: string): Observable<any> {
+  actualizar(NotaIngresoProductoTerminadoAlmacenPlantaId: Number, usuario: string, almacenId: string): Observable<any> {
     const url = `${this.url}/Actualizar`;
     let request = {
       NotaIngresoProductoTerminadoAlmacenPlantaId: NotaIngresoProductoTerminadoAlmacenPlantaId,

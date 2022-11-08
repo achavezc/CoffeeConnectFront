@@ -10,8 +10,6 @@ export class ReqRegistrarNotaIngresoProducto {
         NotaIngresoProductoTerminadoAlmacenPlantaId:number,
         Usuario: string,
         AlmacenId: string,
-
-
         
         ) {
         this.NotaIngresoProductoTerminadoAlmacenPlantaId = NotaIngresoProductoTerminadoAlmacenPlantaId;

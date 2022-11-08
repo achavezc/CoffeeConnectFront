@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
 import {AuthService} from './../../../../../../services/auth.service';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
 import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-notaingresoproducto-edit',
@@ -40,7 +41,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
   codigoCafeP= "01";
   usuario="";
   NotaIngresoProductoTerminadoAlmacenPlantaId:number =0;
-  AlmacenId:string;
+  //AlmacenId:string;
   readonly: boolean;
   detalle: any;
   popUp = true;
@@ -88,6 +89,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
     this.cargarForm();
     this.cargarcombos();
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
+    this.usuario = this.vSessionUser.Result.Data.NombreUsuario;
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {
@@ -157,6 +159,9 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
       {
         RazonSocialEmpresaOrigen:new FormControl({ value: '', disabled: true }, []),
         RucEmpresaOrigen:new FormControl({ value: '', disabled: true }, []),
+        RazonSocial:new FormControl({ value: '', disabled: true }, []),
+        Ruc:new FormControl({ value: '', disabled: true }, []),
+        Logo:new FormControl({ value: '', disabled: true }, []),
         direccion: new FormControl({ value: '', disabled: true }, []),
         Numero:new FormControl({ value: '', disabled: true }, []),
         NumeroNotaIngresoPlanta:new FormControl({ value: '', disabled: true }, []),
@@ -172,9 +177,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
         motivo: new FormControl({ value: '', disabled: true }, []),
         MotivoIngresoId: new FormControl({ value: '', disabled: true }, []),
         Almacen: new FormControl('', ),
-        AlmacenId: new FormControl('',),
-        
-        
+        AlmacenId:new FormControl('',),
         estado:new FormControl({ value: '', disabled: true }, []),
         EstadoId:new FormControl({ value: '', disabled: true }, []),
         EmpresaOrigen:new FormControl({ value: '', disabled: true }, []),
@@ -281,12 +284,16 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
  
  
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["RazonSocialEmpresaOrigen"].setValue(data.RazonSocialEmpresaOrigen);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["RazonSocial"].setValue(data.RazonSocial);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["RucEmpresaOrigen"].setValue(data.RucEmpresaOrigen);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Ruc"].setValue(data.Ruc);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Logo"].setValue(data.Logo);
+
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["direccion"].setValue(data.Direccion);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Numero"].setValue(data.Numero);
 
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NumeroNotaIngresoPlanta"].setValue(data.NumeroNotaIngresoPlanta);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NotaIngresoProductoTerminadoAlmacenPlanta"].setValue(data.NotaIngresoProductoTerminadoAlmacenPlantaId);
+      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NotaIngresoProductoTerminadoAlmacenPlantaId"].setValue(data.NotaIngresoProductoTerminadoAlmacenPlantaId);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NumeroGuiaRemision"].setValue(data.NumeroGuiaRemision);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["cantidad"].setValue(data.Cantidad);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["kgn"].setValue(data.KGN);
@@ -294,29 +301,17 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["KilosNetos"].setValue(data.KilosNetos);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["KilosNetos46"].setValue(data.KilosNetos46);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["producto"].setValue(data.Producto);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["ProductoId"].setValue(data.ProductoId);
+     // this.consultaNotaIngresoProductoAlmacenFormEdit.controls["ProductoId"].setValue(data.ProductoId);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["subproducto"].setValue(data.SubProducto);
      
 
    
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["motivo"].setValue(data.MotivoIngreso);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["MotivoIngresoId"].setValue(data.MotivoIngresoId);
+     // this.consultaNotaIngresoProductoAlmacenFormEdit.controls["MotivoIngresoId"].setValue(data.MotivoIngresoId);
 
      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Almacen"].setValue(data.AlmacenId);
-      /*if (  data.AlmacenId  == null){
-        //mostrar vacio
-        this.consultaNotaIngresoProductoAlmacenFormEdit.controls.Almacen.setValue('');
- 
-      }else {
-        //mostrar valor
-       this.consultaNotaIngresoProductoAlmacenFormEdit.controls.Almacen.setValue(data.AlmacenId);
-      }*/
-     
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["AlmacenId"].setValue(data.AlmacenId);
-  
-
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["estado"].setValue(data.Estado);
-      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["EstadoId"].setValue(data.EstadoId);
+     // this.consultaNotaIngresoProductoAlmacenFormEdit.controls["EstadoId"].setValue(data.EstadoId);
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Observacion"].setValue(data.Observacion)
       this.consultaNotaIngresoProductoAlmacenFormEdit.controls["FechaRegistro"].setValue(data.FechaRegistro);
      this.consultaNotaIngresoProductoAlmacenFormEdit.controls["UsuarioRegistro"].setValue(data.UsuarioRegistro);
@@ -339,18 +334,10 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
   guardar() {
 
     const form = this;
-    if (this.consultaNotaIngresoProductoAlmacenFormEdit.invalid) {
-      this.submittedEdit = true;
-     
-      let request = (
-        Number(this.id),
-
-        this.consultaNotaIngresoProductoAlmacenFormEdit.controls["NotaIngresoProductoTerminadoAlmacenPlantaId"].value,
-        this.consultaNotaIngresoProductoAlmacenFormEdit.controls["Usuario"].value,
-        this.consultaNotaIngresoProductoAlmacenFormEdit.controls["AlmacenId"].value
-      
-        ////
-      );
+    if (!this.consultaNotaIngresoProductoAlmacenFormEdit.invalid) {
+     // this.submittedEdit = true;
+   
+    
       this.spinner.show(undefined,
         {
           type: 'ball-triangle-path',
@@ -362,7 +349,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
       if (this.consultaNotaIngresoProductoAlmacenFormEdit && this.id != 0) {
         this.alertUtil.alertRegistro('Confirmación', `¿Está seguro de continuar con la actualización?.` , function (result) {
           if (result.isConfirmed) {
-            form.actualizarProductoTerminado(request);
+            form.actualizarProductoTerminado();
           }
         });
        
@@ -377,8 +364,10 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
       }*/
     }
   }
-  actualizarProductoTerminado(request) {
-    this.NotaIngresoProductoTerminadoAlmacenPlantaService.actualizar(this.NotaIngresoProductoTerminadoAlmacenPlantaId,this.usuario,this.AlmacenId)
+  actualizarProductoTerminado() {
+
+
+    this.NotaIngresoProductoTerminadoAlmacenPlantaService.actualizar(this.id,this.usuario,this.consultaNotaIngresoProductoAlmacenFormEdit.controls['Almacen'].value)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
