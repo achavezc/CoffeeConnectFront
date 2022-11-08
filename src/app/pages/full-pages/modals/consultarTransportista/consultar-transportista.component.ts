@@ -21,6 +21,7 @@ export class MConsultarTransportista implements OnInit {
         private modalService: NgbModal
       ) {
         this.singleSelectCheck = this.singleSelectCheck.bind(this);
+        this.vSessionUser = JSON.parse(localStorage.getItem('user'));
        }
 
     @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
@@ -36,6 +37,8 @@ export class MConsultarTransportista implements OnInit {
     public limitRefT = 10;
     transportista: any[];
     public ColumnMode = ColumnMode;
+    vSessionUser: any;
+
 
     ngOnInit(): void {
         this.cargarTransportista();
@@ -101,7 +104,7 @@ export class MConsultarTransportista implements OnInit {
           this.submittedT = false;
           this.filtrosTransportista.RazonSocial = this.consultaTransportistas.controls['rzsocial'].value;
           this.filtrosTransportista.Ruc = this.consultaTransportistas.controls['ruc'].value;
-          this.filtrosTransportista.EmpresaId = 1;
+          this.filtrosTransportista.EmpresaId = this.vSessionUser.Result.Data.EmpresaId;
           this.spinner.show(undefined,
             {
               type: 'ball-triangle-path',
