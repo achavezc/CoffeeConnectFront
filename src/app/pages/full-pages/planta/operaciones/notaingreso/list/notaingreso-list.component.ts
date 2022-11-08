@@ -229,7 +229,9 @@ export class NotaIngresoListComponent implements OnInit {
 
   }
 
-  buscar() {
+  buscar() 
+  {
+    
     if (this.consultaNotaIngresoPlantaForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -347,6 +349,7 @@ export class NotaIngresoListComponent implements OnInit {
     this.router.navigate(['/planta/operaciones/notaingreso-edit']);
   }
 
+  
   anular() {
     if (this.selected.length > 0) {
       if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
@@ -381,7 +384,7 @@ export class NotaIngresoListComponent implements OnInit {
 
   enviar() {
     if (this.selected.length > 0) {
-      if (this.selected[0].EstadoId == this.estadoAnalizado) {
+      if (this.selected[0].EstadoId == this.estadoPesado && this.selected[0].ProductoId=='02' ) {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
@@ -398,11 +401,11 @@ export class NotaIngresoListComponent implements OnInit {
           buttonsStyling: false,
         }).then(function (result) {
           if (result.value) {
-            form.enviarAlmacenGuia();
+            form.enviarAlmacen();
           }
         });
       } else {
-        this.alertUtil.alertError("Error", "Solo se puede enviar guias con estado analizado")
+        this.alertUtil.alertError("Error", "Solo se puede enviar a almacén Notas de Ingreso de Café Exportable en estado Registrado")
       }
     }
   }
@@ -445,7 +448,7 @@ export class NotaIngresoListComponent implements OnInit {
       );
   }
 
-  enviarAlmacenGuia() {
+  enviarAlmacen() {
 
     this.spinner.show(undefined,
       {
@@ -455,7 +458,14 @@ export class NotaIngresoListComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.notaIngresoAlmacenPlantaService.enviarAlmacen(this.selected[0].NotaIngresoPlantaId, this.vSessionUser.Result.Data.NombreUsuario)
+
+      this.plantaService.EnviarAlmacen(
+        {
+          "NotaIngresoPlantaId": this.selected[0].NotaIngresoPlantaId,
+          "Usuario": this.vSessionUser.Result.Data.NombreUsuario
+        })
+
+
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

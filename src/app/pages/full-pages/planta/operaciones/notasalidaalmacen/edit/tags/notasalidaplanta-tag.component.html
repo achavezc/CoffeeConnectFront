@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
-         <app-notaingresoalmacen-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-notaingresoalmacen-list>
+         <app-notaingresoproducto-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-notaingresoproducto-list>
         </div>
       </ng-template>
       <ng-template #modalTransportista let-c="close" let-d="dismiss">
@@ -27,7 +27,7 @@
       </div>
       <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;">
         <div class="col-12">
-          <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
+          <!-- <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
             [rows]="rowsLotesDetalle" [selected]="selectLoteDetalle" [selectionType]="'single'">
             <ngx-datatable-column name="Producto" prop="Producto">
@@ -42,7 +42,48 @@
             </ngx-datatable-column>            
             <ngx-datatable-column name="Netos" prop="PesoKilosNetos">
             </ngx-datatable-column>
-          </ngx-datatable>
+          </ngx-datatable> -->
+
+          <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsLotesDetalle"
+                                [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"
+                                [summaryPosition]="'bottom'" [columnMode]="'force'" [limit]="limitRef">
+
+                                <ngx-datatable-column name="Cantidad Disponibles" prop="CantidadDisponible" [summaryFunc]="emptySumm"></ngx-datatable-column>
+                                <ngx-datatable-column name="Empaque" prop="Empaque"></ngx-datatable-column>
+                                <ngx-datatable-column name="Tipo Empaque" prop="TipoEmpaque"></ngx-datatable-column>
+                                <ngx-datatable-column name="Descripción" prop="Producto"></ngx-datatable-column>                                
+                                <ngx-datatable-column name="Neto Disponibles" prop="KilosNetosDisponibles" [summaryFunc]="emptySumm"></ngx-datatable-column>
+                                
+
+                                <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false">
+                                    <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
+                                        <div class="d-flex align-items-center">
+                                            <input type="number" autofocus
+                                                class="form-control form-control-sm text-right"
+                                                [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
+                                                (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
+                                                value="{{Cantidad}}">
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" >
+                                    <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value" let-rowIndex="rowIndex">
+                                        <div class="d-flex align-items-center">
+                                            <input type="number" autofocus
+                                                class="form-control form-control-sm text-right"
+                                                [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos}"
+                                                (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
+                                                value="{{KilosNetos}}">
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>                                  
+
+                                 
+                               
+                              </ngx-datatable>
+
+
+
         </div>
       </div>
   

@@ -234,6 +234,10 @@
 				{
 					"Label":"Nota de Ingreso Almacen"
 				},
+				"NotaIngresoProductoTerminado":
+				{
+					"Label":"Nota de Ingreso Producto Terminado"
+				},
 				"NotaSalida":
 				{
 					"Label":"Nota de Salida"

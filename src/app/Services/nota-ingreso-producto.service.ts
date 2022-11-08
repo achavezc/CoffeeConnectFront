@@ -12,11 +12,11 @@ export class NotaIngresoProductoTerminadoAlmacenPlantaService {
     private errorHandling: ErrorHandling) {
   }
 
-  enviarAlmacen(id: number, username: string): Observable<any> {
+  Registrar(id: number, username: string): Observable<any> {
     const url = `${this.url}/Registrar`;
 
     const body: any = {
-      GuiaRecepcionMateriaPrimaId: id,
+      NotaIngresoProductoTerminadoAlmacenPlantaId: id,
       Usuario: username
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
@@ -27,27 +27,27 @@ export class NotaIngresoProductoTerminadoAlmacenPlantaService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Anular(notaIngresoAlmacenId: number, usuario: string): Observable<any> {
+  Anular(NotaIngresoProductoTerminadoAlmacenPlantaId: number, usuario: string): Observable<any> {
     const url = `${this.url}/Anular`;
     let request = {
-      NotaIngresoAlmacenId: notaIngresoAlmacenId,
+      NotaIngresoProductoTerminadoAlmacenPlantaId: NotaIngresoProductoTerminadoAlmacenPlantaId,
       Usuario: usuario
     }
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  obtenerDetalle(id: number): Observable<any> {
+  ConsultarPorId(id: number): Observable<any> {
     const url = `${this.url}/ConsultarPorId`;
 
     const body: any = {
-      NotaIngresoAlmacenId: id
+      NotaIngresoProductoTerminadoAlmacenPlantaId: id
     };
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
-  actualizar(notaIngresoAlmacenId: number, usuario: string, almacenId: string): Observable<any> {
+  actualizar(NotaIngresoProductoTerminadoAlmacenPlantaId: Number, usuario: string, almacenId: string): Observable<any> {
     const url = `${this.url}/Actualizar`;
     let request = {
-      NotaIngresoAlmacenId: notaIngresoAlmacenId,
+      NotaIngresoProductoTerminadoAlmacenPlantaId: NotaIngresoProductoTerminadoAlmacenPlantaId,
       Usuario: usuario,
       AlmacenId: almacenId
     }
