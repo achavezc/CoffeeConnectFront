@@ -196,8 +196,43 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
       this.selectedEstadoProducto = '01';
       this.notaIngresoProductoAlmacenForm.controls["estado"].setValue('01');
       this.notaIngresoProductoAlmacenForm.controls.estado.disable();
+
+
+      this.notaIngresoProductoAlmacenForm.controls["estado"].setValue('01');
+      this.selectedProducto = '02';
+      this.cargarProducto(this.selectedProducto);
+      this.notaIngresoProductoAlmacenForm.controls.estado.disable();
+      this.notaIngresoProductoAlmacenForm.controls.producto.disable();
+
+
     }
   }
+
+ cargarProducto(codigo:any)
+  {
+    
+    this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) 
+    {
+      if (res.Result.Success) {
+        if (res.Result.Data.length > 0) {
+          this.listaSubProducto = res.Result.Data.filter(x => x.Val1 == codigo);
+        } else {
+          this.listaSubProducto = [];
+        }
+      }
+    });
+   } 
+
+
+
+   changeProduct(event: any): void 
+   {   
+   
+    this.cargarProducto(event.Codigo);
+   
+  }
+
+   
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
@@ -313,22 +348,7 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
     }
   }
 
-  changeProduct(event: any): void {
-    let form = this;
-    if (event) {
-      this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) {
-        if (res.Result.Success) {
-          if (res.Result.Data.length > 0) {
-            form.listaSubProducto = res.Result.Data.filter(x => x.Val1 == event.Codigo);
-          } else {
-            form.listaSubProducto = [];
-          }
-        }
-      });
-    } else {
-      form.listaSubProducto = [];
-    }
-  }
+  
 
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)

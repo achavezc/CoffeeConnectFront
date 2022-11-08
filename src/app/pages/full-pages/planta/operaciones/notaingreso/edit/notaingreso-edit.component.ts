@@ -35,8 +35,8 @@ export class NotaIngresoEditComponent implements OnInit {
   notaIngredoFormEdit: FormGroup;
   listaProducto: any[];
   //nuevas variables
-  listaCampania:any[];
-  listaConcepto:any[];
+ 
+  
   //nuevas variables
   listaSubProducto: any[];
   listaTipoProveedor: any[];
@@ -44,6 +44,8 @@ export class NotaIngresoEditComponent implements OnInit {
   listaCertificacion: any[];
   listaCertificadora: any[];
   //nuevas variables 
+  listaCampania:any[];
+  listaConcepto:any[];
   selectedCampania:any;
   selectedConcepto:any;
   //nuevas variables

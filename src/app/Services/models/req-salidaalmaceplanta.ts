@@ -93,10 +93,19 @@ export class ReqNotaSalidaPlanta
 
  export class  NotaSalidaAlmacenPlantaDetalleDTO{
 
-    constructor(NotaIngresoAlmacenPlantaId:number)
+    constructor(NotaIngresoProductoTerminadoAlmacenPlantaId:number,Cantidad:number,KilosNetos:number)
     {
-        this.NotaIngresoAlmacenPlantaId = NotaIngresoAlmacenPlantaId
+        this.NotaIngresoProductoTerminadoAlmacenPlantaId = NotaIngresoProductoTerminadoAlmacenPlantaId
+        this.Cantidad = Cantidad
+        this.KilosNetos = KilosNetos
+        this.KilosBrutos = 0
+        this.Tara = 0
     }
 
-    NotaIngresoAlmacenPlantaId: number
+    NotaIngresoProductoTerminadoAlmacenPlantaId: number;
+    Cantidad: number;
+    KilosNetos: number;
+    KilosBrutos: number;
+    Tara: number;
+
 }
