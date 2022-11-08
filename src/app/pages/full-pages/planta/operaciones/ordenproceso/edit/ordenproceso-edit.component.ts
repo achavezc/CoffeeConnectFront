@@ -1,6 +1,6 @@
 
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors, ValidatorFn, ControlContainer } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
@@ -89,7 +89,12 @@ export class OrdenProcesoEditComponent implements OnInit {
   detalle: any;
   readonly: boolean;
   public limitRef = 20;
-  sumKilosNetos = 20;
+  averageExportable: Number = 0;
+  averageDescarte: Number = 0;
+  averageCascarilla: Number = 0;
+  formGroupCantidad : FormGroup;
+  groupCantidad= {};
+ 
 
   ngOnInit(): void {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -120,6 +125,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
   }
 
+  
   agregarOrdenProceso(e) {
     this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(e[0].Numero);
     this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(e[0].OrdenProcesoId);
@@ -182,9 +188,6 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
   async autocompleteOrdenProcesoComercial(data) {
 
-    // await this.cargarSubProducto(data.ProductoId);
-    // await this.cargarSubProductoTerminado(data.ProductoId);
-    // await this.GetCertificacion();
     await this.GetCertificadora();
     this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
     this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
@@ -256,20 +259,12 @@ export class OrdenProcesoEditComponent implements OnInit {
       cliente: ['',],
       idDestino: ['',],
       destino: ['',],
-      //fecFinProcesoPlanta: [],
-      // tipoProduccion: ['', Validators.required],
-      // certificacion: ['', Validators.required],
       porcenRendimiento: ['',],
       producto: ['', Validators.required],
-      // cantidad: ['', Validators.required],
-      // calidad: ['', Validators.required],
-      // grado: ['', Validators.required],
       cantidadDefectos: ['', Validators.required],
-      //cantidadContenedores: ['', Validators.required],
       responsableComercial: [],
       file: [],
       tipoProceso: ['', Validators.required],
-      //subProducto: ['', Validators.required],
       observaciones: [''],
       pathFile: [],
       estado: ['', Validators.required],
@@ -281,9 +276,6 @@ export class OrdenProcesoEditComponent implements OnInit {
       empaque: ['', Validators.required],
       tipo: ['', Validators.required],
       productoTerminado: ['', Validators.required],
-      //subProductoTerminado: ['', Validators.required],
-      //pesoSaco: ['', Validators.required],
-      //totalKilosBrutos: ['', Validators.required],
       fechaInicio: [Validators.required],
       fechaFin: []
 
@@ -308,18 +300,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     }
   }
 
-  // async GetTipoProduccion() {
-  //   const res = await this.maestroService.obtenerMaestros('TipoProduccionPlanta').toPromise();
-  //   if (res.Result.Success) {
-  //     this.listTipoProduccion = res.Result.Data;
-  //   }
-  // }
-  // async GetCertificacion() {
-  //   const res = await this.maestroService.obtenerMaestros('TipoCertificacionPlanta').toPromise();
-  //   if (res.Result.Success) {
-  //     this.listCertificacion = res.Result.Data;
-  //   }
-  // }
+
   async GetProducto() {
     const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
     if (res.Result.Success) {
@@ -345,52 +326,16 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.listTipo = res.Result.Data;
     }
   }
-  /* async GetCalidad() {
-    const res = await this.maestroService.obtenerMaestros('Calidad').toPromise();
-    if (res.Result.Success) {
-      this.listCalidad = res.Result.Data;
-    }
-  }
-  async GetGrado() {
-    const res = await this.maestroService.obtenerMaestros('Grado').toPromise();
-    if (res.Result.Success) {
-      this.listGrado = res.Result.Data;
-    }
-  } */
+  
   async GetProductoTerminado() {
     const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
     if (res.Result.Success) {
       this.listProductoTerminado = res.Result.Data;
     }
   }
-/*   async cargarSubProductoTerminado(codigo: any) {
-    var data = await this.maestroService.obtenerMaestros("SubProductoPlanta").toPromise();
-    if (data.Result.Success) {
-      this.listSubProductoTerminado = data.Result.Data.filter(obj => obj.Val1 == codigo);
-    }
-  }
-  changeSubProductoTerminado(e) {
-    let filterProducto = e.Codigo;
-    this.cargarSubProductoTerminado(filterProducto);
-  }
-  changeSubProducto(e) {
-    let filterProducto = e.Codigo;
-    this.cargarSubProducto(filterProducto);
-  }
-  async cargarSubProducto(codigo: any) {
-    var data = await this.maestroService.obtenerMaestros("SubProductoPlanta").toPromise();
-    if (data.Result.Success) {
-      this.listSubProducto = data.Result.Data.filter(obj => obj.Val1 == codigo);
-    }
-  } */
+
 
   GetDataModal(event: any): void {
-    /*
-    const obj = event[0];
-    if (obj) {
-      this.AutocompleteDataContrato(obj);
-    }
-    */
     this.modalService.dismissAll();
   }
 
@@ -451,15 +396,6 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
   }
 
-  // GetDataEmpresa(event: any): void {
-  //   const obj = event[0];
-  //   if (obj) {
-  //     this.ordenProcesoEditForm.controls.codigoOrganizacion.setValue(obj.Codigo);
-  //     this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(obj.RazonSocial);
-  //   }
-  //   this.modalService.dismissAll();
-  // }
-
   GetDataEmpresa(event: any): void {
     this.selectOrganizacion = event;
     if (this.selectOrganizacion[0])
@@ -482,7 +418,11 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   GetRequest(): any {
     const form = this.ordenProcesoEditForm.value;
-
+    this.formGroupCantidad = new FormGroup(this.groupCantidad);
+   this.rowsDetails.forEach(data =>
+      {
+        data.Cantidad = Number(this.formGroupCantidad.get(data.NotaIngresoAlmacenPlantaId+ '%cantidad').value)
+      });
     const request = {
       OrdenProcesoPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
@@ -490,21 +430,11 @@ export class OrdenProcesoEditComponent implements OnInit {
       TipoProcesoId: this.ordenProcesoEditForm.controls["tipoProceso"].value ? this.ordenProcesoEditForm.controls["tipoProceso"].value : '',
       NumeroContrato: this.ordenProcesoEditForm.controls["numeroContrato"].value ? this.ordenProcesoEditForm.controls["numeroContrato"].value : '',
       OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : null,
-      //TipoCertificacionId: this.ordenProcesoEditForm.controls["certificacion"].value ? this.ordenProcesoEditForm.controls["certificacion"].value.join('|') : '',
       EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : '',
       ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : '',
-      //SubProductoId: this.ordenProcesoEditForm.controls["subProducto"].value ? this.ordenProcesoEditForm.controls["subProducto"].value : 0,
       ProductoIdTerminado: this.ordenProcesoEditForm.controls["productoTerminado"].value ? this.ordenProcesoEditForm.controls["productoTerminado"].value : '',
-      //SubProductoIdTerminado: this.ordenProcesoEditForm.controls["subProductoTerminado"].value ? this.ordenProcesoEditForm.controls["subProductoTerminado"].value : 0,
-      //TipoProduccionId: this.ordenProcesoEditForm.controls["tipoProduccion"].value ? this.ordenProcesoEditForm.controls["tipoProduccion"].value : 0,
       EmpaqueId: this.ordenProcesoEditForm.controls["empaque"].value ? this.ordenProcesoEditForm.controls["empaque"].value : '',
       TipoId: this.ordenProcesoEditForm.controls["tipo"].value ? this.ordenProcesoEditForm.controls["tipo"].value : '',
-      //CalidadId: this.ordenProcesoEditForm.controls["calidad"].value ? this.ordenProcesoEditForm.controls["calidad"].value : 0,
-      //GradoId: this.ordenProcesoEditForm.controls["grado"].value ? this.ordenProcesoEditForm.controls["grado"].value : 0,
-      //TotalSacos: this.ordenProcesoEditForm.controls["cantidad"].value ? this.ordenProcesoEditForm.controls["cantidad"].value : 0,
-      //PesoPorSaco: this.ordenProcesoEditForm.controls["pesoSaco"].value ? this.ordenProcesoEditForm.controls["pesoSaco"].value : 0,
-      //PesoKilos:  this.ordenProcesoEditForm.controls["totalKilosBrutos"].value ? this.ordenProcesoEditForm.controls["totalKilosBrutos"].value : 0,
-      //CantidadContenedores: this.ordenProcesoEditForm.controls["cantidadContenedores"].value ? this.ordenProcesoEditForm.controls["cantidadContenedores"].value : 0,
       CantidadDefectos: this.ordenProcesoEditForm.controls["cantidadDefectos"].value ? this.ordenProcesoEditForm.controls["cantidadDefectos"].value : 0,
       FechaInicioProceso: form.fechaInicio ? form.fechaInicio : null,
       FechaFinProceso: form.fechaFin ? form.fechaFin : null,
@@ -865,31 +795,28 @@ export class OrdenProcesoEditComponent implements OnInit {
     return 20;
   }
   agregarNotaIngreso(e) {
-   // this.obtenerDetalleNotaIngreso(e[0].ControlCalidadPlantaId);
-    
+      
+  
+
     var listFilter=[];
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId == e[0].NotaIngresoAlmacenPlantaId);
       if (listFilter.length == 0)
       {
+       
+        this.groupCantidad[e[0].NotaIngresoAlmacenPlantaId + '%cantidad'] = new FormControl('', []);       
         this.filtrosLotesID.NotaIngresoAlmacenPlantaId = Number(e[0].NotaIngresoAlmacenPlantaId);
         let object: any = {};
         object.NotaIngresoAlmacenPlantaId = e[0].NotaIngresoAlmacenPlantaId;
        // object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
         object.NumeroIngresoAlmacenPlanta = e[0].Numero;
-
-        
-
-        const [day, month, year] = e[0].FechaRegistro.split('-');
-
-
-        
-
+        const [day, month, year] = e[0].FechaRegistro.split('-'); 
         object.FechaIngresoAlmacen = new Date(year, month ,day);
         object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
         object.CantidadNotaIngreso =  e[0].CantidadDisponible;        
         object.KilosNetosNotaIngreso = e[0].KilosNetosDisponibles;
         object.PorcentajeHumedad=  e[0].HumedadPorcentajeAnalisisFisico;
-        object.PorcentajeExportable=  e[0].RendimientoPorcentaje;
+        object.PorcentajeExportable =e[0].ExportablePorcentajeAnalisisFisico;
+        object.PorcentajeRendimiento=  e[0].RendimientoPorcentaje;
         object.PorcentajeDescarte = e[0].DescartePorcentajeAnalisisFisico;
         object.PorcentajeCascarilla = e[0].CascarillaPorcentajeAnalisisFisico;
         var KilosExportables = Number(e[0].KilosNetosDisponibles * (e[0].RendimientoPorcentaje/100))
@@ -907,81 +834,23 @@ export class OrdenProcesoEditComponent implements OnInit {
       {
         this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroIngresoPlanta + ".");
       }
+      if (this.listaNotaIngreso.length > 0 )
+      {
+        var sumExportable = 0;
+        var sumDescarte = 0;
+        var sumCascarilla= 0;
+        this.listaNotaIngreso.forEach(data => 
+        {
+          sumExportable = sumExportable + data.PorcentajeExportable;
+          sumDescarte = sumDescarte + data.PorcentajeDescarte;
+          sumCascarilla = sumCascarilla + data.PorcentajeCascarilla;
+        });
+        this.averageCascarilla = Number((sumCascarilla / this.listaNotaIngreso.length).toFixed(2));
+        this.averageDescarte = Number((sumDescarte / this.listaNotaIngreso.length).toFixed(2));
+        this.averageExportable = Number((sumExportable / this.listaNotaIngreso.length).toFixed(2));
+      }
   }
 
- /* obtenerDetalleNotaIngreso(id) {
-    this.spinner.show();
-    this.controlCalidad.ConsultarPorId(Number(id))
-      .subscribe(res => {
-
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            this.detalle = res.Result.Data;
-            if (this.detalle != null) {
-              this.agregarNotaIngresoGrilla(res.Result.Data);
-            } else {
-              this.spinner.hide();
-              this.modalService.dismissAll();
-            }
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, msgError: res.Result.Message };
-            this.modalService.dismissAll();
-          } else {
-            this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-            this.modalService.dismissAll();
-          }
-        } else {
-          this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-          this.modalService.dismissAll();
-        }
-      },
-        err => {
-          this.spinner.hide();
-          this.modalService.dismissAll();
-          console.log(err);
-          this.errorGeneral = { isError: false, msgError: this.msgErrorGenerico };
-        }
-      );
-  }*/
-
-  /*agregarNotaIngresoGrilla(data) {
-    var listFilter = [];
-    listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoPlantaId == data.NotaIngresoPlantaId);
-    if (listFilter.length == 0) {
-      this.filtrosLotesID.NotaIngresoPlantaId = Number(data.NotaIngresoPlantaId);
-      let object: any = {};
-      object.OrdenProcesoPlantaId = this.codeProcessOrder;
-      object.OrdenProcesoPlantaDetalleId = 0;
-      object.NotaIngresoPlantaId = data.NotaIngresoPlantaId;
-      object.NumeroGuiaRemision = data.NumeroGuiaRemision
-      object.NumeroIngresoPlanta = data.Numero;
-      object.FechaRegistroFinal = data.FechaRegistro;
-      object.FechaRegistro = this.dateUtil.formatDate(data.FechaRegistro);
-      object.RendimientoPorcentaje = data.RendimientoPorcentaje;
-      object.HumedadPorcentaje = data.HumedadPorcentaje;
-
-      object.PorcentajeExportable = data.ExportablePorcentajeAnalisisFisico;
-      object.PorcentajeDescarte = data.DescartePorcentajeAnalisisFisico;
-      object.PorcentajeCascarilla = data.CascarillaPorcentajeAnalisisFisico;
-      object.KilosExportables = Number(data.KilosNetos * data.ExportablePorcentajeAnalisisFisico);
-      var valorRounded = Math.round(( Number(object.KilosExportables / 69) + Number.EPSILON) * 100) / 100
-      object.SacosCalculo = valorRounded;
-      object.CantidadPesado = data.Cantidad;
-      object.KilosBrutosPesado = data.KilosBrutos;
-      object.TaraPesado = data.Tara;
-      object.KilosNetosPesado = data.KilosNetos;
-      this.listaNotaIngreso.push(object);
-      this.tempDataLoteDetalle = this.listaNotaIngreso;
-      this.rowsDetails = [...this.tempDataLoteDetalle];
-      this.spinner.hide();
-      this.modalService.dismissAll();
-   
-    }
-    else {
-      this.alertUtil.alertWarning("Oops...!", "Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].Numero + ".");
-      this.spinner.hide();
-    }
-  }*/
 
   eliminarLote(select) {
     let form = this;
