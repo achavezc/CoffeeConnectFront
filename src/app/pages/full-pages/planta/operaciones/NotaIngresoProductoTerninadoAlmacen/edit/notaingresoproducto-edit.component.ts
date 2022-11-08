@@ -177,7 +177,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
         motivo: new FormControl({ value: '', disabled: true }, []),
         MotivoIngresoId: new FormControl({ value: '', disabled: true }, []),
         Almacen: new FormControl('', ),
-        AlmacenId:new FormControl('',),
+       // AlmacenId:new FormControl('',),
         estado:new FormControl({ value: '', disabled: true }, []),
         EstadoId:new FormControl({ value: '', disabled: true }, []),
         EmpresaOrigen:new FormControl({ value: '', disabled: true }, []),

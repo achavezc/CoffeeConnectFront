@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
+import {FormControl, FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import swal from 'sweetalert2';
+import { Observable } from 'rxjs';
 import { Router } from "@angular/router"
 import { MaestroUtil } from '../../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../../services/util/date-util';
@@ -12,6 +13,7 @@ import { EmpresaService } from '../../../../../../services/empresa.service';
 import { EmpresaTransporteService } from '../../../../../../services/empresa-transporte.service';
 import {AuthService} from './../../../../../../services/auth.service';
 import {NotaSalidaAlmacenPlantaService} from '../../../../../../services/nota-salida-almacen-planta.service';
+import { MaestroService } from '../../../../../../services/maestro.service';
 
 
 @Component({
@@ -28,6 +30,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private notaSalidaService: NotaSalidaAlmacenService,
     private alertUtil: AlertUtil,
+    private maestroService: MaestroService,
     private empresaService: EmpresaService,
     private empTransporteService: EmpresaTransporteService,
     private router: Router,
@@ -39,10 +42,14 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   listTransportistas: [] = [];
   listAlmacenes: [] = [];
   listMotivos: [] = [];
+  listaCampania:Observable<any>[];
+  listaConcepto:Observable<any>[];
   selectedDestinatario: any;
   selectedTransportista: any;
   selectedAlmacen: any;
   selectedMotivo: any;
+  selectedCampania:any;
+  selectedConcepto:any;
   error: any = { isError: false, errorMessage: '' };
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico: string = "Ocurrio un error interno.";
@@ -76,7 +83,9 @@ export class NotaSalidaAlmacenComponent implements OnInit {
       fechaInicio: [, [Validators.required]],
       fechaFin: [, [Validators.required]],
       almacen: [''],
-      motivo: ['']
+      motivo: [''],
+      Campania: new FormControl('',[]),
+      Concepto:new FormControl('',[]),
     });
     this.notaSalidaForm.setValidators(this.comparisonValidator());
   }
@@ -114,6 +123,26 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         form.listMotivos = res.Result.Data;
       }
     });
+    this.cargaCampania();
+    this.cargaConceptos();
+
+    
+
+  }
+  async cargaCampania() {
+
+    var data = await this.maestroService.ConsultarCampanias("02").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
+    async cargaConceptos() {
+
+    var data = await this.maestroService.ConsultarConceptos("02").toPromise();
+    if (data.Result.Success) {
+      this.listaConcepto = data.Result.Data;
+    }
 
   }
 
