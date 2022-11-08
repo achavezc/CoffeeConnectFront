@@ -122,8 +122,12 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   }
 
   cargarDataFormulario(data: any) {
-    if (data) {
+    if (data)
+     {
+      debugger
       this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
+      this.notaSalidaFormEdit.controls["campania"].setValue(data.CodigoCampania);
+      this.notaSalidaFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
       this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
       this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
       this.notaSalidaFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
@@ -314,6 +318,8 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         Totaltara,
         Totalcantidad,
         "01",
+        this.notaSalidaFormEdit.controls['campania'].value,
+        this.notaSalidaFormEdit.controls["concepto"].value,
         this.vSessionUser.Result.Data.NombreUsuario,
         list
 

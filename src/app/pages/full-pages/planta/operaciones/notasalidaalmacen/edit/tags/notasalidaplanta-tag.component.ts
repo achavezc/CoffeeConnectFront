@@ -99,7 +99,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   cargarDatos(detalle: any) {
     detalle.forEach(x => {
       let object: any = {};
-      object.NotaSalidaAlmacenPlantaDetalleId = x.NotaSalidaAlmacenPlantaDetalleId
+     /*  object.NotaSalidaAlmacenPlantaDetalleId = x.NotaSalidaAlmacenPlantaDetalleId
       object.NotaSalidaAlmacenPlantaId = x.NotaSalidaAlmacenPlantaId
       object.NotaIngresoAlmacenPlantaId = x.NotaIngresoAlmacenPlantaId
       object.EmpaqueId = x.EmpaqueId 
@@ -111,7 +111,26 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
       object.Cantidad = x.Cantidad
       object.PesoKilosBrutos = x.PesoKilosBrutos
       object.PesoKilosNetos = x.PesoKilosNetos
-      object.Tara = x.Tara
+      object.Tara = x.Tara */
+
+
+      object.NotaIngresoProductoTerminadoAlmacenPlantaId = x.NotaIngresoProductoTerminadoAlmacenPlantaId
+        object.LiquidacionProcesoPlantaId = x.LiquidacionProcesoPlantaId
+        object.NotaIngresoPlantaId = x.NotaIngresoPlantaId
+        object.Producto = x.Producto 
+        object.ProductoId = x.ProductoId       
+        object.SubProducto = x.SubProducto
+        object.SubProductoId = x.SubProductoId 
+        object.Empaque = x.Empaque
+        object.TipoEmpaque = x.TipoEmpaque
+        object.Cantidad = x.Cantidad
+        object.KilosNetos = x.KilosNetos
+        object.KilosBrutos= 0
+        object.Tara= 0
+        object.CantidadDisponible = x.CantidadDisponible
+        object.KilosNetosDisponibles = x.KilosNetosDisponibles 
+
+
 
       this.listaNotaIngreso.push(object);
     });

@@ -24,6 +24,9 @@ export class ReqNotaSalidaPlanta
         Tara: number,
         CantidadTotal: number,
         EstadoId: string,
+        CodigoCampania: string,
+        CodigoTipoConcepto: string,
+
         UsuarioNotaSalidaAlmacenPlanta: string,
         ListNotaSalidaAlmacenPlantaDetalle: NotaSalidaAlmacenPlantaDetalleDTO[],
         )
@@ -60,7 +63,9 @@ export class ReqNotaSalidaPlanta
             this.Tara = Tara,
             this.UsuarioNotaSalidaAlmacenPlanta = UsuarioNotaSalidaAlmacenPlanta,
             this.ListNotaSalidaAlmacenPlantaDetalle = ListNotaSalidaAlmacenPlantaDetalle,
-            this.CantidadTotal = CantidadTotal
+            this.CantidadTotal = CantidadTotal,
+            this.CodigoCampania = CodigoCampania,
+            this.CodigoTipoConcepto = CodigoTipoConcepto
 
 
     }
@@ -86,6 +91,8 @@ export class ReqNotaSalidaPlanta
     PesoKilosNetos: number;
     Tara: number;
     EstadoId: string;
+    CodigoCampania: string;
+    CodigoTipoConcepto: string;
     UsuarioNotaSalidaAlmacenPlanta: string;
     ListNotaSalidaAlmacenPlantaDetalle: NotaSalidaAlmacenPlantaDetalleDTO[];
     CantidadTotal: number;

@@ -81,7 +81,7 @@
                 <label for="validationTooltip12">Concepto</label>
                 <ng-select [items]="listaConcepto" formControlName="concepto" class="form-control" bindLabel="Label"
                   bindValue="Codigo" id="validationTooltip12" placeholder="Concepto"
-                  [ngClass]="{ 'is-invalid': submitted && fns.Concepto.invalid, 'is-valid': submitted && !fedit.Concepto.invalid }"
+                  [ngClass]="{ 'is-invalid': submitted && fns.concepto.invalid, 'is-valid': submitted && !fns.concepto.invalid }"
                   [(ngModel)]="selectedConcepto">
                 </ng-select>
                 <small class="form-text text-muted danger" *ngIf="fns.concepto.errors?.required">Seleccione Concepto</small>
