@@ -17,6 +17,7 @@ import { formatDate } from '@angular/common';
 import { SocioFincaService } from './../../../../../../services/socio-finca.service';
 import { PesadoCafePlantaComponent } from './pesadocafe/pesadocafeplanta.component';
 import {AuthService} from './../../../../../../services/auth.service';
+import { TransportistaService } from './../../../../../../services/transportista.service';
 
 @Component({
   selector: 'app-notaingreso-edit',
@@ -28,7 +29,9 @@ export class NotaIngresoEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
+  @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
   esEdit = false;
+  consultaTransportistas: FormGroup;
   submitted = false;
   submittedEdit = false;
   closeResult: string;
@@ -97,13 +100,16 @@ export class NotaIngresoEditComponent implements OnInit {
   flagOcultarPesado = false;
   flagOcultarExportable = false;
   rowsDetails = [];
-
+  login: ILogin;
   listaDetalleEmpaque: any[];
-  selectedDetalleEmpaque: any;
+  formControlEmpaque: FormGroup;
+  selectedDetalleEmpaque: any[] = [];
   listaDetalleTipoEmpaque: any[];
-  selectedDetalleTipoEmpaque: any;
+  formControlTipoEmpaque: FormGroup;
+  selectedDetalleTipoEmpaque: any[] = [];
   listaDetalleSubProducto: any[];
-  selectedDetalleSubProducto: any;
+  formControlSubProducto: FormGroup;
+  selectedDetalleSubProducto: any[] = [];
   listaMotivo: any[];
   selectedMotivoo: any
   CodigoSacao = "01";
@@ -111,6 +117,14 @@ export class NotaIngresoEditComponent implements OnInit {
   kilos = 7;
   tara = 0.2;
   taraYute = 0.7
+  submittedT = false;
+  errorTransportista: any = { isError: false, errorMessage: '' };
+  selectedT = [];
+  filtrosTransportista: any = {};
+  public rowsT = [];
+  private tempDataT = [];
+  public limitRefT = 10;
+  public ColumnMode = ColumnMode; 
   constructor(private modalService: NgbModal,
     private maestroService: MaestroService,
     private alertUtil: AlertUtil,
@@ -122,7 +136,8 @@ export class NotaIngresoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dateUtil: DateUtil,
     private socioFinca: SocioFincaService,
-    private authService : AuthService
+    private authService : AuthService,
+    private transportistaService: TransportistaService
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -134,6 +149,7 @@ export class NotaIngresoEditComponent implements OnInit {
   ngOnInit(): void {
     this.cargarForm();
     this.cargarcombos();
+    this.login = JSON.parse(localStorage.getItem("user"));
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.route.queryParams
       .subscribe(params => {
@@ -168,7 +184,15 @@ export class NotaIngresoEditComponent implements OnInit {
         campania:['',],
         concepto:['',],
         motivo:['',],
-        
+
+        transportista: new FormControl('', [Validators.required]),
+        ruc: new FormControl('', [Validators.required]),
+        placaVehiculo: new FormControl('', [Validators.required]),
+        chofer: new FormControl('', [Validators.required]),
+        numeroBrevete: new FormControl('', [Validators.required]),
+        marca: new FormControl('', [Validators.required]),
+        observacion: new FormControl('', []),
+
         pesado: this.fb.group({
           motivo: new FormControl('', [Validators.required]),
           empaque: new FormControl('', [Validators.required]),
@@ -194,7 +218,27 @@ export class NotaIngresoEditComponent implements OnInit {
       });
     this.desactivarControl("");
   }
+  seleccionarTransportista(e) {
+    this.notaIngredoFormEdit.controls.transportista.setValue(e[0].RazonSocial);
+    this.notaIngredoFormEdit.controls.ruc.setValue(e[0].Ruc);
+    this.notaIngredoFormEdit.controls.placaVehiculo.setValue(e[0].PlacaTractor);
+    this.notaIngredoFormEdit.controls.chofer.setValue(e[0].Conductor);
+    this.notaIngredoFormEdit.controls.numeroBrevete.setValue(e[0].Licencia);
+    this.notaIngredoFormEdit.controls.marca.setValue(e[0].MarcaTractor);
 
+    /*
+    this.tagNotadeSalida.get('propietario').setValue(e[0].RazonSocial);
+    this.tagNotadeSalida.get('domiciliado').setValue(e[0].Direccion);
+    this.tagNotadeSalida.get('ruc').setValue(e[0].Ruc);
+    this.tagNotadeSalida.get('conductor').setValue(e[0].Conductor);
+    this.tagNotadeSalida.get('brevete').setValue(e[0].Licencia);
+    this.tagNotadeSalida.get('codvehicular').setValue(e[0].ConfiguracionVehicular);
+    this.tagNotadeSalida.get('marca').setValue(e[0].MarcaTractor);
+    this.tagNotadeSalida.get('placa').setValue(e[0].PlacaTractor);
+    this.tagNotadeSalida.get('numconstanciamtc').setValue(e[0].NumeroConstanciaMTC);
+    */
+    this.modalService.dismissAll();
+  }
   openModal(customContent) {
     this.modalService.open(customContent, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
@@ -250,13 +294,43 @@ export class NotaIngresoEditComponent implements OnInit {
     this.cargaConceptos();
 
   }
-  async cargaCampania() {
+  async cargarEmpaque() {
+    var data = await this.maestroService.obtenerMaestros("Empaque").toPromise();
+    if (data.Result.Success) {
+      this.listaDetalleEmpaque = data.Result.Data;
+    }
+  }
 
+  formEmpaques(data: any) {
+    let groupsEmpaque = {}
+    data.Detalle.forEach(obj => {
+      groupsEmpaque[obj.NotaIngresoPlantaDetalleId + 'empaque'] = new FormControl('', []);
+
+    });
+   this.formControlEmpaque = new FormGroup(groupsEmpaque);
+  }
+  formTipoEmpaque(data: any) {
+    let groupsTipoEmpaque = {}
+    data.Detalle.forEach(obj => {
+      groupsTipoEmpaque[obj.NotaIngresoPlantaDetalleId + 'tipoempaque'] = new FormControl('', []);
+
+    });
+   this.formControlTipoEmpaque = new FormGroup(groupsTipoEmpaque);
+  }
+  formSubProducto(data: any) {
+    let groupsSubProducto = {}
+    data.Detalle.forEach(obj => {
+      groupsSubProducto[obj.NotaIngresoPlantaDetalleId + 'subproducto'] = new FormControl('', []);
+
+    });
+   this.formControlSubProducto= new FormGroup(groupsSubProducto);
+  }
+
+  async cargaCampania() {
     var data = await this.maestroService.ConsultarCampanias("01").toPromise();
     if (data.Result.Success) {
       this.listaCampania = data.Result.Data;
     }
-
   }
     async cargaConceptos() {
 
@@ -311,6 +385,14 @@ export class NotaIngresoEditComponent implements OnInit {
   DeleteRowDetail(index: any): void {
     this.rowsDetails.splice(index, 1);
     this.rowsDetails = [...this.rowsDetails];
+  }
+  filterUpdateT(event) {
+    const val = event.target.value.toLowerCase();
+    const temp = this.tempDataT.filter(function (d) {
+      return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    this.rowsT = temp;
+    this.tableTranspotistas.offset = 0;
   }
 
   UpdateValuesGridDetails(event: any, index: any, prop: any,  row: any): void {
@@ -536,12 +618,13 @@ export class NotaIngresoEditComponent implements OnInit {
         Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
         Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").value),
         Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeRendimiento").value),
-        this.notaIngredoFormEdit.get('pesado').get("ruc").value,
-        this.notaIngredoFormEdit.get('pesado').get("transportista").value,
-        this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").value,
-        this.notaIngredoFormEdit.get('pesado').get("chofer").value,
-        this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").value,
-        this.notaIngredoFormEdit.get('pesado').get("observacion").value,
+
+        this.notaIngredoFormEdit.get('pesado').get("ruc").value  ?  this.notaIngredoFormEdit.get('pesado').get("ruc").value : this.notaIngredoFormEdit.controls["ruc"].value ,
+        this.notaIngredoFormEdit.get('pesado').get("transportista").value ?  this.notaIngredoFormEdit.get('pesado').get("transportista").value : this.notaIngredoFormEdit.controls["transportista"].value,
+        this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").value ?  this.notaIngredoFormEdit.get('pesado').get("placaVehiculo").value : this.notaIngredoFormEdit.controls["placaVehiculo"].value,
+        this.notaIngredoFormEdit.get('pesado').get("chofer").value ?  this.notaIngredoFormEdit.get('pesado').get("chofer").value : this.notaIngredoFormEdit.controls["chofer"].value,
+        this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").value ?  this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").value : this.notaIngredoFormEdit.controls["numeroBrevete"].value,
+        this.notaIngredoFormEdit.get('pesado').get("observacion").value ?  this.notaIngredoFormEdit.get('pesado').get("observacion").value : this.notaIngredoFormEdit.controls["observacion"].value,
         "01",
         new Date(),
         this.vSessionUser.Result.Data.NombreUsuario,
@@ -580,6 +663,81 @@ export class NotaIngresoEditComponent implements OnInit {
       }
     //}
   }
+  openModalTransportista(modalTransportista) {
+    this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'lg' });
+    this.cargarTransportista();
+    //this.clear();
+  }
+  cargarTransportista() {
+    this.consultaTransportistas = new FormGroup(
+      {
+        rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
+        ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20)])
+      }
+    );
+    this.consultaTransportistas.setValidators(this.comparisonValidatorTransportista())
+  }
+  get fT() {
+    return this.consultaTransportistas.controls;
+  }
+  
+  public comparisonValidatorTransportista(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors => {
+      let rzsocial = group.controls['rzsocial'].value;
+      let ruc = group.controls['ruc'].value;
+      if (rzsocial == "" && ruc == "") {
+        this.errorTransportista = { isError: true, errorMessage: 'Por favor ingresar por lo menos un filtro.' };
+      }
+      else {
+        this.errorTransportista = { isError: false, errorMessage: '' };
+      }
+      return;
+    };
+  }
+  buscarTransportista() {
+
+    if (this.consultaTransportistas.invalid || this.errorTransportista.isError) {
+      this.submittedT = true;
+      return;
+    } else {
+      this.selectedT = [];
+      this.submittedT = false;
+      this.filtrosTransportista.RazonSocial = this.consultaTransportistas.controls['rzsocial'].value;
+      this.filtrosTransportista.Ruc = this.consultaTransportistas.controls['ruc'].value;
+      this.filtrosTransportista.EmpresaId = this.login.Result.Data.EmpresaId;
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'large',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+      this.transportistaService.Consultar(this.filtrosTransportista)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              this.tempDataT = res.Result.Data;
+              this.rowsT = [...this.tempDataT];
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorTransportista = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorTransportista = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            this.errorTransportista = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        },
+          err => {
+            this.spinner.hide();
+            console.error(err);
+            this.errorTransportista = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
+
+  };
 
   guardarService(request: any) {
     this.notaIngresoService.Registrar(request)
@@ -650,6 +808,9 @@ export class NotaIngresoEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;
             if (this.detalle != null) {
+              this.formEmpaques(res.Result.Data);
+              this.formTipoEmpaque(res.Result.Data);
+              this.formSubProducto(res.Result.Data);
               this.cargarDataFormulario(res.Result.Data);
             } else {
               this.spinner.hide();
@@ -672,6 +833,7 @@ export class NotaIngresoEditComponent implements OnInit {
   }
 
   async cargarDataFormulario(data: any) {
+    await this.cargarEmpaque();
     this.idPlantEntryNote = data.NotaIngresoPlantaId;
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.notaIngredoFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
@@ -680,6 +842,20 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
     this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
+
+
+    if(data.ProductoId == '02'){
+      //OCULTAR PESADO
+      this.flagOcultarPesado = false;
+      this.flagOcultarExportable = true;
+      this.notaIngredoFormEdit.get("pesado").reset();
+
+    }else{
+       //MOSTRAR PESADO
+       this.flagOcultarPesado = true;
+       this.flagOcultarExportable = false;
+       this.rowsDetails = [];
+    }
 
     this.notaIngredoFormEdit.controls["campania"].setValue(data.CodigoCampania);
     this.notaIngredoFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
@@ -711,6 +887,17 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
     this.notaIngredoFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
     this.notaIngredoFormEdit.get('pesado').get("marca").setValue(data.Marca);
+
+    this.notaIngredoFormEdit.controls["motivo"].setValue(data.MotivoIngresoId);
+
+    this.notaIngredoFormEdit.controls["transportista"].setValue(data.RazonEmpresaTransporte);
+    this.notaIngredoFormEdit.controls["ruc"].setValue(data.RucEmpresaTransporte);
+    this.notaIngredoFormEdit.controls["placaVehiculo"].setValue(data.PlacaTractorEmpresaTransporte);
+    this.notaIngredoFormEdit.controls["chofer"].setValue(data.ConductorEmpresaTransporte);
+    this.notaIngredoFormEdit.controls["numeroBrevete"].setValue(data.LicenciaConductorEmpresaTransporte);
+    this.notaIngredoFormEdit.controls["observacion"].setValue(data.ObservacionPesado);
+    this.notaIngredoFormEdit.controls["marca"].setValue(data.Marca);
+
     this.validacionPorcentajeRend(data.ProductoId,data.SubProductoId);
     this.estado = data.Estado
     this.numeroNotaIngreso = data.Numero;
@@ -719,6 +906,15 @@ export class NotaIngresoEditComponent implements OnInit {
     this.responsable = data.UsuarioPesado;
     this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaOrigenId };
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
+
+    data.Detalle.forEach(obj => {
+
+        this.selectedDetalleEmpaque[obj.NotaIngresoPlantaDetalleId] = obj.EmpaqueId;
+        this.selectedDetalleTipoEmpaque[obj.NotaIngresoPlantaDetalleId] = obj.TipoId;
+        this.selectedDetalleSubProducto[obj.NotaIngresoPlantaDetalleId] = obj.SubProductoId;
+    });
+    this.rowsDetails = [...data.Detalle]
+   
     this.spinner.hide();
   }
 
