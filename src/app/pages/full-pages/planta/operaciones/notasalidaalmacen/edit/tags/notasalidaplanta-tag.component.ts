@@ -23,6 +23,9 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   @Input() name;
   @Input() submittedEdit;
   @Input() selectAlmacen;
+
+  @Input() esRechazo;
+  
   errorMessage: any;
   listaAlmacen: any[];
   listaEstado: any[];
@@ -33,10 +36,12 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   listaSubProducto: any[];
   selectProducto: any;
   selectSubProducto: any;
+
   selectedTipoDocumento: any;
   listaTipoDocumento: any[];
   listaMotivoTranslado: any[];
   selectedMotivoSalida: any;
+  
   submitted = false;
   submittedT = false;
   closeResult: string;

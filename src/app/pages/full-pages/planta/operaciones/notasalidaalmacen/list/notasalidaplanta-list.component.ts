@@ -42,12 +42,14 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   listTransportistas: [] = [];
   listAlmacenes: [] = [];
   listMotivos: [] = [];
+  listaEstado: Observable<any[]>;
   listaCampania:Observable<any>[];
   listaConcepto:Observable<any>[];
   selectedDestinatario: any;
   selectedTransportista: any;
   selectedAlmacen: any;
   selectedMotivo: any;
+  selectedEstado: any;
   selectedCampania:any;
   selectedConcepto:any;
   error: any = { isError: false, errorMessage: '' };
@@ -84,6 +86,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
       fechaFin: [, [Validators.required]],
       almacen: [''],
       motivo: [''],
+      estado: new FormControl('', []),
       Campania: new FormControl('',[]),
       Concepto:new FormControl('',[]),
     });
@@ -121,6 +124,11 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     this.maestroUtil.obtenerMaestros("MotivoSalidaPlanta", function (res) {
       if (res.Result.Success) {
         form.listMotivos = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaEstado = res.Result.Data;
       }
     });
     this.cargaCampania();
@@ -196,7 +204,12 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         MotivoSalidaId: this.notaSalidaForm.value.motivo ?? '',
         FechaInicio: this.notaSalidaForm.value.fechaInicio,
         FechaFin: this.notaSalidaForm.value.fechaFin,
+        CodigoCampania: this.notaSalidaForm.value.Campania,
+        CodigoTipoConcepto: this.notaSalidaForm.value.Concepto,
+        EstadoId: this.notaSalidaForm.value.estado,
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+        
+    
       }
 
       this.spinner.show();
