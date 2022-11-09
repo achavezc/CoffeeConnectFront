@@ -41,6 +41,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   selectedCampania:any;
   selectedConcepto:any;
   popupModel;
+  esRechazo = false;
   vSessionUser: any;
   public rows = [];
   public ColumnMode = ColumnMode;
@@ -58,6 +59,8 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   responsable: "";
   empresa: any;
   readonly: boolean;
+
+  
 
 
   @ViewChild(DatatableComponent) tableEmpresa: DatatableComponent;
@@ -124,7 +127,9 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   cargarDataFormulario(data: any) {
     if (data)
      {
+      
       debugger
+
       this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
       this.notaSalidaFormEdit.controls["campania"].setValue(data.CodigoCampania);
       this.notaSalidaFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
@@ -162,6 +167,17 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
       //this.almacen = data.Almacen;
       this.responsable = data.UsuarioRegistro;
+
+      if(data.MotivoSalidaId=='03')
+      {
+        
+        this.child.tagNotadeSalida.controls["motivoSalida"].disable();
+        this.child.tagNotadeSalida.controls["numReferencia"].disable();
+
+        this.esRechazo = true;        
+      }
+
+
       this.spinner.hide();
     } else {
       this.alertUtil.alertOkCallback('ADVERTENCIA', 'No existe la nota de salida de planta.', () => {
@@ -188,7 +204,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         dirPartida: [this.vSessionUser.Result.Data.DireccionEmpresa, []],
         dirDestino: new FormControl('', []),
         tagcalidad: this.fb.group({
-          propietario: new FormControl('', [Validators.required]),
+          propietario: new FormControl('', []),
           domiciliado: new FormControl('', []),
           ruc: new FormControl('', []),
           conductor: new FormControl('', []),
@@ -295,6 +311,21 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         }
       }
       );*/
+
+      var EmpresaProveedoraAcreedoraId = this.selectedEmpresa[0].EmpresaProveedoraAcreedoraId;
+      var EmpresaTransporteId = this.selectedEmpresa[0].EmpresaTransporteId;
+      var TransporteId = this.selectedEmpresa[0].TransporteId;
+      var NumeroConstanciaMTC = this.selectedEmpresa[0].NumeroConstanciaMTC;
+      var MarcaTractorId = this.selectedEmpresa[0].MarcaTractorId;
+      var PlacaTractor = this.selectedEmpresa[0].PlacaTractor;
+      var MarcaCarretaId = this.selectedEmpresa[0].MarcaCarretaId;
+      var PlacaCarreta = this.selectedEmpresa[0].PlacaCarreta;
+      var Conductor = this.selectedEmpresa[0].Conductor;
+      var Licencia = this.selectedEmpresa[0].Licencia;
+      var campania = this.notaSalidaFormEdit.controls['campania'].value;
+      var concepto = this.notaSalidaFormEdit.controls["concepto"].value;
+
+
       let request = new ReqNotaSalidaPlanta(
         Number(this.id),
         Number(this.vSessionUser.Result.Data.EmpresaId),
@@ -302,24 +333,24 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         this.numero,
         this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").value,
         this.notaSalidaFormEdit.get('tagcalidad').get("numReferencia").value,
-        Number(this.selectedEmpresa[0].EmpresaProveedoraAcreedoraId),
-        Number(this.child.selectedT[0].EmpresaTransporteId),
-        Number(this.child.selectedT[0].TransporteId),
-        this.child.selectedT[0].NumeroConstanciaMTC,
-        this.child.selectedT[0].MarcaTractorId,
-        this.child.selectedT[0].PlacaTractor,
-        this.child.selectedT[0].MarcaCarretaId,
-        this.child.selectedT[0].PlacaCarreta,
-        this.child.selectedT[0].Conductor,
-        this.child.selectedT[0].Licencia,
+        EmpresaProveedoraAcreedoraId,
+        EmpresaTransporteId,
+        TransporteId,
+        NumeroConstanciaMTC,
+         MarcaTractorId,
+         PlacaTractor,
+        MarcaCarretaId,
+        PlacaCarreta,
+        Conductor,
+        Licencia,
         this.notaSalidaFormEdit.get('tagcalidad').get("observacion").value,
         TotalKilosBrutos,
         TotalKilosNetos,
         Totaltara,
         Totalcantidad,
         "01",
-        this.notaSalidaFormEdit.controls['campania'].value,
-        this.notaSalidaFormEdit.controls["concepto"].value,
+        campania,
+        concepto,
         this.vSessionUser.Result.Data.NombreUsuario,
         list
 
