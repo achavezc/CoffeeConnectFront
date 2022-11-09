@@ -188,7 +188,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         dirPartida: [this.vSessionUser.Result.Data.DireccionEmpresa, []],
         dirDestino: new FormControl('', []),
         tagcalidad: this.fb.group({
-          propietario: new FormControl('', [Validators.required]),
+          propietario: new FormControl('', []),
           domiciliado: new FormControl('', []),
           ruc: new FormControl('', []),
           conductor: new FormControl('', []),
