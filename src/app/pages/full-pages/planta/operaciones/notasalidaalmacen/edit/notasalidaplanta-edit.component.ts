@@ -36,6 +36,10 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selectedEmpresa = [];
+  listaCampania:any[];
+  listaConcepto:any[];
+  selectedCampania:any;
+  selectedConcepto:any;
   popupModel;
   vSessionUser: any;
   public rows = [];
@@ -43,14 +47,14 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   public limitRef = 10;
   filtrosEmpresaProv: any = {};
   listaClasificacion = [];
-  listaAlmacen: any[];
+  //listaAlmacen: any[];
   numero = "";
   esEdit = false;
   selectAlmacen: any;
   ReqNotaSalida;
   id: Number = 0;
   fechaRegistro: any;
-  almacen: "";
+  //almacen: "";
   responsable: "";
   empresa: any;
   readonly: boolean;
@@ -72,9 +76,9 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
 
   }
 
-  seleccionarTipoAlmacen() {
+  /* seleccionarTipoAlmacen() {
     this.child.selectAlmacenLote = this.selectAlmacen;
-  }
+  } */
 
   ngOnInit(): void {
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
@@ -99,7 +103,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             this.cargarDataFormulario(res.Result.Data);
             this.child.cargarDatos(res.Result.Data.Detalle);
-            this.selectAlmacen = res.Result.Data.AlmacenId;
+            //this.selectAlmacen = res.Result.Data.AlmacenId;
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
@@ -118,12 +122,16 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   }
 
   cargarDataFormulario(data: any) {
-    if (data) {
+    if (data)
+     {
+      debugger
       this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
+      this.notaSalidaFormEdit.controls["campania"].setValue(data.CodigoCampania);
+      this.notaSalidaFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
       this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
       this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);
       this.notaSalidaFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
-      this.notaSalidaFormEdit.controls["almacen"].setValue(data.AlmacenId);
+      //this.notaSalidaFormEdit.controls["almacen"].setValue(data.AlmacenId);
       this.notaSalidaFormEdit.get('tagcalidad').get("propietario").setValue(data.Transportista);
       this.notaSalidaFormEdit.get('tagcalidad').get("domiciliado").setValue(data.DireccionTransportista);
       this.notaSalidaFormEdit.get('tagcalidad').get("ruc").setValue(data.RucTransportista);
@@ -152,7 +160,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       this.child.selectedT.push(objectTransporte);
       this.numero = data.Numero;
       this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-      this.almacen = data.Almacen;
+      //this.almacen = data.Almacen;
       this.responsable = data.UsuarioRegistro;
       this.spinner.hide();
     } else {
@@ -171,13 +179,16 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     this.notaSalidaFormEdit = this.fb.group(
       {
         numNotaSalida: new FormControl('', []),
-        almacen: new FormControl('', [Validators.required]),
+        
+        //almacen: new FormControl('', [Validators.required]),
+        campania: new FormControl('', [Validators.required]),
+        concepto: new FormControl('', [Validators.required]),
         destinatario: ['', [Validators.required]],
         ruc: new FormControl('', []),
         dirPartida: [this.vSessionUser.Result.Data.DireccionEmpresa, []],
         dirDestino: new FormControl('', []),
         tagcalidad: this.fb.group({
-          propietario: new FormControl('', [Validators.required]),
+          propietario: new FormControl('', []),
           domiciliado: new FormControl('', []),
           ruc: new FormControl('', []),
           conductor: new FormControl('', []),
@@ -191,7 +202,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
           observacion: new FormControl('', [])
         }),
       });
-    this.maestroService.obtenerMaestros("AlmacenPlanta")
+    /* this.maestroService.obtenerMaestros("AlmacenPlanta")
       .subscribe(res => {
         if (res.Result.Success) {
           this.listaAlmacen = res.Result.Data;
@@ -200,7 +211,28 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         err => {
           console.error(err);
         }
-      );
+      ); */
+
+
+      this.cargaCampania();
+      this.cargaConceptos();
+  }
+
+  async cargaCampania() {
+
+    var data = await this.maestroService.ConsultarCampanias("02").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
+    async cargaConceptos() {
+
+    var data = await this.maestroService.ConsultarConceptos("01").toPromise();
+    if (data.Result.Success) {
+      this.listaConcepto = data.Result.Data;
+    }
+
   }
 
   openModal(modalEmpresa) {
@@ -216,9 +248,11 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     this.router.navigate(['/planta/operaciones/notasalidaplanta-list']);
   }
 
-  guardar() {
+  guardar() 
+  {
+    debugger
     const form = this;
-    if (this.child.listaNotaIngreso.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccionar Lote' }; }
+    if (this.child.listaNotaIngreso.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccione una Nota de Ingreso' }; }
     else {
       this.errorGeneral = { isError: false, errorMessage: '' };
     }
@@ -235,11 +269,11 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       let list: NotaSalidaAlmacenPlantaDetalleDTO[] = [];
       if (this.child.listaNotaIngreso.length != 0) {
         this.child.listaNotaIngreso.forEach(x => {
-          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoAlmacenPlantaId);
-          TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutosPesado;
-          TotalKilosNetos = TotalKilosNetos + x.KilosNetosPesado;
-          Totaltara = Totaltara + x.TaraPesado;
-          Totalcantidad = Totalcantidad + x.CantidadPesado;
+          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoProductoTerminadoAlmacenPlantaId,x.Cantidad,x.KilosNetos);
+          TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutos;
+          TotalKilosNetos = TotalKilosNetos + x.KilosNetos;
+          Totaltara = Totaltara + x.Tara;
+          Totalcantidad = Totalcantidad + x.Cantidad;
           list.push(object)
         });
       }
@@ -264,7 +298,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       let request = new ReqNotaSalidaPlanta(
         Number(this.id),
         Number(this.vSessionUser.Result.Data.EmpresaId),
-        this.notaSalidaFormEdit.get("almacen").value,
+        "",
         this.numero,
         this.notaSalidaFormEdit.get('tagcalidad').get("motivoSalida").value,
         this.notaSalidaFormEdit.get('tagcalidad').get("numReferencia").value,
@@ -282,8 +316,10 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         TotalKilosBrutos,
         TotalKilosNetos,
         Totaltara,
-        this.child.listaNotaIngreso[0].CantidadPesado,
+        Totalcantidad,
         "01",
+        this.notaSalidaFormEdit.controls['campania'].value,
+        this.notaSalidaFormEdit.controls["concepto"].value,
         this.vSessionUser.Result.Data.NombreUsuario,
         list
 

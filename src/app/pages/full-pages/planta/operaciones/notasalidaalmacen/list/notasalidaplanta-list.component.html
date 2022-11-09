@@ -81,6 +81,22 @@
                                         [(ngModel)]="selectedMotivo">
                                     </ng-select>
                                 </div>
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Campaña</label>
+                                    <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
+                                      [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
+                                      [(ngModel)]="selectedCampania">
+                                    </ng-select>
+                                  </div>
+                                  <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Concepto</label>
+                                    <ng-select [items]="listaConcepto" formControlName="Concepto" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Concepto"
+                                      [ngClass]="{ 'is-invalid': submitted && f.Concepto.invalid, 'is-valid': submitted && !f.Concepto.invalid }"
+                                      [(ngModel)]="selectedConcepto">
+                                    </ng-select>
+                                  </div>
                             </div>
 
                             <small class="form-text text-muted danger mb-1"
@@ -144,7 +160,11 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Almacén" prop="Almacen" width="100">
+                            <!-- <ngx-datatable-column name="Almacén" prop="Almacen" width="100">
+                            </ngx-datatable-column> -->
+                            <ngx-datatable-column name="Campaña" prop="CodigoCampania" width="100" >
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Concepto" prop="Concepto" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Destinatario" prop="Destinatario" width="150">
                             </ngx-datatable-column>

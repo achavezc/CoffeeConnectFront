@@ -33,24 +33,7 @@
                       style="font-weight: bold;">{{fechaRegistro}}</label>
                   </div>
                 </div>
-                <div class="form-row">
-
-                  <div class="col-md-6 form-group">
-                    <label class="card-forms" for="users-edit-email">ALMACEN</label>
-                  </div>
-
-                  <div class="col-md-6 form-group">
-                    <ng-select id="validationTooltip05" [items]="listaAlmacen" class="form-control"
-                      [(ngModel)]="selectAlmacen" formControlName="almacen" bindLabel="Label" bindValue="Codigo"
-                      placeholder="Seleccionar Almacen"
-                      [ngClass]="{ 'is-invalid': submittedEdit && fns.almacen.invalid, 'is-valid': submittedEdit && !fns.almacen.invalid }"
-                      (change)="seleccionarTipoAlmacen()">
-                    </ng-select>
-
-                    <small class="form-text text-muted danger" *ngIf="fns.almacen.errors?.required">Ingrese Tipo
-                      Almacén</small>
-                  </div>
-                </div>
+                
 
               </div>
 
@@ -66,6 +49,18 @@
 
                 <label for="basicInput">Ruc</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>
+                
+                <label for="validationTooltip12">Campaña</label>
+                <ng-select [items]="listaCampania" formControlName="campania" class="form-control" bindLabel="Label"
+                  bindValue="Codigo" id="validationTooltip12" placeholder="campania"
+                  [ngClass]="{ 'is-invalid': submitted && fns.campania.invalid, 'is-valid': submitted && !fns.campania.invalid }"
+                  [(ngModel)]="selectedCampania">
+                </ng-select>
+                <small class="form-text text-muted danger" *ngIf="fns.campania.errors?.required">Seleccione Campaña</small>
+
+
+                
+
 
               </div>
               <div class="col-12 col-md-2" style="padding-left: 0cm;">
@@ -82,6 +77,16 @@
                 <input type="text" class="form-control" id="basicInput" formControlName="dirPartida" disabled>
                 <label for="basicInput">Direccion de Destino</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="dirDestino" disabled>
+
+                <label for="validationTooltip12">Concepto</label>
+                <ng-select [items]="listaConcepto" formControlName="concepto" class="form-control" bindLabel="Label"
+                  bindValue="Codigo" id="validationTooltip12" placeholder="Concepto"
+                  [ngClass]="{ 'is-invalid': submitted && fns.concepto.invalid, 'is-valid': submitted && !fns.concepto.invalid }"
+                  [(ngModel)]="selectedConcepto">
+                </ng-select>
+                <small class="form-text text-muted danger" *ngIf="fns.concepto.errors?.required">Seleccione Concepto</small>
+
+
               </div>
             </div>
           </div>
