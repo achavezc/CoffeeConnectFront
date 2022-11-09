@@ -30,6 +30,8 @@ import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaing
 import{ControlCalidadEditComponent}from "./operaciones/controlcalidad/edit/controlcalidad-edit.component";
 import { NotaIngresoAlmacenListComponent } from "./operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component";
 import { NotaIngresoAlmacenEditComponent } from './operaciones/notaingresoalmacen/edit/notaingresoalmacen-edit.component';
+import{NotaIngresoProductoTerminadoListComponent}from './operaciones/NotaIngresoProductoTerninadoAlmacen/list/notaingresoproducto-list.component';
+import{NotaIngresoProductoTerminadoEditComponent}from './operaciones/NotaIngresoProductoTerninadoAlmacen/edit/notaingresoproducto-edit.component';
 import { PesadoCafePlantaComponent } from "./operaciones/notaingreso/edit/pesadocafe/pesadocafeplanta.component";
 import { PesadoCafeCalidadPlantaComponent } from "./operaciones/controlcalidad/edit/pesadocafe/pesadocafecalidadplanta.component";
 import { ModalModule } from '../modals/modal.module';
@@ -76,6 +78,8 @@ import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproces
     ControlCalidadEditComponent,
     NotaIngresoAlmacenListComponent,
     NotaIngresoAlmacenEditComponent,
+    NotaIngresoProductoTerminadoListComponent,
+    NotaIngresoProductoTerminadoEditComponent,
     PesadoCafePlantaComponent,
     PesadoCafeCalidadPlantaComponent,
 

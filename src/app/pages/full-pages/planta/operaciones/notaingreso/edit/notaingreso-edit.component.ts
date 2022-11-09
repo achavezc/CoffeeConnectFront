@@ -94,7 +94,23 @@ export class NotaIngresoEditComponent implements OnInit {
   @ViewChild(DatatableComponent) tableProveedor: DatatableComponent;
   idPlantEntryNote = 0;
   readonly: boolean;
+  flagOcultarPesado = false;
+  flagOcultarExportable = false;
+  rowsDetails = [];
 
+  listaDetalleEmpaque: any[];
+  selectedDetalleEmpaque: any;
+  listaDetalleTipoEmpaque: any[];
+  selectedDetalleTipoEmpaque: any;
+  listaDetalleSubProducto: any[];
+  selectedDetalleSubProducto: any;
+  listaMotivo: any[];
+  selectedMotivoo: any
+  CodigoSacao = "01";
+  CodigoTipoYute = "01";
+  kilos = 7;
+  tara = 0.2;
+  taraYute = 0.7
   constructor(private modalService: NgbModal,
     private maestroService: MaestroService,
     private alertUtil: AlertUtil,
@@ -151,6 +167,7 @@ export class NotaIngresoEditComponent implements OnInit {
         certificadora: ['', ],
         campania:['',],
         concepto:['',],
+        motivo:['',],
         
         pesado: this.fb.group({
           motivo: new FormControl('', [Validators.required]),
@@ -206,6 +223,29 @@ export class NotaIngresoEditComponent implements OnInit {
         form.listaCertificadora = res.Result.Data;
       }
     });
+
+    this.maestroUtil.obtenerMaestros("Empaque", function (res) {
+      if (res.Result.Success) {
+        form.listaDetalleEmpaque = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("TipoEmpaque", function (res) {
+      if (res.Result.Success) {
+        form.listaDetalleTipoEmpaque = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaDetalleSubProducto = res.Result.Data;
+      }
+    });
+
+    this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
+      if (res.Result.Success) {
+        form.listaMotivo = res.Result.Data;
+      }
+    });
+    
     this.cargaCampania();
     this.cargaConceptos();
 
@@ -234,7 +274,89 @@ export class NotaIngresoEditComponent implements OnInit {
     this.validacionPorcentajeRend(filterProducto, subproducto);
     this.cargarSubProducto(filterProducto);
     this.desactivarControl(filterProducto);
+    if(filterProducto == '02'){
+      //OCULTAR PESADO
+      this.flagOcultarPesado = false;
+      this.flagOcultarExportable = true;
+      this.notaIngredoFormEdit.get("pesado").reset();
+/*
+      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
+      this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
+      this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
+      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");*/
+
+    }else{
+       //MOSTRAR PESADO
+       this.flagOcultarPesado = true;
+       this.flagOcultarExportable = false;
+       this.rowsDetails = [];
+    }
+
+
   }
+  async addRowDetail() {
+    
+    this.rowsDetails = [...this.rowsDetails, {
+      NotaIngresoPlantaDetalleId: 0,
+      NotaIngresoPlantaId: 0,
+      EmpaqueId: 0,
+      TipoId: 0,
+      SubProductoId: 0,
+      KilosBrutos: 0,
+      KilosNetos: 0,
+      Tara: 0
+    }];
+
+  }
+  DeleteRowDetail(index: any): void {
+    this.rowsDetails.splice(index, 1);
+    this.rowsDetails = [...this.rowsDetails];
+  }
+
+  UpdateValuesGridDetails(event: any, index: any, prop: any,  row: any): void {
+    var x = row;
+    if (prop === 'Cantidad'){
+      this.rowsDetails[index].Cantidad = parseFloat(event.target.value);
+      this.calcularTara( this.rowsDetails[index].Cantidad, this.rowsDetails[index].EmpaqueId, this.rowsDetails[index].TipoId, this.rowsDetails[index].KilosBrutos,index );
+    }
+    else if (prop == 'EmpaqueId'){
+      this.rowsDetails[index].EmpaqueId = event.Codigo;
+      this.calcularTara( this.rowsDetails[index].Cantidad, this.rowsDetails[index].EmpaqueId, this.rowsDetails[index].TipoId, this.rowsDetails[index].KilosBrutos,index );
+    }
+    else if (prop == 'TipoId'){
+      this.rowsDetails[index].TipoId = event.Codigo;
+      this.calcularTara( this.rowsDetails[index].Cantidad, this.rowsDetails[index].EmpaqueId, this.rowsDetails[index].TipoId, this.rowsDetails[index].KilosBrutos,index );
+    }else if (prop == 'SubProductoId'){
+      this.rowsDetails[index].SubProductoId = event.Codigo;
+    }
+    else if (prop == 'KilosBrutos'){
+      this.rowsDetails[index].KilosBrutos = parseFloat(event.target.value);
+      this.calcularTara( this.rowsDetails[index].Cantidad, this.rowsDetails[index].EmpaqueId, this.rowsDetails[index].TipoId, this.rowsDetails[index].KilosBrutos,index );
+    }
+  }
+  calcularTara(cantidad, empaque, tipo,kilosBrutos,index) {
+  
+    var valor = 0;
+    if (empaque == this.CodigoSacao && tipo == this.CodigoTipoYute) {
+      var valor = cantidad * this.taraYute;
+    } else if (empaque == this.CodigoSacao && tipo != this.CodigoTipoYute) {
+      var valor = cantidad * this.tara;
+    }
+
+
+    var tara = Math.round((valor + Number.EPSILON) * 100) / 100
+    //this.pesadoFormGroup.controls['tara'].setValue(tara);
+    this.rowsDetails[index].Tara = tara
+    this.calcularKilosNetos(tara,kilosBrutos,index);
+  }
+  calcularKilosNetos(tara, kilosBrutos,index){
+ 
+    var valor = kilosBrutos - tara;
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.rowsDetails[index].KilosNetos = valorRounded
+    //this.pesadoFormGroup.controls['kilosNetos'].setValue(valorRounded);
+  }
+
 
   imprimir(): void {
     let link = document.createElement('a');
@@ -376,10 +498,12 @@ export class NotaIngresoEditComponent implements OnInit {
   guardar() {
 
     const form = this;
+    /*
     if (this.notaIngredoFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
+      */
       if (this.notaIngredoFormEdit.get('pesado').get("calidad").value == null || this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0) {
         this.notaIngredoFormEdit.get('pesado').get("calidad").setValue("");
       }
@@ -399,7 +523,7 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.controls["subproducto"].value,
         this.notaIngredoFormEdit.controls["certificacion"].value ? this.notaIngredoFormEdit.controls["certificacion"].value.join('|') : '',
         this.notaIngredoFormEdit.controls["certificadora"].value ? this.notaIngredoFormEdit.controls["certificadora"].value : '',
-        this.notaIngredoFormEdit.get('pesado').get("motivo").value,
+        this.notaIngredoFormEdit.get('pesado').get("motivo").value ?  this.notaIngredoFormEdit.get('pesado').get("motivo").value : this.notaIngredoFormEdit.controls["motivo"].value,
         this.notaIngredoFormEdit.get('pesado').get("empaque").value,
         Number(this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").value),
         Number(this.notaIngredoFormEdit.get('pesado').get("kilosNetos").value),
@@ -426,8 +550,8 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.get('pesado').get("marca").value,
         //////
         this.notaIngredoFormEdit.controls["campania"].value,
-        this.notaIngredoFormEdit.controls["concepto"].value
-
+        this.notaIngredoFormEdit.controls["concepto"].value,
+        this.rowsDetails
         ////
       );
       this.spinner.show(undefined,
@@ -454,7 +578,7 @@ export class NotaIngresoEditComponent implements OnInit {
         });
        
       }
-    }
+    //}
   }
 
   guardarService(request: any) {

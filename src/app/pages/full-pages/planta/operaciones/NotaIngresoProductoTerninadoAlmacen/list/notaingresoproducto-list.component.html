@@ -1,0 +1,308 @@
+<div class="row" *ngIf="!popUp">
+    <div class="col-12">
+      <div class="content-header">Bandeja de Nota de Ingreso Producto Terminado a Almacen</div>
+    </div>
+  </div>
+  
+  <section id="tooltip-validation">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <form class="needs-validation" [formGroup]="notaIngresoProductoAlmacenForm">
+  
+                <div class="form-row">
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip04">Nro de Ingreso Almacen</label>
+                    <input type="text" minlength="1" maxlength="20" formControlName="numeroIngresoAlmacen"
+                      class="form-control" id="validationTooltip04" placeholder="Nro Ingreso Almacen"
+                      [ngClass]="{ 'is-invalid': submitted && f.numeroIngresoAlmacen.invalid, 'is-valid': submitted &&  !f.numeroIngresoAlmacen.invalid }">
+                 
+                  </div>
+                  <!--<div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip04">Nro Control Calidad</label>
+                    <input type="text" minlength="1" maxlength="20" formControlName="numeroControlCalidad"
+                      class="form-control" id="validationTooltip04" placeholder="Nro Control Calidad"
+                      [ngClass]="{ 'is-invalid': submitted && f.numeroControlCalidad.invalid, 'is-valid': submitted &&  !f.numeroControlCalidad.invalid }">
+                  </div>-->
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip04">Nro Nota de Ingreso</label>
+                    <input type="text" minlength="1" maxlength="20" formControlName="numeroNotaIngreso"
+                      class="form-control" id="validationTooltip04" placeholder="Nro Nota de Ingreso"
+                      [ngClass]="{ 'is-invalid': submitted && f.numeroNotaIngreso.invalid, 'is-valid': submitted &&  !f.numeroNotaIngreso.invalid }">
+                  </div>
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip04">Nro Guia Remision</label>
+                    <input type="text" minlength="1" maxlength="20" formControlName="numeroGuiRemision"
+                      class="form-control" id="validationTooltip04" placeholder="Nro Guia Remision"
+                      [ngClass]="{ 'is-invalid': submitted && f.numeroGuiRemision.invalid, 'is-valid': submitted &&  !f.numeroGuiRemision.invalid }">
+                  </div>
+
+                </div>
+                <div class="form-row">
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip09">Almacen</label>
+                    <ng-select [items]="listaAlmacen" formControlName="almacen" class="form-control" bindLabel="Label"
+                      bindValue="Codigo" id="validationTooltip09" placeholder="Almacen"
+                      [ngClass]="{ 'is-invalid': submitted && f.almacen.invalid, 'is-valid': submitted && !f.almacen.invalid }"
+                      [(ngModel)]="selectedAlmacen">
+                    </ng-select>
+                  </div>
+  
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip08">Ruc</label>
+                    <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
+                      id="validationTooltip08" placeholder="Ruc"
+                      [ngClass]="{ 'is-invalid': submitted && f.ruc.invalid, 'is-valid': submitted && !f.ruc.invalid }">
+                    <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.minlength">Ingrese 8 a 20
+                      letras</small>
+                    <small class="form-text text-muted danger" *ngIf="f.ruc.errors?.maxlength">Ingrese 8 a 20
+                      letras</small>
+                  </div>
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip04">Fecha Inicio</label>
+                    <input type="date" class="form-control" formControlName="fechaInicio" id="validationTooltip07"
+                      name="fechaInicio" placeholder="date" date
+                      [ngClass]="{ 'is-invalid': submitted && f.fechaInicio.invalid, 'is-valid': submitted && !f.fechaInicio.invalid }"
+                      (blur)="compareFechas()" />
+                    <small class="form-text text-muted danger"
+                      *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                  </div>
+  
+                </div>
+                <div class="form-row">
+                  
+          
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip10">Fecha Fin</label>
+                    <input type="date" class="form-control" formControlName="fechaFin" id="validationTooltip10"
+                      name="fechaFin" placeholder="date" date
+                      [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
+                      (blur)="compareTwoDates()" />
+                    <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                  </div>
+  
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip08">Razon Social</label>
+                    <input type="text" minlength="8" maxlength="20" formControlName="rzsocial" class="form-control"
+                      id="validationTooltip08" placeholder="Razon Social"
+                      [ngClass]="{ 'is-invalid': submitted && f.rzsocial.invalid, 'is-valid': submitted && !f.rzsocial.invalid }">
+                    <small class="form-text text-muted danger" *ngIf="f.rzsocial.errors?.minlength">Ingrese 8 a 20
+                      letras</small>
+                    <small class="form-text text-muted danger" *ngIf="f.rzsocial.errors?.maxlength">Ingrese 8 a 20
+                      letras</small>
+                  </div>
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip04">Fecha Guia Remision Inicio</label>
+                    <input type="date" class="form-control" formControlName="fechaGuiaRemisionInicio" id="validationTooltip07"
+                      name="fechaGuiaRemisionInicio" placeholder="date" date
+                      [ngClass]="{ 'is-invalid': submitted && f.fechaGuiaRemisionInicio.invalid, 'is-valid': submitted && !f.fechaGuiaRemisionInicio.invalid }"
+                      (blur)="compareFechas()" />
+                    <small class="form-text text-muted danger"
+                      *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                  </div>
+  
+                </div>
+                <div class="form-row">
+             
+              
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip10">Fecha Guia Remision Fin</label>
+                    <input type="date" class="form-control" formControlName="fechaGuiaRemisionFin" id="validationTooltip10"
+                      name="fechaGuiaRemisionFin" placeholder="date" date
+                      [ngClass]="{ 'is-invalid': submitted && f.fechaGuiaRemisionFin.invalid, 'is-valid': submitted && !f.fechaGuiaRemisionFin.invalid }"
+                      (blur)="compareTwoDates()" />
+                    <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                  </div>
+
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip05">Tipo Producto</label>
+                    <ng-select [items]="listaProducto" formControlName="producto" class="form-control" bindLabel="Label"
+                      bindValue="Codigo" id="validationTooltip05" placeholder="Tipo Producto"
+                      [ngClass]="{ 'is-invalid': submitted && f.producto.invalid, 'is-valid': submitted && !f.producto.invalid }"
+                      [(ngModel)]="selectedProducto" (change)="changeProduct($event)">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="validationTooltip12">Sub Producto</label>
+                    <ng-select [items]="listaSubProducto" formControlName="subproducto" class="form-control"
+                      bindLabel="Label" bindValue="Codigo" id="validationTooltip12" placeholder="Sub Producto"
+                      [ngClass]="{ 'is-invalid': submitted && f.subproducto.invalid, 'is-valid': submitted && !f.subproducto.invalid }"
+                      [(ngModel)]="selectedSubProducto">
+                    </ng-select>
+                  </div>
+          
+                </div>
+                <div class="form-row">
+                
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                      <label for="validationTooltip12">Motivo</label>
+                      <ng-select [items]="listaMotivo" formControlName="motivo" class="form-control"
+                        bindLabel="Label" bindValue="Codigo" id="validationTooltip12" placeholder="Motivo"
+                        [ngClass]="{ 'is-invalid': submitted && f.subproducto.invalid, 'is-valid': submitted && !f.subproducto.invalid }"
+                        [(ngModel)]="selectedMotivo">
+                      </ng-select>
+                    </div>
+                    <div class="col-md-4 mb-4 form-group mb-2">
+                      <label for="validationTooltip09">Estado</label>
+                      <ng-select [items]="listaEstadoProducto" formControlName="estado" class="form-control" bindLabel="Label"
+                        bindValue="Codigo" id="validationTooltip09" placeholder="estado"
+                        [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                        [(ngModel)]="selectedEstadoProducto">
+                      </ng-select>
+                    </div>
+              
+                </div>
+  
+                <!--<div class="form-row">
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="rendimiento" class="form-label">% Rendimiento</label>
+                    <div class="row">
+                      <div class="col">
+                        <input type="number" formControlName="rendimientoInicio" class="form-control"
+                          id="rendimientoInicio" name="rendimiento" placeholder="¨Porcentaje inicio"
+                          [ngClass]="{ 'is-invalid': submitted && f.rendimientoInicio.invalid, 'is-valid': submitted && !f.rendimientoInicio.invalid }">
+                      </div>
+                      <div class="col">
+                        <input type="number" formControlName="rendimientoFin" class="form-control" id="rendimientoFin"
+                          name="rendimiento" placeholder="Porcentaje fin"
+                          [ngClass]="{ 'is-invalid': submitted && f.rendimientoFin.invalid, 'is-valid': submitted && !f.rendimientoFin.invalid }">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-4 form-group mb-2">
+                    <label for="rendimiento" class="form-label">Puntaje Final</label>
+                    <div class="row">
+                      <div class="col">
+                        <input type="number" formControlName="puntajeFinalInicio" class="form-control"
+                          id="puntajeFinalInicio" name="puntajeFinalInicio" placeholder="Puntaje Inicio"
+                          [ngClass]="{ 'is-invalid': submitted && f.puntajeFinalInicio.invalid, 'is-valid': submitted && !f.puntajeFinalInicio.invalid }">
+                      </div>
+                      <div class="col">
+                        <input type="number" formControlName="puntajeFinalFin" class="form-control" id="puntajeFinalFin"
+                          name="puntajeFinalFin" placeholder="Puntaje Fin"
+                          [ngClass]="{ 'is-invalid': submitted && f.puntajeFinalFin.invalid, 'is-valid': submitted && !f.puntajeFinalFin.invalid }">
+                      </div>
+                    </div>
+                  </div>
+  
+  
+                </div>-->
+                <div class="form-row" style="margin-bottom: 1rem;">
+                  <small class="form-text text-muted danger"
+                    *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                </div>
+                <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
+                  (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
+                  *ngIf="popUp">Seleccionar</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" *ngIf="!popUp" (click)="nuevo()" [disabled]="readonly==false">Nuevo</button>
+                <button class="btn btn-primary mr-1 mb-1" type="button" *ngIf="!popUp"
+                  [disabled]="rows.length==0">Exportar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <div class="d-flex justify-content-between align-items-center">
+    <ngx-spinner></ngx-spinner>
+  </div>
+  
+  <!-- Filter Datatables -->
+  <section id="ngx-datatable-filter">
+    <div class="row">
+      <div class="col-12">
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <fieldset class="form-group">
+                <label>Show
+                  <select name="users-list-select"
+                    class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                    (click)="updateLimit($event)">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries</label>
+                <label for="ngx-filter-ref" class="float-right">Search:
+                  <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                    type="text" (keyup)="filterUpdate($event)" />
+                </label>
+              </fieldset>
+              <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
+                
+                <ngx-datatable-column name="Nro Nota Ingreso Planta" prop="Numero" width="150" *ngIf="!popUp">
+                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                    <div class="d-flex align-items-center">
+                      <div class="cell-line-height">
+                        <a class="line-height-1 mb-0" routerLink="/planta/operaciones/notaingresoproducto-edit"
+                          [queryParams]="{ id: row.NotaIngresoProductoTerminadoAlmacenPlantaId, status: row.EstadoId}">{{ name }}</a>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Numero" prop="NumeroNotaIngresoPlanta" width="120">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Nro Guia Remisión" prop="NumeroGuiaRemision" width="140">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Fecha Guia Remision" prop="FechaGuiaRemision" width="140">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Razon Social Empresa Origen" prop="RazonSocialEmpresaOrigen" width="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Producto" prop="Producto" width="140">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Sub Producto" prop="SubProducto" width="140">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Motivo Ingreso" prop="MotivoIngreso" width="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Cantidad" prop="Cantidad" width="100">
+                </ngx-datatable-column> 
+                <ngx-datatable-column name="KGN" prop="KGN" width="140">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos"idth="100">
+                </ngx-datatable-column> 
+                <ngx-datatable-column name="Kilos Netos 46" prop="KilosNetos46"idth="100">
+                </ngx-datatable-column> 
+                <ngx-datatable-column name="Cantidad Salida Almacen" prop="CantidadSalidaAlmacen"idth="100">
+                </ngx-datatable-column> 
+                <ngx-datatable-column name="Kilos Netos Salida Almacen" prop="KilosNetosSalidaAlmacen"idth="100">
+                </ngx-datatable-column> 
+                <ngx-datatable-column name="Cantidad Disponible" prop="CantidadDisponible"idth="100">
+                </ngx-datatable-column> 
+                <ngx-datatable-column name="Kilos Netos Disponibles" prop="KilosNetosDisponibles"idth="100">
+                </ngx-datatable-column> 
+                <ngx-datatable-column name="Almacen" prop="Almacen" width="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Estado" prop="Estado" width="150">
+                  <ng-template let-status="value" ngx-datatable-cell-template>
+                    <div class="badge" [ngClass]="{
+                            'bg-light-success': status == 'Anulado',
+                            'bg-light-danger': status == 'Consumido',
+                            'bg-light-warning': status == 'Registrado'
+                          }">
+                      {{ status }}
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>           
+              </ngx-datatable>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Filter Datatables -->
