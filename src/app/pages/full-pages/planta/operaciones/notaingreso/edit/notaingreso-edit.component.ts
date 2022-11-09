@@ -812,12 +812,13 @@ export class NotaIngresoEditComponent implements OnInit {
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.detalle = res.Result.Data;
+            this.detalle = res.Result.Data.Detalle;
+            this.cargarDataFormulario(res.Result.Data);
             if (this.detalle != null) {
               this.formEmpaques(res.Result.Data);
               this.formTipoEmpaque(res.Result.Data);
               this.formSubProducto(res.Result.Data);
-              this.cargarDataFormulario(res.Result.Data);
+              
             } else {
               this.spinner.hide();
             }
