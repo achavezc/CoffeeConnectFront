@@ -98,6 +98,17 @@
                                     </ng-select>
                                   </div>
                             </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Estado</label>
+                                    <ng-select [items]="listaEstado" formControlName="estado" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Estado"
+                                      [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
+                                      [(ngModel)]="selectedEstado">
+                                    </ng-select>
+                                  </div>
+                            </div>
+                   
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
