@@ -453,16 +453,16 @@ export class NotaIngresoEditComponent implements OnInit {
   }
   desactivarControl(codigo) {
     if (codigo != this.productoOroVerde) {
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
+      //this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
       this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
+      //this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
       this.notaIngredoFormEdit.get("pesado").get("calidad").disable();
       this.notaIngredoFormEdit.get("pesado").get("grado").disable();
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").disable();
     } else {
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").enable();
+      //this.notaIngredoFormEdit.get("pesado").get("pesoSaco").enable();
       this.notaIngredoFormEdit.get("pesado").get("calidad").enable();
       this.notaIngredoFormEdit.get("pesado").get("grado").enable();
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").enable();
@@ -581,6 +581,7 @@ export class NotaIngresoEditComponent implements OnInit {
 
   guardar() {
 
+    debugger
     const form = this;
     /*
     if (this.notaIngredoFormEdit.invalid) {
@@ -594,6 +595,8 @@ export class NotaIngresoEditComponent implements OnInit {
       if (this.notaIngredoFormEdit.get('pesado').get("grado").value == null || this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0) {
         this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
       }
+
+      
 
       let request = new ReqRegistrarPesadoNotaIngreso(
         Number(this.id),
@@ -615,7 +618,8 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.get('pesado').get("calidad").value,
         this.notaIngredoFormEdit.get('pesado').get("grado").value,
         Number(this.notaIngredoFormEdit.get('pesado').get("cantidadDefectos").value),
-        Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
+        //Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
+        0,
         this.notaIngredoFormEdit.get('pesado').get("tipo").value,
         Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
         Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").value),
@@ -874,7 +878,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
     this.notaIngredoFormEdit.get('pesado').get("cantidad").setValue(data.Cantidad);
     this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").setValue(data.KilosBrutos);
-    this.notaIngredoFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
+    //this.notaIngredoFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
     this.notaIngredoFormEdit.get('pesado').get("calidad").setValue(data.CalidadId);
     this.notaIngredoFormEdit.get('pesado').get("tara").setValue(data.Tara);
     this.notaIngredoFormEdit.get('pesado').get("kilosNetos").setValue(data.KilosNetos);
