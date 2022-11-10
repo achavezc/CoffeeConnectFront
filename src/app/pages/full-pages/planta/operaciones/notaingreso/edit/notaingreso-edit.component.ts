@@ -172,19 +172,19 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit = this.fb.group(
       {
 
-        guiaremision: ['', Validators.required],
-        fecharemision: ['', Validators.required],
+        guiaremision: ['',],
+        fecharemision: ['', ],
         tipoProduccion: ['', Validators.required],
         codigoOrganizacion: ['',],
         nombreOrganizacion: ['',],
         producto: ['', Validators.required],
         direccion: ['',],
-        rucOrganizacion: ['',],
+        rucOrganizacion: ['',Validators.required],
         subproducto: ['', Validators.required],
         certificacion: ['', ],
         certificadora: ['', ],
-        campania:['',],
-        concepto:['',],
+        campania:['',[Validators.required]],
+        concepto:['',[Validators.required]],
         motivo:['',],
 
         transportista: new FormControl('', [Validators.required]),
@@ -812,12 +812,13 @@ export class NotaIngresoEditComponent implements OnInit {
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.detalle = res.Result.Data;
+            this.detalle = res.Result.Data.Detalle;
+            this.cargarDataFormulario(res.Result.Data);
             if (this.detalle != null) {
               this.formEmpaques(res.Result.Data);
               this.formTipoEmpaque(res.Result.Data);
               this.formSubProducto(res.Result.Data);
-              this.cargarDataFormulario(res.Result.Data);
+              
             } else {
               this.spinner.hide();
             }
