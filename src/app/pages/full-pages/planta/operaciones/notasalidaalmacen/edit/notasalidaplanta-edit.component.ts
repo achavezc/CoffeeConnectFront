@@ -244,7 +244,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
   }
     async cargaConceptos() {
 
-    var data = await this.maestroService.ConsultarConceptos("01").toPromise();
+    var data = await this.maestroService.ConsultarConceptos("02").toPromise();
     if (data.Result.Success) {
       this.listaConcepto = data.Result.Data;
     }
