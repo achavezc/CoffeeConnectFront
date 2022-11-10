@@ -25,7 +25,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   @Input() selectAlmacen;
 
   @Input() esRechazo;
-  
+
   errorMessage: any;
   listaAlmacen: any[];
   listaEstado: any[];
@@ -436,6 +436,16 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   agregarNotaIngreso(e) {
 
     var listFilter=[];
+
+    debugger
+    
+    if(e.AlmacenId =='' )
+    {
+      this.alertUtil.alertWarning("Oops...!","La Nota de Ingreso N° " + listFilter[0].Numero + "no tiene un almacén asignado.");
+    }
+    else
+    {
+
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoProductoTerminadoAlmacenPlantaId == e[0].NotaIngresoProductoTerminadoAlmacenPlantaId);
       if (listFilter.length == 0)
       {
@@ -465,8 +475,9 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
       }
       else 
       {
-        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].Numero + ".");
+        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregada la Nota de Ingreso N° " + listFilter[0].Numero + ".");
       }
+    }
   }
 
 }
