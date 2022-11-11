@@ -52,7 +52,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   selected = [];
-  selectedT = [];
+  selectedTransportista = [];
   selectLoteDetalle = [];
   popupModel;
   login: ILogin;
@@ -130,11 +130,11 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
         object.TipoEmpaque = x.TipoEmpaque
         object.Cantidad = x.Cantidad
         object.KilosNetos = x.KilosNetos
-        object.KilosBrutos= 0
-        object.Tara= 0
+        object.KilosBrutos= x.KilosBrutos
+        object.Tara= x.Tara
         object.CantidadDisponible = x.CantidadDisponible
         object.KilosNetosDisponibles = x.KilosNetosDisponibles 
-
+        object.AlmacenId = x.AlmacenId
 
 
       this.listaNotaIngreso.push(object);
@@ -333,16 +333,16 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   }
 
   seleccionarTransportista($event) {
-    this.selectedT = $event;
-    this.tagNotadeSalida.get('propietario').setValue(this.selectedT[0].RazonSocial);
-    this.tagNotadeSalida.get('domiciliado').setValue(this.selectedT[0].Direccion);
-    this.tagNotadeSalida.get('ruc').setValue(this.selectedT[0].Ruc);
-    this.tagNotadeSalida.get('conductor').setValue(this.selectedT[0].Conductor);
-    this.tagNotadeSalida.get('brevete').setValue(this.selectedT[0].Licencia);
-    this.tagNotadeSalida.get('codvehicular').setValue(this.selectedT[0].ConfiguracionVehicular);
-    this.tagNotadeSalida.get('marca').setValue(this.selectedT[0].MarcaTractor);
-    this.tagNotadeSalida.get('placa').setValue(this.selectedT[0].PlacaTractor);
-    this.tagNotadeSalida.get('numconstanciamtc').setValue(this.selectedT[0].NumeroConstanciaMTC);
+    this.selectedTransportista = $event;
+    this.tagNotadeSalida.get('propietario').setValue(this.selectedTransportista[0].RazonSocial);
+    this.tagNotadeSalida.get('domiciliado').setValue(this.selectedTransportista[0].Direccion);
+    this.tagNotadeSalida.get('ruc').setValue(this.selectedTransportista[0].Ruc);
+    this.tagNotadeSalida.get('conductor').setValue(this.selectedTransportista[0].Conductor);
+    this.tagNotadeSalida.get('brevete').setValue(this.selectedTransportista[0].Licencia);
+    this.tagNotadeSalida.get('codvehicular').setValue(this.selectedTransportista[0].ConfiguracionVehicular);
+    this.tagNotadeSalida.get('marca').setValue(this.selectedTransportista[0].MarcaTractor);
+    this.tagNotadeSalida.get('placa').setValue(this.selectedTransportista[0].PlacaTractor);
+    this.tagNotadeSalida.get('numconstanciamtc').setValue(this.selectedTransportista[0].NumeroConstanciaMTC);
     this.modalService.dismissAll();
   }
   
@@ -435,49 +435,50 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
 
   agregarNotaIngreso(e) {
 
-    var listFilter=[];
-
-    debugger
     
-    if(e.AlmacenId =='' )
-    {
-      this.alertUtil.alertWarning("Oops...!","La Nota de Ingreso N° " + listFilter[0].Numero + "no tiene un almacén asignado.");
-    }
-    else
-    {
-
+    var listFilter=[];        
+    
+   
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoProductoTerminadoAlmacenPlantaId == e[0].NotaIngresoProductoTerminadoAlmacenPlantaId);
       if (listFilter.length == 0)
       {
         
-        let object: any = {};
-        object.NotaIngresoProductoTerminadoAlmacenPlantaId = e[0].NotaIngresoProductoTerminadoAlmacenPlantaId
-        object.LiquidacionProcesoPlantaId = e[0].LiquidacionProcesoPlantaId
-        object.NotaIngresoPlantaId = e[0].NotaIngresoPlantaId
-        object.Producto = e[0].Producto 
-        object.ProductoId = e[0].ProductoId       
-        object.SubProducto = e[0].SubProducto
-        object.SubProductoId = e[0].SubProductoId 
-        object.Empaque = e[0].Empaque
-        object.TipoEmpaque = e[0].TipoEmpaque
-        object.Cantidad = e[0].CantidadDisponible
-        object.KilosNetos = e[0].KilosNetosDisponibles
-        object.KilosBrutos= 0
-        object.Tara= 0
-        object.CantidadDisponible = e[0].CantidadDisponible
-        object.KilosNetosDisponibles = e[0].KilosNetosDisponibles 
-        
-        
-        this.listaNotaIngreso.push(object);
-        this.tempDataLoteDetalle = this.listaNotaIngreso;
-        this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-        this.modalService.dismissAll();     
+        if(e[0].AlmacenId =='' )
+        {
+          this.alertUtil.alertWarning("Oops...!","La Nota de Ingreso seleccionada no tiene un almacén asignado.");
+          
+        }
+        else
+        {
+            let object: any = {};
+            object.NotaIngresoProductoTerminadoAlmacenPlantaId = e[0].NotaIngresoProductoTerminadoAlmacenPlantaId
+            object.LiquidacionProcesoPlantaId = e[0].LiquidacionProcesoPlantaId
+            object.NotaIngresoPlantaId = e[0].NotaIngresoPlantaId
+            object.Producto = e[0].Producto 
+            object.ProductoId = e[0].ProductoId       
+            object.SubProducto = e[0].SubProducto
+            object.SubProductoId = e[0].SubProductoId 
+            object.Empaque = e[0].Empaque
+            object.TipoEmpaque = e[0].TipoEmpaque
+            object.Cantidad = e[0].CantidadDisponible
+            object.KilosNetos = e[0].KilosNetosDisponibles
+            object.KilosBrutos= e[0].KilosBrutos
+            object.Tara= 0
+            object.CantidadDisponible = e[0].CantidadDisponible
+            object.KilosNetosDisponibles = e[0].KilosNetosDisponibles 
+            
+            
+            this.listaNotaIngreso.push(object);
+            this.tempDataLoteDetalle = this.listaNotaIngreso;
+            this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+            this.modalService.dismissAll();     
+        }
       }
       else 
       {
-        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregada la Nota de Ingreso N° " + listFilter[0].Numero + ".");
+        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregada la Nota de Ingreso seleccionada.");
       }
-    }
+    
   }
 
 }

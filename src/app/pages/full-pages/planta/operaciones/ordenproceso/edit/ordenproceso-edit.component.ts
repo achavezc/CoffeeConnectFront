@@ -210,7 +210,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
     this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
     this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
-    this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoTerminadoId);
+    this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoId);
     this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
     this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
     this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
@@ -400,7 +400,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.selectOrganizacion = event;
     if (this.selectOrganizacion[0])
      {
-      debugger
+      
       //this.notaIngredoFormEdit.controls['codigoOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
       this.ordenProcesoEditForm.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
       this.ordenProcesoEditForm.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
@@ -577,7 +577,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
       this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
       this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoId);
+      this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoTerminadoId);
       //this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
       //this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
       //this.ordenProcesoEditForm.controls.calidad.setValue(data.CalidadId);

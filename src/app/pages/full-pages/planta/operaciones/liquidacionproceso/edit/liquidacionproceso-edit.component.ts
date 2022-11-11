@@ -17,6 +17,7 @@ import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proc
 import { LiquidacionProcesoPlantaService } from '../../../../../../services/liquidacionproceso-planta.service';
 import {AuthService} from './../../../../../../services/auth.service';
 
+
 @Component({
   selector: 'app-liquidacionproceso-edit',
   templateUrl: './liquidacionproceso-edit.component.html',
@@ -55,10 +56,17 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   id: Number = 0;
   fechaRegistro: any;
   responsable: "";
+  TipoId = "";
+  EmpaqueId = "";
   listResultProceso = [];
   popUp = true;
   sumKilosNetos: any =0;
   readonly: boolean;
+  CodigoSaco = "01";
+  CodigoTipoYute = "01";
+  kilos = 7;
+  tara = 0.2;
+  taraYute = 0.7
 
   @ViewChild(DatatableComponent) tblResultProceso: DatatableComponent;
 
@@ -199,8 +207,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["envases"].setValue(data.EnvasesProductos);
     this.liquidacionProcesoFormEdit.controls["trabajos"].setValue(data.TrabajosRealizados);
     this.liquidacionProcesoFormEdit.controls["numDefectos"].setValue(data.NumeroDefectos);
-
-    
+    this.EmpaqueId = data.EmpaqueId;
+    this.TipoId = data.TipoId;
+    this.liquidacionProcesoFormEdit.controls["envases"].disable() 
 
     this.numero = data.Numero;
 
@@ -309,19 +318,43 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.router.navigate(['/planta/operaciones/liquidacionproceso-list']);
   }
 
+  
+
   guardar() {
     if (this.liquidacionProcesoFormEdit.invalid || this.errorGeneral.isError) {
       this.submittedEdit = true;
       return;
     } else {
 
+      debugger
       let liquidacionProcesoPlantaResultado: LiquidacionProcesoPlantaResultado[] = [];
       this.rowsResultProceso.forEach(x => {
+
+        var cantidad = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
+        var empaque = this.EmpaqueId;
+        var tipo = this.TipoId;
+        var valor = 0;
+        if (empaque == this.CodigoSaco && tipo == this.CodigoTipoYute) {
+          var valor = cantidad * this.taraYute;
+        } else if (empaque == this.CodigoSaco && tipo != this.CodigoTipoYute) {
+          var valor = cantidad * this.tara;
+        }
+    
+    
+        var tara = Math.round((valor + Number.EPSILON) * 100) / 100
+        
+        var kilosNetos = Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value) ;
+        
+        var kilosBrutos = Math.round((kilosNetos + tara + Number.EPSILON) * 100) / 100
+
+
+
         let objectResultProceso = new LiquidacionProcesoPlantaResultado(
           x.Codigo,
-          Number(this.formGroupSacos.get(x.Codigo + '%sacos').value),
+          cantidad,
           Number(this.formGroupKg.get(x.Codigo + '%Kg').value),
-          Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value) ,
+          kilosNetos,
+          kilosBrutos
         );
         liquidacionProcesoPlantaResultado.push(objectResultProceso);
       }
@@ -454,7 +487,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(e[0].TipoCertificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
-   
+    this.liquidacionProcesoFormEdit.controls["envases"].setValue(e[0].Empaque + ' ' + e[0].Tipo);
+    this.liquidacionProcesoFormEdit.controls["envases"].disable()
+    this.EmpaqueId = e[0].EmpaqueId;
+    this.TipoId = e[0].TipoId;
 
     if(e[0].FechaInicioProceso!= "")
     {

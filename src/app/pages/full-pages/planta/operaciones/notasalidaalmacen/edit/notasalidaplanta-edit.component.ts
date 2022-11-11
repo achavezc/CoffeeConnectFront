@@ -128,7 +128,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
     if (data)
      {
       
-      debugger
+      //debugger
 
       this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
       this.notaSalidaFormEdit.controls["campania"].setValue(data.CodigoCampania);
@@ -162,7 +162,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       objectTransporte.PlacaCarreta = data.PlacaCarreta;
       objectTransporte.Conductor = data.Conductor;
       objectTransporte.Licencia = data.LicenciaConductor;
-      this.child.selectedT.push(objectTransporte);
+      this.child.selectedTransportista.push(objectTransporte);
       this.numero = data.Numero;
       this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
       //this.almacen = data.Almacen;
@@ -266,7 +266,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
 
   guardar() 
   {
-    debugger
+    //debugger
     const form = this;
     if (this.child.listaNotaIngreso.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccione una Nota de Ingreso' }; }
     else {
@@ -282,10 +282,11 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       var TotalKilosNetos = 0;
       var Totaltara = 0;
       var Totalcantidad = 0;
+
       let list: NotaSalidaAlmacenPlantaDetalleDTO[] = [];
       if (this.child.listaNotaIngreso.length != 0) {
         this.child.listaNotaIngreso.forEach(x => {
-          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoProductoTerminadoAlmacenPlantaId,x.Cantidad,x.KilosNetos);
+          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoProductoTerminadoAlmacenPlantaId,x.Cantidad,x.KilosNetos,x.KilosBrutos);
           TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutos;
           TotalKilosNetos = TotalKilosNetos + x.KilosNetos;
           Totaltara = Totaltara + x.Tara;
@@ -312,16 +313,18 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       }
       );*/
 
+      
+
       var EmpresaProveedoraAcreedoraId = this.selectedEmpresa[0].EmpresaProveedoraAcreedoraId;
-      var EmpresaTransporteId = this.selectedEmpresa[0].EmpresaTransporteId;
-      var TransporteId = this.selectedEmpresa[0].TransporteId;
-      var NumeroConstanciaMTC = this.selectedEmpresa[0].NumeroConstanciaMTC;
-      var MarcaTractorId = this.selectedEmpresa[0].MarcaTractorId;
-      var PlacaTractor = this.selectedEmpresa[0].PlacaTractor;
-      var MarcaCarretaId = this.selectedEmpresa[0].MarcaCarretaId;
-      var PlacaCarreta = this.selectedEmpresa[0].PlacaCarreta;
-      var Conductor = this.selectedEmpresa[0].Conductor;
-      var Licencia = this.selectedEmpresa[0].Licencia;
+      var EmpresaTransporteId = this.child.selectedTransportista[0].EmpresaTransporteId;
+      var TransporteId = this.child.selectedTransportista[0].TransporteId;
+      var NumeroConstanciaMTC = this.child.selectedTransportista[0].NumeroConstanciaMTC;
+      var MarcaTractorId = this.child.selectedTransportista[0].MarcaTractorId;
+      var PlacaTractor = this.child.selectedTransportista[0].PlacaTractor;
+      var MarcaCarretaId = this.child.selectedTransportista[0].MarcaCarretaId;
+      var PlacaCarreta = this.child.selectedTransportista[0].PlacaCarreta;
+      var Conductor = this.child.selectedTransportista[0].Conductor;
+      var Licencia = this.child.selectedTransportista[0].Licencia;
       var campania = this.notaSalidaFormEdit.controls['campania'].value;
       var concepto = this.notaSalidaFormEdit.controls["concepto"].value;
 
@@ -444,11 +447,20 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       );
   }
 
-  imprimir(): void {
+  imprimirGuiaRemision(): void {
     let link = document.createElement('a');
     document.body.appendChild(link);
     link.href = `${host}NotaSalidaAlmacen/GenerarPDFGuiaRemision?id=${this.id}`;
     link.download = "GuiaRemision.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
+  }
+  imprimir(): void {
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}NotaSalidaAlmacenPlanta/GenerarPDFNotaSalida?id=${this.id}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
+    link.download = "NotaSalidaGuiaRemisionSalida.pdf"
     link.target = "_blank";
     link.click();
     link.remove();
