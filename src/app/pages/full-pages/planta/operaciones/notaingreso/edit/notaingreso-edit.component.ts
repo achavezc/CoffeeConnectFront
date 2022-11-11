@@ -180,7 +180,7 @@ export class NotaIngresoEditComponent implements OnInit {
         producto: ['', Validators.required],
         direccion: ['',],
         rucOrganizacion: ['',],
-        subproducto: ['', Validators.required],
+        subproducto: [''],
         certificacion: ['', ],
         certificadora: ['', ],
         campania:['',],
@@ -355,11 +355,8 @@ export class NotaIngresoEditComponent implements OnInit {
       this.flagOcultarPesado = false;
       this.flagOcultarExportable = true;
       this.notaIngredoFormEdit.get("pesado").reset();
-/*
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
-      this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
-      this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
-      this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");*/
+      this.notaIngredoFormEdit.controls["subproducto"].disable();
+
 
     }else{
        //MOSTRAR PESADO
@@ -375,9 +372,9 @@ export class NotaIngresoEditComponent implements OnInit {
     this.rowsDetails = [...this.rowsDetails, {
       NotaIngresoPlantaDetalleId: 0,
       NotaIngresoPlantaId: 0,
-      EmpaqueId: 0,
-      TipoId: 0,
-      SubProductoId: 0,
+      EmpaqueId: '',
+      TipoId: '',
+      SubProductoId:'',
       KilosBrutos: 0,
       KilosNetos: 0,
       Tara: 0
