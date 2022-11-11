@@ -242,7 +242,7 @@
                 [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                 [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
                 
-                <ngx-datatable-column name="Nro Nota Ingreso Planta" prop="Numero" width="150" *ngIf="!popUp">
+                <ngx-datatable-column name="Número" prop="Numero" width="150" *ngIf="!popUp">
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                     <div class="d-flex align-items-center">
                       <div class="cell-line-height">
@@ -253,7 +253,10 @@
                   </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column name="Numero" prop="NumeroNotaIngresoPlanta" width="120">
+                <ngx-datatable-column name="Número" prop="Numero" width="90" *ngIf="popUp">
+                </ngx-datatable-column>  
+
+                <ngx-datatable-column name="Número Nota Ingreso Planta" prop="NumeroNotaIngresoPlanta" width="120">
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Nro Guia Remisión" prop="NumeroGuiaRemision" width="140">
                 </ngx-datatable-column>
@@ -273,6 +276,8 @@
                 </ngx-datatable-column> 
                 <ngx-datatable-column name="KGN" prop="KGN" width="140">
                 </ngx-datatable-column>
+                <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutos"idth="100">
+                </ngx-datatable-column> 
                 <ngx-datatable-column name="Kilos Netos" prop="KilosNetos"idth="100">
                 </ngx-datatable-column> 
                 <ngx-datatable-column name="Kilos Netos 46" prop="KilosNetos46"idth="100">

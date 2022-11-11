@@ -279,29 +279,39 @@
                                 [rows]="rowsDetails" [selected]="selectLoteDetalle" [selectionType]="'single'"> -->
 
                                 <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails"
-                                [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"
-                                [summaryPosition]="'bottom'" [columnMode]="'force'" [limit]="limitRef">
+                                [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"                                [summaryPosition]="'bottom'" >
 
                                 <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaIngresoAlmacenString"></ngx-datatable-column>
                                 <ngx-datatable-column name="N° Nota Ingreso a Almacen Planta" prop="NumeroIngresoAlmacenPlanta"></ngx-datatable-column>
-                                <ngx-datatable-column name="Sacos Disponibles" prop="CantidadNotaIngreso" [summaryFunc]="emptySumm"></ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Netos Disponibles" prop="KilosNetosNotaIngreso" [summaryFunc]="emptySumm"></ngx-datatable-column>
+                                <ngx-datatable-column name="Sacos Disponibles" prop="CantidadNotaIngreso" [sortable]="false"></ngx-datatable-column>
+                                <ngx-datatable-column name="Kilos Disponibles" prop="KilosNetosNotaIngreso"></ngx-datatable-column>
                                 <ngx-datatable-column name="% Humedad" prop="PorcentajeHumedad" [summaryFunc]="emptySumm"></ngx-datatable-column>
-                                <ngx-datatable-column name="% Exportable" prop="PorcentajeExportable" [summaryTemplate]="emptySumm"></ngx-datatable-column>
-                                <ngx-datatable-column name="% Descarte" prop="PorcentajeDescarte" [summaryTemplate]="emptySumm"></ngx-datatable-column>
-                                <ngx-datatable-column name="% Cascarilla" prop="PorcentajeCascarilla" [summaryTemplate]="emptySumm"></ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Exportables" prop="KilosExportables" [summaryTemplate]="emptySumm"></ngx-datatable-column>
-                                <ngx-datatable-column name="Sacos/69" prop="SacosCalculo" [summaryTemplate]="emptySumm"></ngx-datatable-column>
-                                 
+                                <ngx-datatable-column name="% Exportable" prop="PorcentajeExportable" [summaryTemplate]="exportable"></ngx-datatable-column>
+                                <ngx-datatable-column name="% Descarte" prop="PorcentajeDescarte" [summaryTemplate]="descarte"></ngx-datatable-column>
+                                <ngx-datatable-column name="% Cascarilla" prop="PorcentajeCascarilla" [summaryTemplate]="cascarilla"></ngx-datatable-column>
+                                <ngx-datatable-column name="Kilos Exportables" prop="KilosExportables" [sortable]="false"></ngx-datatable-column>
+                                <ngx-datatable-column name="Sacos / 69" prop="SacosCalculo"></ngx-datatable-column>
                                 
-                                <ngx-datatable-column name="Sacos" prop="Cantidad" [sortable]="false">
+                               <!--  <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false" [summaryFunc]="emptySumm">
+                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <input type="number" class="form-control"  [formControlName]="row.NotaIngresoAlmacenPlantaId+'%cantidad'" id="basicInput">
+                                      </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" [summaryFunc]="emptySumm" >
+                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <input type="number" class="form-control" id="basicInput">
+                                      </ng-template>
+                                </ngx-datatable-column>
+                                
+ -->
+                                <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"  >
                                     <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
                                         <div class="d-flex align-items-center">
                                             <input type="number" autofocus
                                                 class="form-control form-control-sm text-right"
                                                 [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
-                                                value="{{Cantidad}}">
+                                                value="{{Cantidad}}" [disabled]="esRechazo==true">
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
@@ -312,29 +322,27 @@
                                                 class="form-control form-control-sm text-right"
                                                 [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos}"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
-                                                value="{{KilosNetos}}">
+                                                value="{{KilosNetos}}" [disabled]="esRechazo==true">
                                         </div>
                                     </ng-template>
-                                </ngx-datatable-column>                                  
+                                </ngx-datatable-column>   
 
-                                 
-                               
                               </ngx-datatable>
-                              <!-- <ng-template #exportable let-row="row" let-name="value" ngx-datatable-cell-template>
+                              <ng-template #exportable let-row="row" let-name="value" ngx-datatable-cell-template>
                                 <div>
-                                {{ sumKilosNetos }}
+                                {{ averageExportable }}
                                 </div>
                               </ng-template>
                               <ng-template #descarte let-row="row" let-name="value" ngx-datatable-cell-template>
                                 <div>
-                                {{ sumKilosNetos }}
+                                {{ averageDescarte }}
                                 </div>
                               </ng-template>
                               <ng-template #cascarilla let-row="row" let-name="value" ngx-datatable-cell-template>
                                 <div>
-                                {{ sumKilosNetos }}
+                                {{ averageCascarilla }}
                                 </div>
-                              </ng-template> -->
+                              </ng-template> 
                             </div>
                           </div>
                         <div class="form-row bg-primary align-middle mb-2">

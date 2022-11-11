@@ -172,19 +172,24 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit = this.fb.group(
       {
 
-        guiaremision: ['', Validators.required],
-        fecharemision: ['', Validators.required],
+        guiaremision: ['',],
+        fecharemision: ['', ],
         tipoProduccion: ['', Validators.required],
         codigoOrganizacion: ['',],
         nombreOrganizacion: ['',],
         producto: ['', Validators.required],
         direccion: ['',],
+<<<<<<< HEAD
         rucOrganizacion: ['',],
         subproducto: [''],
+=======
+        rucOrganizacion: ['',Validators.required],
+        subproducto: ['', Validators.required],
+>>>>>>> 8e5ccaeef4f0e2d89ef7aef36ecb5b5c199a9e99
         certificacion: ['', ],
         certificadora: ['', ],
-        campania:['',],
-        concepto:['',],
+        campania:['',[Validators.required]],
+        concepto:['',[Validators.required]],
         motivo:['',],
 
         transportista: new FormControl('', [Validators.required]),
@@ -450,16 +455,16 @@ export class NotaIngresoEditComponent implements OnInit {
   }
   desactivarControl(codigo) {
     if (codigo != this.productoOroVerde) {
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
+      //this.notaIngredoFormEdit.get("pesado").get("pesoSaco").setValue("");
       this.notaIngredoFormEdit.get("pesado").get("calidad").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("grado").setValue([]);
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").setValue("");
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
+      //this.notaIngredoFormEdit.get("pesado").get("pesoSaco").disable();
       this.notaIngredoFormEdit.get("pesado").get("calidad").disable();
       this.notaIngredoFormEdit.get("pesado").get("grado").disable();
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").disable();
     } else {
-      this.notaIngredoFormEdit.get("pesado").get("pesoSaco").enable();
+      //this.notaIngredoFormEdit.get("pesado").get("pesoSaco").enable();
       this.notaIngredoFormEdit.get("pesado").get("calidad").enable();
       this.notaIngredoFormEdit.get("pesado").get("grado").enable();
       this.notaIngredoFormEdit.get("pesado").get("cantidadDefectos").enable();
@@ -578,6 +583,7 @@ export class NotaIngresoEditComponent implements OnInit {
 
   guardar() {
 
+    debugger
     const form = this;
     /*
     if (this.notaIngredoFormEdit.invalid) {
@@ -591,6 +597,8 @@ export class NotaIngresoEditComponent implements OnInit {
       if (this.notaIngredoFormEdit.get('pesado').get("grado").value == null || this.notaIngredoFormEdit.get('pesado').get("grado").value.length == 0) {
         this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
       }
+
+      
 
       let request = new ReqRegistrarPesadoNotaIngreso(
         Number(this.id),
@@ -612,7 +620,8 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.get('pesado').get("calidad").value,
         this.notaIngredoFormEdit.get('pesado').get("grado").value,
         Number(this.notaIngredoFormEdit.get('pesado').get("cantidadDefectos").value),
-        Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
+        //Number(this.notaIngredoFormEdit.get('pesado').get("pesoSaco").value),
+        0,
         this.notaIngredoFormEdit.get('pesado').get("tipo").value,
         Number(this.notaIngredoFormEdit.get('pesado').get("cantidad").value),
         Number(this.notaIngredoFormEdit.get('pesado').get("porcentajeHumedad").value),
@@ -805,12 +814,13 @@ export class NotaIngresoEditComponent implements OnInit {
       .subscribe(res => {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.detalle = res.Result.Data;
+            this.detalle = res.Result.Data.Detalle;
+            this.cargarDataFormulario(res.Result.Data);
             if (this.detalle != null) {
               this.formEmpaques(res.Result.Data);
               this.formTipoEmpaque(res.Result.Data);
               this.formSubProducto(res.Result.Data);
-              this.cargarDataFormulario(res.Result.Data);
+              
             } else {
               this.spinner.hide();
             }
@@ -871,7 +881,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
     this.notaIngredoFormEdit.get('pesado').get("cantidad").setValue(data.Cantidad);
     this.notaIngredoFormEdit.get('pesado').get("kilosBrutos").setValue(data.KilosBrutos);
-    this.notaIngredoFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
+    //this.notaIngredoFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
     this.notaIngredoFormEdit.get('pesado').get("calidad").setValue(data.CalidadId);
     this.notaIngredoFormEdit.get('pesado').get("tara").setValue(data.Tara);
     this.notaIngredoFormEdit.get('pesado').get("kilosNetos").setValue(data.KilosNetos);

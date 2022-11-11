@@ -87,6 +87,7 @@ export class LiquidacionProcesoPlantaResultado
     CantidadSacos: number,
     KGN: number,
     KilosNetos: number,
+    KilosBrutos: number,
     LiquidacionProcesoPlantaResultadoId?: number,
     LiquidacionProcesoPlantaId?: number,
     )
@@ -103,6 +104,7 @@ export class LiquidacionProcesoPlantaResultado
         this.CantidadSacos = CantidadSacos;
         this.KGN = KGN;
         this.KilosNetos = KilosNetos;
+        this.KilosBrutos = KilosBrutos;
     }
     LiquidacionProcesoPlantaResultadoId: number;
     LiquidacionProcesoPlantaId: number;
@@ -110,5 +112,6 @@ export class LiquidacionProcesoPlantaResultado
     CantidadSacos: number;
     KGN: number;
     KilosNetos: number;
+    KilosBrutos: number;
 
 }

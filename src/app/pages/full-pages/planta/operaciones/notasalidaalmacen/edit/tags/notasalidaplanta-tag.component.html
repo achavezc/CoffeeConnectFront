@@ -17,12 +17,12 @@
       </ng-template>
       <div class="row"  style="margin-right: 6rem; margin-left: 6rem;">
         <div class="cold-2" style="margin-top: 2rem;">
-          <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModal(modalLotes)">Agregar
+          <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModal(modalLotes)" [disabled]="esRechazo==true">Agregar
             NIAs</button>
         </div>
         <div class="cold-2" style="margin-top: 2rem;">
           <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminarLote(selectLoteDetalle)"
-            [disabled]="selectLoteDetalle.length == 0">Eliminar NIAs</button>
+            [disabled]="selectLoteDetalle.length == 0 || esRechazo==true">Eliminar NIAs</button>
         </div>
       </div>
       <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;">
@@ -48,21 +48,22 @@
                                 [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"
                                 [summaryPosition]="'bottom'" [columnMode]="'force'" [limit]="limitRef">
 
-                                <ngx-datatable-column name="Cantidad Disponibles" prop="CantidadDisponible" [summaryFunc]="emptySumm"></ngx-datatable-column>
+                                <!-- <ngx-datatable-column name="Cantidad Disponibles" prop="CantidadDisponible" [summaryFunc]="emptySumm"></ngx-datatable-column> -->
                                 <ngx-datatable-column name="Empaque" prop="Empaque"></ngx-datatable-column>
                                 <ngx-datatable-column name="Tipo Empaque" prop="TipoEmpaque"></ngx-datatable-column>
-                                <ngx-datatable-column name="Descripción" prop="Producto"></ngx-datatable-column>                                
-                                <ngx-datatable-column name="Neto Disponibles" prop="KilosNetosDisponibles" [summaryFunc]="emptySumm"></ngx-datatable-column>
+                                <ngx-datatable-column name="Descripción" prop="SubProducto"></ngx-datatable-column>  
+                                <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutos"></ngx-datatable-column>                              
+                                <!-- <ngx-datatable-column name="Neto Disponibles" prop="KilosNetosDisponibles" [summaryFunc]="emptySumm"></ngx-datatable-column> -->
                                 
 
-                                <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false">
+                                <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"  >
                                     <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
                                         <div class="d-flex align-items-center">
                                             <input type="number" autofocus
                                                 class="form-control form-control-sm text-right"
                                                 [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
-                                                value="{{Cantidad}}">
+                                                value="{{Cantidad}}" [disabled]="esRechazo==true">
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
@@ -73,7 +74,7 @@
                                                 class="form-control form-control-sm text-right"
                                                 [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos}"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
-                                                value="{{KilosNetos}}">
+                                                value="{{KilosNetos}}" [disabled]="esRechazo==true">
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>                                  
@@ -88,10 +89,11 @@
       </div>
   
       <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
+        
         <div class="col-12 col-md-6">
           <label for="basicInput">Motivo de Salida</label>
-          <ng-select [items]="listaMotivoTranslado" formControlName="motivoSalida" bindLabel="Label" bindValue="Codigo"
-            id="validationTooltip01" placeholder="Seleccionar Motivo Salida" class="form-control"
+          <ng-select [items]="listaMotivoTranslado" formControlName="motivoSalida"  bindLabel="Label" bindValue="Codigo"
+            id="validationTooltip01" placeholder="Seleccionar Motivo Salida" class="form-control"  [disabled]="esRechazo==true"
             [(ngModel)]="selectedMotivoSalida"
             [ngClass]="{ 'is-invalid': submittedEdit && tagNotadeSalida.controls.motivoSalida.invalid, 'is-valid': submittedEdit && !tagNotadeSalida.controls.motivoSalida.invalid }">
           </ng-select>
@@ -100,7 +102,7 @@
         </div>
         <div class="col-12 col-md-6">
           <label for="basicInput"> Numero de Referencia</label>
-        <input type="text" class="form-control" id="basicInput" formControlName="numReferencia">
+        <input type="text" class="form-control" id="basicInput" formControlName="numReferencia"  [disabled]="esRechazo==true">
         </div>
   
       </div>
