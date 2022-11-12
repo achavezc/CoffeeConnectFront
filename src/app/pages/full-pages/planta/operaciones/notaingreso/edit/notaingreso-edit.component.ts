@@ -179,13 +179,9 @@ export class NotaIngresoEditComponent implements OnInit {
         nombreOrganizacion: ['',],
         producto: ['', Validators.required],
         direccion: ['',],
-<<<<<<< HEAD
-        rucOrganizacion: ['',],
-        subproducto: [''],
-=======
         rucOrganizacion: ['',Validators.required],
         subproducto: ['', Validators.required],
->>>>>>> 8e5ccaeef4f0e2d89ef7aef36ecb5b5c199a9e99
+
         certificacion: ['', ],
         certificadora: ['', ],
         campania:['',[Validators.required]],

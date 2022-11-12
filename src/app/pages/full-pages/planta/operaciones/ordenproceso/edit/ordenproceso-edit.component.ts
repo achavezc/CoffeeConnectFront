@@ -210,7 +210,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
     this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
     this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
-    this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoId);
+    this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoTerminadoId);
     this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
     this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
     this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
@@ -416,7 +416,9 @@ export class OrdenProcesoEditComponent implements OnInit {
     //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
-  GetRequest(): any {
+  GetRequest(): any 
+  {
+    debugger
     const form = this.ordenProcesoEditForm.value;
     this.formGroupCantidad = new FormGroup(this.groupCantidad);
    this.rowsDetails.forEach(data =>
