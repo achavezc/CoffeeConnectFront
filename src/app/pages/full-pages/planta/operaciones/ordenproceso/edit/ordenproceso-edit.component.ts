@@ -418,13 +418,15 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   GetRequest(): any 
   {
-    debugger
+    
     const form = this.ordenProcesoEditForm.value;
     this.formGroupCantidad = new FormGroup(this.groupCantidad);
-   this.rowsDetails.forEach(data =>
+   /* this.rowsDetails.forEach(data =>
       {
-        data.Cantidad = Number(this.formGroupCantidad.get(data.NotaIngresoAlmacenPlantaId+ '%cantidad').value)
-      });
+        debugger
+        let cantidad =Number(this.formGroupCantidad.get(data.NotaIngresoAlmacenPlantaId+ '%cantidad').value)
+        data.Cantidad = cantidad;
+      }); */
     const request = {
       OrdenProcesoPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
@@ -452,6 +454,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   Save(): void {
+    debugger
     if (!this.ordenProcesoEditForm.invalid) {
       if (this.ValidateDataDetails() > 0) {
         const form = this;
@@ -544,6 +547,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
+      debugger
       //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
       this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
       this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
@@ -658,6 +662,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
+    
     if (prop === 'Cantidad')
       this.rowsDetails[index].Cantidad =  parseFloat(event.target.value);
     else if (prop === 'KilosNetos')
