@@ -96,10 +96,10 @@ export class OrdenProcesoEditComponent implements OnInit {
   groupCantidad= {};
  
 
-  ngOnInit(): void {
+ async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.codeProcessOrder = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
-    this.LoadForm();
+    await this.LoadForm();
     this.ordenProcesoEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.ordenProcesoEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
@@ -201,7 +201,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     //this.ordenProcesoEditForm.controls["certificacion"].setValue(data.TipoCertificacionId);
     this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
     this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
-    this.ordenProcesoEditForm.controls["certificadora"].setValue(data.EntidadCertificadoraId);
+    this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
 
     //this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
     this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
@@ -576,14 +576,18 @@ export class OrdenProcesoEditComponent implements OnInit {
       //this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
       this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
       //this.ordenProcesoEditForm.controls.numeroContrato.setValue(data.NumeroContrato);
+      if (data.EntidadCertificadoraId)
+        {
+          await this.GetCertificadora();
       this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
+        }
       //this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
       this.ordenProcesoEditForm.controls.organizacionId.setValue(data.OrganizacionId);
 
 
       this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
       this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoTerminadoId);
+      this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoIdTerminado);
       //this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
       //this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
       //this.ordenProcesoEditForm.controls.calidad.setValue(data.CalidadId);
@@ -666,7 +670,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     if (prop === 'Cantidad')
       this.rowsDetails[index].Cantidad =  parseFloat(event.target.value);
     else if (prop === 'KilosNetos')
-      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value);
+      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value.toFixed(2));
       else if (prop === 'KilosKilosExportablesNetosPesado')
       this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
       

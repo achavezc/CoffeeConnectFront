@@ -131,8 +131,7 @@
                                     
                                         <input type="text" name="numeroContrato" id="numeroContrato"
                                             formControlName="numeroContrato" class="form-control"
-                                            placeholder="NRO. CONTRATO" 
-                                            >
+                                            placeholder="NRO. CONTRATO">
                                     
                                    
                                
@@ -278,7 +277,7 @@
                                 [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
                                 [rows]="rowsDetails" [selected]="selectLoteDetalle" [selectionType]="'single'"> -->
 
-                                <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails"
+                                <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails" 
                                 [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"                                [summaryPosition]="'bottom'" >
 
                                 <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaIngresoAlmacenString"></ngx-datatable-column>
@@ -307,8 +306,8 @@
                                 <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"  >
                                     <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
                                         <div class="d-flex align-items-center">
-                                            <input type="number" autofocus
-                                                class="form-control form-control-sm text-right"
+                                            <input type="number" autofocus  
+                                                class="form-control form-control-sm"
                                                 [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
                                                 value="{{Cantidad}}" [disabled]="esRechazo==true">
@@ -319,7 +318,7 @@
                                     <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value" let-rowIndex="rowIndex">
                                         <div class="d-flex align-items-center">
                                             <input type="number" autofocus
-                                                class="form-control form-control-sm text-right"
+                                                class="form-control form-control-sm"
                                                 [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos}"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
                                                 value="{{KilosNetos}}" [disabled]="esRechazo==true">

@@ -1,3 +1,135 @@
+<ng-template #modalTransportista let-c="close" let-d="dismiss">
+  <div class="modal-header" style="text-align: center;">
+
+    <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Transportista</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="consultaTransportistas" class="needs-validation"
+      style="padding-left: 0.3rem; padding-right: 0.3rem;">
+      <ngx-spinner></ngx-spinner>
+      <div class="row"
+        style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
+        <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
+      </div>
+      <div class="row" style="margin-top: 1rem;">
+        <div class="col-12 col-md-6">
+          <div class="form-group row">
+            <label for="validationTooltip08" class="col-md-3 col-form-label card-text2"> RUC </label>
+            <div class="col-md-9">
+              <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
+                id="validationTooltip08" placeholder="Ruc"
+                [ngClass]="{ 'is-invalid': submittedT && fT.ruc.invalid, 'is-valid': submittedT && !fT.ruc.invalid }">
+              <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.minlength">Ingrese 8 a 20
+                letras</small>
+              <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.maxlength">Ingrese 8 a 20
+                letras</small>
+            </div>
+
+            
+            
+          </div>
+
+
+        </div>
+        <div class="col-12 col-md-6">
+
+          <div class="form-group row">
+            <label for="validationTooltip08" class="col-md-4 col-form-label card-text2">Razón Social</label>
+            <div class="col-md-8">
+              <input type="text" minlength="5" maxlength="100" formControlName="rzsocial" class="form-control"
+                id="validationTooltip08" placeholder="Razon Social"
+                [ngClass]="{ 'is-invalid': submittedT && fT.rzsocial.invalid, 'is-valid': submittedT && !fT.rzsocial.invalid }">
+              <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.minlength">Ingrese 5 a 100
+                letras</small>
+              <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.maxlength">Ingrese 5 a 100
+                letras</small>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-md-10">
+              <small class="form-text text-muted danger"
+                *ngIf="errorTransportista.isError">{{errorTransportista.errorMessage}}</small>
+            </div>
+            <div class="col-md-2 justify-content-end">
+              <button class="btn btn-primary mr-1 mb-1" type="submit"
+                (click)="buscarTransportista()">Buscar</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+   
+      <div class="row">
+        <div class="col-12">
+          <fieldset class="form-group">
+            <label style="font-size: 0.6rem;">Show
+              <select name="users-list-select" style="font-size: 0.8rem;"
+                class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                (click)="updateLimitT($event)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              entries</label>
+            <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
+              <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                type="text" (keyup)="filterUpdateT($event)" />
+            </label>
+          </fieldset>
+          
+          <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableTranspotistas
+            [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+            [limit]="limitRefT" [rows]="rowsT" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
+            [selected]="selectedT" [selectionType]="'single'" (dblclick)="seleccionarTransportista(selectedT)">
+            <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Conductor" prop="Conductor" width="60">
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="N° Constancia MTC" prop="NumeroConstanciaMTC" width="40">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Licencia" prop="Licencia" width="60">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Marca Tractor" prop="MarcaTractor" width="25">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Placa Tractor" prop="PlacaTractor" width="25">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Peso Bruto" prop="PesoBruto" width="25">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Peso Neto" prop="PesoNeto" width="25">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Carga Util" prop="CargaUtil" width="25">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Longitud" prop="Longitud" width="25">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Altura" prop="Altura" width="25">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Ancho" prop="Ancho" width="25">
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+
+          
+        </div>
+      </div>
+
+    </form>
+    
+  </div>
+</ng-template>
 <form class="needs-validation" [formGroup]="notaIngredoFormEdit">
   <section id="tooltip-validation">
     <div class="row">
@@ -226,142 +358,7 @@
     </div>
 
   </section>
-  <ng-template #modalTransportista let-c="close" let-d="dismiss">
-    <div class="modal-header" style="text-align: center;">
   
-      <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Transportista</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      
-      <form [formGroup]="consultaTransportistas" class="needs-validation"
-        style="padding-left: 0.3rem; padding-right: 0.3rem;">
-        <ngx-spinner></ngx-spinner>
-        <div class="row"
-          style="text-align: center;background-color: #975AFF; border-top-left-radius: 0.35rem; border-top-right-radius: 0.35rem;">
-          <div class="card-subtitle-form modal-title">Criterios de Busqueda</div>
-        </div>
-       
-        <div class="row" style="margin-top: 1rem;">
-          <div class="col-12 col-md-6">
-            <div class="form-group row">
-              
-              <label for="validationTooltip08" class="col-md-3 col-form-label card-text2"> RUC </label>
-              <div class="col-md-9">
-                <input type="text" minlength="8" maxlength="20" formControlName="ruc" class="form-control"
-                  id="validationTooltip08" placeholder="Ruc"
-                  [ngClass]="{ 'is-invalid': submittedT && fT.ruc.invalid, 'is-valid': submittedT && !fT.ruc.invalid }">
-                <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.minlength">Ingrese 8 a 20
-                  letras</small>
-                <small class="form-text text-muted danger" *ngIf="fT.ruc.errors?.maxlength">Ingrese 8 a 20
-                  letras</small>
-              </div>
-  
-              
-              
-            </div>
-  
-  
-          </div>
-          <div class="col-12 col-md-6">
-  
-            <div class="form-group row">
-              <label for="validationTooltip08" class="col-md-4 col-form-label card-text2">Razón Social</label>
-              <div class="col-md-8">
-                <input type="text" minlength="5" maxlength="100" formControlName="rzsocial" class="form-control"
-                  id="validationTooltip08" placeholder="Razon Social"
-                  [ngClass]="{ 'is-invalid': submittedT && fT.rzsocial.invalid, 'is-valid': submittedT && !fT.rzsocial.invalid }">
-                <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.minlength">Ingrese 5 a 100
-                  letras</small>
-                <small class="form-text text-muted danger" *ngIf="fT.rzsocial.errors?.maxlength">Ingrese 5 a 100
-                  letras</small>
-              </div>
-  
-            </div>
-  
-          </div>
-        </div>
-     
-        <div class="row">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-md-10">
-                <small class="form-text text-muted danger"
-                  *ngIf="errorTransportista.isError">{{errorTransportista.errorMessage}}</small>
-              </div>
-              <div class="col-md-2 justify-content-end">
-                <button class="btn btn-primary mr-1 mb-1" type="submit"
-                  (click)="buscarTransportista()">Buscar</button>
-              </div>
-  
-            </div>
-          </div>
-        </div>
-     
-        <div class="row">
-          <div class="col-12">
-            <fieldset class="form-group">
-              <label style="font-size: 0.6rem;">Show
-                <select name="users-list-select" style="font-size: 0.8rem;"
-                  class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
-                  (click)="updateLimitT($event)">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                </select>
-                entries</label>
-              <label for="ngx-filter-ref" class="float-right" style="font-size: 0.6rem;">Search:
-                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
-                  type="text" (keyup)="filterUpdateT($event)" />
-              </label>
-            </fieldset>
-            
-            <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableTranspotistas
-              [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-              [limit]="limitRefT" [rows]="rowsT" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck"
-              [selected]="selectedT" [selectionType]="'single'" (dblclick)="seleccionarTransportista(selectedT)">
-              <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="20">
-  
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Conductor" prop="Conductor" width="60">
-              </ngx-datatable-column>
-
-              <ngx-datatable-column name="N° Constancia MTC" prop="NumeroConstanciaMTC" width="40">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Licencia" prop="Licencia" width="60">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Marca Tractor" prop="MarcaTractor" width="25">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Placa Tractor" prop="PlacaTractor" width="25">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Peso Bruto" prop="PesoBruto" width="25">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Peso Neto" prop="PesoNeto" width="25">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Carga Util" prop="CargaUtil" width="25">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Longitud" prop="Longitud" width="25">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Altura" prop="Altura" width="25">
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Ancho" prop="Ancho" width="25">
-              </ngx-datatable-column>
-  
-            </ngx-datatable>
-
-            
-          </div>
-        </div>
- 
-      </form>
-      
-    </div>
-  </ng-template>
   <section class="users-edit">
     <div class="row">
       <div class="col-12">

@@ -668,7 +668,8 @@ export class NotaIngresoEditComponent implements OnInit {
     //}
   }
   openModalTransportista(modalTransportista) {
-    this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'lg' });
+    //this.modalService.open(modalTransportista, { windowClass: 'dark-modal',  size: 'xl' });
+    this.modalService.open(modalTransportista, { size: 'xl', centered: true });
     this.cargarTransportista();
     //this.clear();
   }

@@ -113,7 +113,7 @@ export class PesadoCafePlantaComponent implements OnInit {
     return this.consultaTransportistas.controls;
   }
   openModalTransportista(modalTransportista) {
-    this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'lg' });
+    this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'xl' });
     this.cargarTransportista();
     //this.clear();
   }
