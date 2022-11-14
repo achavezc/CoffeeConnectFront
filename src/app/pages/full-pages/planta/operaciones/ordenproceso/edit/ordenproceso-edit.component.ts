@@ -294,7 +294,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     }
   }
   async GetEstado() {
-    const res = await this.maestroService.obtenerMaestros('EstadoOrdenProceso').toPromise();
+    const res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
     if (res.Result.Success) {
       this.listEstado = res.Result.Data;
     }
@@ -635,6 +635,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       //this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
 
       this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
+      this.ordenProcesoEditForm.controls.estado.disable();
       
     }
     this.spinner.hide();

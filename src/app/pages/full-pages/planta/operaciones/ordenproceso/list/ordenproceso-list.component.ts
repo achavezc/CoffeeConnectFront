@@ -108,7 +108,7 @@ export class OrdenProcesoListComponent implements OnInit {
 
   async GetListEstado() {
     const form = this;
-    let res = await this.maestroService.obtenerMaestros('EstadoOrdenProceso').toPromise();
+    let res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
     if (res.Result.Success) {
       this.listEstado= res.Result.Data;
       if (this.popUp) {

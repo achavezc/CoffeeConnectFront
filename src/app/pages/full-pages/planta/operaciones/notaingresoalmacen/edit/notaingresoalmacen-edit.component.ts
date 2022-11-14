@@ -344,10 +344,10 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.controls["fechaControlCalidad"].setValue(formatDate(data.FechaCalidad, 'yyyy-MM-dd', 'en'));
     this.consultaNotaIngresoAlmacenFormEdit.controls["fechaNotaIngreso"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
     this.consultaNotaIngresoAlmacenFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocialOrganizacion);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["rucOrganizacion"].setValue(data.RucEmpresaOrigen);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["razonSocialOrganizacion"].setValue(data.RazonSocialEmpresaOrigen);
     this.consultaNotaIngresoAlmacenFormEdit.controls["producto"].setValue(data.Producto);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["direccion"].setValue(data.Direccion);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["direccion"].setValue(data.DireccionEmpresaOrigen);
     await this.cargarSubProducto(data.ProductoId);
 
     this.consultaNotaIngresoAlmacenFormEdit.controls["subproducto"].setValue(data.SubProductoId);
@@ -366,8 +366,9 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.controls['rendimiento'].setValue(data.RendimientoPorcentajePesado);
     this.consultaNotaIngresoAlmacenFormEdit.controls['humedad'].setValue(data.HumedadPorcentajePesado);
     this.consultaNotaIngresoAlmacenFormEdit.controls['pesoxSaco'].setValue(data.PesoPorSaco);
-    this.vSessionUser.Result.Data.DireccionEmpresa = data.RazonSocialOrganizacion;
-    this.vSessionUser.Result.Data.RucEmpresa = data.RucOrganizacion;
+    this.vSessionUser.Result.Data.DireccionEmpresa = data.Direccion;
+    this.vSessionUser.Result.Data.RazonSocialEmpresa = data.RazonSocial;
+    this.vSessionUser.Result.Data.RucEmpresa = data.Ruc;
     
     if (data.ProductoId == this.codigoCafeP)
     {
