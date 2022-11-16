@@ -266,7 +266,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
 
   guardar() 
   {
-    //debugger
+    debugger
     const form = this;
     if (this.child.listaNotaIngreso.length == 0) { this.errorGeneral = { isError: true, errorMessage: 'Seleccione una Nota de Ingreso' }; }
     else {
@@ -314,17 +314,28 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       );*/
 
       
+      var EmpresaTransporteId = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].EmpresaTransporteId) : (null);
+      var TransporteId = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].TransporteId) : (null);
+      var NumeroConstanciaMTC = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].NumeroConstanciaMTC) : ('');
+      var MarcaTractorId = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].MarcaTractorId) : ('');
+      var PlacaTractor = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].PlacaTractor) : ('');
+      var MarcaCarretaId = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].MarcaCarretaId) : ('');
+      var PlacaCarreta = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].PlacaCarreta) : ('');
+      var Conductor = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].Conductor) : ('');
+      var Licencia = (this.child.selectedTransportista.length>0) ? (this.child.selectedTransportista[0].Licencia) : ('');
+      
+
 
       var EmpresaProveedoraAcreedoraId = this.selectedEmpresa[0].EmpresaProveedoraAcreedoraId;
-      var EmpresaTransporteId = this.child.selectedTransportista[0].EmpresaTransporteId;
-      var TransporteId = this.child.selectedTransportista[0].TransporteId;
-      var NumeroConstanciaMTC = this.child.selectedTransportista[0].NumeroConstanciaMTC;
-      var MarcaTractorId = this.child.selectedTransportista[0].MarcaTractorId;
-      var PlacaTractor = this.child.selectedTransportista[0].PlacaTractor;
-      var MarcaCarretaId = this.child.selectedTransportista[0].MarcaCarretaId;
-      var PlacaCarreta = this.child.selectedTransportista[0].PlacaCarreta;
-      var Conductor = this.child.selectedTransportista[0].Conductor;
-      var Licencia = this.child.selectedTransportista[0].Licencia;
+      // var EmpresaTransporteId = this.child.selectedTransportista[0].EmpresaTransporteId;
+      // var TransporteId = this.child.selectedTransportista[0].TransporteId;
+      // var NumeroConstanciaMTC = this.child.selectedTransportista[0].NumeroConstanciaMTC;
+      // var MarcaTractorId = this.child.selectedTransportista[0].MarcaTractorId;
+      // var PlacaTractor = this.child.selectedTransportista[0].PlacaTractor;
+      // var MarcaCarretaId = this.child.selectedTransportista[0].MarcaCarretaId;
+      // var PlacaCarreta = this.child.selectedTransportista[0].PlacaCarreta;
+      // var Conductor = this.child.selectedTransportista[0].Conductor;
+      // var Licencia = this.child.selectedTransportista[0].Licencia;
       var campania = this.notaSalidaFormEdit.controls['campania'].value;
       var concepto = this.notaSalidaFormEdit.controls["concepto"].value;
 

@@ -126,7 +126,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         form.listMotivos = res.Result.Data;
       }
     });
-    this.maestroUtil.obtenerMaestros("EstadoNotaIngresoPlanta", function (res) {
+    this.maestroUtil.obtenerMaestros("EstadoNotaSalidaAlmacenPlanta", function (res) {
       if (res.Result.Success) {
         form.listaEstado = res.Result.Data;
       }

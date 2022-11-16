@@ -779,7 +779,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
 
       if(data.PorcentajeExportable){
-        object.KilosExportables = Number(data.KilosNetosNotaIngreso * data.PorcentajeExportable);
+        object.KilosExportables =Math.round(Number(data.KilosNetosNotaIngreso * data.PorcentajeExportable)/100);
       }else{
         object.KilosExportables = Number(0);
       }

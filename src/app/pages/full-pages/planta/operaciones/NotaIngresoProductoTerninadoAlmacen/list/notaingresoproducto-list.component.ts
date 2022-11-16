@@ -311,20 +311,30 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
+
+      
+
+
       this.NotaIngresoProductoTerminadoAlmacenPlantaService.Consultar(objRequest)
         .subscribe(res => {
           this.spinner.hide();
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
-              res.Result.Data.forEach(obj => {
-                var fecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistro = this.dateUtil.formatDate(fecha, "-");
+              res.Result.Data.forEach(obj => 
+                { 
+                obj.FechaGuiaRemisionString = this.dateUtil.formatDate(obj.FechaGuiaRemision);
+                obj.FechaRegistroString = this.dateUtil.formatDate(obj.FechaRegistro);
+
+                var valorRoundedKilosNetos46 = Math.round((obj.KilosNetos46 + Number.EPSILON) * 100) / 100
+                obj.KilosNetos46 = valorRoundedKilosNetos46
+
+                var valorRoundedKilosNetos = Math.round((obj.KilosNetos + Number.EPSILON) * 100) / 100
+                obj.KilosNetos = valorRoundedKilosNetos
+
+                var valorRoundedKilosBrutos = Math.round((obj.KilosBrutos + Number.EPSILON) * 100) / 100
+                obj.KilosBrutos = valorRoundedKilosBrutos
 
 
-                var fechaGuia = new Date(obj.FechaGuiaRemision);
-                obj.FechaGuiaRemision = this.dateUtil.formatDate(fechaGuia, "-");
-
-             
 
               });
               this.tempData = res.Result.Data;
