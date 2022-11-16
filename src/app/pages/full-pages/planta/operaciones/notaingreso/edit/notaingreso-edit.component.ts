@@ -67,6 +67,7 @@ export class NotaIngresoEditComponent implements OnInit {
   popupModel;
   vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
+  errorGrilla: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   listTipoSocio: any[];
   listaTipoDocumento: any[];
@@ -172,28 +173,28 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit = this.fb.group(
       {
 
-        guiaremision: ['',],
-        fecharemision: ['', ],
+        guiaremision: ['',Validators.required],
+        fecharemision: ['', Validators.required],
         tipoProduccion: ['', Validators.required],
         codigoOrganizacion: ['',],
-        nombreOrganizacion: ['',],
+        nombreOrganizacion: ['',Validators.required],
         producto: ['', Validators.required],
-        direccion: ['',],
+        direccion: ['',Validators.required],
         rucOrganizacion: ['',Validators.required],
         subproducto: ['', Validators.required],
 
         certificacion: ['', ],
         certificadora: ['', ],
-        campania:['',[Validators.required]],
-        concepto:['',[Validators.required]],
+        campania:['', Validators.required],
+        concepto:['', Validators.required],
         motivo:['',],
 
-        transportista: new FormControl('', [Validators.required]),
-        ruc: new FormControl('', [Validators.required]),
-        placaVehiculo: new FormControl('', [Validators.required]),
-        chofer: new FormControl('', [Validators.required]),
-        numeroBrevete: new FormControl('', [Validators.required]),
-        marca: new FormControl('', [Validators.required]),
+        transportista: new FormControl('', []),
+        ruc: new FormControl('', []),
+        placaVehiculo: new FormControl('', []),
+        chofer: new FormControl('', []),
+        numeroBrevete: new FormControl('', []),
+        marca: new FormControl('', []),
         observacion: new FormControl('', []),
 
         pesado: this.fb.group({
@@ -204,18 +205,18 @@ export class NotaIngresoEditComponent implements OnInit {
           kilosBrutos: new FormControl('', [Validators.required]),
           pesoSaco: new FormControl('', []),
           calidad: new FormControl('', []),
-          tara: new FormControl('', []),
-          kilosNetos: new FormControl('', []),
+          tara: new FormControl('', [Validators.required]),
+          kilosNetos: new FormControl('', [Validators.required]),
           grado: new FormControl('', []),
           cantidadDefectos: new FormControl('', []),
           porcentajeRendimiento: new FormControl('', []),
-          porcentajeHumedad: new FormControl('', []),
-          transportista: new FormControl('', [Validators.required]),
-          ruc: new FormControl('', [Validators.required]),
-          placaVehiculo: new FormControl('', [Validators.required]),
-          chofer: new FormControl('', [Validators.required]),
-          numeroBrevete: new FormControl('', [Validators.required]),
-          marca: new FormControl('', [Validators.required]),
+          porcentajeHumedad: new FormControl('', [Validators.required]),
+          transportista: new FormControl('', []),
+          ruc: new FormControl('', []),
+          placaVehiculo: new FormControl('', []),
+          chofer: new FormControl('', []),
+          numeroBrevete: new FormControl('', []),
+          marca: new FormControl('', []),
           observacion: new FormControl('', [])
         })
       });
@@ -357,13 +358,30 @@ export class NotaIngresoEditComponent implements OnInit {
       this.flagOcultarExportable = true;
       this.notaIngredoFormEdit.get("pesado").reset();
       this.notaIngredoFormEdit.controls["subproducto"].disable();
+      this.notaIngredoFormEdit.get('guiaremision').setValidators([]);
+      this.notaIngredoFormEdit.get('guiaremision').updateValueAndValidity();
+      
+      this.notaIngredoFormEdit.get('fecharemision').setValidators([]);
+      this.notaIngredoFormEdit.get('fecharemision').updateValueAndValidity();
 
+      this.notaIngredoFormEdit.get('motivo').setValidators([Validators.required]);
+      this.notaIngredoFormEdit.get('motivo').updateValueAndValidity();
 
     }else{
        //MOSTRAR PESADO
+       this.notaIngredoFormEdit.get('guiaremision').setValidators([Validators.required]);
+       this.notaIngredoFormEdit.get('guiaremision').updateValueAndValidity();
+
+       this.notaIngredoFormEdit.get('fecharemision').setValidators([Validators.required]);
+       this.notaIngredoFormEdit.get('fecharemision').updateValueAndValidity();
+
+       this.notaIngredoFormEdit.get('motivo').setValidators([]);
+       this.notaIngredoFormEdit.get('motivo').updateValueAndValidity();
+
        this.flagOcultarPesado = true;
        this.flagOcultarExportable = false;
        this.rowsDetails = [];
+       this.notaIngredoFormEdit.controls["subproducto"].enable();
     }
 
 
@@ -579,14 +597,23 @@ export class NotaIngresoEditComponent implements OnInit {
 
   guardar() {
 
-    debugger
+    
     const form = this;
-    /*
+    if( this.notaIngredoFormEdit.controls["producto"].value == '02'){
+      if(this.rowsDetails.length == 0){
+        this.errorGrilla = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
+      }else{
+        this.errorGrilla = { isError: false, errorMessage: '' };
+      }
+      
+    }else{
+      this.errorGrilla = { isError: false, errorMessage: '' };
+    }
     if (this.notaIngredoFormEdit.invalid) {
       this.submittedEdit = true;
       return;
     } else {
-      */
+      
       if (this.notaIngredoFormEdit.get('pesado').get("calidad").value == null || this.notaIngredoFormEdit.get('pesado').get("calidad").value.length == 0) {
         this.notaIngredoFormEdit.get('pesado').get("calidad").setValue("");
       }
@@ -665,7 +692,7 @@ export class NotaIngresoEditComponent implements OnInit {
         });
        
       }
-    //}
+    }
   }
   openModalTransportista(modalTransportista) {
     //this.modalService.open(modalTransportista, { windowClass: 'dark-modal',  size: 'xl' });
