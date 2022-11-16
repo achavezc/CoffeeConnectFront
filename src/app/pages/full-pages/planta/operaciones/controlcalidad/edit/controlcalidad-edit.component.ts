@@ -67,6 +67,7 @@ export class ControlCalidadEditComponent implements OnInit {
   status: string = "";
   estado = "";
   numeroNotaIngreso: "";
+  numeroControlCalidad: "";
   fechaRegistro: any;
   fechaPesado: any;
   responsable: "";
@@ -616,7 +617,7 @@ export class ControlCalidadEditComponent implements OnInit {
   async cargarDataFormulario(data: any) {
     this.NotaIngresoPlantaId = data.NotaIngresoPlantaId;
     this.idPlantEntryNote = data.NotaIngresoPlantaId;
-    this.numeroNotaIngreso = data.Numero;
+    this.numeroNotaIngreso = data.NumeroCalidadPlanta;
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.controlCalidadFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
     this.controlCalidadFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
@@ -624,7 +625,7 @@ export class ControlCalidadEditComponent implements OnInit {
     this.controlCalidadFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
     this.controlCalidadFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.controlCalidadFormEdit.controls["producto"].setValue(data.ProductoId);
-    this.controlCalidadFormEdit.controls["notaIngreso"].setValue("");
+    this.controlCalidadFormEdit.controls["notaIngreso"].setValue(data.Numero);
   
     this.controlCalidadFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
     this.controlCalidadFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
