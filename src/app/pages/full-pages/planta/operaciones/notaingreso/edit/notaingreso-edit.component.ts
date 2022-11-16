@@ -289,7 +289,7 @@ export class NotaIngresoEditComponent implements OnInit {
 
     this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
       if (res.Result.Success) {
-        form.listaMotivo = res.Result.Data;
+        form.listaMotivo = res.Result.Data.filter(x => x.Codigo != '04');
       }
     });
     
