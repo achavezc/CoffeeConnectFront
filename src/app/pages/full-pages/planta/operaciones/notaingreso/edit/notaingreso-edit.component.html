@@ -240,7 +240,7 @@
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.codigoOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.codigoOrganizacion.invalid }"
                   readonly> -->
 
-                <label for="validationTooltip04">RUC ORGANIZACIÓN</label>
+                <label for="validationTooltip04">RUC</label>
                 <input type="text" minlength="8" maxlength="20" formControlName="rucOrganizacion" class="form-control"
                   id="validationTooltip08" placeholder="Ruc"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.rucOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.rucOrganizacion.invalid }"
@@ -267,15 +267,11 @@
                   <i class="fa fa-search"></i>
                 </button>
 
-
-
-
-
               </div>
               <div class="col-md-4 mb-4 form-group mb-2">
-                <label for="validationTooltip04">NOMBRE ORGANIZACION</label>
+                <label for="validationTooltip04">RAZON SOCIAL</label>
                 <input type="text" minlength="4" maxlength="100" formControlName="nombreOrganizacion"
-                  class="form-control" id="validationTooltip08" placeholder="Nombre Organizacion"
+                  class="form-control" id="validationTooltip08" placeholder="Razon Social"
                   [ngClass]="{ 'is-invalid': submittedEdit && fedit.nombreOrganizacion.invalid, 'is-valid': submittedEdit && !fedit.nombreOrganizacion.invalid }"
                   readonly>
               </div>
@@ -318,7 +314,7 @@
                 <label for="validationTooltip12">Campaña</label>
                 <ng-select [items]="listaCampania" formControlName="campania" class="form-control" bindLabel="Label"
                   bindValue="Codigo" id="validationTooltip12" placeholder="campania"
-                  [ngClass]="{ 'is-invalid': submitted && fedit.campania.invalid, 'is-valid': submitted && !fedit.campania.invalid }"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.campania.invalid, 'is-valid': submittedEdit && !fedit.campania.invalid }"
                   [(ngModel)]="selectedCampania">
                 </ng-select>
               </div>
@@ -347,7 +343,7 @@
                 <label for="validationTooltip12">Concepto</label>
                 <ng-select [items]="listaConcepto" formControlName="concepto" class="form-control" bindLabel="Label"
                   bindValue="Codigo" id="validationTooltip12" placeholder="Concepto"
-                  [ngClass]="{ 'is-invalid': submitted && fedit.Concepto.invalid, 'is-valid': submitted && !fedit.Concepto.invalid }"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.concepto.invalid, 'is-valid': submittedEdit && !fedit.concepto.invalid }"
                   [(ngModel)]="selectedConcepto">
                 </ng-select>
               </div>
@@ -375,28 +371,29 @@
                     <app-pesadoCafePlanta (miEvento)="consultarSocioFinca()" formGroupName="pesado"
                       [submittedEdit]="submittedEdit"  *ngIf="flagOcultarPesado"></app-pesadoCafePlanta>
 
-                      <div class="row" style="margin-right: 6rem; margin-left: 6rem;"  *ngIf="flagOcultarExportable">
+                      <div  *ngIf="flagOcultarExportable">
+                        
                         <div class="form-row col-lg-12 col-md-12 col-sm-12">
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                          <label for="validationTooltip09">Motivo</label>
-                          <ng-select [items]="listaMotivo" bindLabel="name" [(ngModel)]="selectedMotivoo"
-                            formControlName="motivo" bindLabel="Label" bindValue="Codigo" class="form-control"
-                            placeholder="Seleccionar Motivo" 
-                            [ngClass]="{ 'is-invalid': submittedEdit && fedit.motivo.invalid, 'is-valid': submittedEdit && !fedit.motivo.invalid }">
-                          </ng-select>
+                          <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label for="validationTooltip09">Motivo</label>
+                            <ng-select [items]="listaMotivo" bindLabel="name" [(ngModel)]="selectedMotivoo"
+                              formControlName="motivo" bindLabel="Label" bindValue="Codigo" class="form-control"
+                              placeholder="Seleccionar Motivo" 
+                              [ngClass]="{ 'is-invalid': submittedEdit && fedit.motivo.invalid, 'is-valid': submittedEdit && !fedit.motivo.invalid }">
+                            </ng-select>
+                          </div>
                         </div>
-                      </div>
-                      <div class="form-row col-lg-12 col-md-12 col-sm-12" r=""><div><br></div></div>
-                        <div class="form-row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                              <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" type="button"
-                              (click)="addRowDetail()">+</button>
-                            </div>
-                        </div>
+                        <div><br></div>
                         <div class="form-row" >
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
-                                    [loadingIndicator]="isLoading" [scrollbarH]="true"  [rowHeight]="'auto'" >
+
+                          <div class="col-lg-12 col-md-12 col-sm-12">
+                            <button class="btn btn-sm btn-success ml-2 mb-1 pt-0 pb-0" type="button"
+                            (click)="addRowDetail()">+</button>
+                          </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                              <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
+                              [loadingIndicator]="isLoading" [scrollbarH]="false"  [rowHeight]="'auto'"  [formGroup] = "formControlEmpaque">
 
                                     <ngx-datatable-column [sortable]="false" width="35">
                                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
@@ -407,7 +404,7 @@
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" width="80"
+                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" width="120"
                                     [sortable]="false">
                                     <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value"
                                         let-rowIndex="rowIndex">
@@ -419,12 +416,12 @@
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
-
-                                <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="90" >
+                               
+                                <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="170" >
                                       <ng-template ngx-datatable-cell-template let-row="row" let-EmpaqueId="value" 
                                           let-rowIndex="rowIndex">
-                                          <div class="d-flex align-items-center" [formGroup] = "formControlEmpaque" > 
-                                          <ng-select [items]="listaDetalleEmpaque"  width="140"   
+                                          <div class="d-flex align-items-center"  > 
+                                          <ng-select [items]="listaDetalleEmpaque"  width="160"   
                                               class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Empaque"
                                               [(ngModel)]="selectedDetalleEmpaque[row.NotaIngresoPlantaDetalleId]"  id="EmpaqueId" [formControlName]="row.NotaIngresoPlantaDetalleId+'empaque'"
                                               (change)="UpdateValuesGridDetails($event, rowIndex, 'EmpaqueId')"
@@ -434,34 +431,34 @@
                                       </ng-template>
                                 </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Tipo Empaque" prop="TipoId"  width="120" >
+                            <ngx-datatable-column name="Tipo Empaque" prop="TipoId"  width="220" >
                                   <ng-template ngx-datatable-cell-template let-row="row" let-TipoId="value" 
                                       let-rowIndex="rowIndex">
-                                      <div class="d-flex align-items-center" [formGroup] = "formControlTipoEmpaque" >
-                                      <ng-select [items]="listaDetalleTipoEmpaque"  width="140"   
-                                          class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Tipo Empaque"
-                                          [(ngModel)]="selectedDetalleTipoEmpaque[row.NotaIngresoPlantaDetalleId]"  id="TipoId" [formControlName]="row.NotaIngresoPlantaDetalleId+'tipoempaque'"
-                                          (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoId')"
-                                          value="{{TipoId}}">
-                                      </ng-select>
-                                  </div>
+                                      <div class="d-flex align-items-center" >
+                                          <ng-select [items]="listaDetalleTipoEmpaque"  width="210"   
+                                              class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Tipo Empaque"
+                                              [(ngModel)]="selectedDetalleTipoEmpaque[row.NotaIngresoPlantaDetalleId]"  id="TipoId" [formControlName]="row.NotaIngresoPlantaDetalleId+'tipoempaque'"
+                                              (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoId')"
+                                              value="{{TipoId}}">
+                                          </ng-select>
+                                      </div>
                                   </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Descripcion" prop="SubProductoId"  width="180" >
+                            
+                            <ngx-datatable-column name="Descripcion" prop="SubProductoId"  width="290" >
                               <ng-template ngx-datatable-cell-template let-row="row" let-SubProductoId="value" 
                                   let-rowIndex="rowIndex">
-                                  <div class="d-flex align-items-center" style="width: 180px" [formGroup] = "formControlSubProducto"  >
-                                  <ng-select [items]="listaDetalleSubProducto"  width="180"   
-                                      class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Descripcion"
-                                      [(ngModel)]="selectedDetalleSubProducto[row.NotaIngresoPlantaDetalleId]"  id="SubProductoId" [formControlName]="row.NotaIngresoPlantaDetalleId+'subproducto'"
+                                  <div class="d-flex align-items-center"  style="width: 280px;">
+                                    <ng-select [items]="listaDetalleSubProducto"  width="280"   
+                                      class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Descripcion" id="SubProductoId" 
+                                    
                                       (change)="UpdateValuesGridDetails($event, rowIndex, 'SubProductoId')"
                                       value="{{SubProductoId}}">
                                   </ng-select>
                               </div>
                               </ng-template>
                             </ngx-datatable-column>
-
 
                               <ngx-datatable-column name="Peso Bruto kg" prop="KilosBrutos" width="90"
                                   [sortable]="false">
@@ -489,7 +486,7 @@
                               </ng-template>
                               </ngx-datatable-column>
 
-                              <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="85"
+                              <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="95"
                               [sortable]="false">
                               <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value"
                                   let-rowIndex="rowIndex">
@@ -502,13 +499,15 @@
                               </ng-template>
                               </ngx-datatable-column>
 
-
-
-                          
-                                </ngx-datatable>
+                            </ngx-datatable>
+                                <div class="row" style="margin-top: 2rem;">
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="errorGrilla.isError" > Ingrese por lo menos un registro</small>
+                                </div>
+                                
                             </div>
-
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            
+                            <div class="col-lg-12 col-md-12 col-sm-12">
                               <div class="col-12 col-md-12">
                                 <ul class="list-group" id="multiple-list-group-a">
                                   <li class="list-group-item draggable">
@@ -518,7 +517,7 @@
                                           <ngx-spinner></ngx-spinner>
                                         </div>
                                         <div class="form-row">
-                                          <div class="col-md-6 mb-6 form-group mb-2">
+                                          <div class="col-md-3 mb-3 form-group mb-2">
                           
                                             <label for="validationTooltip04">Transportista</label>
                                             <input type="text" minlength="1" maxlength="50" formControlName="transportista" class="form-control"
@@ -528,52 +527,57 @@
                                             
                                           </div>
                                           
-                                          <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                                          <div class="col-1 col-md-1" style="padding-left: 0cm;">
                                             <button type="button" (click)="openModalTransportista(modalTransportista)" class="btn btn-default"
                                               style="margin-top: 1.5rem;">
                                               <i class="fa fa-search"></i>
                                             </button>
                                           </div>
                                           
-                                          <div class="col-md-6 mb-6 form-group mb-2">
+                                          <div class="col-md-3 mb-3 form-group mb-2">
                                             <label for="validationTooltip04">Ruc</label>
                                             <input type="text" minlength="1" maxlength="20" formControlName="ruc" class="form-control"
                                               id="validationTooltip08" placeholder="Ruc"
                                               [ngClass]="{ 'is-invalid': submittedEdit &&  fedit.controls.ruc.invalid, 'is-valid': submittedEdit && !fedit.controls.ruc.invalid }">
                                           </div>
-                          
-                                        </div>
-                          
-                                        <div class="form-row">
-                                          <div class="col-md-6 mb-6 form-group mb-2">
+
+                                          <div class="col-md-3 mb-3 form-group mb-2">
                                             <label for="validationTooltip04">Placa Vehiculo</label>
                                             <input type="text" minlength="1" maxlength="20" formControlName="placaVehiculo" class="form-control"
                                               id="validationTooltip04" placeholder="Placa Vehiculo"
                                               [ngClass]="{ 'is-invalid': submittedEdit &&  fedit.controls.placaVehiculo.invalid, 'is-valid': submittedEdit && !fedit.controls.placaVehiculo.invalid }">
                                           </div>
-                                          <div class="col-md-6 mb-6 form-group mb-2">
+                          
+                                        </div>
+                          
+                                        <div class="form-row">
+                                      
+                                          <div class="col-md-3 mb-3 form-group mb-2">
                                             <label for="validationTooltip04">Chofer</label>
                                             <input type="text" minlength="1" maxlength="50" formControlName="chofer" class="form-control"
                                               id="validationTooltip08" placeholder="Chofer"
                                               [ngClass]="{ 'is-invalid': submittedEdit &&  fedit.controls.chofer.invalid, 'is-valid': submittedEdit && !fedit.controls.chofer.invalid }">
                                           </div>
-                          
-                                        </div>
-                          
-                                        <div class="form-row">
-                                          <div class="col-md-6 mb-6 form-group mb-2">
+                                          <div class="col-1 col-md-1" style="padding-left: 0cm;">
+                                          </div>
+                                          <div class="col-md-3 mb-3 form-group mb-2">
                                             <label for="validationTooltip04">Nro Brevete</label>
                                             <input type="text" minlength="1" maxlength="20" formControlName="numeroBrevete" class="form-control"
                                               id="validationTooltip04" placeholder="Nro Brevete"
                                               [ngClass]="{ 'is-invalid': submittedEdit &&  fedit.controls.numeroBrevete.invalid, 'is-valid': submittedEdit && !fedit.controls.numeroBrevete.invalid }">
                                           </div>
-                                          
-                                          <div class="col-md-6 mb-6 form-group mb-2">
+                                          <div class="col-md-3 mb-3 form-group mb-2">
                                             <label for="validationTooltip04">Marca</label>
                                             <input type="text" minlength="1" maxlength="20" formControlName="marca" class="form-control"
                                               id="validationTooltip04" placeholder="Marca"
                                               [ngClass]="{ 'is-invalid': submittedEdit &&  fedit.controls.marca.invalid, 'is-valid': submittedEdit && !fedit.controls.marca.invalid }">
                                           </div>
+                                        </div>
+                          
+                                        <div class="form-row">
+                                          
+                                          
+                                   
                           
                                         </div>
                                         <div class="form-group row last mb-3">
@@ -595,6 +599,7 @@
                                 </ul>
                               </div>
                             </div>
+                             
                         </div>
                       
                     

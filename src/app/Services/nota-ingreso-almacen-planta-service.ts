@@ -42,10 +42,10 @@ export class NotaIngresoAlmacenPlantaService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
-  Anular(notaIngresoAlmacenId: number, usuario: string): Observable<any> {
+  Anular(notaIngresoAlmacenPlantaId: number, usuario: string): Observable<any> {
     const url = `${this.url}/Anular`;
     let request = {
-      NotaIngresoAlmacenId: notaIngresoAlmacenId,
+      NotaIngresoAlmacenPlantaId: notaIngresoAlmacenPlantaId,
       Usuario: usuario
     }
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
