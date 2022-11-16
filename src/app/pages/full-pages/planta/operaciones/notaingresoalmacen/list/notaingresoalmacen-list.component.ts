@@ -8,6 +8,8 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } fro
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from "@angular/router";
 import {AuthService} from './../../../../../../services/auth.service';
+import swal from 'sweetalert2';
+import { AlertUtil } from '../../../../../../services/util/alert-util';
 
 @Component({
   selector: "app-notaingresoalmacen-list",
@@ -63,7 +65,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     private dateUtil: DateUtil,
     private spinner: NgxSpinnerService,
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
-    private authService : AuthService
+    private authService : AuthService,
+    private alertUtil: AlertUtil
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
@@ -175,11 +178,75 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     });
     this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
       if (res.Result.Success) {
-        form.listaMotivo = res.Result.Data;
+        form.listaMotivo = res.Result.Data.filter(x => x.Codigo != '04');
       }
     });
 
     await this.LoadFormPopup();
+  }
+
+
+  anular() {
+    if (this.selected.length > 0) {
+    
+      if (this.selected[0].EstadoId == '01' && this.selected[0].Cantidad == this.selected[0].CantidadDisponible) {
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estas seguro de anular?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.anularNotaIngresoAlmacen();
+          }
+        });
+      } 
+    }
+  }
+  anularNotaIngresoAlmacen(){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.notaIngresoAlmacenPlantaService.Anular(
+      this.selected[0].NotaIngresoAlmacenPlantaId,
+      this.vSessionUser.Result.Data.NombreUsuario
+      )
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Anulado!', 'Nota de Ingreso Almacen Anulado.');
+            this.buscar();
+  
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
   }
 
   async LoadFormPopup() {
@@ -268,11 +335,11 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
             if (res.Result.ErrCode == "") {
               res.Result.Data.forEach(obj => {
                 var fecha = new Date(obj.FechaRegistro);
-                obj.FechaRegistro = this.dateUtil.formatDate(fecha, "-");
+                obj.FechaRegistro = this.dateUtil.formatDate(fecha, "/");
 
 
                 var fechaGuia = new Date(obj.FechaGuiaRemision);
-                obj.FechaGuiaRemision = this.dateUtil.formatDate(fechaGuia, "-");
+                obj.FechaGuiaRemision = this.dateUtil.formatDate(fechaGuia, "/");
 
              
 
