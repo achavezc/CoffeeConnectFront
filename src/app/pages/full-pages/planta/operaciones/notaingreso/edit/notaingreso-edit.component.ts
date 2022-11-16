@@ -30,6 +30,7 @@ export class NotaIngresoEditComponent implements OnInit {
   @ViewChild('vform') validationForm: FormGroup;
   @Input() name;
   @ViewChild(DatatableComponent) tableTranspotistas: DatatableComponent;
+  @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   esEdit = false;
   consultaTransportistas: FormGroup;
   submitted = false;
@@ -309,7 +310,8 @@ export class NotaIngresoEditComponent implements OnInit {
     let groupsEmpaque = {}
     data.Detalle.forEach(obj => {
       groupsEmpaque[obj.NotaIngresoPlantaDetalleId + 'empaque'] = new FormControl('', []);
-
+      groupsEmpaque[obj.NotaIngresoPlantaDetalleId + 'tipoempaque'] = new FormControl('', []);
+      groupsEmpaque[obj.NotaIngresoPlantaDetalleId + 'subproducto'] = new FormControl('', []);
     });
    this.formControlEmpaque = new FormGroup(groupsEmpaque);
   }
@@ -398,7 +400,6 @@ export class NotaIngresoEditComponent implements OnInit {
       KilosNetos: 0,
       Tara: 0
     }];
-
   }
   DeleteRowDetail(index: any): void {
     this.rowsDetails.splice(index, 1);
@@ -842,8 +843,8 @@ export class NotaIngresoEditComponent implements OnInit {
             this.cargarDataFormulario(res.Result.Data);
             if (this.detalle != null) {
               this.formEmpaques(res.Result.Data);
-              this.formTipoEmpaque(res.Result.Data);
-              this.formSubProducto(res.Result.Data);
+             // this.formTipoEmpaque(res.Result.Data);
+             // this.formSubProducto(res.Result.Data);
               
             } else {
               this.spinner.hide();
