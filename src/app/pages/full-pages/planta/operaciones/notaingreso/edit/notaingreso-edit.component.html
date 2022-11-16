@@ -314,7 +314,7 @@
                 <label for="validationTooltip12">Campaña</label>
                 <ng-select [items]="listaCampania" formControlName="campania" class="form-control" bindLabel="Label"
                   bindValue="Codigo" id="validationTooltip12" placeholder="campania"
-                  [ngClass]="{ 'is-invalid': submitted && fedit.campania.invalid, 'is-valid': submitted && !fedit.campania.invalid }"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.campania.invalid, 'is-valid': submittedEdit && !fedit.campania.invalid }"
                   [(ngModel)]="selectedCampania">
                 </ng-select>
               </div>
@@ -343,7 +343,7 @@
                 <label for="validationTooltip12">Concepto</label>
                 <ng-select [items]="listaConcepto" formControlName="concepto" class="form-control" bindLabel="Label"
                   bindValue="Codigo" id="validationTooltip12" placeholder="Concepto"
-                  [ngClass]="{ 'is-invalid': submitted && fedit.Concepto.invalid, 'is-valid': submitted && !fedit.Concepto.invalid }"
+                  [ngClass]="{ 'is-invalid': submittedEdit && fedit.concepto.invalid, 'is-valid': submittedEdit && !fedit.concepto.invalid }"
                   [(ngModel)]="selectedConcepto">
                 </ng-select>
               </div>
@@ -371,7 +371,7 @@
                     <app-pesadoCafePlanta (miEvento)="consultarSocioFinca()" formGroupName="pesado"
                       [submittedEdit]="submittedEdit"  *ngIf="flagOcultarPesado"></app-pesadoCafePlanta>
 
-                      <div class="row" style="margin-right: 6rem; margin-left: 6rem;"  *ngIf="flagOcultarExportable">
+                      <div class=""   *ngIf="flagOcultarExportable">
                         <div class="form-row col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                           <label for="validationTooltip09">Motivo</label>
@@ -390,7 +390,7 @@
                             </div>
                         </div>
                         <div class="form-row" >
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
                                 <ngx-datatable #tblDetails class="bootstrap core-bootstrap" [rows]="rowsDetails"
                                     [loadingIndicator]="isLoading" [scrollbarH]="true"  [rowHeight]="'auto'" >
 
@@ -502,6 +502,11 @@
 
                           
                                 </ngx-datatable>
+                                <div class="row" style="margin-top: 2rem;">
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="errorGrilla.isError" > Ingrese por lo menos un registro</small>
+                                </div>
+                                
                             </div>
 
                             <div class="col-lg-6 col-md-6 col-sm-6">
