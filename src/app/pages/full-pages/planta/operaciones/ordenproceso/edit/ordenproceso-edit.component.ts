@@ -696,7 +696,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       if (result.value) {
         let link = document.createElement('a');
         document.body.appendChild(link);
-        link.href = `${host}OrdenProcesoPlanta/GenerarPDFOrdenProceso?id=${form.codeProcessOrder}`;
+        link.href = `${host}OrdenProcesoPlanta/GenerarPDFOrdenProceso?id=${form.codeProcessOrder}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
         link.target = "_blank";
         link.click();
         link.remove();
