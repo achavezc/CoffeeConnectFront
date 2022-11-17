@@ -765,7 +765,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     detalle.forEach(data => {
       let object: any = {};
       object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId
-
+debugger
       object.NumeroIngresoAlmacenPlanta = data.NumeroIngresoAlmacenPlanta
       object.FechaIngresoAlmacen = data.FechaIngresoAlmacen;
       object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);

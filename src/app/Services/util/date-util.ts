@@ -28,24 +28,37 @@ export class DateUtil {
     return years.length;
   }
 
+
+   dateIsValid(date: any) {
+    return date instanceof Date;
+  }
+
   formatDate(date: any, separator?: string): string {
     let result: string = "";
     if (date != null)
     {
 
-     let date2 = new Date(date); 
-    let d: number = date2.getDate();
-    let m: string = '0' + (date2.getMonth() + 1).toString().slice(-2);
-    let y: number = date2.getFullYear();
-    if(m.length == 3){
-      m = m.slice(1);
+      let date2 = new Date(date); 
+      let d: number = date2.getDate();
+      let m: string = '0' + (date2.getMonth() + 1).toString().slice(-2);
+      let y: number = date2.getFullYear();
+
+      if(y!=1)
+      {
+        if(m.length == 3)
+        {
+          m = m.slice(1);
+        }
+        if (separator) 
+        {
+          result = `${d}${separator}${m}${separator}${y}`;
+        } 
+        else 
+        {
+          result = `${d}/${m}/${y}`;
+        }
+      }
     }
-    if (separator) {
-      result = `${d}${separator}${m}${separator}${y}`;
-    } else {
-      result = `${d}/${m}/${y}`;
-    }
-  }
 
     return result;
   }
