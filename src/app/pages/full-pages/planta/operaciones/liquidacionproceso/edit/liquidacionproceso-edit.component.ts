@@ -42,6 +42,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   popupModel;
+  listaDetalleEmpaque: any[];
+  listaDetalleTipoEmpaque: any[];
   vSessionUser: any;
   private tempDataResultProceso = [];
   public rowsResultProceso = [];
@@ -187,6 +189,17 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.formGroupQqkg = new FormGroup(groupQqkg);
       }
     });
+
+    /* this.maestroUtil.obtenerMaestros("Empaque", function (res) {
+      if (res.Result.Success) {
+        this.listaDetalleEmpaque = res.Result.Data;
+      }
+    });
+    this.maestroUtil.obtenerMaestros("TipoEmpaque", function (res) {
+      if (res.Result.Success) {
+        this.listaDetalleTipoEmpaque = res.Result.Data;
+      }
+    }); */
   }
 
   cargarDataFormulario(data: any) {
@@ -347,14 +360,19 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         
         var kilosBrutos = Math.round((kilosNetos + tara + Number.EPSILON) * 100) / 100
 
-
+        var tipoId = '';
+        var empaqueId = '';
 
         let objectResultProceso = new LiquidacionProcesoPlantaResultado(
           x.Codigo,
           cantidad,
           Number(this.formGroupKg.get(x.Codigo + '%Kg').value),
           kilosNetos,
-          kilosBrutos
+          kilosBrutos,
+          tara,
+          tipoId,
+          empaqueId
+
         );
         liquidacionProcesoPlantaResultado.push(objectResultProceso);
       }

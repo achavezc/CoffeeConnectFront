@@ -88,6 +88,9 @@ export class LiquidacionProcesoPlantaResultado
     KGN: number,
     KilosNetos: number,
     KilosBrutos: number,
+    Tara: number,
+    EmpaqueId: string,
+    TipoId: string,
     LiquidacionProcesoPlantaResultadoId?: number,
     LiquidacionProcesoPlantaId?: number,
     )
@@ -105,6 +108,10 @@ export class LiquidacionProcesoPlantaResultado
         this.KGN = KGN;
         this.KilosNetos = KilosNetos;
         this.KilosBrutos = KilosBrutos;
+        this.Tara = Tara;
+        this.EmpaqueId = EmpaqueId;
+        this.TipoId = TipoId;
+         
     }
     LiquidacionProcesoPlantaResultadoId: number;
     LiquidacionProcesoPlantaId: number;
@@ -113,5 +120,8 @@ export class LiquidacionProcesoPlantaResultado
     KGN: number;
     KilosNetos: number;
     KilosBrutos: number;
+    Tara: number;
+    EmpaqueId: string;
+    TipoId: string;
 
 }
