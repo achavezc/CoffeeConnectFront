@@ -267,7 +267,7 @@ export class ControlCalidadListComponent implements OnInit
                 new HeaderExcel("Estado de Humedad", "center"),
                 new HeaderExcel("Motivo", "center"),
                 new HeaderExcel("Cantidad Control Calidad", "right"),
-                new HeaderExcel("Peso Bruto Control Calidad", "right"),
+                new HeaderExcel("Kilos Brutos Control Calidad", "right"),
                 new HeaderExcel("Tara Control Calidad", "right"),
                 new HeaderExcel("Kilos Netos Control Calidad"),
                 new HeaderExcel("% Rendimiento", "center"),

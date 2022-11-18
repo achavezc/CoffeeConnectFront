@@ -388,7 +388,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("empaque").setValue(data.EmpaqueId);
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("tipo").setValue(data.TipoId);
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("cantidad").setValue(data.Cantidad);
-    this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("kilosBrutos").setValue(data.KilosBrutos);
+    this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("kilosBrutos").setValue(data.PesoBruto);
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("pesoSaco").setValue(data.PesoPorSaco);
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("calidad").setValue(data.CalidadId);
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("tara").setValue(data.Tara);

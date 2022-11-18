@@ -48,7 +48,7 @@
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.cantidad.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.cantidad.invalid }">
                 </div>
                 <div class="col-md-6 mb-6 form-group mb-2">
-                  <label for="validationTooltip04">Peso Bruto KG</label>
+                  <label for="validationTooltip04">Kilos Brutos</label>
                   <input type="number" minlength="1" maxlength="20" formControlName="kilosBrutos" class="form-control"
                     id="validationTooltip04" placeholder="Peso Bruto KG" (change)="changePesoBruto()"
                     [ngClass]="{ 'is-invalid': submittedEdit &&  pesadoFormGroup.controls.kilosBrutos.invalid, 'is-valid': submittedEdit && !pesadoFormGroup.controls.kilosBrutos.invalid }">
