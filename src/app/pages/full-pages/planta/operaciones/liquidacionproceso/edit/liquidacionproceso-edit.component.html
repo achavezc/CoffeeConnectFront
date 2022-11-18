@@ -164,21 +164,9 @@
                       </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="170" >
-                      <ng-template ngx-datatable-cell-template let-row="row" let-EmpaqueId="value" 
-                          let-rowIndex="rowIndex">
-                          <div class="d-flex align-items-center"  > 
-                          <ng-select [items]="listaDetalleEmpaque"  width="160"   
-                              class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Empaque"
-                              [(ngModel)]="selectedDetalleEmpaque[row.NotaIngresoPlantaDetalleId]"  id="EmpaqueId" [formControlName]="row.NotaIngresoPlantaDetalleId+'empaque'"
-                              (change)="UpdateValuesGridDetails($event, rowIndex, 'EmpaqueId')"
-                              value="{{EmpaqueId}}">
-                          </ng-select>
-                      </div>
-                      </ng-template>
-                </ngx-datatable-column>
+                   
 
-                <ngx-datatable-column name="Tipo Empaque" prop="TipoId"  width="220" >
+                <ngx-datatable-column name="Tipo" prop="TipoId"  width="220" >
                       <ng-template ngx-datatable-cell-template let-row="row" let-TipoId="value" 
                           let-rowIndex="rowIndex">
                           <div class="d-flex align-items-center" >
@@ -191,6 +179,20 @@
                           </div>
                       </ng-template>
                 </ngx-datatable-column>
+
+                <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="170" >
+                  <ng-template ngx-datatable-cell-template let-row="row" let-EmpaqueId="value" 
+                      let-rowIndex="rowIndex">
+                      <div class="d-flex align-items-center"  > 
+                      <ng-select [items]="listaDetalleEmpaque"  width="160"   
+                          class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Empaque"
+                          [(ngModel)]="selectedDetalleEmpaque[row.NotaIngresoPlantaDetalleId]"  id="EmpaqueId" [formControlName]="row.NotaIngresoPlantaDetalleId+'empaque'"
+                          (change)="UpdateValuesGridDetails($event, rowIndex, 'EmpaqueId')"
+                          value="{{EmpaqueId}}">
+                      </ng-select>
+                  </div>
+                  </ng-template>
+            </ngx-datatable-column>
 
 
                     <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="50"

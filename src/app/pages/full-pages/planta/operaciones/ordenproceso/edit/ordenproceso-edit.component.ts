@@ -46,7 +46,8 @@ export class OrdenProcesoEditComponent implements OnInit {
   listEstado = [];
   listTipoProcesos = [];
   listTipoProduccion = [];
-  listCertificacion = [];
+  //listCertificacion = [];
+  listaCertificacion: any[];
   listProducto = [];
   listCertificadora = [];
   listSubProducto = [];
@@ -107,7 +108,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.GetTipoProcesos();
     this.GetEstado();
     //this.GetTipoProduccion();
-    //this.GetCertificacion();
+    this.GetCertificacion();
     this.GetProducto();
     this.GetCertificadora();
     this.GetEmpaque();
@@ -199,7 +200,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     
     //this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
     //this.ordenProcesoEditForm.controls["certificacion"].setValue(data.TipoCertificacionId);
-    this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
+    this.ordenProcesoEditForm.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
     this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
     this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
 
@@ -250,6 +251,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       razonSocialCabe: ['',],
       nroOrden: [],
       direccionCabe: ['',],
+      certificacion: ['', ],
       fechaCabe: ['',],
       nroRucCabe: ['',],
       idContrato: ['',],
@@ -409,7 +411,12 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-
+  async GetCertificacion() {
+    const res = await this.maestroService.obtenerMaestros('TipoCertificacionPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listaCertificacion = res.Result.Data;
+    }
+  }
 
   openModal(modal: any): void {
     this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl' });
@@ -435,6 +442,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       NumeroContrato: this.ordenProcesoEditForm.controls["numeroContrato"].value ? this.ordenProcesoEditForm.controls["numeroContrato"].value : '',
       OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : null,
       EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : '',
+      CertificacionId: this.ordenProcesoEditForm.controls["certificacion"].value ? this.ordenProcesoEditForm.controls["certificacion"].value.join('|') : '',
+                       
       ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : '',
       ProductoIdTerminado: this.ordenProcesoEditForm.controls["productoTerminado"].value ? this.ordenProcesoEditForm.controls["productoTerminado"].value : '',
       EmpaqueId: this.ordenProcesoEditForm.controls["empaque"].value ? this.ordenProcesoEditForm.controls["empaque"].value : '',
@@ -480,6 +489,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   Create(): void {
+    debugger
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
@@ -600,10 +610,11 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
  */
 
-      // if (data.TipoCertificacionId) {
-      //   await this.GetCertificacion();
-      //   this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId.split('|').map(String));
-      // }
+      if (data.CertificacionId) 
+      {
+        await this.GetCertificacion();
+         this.ordenProcesoEditForm.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
+       }
 
       if (data.TipoProcesoId) {
         await this.GetTipoProcesos();

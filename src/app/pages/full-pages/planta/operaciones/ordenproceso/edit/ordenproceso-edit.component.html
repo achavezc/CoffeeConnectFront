@@ -218,6 +218,14 @@
                                     
                                
                             </div>
+                            <div class="col-md-4 mb-4 form-group mb-2">
+                                <label for="validationTooltip09">CERTIFICACION</label>
+                                <ng-select [items]="listaCertificacion" bindLabel="name" [(ngModel)]="selectedCertificacion"
+                                  formControlName="certificacion" bindLabel="Label" bindValue="Codigo" class="form-control"
+                                  placeholder="Seleccionar Certificacion" [multiple]="true"
+                                  [ngClass]="{ 'is-invalid': f.certificacion.invalid, 'is-valid':!f.certificacion.invalid }">
+                                </ng-select>
+                              </div>
                             <!-- <div class="col-lg-4 col-md-4 col-sm-4">
                                
                                     <label for="certificacion" >CERTIFICACION</label>
