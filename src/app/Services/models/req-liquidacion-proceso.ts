@@ -6,6 +6,7 @@ export class ReqLiquidacionProceso {
         EmpresaId: number,
         Observacion: string,
         EnvasesProductos: string,
+        CertificacionId: string,
         TrabajosRealizados: string,
         EstadoId: string,
         Usuario: string,
@@ -26,6 +27,8 @@ export class ReqLiquidacionProceso {
         this.EmpresaId = EmpresaId;
         this.Observacion = Observacion;
         this.EnvasesProductos = EnvasesProductos;
+        this.CertificacionId = CertificacionId;
+        
         this.TrabajosRealizados = TrabajosRealizados;
         this.EstadoId = EstadoId;
         this. Usuario = Usuario;
@@ -42,6 +45,8 @@ export class ReqLiquidacionProceso {
     EnvasesProductos: string;
     TrabajosRealizados: string;
     EstadoId: string;
+    CertificacionId: string;
+    
     Usuario: string;
     LiquidacionProcesoPlantaDetalle : LiquidacionProcesoPlantaDetalle[];
     LiquidacionProcesoPlantaResultado: LiquidacionProcesoPlantaResultado[];

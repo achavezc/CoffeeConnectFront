@@ -434,7 +434,12 @@ export class OrdenProcesoEditComponent implements OnInit {
         let cantidad =Number(this.formGroupCantidad.get(data.NotaIngresoAlmacenPlantaId+ '%cantidad').value)
         data.Cantidad = cantidad;
       }); */
-    const request = {
+
+      debugger
+
+    const request = 
+    {
+      
       OrdenProcesoPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
       OrganizacionId: form.organizacionId ? form.organizacionId : 0,
@@ -456,6 +461,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId)
     }
+    debugger
     let json = JSON.stringify(request);
     return request;
 
@@ -678,7 +684,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-    
+    debugger
     if (prop === 'Cantidad')
       this.rowsDetails[index].Cantidad =  parseFloat(event.target.value);
     else if (prop === 'KilosNetos')

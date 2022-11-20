@@ -60,6 +60,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   responsable: "";
   TipoId = "";
   EmpaqueId = "";
+  CertificacionId = "";
+  
   listResultProceso = [];
   popUp = true;
   sumKilosNetos: any =0;
@@ -147,7 +149,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         subproducto: new FormControl('', []),
         numOrdenProceso: new FormControl('', [Validators.required]),
         razonSocial: new FormControl('', []),
-        tipoCertificacion: new FormControl('', []),
+        certificacion: new FormControl('', []),
         certificadora: new FormControl('', []),
         ordenProcesoPlantaId: new FormControl('', []),
         totalSacos: new FormControl('', []),
@@ -213,7 +215,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
-    this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(data.TipoCertificacion);
+    this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(data.EntidadCertificadora);
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(data.OrdenProcesoPlantaId);
     this.liquidacionProcesoFormEdit.controls["observacion"].setValue(data.Observacion);
@@ -393,6 +395,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.vSessionUser.Result.Data.EmpresaId,
         this.liquidacionProcesoFormEdit.get("observacion").value,
         this.liquidacionProcesoFormEdit.get("envases").value,
+        this.CertificacionId,
         this.liquidacionProcesoFormEdit.get("trabajos").value,
         '01',
         this.vSessionUser.Result.Data.NombreUsuario,
@@ -503,11 +506,12 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(e[0].Numero);
     this.liquidacionProcesoFormEdit.controls["subproducto"].setValue(e[0].SubProducto);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocialOrganizacion);
-    this.liquidacionProcesoFormEdit.controls["tipoCertificacion"].setValue(e[0].TipoCertificacion);
+    this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(e[0].Certificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
     this.liquidacionProcesoFormEdit.controls["envases"].setValue(e[0].Empaque + ' ' + e[0].Tipo);
     this.liquidacionProcesoFormEdit.controls["envases"].disable()
     this.EmpaqueId = e[0].EmpaqueId;
+    this.CertificacionId = e[0].CertificacionId;
     this.TipoId = e[0].TipoId;
 
     if(e[0].FechaInicioProceso!= "")
