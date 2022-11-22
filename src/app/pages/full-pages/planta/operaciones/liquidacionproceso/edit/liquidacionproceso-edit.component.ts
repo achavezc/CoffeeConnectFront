@@ -38,6 +38,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   formGroupKilosNetos: FormGroup;
   formGroupPorcentaje: FormGroup;
   formGroupQqkg: FormGroup;
+  formGroupTipoEmpaque: FormGroup;
+  formGroupEmpaque: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
@@ -71,6 +73,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   kilos = 7;
   tara = 0.2;
   taraYute = 0.7
+  selectedDetalleTipoEmpaque : any[];
+  selectedDetalleEmpaque: any[];
 
   @ViewChild(DatatableComponent) tblResultProceso: DatatableComponent;
 
@@ -90,10 +94,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
-    this.Load();
+    await this.Load();
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {
@@ -105,8 +109,6 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       );
       this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.liquidacionProcesoFormEdit);
   }
-
-
 
 
   obtenerDetalle() {
@@ -166,8 +168,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         totalKilosNetosNotas: new FormControl('', [])
       });
   }
-  Load() {
-    this.maestroUtil.obtenerMaestros('TiposCafeProcesado', (res: any) => {
+  async Load() {
+    var form = this;
+   await this.maestroUtil.obtenerMaestros('TiposCafeProcesado', (res: any) => {
       if (res.Result.Success) {
         this.listResultProceso = res.Result.Data;
         this.tempDataResultProceso = this.listResultProceso;
@@ -177,31 +180,40 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         let groupKilosNetos = {}
         let groupPorcentaje = {}
         let groupQqkg = {}
+        let groupTipoEmpaque = {}
+        let groupEmpaque = {}
+        let selectpEmpaque = []
+        let selectedtipoempaque = []
         this.listResultProceso.forEach(input_template => {
           groupsSacos[input_template.Codigo + '%sacos'] = new FormControl('', []);
           groupKg[input_template.Codigo + '%Kg'] = new FormControl('', []);
           groupKilosNetos[input_template.Codigo + '%kilosNetos'] = new FormControl('', []);
           groupPorcentaje[input_template.Codigo + '%porcentaje'] = new FormControl('', []);
           groupQqkg[input_template.Codigo + '%qqkg'] = new FormControl('', []);
+          groupTipoEmpaque[input_template.Codigo + '%tipoempaque'] = new FormControl('',[]);
+          groupEmpaque[input_template.Codigo + '%empaque'] = new FormControl('',[]);
+          selectpEmpaque[input_template.Codigo + '%selectedempaque'];
+          selectedtipoempaque[input_template.Codigo + '%selectedtipoempaque'];
         })
         this.formGroupSacos = new FormGroup(groupsSacos);
         this.formGroupKg = new FormGroup(groupKg);
         this.formGroupKilosNetos = new FormGroup(groupKilosNetos)
         this.formGroupPorcentaje = new FormGroup(groupPorcentaje);
         this.formGroupQqkg = new FormGroup(groupQqkg);
+        this.formGroupTipoEmpaque = new FormGroup(groupTipoEmpaque);
+        this.formGroupEmpaque = new FormGroup(groupEmpaque);
+        this.selectedDetalleEmpaque = selectpEmpaque;
+        this.selectedDetalleTipoEmpaque = selectedtipoempaque;
       }
     });
-
-    /* this.maestroUtil.obtenerMaestros("Empaque", function (res) {
+    var res = await this.maestroService.obtenerMaestros("Empaque").toPromise();
       if (res.Result.Success) {
-        this.listaDetalleEmpaque = res.Result.Data;
+        form.listaDetalleEmpaque = res.Result.Data;
       }
-    });
-    this.maestroUtil.obtenerMaestros("TipoEmpaque", function (res) {
-      if (res.Result.Success) {
-        this.listaDetalleTipoEmpaque = res.Result.Data;
+    var res2 = await this.maestroService.obtenerMaestros("TipoEmpaque").toPromise();
+      if (res2.Result.Success) {
+        form.listaDetalleTipoEmpaque = res.Result.Data;
       }
-    }); */
   }
 
   cargarDataFormulario(data: any) {
@@ -212,7 +224,6 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["productoTerminado"].setValue(data.ProductoTerminado);
     this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].setValue(this.dateUtil.formatDate(data.FechaInicioProceso));
     this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(this.dateUtil.formatDate(data.FechaFinProceso));
-    
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);
@@ -232,6 +243,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       x => {
         this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos == 0 ? "": x.CantidadSacos);
         this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN ==0 ? "": x.KGN);
+        this.formGroupEmpaque.get(x.ReferenciaId + '%empaque').setValue(x.EmpaqueId == ""? null: x.EmpaqueId);
+        this.formGroupTipoEmpaque.get(x.ReferenciaId + '%tipoempaque').setValue(x.TipoId == ""? null: x.TipoId);
       }
     );
     
@@ -336,6 +349,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   
 
   guardar() {
+    const form = this;
     if (this.liquidacionProcesoFormEdit.invalid || this.errorGeneral.isError) {
       this.submittedEdit = true;
       return;
@@ -362,8 +376,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         
         var kilosBrutos = Math.round((kilosNetos + tara + Number.EPSILON) * 100) / 100
 
-        var tipoId = '';
-        var empaqueId = '';
+        var tipoId = this.formGroupTipoEmpaque.get(x.Codigo + '%tipoempaque').value;
+        var empaqueId = this.formGroupEmpaque.get(x.Codigo + '%empaque').value;
 
         let objectResultProceso = new LiquidacionProcesoPlantaResultado(
           x.Codigo,
@@ -379,7 +393,6 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         liquidacionProcesoPlantaResultado.push(objectResultProceso);
       }
       );
-      debugger
       let liquidacionProcesoPlantaDetalle: LiquidacionProcesoPlantaDetalle[] = [];
       this.listMateriaPrima.forEach(x => {
         let ObjectProcesoPlantaDetalle = new LiquidacionProcesoPlantaDetalle(
@@ -413,7 +426,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
-      const form = this;
+      
       if (this.esEdit && this.id != 0) {
 
         this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.', function (result) {
@@ -510,9 +523,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
     this.liquidacionProcesoFormEdit.controls["envases"].setValue(e[0].Empaque + ' ' + e[0].Tipo);
     this.liquidacionProcesoFormEdit.controls["envases"].disable()
-    this.EmpaqueId = e[0].EmpaqueId;
+    //this.EmpaqueId = e[0].EmpaqueId;
     this.CertificacionId = e[0].CertificacionId;
-    this.TipoId = e[0].TipoId;
+    //this.TipoId = e[0].TipoId;
 
     if(e[0].FechaInicioProceso!= "")
     {
