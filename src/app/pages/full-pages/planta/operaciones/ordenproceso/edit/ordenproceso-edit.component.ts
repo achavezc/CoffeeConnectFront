@@ -830,14 +830,14 @@ debugger
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId == e[0].NotaIngresoAlmacenPlantaId);
       if (listFilter.length == 0)
       {
-       
+       debugger
         this.groupCantidad[e[0].NotaIngresoAlmacenPlantaId + '%cantidad'] = new FormControl('', []);       
         this.filtrosLotesID.NotaIngresoAlmacenPlantaId = Number(e[0].NotaIngresoAlmacenPlantaId);
         let object: any = {};
         object.NotaIngresoAlmacenPlantaId = e[0].NotaIngresoAlmacenPlantaId;
        // object.NumeroGuiaRemision = e[0].NumeroGuiaRemision
         object.NumeroIngresoAlmacenPlanta = e[0].Numero;
-        const [day, month, year] = e[0].FechaRegistro.split('-'); 
+        const [day, month, year] = e[0].FechaRegistro.split('/'); 
         object.FechaIngresoAlmacen = new Date(year, month ,day);
         object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
         object.CantidadNotaIngreso =  e[0].CantidadDisponible;        

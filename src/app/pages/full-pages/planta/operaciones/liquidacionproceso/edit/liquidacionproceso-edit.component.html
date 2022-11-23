@@ -131,9 +131,9 @@
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Sacos" prop="Cantidad" width="50">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Humedad %" prop="PorcentajeHumedad" width="80" [summaryFunc]="emptySumm">
+                    <ngx-datatable-column name="Humedad %" prop="PorcentajeHumedad" width="50" [summaryFunc]="emptySumm">
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="80" [summaryTemplate]="kilosNetosNotas">
+                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="50" [summaryTemplate]="kilosNetosNotas">
                     </ngx-datatable-column>
                   </ngx-datatable>
                   <ng-template #kilosNetosNotas let-row="row" let-name="value" ngx-datatable-cell-template>
