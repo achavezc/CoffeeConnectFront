@@ -237,8 +237,15 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;
-            if (this.detalle != null) {
-              this.cargarDataFormulario(res.Result.Data);
+            if (this.detalle != null) 
+            {
+              this.detalle.RucEmpresaOrigen = res.Result.Data.RucOrganizacion;
+              this.detalle.RazonSocialEmpresaOrigen = res.Result.Data.RazonSocialOrganizacion;
+              this.detalle.DireccionEmpresaOrigen = res.Result.Data.DireccionOrganizacion;  
+
+              this.detalle.PesoBruto = res.Result.Data.KilosBrutos;
+
+              this.cargarDataFormulario(this.detalle);
               //this.detalle.requestPesado = this.obtenerRequest();
             } else {
               this.spinner.hide();
@@ -279,6 +286,9 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data;
+
+
+            
             this.cargarDataFormulario(res.Result.Data);
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
