@@ -79,8 +79,8 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
 
     this.notaIngresoProductoAlmacenForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.notaIngresoProductoAlmacenForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
-    this.notaIngresoProductoAlmacenForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
-    this.notaIngresoProductoAlmacenForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
+    //this.notaIngresoProductoAlmacenForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
+    //this.notaIngresoProductoAlmacenForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
 
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
@@ -271,6 +271,22 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
       return;
     } else {
 
+      debugger
+      var fechaGuiaRemisionInicio;
+
+      if(this.notaIngresoProductoAlmacenForm.controls['fechaGuiaRemisionInicio'].value!='')
+      {
+        fechaGuiaRemisionInicio = this.notaIngresoProductoAlmacenForm.controls['fechaGuiaRemisionInicio'].value;
+      }
+
+      var fechaFinGuiaRemision;
+
+      if(this.notaIngresoProductoAlmacenForm.controls['fechaGuiaRemisionFin'].value!='')
+      {
+        fechaFinGuiaRemision = this.notaIngresoProductoAlmacenForm.controls['fechaGuiaRemisionFin'].value;
+      }
+      
+
       this.submitted = false;
       var objRequest = {
         "Numero": this.notaIngresoProductoAlmacenForm.controls['Numero'].value,
@@ -285,10 +301,9 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
         "SubProductoId": this.notaIngresoProductoAlmacenForm.controls['subproducto'].value,
          "MotivoIngresoId":this.notaIngresoProductoAlmacenForm.controls['motivo'].value,
          "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
-       
-        //"AlmacenId": this.notaIngresoProductoAlmacenForm.controls['almacen'].value,
-        //"FechaInicioGuiaRemision": this.notaIngresoProductoAlmacenForm.controls['fechaGuiaRemisionInicio'].value,
-        //"FechaFinGuiaRemision": this.notaIngresoProductoAlmacenForm.controls['fechaGuiaRemisionFin'].value,
+         "AlmacenId": this.notaIngresoProductoAlmacenForm.controls['almacen'].value,
+        "FechaInicioGuiaRemision": fechaGuiaRemisionInicio,
+        "FechaFinGuiaRemision": fechaFinGuiaRemision,
         
         //"NumeroControlCalidad": this.notaIngresoProductoAlmacenForm.controls['numeroControlCalidad'].value,
         // "NumeroOrganizacion": this.notaIngresoProductoAlmacenForm.controls['codigoOrganizacion'].value,

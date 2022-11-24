@@ -217,23 +217,21 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         form.listaDetalleTipoEmpaque = res2.Result.Data;
       }
 
-      /* this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
+      this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
       this.liquidacionProcesoFormEdit.controls["tipoProceso"].disable() ;
-    this.liquidacionProcesoFormEdit.controls["ruc"].disable() ;
-    this.liquidacionProcesoFormEdit.controls["tipoProduccion"].disable() ;
-    this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
-    this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
-    this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
-    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
-    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
-    this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
-    this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
-    this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
-    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();
-    this.liquidacionProcesoFormEdit.controls["observacion"].disable();
-    this.liquidacionProcesoFormEdit.controls["envases"].disable();
-    this.liquidacionProcesoFormEdit.controls["trabajos"].disable();
-    this.liquidacionProcesoFormEdit.controls["numDefectos"].disable(); */
+      this.liquidacionProcesoFormEdit.controls["ruc"].disable() ;
+      this.liquidacionProcesoFormEdit.controls["tipoProduccion"].disable() ;
+      this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
+      this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
+      this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
+      this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
+      this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
+      this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
+      this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
+      this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
+      this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
+      this.liquidacionProcesoFormEdit.controls["envases"].disable();
+    
     //this.liquidacionProcesoFormEdit.controls["envases"].disable() 
 
 
@@ -258,7 +256,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["numDefectos"].setValue(data.NumeroDefectos);
     this.EmpaqueId = data.EmpaqueId;
     this.TipoId = data.TipoId;
-    this.liquidacionProcesoFormEdit.controls["envases"].disable() 
+    
+    
 
     this.numero = data.Numero;
 
@@ -286,6 +285,21 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
     this.responsable = data.UsuarioRegistro;
     this.spinner.hide();
+
+    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["tipoProceso"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["ruc"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["tipoProduccion"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
+    this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
+    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
+    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
+    this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
+    this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
+    this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
+    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
+    this.liquidacionProcesoFormEdit.controls["envases"].disable();
 
   }
 
@@ -416,8 +430,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
           kilosNetos,
           kilosBrutos,
           tara,
-          tipoId,
-          empaqueId
+          empaqueId,
+          tipoId
+          
 
         );
         liquidacionProcesoPlantaResultado.push(objectResultProceso);
@@ -552,7 +567,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(e[0].Certificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
     this.liquidacionProcesoFormEdit.controls["envases"].setValue(e[0].Empaque + ' ' + e[0].Tipo);
-    this.liquidacionProcesoFormEdit.controls["envases"].disable()
+   
     //this.EmpaqueId = e[0].EmpaqueId;
     this.CertificacionId = e[0].CertificacionId;
     //this.TipoId = e[0].TipoId;
@@ -568,6 +583,21 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     }
     
 
+    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["tipoProceso"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["ruc"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["tipoProduccion"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
+    this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
+    this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
+    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
+    this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
+    this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
+    this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
+    this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
+    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
+    this.liquidacionProcesoFormEdit.controls["envases"].disable();
+    
     this.consultarDetalleporId(e[0].OrdenProcesoPlantaId);
     //this.calcularCascarilla();
     //this.calcularPorcentaje();

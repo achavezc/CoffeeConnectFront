@@ -126,6 +126,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
         object.ProductoId = x.ProductoId       
         object.SubProducto = x.SubProducto
         object.SubProductoId = x.SubProductoId 
+        object.Numero = x.Numero
         object.Empaque = x.Empaque
         object.TipoEmpaque = x.TipoEmpaque
         object.Cantidad = x.Cantidad
@@ -452,6 +453,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
         {
             let object: any = {};
             object.NotaIngresoProductoTerminadoAlmacenPlantaId = e[0].NotaIngresoProductoTerminadoAlmacenPlantaId
+            object.Numero = e[0].Numero
             object.LiquidacionProcesoPlantaId = e[0].LiquidacionProcesoPlantaId
             object.NotaIngresoPlantaId = e[0].NotaIngresoPlantaId
             object.Producto = e[0].Producto 
