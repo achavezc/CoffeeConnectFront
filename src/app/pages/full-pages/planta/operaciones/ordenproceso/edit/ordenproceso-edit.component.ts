@@ -688,7 +688,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     if (prop === 'Cantidad')
       this.rowsDetails[index].Cantidad =  parseFloat(event.target.value);
     else if (prop === 'KilosNetos')
-      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value.toFixed(2));
+      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value);
       else if (prop === 'KilosKilosExportablesNetosPesado')
       this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
       
