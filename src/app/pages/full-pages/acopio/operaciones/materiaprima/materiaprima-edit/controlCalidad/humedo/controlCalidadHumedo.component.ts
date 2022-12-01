@@ -26,6 +26,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
   @Input() detalle: any;
   @Input() form;
   @Input() readonly;
+  @Input() esAlmacen;
   tableOlor: FormGroup;
   tableColor: FormGroup;
   listaOlor: any[];
@@ -43,9 +44,19 @@ export class ControlCalidadComponentHumedo implements OnInit {
   estadoAnulado = "00";
   estadoEnviadoAlmacen = "03";
   btnGuardarCalidad = true;
+  btnImprimir = false;
   ngOnInit(): void {
     this.cargarForm()
     this.cargarCombos();
+
+    if(this.form=='controlcalidadplanta')
+    {
+      this.btnImprimir = true;
+    }
+
+    if(this.esAlmacen){
+      this.formControlCalidadHumedo.disable();
+    }
 
   }
 
@@ -257,7 +268,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
     }
 
        
-  }m
+  }
   
   actualizarControlCalidadMateriaPrima(reqControlCalidad: any)
   {
