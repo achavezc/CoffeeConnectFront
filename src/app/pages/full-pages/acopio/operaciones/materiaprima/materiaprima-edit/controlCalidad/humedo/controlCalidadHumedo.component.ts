@@ -141,9 +141,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
 
   desactivarControles(estado: string,  usuarioAnalizado:string) 
   {
-    debugger
-    if (this.form != "controlcalidadplanta")
-    {
+    
       var usuarioLogueado = this.login.Result.Data.NombreUsuario
         if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado )
         {
@@ -168,11 +166,7 @@ export class ControlCalidadComponentHumedo implements OnInit {
         }
 
     
-    }
-    else
-    {
-      this.readonly = false;
-    }
+    
   
   }
   actualizarAnalisisControlCalidad(e) {

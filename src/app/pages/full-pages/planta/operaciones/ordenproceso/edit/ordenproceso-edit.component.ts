@@ -46,6 +46,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   listEstado = [];
   listTipoProcesos = [];
   listTipoProduccion = [];
+  esHumedo = false;
   //listCertificacion = [];
   listaCertificacion: any[];
   listProducto = [];
@@ -779,10 +780,12 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   cargarDatos(detalle: any) {
-    detalle.forEach(data => {
+    detalle.forEach(data => 
+      {
+        debugger
       let object: any = {};
       object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId
-debugger
+ 
       object.NumeroIngresoAlmacenPlanta = data.NumeroIngresoAlmacenPlanta
       object.FechaIngresoAlmacen = data.FechaIngresoAlmacen;
       object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
@@ -793,6 +796,11 @@ debugger
       object.PorcentajeExportable = data.PorcentajeExportable
       object.PorcentajeDescarte = data.PorcentajeDescarte
       object.PorcentajeCascarilla = data.PorcentajeCascarilla
+
+      if(data.ProductoId=="01" && data.SubProductoId=="05") //01:Pergamino  05: Humedo
+      {
+        this.esHumedo = true;
+      }
 
 
       if(data.PorcentajeExportable){
@@ -824,13 +832,21 @@ debugger
   }
   agregarNotaIngreso(e) {
       
-  
+  debugger
 
     var listFilter=[];
       listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId == e[0].NotaIngresoAlmacenPlantaId);
       if (listFilter.length == 0)
       {
-       debugger
+       
+
+       
+
+       if(e[0].ProductoId=="01" && e[0].SubProductoId=="05") //01:Pergamino  05: Humedo
+       {
+         this.esHumedo = true;
+       }
+
         this.groupCantidad[e[0].NotaIngresoAlmacenPlantaId + '%cantidad'] = new FormControl('', []);       
         this.filtrosLotesID.NotaIngresoAlmacenPlantaId = Number(e[0].NotaIngresoAlmacenPlantaId);
         let object: any = {};
@@ -853,6 +869,7 @@ debugger
         object.SacosCalculo = valorRounded.toFixed(2);
         object.Cantidad = e[0].CantidadDisponible;
         object.KilosNetos = e[0].KilosNetosDisponibles;
+        
         this.listaNotaIngreso.push(object);
         this.tempDataLoteDetalle = this.listaNotaIngreso;
         this.rowsDetails = [...this.tempDataLoteDetalle];

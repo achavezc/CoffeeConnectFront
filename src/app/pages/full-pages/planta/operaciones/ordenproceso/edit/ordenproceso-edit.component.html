@@ -313,7 +313,7 @@
                                                 class="form-control form-control-sm"
                                                 [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
-                                                value="{{Cantidad}}" [disabled]="esRechazo==true">
+                                                value="{{Cantidad}}" [disabled]="esHumedo==true">
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
@@ -324,7 +324,7 @@
                                                 class="form-control form-control-sm"
                                                 [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos}"
                                                 (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
-                                                value="{{KilosNetos}}" [disabled]="esRechazo==true">
+                                                value="{{KilosNetos}}" [disabled]="esHumedo==true">
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>   
