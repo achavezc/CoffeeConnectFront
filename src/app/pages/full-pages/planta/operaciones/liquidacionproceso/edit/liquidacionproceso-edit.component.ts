@@ -121,7 +121,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
       this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
       this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
-      this.liquidacionProcesoFormEdit.controls["envases"].disable();
+      //this.liquidacionProcesoFormEdit.controls["envases"].disable();
     }
 
 
@@ -244,7 +244,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
       this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
       this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
-      this.liquidacionProcesoFormEdit.controls["envases"].disable();
+     // this.liquidacionProcesoFormEdit.controls["envases"].disable();
     
     //this.liquidacionProcesoFormEdit.controls["envases"].disable() 
 
@@ -313,7 +313,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
     this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
-    this.liquidacionProcesoFormEdit.controls["envases"].disable();
+   // this.liquidacionProcesoFormEdit.controls["envases"].disable();
 
   }
 
@@ -580,7 +580,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(e[0].Certificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
-    this.liquidacionProcesoFormEdit.controls["envases"].setValue(e[0].Empaque + ' ' + e[0].Tipo);
+    //this.liquidacionProcesoFormEdit.controls["envases"].setValue(e[0].Empaque + ' ' + e[0].Tipo);
    
     //this.EmpaqueId = e[0].EmpaqueId;
     this.CertificacionId = e[0].CertificacionId;
@@ -610,7 +610,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
     this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
-    this.liquidacionProcesoFormEdit.controls["envases"].disable();
+    //this.liquidacionProcesoFormEdit.controls["envases"].disable();
     
     this.consultarDetalleporId(e[0].OrdenProcesoPlantaId);
     //this.calcularCascarilla();

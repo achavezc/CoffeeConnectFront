@@ -7,7 +7,8 @@ import { ILogin } from '../../../../../../../../services/models/login';
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
 import { MaestroService } from '../../../../../../../../services/maestro.service';
-import { ControlCalidadService } from '../controlCalidadServices';
+//import { ControlCalidadService } from '../controlCalidadServices';
+import { ControlCalidadService } from '../../../../../../../../Services/control-calidad.service';
 import {LoteService} from '../../../../../../../../services/lote.service';
 import {OrdenservicioControlcalidadService} from '../../../../../../../../services/ordenservicio-controlcalidad.service';
 import {PlantaService} from  '../../../../../../../../services/planta.service';
@@ -127,25 +128,39 @@ export class ControlCalidadComponentHumedo implements OnInit {
     this.desactivarControles( this.detalle.EstadoId, this.detalle.UsuarioCalidad);
   }
 
-  desactivarControles(estado: string,  usuarioAnalizado:string) {
-    var usuarioLogueado = this.login.Result.Data.NombreUsuario
-    if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado ){
-  
-  
-    }else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado ){
-  
-  
-      //Calidad ReadOnly
-      this.formControlCalidadHumedo.disable();
-      this.btnGuardarCalidad = false;
-      //NotaCompra Editable
-    }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen ){
-  
-  
-      //Calidad ReadOnly
-      this.formControlCalidadHumedo.disable();
-      this.btnGuardarCalidad = false;
-      //NotaCompra ReadOnly
+  desactivarControles(estado: string,  usuarioAnalizado:string) 
+  {
+    debugger
+    if (this.form != "controlcalidadplanta")
+    {
+      var usuarioLogueado = this.login.Result.Data.NombreUsuario
+        if(estado == this.estadoAnalizado && usuarioAnalizado == usuarioLogueado )
+        {
+      
+      
+        }
+        else if(estado == this.estadoAnalizado && usuarioAnalizado != usuarioLogueado )
+        {
+      
+          //Calidad ReadOnly
+          this.formControlCalidadHumedo.disable();
+          this.btnGuardarCalidad = false;
+          //NotaCompra Editable
+        }else if(estado == this.estadoAnulado || estado == this.estadoEnviadoAlmacen )
+        {
+      
+      
+          //Calidad ReadOnly
+          this.formControlCalidadHumedo.disable();
+          this.btnGuardarCalidad = false;
+          //NotaCompra ReadOnly
+        }
+
+    
+    }
+    else
+    {
+      this.readonly = false;
     }
   
   }
@@ -204,8 +219,46 @@ export class ControlCalidadComponentHumedo implements OnInit {
       {
         this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
       }
+      else if (this.form == "controlcalidadplanta")
+      {
+        this.guardarService(this.detalle.requestPesado);
+        
+      }
     }
   }
+
+  guardarService(request: any) {
+    if(this.reqControlCalidad.ControlCalidadPlantaId){
+      this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
+    }else{  
+    this.controlCalidadService.Registrar(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.reqControlCalidad.ControlCalidadPlantaId = res.Result.Data;
+            this.actualizarControlCalidadNotaIngresoPlanta(this.reqControlCalidad);
+            var form = this;
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+    }
+
+       
+  }m
+  
   actualizarControlCalidadMateriaPrima(reqControlCalidad: any)
   {
    this.acopioService.Actualizar(reqControlCalidad)
@@ -237,38 +290,69 @@ export class ControlCalidadComponentHumedo implements OnInit {
    );
   }
   
-  actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any)
-  {
-      this.notaIngresoPlantaService.ActualizarAnalisisCalidad(reqControlCalidad)
-   .subscribe(res => {
-     this.spinner.hide();
-     if (res.Result.Success) {
-       if (res.Result.ErrCode == "") {
-         var form = this;
-       this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
-         if(result.isConfirmed){
-           form.router.navigate(['/planta/operaciones/notaingreso-list']);
-         }
-       }
-       );
-       } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-         this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-       } else {
-         this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-       }
-     } else {
-       this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
-     }
-   },
-     err => {
-       this.spinner.hide();
-       console.log(err);
-       this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-     }
-   );
+  // actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any)
+  // {
+  //     this.notaIngresoPlantaService.ActualizarAnalisisCalidad(reqControlCalidad)
+  //  .subscribe(res => {
+  //    this.spinner.hide();
+  //    if (res.Result.Success) {
+  //      if (res.Result.ErrCode == "") {
+  //        var form = this;
+  //      this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad',function(result){
+  //        if(result.isConfirmed){
+  //          form.router.navigate(['/planta/operaciones/notaingreso-list']);
+  //        }
+  //      }
+  //      );
+  //      } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+  //        this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+  //      } else {
+  //        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+  //      }
+  //    } else {
+  //      this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+  //    }
+  //  },
+  //    err => {
+  //      this.spinner.hide();
+  //      console.log(err);
+  //      this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+  //    }
+  //  );
   
   
-  }
+   
+
+  actualizarControlCalidadNotaIngresoPlanta(reqControlCalidad: any) {
+    this.notaIngresoPlantaService.ActualizarAnalisisCalidad(reqControlCalidad)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+            this.alertUtil.alertOkCallback('Registrado!', 'Analisis Control Calidad', function (result) {
+              if (result.isConfirmed) {
+                form.router.navigate(['/planta/operaciones/controlcalidad-list']);
+              }
+            }
+            );
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+ }
+
     actualizarControlCalidadLote(reqControlCalidad: any)
    {
     var form = this;
@@ -395,7 +479,9 @@ export class ControlCalidadComponentHumedo implements OnInit {
     {
       this.router.navigate(['/planta/operaciones/notaingreso-list']);
     }
-
+    else if (this.form == "controlcalidadplanta") {
+      this.router.navigate(['/planta/operaciones/controlcalidad-list']);
+    }
     
   }
  
