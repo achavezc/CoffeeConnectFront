@@ -40,12 +40,21 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   formGroupQqkg: FormGroup;
   formGroupTipoEmpaque: FormGroup;
   formGroupEmpaque: FormGroup;
+
+  formGroupSacosHumedo: FormGroup;
+  formGroupKilosBrutosHumedo: FormGroup;
+  formGroupKilosNetosHumedo: FormGroup;
+  
+  formGroupH2OHumedo: FormGroup;
+  formGroupMermaKilosNetosHumedo: FormGroup;
+  formGroupMermaPorcentajeHumedo: FormGroup;
+
   errorGeneral: any = { isError: false, errorMessage: '' };
   errorEmpresa: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   popupModel;
-  listaDetalleEmpaque: any[];
-  listaDetalleTipoEmpaque: any[];
+  //listaDetalleEmpaque: any[];
+  //listaDetalleTipoEmpaque: any[];
   vSessionUser: any;
   private tempDataResultProceso = [];
   public rowsResultProceso = [];
@@ -57,10 +66,12 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   public limitRef = 20;
   numero = "";
   esEdit = false;
+  EsHumedo = false;
   id: Number = 0;
   fechaRegistro: any;
   responsable: "";
   TipoId = "";
+  TipoProcesoId ="";
   EmpaqueId = "";
   CertificacionId = "";
   
@@ -126,12 +137,15 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
 
   obtenerDetalle() {
-    this.spinner.show();
+    //this.spinner.show();
     this.liquidacionProcesoPlantaService.ConsultaPorId(Number(this.id), Number(this.vSessionUser.Result.Data.EmpresaId))
       .subscribe(res => {
 
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
+        if (res.Result.Success)
+        {
+      //    this.spinner.hide();
+          if (res.Result.ErrCode == "") 
+          {
             this.cargarDataFormulario(res.Result.Data);
             // this.child.cargarDatos(res.Result.Data.Detalle);
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -186,50 +200,15 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
   async Load() {
     var form = this;
-   await this.maestroUtil.obtenerMaestros('TiposCafeProcesado', (res: any) => {
-      if (res.Result.Success) {
-        this.listResultProceso = res.Result.Data;
-        this.tempDataResultProceso = this.listResultProceso;
-        this.rowsResultProceso = [... this.tempDataResultProceso];
-        let groupsSacos = {}
-        let groupKg = {}
-        let groupKilosNetos = {}
-        let groupPorcentaje = {}
-        let groupQqkg = {}
-        let groupTipoEmpaque = {}
-        let groupEmpaque = {}
-        let selectpEmpaque = []
-        let selectedtipoempaque = []
-        this.listResultProceso.forEach(input_template => {
-          groupsSacos[input_template.Codigo + '%sacos'] = new FormControl('', []);
-          groupKg[input_template.Codigo + '%Kg'] = new FormControl('', []);
-          groupKilosNetos[input_template.Codigo + '%kilosNetos'] = new FormControl('', []);
-          groupPorcentaje[input_template.Codigo + '%porcentaje'] = new FormControl('', []);
-          groupQqkg[input_template.Codigo + '%qqkg'] = new FormControl('', []);
-          groupTipoEmpaque[input_template.Codigo + '%tipoempaque'] = new FormControl('',[]);
-          groupEmpaque[input_template.Codigo + '%empaque'] = new FormControl('',[]);
-          selectpEmpaque[input_template.Codigo + '%selectedempaque'];
-          selectedtipoempaque[input_template.Codigo + '%selectedtipoempaque'];
-        })
-        this.formGroupSacos = new FormGroup(groupsSacos);
-        this.formGroupKg = new FormGroup(groupKg);
-        this.formGroupKilosNetos = new FormGroup(groupKilosNetos)
-        this.formGroupPorcentaje = new FormGroup(groupPorcentaje);
-        this.formGroupQqkg = new FormGroup(groupQqkg);
-        this.formGroupTipoEmpaque = new FormGroup(groupTipoEmpaque);
-        this.formGroupEmpaque = new FormGroup(groupEmpaque);
-        this.selectedDetalleEmpaque = selectpEmpaque;
-        this.selectedDetalleTipoEmpaque = selectedtipoempaque;
-      }
-    });
-    var res = await this.maestroService.obtenerMaestros("Empaque").toPromise();
-      if (res.Result.Success) {
-        form.listaDetalleEmpaque = res.Result.Data;
-      }
-    var res2 = await this.maestroService.obtenerMaestros("TipoEmpaque").toPromise();
-      if (res2.Result.Success) {
-        form.listaDetalleTipoEmpaque = res2.Result.Data;
-      }
+   
+    // var res = await this.maestroService.obtenerMaestros("Empaque").toPromise();
+    //   if (res.Result.Success) {
+    //     form.listaDetalleEmpaque = res.Result.Data;
+    //   }
+    // var res2 = await this.maestroService.obtenerMaestros("TipoEmpaque").toPromise();
+    //   if (res2.Result.Success) {
+    //     form.listaDetalleTipoEmpaque = res2.Result.Data;
+    //   }
 
       this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
       this.liquidacionProcesoFormEdit.controls["tipoProceso"].disable() ;
@@ -251,7 +230,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   }
 
-  cargarDataFormulario(data: any) {
+  cargarDataFormulario(data: any) 
+  {
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(data.TipoProceso);
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
@@ -270,19 +250,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["numDefectos"].setValue(data.NumeroDefectos);
     this.EmpaqueId = data.EmpaqueId;
     this.TipoId = data.TipoId;
-    
-    
+    this.TipoProcesoId = data.TipoProcesoId;
 
     this.numero = data.Numero;
-
-    data.Resultado.forEach(
-      x => {
-        this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos == 0 ? "": x.CantidadSacos);
-        this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN ==0 ? "": x.KGN);
-        this.formGroupEmpaque.get(x.ReferenciaId + '%empaque').setValue(x.EmpaqueId == ""? null: x.EmpaqueId);
-        this.formGroupTipoEmpaque.get(x.ReferenciaId + '%tipoempaque').setValue(x.TipoId == ""? null: x.TipoId);
-      }
-    );
     
     data.Detalle.forEach(
       x => {
@@ -291,14 +261,12 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         
       }
     );
+    
+    debugger
+
     this.listMateriaPrima = data.Detalle;
     this.tempMateriaPrima = data.Detalle;
     this.rowsMateriaPrima = [...this.tempMateriaPrima];
-    this.calcularKilosNetosNotas();
-    this.calcularKilosNetos();
-    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
-    this.responsable = data.UsuarioRegistro;
-    this.spinner.hide();
 
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].disable() ;
@@ -312,8 +280,150 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
     this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
     this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
-    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();    
-   // this.liquidacionProcesoFormEdit.controls["envases"].disable();
+    this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();
+
+    if(data.TipoProcesoId =='01')//Transformación
+    {
+      this.EsHumedo = false;    
+
+      this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
+      this.responsable = data.UsuarioRegistro;
+      //this.spinner.hide();
+
+          
+  // this.liquidacionProcesoFormEdit.controls["envases"].disable();
+
+      this.maestroUtil.obtenerMaestros('TiposCafeProcesado', (res: any) => 
+      {
+        if (res.Result.Success) 
+        {     
+          
+          this.listResultProceso = res.Result.Data;
+          this.tempDataResultProceso = this.listResultProceso;
+          this.rowsResultProceso = [... this.tempDataResultProceso];
+          
+           
+           let groupsSacos = {}
+          let groupKg = {}
+          let groupKilosNetos = {}
+          let groupPorcentaje = {}
+          let groupQqkg = {}
+          // let groupTipoEmpaque = {}
+          // let groupEmpaque = {}
+          // let selectpEmpaque = []
+          // let selectedtipoempaque = []
+
+          this.listResultProceso.forEach(input_template => 
+            {
+              
+              groupsSacos[input_template.Codigo + '%sacos'] = new FormControl('', []);
+              groupKg[input_template.Codigo + '%Kg'] = new FormControl('', []);
+              groupKilosNetos[input_template.Codigo + '%kilosNetos'] = new FormControl('', []);
+              groupPorcentaje[input_template.Codigo + '%porcentaje'] = new FormControl('', []);
+              groupQqkg[input_template.Codigo + '%qqkg'] = new FormControl('', []);
+              // groupTipoEmpaque[input_template.Codigo + '%tipoempaque'] = new FormControl('',[]);
+              // selectedtipoempaque[input_template.Codigo + '%selectedtipoempaque'];
+              // groupEmpaque[input_template.Codigo + '%empaque'] = new FormControl('',[]);
+              // selectpEmpaque[input_template.Codigo + '%selectedempaque'];
+            
+          })
+          debugger
+          this.formGroupSacos = new FormGroup(groupsSacos);
+          this.formGroupKg = new FormGroup(groupKg);
+          this.formGroupKilosNetos = new FormGroup(groupKilosNetos)
+          this.formGroupPorcentaje = new FormGroup(groupPorcentaje);
+          this.formGroupQqkg = new FormGroup(groupQqkg);
+          // this.formGroupTipoEmpaque = new FormGroup(groupTipoEmpaque);
+          // this.formGroupEmpaque = new FormGroup(groupEmpaque);
+          // this.selectedDetalleEmpaque = selectpEmpaque;
+          // this.selectedDetalleTipoEmpaque = selectedtipoempaque;
+          
+
+          data.Resultado.forEach
+          (            
+            x => 
+            {
+              debugger
+              // this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos);
+              // this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN);
+              // this.formGroupEmpaque.get(x.ReferenciaId + '%empaque').setValue(x.EmpaqueId);
+              // this.formGroupTipoEmpaque.get(x.ReferenciaId + '%tipoempaque').setValue(x.TipoId);       
+
+              this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos == 0 ? "": x.CantidadSacos);
+              this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN ==0 ? "": x.KGN);
+              // this.formGroupEmpaque.get(x.ReferenciaId + '%empaque').setValue(x.EmpaqueId == ""? null: x.EmpaqueId);
+              // this.formGroupTipoEmpaque.get(x.ReferenciaId + '%tipoempaque').setValue(x.TipoId == ""? null: x.TipoId);              
+            }
+          );           
+          
+          this.calcularKilosNetosNotas();
+          this.calcularKilosNetos();
+           
+
+        }
+      });
+    }
+    else
+    {
+
+      debugger
+      this.EsHumedo = true;
+
+      let object: any = {};
+      object.Codigo = '02'; //Seco
+      object.Label = 'Café Pergamino';
+
+      this.listResultProceso = [];
+
+
+      this.listResultProceso.push(object);
+      this.tempDataResultProceso = this.listResultProceso;
+      this.rowsResultProceso = [... this.tempDataResultProceso];
+
+      let groupSacosHumedo = {}
+      let groupKilosBrutosHumedo = {}
+      let groupH2OHumedo = {}
+      let groupKilosNetosHumedo = {}
+      let groupMermaKilosNetosHumedo = {}
+      let groupMermaPorcentajeHumedo = {}
+
+      this.listResultProceso.forEach(input_template => {
+        groupSacosHumedo[input_template.Codigo + '%sacosHumedo'] = new FormControl('', []);
+        groupKilosBrutosHumedo[input_template.Codigo + '%kilosBrutosHumedo'] = new FormControl('', []);
+        groupKilosNetosHumedo[input_template.Codigo + '%kilosNetosHumedo'] = new FormControl('', []);
+        groupMermaKilosNetosHumedo[input_template.Codigo + '%mermakilosNetosHumedo'] = new FormControl('', []);
+        groupMermaPorcentajeHumedo[input_template.Codigo + '%mermaPorcentajeHumedo'] = new FormControl('', []);
+        groupH2OHumedo[input_template.Codigo + '%h2OHumedo'] = new FormControl('', []);
+        
+        })
+        
+        this.formGroupSacosHumedo = new FormGroup(groupSacosHumedo);
+        this.formGroupKilosBrutosHumedo = new FormGroup(groupKilosBrutosHumedo);
+        this.formGroupH2OHumedo = new FormGroup(groupH2OHumedo);
+        this.formGroupKilosNetosHumedo = new FormGroup(groupKilosNetosHumedo)
+        this.formGroupMermaKilosNetosHumedo = new FormGroup(groupMermaKilosNetosHumedo);
+        this.formGroupMermaPorcentajeHumedo = new FormGroup(groupMermaPorcentajeHumedo);
+
+        debugger
+
+      data.Resultado.forEach(
+        x => {
+          debugger
+          this.formGroupSacosHumedo.get(x.ReferenciaId + '%sacosHumedo').setValue(x.CantidadSacos == 0 ? "": x.CantidadSacos);
+          this.formGroupKilosBrutosHumedo.get(x.ReferenciaId + '%kilosBrutosHumedo').setValue(x.KilosBrutos ==0 ? "": x.KilosBrutos);
+          this.formGroupKilosNetosHumedo.get(x.ReferenciaId + '%kilosNetosHumedo').setValue(x.KilosNetos == 0? "" : x.KilosNetos);
+          this.formGroupMermaKilosNetosHumedo.get(x.ReferenciaId + '%mermakilosNetosHumedo').setValue(x.Tara == 0? "": x.Tara);
+          this.formGroupMermaPorcentajeHumedo.get(x.ReferenciaId + '%mermaPorcentajeHumedo').setValue(x.Porcentaje == 0? "": x.Porcentaje);
+          this.formGroupH2OHumedo.get(x.ReferenciaId + '%h2OHumedo').setValue(x.KGN == 0? "": x.KGN);
+        }
+      );
+
+      this.calcularKilosNetosNotas();
+      this.calcularKilosNetosHumedo();
+      
+    }
+    
+    
 
   }
 
@@ -326,10 +436,11 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   calcularKilosNetos()
    {
-    debugger
+
+      
     this.rowsResultProceso.forEach(x => 
       {
-        debugger
+          
       var valueSacos = this.formGroupSacos.get(x.Codigo + '%sacos').value;
       
       var kg = this.formGroupKg.get(x.Codigo + '%Kg').value;
@@ -340,12 +451,109 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     });
     this.calcularCascarilla();
     this.calcularPorcentaje();
+     
+    
+  }
+
+ /*  calcularKilosNetosHumedo()
+   {
+     
+   
+    this.rowsResultProceso.forEach(x => 
+      {
+         
+      //var valueSacos = this.formGroupSacosHumedo.get(x.Codigo + '%sacosHumedo').value;
+      var valueKilosBrutos = this.formGroupKilosBrutosHumedo.get(x.Codigo + '%kilosBrutosHumedo').value;
+      
+      
+      var kilosNetosMateriaPrima = 0;
+
+      if(this.listMateriaPrima.length>0)
+      {
+        kilosNetosMateriaPrima = this.listMateriaPrima[0].KilosNetos;
+      }
+
+      var tipo = this.TipoId
+      var empaque = this.EmpaqueId;
+        
+        var valor = 0;
+        if (empaque == this.CodigoSaco && tipo == this.CodigoTipoYute) {
+          var valor = this.taraYute;
+        } else if (empaque == this.CodigoSaco && tipo != this.CodigoTipoYute) {
+          var valor = this.tara;
+        }
+        
+    
+      var tara = Math.round((valor + Number.EPSILON) * 100) / 100
+              
+      var kilosNetos = Math.round((valueKilosBrutos - tara + Number.EPSILON) * 100) / 100
+
+     
+      this.formGroupKilosNetosHumedo.get(x.Codigo + '%kilosNetosHumedo').setValue(kilosNetos == 0 ? "" : kilosNetos);
+      var mermaKilosNetos = kilosNetosMateriaPrima - kilosNetos;
+      var mermaPorcentaje = (mermaKilosNetos/kilosNetosMateriaPrima ) * 100;
+      this.formGroupMermaKilosNetosHumedo.get(x.Codigo + '%mermakilosNetosHumedo').setValue(mermaKilosNetos == 0 ? "" : mermaKilosNetos.toFixed(2));
+      this.formGroupMermaPorcentajeHumedo.get(x.Codigo + '%mermaPorcentajeHumedo').setValue(mermaPorcentaje == 0 ? "" : mermaPorcentaje.toFixed(2));
+
+      this.formGroupMermaKilosNetosHumedo.get(x.Codigo + '%mermakilosNetosHumedo').setValue(mermaKilosNetos == 0 ? "" : mermaKilosNetos.toFixed(2));
+      this.formGroupMermaPorcentajeHumedo.get(x.Codigo + '%mermaPorcentajeHumedo').setValue(mermaPorcentaje == 0 ? "" : mermaPorcentaje.toFixed(2));
+      
+    });
+    
     
 
   }
+ */
+
+
+  calcularKilosNetosHumedo()
+  {
+   this.rowsResultProceso.forEach(x => 
+     {
+      debugger
+        var cantidad = this.formGroupSacosHumedo.get(x.Codigo + '%sacosHumedo').value;
+      
+        var kilosBrutos = this.formGroupKilosBrutosHumedo.get(x.Codigo + '%kilosBrutosHumedo').value;
+          
+        var kilosNetosMateriaPrima = 0;
+
+        if(this.listMateriaPrima.length>0)
+        {
+          kilosNetosMateriaPrima = this.listMateriaPrima[0].KilosNetos;
+        }
+ 
+       
+        var valor = 0;
+        if (this.EmpaqueId == this.CodigoSaco && this.TipoId == this.CodigoTipoYute) {
+          var valor = cantidad * this.taraYute;
+        } else if (this.EmpaqueId == this.CodigoSaco && this.TipoId != this.CodigoTipoYute) {
+          var valor = cantidad * this.tara;
+        }
+
+        var tara = Math.round((valor + Number.EPSILON) * 100) / 100
+   
+             
+     var kilosNetos = Math.round((kilosBrutos - tara + Number.EPSILON) * 100) / 100
+
+    
+     this.formGroupKilosNetosHumedo.get(x.Codigo + '%kilosNetosHumedo').setValue(kilosNetos == 0 ? "" : kilosNetos);
+     var mermaKilosNetos = kilosNetosMateriaPrima - kilosNetos;
+     var mermaPorcentaje = (mermaKilosNetos/kilosNetosMateriaPrima ) * 100;
+     this.formGroupMermaKilosNetosHumedo.get(x.Codigo + '%mermakilosNetosHumedo').setValue(mermaKilosNetos == 0 ? "" : mermaKilosNetos.toFixed(2));
+     this.formGroupMermaPorcentajeHumedo.get(x.Codigo + '%mermaPorcentajeHumedo').setValue(mermaPorcentaje == 0 ? "" : mermaPorcentaje.toFixed(2));
+     
+     
+     
+   });
+   
+   
+
+ }
+
 
   calcularCascarilla()
   {
+     
     var totalKilosNetos = Number(this.calcularTotalKilosNetosSCascarilla());
     //var kilosNetos = Number(this.formGroupKilosNetos.get('14%kilosNetos').value);
     var cascarilla = this.sumKilosNetos - totalKilosNetos;
@@ -354,14 +562,19 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     // this.formGroupPorcentaje.get('14%porcentaje').setValue(porcentajeKilosNetos == 0 ? "" : porcentajeKilosNetos.toFixed(2));
      //this.calcularTotalPorcentaje();
   }
-  calcularTotalKilosNetosSCascarilla() {
+  calcularTotalKilosNetosSCascarilla() 
+  {
     var totalKilosNetos = 0;
+    
+     
+
     this.rowsResultProceso.forEach(x => {
       if(x.Codigo != '14')
       {
       totalKilosNetos = totalKilosNetos + Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value);
       }
     });
+     
     this.liquidacionProcesoFormEdit.get('totalKilosNetos').setValue(totalKilosNetos);
     return totalKilosNetos;
   }
@@ -411,41 +624,75 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       return;
     } else {
 
+      var observacion='';
+        var envases='';
+        var trabajos='';
+        var numDefectos=0;
       debugger
       let liquidacionProcesoPlantaResultado: LiquidacionProcesoPlantaResultado[] = [];
       this.rowsResultProceso.forEach(x => {
         debugger
-        var cantidad = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
+
+        var cantidad = 0;
+         
+        var tara = 0;
+        var kilosNetos = 0;
+        var kilosBrutos = 0;
+
+        var KGN=0;       
+
+        if(this.TipoProcesoId=='01') // Transformacion
+        {
+           cantidad = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
         
-        var tipo = this.formGroupTipoEmpaque.get(x.Codigo + '%tipoempaque').value;
-        var empaque = this.formGroupEmpaque.get(x.Codigo + '%empaque').value;
-        
-        var valor = 0;
-        if (empaque == this.CodigoSaco && tipo == this.CodigoTipoYute) {
-          var valor = cantidad * this.taraYute;
-        } else if (empaque == this.CodigoSaco && tipo != this.CodigoTipoYute) {
-          var valor = cantidad * this.tara;
+          //  tipoId = this.formGroupTipoEmpaque.get(x.Codigo + '%tipoempaque').value;
+          //  empaqueId = this.formGroupEmpaque.get(x.Codigo + '%empaque').value;
+          
+            valor = 0;
+            if (this.EmpaqueId == this.CodigoSaco && this.TipoId == this.CodigoTipoYute) {
+              var valor = cantidad * this.taraYute;
+            } else if (this.EmpaqueId == this.CodigoSaco && this.TipoId != this.CodigoTipoYute) {
+              var valor = cantidad * this.tara;
+            }      
+      
+            tara = Math.round((valor + Number.EPSILON) * 100) / 100
+            
+            kilosNetos = Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value) ;
+            
+            kilosBrutos = Math.round((kilosNetos + tara + Number.EPSILON) * 100) / 100  
+
+            KGN = Number(this.formGroupKg.get(x.Codigo + '%Kg').value);
+
+             
+            envases=this.liquidacionProcesoFormEdit.get("envases").value;
+            trabajos=this.liquidacionProcesoFormEdit.get("trabajos").value;
+            numDefectos=Number(this.liquidacionProcesoFormEdit.get("numDefectos").value);          
+
         }
-    
-    
-        var tara = Math.round((valor + Number.EPSILON) * 100) / 100
-        
-        var kilosNetos = Number(this.formGroupKilosNetos.get(x.Codigo + '%kilosNetos').value) ;
-        
-        var kilosBrutos = Math.round((kilosNetos + tara + Number.EPSILON) * 100) / 100
+      else
+      {
+        cantidad = Number(this.formGroupSacosHumedo.get(x.Codigo + '%sacosHumedo').value);  
+         
+        tara = Number(this.formGroupMermaKilosNetosHumedo.get(x.Codigo + '%mermakilosNetosHumedo').value);
 
-        var tipoId = this.formGroupTipoEmpaque.get(x.Codigo + '%tipoempaque').value;
-        var empaqueId = this.formGroupEmpaque.get(x.Codigo + '%empaque').value;
+        kilosNetos = Number(this.formGroupKilosNetosHumedo.get(x.Codigo + '%kilosNetosHumedo').value) ;
+        
+        kilosBrutos = Number(this.formGroupKilosBrutosHumedo.get(x.Codigo + '%kilosBrutosHumedo').value) ;
 
+        KGN = Number(this.formGroupH2OHumedo.get(x.Codigo + '%h2OHumedo').value) ;
+      }
+    
+      observacion=this.liquidacionProcesoFormEdit.get("observacion").value;
+       
         let objectResultProceso = new LiquidacionProcesoPlantaResultado(
           x.Codigo,
           cantidad,
-          Number(this.formGroupKg.get(x.Codigo + '%Kg').value),
+          KGN,
           kilosNetos,
           kilosBrutos,
           tara,
-          empaqueId,
-          tipoId
+          this.EmpaqueId,
+          this.TipoId
           
 
         );
@@ -465,15 +712,15 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.liquidacionProcesoFormEdit.get("ordenProcesoPlantaId").value,
         this.numero,
         this.vSessionUser.Result.Data.EmpresaId,
-        this.liquidacionProcesoFormEdit.get("observacion").value,
-        this.liquidacionProcesoFormEdit.get("envases").value,
-        this.CertificacionId,
-        this.liquidacionProcesoFormEdit.get("trabajos").value,
+        observacion,
+          envases,
+          this.CertificacionId,
+          trabajos,
         '01',
         this.vSessionUser.Result.Data.NombreUsuario,
         liquidacionProcesoPlantaDetalle,
         liquidacionProcesoPlantaResultado,
-        Number(this.liquidacionProcesoFormEdit.get("numDefectos").value)
+        numDefectos
 
       );
       let json = JSON.stringify(request);
@@ -566,9 +813,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         }
       );
   }
+  
 
-  agregarOrdenProceso(e) {
-    
+   agregarOrdenProceso(e) {
+    debugger
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(e[0].OrdenProcesoPlantaId);
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(e[0].TipoProceso);
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(e[0].RucOrganizacion);
@@ -580,8 +828,102 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(e[0].Certificacion);
     this.liquidacionProcesoFormEdit.controls["certificadora"].setValue(e[0].EntidadCertificadora);
+
+    this.TipoId = e[0].TipoId;
+    this.EmpaqueId = e[0].EmpaqueId;
     //this.liquidacionProcesoFormEdit.controls["envases"].setValue(e[0].Empaque + ' ' + e[0].Tipo);
-   
+
+    this.TipoProcesoId = e[0].TipoProcesoId;
+
+    if(e[0].TipoProcesoId=='01') //Transformacion
+    {
+      this.EsHumedo=false;
+
+      this.maestroUtil.obtenerMaestros('TiposCafeProcesado', (res: any) => 
+      {
+        if (res.Result.Success) 
+        {          
+          this.listResultProceso = res.Result.Data;
+          this.tempDataResultProceso = this.listResultProceso;
+          this.rowsResultProceso = [... this.tempDataResultProceso];
+          let groupsSacos = {}
+          let groupKg = {}
+          let groupKilosNetos = {}
+          let groupPorcentaje = {}
+          let groupQqkg = {}
+          // let groupTipoEmpaque = {}
+          // let groupEmpaque = {}
+          // let selectpEmpaque = []
+          // let selectedtipoempaque = []
+
+          this.listResultProceso.forEach(input_template => 
+            {
+            groupsSacos[input_template.Codigo + '%sacos'] = new FormControl('', []);
+            groupKg[input_template.Codigo + '%Kg'] = new FormControl('', []);
+            groupKilosNetos[input_template.Codigo + '%kilosNetos'] = new FormControl('', []);
+            groupPorcentaje[input_template.Codigo + '%porcentaje'] = new FormControl('', []);
+            groupQqkg[input_template.Codigo + '%qqkg'] = new FormControl('', []);
+            // groupTipoEmpaque[input_template.Codigo + '%tipoempaque'] = new FormControl('',[]);
+            // groupEmpaque[input_template.Codigo + '%empaque'] = new FormControl('',[]);
+            // selectpEmpaque[input_template.Codigo + '%selectedempaque'];
+            // selectedtipoempaque[input_template.Codigo + '%selectedtipoempaque'];
+          })
+
+          this.formGroupSacos = new FormGroup(groupsSacos);
+          this.formGroupKg = new FormGroup(groupKg);
+          this.formGroupKilosNetos = new FormGroup(groupKilosNetos)
+          this.formGroupPorcentaje = new FormGroup(groupPorcentaje);
+          this.formGroupQqkg = new FormGroup(groupQqkg);
+          // this.formGroupTipoEmpaque = new FormGroup(groupTipoEmpaque);
+          // this.formGroupEmpaque = new FormGroup(groupEmpaque);
+          // this.selectedDetalleEmpaque = selectpEmpaque;
+          // this.selectedDetalleTipoEmpaque = selectedtipoempaque;           
+        }
+      });
+
+
+    }
+    else
+    {
+      this.EsHumedo=true;
+
+       let object: any = {};
+            object.Codigo = '02'; //Seco
+            object.Label = 'Café Pergamino';
+             
+            this.listResultProceso = [];
+
+             
+            this.listResultProceso.push(object);
+          this.tempDataResultProceso = this.listResultProceso;
+          this.rowsResultProceso = [... this.tempDataResultProceso];
+
+          let groupSacosHumedo = {}
+          let groupKilosBrutosHumedo = {}
+          let groupH2OHumedo = {}
+          let groupKilosNetosHumedo = {}
+          let groupMermaKilosNetosHumedo = {}
+          let groupMermaPorcentajeHumedo = {}
+
+
+          this.listResultProceso.forEach(input_template => {
+            groupSacosHumedo[input_template.Codigo + '%sacosHumedo'] = new FormControl('', []);
+            groupKilosBrutosHumedo[input_template.Codigo + '%kilosBrutosHumedo'] = new FormControl('', []);
+            groupKilosNetosHumedo[input_template.Codigo + '%kilosNetosHumedo'] = new FormControl('', []);
+            groupMermaKilosNetosHumedo[input_template.Codigo + '%mermakilosNetosHumedo'] = new FormControl('', []);
+            groupMermaPorcentajeHumedo[input_template.Codigo + '%mermaPorcentajeHumedo'] = new FormControl('', []);
+            groupH2OHumedo[input_template.Codigo + '%h2OHumedo'] = new FormControl('', []);
+            
+          })
+
+          this.formGroupSacosHumedo = new FormGroup(groupSacosHumedo);
+          this.formGroupKilosBrutosHumedo = new FormGroup(groupKilosBrutosHumedo);
+          this.formGroupH2OHumedo = new FormGroup(groupH2OHumedo);
+          this.formGroupKilosNetosHumedo = new FormGroup(groupKilosNetosHumedo)
+          this.formGroupMermaKilosNetosHumedo = new FormGroup(groupMermaKilosNetosHumedo);
+          this.formGroupMermaPorcentajeHumedo = new FormGroup(groupMermaPorcentajeHumedo);
+
+    }
     //this.EmpaqueId = e[0].EmpaqueId;
     this.CertificacionId = e[0].CertificacionId;
     //this.TipoId = e[0].TipoId;
@@ -617,7 +959,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     //this.calcularPorcentaje();
   }
 
-  consultarDetalleporId(OrdenProcesoPlantaId: number) {
+  consultarDetalleporId(OrdenProcesoPlantaId: number) 
+  {
     this.ordenProcesoService.ConsultarPorId(OrdenProcesoPlantaId)
       .subscribe(res => {
         this.spinner.hide();

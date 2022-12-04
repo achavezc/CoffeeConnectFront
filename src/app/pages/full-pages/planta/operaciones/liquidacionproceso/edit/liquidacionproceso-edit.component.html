@@ -127,7 +127,7 @@
                     [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
                     [rows]="rowsMateriaPrima" [summaryRow]="true" [summaryPosition]="'bottom'">
 
-                    <ngx-datatable-column name="Descripcion" prop="Descripcion" width="50">
+                    <ngx-datatable-column name="Nota de Ingreso" prop="Descripcion" width="50">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Sacos" prop="Cantidad" width="50">
                     </ngx-datatable-column>
@@ -145,9 +145,9 @@
                 </div>
 
                 <div class="col-md-7">
-                  <ngx-datatable #tblResultProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
+                  <ngx-datatable #tblResultProceso class="bootstrap core-bootstrap" [columnMode]="'force'" 
                     [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
-                    [rows]="rowsResultProceso" [scrollbarH]="false" [summaryRow]="true" [summaryPosition]="'bottom'">
+                    [rows]="rowsResultProceso" [scrollbarH]="false" [summaryRow]="true" [summaryPosition]="'bottom'" *ngIf="!EsHumedo">
                     <ngx-datatable-column name="Referencia" prop="Label" width="100">
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Sacos" prop="CantidadSacos" width="45" [formGroup]="formGroupSacos"
@@ -163,87 +163,49 @@
                         <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%Kg'" (input)="calcularKilosNetos()">
 
                       </ng-template>
-                    </ngx-datatable-column>
-
-            <!--     
-
-                <ngx-datatable-column name="Tipo" prop="TipoId"  width="220" >
+                    </ngx-datatable-column>           
+                     <!-- <ngx-datatable-column name="Tipo" prop="TipoId"  width="350" [formGroup]="formGroupTipoEmpaque">
                       <ng-template ngx-datatable-cell-template let-row="row" let-TipoId="value" 
                           let-rowIndex="rowIndex">
-                          <div class="d-flex align-items-center" >
-                              <ng-select [items]="listaDetalleTipoEmpaque"  width="210"   
-                                  class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Tipo Empaque"
-                                  [(ngModel)]="selectedDetalleTipoEmpaque[row.NotaIngresoPlantaDetalleId]"  id="TipoId" [formControlName]="row.NotaIngresoPlantaDetalleId+'tipoempaque'"
-                                  (change)="UpdateValuesGridDetails($event, rowIndex, 'TipoId')"
-                                  value="{{TipoId}}">
+                              <ng-select [items]="listaDetalleTipoEmpaque"  width="300"   
+                                  class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Tipo Empaque"  id="validationTooltip12" [formControlName]="row.Codigo+'%tipoempaque'"
+                                  [(ngModel)]="selectedDetalleTipoEmpaque[row.Codigo+'%selectedtipoempaque']">
                               </ng-select>
-                          </div>
                       </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="170" >
-                  <ng-template ngx-datatable-cell-template let-row="row" let-EmpaqueId="value" 
-                      let-rowIndex="rowIndex">
-                      <div class="d-flex align-items-center"  > 
-                      <ng-select [items]="listaDetalleEmpaque"  width="160"   
-                          class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Empaque"
-                          [(ngModel)]="selectedDetalleEmpaque[row.NotaIngresoPlantaDetalleId]"  id="EmpaqueId" [formControlName]="row.NotaIngresoPlantaDetalleId+'empaque'"
-                          (change)="UpdateValuesGridDetails($event, rowIndex, 'EmpaqueId')"
-                          value="{{EmpaqueId}}">
-                      </ng-select>
-                  </div>
+                    </ngx-datatable-column> 
+                  <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="300"  [formGroup]="formGroupEmpaque">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-EmpaqueId="value" 
+                        let-rowIndex="rowIndex">                      
+                        <ng-select [items]="listaDetalleEmpaque"  width="200"   
+                            class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Empaque"  id="validationTooltip12" [formControlName]="row.Codigo+'%empaque'"
+                            [(ngModel)]="selectedDetalleEmpaque[row.Codigo+'%selectedempaque']">
+                        </ng-select>                    
+                        </ng-template>
+                </ngx-datatable-column> -->
+                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="45"
+                  [formGroup]="formGroupKilosNetos" [summaryTemplate]="totalKilosNetos">
+                  <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <input type="number" class="form-control" id="basicInput"
+                      [formControlName]="row.Codigo+'%kilosNetos'"  disabled>
                   </ng-template>
-            </ngx-datatable-column>-->
-
-            <ngx-datatable-column name="Tipo" prop="TipoId"  width="350" [formGroup]="formGroupTipoEmpaque">
-              <ng-template ngx-datatable-cell-template let-row="row" let-TipoId="value" 
-                  let-rowIndex="rowIndex">
-                      <ng-select [items]="listaDetalleTipoEmpaque"  width="300"   
-                          class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Tipo Empaque"  id="validationTooltip12" [formControlName]="row.Codigo+'%tipoempaque'"
-                          [(ngModel)]="selectedDetalleTipoEmpaque[row.Codigo+'%selectedtipoempaque']">
-                      </ng-select>
-              </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Empaque" prop="EmpaqueId"  width="300"  [formGroup]="formGroupEmpaque">
-          <ng-template ngx-datatable-cell-template let-row="row" let-EmpaqueId="value" 
-              let-rowIndex="rowIndex">
-             
-              <ng-select [items]="listaDetalleEmpaque"  width="200"   
-                  class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Empaque"  id="validationTooltip12" [formControlName]="row.Codigo+'%empaque'"
-                  [(ngModel)]="selectedDetalleEmpaque[row.Codigo+'%selectedempaque']">
-              </ng-select>
-          
-          </ng-template>
-    </ngx-datatable-column>
-
-
-
-                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="45"
-                      [formGroup]="formGroupKilosNetos" [summaryTemplate]="totalKilosNetos">
-                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <input type="number" class="form-control" id="basicInput"
-                          [formControlName]="row.Codigo+'%kilosNetos'"  disabled>
-
-                      </ng-template>
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="%" prop="LiquidacionProcesoPlantaId" width="45" [formGroup]="formGroupPorcentaje"
-                      [summaryTemplate]="totalPorcentaje">
-                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <input type="number" class="form-control" id="basicInput"
-                          [formControlName]="row.Codigo+'%porcentaje'" disabled>
-
-                      </ng-template>
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Kilos Netos / 46" prop="QQKg" width="60" [formGroup]="formGroupQqkg"
-                      [summaryTemplate]="totalQqkg" disabled>
-                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%qqkg'"
-                          disabled>
-
-                      </ng-template>
-                    </ngx-datatable-column>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="%" prop="LiquidacionProcesoPlantaId" width="45" [formGroup]="formGroupPorcentaje"
+                  [summaryTemplate]="totalPorcentaje">
+                  <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <input type="number" class="form-control" id="basicInput"
+                      [formControlName]="row.Codigo+'%porcentaje'" disabled>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Kilos Netos / 46" prop="QQKg" width="60" [formGroup]="formGroupQqkg"
+                  [summaryTemplate]="totalQqkg" disabled>
+                  <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%qqkg'"
+                      disabled>
+                  </ng-template>
+                </ngx-datatable-column>
                   </ngx-datatable>
+
+
                   <ng-template #totalSacos let-row="row" let-name="value" ngx-datatable-cell-template>
                     <input class="form-control" formControlName="totalSacos">
                   </ng-template>
@@ -259,6 +221,89 @@
                   <ng-template #totalQqkg let-row="row" let-name="value" ngx-datatable-cell-template>
                     <input class="form-control" formControlName="totalQqkg">
                   </ng-template>
+
+
+
+                  <ngx-datatable #tblResultProcesoHumedo class="bootstrap core-bootstrap" [columnMode]="'force'" 
+                    [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
+                    [rows]="rowsResultProceso" [scrollbarH]="false" [summaryRow]="true" [summaryPosition]="'bottom'" *ngIf="EsHumedo">
+                    <ngx-datatable-column name="Referencia" prop="Label" width="80">
+                    </ngx-datatable-column>
+                    <!-- <ngx-datatable-column name="Sacos" prop="CantidadSacos" width="100">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutos" width="100">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="100">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="HO2%" prop="KGN" width="100">
+                    </ngx-datatable-column> -->
+                   
+                    
+                    
+
+                    <ngx-datatable-column name="Sacos" prop="CantidadSacos" width="20" [formGroup]="formGroupSacosHumedo"
+                      [summaryTemplate]="totalSacosHumedo">
+                     <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <input type="number" class="form-control" id="basicInput"
+                          [formControlName]="row.Codigo+'%sacosHumedo'"  >
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutos" width="20" [formGroup]="formGroupKilosBrutosHumedo"
+                      [summaryTemplate]="totalKilosBrutosHumedo">
+                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%kilosBrutosHumedo'"  (input)="calcularKilosNetosHumedo()">
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="20" [formGroup]="formGroupKilosNetosHumedo"
+                      [summaryTemplate]="totalKilosNetosHumedo">
+                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%kilosNetosHumedo'" disabled="true">
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="H2O %" prop="KGN" width="20" [formGroup]="formGroupH2OHumedo"
+                      [summaryTemplate]="totalH2OHumedo">
+                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%h2OHumedo'" >
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Merma (KN)" prop="Tara" width="20" [formGroup]="formGroupMermaKilosNetosHumedo"
+                      [summaryTemplate]="totalMermaKilosNetosHumedo">
+                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%mermakilosNetosHumedo'" disabled="true">
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    
+
+                    <ngx-datatable-column name="Merma (%H)" prop="Porcentaje" width="20" [formGroup]="formGroupMermaPorcentajeHumedo"
+                      [summaryTemplate]="totalMermaPorcentajeHumedo">
+                      <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <input type="number" class="form-control" id="basicInput" [formControlName]="row.Codigo+'%mermaPorcentajeHumedo'" disabled="true">
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+
+
+
+                    
+
+                    <!-- <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="100">
+                    </ngx-datatable-column> -->
+
+                   <!--  <ngx-datatable-column name="Merma (KN)" prop="Tara" width="100">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Merma (%H)" prop="Porcentaje" width="100">
+                    </ngx-datatable-column> -->
+                    
+                  </ngx-datatable>
+
+
                 </div>
               </div>
               <div class="row">
@@ -273,7 +318,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-7">
+                <div class="col-7" *ngIf="!EsHumedo">
                   <label for="basicInput">Envases con su Productos</label>
                   <input type="text" class="form-control" id="basicInput" formControlName="envases" 
                   [ngClass]="{ 'is-invalid': submittedEdit && fns.envases.invalid, 'is-valid': submittedEdit && !fns.envases.invalid }">
