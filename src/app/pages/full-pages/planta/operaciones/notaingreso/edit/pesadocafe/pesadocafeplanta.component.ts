@@ -218,7 +218,8 @@ export class PesadoCafePlantaComponent implements OnInit {
     this.calcularKilosNetos();
   }
 
-  calcularTara() {
+  calcularTara() 
+  {
     var cantidad = this.pesadoFormGroup.controls['cantidad'].value;
     var empaque = this.pesadoFormGroup.controls['empaque'].value;
     var tipo = this.pesadoFormGroup.controls['tipo'].value;
@@ -238,7 +239,8 @@ export class PesadoCafePlantaComponent implements OnInit {
     this.miEvento.emit(this.mensaje);
   }
 
-  calcularKilosNetos(){
+  calcularKilosNetos()
+  {
     var tara = this.pesadoFormGroup.controls['tara'].value;
     var kilosBrutos = this.pesadoFormGroup.controls['kilosBrutos'].value;
     var valor = kilosBrutos - tara;

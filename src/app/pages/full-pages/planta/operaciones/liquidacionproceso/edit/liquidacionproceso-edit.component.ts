@@ -702,7 +702,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       let liquidacionProcesoPlantaDetalle: LiquidacionProcesoPlantaDetalle[] = [];
       this.listMateriaPrima.forEach(x => {
         let ObjectProcesoPlantaDetalle = new LiquidacionProcesoPlantaDetalle(
-          x.NotaIngresoAlmacenPlantaId,x.Descripcion,x.PorcentajeHumedad,x.Cantidad,x.KilosNetos,0,0
+          x.NotaIngresoAlmacenPlantaId,x.Descripcion,x.PorcentajeHumedad,x.Cantidad,x.KilosNetos,x.KilosBrutos,0,0
         );
         liquidacionProcesoPlantaDetalle.push(ObjectProcesoPlantaDetalle);
       });
@@ -968,6 +968,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         {
           if (res.Result.ErrCode == "") 
           {
+            debugger
             this.listMateriaPrima = [];
             
             res.Result.Data.detalle.forEach(data => 
@@ -978,6 +979,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
               object.PorcentajeHumedad = data.PorcentajeHumedad;     
               object.Cantidad = data.Cantidad
               object.KilosNetos = data.KilosNetos
+              object.KilosBrutos = data.KilosBrutosNotaIngreso
             
               this.listMateriaPrima.push(object);
             }); 

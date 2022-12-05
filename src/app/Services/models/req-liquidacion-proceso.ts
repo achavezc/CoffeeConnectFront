@@ -63,6 +63,7 @@ export class LiquidacionProcesoPlantaDetalle
     PorcentajeHumedad: number,
     Cantidad: number,
     KilosNetos: number,
+    KilosBrutos: number,
     LiquidacionProcesoPlantaDetalleId?: number,
     LiquidacionProcesoPlantaId?: number,
 
@@ -73,6 +74,7 @@ export class LiquidacionProcesoPlantaDetalle
         this.NotaIngresoAlmacenPlantaId = NotaIngresoAlmacenPlantaId;
         this.Descripcion = Descripcion;
         this.PorcentajeHumedad = PorcentajeHumedad;
+        this.KilosBrutos = KilosBrutos;
         this.Cantidad = Cantidad;
         this.KilosNetos = KilosNetos;
     }
@@ -83,6 +85,7 @@ export class LiquidacionProcesoPlantaDetalle
     PorcentajeHumedad: number;
     Cantidad: number;
     KilosNetos: number;
+    KilosBrutos: number;
 }
 
 export class LiquidacionProcesoPlantaResultado 
