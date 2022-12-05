@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { Router,ActivatedRoute } from "@angular/router"
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from './../../../../../../services/auth.service';
@@ -75,6 +77,7 @@ export class NotaIngresoListComponent implements OnInit {
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
     private spinner: NgxSpinnerService,
     private maestroService: MaestroService,
+    private excelService: ExcelService,
     private authService : AuthService,
     private route: ActivatedRoute) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
@@ -229,7 +232,7 @@ export class NotaIngresoListComponent implements OnInit {
 
   }
 
-  buscar() 
+  /*buscar() 
   {
     
     if (this.consultaNotaIngresoPlantaForm.invalid || this.errorGeneral.isError) {
@@ -295,7 +298,125 @@ export class NotaIngresoListComponent implements OnInit {
           }
         );
     }
+  }*/
+
+  buscar(exportExcel?: boolean) {
+    if (this.consultaNotaIngresoPlantaForm.invalid || this.errorGeneral.isError) {
+      this.submitted = true;
+      return;
+    } else {
+
+      this.submitted = false;
+      var objRequest = {
+        "Numero": this.consultaNotaIngresoPlantaForm.controls['notaIngreso'].value,
+        "NumeroGuiaRemision": this.consultaNotaIngresoPlantaForm.controls['numeroGuiaRemision'].value,
+        "RazonSocialOrganizacion": this.consultaNotaIngresoPlantaForm.controls['organizacion'].value,
+        "RucOrganizacion": this.consultaNotaIngresoPlantaForm.controls['ruc'].value,
+        "ProductoId": this.consultaNotaIngresoPlantaForm.controls['tipoProducto'].value,
+        "SubProductoId": this.consultaNotaIngresoPlantaForm.controls['subProducto'].value,
+        "MotivoIngresoId": this.consultaNotaIngresoPlantaForm.controls['motivo'].value,
+        "EstadoId": this.consultaNotaIngresoPlantaForm.controls['estado'].value,
+    ///nuevos campos 
+    
+    "CodigoCampania": this.consultaNotaIngresoPlantaForm.controls['Campania'].value,
+    "CodigoTipoConcepto": this.consultaNotaIngresoPlantaForm.controls['Concepto'].value,
+    ///nuevos campos
+       "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
+        "FechaInicio": this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value,
+        "FechaFin": this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value,
+        "FechaGuiaRemisionInicio": this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionInicio'].value,
+        "FechaGuiaRemisionFin" : this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionFin'].value
+
+      }
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+        this.plantaService.Consultar(objRequest)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              res.Result.Data.forEach(obj => {
+                obj.FechaRegistroCadena = this.dateUtil.formatDate(new Date(obj.FechaRegistro), "/");
+                obj.FechaGuiaRemision =  this.dateUtil.formatDate(new Date(obj.FechaGuiaRemision), "/");
+              });
+              if (!exportExcel) {
+              this.tempData = res.Result.Data;
+              this.rows = [...this.tempData];
+              this.selected = [];
+            }  else {
+              let vArrHeaderExcel: HeaderExcel[] = [
+                //new HeaderExcel("N° Control Calidad", "center"),
+                new HeaderExcel("notaIngreso", "center"),
+                new HeaderExcel("numeroGuiaRemision", "center"),
+                new HeaderExcel("RazonSocialOrganizacion", "center"),
+                new HeaderExcel("ruc", "center"),
+                new HeaderExcel("tipoProducto","center"),
+                new HeaderExcel("subProducto", "center"),
+                new HeaderExcel("motivo", "center"),
+                new HeaderExcel("estado", "center"),
+                new HeaderExcel("Campania", "center"),
+                new HeaderExcel("Concepto", "right"),
+                new HeaderExcel("fechaInicio", "dd/mm/yyyy"),
+                new HeaderExcel("fechaFin", "dd/mm/yyyy"),
+                new HeaderExcel("fechaGuiaRemisionInicio", "dd/mm/yyyy"),
+                new HeaderExcel("fechaGuiaRemisionFin", "dd/mm/yyyy"),
+              ];
+
+              let vArrData: any[] = [];
+              for (let i = 0; i < res.Result.Data.length; i++) {
+                vArrData.push([
+                  res.Result.Data[i].NumeroCalidadPlanta,
+                  res.Result.Data[i].Numero,
+                  res.Result.Data[i].NumeroGuiaRemision,
+                  res.Result.Data[i].FechaGuiaRemision,
+                  res.Result.Data[i].FechaRegistroCadena,
+                  res.Result.Data[i].RazonSocial,
+                  res.Result.Data[i].Producto,
+                  res.Result.Data[i].Certificacion,
+                  res.Result.Data[i].SubProducto,
+                  res.Result.Data[i].MotivoIngreso,
+                  res.Result.Data[i].CantidadControlCalidad,
+                  res.Result.Data[i].PesoBrutoControlCalidad,
+                  res.Result.Data[i].TaraControlCalidad,
+                  res.Result.Data[i].KilosNetosControlCalidad,
+                  res.Result.Data[i].RendimientoPorcentaje,
+                  res.Result.Data[i].HumedadPorcentaje,
+                  res.Result.Data[i].PuntajeFinal,
+                  res.Result.Data[i].CantidadProcesada,
+                  res.Result.Data[i].KilosNetosProcesado,
+                  res.Result.Data[i].CantidadDisponible,
+                  res.Result.Data[i].KilosNetosDisponibles,
+                  res.Result.Data[i].EstadoCalidad
+                ]);
+              }
+              this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'NotaIngreso');
+            }
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
   }
+
+
+
 
   compareTwoDates() {
    
@@ -496,6 +617,8 @@ export class NotaIngresoListComponent implements OnInit {
   }
   
   exportar() {
+   this.buscar();
+
     /*
     try {
       if (this.rows == null || this.rows.length <= 0) {
