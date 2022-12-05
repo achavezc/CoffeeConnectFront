@@ -36,7 +36,11 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   listaSubProducto: any[];
   selectProducto: any;
   selectSubProducto: any;
-
+  CodigoSaco = "01";
+  CodigoTipoYute = "01";
+  kilos = 7;
+  tara = 0.2;
+  taraYute = 0.7
   selectedTipoDocumento: any;
   listaTipoDocumento: any[];
   listaMotivoTranslado: any[];
@@ -128,7 +132,9 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
         object.SubProductoId = x.SubProductoId 
         object.Numero = x.Numero
         object.Empaque = x.Empaque
+        object.EmpaqueId = x.EmpaqueId
         object.TipoEmpaque = x.TipoEmpaque
+        object.TipoId = x.TipoId
         object.Cantidad = x.Cantidad
         object.KilosNetos = x.KilosNetos
         object.KilosBrutos= x.KilosBrutos
@@ -403,14 +409,48 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   }
 
   
-  UpdateValuesGridDetails(event: any, index: any, prop: any): void {
+  UpdateValuesGridDetails(event: any, index: any, prop: any): void 
+  {
+    debugger
     if (prop === 'Cantidad')
-      this.listaNotaIngreso[index].Cantidad =  parseFloat(event.target.value);
+    {  
+    this.listaNotaIngreso[index].Cantidad =  parseFloat(event.target.value);
+    this.calcularTara( this.listaNotaIngreso[index].Cantidad, this.listaNotaIngreso[index].EmpaqueId, this.listaNotaIngreso[index].TipoId, this.listaNotaIngreso[index].KilosNetos,index );
+  
+    }
     else if (prop === 'KilosNetos')
+    {
       this.listaNotaIngreso[index].KilosNetos = parseFloat(event.target.value);
-      
+      this.calcularTara( this.listaNotaIngreso[index].Cantidad, this.listaNotaIngreso[index].EmpaqueId, this.listaNotaIngreso[index].TipoId, this.listaNotaIngreso[index].KilosNetos,index );
+    } 
       
   }
+
+  calcularTara(cantidad, empaque, tipo,kilosNetos,index) {
+  
+    var valor = 0;
+    if (empaque == this.CodigoSaco && tipo == this.CodigoTipoYute) {
+      var valor = cantidad * this.taraYute;
+    } else if (empaque == this.CodigoSaco && tipo != this.CodigoTipoYute) {
+      var valor = cantidad * this.tara;
+    }
+
+
+    var tara = Math.round((valor + Number.EPSILON) * 100) / 100
+    //this.pesadoFormGroup.controls['tara'].setValue(tara);
+    this.listaNotaIngreso[index].Tara = tara
+    this.calcularKilosBrutos(tara,kilosNetos,index);
+  }
+
+  calcularKilosBrutos(tara, kilosNetos,index){
+ 
+    var valor = kilosNetos + tara;
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.listaNotaIngreso[index].KilosBrutos = valorRounded
+    //this.pesadoFormGroup.controls['kilosNetos'].setValue(valorRounded);
+  }
+
+
 
   DeleteRowDetail(index: any): void {
     this.listaNotaIngreso.splice(index, 1);
@@ -462,12 +502,29 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
             object.SubProductoId = e[0].SubProductoId 
             object.Empaque = e[0].Empaque
             object.TipoEmpaque = e[0].TipoEmpaque
+            object.TipoId = e[0].TipoId
+            object.EmpaqueId = e[0].EmpaqueId
             object.Cantidad = e[0].CantidadDisponible
             object.KilosNetos = e[0].KilosNetosDisponibles
             object.KilosBrutos= e[0].KilosBrutos
             object.Tara= 0
             object.CantidadDisponible = e[0].CantidadDisponible
             object.KilosNetosDisponibles = e[0].KilosNetosDisponibles 
+
+
+            /* var valor = 0;
+            if (empaque == this.CodigoSaco && object.TipoEmpaque == this.CodigoTipoYute) {
+              var valor = cantidad * this.taraYute;
+            } else if (empaque == this.CodigoSaco && object.TipoEmpaque != this.CodigoTipoYute) {
+              var valor = cantidad * this.tara;
+            } 
+
+
+    var tara = Math.round((valor + Number.EPSILON) * 100) / 100
+    //this.pesadoFormGroup.controls['tara'].setValue(tara);
+    this.listaNotaIngreso[index].Tara = tara*/
+
+
             
             
             this.listaNotaIngreso.push(object);

@@ -199,10 +199,10 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
      
 
       this.notaIngresoProductoAlmacenForm.controls["estado"].setValue('01');
-      this.selectedProducto = '02';
-      this.cargarProducto(this.selectedProducto);
+      //this.selectedProducto = '02';
+      //this.cargarProducto(this.selectedProducto);
       this.notaIngresoProductoAlmacenForm.controls.estado.disable();
-      this.notaIngresoProductoAlmacenForm.controls.producto.disable();
+      //this.notaIngresoProductoAlmacenForm.controls.producto.disable();
 
 
     }
