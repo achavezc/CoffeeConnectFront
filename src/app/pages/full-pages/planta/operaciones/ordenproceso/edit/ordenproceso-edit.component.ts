@@ -44,6 +44,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   ordenProcesoEditForm: FormGroup;
   listEstado = [];
+  tipoProcesoSecado = '02';
   listTipoProcesos = [];
   listTipoProduccion = [];
   esHumedo = false;
@@ -127,7 +128,25 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
   }
 
+  changeTipos(e) 
+  {    
+    let codigo = e.Codigo;
+
+    if(codigo==this.tipoProcesoSecado)
+    {
+      this.ordenProcesoEditForm.controls.cantidadDefectos.disable();
+    }
+    else
+    {
+      this.ordenProcesoEditForm.controls.cantidadDefectos.enable();
+    }    
+  }
   
+  seleccionar()
+  {
+    
+  }
+
   agregarOrdenProceso(e) {
     this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(e[0].Numero);
     this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(e[0].OrdenProcesoId);

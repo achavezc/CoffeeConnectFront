@@ -452,7 +452,7 @@
                                   <div class="d-flex align-items-center"  style="width: 340px;">
                                     <ng-select [items]="listaDetalleSubProducto"  width="340"    style="margin-bottom: 50px;" 
                                       class="form-control" bindLabel="Label" bindValue="Codigo" placeholder="Descripcion" id="SubProductoId" 
-                                    
+                                      [(ngModel)]="selectedDetalleSubProducto[row.NotaIngresoPlantaDetalleId]" [formControlName]="row.NotaIngresoPlantaDetalleId+'subproducto'"
                                       (change)="UpdateValuesGridDetails($event, rowIndex, 'SubProductoId')"
                                       value="{{SubProductoId}}">
                                   </ng-select>
@@ -480,7 +480,7 @@
                                   <div class="d-flex align-items-center">
                                       <input type="number" autofocus class="form-control form-control-sm" style="margin-bottom: 50px;" 
                                           (blur)="UpdateValuesGridDetails($event, rowIndex, 'Tara')"
-                                          [ngClass]="{ 'border-danger': !Tara, '': Tara }"
+                                          
                                           value="{{Tara}}" disabled>
                                   </div>
                               </ng-template>

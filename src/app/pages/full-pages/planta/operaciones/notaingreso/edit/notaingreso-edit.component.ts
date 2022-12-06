@@ -174,8 +174,8 @@ export class NotaIngresoEditComponent implements OnInit {
     this.notaIngredoFormEdit = this.fb.group(
       {
 
-        guiaremision: ['',Validators.required],
-        fecharemision: ['', Validators.required],
+        guiaremision: ['',],
+        fecharemision: ['',],
         tipoProduccion: ['', Validators.required],
         codigoOrganizacion: ['',],
         nombreOrganizacion: ['',Validators.required],
@@ -347,36 +347,39 @@ export class NotaIngresoEditComponent implements OnInit {
 
   }
 
-  changeSubProducto(e) {
-    
-    let filterProducto = e.Codigo;
+  ocultarSubProducto(filterProducto)
+    {
+      
     let subproducto = this.notaIngredoFormEdit.get('subproducto').value;
     this.validacionPorcentajeRend(filterProducto, subproducto);
     this.cargarSubProducto(filterProducto);
     this.desactivarControl(filterProducto);
-    if(filterProducto == '02'){
+    if(filterProducto == '02') //Exportable
+    {
       //OCULTAR PESADO
       this.flagOcultarPesado = false;
       this.flagOcultarExportable = true;
-      this.notaIngredoFormEdit.get("pesado").reset();
+      //this.notaIngredoFormEdit.get("pesado").reset();
+      this.notaIngredoFormEdit.get("pesado").disable();
       this.notaIngredoFormEdit.controls["subproducto"].disable();
-      this.notaIngredoFormEdit.get('guiaremision').setValidators([]);
-      this.notaIngredoFormEdit.get('guiaremision').updateValueAndValidity();
+      //this.notaIngredoFormEdit.get('guiaremision').setValidators([]);
+      //this.notaIngredoFormEdit.get('guiaremision').updateValueAndValidity();
       
-      this.notaIngredoFormEdit.get('fecharemision').setValidators([]);
-      this.notaIngredoFormEdit.get('fecharemision').updateValueAndValidity();
+      //this.notaIngredoFormEdit.get('fecharemision').setValidators([]);
+      //this.notaIngredoFormEdit.get('fecharemision').updateValueAndValidity();
 
       this.notaIngredoFormEdit.get('motivo').setValidators([Validators.required]);
       this.notaIngredoFormEdit.get('motivo').updateValueAndValidity();
 
     }else{
        //MOSTRAR PESADO
-       this.notaIngredoFormEdit.get('guiaremision').setValidators([Validators.required]);
-       this.notaIngredoFormEdit.get('guiaremision').updateValueAndValidity();
+       //this.notaIngredoFormEdit.get('guiaremision').setValidators([Validators.required]);
+       //this.notaIngredoFormEdit.get('guiaremision').updateValueAndValidity();
 
-       this.notaIngredoFormEdit.get('fecharemision').setValidators([Validators.required]);
-       this.notaIngredoFormEdit.get('fecharemision').updateValueAndValidity();
+       //this.notaIngredoFormEdit.get('fecharemision').setValidators([Validators.required]);
+       //this.notaIngredoFormEdit.get('fecharemision').updateValueAndValidity();
 
+       this.notaIngredoFormEdit.get("pesado").enable();
        this.notaIngredoFormEdit.get('motivo').setValidators([]);
        this.notaIngredoFormEdit.get('motivo').updateValueAndValidity();
 
@@ -385,7 +388,11 @@ export class NotaIngresoEditComponent implements OnInit {
        this.rowsDetails = [];
        this.notaIngredoFormEdit.controls["subproducto"].enable();
     }
-
+    }
+  
+  changeSubProducto(e) 
+  {
+    this.ocultarSubProducto(e.Codigo);  
 
   }
   async addRowDetail() {
@@ -598,7 +605,7 @@ export class NotaIngresoEditComponent implements OnInit {
 
   guardar() {
 
-    
+    debugger
     const form = this;
     if( this.notaIngredoFormEdit.controls["producto"].value == '02'){
       if(this.rowsDetails.length == 0){
@@ -622,14 +629,19 @@ export class NotaIngresoEditComponent implements OnInit {
         this.notaIngredoFormEdit.get('pesado').get("grado").setValue("");
       }
 
+      var FechaGuiaRemision;
+      if(this.notaIngredoFormEdit.controls["producto"].value != '02')
+      {
+        FechaGuiaRemision=this.notaIngredoFormEdit.controls["fecharemision"].value
+      }
+    
       
-
       let request = new ReqRegistrarPesadoNotaIngreso(
         Number(this.id),
         this.vSessionUser.Result.Data.EmpresaId,
         this.notaIngredoFormEdit.controls["guiaremision"].value,
         this.notaIngredoFormEdit.controls["guiaremision"].value,
-        this.notaIngredoFormEdit.controls["fecharemision"].value,
+        FechaGuiaRemision,
         this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId,
         this.notaIngredoFormEdit.controls["tipoProduccion"].value,
         this.notaIngredoFormEdit.controls["producto"].value,
@@ -772,7 +784,9 @@ export class NotaIngresoEditComponent implements OnInit {
 
   };
 
-  guardarService(request: any) {
+  guardarService(request: any)
+   {
+    debugger
     this.notaIngresoService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
@@ -841,14 +855,20 @@ export class NotaIngresoEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             this.detalle = res.Result.Data.Detalle;
             this.cargarDataFormulario(res.Result.Data);
-            if (this.detalle != null) {
+
+            
+
+            if (res.Result.Data != null) 
+            {
               this.formEmpaques(res.Result.Data);
              // this.formTipoEmpaque(res.Result.Data);
              // this.formSubProducto(res.Result.Data);
               
-            } else {
-              this.spinner.hide();
             }
+            else 
+             {
+              this.spinner.hide();
+            } 
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
@@ -871,25 +891,72 @@ export class NotaIngresoEditComponent implements OnInit {
     this.idPlantEntryNote = data.NotaIngresoPlantaId;
     this.viewTagSeco = data.SubProductoId != "02" ? false : true;
     this.notaIngredoFormEdit.controls["guiaremision"].setValue(data.NumeroGuiaRemision);
-    this.notaIngredoFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
+    
+    if(data.FechaGuiaRemision!=null)
+    {
+      this.notaIngredoFormEdit.controls["fecharemision"].setValue(formatDate(data.FechaGuiaRemision, 'yyyy-MM-dd', 'en'));
+    }
+
     this.notaIngredoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccionId);
     this.notaIngredoFormEdit.controls["codigoOrganizacion"].setValue(data.NumeroOrganizacion);
     this.notaIngredoFormEdit.controls["nombreOrganizacion"].setValue(data.RazonSocialOrganizacion);
     this.notaIngredoFormEdit.controls["producto"].setValue(data.ProductoId);
 
 
-    if(data.ProductoId == '02'){
+    this.ocultarSubProducto(data.ProductoId);
+
+    if(data.ProductoId == '02')
+    {
+      
+
+      var form = this;
+
+      this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) {
+        if (res.Result.Success) 
+        {
+          debugger
+
+          
+          let groupsSubProducto = {}
+          data.Detalle.forEach(obj => {
+            groupsSubProducto[obj.NotaIngresoPlantaDetalleId + 'subproducto'] = new FormControl('', []);
+
+          });
+          form.formControlSubProducto= new FormGroup(groupsSubProducto);
+              
+            
+            
+
+
+          form.listaDetalleSubProducto = res.Result.Data.filter(obj => obj.Val1 == data.ProductoId);
+
+          data.Detalle.forEach(obj => {
+
+            form.selectedDetalleEmpaque[obj.NotaIngresoPlantaDetalleId] = obj.EmpaqueId;
+            form.selectedDetalleTipoEmpaque[obj.NotaIngresoPlantaDetalleId] = obj.TipoId;
+            form.selectedDetalleSubProducto[obj.NotaIngresoPlantaDetalleId] = obj.SubProductoId;
+        });
+        form.rowsDetails = [...data.Detalle]
+         
+        }
+      });
+  }
+
+    /* if(data.ProductoId == '02'){
       //OCULTAR PESADO
       this.flagOcultarPesado = false;
       this.flagOcultarExportable = true;
-      this.notaIngredoFormEdit.get("pesado").reset();
+      //this.notaIngredoFormEdit.get("pesado").reset();
+      this.notaIngredoFormEdit.get("pesado").disable();
+
 
     }else{
        //MOSTRAR PESADO
        this.flagOcultarPesado = true;
        this.flagOcultarExportable = false;
        this.rowsDetails = [];
-    }
+       this.notaIngredoFormEdit.get("pesado").enable();
+    } */
 
     this.notaIngredoFormEdit.controls["campania"].setValue(data.CodigoCampania);
     this.notaIngredoFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
@@ -941,13 +1008,7 @@ export class NotaIngresoEditComponent implements OnInit {
     this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.EmpresaOrigenId };
     this.desactivarControles(data.EstadoId, data.UsuarioPesado, data.UsuarioCalidad);
 
-    data.Detalle.forEach(obj => {
-
-        this.selectedDetalleEmpaque[obj.NotaIngresoPlantaDetalleId] = obj.EmpaqueId;
-        this.selectedDetalleTipoEmpaque[obj.NotaIngresoPlantaDetalleId] = obj.TipoId;
-        this.selectedDetalleSubProducto[obj.NotaIngresoPlantaDetalleId] = obj.SubProductoId;
-    });
-    this.rowsDetails = [...data.Detalle]
+    
    
     this.spinner.hide();
   }

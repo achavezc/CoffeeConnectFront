@@ -88,8 +88,8 @@ export class NotaIngresoListComponent implements OnInit {
     this.buscar();
     this.consultaNotaIngresoPlantaForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.consultaNotaIngresoPlantaForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
-    this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
-    this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
+    //this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
+    //this.consultaNotaIngresoPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     
@@ -136,8 +136,8 @@ export class NotaIngresoListComponent implements OnInit {
         Concepto:new FormControl('',[]),
         //campos agregados 
         motivo: new FormControl('', []),
-        fechaGuiaRemisionInicio: new FormControl('', [Validators.required]),
-        fechaGuiaRemisionFin: new FormControl('', [Validators.required,])
+        fechaGuiaRemisionInicio: new FormControl('', []),
+        fechaGuiaRemisionFin: new FormControl('', [])
       });
     this.consultaNotaIngresoPlantaForm.setValidators(this.comparisonValidator())
 
@@ -305,6 +305,16 @@ export class NotaIngresoListComponent implements OnInit {
       this.submitted = true;
       return;
     } else {
+;
+      debugger
+      var fechaGuiaRemisionInicio
+      var fechaGuiaRemisionFin   
+
+      if(this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionInicio'].value!='' && this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionFin'].value!='')
+      {
+        fechaGuiaRemisionInicio = this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionInicio'].value;
+        fechaGuiaRemisionFin = this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionFin'].value
+      }
 
       this.submitted = false;
       var objRequest = {
@@ -324,8 +334,8 @@ export class NotaIngresoListComponent implements OnInit {
        "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
         "FechaInicio": this.consultaNotaIngresoPlantaForm.controls['fechaInicio'].value,
         "FechaFin": this.consultaNotaIngresoPlantaForm.controls['fechaFin'].value,
-        "FechaGuiaRemisionInicio": this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionInicio'].value,
-        "FechaGuiaRemisionFin" : this.consultaNotaIngresoPlantaForm.controls['fechaGuiaRemisionFin'].value
+        "FechaGuiaRemisionInicio": fechaGuiaRemisionInicio,
+        "FechaGuiaRemisionFin" : fechaGuiaRemisionFin
 
       }
       this.spinner.show(undefined,
