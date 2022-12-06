@@ -130,6 +130,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   changeTipos(e) 
   {    
+    debugger
     let codigo = e.Codigo;
 
     if(codigo==this.tipoProcesoSecado)
@@ -141,7 +142,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.ordenProcesoEditForm.controls.cantidadDefectos.enable();
     }    
   }
-  
+
   seleccionar()
   {
     

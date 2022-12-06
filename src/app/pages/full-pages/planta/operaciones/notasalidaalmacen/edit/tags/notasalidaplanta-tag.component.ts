@@ -45,6 +45,10 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   listaTipoDocumento: any[];
   listaMotivoTranslado: any[];
   selectedMotivoSalida: any;
+
+  averageCantidad: Number = 0;
+  averageKilosBrutos: Number = 0;
+  averageKilosNetos: Number = 0;
   
   submitted = false;
   submittedT = false;
@@ -76,6 +80,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   estadoAnalizado = '02';
   esEdit = false;
   popUp = true;
+
   @Input() eventsNs: Observable<any>;
 
   @ViewChild(DatatableComponent) tableLotes: DatatableComponent;
@@ -537,7 +542,23 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
       {
         this.alertUtil.alertWarning("Oops...!","Ya ha sido agregada la Nota de Ingreso seleccionada.");
       }
+
+      if (this.listaNotaIngreso.length > 0 )
+      {
+        var sumCantidad = 0;
+        var sumKilosNetos = 0;
+        var sumKilosBrutos= 0;
+        this.listaNotaIngreso.forEach(data => 
+        {
+          sumCantidad = sumCantidad + data.Cantidad;
+          sumKilosNetos = sumKilosNetos + data.KilosNetos;
+          sumKilosBrutos = sumKilosBrutos + data.KilosBrutos;
+        });
+        this.averageCantidad = sumCantidad;
+        this.averageKilosNetos = sumKilosNetos;
+        this.averageKilosBrutos = sumKilosBrutos;
+      }
     
-  }
+  }d
 
 }

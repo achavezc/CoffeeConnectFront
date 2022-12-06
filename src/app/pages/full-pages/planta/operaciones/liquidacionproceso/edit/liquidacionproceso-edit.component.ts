@@ -508,19 +508,32 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   calcularKilosNetosHumedo()
   {
+
+    var kilosNetosMateriaPrima = 0;
+
+     
+    if (this.listMateriaPrima.length != 0)
+    {
+        this.listMateriaPrima.forEach(x => {
+          kilosNetosMateriaPrima = kilosNetosMateriaPrima + x.KilosNetos
+    });
+   
+    }
+
+
    this.rowsResultProceso.forEach(x => 
      {
-      debugger
+       
         var cantidad = this.formGroupSacosHumedo.get(x.Codigo + '%sacosHumedo').value;
       
         var kilosBrutos = this.formGroupKilosBrutosHumedo.get(x.Codigo + '%kilosBrutosHumedo').value;
           
-        var kilosNetosMateriaPrima = 0;
+        //var kilosNetosMateriaPrima = 0;
 
-        if(this.listMateriaPrima.length>0)
-        {
-          kilosNetosMateriaPrima = this.listMateriaPrima[0].KilosNetos;
-        }
+        // if(this.listMateriaPrima.length>0)
+        // {
+        //   kilosNetosMateriaPrima = this.listMateriaPrima[0].KilosNetos;
+        // }
  
        
         var valor = 0;

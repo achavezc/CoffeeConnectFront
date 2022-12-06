@@ -120,7 +120,7 @@
                                             class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoProceso"
                                             placeholder="Seleccionar Tipo Proceso"
                                             [ngClass]="{ 'is-invalid': f.tipoProceso.invalid, 'is-valid': !f.tipoProceso.invalid }"
-                                            [(ngModel)]="selectedTipoProceso">
+                                            [(ngModel)]="selectedTipoProceso" (change)="changeTipos($event)">
                                         </ng-select>
                     
                         
