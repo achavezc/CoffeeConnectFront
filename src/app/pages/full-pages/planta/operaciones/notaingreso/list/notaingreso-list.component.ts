@@ -305,8 +305,7 @@ export class NotaIngresoListComponent implements OnInit {
       this.submitted = true;
       return;
     } else {
-;
-      debugger
+      //debugger
       var fechaGuiaRemisionInicio
       var fechaGuiaRemisionFin   
 
@@ -362,47 +361,57 @@ export class NotaIngresoListComponent implements OnInit {
             }  else {
               let vArrHeaderExcel: HeaderExcel[] = [
                 //new HeaderExcel("N° Control Calidad", "center"),
-                new HeaderExcel("notaIngreso", "center"),
-                new HeaderExcel("numeroGuiaRemision", "center"),
-                new HeaderExcel("RazonSocialOrganizacion", "center"),
-                new HeaderExcel("ruc", "center"),
-                new HeaderExcel("tipoProducto","center"),
-                new HeaderExcel("subProducto", "center"),
-                new HeaderExcel("motivo", "center"),
-                new HeaderExcel("estado", "center"),
-                new HeaderExcel("Campania", "center"),
-                new HeaderExcel("Concepto", "right"),
-                new HeaderExcel("fechaInicio", "dd/mm/yyyy"),
-                new HeaderExcel("fechaFin", "dd/mm/yyyy"),
-                new HeaderExcel("fechaGuiaRemisionInicio", "dd/mm/yyyy"),
-                new HeaderExcel("fechaGuiaRemisionFin", "dd/mm/yyyy"),
+                new HeaderExcel("N° Nota Ingreso", "center"),
+                new HeaderExcel("Numero Nota Ingreso", "center"),
+                new HeaderExcel("Campaña", "center"),
+                new HeaderExcel("Concepto", "center"),
+                new HeaderExcel("Nro Guia Remisión","center"),
+                new HeaderExcel("Fecha Guia Remision", "center", "dd/mm/yyyy"),
+                new HeaderExcel("Fecha Ingreso","center", "dd/mm/yyyy"),
+                new HeaderExcel("Organizacion", "center"),
+                new HeaderExcel("Tipo Producto", "center"),
+                new HeaderExcel("Certificacion", "right"),
+                new HeaderExcel("Estado de Humedad", "right"),
+                new HeaderExcel("Motivo", "center"),
+                new HeaderExcel("Cantidad Recibida", "right"),
+                new HeaderExcel("Peso Bruto Kg Recibida", "right"),
+                new HeaderExcel("Kilos Netos Recibidos", "right"),
+                new HeaderExcel("% Humedad Recepción", "right"),
+                new HeaderExcel("Cantidad Procesada", "right"),
+                new HeaderExcel("Kilos Netos Procesado", "right"),
+                new HeaderExcel("Cantidad Rechazada", "right"),
+                new HeaderExcel("Kilos Netos Rechazados", "right"),
+                new HeaderExcel("Cantidad Disponible", "right"),
+                new HeaderExcel("Kilos Netos Disponibles", "right"),
+                new HeaderExcel("Estado", "right")
+
               ];
 
               let vArrData: any[] = [];
               for (let i = 0; i < res.Result.Data.length; i++) {
                 vArrData.push([
-                  res.Result.Data[i].NumeroCalidadPlanta,
                   res.Result.Data[i].Numero,
+                  res.Result.Data[i].CodigoCampania,
+                  res.Result.Data[i].DescripcionConcepto,
                   res.Result.Data[i].NumeroGuiaRemision,
-                  res.Result.Data[i].FechaGuiaRemision,
+                  res.Result.Data[i].FechaGuiaRemisionCadena,
                   res.Result.Data[i].FechaRegistroCadena,
                   res.Result.Data[i].RazonSocial,
                   res.Result.Data[i].Producto,
                   res.Result.Data[i].Certificacion,
                   res.Result.Data[i].SubProducto,
                   res.Result.Data[i].MotivoIngreso,
-                  res.Result.Data[i].CantidadControlCalidad,
-                  res.Result.Data[i].PesoBrutoControlCalidad,
-                  res.Result.Data[i].TaraControlCalidad,
-                  res.Result.Data[i].KilosNetosControlCalidad,
-                  res.Result.Data[i].RendimientoPorcentaje,
+                  res.Result.Data[i].Cantidad,
+                  res.Result.Data[i].KilosBrutos,
+                  res.Result.Data[i].KilosNetos,
                   res.Result.Data[i].HumedadPorcentaje,
-                  res.Result.Data[i].PuntajeFinal,
                   res.Result.Data[i].CantidadProcesada,
                   res.Result.Data[i].KilosNetosProcesado,
+                  res.Result.Data[i].CantidadRechazada,
+                  res.Result.Data[i].KilosNetosRechazados,
                   res.Result.Data[i].CantidadDisponible,
                   res.Result.Data[i].KilosNetosDisponibles,
-                  res.Result.Data[i].EstadoCalidad
+                  res.Result.Data[i].Estado
                 ]);
               }
               this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'NotaIngreso');
@@ -627,7 +636,7 @@ export class NotaIngresoListComponent implements OnInit {
   }
   
   exportar() {
-   this.buscar();
+   this.buscar(true);
 
     /*
     try {

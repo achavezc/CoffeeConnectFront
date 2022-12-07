@@ -5,6 +5,8 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { NotaIngresoAlmacenPlantaService } from '../../../../../../services/nota-ingreso-almacen-planta-service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { ExcelService } from '../../../../../../shared/util/excel.service';
+import { HeaderExcel } from '../../../../../../services/models/headerexcel.model';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from "@angular/router";
 import {AuthService} from './../../../../../../services/auth.service';
@@ -66,6 +68,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private notaIngresoAlmacenPlantaService: NotaIngresoAlmacenPlantaService,
     private authService : AuthService,
+    private excelService: ExcelService,
     private alertUtil: AlertUtil
   ) {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
@@ -288,7 +291,11 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     }*/
   }
 
-  buscar() {
+  exportar() {
+    this.buscar(true);
+  }
+
+  /*buscar() {
     if (this.notaIngresoAlmacenForm.invalid || this.errorGeneral.isError) {
       this.submitted = true;
       return;
@@ -363,8 +370,155 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
           }
         );
     }
-  }
+  }*/
 
+
+
+  
+  buscar(exportExcel?: boolean) {
+    if (this.notaIngresoAlmacenForm.invalid || this.errorGeneral.isError) {
+      this.submitted = true;
+      return;
+    } else {
+      //debugger
+      this.submitted = false;
+      var objRequest = {
+        "Numero": this.notaIngresoAlmacenForm.controls['numeroIngresoAlmacen'].value,
+        "NumeroNotaIngresoPlanta": this.notaIngresoAlmacenForm.controls['numeroNotaIngreso'].value,
+        "NumeroControlCalidad": this.notaIngresoAlmacenForm.controls['numeroControlCalidad'].value,
+        "NumeroGuiaRemision": this.notaIngresoAlmacenForm.controls['numeroGuiRemision'].value,
+        "NumeroOrganizacion": this.notaIngresoAlmacenForm.controls['codigoOrganizacion'].value,
+        "RazonSocialOrganizacion": this.notaIngresoAlmacenForm.controls['rzsocial'].value,
+        "RucOrganizacion": this.notaIngresoAlmacenForm.controls['ruc'].value,
+        "ProductoId": this.notaIngresoAlmacenForm.controls['producto'].value,
+        "SubProductoId": this.notaIngresoAlmacenForm.controls['subproducto'].value,
+        "EstadoId": this.notaIngresoAlmacenForm.controls['estado'].value,
+        "FechaInicioGuiaRemision": this.notaIngresoAlmacenForm.controls['fechaGuiaRemisionInicio'].value,
+        "FechaFinGuiaRemision": this.notaIngresoAlmacenForm.controls['fechaGuiaRemisionFin'].value,
+
+        "FechaInicio": this.notaIngresoAlmacenForm.controls['fechaInicio'].value,
+        "FechaFin": this.notaIngresoAlmacenForm.controls['fechaFin'].value,
+        "AlmacenId": this.notaIngresoAlmacenForm.controls['almacen'].value,
+        "RendimientoPorcentajeInicio": Number(this.notaIngresoAlmacenForm.controls['rendimientoInicio'].value),
+        "RendimientoPorcentajeFin": Number(this.notaIngresoAlmacenForm.controls['rendimientoFin'].value),
+        "PuntajeAnalisisSensorialInicio": Number(this.notaIngresoAlmacenForm.controls['puntajeFinalInicio'].value),
+        "PuntajeAnalisisSensorialFin": Number(this.notaIngresoAlmacenForm.controls['puntajeFinalFin'].value),
+        "CertificacionId": this.notaIngresoAlmacenForm.controls['certificacion'].value,
+        "EmpresaId": this.vSessionUser.Result.Data.EmpresaId
+
+      }
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+        this.notaIngresoAlmacenPlantaService.Consultar(objRequest)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") {
+              res.Result.Data.forEach(obj => {
+                var fecha = new Date(obj.FechaRegistro);
+                obj.FechaRegistro = this.dateUtil.formatDate(fecha, "/");
+
+
+                var fechaGuia = new Date(obj.FechaGuiaRemision);
+                obj.FechaGuiaRemision = this.dateUtil.formatDate(fechaGuia, "/");
+
+              });
+              if (!exportExcel) {
+              this.tempData = res.Result.Data;
+              this.rows = [...this.tempData];
+              this.selected = [];
+            }  else {
+              let vArrHeaderExcel: HeaderExcel[] = [
+                //new HeaderExcel("N° Control Calidad", "center"),
+                new HeaderExcel("N° Nota Ingreso a Almacen", "center"),
+                new HeaderExcel("N° Control Calidad", "center"),
+                new HeaderExcel("N° Nota Ingreso", "center"),
+                new HeaderExcel("Nro Guia Remisión", "center"),
+
+                new HeaderExcel("Fecha Guia Remision","center", "dd/mm/yyyy"),
+                new HeaderExcel("Fecha Ingreso", "center", "dd/mm/yyyy"),
+                new HeaderExcel("Razon Social","center"),
+                new HeaderExcel("Tipo Producto", "center"),
+                new HeaderExcel("Certificacion", "center"),
+                new HeaderExcel("Estado de Humedad", "right"),
+                new HeaderExcel("Motivo", "center"),
+
+                new HeaderExcel("Cantidad Almacén", "center"),
+                new HeaderExcel("Peso Bruto Almacén", "right"),
+                new HeaderExcel("Tara Almacén", "right"),
+                new HeaderExcel("Kilos Netos Almacén", "right"),
+
+
+                new HeaderExcel("% Rendimiento", "right"),
+                new HeaderExcel("% Humedad CC", "right"),
+                new HeaderExcel("Puntaje Final", "right"),
+
+                new HeaderExcel("Cantidad Orden Proceso", "right"),
+                new HeaderExcel("Kilos Netos Orden Proceso", "right"),
+                new HeaderExcel("Cantidad Disponible", "right"),
+                new HeaderExcel("Kilos Netos Disponibles", "right"),
+                new HeaderExcel("Estado", "center")
+
+              ];
+
+              let vArrData: any[] = [];
+              for (let i = 0; i < res.Result.Data.length; i++) {
+                vArrData.push([
+                  res.Result.Data[i].Numero,
+                  res.Result.Data[i].NumeroCalidadPlanta,
+                  res.Result.Data[i].NumeroNotaIngresoPlanta,
+
+                  res.Result.Data[i].NumeroGuiaRemision,
+                  res.Result.Data[i].FechaGuiaRemision,
+                  res.Result.Data[i].FechaRegistro,
+
+                  res.Result.Data[i].RazonSocialEmpresaOrigen,
+                  res.Result.Data[i].Producto,
+                  res.Result.Data[i].Certificacion,
+                  res.Result.Data[i].SubProducto,
+                  res.Result.Data[i].MotivoIngreso,
+                  res.Result.Data[i].Cantidad,
+                  res.Result.Data[i].PesoBruto,
+
+                  res.Result.Data[i].Tara,
+                  res.Result.Data[i].KilosNetos,
+                  res.Result.Data[i].RendimientoPorcentaje,
+
+                  res.Result.Data[i].HumedadPorcentajeAnalisisFisico,
+                  res.Result.Data[i].PuntajeFinal,
+
+                  res.Result.Data[i].CantidadOrdenProceso,
+                  res.Result.Data[i].KilosNetosOrdenProceso,
+                  res.Result.Data[i].CantidadDisponible,
+                  res.Result.Data[i].KilosNetosDisponibles,
+                  res.Result.Data[i].Estado
+                ]);
+              }
+              this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'NotaIngresoAlmacen');
+            }
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
+  }
   changeProduct(event: any): void {
     let form = this;
     if (event) {
