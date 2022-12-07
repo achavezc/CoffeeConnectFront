@@ -48,10 +48,19 @@ export class ControlCalidadComponentHumedo implements OnInit {
   ngOnInit(): void {
     this.cargarForm()
     this.cargarCombos();
-
+    
     if(this.form=='controlcalidadplanta')
     {
-      this.btnImprimir = true;
+      this.btnImprimir = true;     
+
+      this.form.controls["exportable"].enable();
+      this.form.controls["descarte"].enable();
+
+    }
+    else
+    {
+      this.form.controls["exportable"].disable();
+      this.form.controls["descarte"].disable();
     }
 
     if(this.esAlmacen){
@@ -76,6 +85,8 @@ export class ControlCalidadComponentHumedo implements OnInit {
     this.formControlCalidadHumedo = new FormGroup(
       {
         humedad: new FormControl('', Validators.required),
+        exportable : new FormControl('', Validators.required),
+        descarte: new FormControl('', Validators.required),
         ObservacionAnalisisFisico: new FormControl('', [])
       });
   }
@@ -116,6 +127,12 @@ export class ControlCalidadComponentHumedo implements OnInit {
     var form = this;
     var controlFormControlCalidad = this.formControlCalidadHumedo.controls;
     controlFormControlCalidad["humedad"].setValue(this.detalle.HumedadPorcentajeAnalisisFisico == null || this.detalle.HumedadPorcentajeAnalisisFisico == 0 ? null: this.detalle.HumedadPorcentajeAnalisisFisico );
+
+    controlFormControlCalidad["exportable"].setValue(this.detalle.ExportablePorcentajeAnalisisFisico == null || this.detalle.ExportablePorcentajeAnalisisFisico == 0 ? null: this.detalle.ExportablePorcentajeAnalisisFisico );
+    controlFormControlCalidad["descarte"].setValue(this.detalle.DescartePorcentajeAnalisisFisico == null || this.detalle.DescartePorcentajeAnalisisFisico == 0 ? null: this.detalle.DescartePorcentajeAnalisisFisico );
+
+    
+    
     controlFormControlCalidad["ObservacionAnalisisFisico"].setValue(this.detalle.ObservacionAnalisisFisico);
     form.responsable = this.detalle.UsuarioCalidad;
     if (this.detalle.FechaCalidad) {
@@ -181,6 +198,17 @@ export class ControlCalidadComponentHumedo implements OnInit {
       var controlFormControlCalidad = this.formControlCalidadHumedo.controls;
       listaDetalleOlor = this.obtenerDetalleAnalisisFisicoOlor(this.tableOlor);
       listaDetalleColor = this.obtenerDetalleAnalisisFisicoColor(this.tableColor);
+
+      var exportablePorcentajeAnalisisFisico;
+      var descartePorcentajeAnalisisFisico;
+
+
+      if(this.form == "controlcalidadplanta")
+      {
+
+        exportablePorcentajeAnalisisFisico= Number(controlFormControlCalidad["exportable"].value);
+        descartePorcentajeAnalisisFisico= Number(controlFormControlCalidad["descarte"].value);
+      }
       this.reqControlCalidad = new ReqControlCalidad(
         this.login.Result.Data.EmpresaId,
         0,
@@ -199,7 +227,9 @@ export class ControlCalidadComponentHumedo implements OnInit {
         this.detalle.OrdenServicioControlCalidadId ? Number(this.detalle.OrdenServicioControlCalidadId) : null,
         controlFormControlCalidad["ObservacionAnalisisFisico"].value,
         listaDetalleOlor,
-        listaDetalleColor
+        listaDetalleColor,
+        exportablePorcentajeAnalisisFisico,
+        descartePorcentajeAnalisisFisico
       );
       let json = JSON.stringify(this.reqControlCalidad);
       this.spinner.show(undefined,

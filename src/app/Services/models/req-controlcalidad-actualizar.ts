@@ -19,10 +19,12 @@ export class ReqControlCalidad {
     ObservacionAnalisisFisico?: string,
     AnalisisFisicoOlorDetalleList?: AnalisisFisicoOlorDetalleList[],
     AnalisisFisicoColorDetalleList?: AnalisisFisicoColorDetalleList[],
-    ExportableGramosAnalisisFisico?: number,
     ExportablePorcentajeAnalisisFisico?: number,
-    DescarteGramosAnalisisFisico?: number,
     DescartePorcentajeAnalisisFisico?: number,
+    ExportableGramosAnalisisFisico?: number,
+    
+    DescarteGramosAnalisisFisico?: number,
+    
     CascarillaGramosAnalisisFisico?: number,
     CascarillaPorcentajeAnalisisFisico?: number,
     TotalGramosAnalisisFisico?: number,
