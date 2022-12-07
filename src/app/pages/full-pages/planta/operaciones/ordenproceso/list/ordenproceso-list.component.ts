@@ -125,7 +125,7 @@ export class OrdenProcesoListComponent implements OnInit {
   }
 
   async GetListTipoProceso() {
-    let res = await this.maestroService.obtenerMaestros('TipoProceso').toPromise();
+    let res = await this.maestroService.obtenerMaestros('TipoProcesoPlanta').toPromise();
     if (res.Result.Success) {
       this.listTipoProceso = res.Result.Data;
     }

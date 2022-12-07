@@ -311,7 +311,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   async GetTipoProcesos() {
-    const res = await this.maestroService.obtenerMaestros('TipoProceso').toPromise();
+    const res = await this.maestroService.obtenerMaestros('TipoProcesoPlanta').toPromise();
     if (res.Result.Success) {
       this.listTipoProcesos = res.Result.Data;
     }
