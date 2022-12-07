@@ -463,7 +463,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
                 new HeaderExcel("Kilos Netos Orden Proceso", "right"),
                 new HeaderExcel("Cantidad Disponible", "right"),
                 new HeaderExcel("Kilos Netos Disponibles", "right"),
-                new HeaderExcel("Estado", "center")
+                new HeaderExcel("Estado", "center"),
+                new HeaderExcel("Almacen","center")
 
               ];
 
@@ -497,7 +498,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
                   res.Result.Data[i].KilosNetosOrdenProceso,
                   res.Result.Data[i].CantidadDisponible,
                   res.Result.Data[i].KilosNetosDisponibles,
-                  res.Result.Data[i].Estado
+                  res.Result.Data[i].Estado,
+                  res.Result.Data[i].Almacen
                 ]);
               }
               this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'NotaIngresoAlmacen');

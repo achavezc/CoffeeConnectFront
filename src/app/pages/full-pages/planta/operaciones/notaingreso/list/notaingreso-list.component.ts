@@ -362,7 +362,6 @@ export class NotaIngresoListComponent implements OnInit {
               let vArrHeaderExcel: HeaderExcel[] = [
                 //new HeaderExcel("N° Control Calidad", "center"),
                 new HeaderExcel("N° Nota Ingreso", "center"),
-                new HeaderExcel("Numero Nota Ingreso", "center"),
                 new HeaderExcel("Campaña", "center"),
                 new HeaderExcel("Concepto", "center"),
                 new HeaderExcel("Nro Guia Remisión","center"),
