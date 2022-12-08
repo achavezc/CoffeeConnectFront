@@ -204,7 +204,7 @@
                 [disabled]="rows.length==0">Exportar</button>-->
                 <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="exportar()"
                 *ngIf="!popUp">Exportar</button>
-                <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="rows.length==0" (click)="generarResumen()"
+                <button class="btn btn-primary mr-1 mb-1" type="button"  (click)="generarResumen()"
                 *ngIf="!popUp">Resumen</button>
             </form>
           </div>
