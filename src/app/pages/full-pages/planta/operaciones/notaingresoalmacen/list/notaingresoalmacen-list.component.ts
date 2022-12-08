@@ -521,6 +521,131 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         );
     }
   }
+
+
+  generarResumen()
+   {
+
+    debugger
+    if (this.notaIngresoAlmacenForm.invalid || this.errorGeneral.isError) 
+    {
+      this.submitted = true;
+      return;
+    } 
+    else 
+    {
+    
+      this.submitted = false;
+      var objRequest = {
+        "Numero": this.notaIngresoAlmacenForm.controls['numeroIngresoAlmacen'].value,
+        "NumeroNotaIngresoPlanta": this.notaIngresoAlmacenForm.controls['numeroNotaIngreso'].value,
+        "NumeroControlCalidad": this.notaIngresoAlmacenForm.controls['numeroControlCalidad'].value,
+        "NumeroGuiaRemision": this.notaIngresoAlmacenForm.controls['numeroGuiRemision'].value,
+        "NumeroOrganizacion": this.notaIngresoAlmacenForm.controls['codigoOrganizacion'].value,
+        "RazonSocialOrganizacion": this.notaIngresoAlmacenForm.controls['rzsocial'].value,
+        "RucOrganizacion": this.notaIngresoAlmacenForm.controls['ruc'].value,
+        "ProductoId": this.notaIngresoAlmacenForm.controls['producto'].value,
+        "SubProductoId": this.notaIngresoAlmacenForm.controls['subproducto'].value,
+        "EstadoId": "",
+        "FechaInicioGuiaRemision": this.notaIngresoAlmacenForm.controls['fechaGuiaRemisionInicio'].value,
+        "FechaFinGuiaRemision": this.notaIngresoAlmacenForm.controls['fechaGuiaRemisionFin'].value,
+        "FechaInicio": this.notaIngresoAlmacenForm.controls['fechaInicio'].value,
+        "FechaFin": this.notaIngresoAlmacenForm.controls['fechaFin'].value,
+        "AlmacenId": this.notaIngresoAlmacenForm.controls['almacen'].value,
+        "RendimientoPorcentajeInicio": Number(this.notaIngresoAlmacenForm.controls['rendimientoInicio'].value),
+        "RendimientoPorcentajeFin": Number(this.notaIngresoAlmacenForm.controls['rendimientoFin'].value),
+        "PuntajeAnalisisSensorialInicio": Number(this.notaIngresoAlmacenForm.controls['puntajeFinalInicio'].value),
+        "PuntajeAnalisisSensorialFin": Number(this.notaIngresoAlmacenForm.controls['puntajeFinalFin'].value),
+        "CertificacionId": this.notaIngresoAlmacenForm.controls['certificacion'].value,
+        "EmpresaId": this.vSessionUser.Result.Data.EmpresaId
+
+      }
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+        this.notaIngresoAlmacenPlantaService.Consultar(objRequest)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) 
+          {
+            if (res.Result.ErrCode == "") 
+            {
+              res.Result.Data.forEach(obj => {
+                var fecha = new Date(obj.FechaRegistro);
+                obj.FechaRegistro = this.dateUtil.formatDate(fecha, "/");
+
+
+                var fechaGuia = new Date(obj.FechaGuiaRemision);
+                obj.FechaGuiaRemision = this.dateUtil.formatDate(fechaGuia, "/");
+
+              });
+             
+              let vArrHeaderExcel: HeaderExcel[] = [
+                //new HeaderExcel("N° Control Calidad", "center"),
+                new HeaderExcel("Cliente", "center"),
+                new HeaderExcel("Producto", "center"),                
+                new HeaderExcel("Sacos", "right"),
+                new HeaderExcel("Kilos Netos", "right"),
+                new HeaderExcel("% Rend", "right"),
+                new HeaderExcel("Exp Sacos", "right"),
+                new HeaderExcel("Sec (Sac 69)", "right")
+
+              ];
+
+              let vArrData: any[] = [];
+              for (let i = 0; i < res.Result.Data.length; i++) 
+              {
+                var expSacos69;
+                var secSacos69;
+                var porcentajeRendimiento = res.Result.Data[i].ExportablePorcentajeAnalisisFisico;
+                var porcentajeDecarte = res.Result.Data[i].DescartePorcentajeAnalisisFisico;
+                
+                if(porcentajeRendimiento)
+                {
+                  expSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeRendimiento/100))/69;
+                }
+                if(porcentajeDecarte)
+                {
+                  secSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeDecarte/100))/69;
+                }
+                
+                vArrData.push([
+                  res.Result.Data[i].RazonSocialEmpresaOrigen,
+                  res.Result.Data[i].Producto,
+                  res.Result.Data[i].Cantidad,
+                  res.Result.Data[i].KilosNetos,
+                  porcentajeRendimiento,
+                  expSacos69,
+                  secSacos69
+                ]);
+              }
+              this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'ResumenCafe');
+            
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
+  }
+
+
+
   changeProduct(event: any): void {
     let form = this;
     if (event) {
