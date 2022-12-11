@@ -433,9 +433,9 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
           if (res.Result.Success) {
             if (res.Result.ErrCode == "") {
               res.Result.Data.forEach(obj => {
-                obj.FechaGuiaRemisionString = this.dateUtil.formatDate(obj.FechaGuiaRemision);
-                obj.FechaRegistroString = this.dateUtil.formatDate(obj.FechaRegistro);
-
+                obj.FechaGuiaRemisionString = this.dateUtil.formatDate(obj.FechaGuiaRemision, "/");
+                obj.FechaRegistroString = this.dateUtil.formatDate(obj.FechaRegistro, "/");
+                obj.FechaRegistro = this.dateUtil.formatDate(obj.FechaRegistro, "/");
                 var valorRoundedKilosNetos46 = Math.round((obj.KilosNetos46 + Number.EPSILON) * 100) / 100
                 obj.KilosNetos46 = valorRoundedKilosNetos46
 

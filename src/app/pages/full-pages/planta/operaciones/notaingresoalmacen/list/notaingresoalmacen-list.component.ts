@@ -139,7 +139,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         fechaInicio: new FormControl('', [Validators.required]),
         ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
-        estado: new FormControl('', [Validators.required]),
+        //estado: new FormControl('', [Validators.required]),
+        estado: new FormControl('', []),
         fechaFin: new FormControl('', [Validators.required,]),
         producto: new FormControl('', []),
         almacen: new FormControl('', []),
@@ -600,29 +601,32 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
               let vArrData: any[] = [];
               for (let i = 0; i < res.Result.Data.length; i++) 
               {
-                var expSacos69;
-                var secSacos69;
-                var porcentajeRendimiento = res.Result.Data[i].ExportablePorcentajeAnalisisFisico;
-                var porcentajeDecarte = res.Result.Data[i].DescartePorcentajeAnalisisFisico;
-                
-                if(porcentajeRendimiento)
+                if(res.Result.Data[i].EstadoId!='00')
                 {
-                  expSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeRendimiento/100))/69;
+                  var expSacos69;
+                  var secSacos69;
+                  var porcentajeRendimiento = res.Result.Data[i].ExportablePorcentajeAnalisisFisico;
+                  var porcentajeDecarte = res.Result.Data[i].DescartePorcentajeAnalisisFisico;
+                  
+                  if(porcentajeRendimiento)
+                  {
+                    expSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeRendimiento/100))/69;
+                  }
+                  if(porcentajeDecarte)
+                  {
+                    secSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeDecarte/100))/69;
+                  }
+                  
+                  vArrData.push([
+                    res.Result.Data[i].RazonSocialEmpresaOrigen,
+                    res.Result.Data[i].Producto + ' - ' + res.Result.Data[i].SubProducto,
+                    res.Result.Data[i].Cantidad,
+                    res.Result.Data[i].KilosNetos,
+                    porcentajeRendimiento,
+                    expSacos69,
+                    secSacos69
+                  ]);
                 }
-                if(porcentajeDecarte)
-                {
-                  secSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeDecarte/100))/69;
-                }
-                
-                vArrData.push([
-                  res.Result.Data[i].RazonSocialEmpresaOrigen,
-                  res.Result.Data[i].Producto,
-                  res.Result.Data[i].Cantidad,
-                  res.Result.Data[i].KilosNetos,
-                  porcentajeRendimiento,
-                  expSacos69,
-                  secSacos69
-                ]);
               }
               this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'ResumenCafe');
             

@@ -40,6 +40,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   readonly: boolean;
   detalle: any;
   popUp = true;
+  form: string = "notaingresoalmacenplanta"
   selectSubProducto: any;
   listaSubProducto: any[];
   listaCertificacion: any[];

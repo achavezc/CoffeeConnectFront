@@ -14,6 +14,7 @@ import {OrdenservicioControlcalidadService} from '../../../../../../../../servic
 import {PlantaService} from  '../../../../../../../../services/planta.service';
 import {AcopioService} from '../../../../../../../../services/acopio.service';
 import { AlertUtil } from '../../../../../../../../services/util/alert-util';
+import { host } from '../../../../../../../../shared/hosts/main.host';
 
 @Component({
   selector: 'app-controlCalidadHumedo',
@@ -49,8 +50,11 @@ export class ControlCalidadComponentHumedo implements OnInit {
     this.cargarForm()
     this.cargarCombos();
     
+    debugger
+
     if(this.form=='controlcalidadplanta')
     {
+      
       this.btnImprimir = true;     
 
       this.form.controls["exportable"].enable();
@@ -517,7 +521,23 @@ export class ControlCalidadComponentHumedo implements OnInit {
     else if (this.form == "controlcalidadplanta") {
       this.router.navigate(['/planta/operaciones/controlcalidad-list']);
     }
+    else if (this.form == "notaingresoalmacenplanta") {
+      this.router.navigate(['/planta/operaciones/notaingresoalmacen-list']);
+    }
     
+  }
+
+  imprimir(): void
+   {
+    this.login = JSON.parse(localStorage.getItem("user"));
+    
+    let link = document.createElement('a');
+    document.body.appendChild(link);
+    link.href = `${host}ControlCalidad/GenerarPDFControlCalidad?id=${this.detalle.ControlCalidadPlantaId}&empresaId=${this.login.Result.Data.EmpresaId}`;
+    link.download = "ControlCalidad.pdf"
+    link.target = "_blank";
+    link.click();
+    link.remove();
   }
  
 }

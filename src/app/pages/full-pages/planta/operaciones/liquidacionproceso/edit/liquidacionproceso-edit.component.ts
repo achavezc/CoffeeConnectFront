@@ -282,7 +282,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["certificadora"].disable();
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].disable();
 
-    if(data.TipoProcesoId =='01')//Transformación
+    if(data.TipoProcesoId =='01' || data.TipoProcesoId =='03')//Transformación o Reproceso
     {
       this.EsHumedo = false;    
 
@@ -848,7 +848,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
     this.TipoProcesoId = e[0].TipoProcesoId;
 
-    if(e[0].TipoProcesoId=='01') //Transformacion
+    if(e[0].TipoProcesoId=='01' || e[0].TipoProcesoId=='03') //Transformacion o Reproceso
     {
       this.EsHumedo=false;
 
