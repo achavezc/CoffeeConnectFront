@@ -654,7 +654,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
         var KGN=0;       
 
-        if(this.TipoProcesoId=='01') // Transformacion
+        if(this.TipoProcesoId=='01' || this.TipoProcesoId=='03') // Transformacion
         {
            cantidad = Number(this.formGroupSacos.get(x.Codigo + '%sacos').value);
         
