@@ -141,20 +141,52 @@ export class OrdenProcesoEditComponent implements OnInit {
     if (codigo == this.tipoProcesoSecado) 
     {
       this.ordenProcesoEditForm.controls.cantidadDefectos.disable();
+
+      
+      this.ordenProcesoEditForm.controls.producto.setValue("01") // Pergamino
+      this.ordenProcesoEditForm.controls.producto.disable();
+
+      
+      
+
       this.esReproceso = false;
+       
+      this.ordenProcesoEditForm.controls.productoTerminado.enable();
+      this.ordenProcesoEditForm.controls.productoTerminado.setValue("")
       this.GetProductoTerminado();
+      this.ordenProcesoEditForm.controls.productoTerminado.setValue("01") // Pergamino
+       
+      this.ordenProcesoEditForm.controls.productoTerminado.disable();
     }
     else 
     {
      if(codigo == this.tipoProcesoReproceso) 
      {
         this.esReproceso = true;
+        this.listProductoTerminado= [];
+        this.ordenProcesoEditForm.controls.productoTerminado.enable();
+        this.ordenProcesoEditForm.controls.productoTerminado.setValue("")
         this.GetSubProductoTerminado();
+        
+        this.ordenProcesoEditForm.controls.producto.setValue("02") // Exportable
+        this.ordenProcesoEditForm.controls.producto.disable();
+        
      }
      else
      {
       this.esReproceso = false;
+      this.listProductoTerminado= [];
+       
+      this.ordenProcesoEditForm.controls.productoTerminado.enable();
+      this.ordenProcesoEditForm.controls.productoTerminado.setValue("")
+
       this.GetProductoTerminado();
+      this.ordenProcesoEditForm.controls.producto.disable();
+      this.ordenProcesoEditForm.controls.producto.setValue("01") // Pergamino
+      
+       
+      this.ordenProcesoEditForm.controls.productoTerminado.setValue("02") // Exportable
+      this.ordenProcesoEditForm.controls.productoTerminado.disable();
      }
 
       this.ordenProcesoEditForm.controls.cantidadDefectos.enable();
