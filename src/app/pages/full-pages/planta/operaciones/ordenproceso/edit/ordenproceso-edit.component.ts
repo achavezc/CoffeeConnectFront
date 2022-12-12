@@ -132,11 +132,12 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   changeTipos(e)
   {
-    this.changeTipos(e.Codigo);
+     
+    this.cambiarPorTipos(e.Codigo);
   }
   cambiarPorTipos(codigo) 
   {    
-
+    debugger
     if (codigo == this.tipoProcesoSecado) 
     {
       this.ordenProcesoEditForm.controls.cantidadDefectos.disable();
