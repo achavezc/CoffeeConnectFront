@@ -77,9 +77,9 @@
                 </div>
                 <div class="col-md-4 mb-4 form-group mb-2">
                   <label for="validationTooltip12">Activo</label>
-                  <ng-select [items]="listActivo"formControlName="Activo" class="form-control" bindLabel="Label"
-                    bindValue="Codigo" id="validationTooltip12" placeholder="Activo"
-                    [ngClass]="{ 'is-invalid': submittedEdit&& f.Activo.valid, 'is-valid': submittedEdit && !f.Activo.valid }"
+                  <ng-select [items]="listActivo" formControlName="Activo" class="form-control" bindLabel="Label"
+                    bindValue="Codigo" id="validationTooltip12" placeholder="Seleccionar un Valor"
+                    [ngClass]="{ 'is-invalid': submittedEdit && f.Activo.valid, 'is-valid': submittedEdit && !f.Activo.valid }"
                     [(ngModel)]="selectedActivo">
                   </ng-select>
                 </div>
