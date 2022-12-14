@@ -277,7 +277,7 @@ export class CorrelativoPlantaEditComponent implements OnInit {
 
   getRequest(): any {
     var ActivoFinal =false; 
-    if(this.CorrelativoEditForm.value.activo == "01" )
+    if(this.CorrelativoEditForm.value.Activo == "01" )
     {
        ActivoFinal = true;
     }
