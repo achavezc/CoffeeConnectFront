@@ -610,11 +610,11 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
                   
                   if(porcentajeRendimiento)
                   {
-                    expSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeRendimiento/100))/69;
+                    expSacos69 =  (res.Result.Data[i].KilosNetos*(porcentajeRendimiento/100))/69;
                   }
                   if(porcentajeDecarte)
                   {
-                    secSacos69 =  (res.Result.Data[i].KilosNetos/(porcentajeDecarte/100))/69;
+                    secSacos69 =  (res.Result.Data[i].KilosNetos*(porcentajeDecarte/100))/69;
                   }
                   
                   vArrData.push([
