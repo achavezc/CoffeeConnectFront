@@ -748,6 +748,7 @@ export class OrdenProcesoEditComponent implements OnInit {
       //this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
 
       this.cambiarPorTipos(data.TipoProcesoId);
+      this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoIdTerminado)
 
       this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
       this.ordenProcesoEditForm.controls.estado.disable();
