@@ -45,7 +45,7 @@
                 <label for="basicInput">Numero de Orden de Proceso</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="numOrdenProceso"  [ngClass]="{ 'is-invalid': submittedEdit && fns.numOrdenProceso.invalid, 'is-valid': submittedEdit && !fns.numOrdenProceso.invalid }" disabled>
                 <small class="form-text text-muted danger" *ngIf="fns.numOrdenProceso.errors?.required">Seleccione Orden de Proceso</small>
- <label for="fechaFin" >Fecha de Inicio Proceso</label>
+                <label for="fechaFin" >Fecha de Inicio Proceso</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="fechaInicioProceso" disabled>
                 <label for="basicInput">Ruc</label>
                 <input type="text" class="form-control" id="basicInput" formControlName="ruc" disabled>

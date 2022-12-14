@@ -265,7 +265,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     return (group: FormGroup): ValidationErrors => {
       if (!group.value.fechaInicio || !group.value.fechaFin) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
-      } else if (!group.value.estado) {
+      } else if (!group.controls["estado"].value) {
         this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };

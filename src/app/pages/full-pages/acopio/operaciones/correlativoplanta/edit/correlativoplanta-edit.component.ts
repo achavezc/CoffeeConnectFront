@@ -160,6 +160,7 @@ export class CorrelativoPlantaEditComponent implements OnInit {
     let res = await this.maestroService.obtenerMaestros('EstadoMaestro').toPromise();
     if (res.Result.Success) {
       this.listActivo = res.Result.Data;
+      this.CorrelativoEditForm.get('Activo').setValue('01');
     }
   }
 
