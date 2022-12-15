@@ -173,8 +173,11 @@ export class PesadoCafePlantaComponent implements OnInit {
   cargarcombos() {
     var form = this;
     this.maestroUtil.obtenerMaestros("MotivoIngresoPlanta", function (res) {
-      if (res.Result.Success) {
-        form.listaMotivo = res.Result.Data.filter(x => x.Codigo != '04');
+      if (res.Result.Success) 
+      {        
+        let result = [];
+        result = res.Result.Data.filter(x => x.Val1  == 'S');
+        form.listaMotivo = result;
       }
     });
 
