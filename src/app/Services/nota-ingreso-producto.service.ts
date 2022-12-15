@@ -27,6 +27,13 @@ export class NotaIngresoProductoTerminadoAlmacenPlantaService {
     return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
   }
 
+  Resumen(request: any): Observable<any> {
+    const url = `${this.url}/Resumen`;
+    return this.http.post<any>(url, request).catch(this.errorHandling.handleError);
+  }
+
+  
+
   Anular(NotaIngresoProductoTerminadoAlmacenPlantaId: number, usuario: string): Observable<any> {
     const url = `${this.url}/Anular`;
     let request = {

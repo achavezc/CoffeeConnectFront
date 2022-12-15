@@ -140,7 +140,8 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
         fechaInicio: new FormControl('', [Validators.required]),
         ruc: new FormControl('', [Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]),
         rzsocial: new FormControl('', [Validators.minLength(5), Validators.maxLength(100)]),
-        estado: new FormControl('', [Validators.required]),
+        //estado: new FormControl('', [Validators.required]),
+        estado: new FormControl('', []),
         fechaFin: new FormControl('', [Validators.required,]),
         producto: new FormControl('', []),
         almacen: new FormControl('', []),
@@ -536,6 +537,96 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
         );
     }
   }
+
+
+  generarResumen()
+   {
+    if (this.notaIngresoProductoAlmacenForm.invalid  ) {
+      this.submitted = true;
+      return;
+    } else { 
+      debugger
+    
+
+      this.submitted = false;
+      var objRequest = {
+       
+        "RazonSocialEmpresaOrigen": this.notaIngresoProductoAlmacenForm.controls['rzsocial'].value,
+        "RucEmpresaOrigen": this.notaIngresoProductoAlmacenForm.controls['ruc'].value,
+         
+        "ProductoId": this.notaIngresoProductoAlmacenForm.controls['producto'].value,
+        "SubProductoId": this.notaIngresoProductoAlmacenForm.controls['subproducto'].value,
+         
+         "EmpresaId": this.vSessionUser.Result.Data.EmpresaId,
+         "AlmacenId": this.notaIngresoProductoAlmacenForm.controls['almacen'].value 
+         
+
+      }
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+        debugger
+        this.NotaIngresoProductoTerminadoAlmacenPlantaService.Resumen(objRequest)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            if (res.Result.ErrCode == "") 
+            {
+              if (res.Result.ErrCode == "") 
+            {              
+             
+              let vArrHeaderExcel: HeaderExcel[] = [
+                //new HeaderExcel("N° Control Calidad", "center"),
+                new HeaderExcel("Cliente", "center"),
+                new HeaderExcel("Producto", "center"),                
+                new HeaderExcel("Total KN", "right"),
+                new HeaderExcel("QQ/46 KG", "right"),
+                new HeaderExcel("Sacos (69)", "right"),
+                new HeaderExcel("Saldo KG", "right")
+
+              ];
+
+              let vArrData: any[] = [];
+              for (let i = 0; i < res.Result.Data.length; i++) 
+              { 
+                   
+                  
+                  vArrData.push([
+                    res.Result.Data[i].RazonSocialEmpresaOrigen,
+                    res.Result.Data[i].Producto + ' - ' + res.Result.Data[i].SubProducto,
+                    res.Result.Data[i].KilosNetos,
+                    res.Result.Data[i].KilosNetos46,
+                    res.Result.Data[i].Sacos69,
+                    res.Result.Data[i].Sacos69Saldo 
+                  ]);
+                 
+              }
+              this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'ResumenCafe');
+            }
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
+  }
+
+
 
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)
