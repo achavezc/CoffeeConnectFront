@@ -210,7 +210,7 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
     }
   }
 
- cargarProducto(codigo:any)
+ /*cargarProducto(codigo:any)
   {
     
     this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) 
@@ -223,17 +223,34 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
         }
       }
     });
-   } 
+   } */
 
 
 
-   changeProduct(event: any): void 
+  /* changeProduct(event: any): void 
    {   
    
     this.cargarProducto(event.Codigo);
    
-  }
+  }*/
+ 
 
+  changeProduct(event: any): void {
+    let form = this;
+    if (event) {
+      this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) {
+        if (res.Result.Success) {
+          if (res.Result.Data.length > 0) {
+            form.listaSubProducto = res.Result.Data.filter(x => x.Val1 == event.Codigo);
+          } else {
+            form.listaSubProducto = [];
+          }
+        }
+      });
+    } else {
+      form.listaSubProducto = [];
+    }
+  }
    
 
   public comparisonValidator(): ValidatorFn {

@@ -4,6 +4,9 @@ import { NotaIngresoListComponent } from './operaciones/notaingreso/list/notaing
 import { ControlCalidadListComponent } from './operaciones/controlcalidad/list/controlcalidad-list.component';
 import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
+import { ServiciosListComponent } from './operaciones/Servicios/list/Servicios-list.component';
+//import { ServiciosEditComponent } from './operaciones/Servicios/edit/';
+
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
 import { NotaIngresoAlmacenListComponent } from './operaciones/notaingresoalmacen/list/notaingresoalmacen-list.component';
@@ -132,6 +135,21 @@ const routes: Routes = [
           title: 'Contratos'
         }
       },
+      {
+        path: 'Servicios-list',
+        component: ServiciosListComponent,
+        data:
+        {
+          title: 'ServiciosList'
+        }
+      },
+      /*{
+        path: 'Servicios-edit',
+        component: ServiciosEditComponent,
+        data: {
+          title: 'ServicisoEdit'
+        }
+      },*/
     ]
   }
 ];
