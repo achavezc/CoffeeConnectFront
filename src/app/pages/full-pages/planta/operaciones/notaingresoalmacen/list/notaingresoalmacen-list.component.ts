@@ -525,7 +525,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   }
 
 
-  generarResumen()
+  /* generarResumen()
    {
 
     debugger
@@ -647,7 +647,95 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
           }
         );
     }
+  } */
+
+
+
+  generarResumen()
+   {    
+    if (this.notaIngresoAlmacenForm.invalid ) 
+    {
+      this.submitted = true;
+      return;
+    } 
+    else 
+    {
+    
+      this.submitted = false;
+      var objRequest = {
+        
+        "RazonSocialOrganizacion": this.notaIngresoAlmacenForm.controls['rzsocial'].value,
+        "RucOrganizacion": this.notaIngresoAlmacenForm.controls['ruc'].value,
+        "ProductoId": this.notaIngresoAlmacenForm.controls['producto'].value,
+        "SubProductoId": this.notaIngresoAlmacenForm.controls['subproducto'].value,       
+        "AlmacenId": this.notaIngresoAlmacenForm.controls['almacen'].value,       
+        "EmpresaId": this.vSessionUser.Result.Data.EmpresaId
+
+      }
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+        this.notaIngresoAlmacenPlantaService.Resumen(objRequest)
+        .subscribe(res => {
+          this.spinner.hide();
+          if (res.Result.Success) 
+          {
+            if (res.Result.ErrCode == "") 
+            {              
+             
+              let vArrHeaderExcel: HeaderExcel[] = [
+                //new HeaderExcel("N° Control Calidad", "center"),
+                new HeaderExcel("Cliente", "center"),
+                new HeaderExcel("Producto", "center"),                
+                new HeaderExcel("Sacos", "right"),
+                new HeaderExcel("Kilos Netos", "right"),
+                new HeaderExcel("% Rend", "right"),
+                new HeaderExcel("Exp Sacos", "right"),
+                new HeaderExcel("Sec (Sac 69)", "right")
+
+              ];
+
+              let vArrData: any[] = [];
+              for (let i = 0; i < res.Result.Data.length; i++) 
+              { 
+                   
+                  
+                  vArrData.push([
+                    res.Result.Data[i].RazonSocialEmpresaOrigen,
+                    res.Result.Data[i].Producto + ' - ' + res.Result.Data[i].SubProducto,
+                    res.Result.Data[i].Cantidad,
+                    res.Result.Data[i].KilosNetos,
+                    res.Result.Data[i].ExportablePorcentajeAnalisisFisico,
+                    res.Result.Data[i].ExpSacos69,
+                    res.Result.Data[i].SecSacos69
+                  ]);
+                 
+              }
+              this.excelService.ExportJSONAsExcel(vArrHeaderExcel, vArrData, 'ResumenCafe');
+            
+            } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+              this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+            } else {
+              this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+            }
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        },
+          err => {
+            this.spinner.hide();
+            console.log(err);
+            this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+          }
+        );
+    }
   }
+
 
 
 
