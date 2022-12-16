@@ -5,7 +5,7 @@ import { ControlCalidadListComponent } from './operaciones/controlcalidad/list/c
 import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { ServiciosListComponent } from './operaciones/Servicios/list/Servicios-list.component';
-//import { ServiciosEditComponent } from './operaciones/Servicios/edit/';
+import { ServiciosEditComponent } from './operaciones/Servicios/edit/Servicios-edit.component';
 
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
@@ -143,13 +143,13 @@ const routes: Routes = [
           title: 'ServiciosList'
         }
       },
-      /*{
+      {
         path: 'Servicios-edit',
         component: ServiciosEditComponent,
         data: {
-          title: 'ServicisoEdit'
+          title: 'ServiciosEdit'
         }
-      },*/
+      },
     ]
   }
 ];

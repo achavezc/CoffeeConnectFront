@@ -29,7 +29,7 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/orden
 
 
 import { ServiciosListComponent } from './operaciones/Servicios/list/Servicios-list.component';
-//import { ServiciosEditComponent } from './operaciones/Servicios/edit/Servicios-edit.component';
+import { ServiciosEditComponent } from './operaciones/Servicios/edit/Servicios-edit.component';
 
 
 import { NotaIngresoEditComponent } from "./operaciones/notaingreso/edit/notaingreso-edit.component";
@@ -78,8 +78,7 @@ import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproces
   declarations: [
     OrdenProcesoListComponent,
     ServiciosListComponent,
-    //ServiciosEditComponent,
-
+    ServiciosEditComponent,
     OrdenProcesoEditComponent,
     NotaIngresoListComponent,
     ControlCalidadListComponent, 

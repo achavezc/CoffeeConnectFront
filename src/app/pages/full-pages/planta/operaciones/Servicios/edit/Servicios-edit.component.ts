@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,12 +17,12 @@ import { formatDate } from '@angular/common';
 import { AuthService } from './../../../../../../services/auth.service';
 
 @Component({
-  selector: 'app-ordenproceso-edit',
-  templateUrl: './ordenproceso-edit.component.html',
-  styleUrls: ['./ordenproceso-edit.component.scss', '/assets/sass/libs/datatables.scss'],
+  selector: 'app-Servicios-edit',
+  templateUrl: './Servicios-edit.component.html',
+  styleUrls: ['./Servicios-edit.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class OrdenProcesoEditComponent implements OnInit {
+export class ServiciosEditComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private modalService: NgbModal,
@@ -51,6 +50,13 @@ export class OrdenProcesoEditComponent implements OnInit {
   esHumedo = false;
   esReproceso = false;
   //listCertificacion = [];
+
+  listTipoServicio: [] = [];
+  selectedTipoServicio: any;
+  listTipoComprobante: [] = [];
+  selectedTipoComprobante: any;
+
+
   listaCertificacion: any[];
   listProducto = [];
   listCertificadora = [];
@@ -110,6 +116,8 @@ export class OrdenProcesoEditComponent implements OnInit {
     this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
     this.ordenProcesoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
     this.GetTipoProcesos();
+    this.GetListTipoServicio();
+    this.GetListTipoComprobante();
     this.GetEstado();
     //this.GetTipoProduccion();
     this.GetCertificacion();
@@ -323,6 +331,9 @@ export class OrdenProcesoEditComponent implements OnInit {
   LoadForm(): void {
     this.ordenProcesoEditForm = this.fb.group({
       idOrdenProceso: [],
+      TipoServicio:[],
+      TipoComprobante: [],
+      Numero: ['', ''],
       organizacionId: [],
       razonSocialCabe: ['',],
       nroOrden: [],
@@ -371,6 +382,22 @@ export class OrdenProcesoEditComponent implements OnInit {
       this.listTipoProcesos = res.Result.Data;
     }
   }
+
+  async GetListTipoServicio() {
+    let res = await this.maestroService.obtenerMaestros('TipoServicioPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoServicio = res.Result.Data;
+    }
+  }
+
+  async GetListTipoComprobante() {
+    let res = await this.maestroService.obtenerMaestros('TipoComprobantePlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoComprobante = res.Result.Data;
+    }
+  }
+
+
   async GetEstado() {
     const res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
     if (res.Result.Success) {
@@ -1049,4 +1076,3 @@ export class OrdenProcesoEditComponent implements OnInit {
 
 
 }
-

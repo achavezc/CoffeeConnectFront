@@ -43,6 +43,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card"  style="margin-bottom: 2rem;">
                     <div class="card-header">
+
                         <div class="form-row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <label for="razonSocialCabelbl"></label>
@@ -54,11 +55,11 @@
                                     
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <label for="nroOrden">N° Orden</label>
+                                    <label for="nroOrden">N° Servicio</label>
                                         <input type="text" name="nroOrden" id="nroOrden" formControlName="nroOrden"
                                             class="form-control"
                                             [ngClass]="{ 'is-invalid': f.nroOrden.invalid, 'is-valid': !f.nroOrden.invalid }"
-                                            placeholder="N° Orden" [readonly]="true" />
+                                            placeholder="N° Servicio" [readonly]="true" />
                     
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
@@ -128,30 +129,32 @@
 
                         <div class="form-row">
 
-                            <div class="col-lg-5 col-md-5 col-sm-5">
-                               
-                                    <label for="tipoProceso">TIPO DE PROCESO</label>
-                                    
-                                        <ng-select [items]="listTipoProcesos" formControlName="tipoProceso"
-                                            class="form-control" bindLabel="Label" bindValue="Codigo" id="tipoProceso"
-                                            placeholder="Seleccionar Tipo Proceso"
-                                            [ngClass]="{ 'is-invalid': f.tipoProceso.invalid, 'is-valid': !f.tipoProceso.invalid }"
-                                            [(ngModel)]="selectedTipoProceso" (change)="changeTipos($event)">
+                            <div class="col-lg-4 col-md-5 col-sm-5">
+                                    <label for="TipoServicio">TIPO DE SERVICIO </label>
+                                        <ng-select [items]="listTipoServicio" formControlName="TipoServicio"
+                                            class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoServicio"
+                                            placeholder="Seleccionar Tipo Servicio"
+                                            [ngClass]="{ 'is-invalid': f.TipoServicio.invalid, 'is-valid': !f.TipoServicio.invalid }"
+                                            [(ngModel)]="selectedTipoServicio">
                                         </ng-select>
-                    
-                        
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                
-                                    <label for="numeroContrato" >NRO. CONTRATO</label>
-                                    
-                                        <input type="text" name="numeroContrato" id="numeroContrato"
+                                    </div>
+
+                            <div class="col-lg-4 col-md-5 col-sm-5">
+                                <label for="TipoComprobante">TIPO COMPROBANTE </label>
+                                    <ng-select [items]="listTipoComprobante" formControlName="TipoComprobante"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoComprobante"
+                                        placeholder="Seleccionar Tipo Comprobante"
+                                        [ngClass]="{ 'is-invalid': f.TipoComprobante.invalid, 'is-valid': !f.TipoComprobante.invalid }"
+                                        [(ngModel)]="selectedTipoComprobante">
+                                    </ng-select>
+                                </div>
+                              
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <label for="Numero" >NUMERO</label>
+                                        <input type="text" name="Numero" id="Numero"
                                             formControlName="numeroContrato" class="form-control"
-                                            placeholder="NRO. CONTRATO">
-                                    
-                                   
-                               
-                            </div> 
+                                            placeholder="Numero">
+                                      </div> 
                             <!-- <div class="col-lg-1 col-md-1 col-sm-1">
                                 <label for="ordenProcesoComercial6"></label>
                                 <button type="button" (click)="openModal(mdlOrdenProceso)"
