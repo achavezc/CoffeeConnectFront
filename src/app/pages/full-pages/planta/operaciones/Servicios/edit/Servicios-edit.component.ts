@@ -14,6 +14,7 @@ import { NotaIngresoService } from '../../../../../../services/notaingreso.servi
 import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
+import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
 import { AuthService } from './../../../../../../services/auth.service';
 
 @Component({
@@ -32,6 +33,7 @@ export class ServiciosEditComponent implements OnInit {
     private ordenProcesoServicePlanta: OrdenProcesoServicePlanta,
     private route: ActivatedRoute,
     private router: Router,
+    private ServicioPlantaService:ServicioPlantaService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private notaIngresoService: NotaIngresoService,
@@ -48,6 +50,7 @@ export class ServiciosEditComponent implements OnInit {
   listTipoProcesos = [];
   listTipoProduccion = [];
   esHumedo = false;
+  submitted = false;
   esReproceso = false;
   //listCertificacion = [];
 
@@ -55,6 +58,11 @@ export class ServiciosEditComponent implements OnInit {
   selectedTipoServicio: any;
   listTipoComprobante: [] = [];
   selectedTipoComprobante: any;
+  listTipoUnidadMedida:[] =[];
+  selectedTipoUnidadMedida:any;
+
+  listTipoMoneda:[]=[];
+  SelectedTipoMoneda:any;
 
 
   listaCertificacion: any[];
@@ -118,6 +126,8 @@ export class ServiciosEditComponent implements OnInit {
     this.GetTipoProcesos();
     this.GetListTipoServicio();
     this.GetListTipoComprobante();
+    this.GetListUnidadMedida();
+    this.GetListaTipoMoneda();
     this.GetEstado();
     //this.GetTipoProduccion();
     this.GetCertificacion();
@@ -331,9 +341,6 @@ export class ServiciosEditComponent implements OnInit {
   LoadForm(): void {
     this.ordenProcesoEditForm = this.fb.group({
       idOrdenProceso: [],
-      TipoServicio:[],
-      TipoComprobante: [],
-      Numero: ['', ''],
       organizacionId: [],
       razonSocialCabe: ['',],
       nroOrden: [],
@@ -366,7 +373,29 @@ export class ServiciosEditComponent implements OnInit {
       tipo: ['', Validators.required],
       productoTerminado: ['', Validators.required],
       fechaInicio: [Validators.required],
-      fechaFin: []
+      fechaFin: [],
+/////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
+      RazonSocialEmpresaCliente:['',''],
+      RucEmpresaCliente:['', Validators.required],
+      TipoServicio:[],
+      TipoComprobante:[],
+      Numero: ['', ''],
+      NumeroOperacionRelacionada: ['', ''],
+      SerieComprobante: ['', ''],
+      NumeroComprobante: ['', ''],
+      FechaDocumento: ['', ''],
+      SerieDocumento: ['', ''],
+      NumeroDocumento: ['', ''],
+      UnidadMedida: ['', ''],
+      UnidadMedidaId:['',''],
+      Cantidad: ['', ''],
+      PrecioUnitario: ['', ''],
+      Importe: ['', ''],
+      PorcentajeTIRB: ['', ''],
+      Moneda: ['', ''],
+      MonedaId:['',''],
+      TotalImporte: ['', ''],
+      Observaciones: ['', '']
 
     });
     this.ordenProcesoEditForm.controls.estado.disable();
@@ -396,6 +425,25 @@ export class ServiciosEditComponent implements OnInit {
       this.listTipoComprobante = res.Result.Data;
     }
   }
+
+  
+
+  async GetListUnidadMedida() {
+    let res = await this.maestroService.obtenerMaestros('UnidadMedidaServicioPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoUnidadMedida = res.Result.Data;
+    }
+  }
+
+  
+  async GetListaTipoMoneda () {
+    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listTipoMoneda = res.Result.Data;
+    }
+  }
+
+
 
 
   async GetEstado() {
@@ -583,6 +631,10 @@ export class ServiciosEditComponent implements OnInit {
       EstadoId: '01',
       Usuario: this.vSessionUser.Result.Data.NombreUsuario,
       OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId)
+     ///////////datos de campos de api servicios////
+
+     
+
     }
     
     //let json = JSON.stringify(request);
@@ -592,7 +644,7 @@ export class ServiciosEditComponent implements OnInit {
   }
 
   Save(): void {
-    debugger
+  //  debugger
     if (!this.ordenProcesoEditForm.invalid) {
       if (this.ValidateDataDetails() > 0) {
         const form = this;
@@ -600,7 +652,7 @@ export class ServiciosEditComponent implements OnInit {
 
           this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.', function (result) {
             if (result.isConfirmed) {
-              form.Create();
+              form.Registrar();
             }
           });
         } else if (this.codeProcessOrder > 0) {
@@ -617,13 +669,13 @@ export class ServiciosEditComponent implements OnInit {
     }
   }
 
-  Create(): void {
+  Registrar(): void {
     
     this.spinner.show();
     this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
-    const file = this.ordenProcesoEditForm.value.file;
-    this.ordenProcesoServicePlanta.Create(file, request).subscribe((res: any) => 
+    //const file = this.ordenProcesoEditForm.value.file;
+    this.ServicioPlantaService.Registrar(request).subscribe((res: any) => 
     {
       
       this.spinner.hide();
@@ -868,7 +920,7 @@ export class ServiciosEditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate(['/planta/operaciones/ordenproceso-list']);
+    this.router.navigate(['/planta/operaciones/Servicios-list']);
   }
 
   compareFechas() {

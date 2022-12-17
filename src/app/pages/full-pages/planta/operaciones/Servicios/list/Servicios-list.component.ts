@@ -66,7 +66,7 @@ export class ServiciosListComponent implements OnInit {
   LoadForm(): void {
     this.Serviciosform = this.fb.group({
        Numero: ['', ''],
-       NumeroOperacion: ['', ''],       
+       NumeroOperacionRelacionada: ['', ''],       
        TipoServicio: ['', ''],
        TipoComprobante: ['', ''],
        SerieComprobante: ['', ''],
