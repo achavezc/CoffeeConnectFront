@@ -665,7 +665,8 @@ export class ServiciosEditComponent implements OnInit {
      //EstadoId:this.ordenProcesoEditForm.controls["estadoServicio"].value ? this.ordenProcesoEditForm.controls["estadoServicio"].value : '',
      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-     EmpresaClienteId: this.vSessionUser.Result.Data.empresa,
+     EmpresaClienteId:this.ordenProcesoEditForm.controls["organizacionId"].value ? this.ordenProcesoEditForm.controls["organizacionId"].value : 0
+     
 
     }
     
