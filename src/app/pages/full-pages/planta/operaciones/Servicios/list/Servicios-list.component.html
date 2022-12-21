@@ -118,7 +118,7 @@
                                 <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
                                 data-placement="top" (click)="Seleccionar(selected)"
                                 [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()"  *ngIf="!popUp" [disabled]="readonly==true">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()"  *ngIf="!popUp" [disabled]="readonly==false">Nuevo</button>
                             
                         </form>
                     </div>
