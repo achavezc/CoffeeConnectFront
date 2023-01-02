@@ -159,6 +159,8 @@ export class ServicioPlantaeditComponent implements OnInit {
     this.PagoServicioPlantaId = this.route.snapshot.params.PagoServicioPlantaId ? Number(this.route.snapshot.params.PagoServicioPlantaId) : 0;
     //this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     this.ServicioPlantaId = this.route.snapshot.params.ServicioPlantaId ? Number(this.route.snapshot.params.ServicioPlantaId) : 0;
+    this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(this.ServicioPlantaId);
+    this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(this.PagoServicioPlantaId);
     await this.LoadForm();
     this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.ServicioPlantaEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
@@ -465,7 +467,7 @@ export class ServicioPlantaeditComponent implements OnInit {
 
 
   Guardar(): void {
-  //  debugger
+    debugger
     if (!this.ServicioPlantaEditForm.invalid) {
         const form = this;
         if (this.PagoServicioPlantaId <= 0) {
@@ -594,6 +596,7 @@ export class ServicioPlantaeditComponent implements OnInit {
 
   GetRequest(): any {
 
+    debugger
     const form = this.ServicioPlantaEditForm.value;
 
     const request =
