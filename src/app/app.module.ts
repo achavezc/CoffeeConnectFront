@@ -27,6 +27,7 @@ import { ContentLayoutComponent } from "./layouts/content/content-layout.compone
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 import { AuthService } from "./services/auth.service";
 import { MaestroService } from "./services/maestro.service";
+//import{PagoServicioPlantaService}from "./Services/PagoServiciosPlanta.service";
 import { MaestroUtil } from "./services/util/maestro-util";
 import { AlertUtil } from "./services/util/alert-util";
 import { DateUtil } from "./services/util/date-util";
@@ -93,6 +94,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NotaIngresoAlmacenService,
     NotaIngresoProductoTerminadoAlmacenPlantaService,
     MaestroService,
+   // PagoServicioPlantaService,
     MaestroUtil,
     AlertUtil,
     DateUtil,

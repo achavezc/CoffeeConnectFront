@@ -198,6 +198,7 @@ export class ServiciosListComponent implements OnInit {
           x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
           x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
           x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
+          x.FechaDocumento = this.dateUtil.formatDate(x.FechaDocumento);
           });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];

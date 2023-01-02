@@ -7,13 +7,13 @@ import { ErrorHandling } from '../shared/util/error-handling';
 @Injectable({
   providedIn: 'root'
 }) 
-export class ServicioPlantaService {
+export class PagoServicioPlantaService {
 
   constructor(private http: HttpClient,
     private errorHandling: ErrorHandling) {
   }
 
-  private url = `${host}ServicioPlanta`;
+  private url = `${host}PagoServicioPlanta`;
 
   Consultar(request: any): Observable<any> {
     const url = `${this.url}/Consultar`;

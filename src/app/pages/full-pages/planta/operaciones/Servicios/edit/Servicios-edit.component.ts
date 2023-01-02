@@ -10,6 +10,7 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
+import{ PagoServicioPlantaService }from '../../../../../../Services/PagoServiciosPlanta.service';
 import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
 import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 import { host } from '../../../../../../shared/hosts/main.host';
@@ -31,6 +32,7 @@ export class ServiciosEditComponent implements OnInit {
     private maestroService: MaestroService,
     private ordenProcesoService: OrdenProcesoService,
     private ordenProcesoServicePlanta: OrdenProcesoServicePlanta,
+    private PagoServicioPlantaService:PagoServicioPlantaService,
     private route: ActivatedRoute,
     private router: Router,
     private ServicioPlantaService:ServicioPlantaService,
@@ -43,7 +45,7 @@ export class ServiciosEditComponent implements OnInit {
 
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
-  ordenProcesoEditForm: FormGroup;
+  ServicioPlantaEditForm: FormGroup;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
   listEstado = [];
   tipoProcesoSecado = '02';
@@ -64,6 +66,27 @@ export class ServiciosEditComponent implements OnInit {
 
   listTipoMoneda:[]=[];
   SelectedTipoMoneda:any;
+
+  listTipoMonedaPago:[]=[];
+  SelectedTipoMonedaPago:any;
+
+
+  listTipoBanco:[]=[];
+  selectedTipoBanco:any;
+
+  listTipoBancoPago:[]=[];
+  selectedTipoBancoPago:any;
+
+  listTipoOperacionServicio:[]=[];
+  selectedTipoOperacionServicio:any;
+
+  listTipoOperacionServicioPago:[]=[];
+  selectedTipoOperacionServicioPago:any;
+
+  listTipoEstadoServicio:[]=[];
+  selectedTipoEstadoServicio:any;
+
+
 
 
   listaCertificacion: any[];
@@ -91,10 +114,18 @@ export class ServiciosEditComponent implements OnInit {
   selectedEstado: any;
   selectedTipoProceso: any;
   vSessionUser: any;
-  codeProcessOrder: Number;
-  errorGeneral = { isError: false, msgError: '' };
+  errorGeneral: any = { isError: false, errorMessage: '' };
+  mensajeErrorGenerico = "Ocurrio un error interno.";
+  ServicioPlantaId: Number;
+ // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
+  rows = [];
+  tempData = [];
+  selected = [];
+  //limitRef: number = 10;
+  
+  @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   @ViewChild(DatatableComponent) tableLotesDetalle: DatatableComponent;
   isLoading = false;
@@ -109,6 +140,7 @@ export class ServiciosEditComponent implements OnInit {
   detalle: any;
   empresa: any[];
   readonly: boolean;
+  OcultarSeccion: boolean =true;
   public limitRef = 20;
   averageExportable: Number = 0;
   averageDescarte: Number = 0;
@@ -119,19 +151,28 @@ export class ServiciosEditComponent implements OnInit {
 
   async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this
-    this.codeProcessOrder = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    //this
+    this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     await this.LoadForm();
-    this.ordenProcesoEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
-    this.ordenProcesoEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
-    this.ordenProcesoEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
-    this.ordenProcesoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
+    this.ServicioPlantaEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
+    this.ServicioPlantaEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
+
+    this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
+    this.ServicioPlantaEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
+    this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
+    this.ServicioPlantaEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
 
     this.GetTipoProcesos();
     this.GetListTipoServicio();
     this.GetListTipoComprobante();
     this.GetListUnidadMedida();
     this.GetListaTipoMoneda();
+    this.GetListaTipoMonedaPago();
+    this.GetListaTipoBanco();
+    this.GetListaTipoBancoPago();
+
+    this.GetListaTipoOperacionServicios();
+    this.GetListaTipoEstado2();
     this.GetEstado();
     //this.GetTipoProduccion();
     this.GetCertificacion();
@@ -142,14 +183,18 @@ export class ServiciosEditComponent implements OnInit {
     //this.GetProductoTerminado();
     //this.GetCalidad();
     //this.GetGrado();
-    if (this.codeProcessOrder <= 0) {
-      this.ordenProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
-      this.ordenProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
-      // this.addRowDetail();
-    } else if (this.codeProcessOrder > 0) {
-      this.SearchByid();
+    if (this.ServicioPlantaId <= 0) {
+      this.ServicioPlantaEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
+      this.ServicioPlantaEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
+     //this.ServicioPlantaEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
+     //this.ServicioPlantaEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
+     //this.addRowDetail();
+    } else if (this.ServicioPlantaId > 0) {
+      this.ConsultaPorId(this.ServicioPlantaId);
     }
-    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
+    
+    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm);
+    this.OcultarSecciones();
   }
 
   changeTipos(e)
@@ -162,23 +207,23 @@ export class ServiciosEditComponent implements OnInit {
    // debugger
     if (codigo == this.tipoProcesoSecado) 
     {
-      this.ordenProcesoEditForm.controls.cantidadDefectos.disable();
+      this.ServicioPlantaEditForm.controls.cantidadDefectos.disable();
 
       
-      this.ordenProcesoEditForm.controls.producto.setValue("01") // Pergamino
-      this.ordenProcesoEditForm.controls.producto.disable();
+      this.ServicioPlantaEditForm.controls.producto.setValue("01") // Pergamino
+      this.ServicioPlantaEditForm.controls.producto.disable();
 
       
       
 
       this.esReproceso = false;
        
-      this.ordenProcesoEditForm.controls.productoTerminado.enable();
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue("")
+      this.ServicioPlantaEditForm.controls.productoTerminado.enable();
+      this.ServicioPlantaEditForm.controls.productoTerminado.setValue("")
       this.GetProductoTerminado();
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue("01") // Pergamino
+      this.ServicioPlantaEditForm.controls.productoTerminado.setValue("01") // Pergamino
        
-      this.ordenProcesoEditForm.controls.productoTerminado.disable();
+      this.ServicioPlantaEditForm.controls.productoTerminado.disable();
     }
     else 
     {
@@ -186,12 +231,12 @@ export class ServiciosEditComponent implements OnInit {
      {
         this.esReproceso = true;
         this.listProductoTerminado= [];
-        this.ordenProcesoEditForm.controls.productoTerminado.enable();
-        this.ordenProcesoEditForm.controls.productoTerminado.setValue("")
+        this.ServicioPlantaEditForm.controls.productoTerminado.enable();
+        this.ServicioPlantaEditForm.controls.productoTerminado.setValue("")
         this.GetSubProductoTerminado();
         
-        this.ordenProcesoEditForm.controls.producto.setValue("02") // Exportable
-        this.ordenProcesoEditForm.controls.producto.disable();
+        this.ServicioPlantaEditForm.controls.producto.setValue("02") // Exportable
+        this.ServicioPlantaEditForm.controls.producto.disable();
         
      }
      else
@@ -199,19 +244,19 @@ export class ServiciosEditComponent implements OnInit {
       this.esReproceso = false;
       this.listProductoTerminado= [];
        
-      this.ordenProcesoEditForm.controls.productoTerminado.enable();
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue("")
+      this.ServicioPlantaEditForm.controls.productoTerminado.enable();
+      this.ServicioPlantaEditForm.controls.productoTerminado.setValue("")
 
       this.GetProductoTerminado();
-      this.ordenProcesoEditForm.controls.producto.disable();
-      this.ordenProcesoEditForm.controls.producto.setValue("01") // Pergamino
+      this.ServicioPlantaEditForm.controls.producto.disable();
+      this.ServicioPlantaEditForm.controls.producto.setValue("01") // Pergamino
       
        
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue("02") // Exportable
-      this.ordenProcesoEditForm.controls.productoTerminado.disable();
+      this.ServicioPlantaEditForm.controls.productoTerminado.setValue("02") // Exportable
+      this.ServicioPlantaEditForm.controls.productoTerminado.disable();
      }
 
-      this.ordenProcesoEditForm.controls.cantidadDefectos.enable();
+      this.ServicioPlantaEditForm.controls.cantidadDefectos.enable();
     }
   }
   
@@ -226,10 +271,10 @@ export class ServiciosEditComponent implements OnInit {
 
 
   agregarOrdenProceso(e) {
-    this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(e[0].Numero);
-    this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(e[0].OrdenProcesoId);
-    this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(e[0].RucEmpresaProcesadora);
-    this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(e[0].RazonSocialEmpresaProcesadora);
+    this.ServicioPlantaEditForm.controls.ordenProcesoComercial.setValue(e[0].Numero);
+    this.ServicioPlantaEditForm.controls.idOrdenProcesoComercial.setValue(e[0].OrdenProcesoId);
+    this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(e[0].RucEmpresaProcesadora);
+    this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(e[0].RazonSocialEmpresaProcesadora);
     this.SearchByidOrdenProceso(e[0].OrdenProcesoId);
 
   }
@@ -266,10 +311,10 @@ export class ServiciosEditComponent implements OnInit {
       if (res.Result.Success) {
         if (res.Result.Data) {
           var data = res.Result.Data;
-          this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
-          this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-          this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.Ruc);
-          this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
+          this.ServicioPlantaEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
+          this.ServicioPlantaEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
+          this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.Ruc);
+          this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
         }
 
       } else {
@@ -288,62 +333,62 @@ export class ServiciosEditComponent implements OnInit {
   async autocompleteOrdenProcesoComercial(data) {
 
     await this.GetCertificadora();
-    this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
-    this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-    this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.Ruc);
-    this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
+    this.ServicioPlantaEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
+    this.ServicioPlantaEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
+    this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.Ruc);
+    this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
 
-    this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
-    this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
+    this.ServicioPlantaEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
+    this.ServicioPlantaEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
 
     //this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
     //this.ordenProcesoEditForm.controls["certificacion"].setValue(data.TipoCertificacionId);
-    this.ordenProcesoEditForm.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
-    this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
-    this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
+    this.ServicioPlantaEditForm.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
+    this.ServicioPlantaEditForm.controls.producto.setValue(data.ProductoId);
+    this.ServicioPlantaEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
 
     //this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
-    this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
-    this.ordenProcesoEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
+    this.ServicioPlantaEditForm.controls.subProducto.setValue(data.SubProductoId);
+    this.ServicioPlantaEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
 
 
-    this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
-    this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
-    this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoTerminadoId);
-    this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
-    this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
-    this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
-    this.ordenProcesoEditForm.controls.calidad.setValue(data.CalidadId);
-    this.ordenProcesoEditForm.controls.totalKilosBrutos.setValue(data.PesoKilos);
-    this.ordenProcesoEditForm.controls.grado.setValue(data.GradoId);
-    this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
-    this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
+    this.ServicioPlantaEditForm.controls.empaque.setValue(data.EmpaqueId);
+    this.ServicioPlantaEditForm.controls.tipo.setValue(data.TipoId);
+    this.ServicioPlantaEditForm.controls.productoTerminado.setValue(data.ProductoTerminadoId);
+    this.ServicioPlantaEditForm.controls.cantidad.setValue(data.TotalSacos);
+    this.ServicioPlantaEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
+    this.ServicioPlantaEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
+    this.ServicioPlantaEditForm.controls.calidad.setValue(data.CalidadId);
+    this.ServicioPlantaEditForm.controls.totalKilosBrutos.setValue(data.PesoKilos);
+    this.ServicioPlantaEditForm.controls.grado.setValue(data.GradoId);
+    this.ServicioPlantaEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
+    this.ServicioPlantaEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
 
-    this.ordenProcesoEditForm.controls.empaque.disable();
-    this.ordenProcesoEditForm.controls.tipo.disable();
-    this.ordenProcesoEditForm.controls.productoTerminado.disable();
-    this.ordenProcesoEditForm.controls.cantidad.disable();
-    this.ordenProcesoEditForm.controls.subProductoTerminado.disable();
-    this.ordenProcesoEditForm.controls.pesoSaco.disable();
-    this.ordenProcesoEditForm.controls.calidad.disable();
-    this.ordenProcesoEditForm.controls.totalKilosBrutos.disable();
-    this.ordenProcesoEditForm.controls.grado.disable();
-    this.ordenProcesoEditForm.controls.cantidadContenedores.disable();
-    this.ordenProcesoEditForm.controls.cantidadDefectos.disable();
+    this.ServicioPlantaEditForm.controls.empaque.disable();
+    this.ServicioPlantaEditForm.controls.tipo.disable();
+    this.ServicioPlantaEditForm.controls.productoTerminado.disable();
+    this.ServicioPlantaEditForm.controls.cantidad.disable();
+    this.ServicioPlantaEditForm.controls.subProductoTerminado.disable();
+    this.ServicioPlantaEditForm.controls.pesoSaco.disable();
+    this.ServicioPlantaEditForm.controls.calidad.disable();
+    this.ServicioPlantaEditForm.controls.totalKilosBrutos.disable();
+    this.ServicioPlantaEditForm.controls.grado.disable();
+    this.ServicioPlantaEditForm.controls.cantidadContenedores.disable();
+    this.ServicioPlantaEditForm.controls.cantidadDefectos.disable();
 
-    this.ordenProcesoEditForm.controls.tipoProceso.disable();
-    this.ordenProcesoEditForm.controls.rucOrganizacion.disable();
-    this.ordenProcesoEditForm.controls.nombreOrganizacion.disable();
-    this.ordenProcesoEditForm.controls.tipoProduccion.disable();
-    this.ordenProcesoEditForm.controls.certificacion.disable();
-    this.ordenProcesoEditForm.controls.producto.disable();
-    this.ordenProcesoEditForm.controls.certificadora.disable();
-    this.ordenProcesoEditForm.controls.subProducto.disable();
+    this.ServicioPlantaEditForm.controls.tipoProceso.disable();
+    this.ServicioPlantaEditForm.controls.rucOrganizacion.disable();
+    this.ServicioPlantaEditForm.controls.nombreOrganizacion.disable();
+    this.ServicioPlantaEditForm.controls.tipoProduccion.disable();
+    this.ServicioPlantaEditForm.controls.certificacion.disable();
+    this.ServicioPlantaEditForm.controls.producto.disable();
+    this.ServicioPlantaEditForm.controls.certificadora.disable();
+    this.ServicioPlantaEditForm.controls.subProducto.disable();
     this.spinner.hide();
     this.modalService.dismissAll();
   }
   LoadForm(): void {
-    this.ordenProcesoEditForm = this.fb.group({
+    this.ServicioPlantaEditForm = this.fb.group({
      
       idOrdenProceso: [],
       organizacionId: [],
@@ -389,11 +434,13 @@ export class ServiciosEditComponent implements OnInit {
       TipoServicioId:['',''],
       TipoServicio:[],
       TipoComprobante:[],
+      //TipoComprobanteId:['',''],
       Numero: ['', ''],
       NumeroOperacionRelacionada: ['', ''],
       SerieComprobante: ['', ''],
       NumeroComprobante: ['', ''],
       FechaDocumento: ['', ''],
+      FechaRegistro:['',''],
       SerieDocumento: ['', ''],
       NumeroDocumento: ['', ''],
       UnidadMedida: ['', ''],
@@ -406,14 +453,32 @@ export class ServiciosEditComponent implements OnInit {
       MonedaId:['',''],
       TotalImporte: ['', ''],
       Observaciones: ['', ''],
-      estadoServicio:['','']
+      estadoServicio:['',''],
+      /////////////Pagos Servicios//////////////77
+      NumeroPagos:['',''],
+      BancoPagos:['',''],
+      NumeroOperacionPagos:['',''],
+      MonedaPagos:['',],
+      TipoOperacion:['',''],
+      TipoOperacionPagoServicioId:['',''],
+      TipoOperacionPago:['',''],
+      EstadoPagos:[],
+      //FechaOperacion:['',''],
+      FechaInicioPagos:['',''],
+      FechaFinPagos:['',''],
+      //////Grilla campos////////////
+      FechaOperacionPagos:['',''],
 
     });
-    this.ordenProcesoEditForm.controls.estado.disable();
+    this.ServicioPlantaEditForm.controls.estado.disable();
   }
 
+ 
+
+  
+
   get f() {
-    return this.ordenProcesoEditForm.controls;
+    return this.ServicioPlantaEditForm.controls;
   }
 
   async GetTipoProcesos() {
@@ -451,6 +516,49 @@ export class ServiciosEditComponent implements OnInit {
     let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
       this.listTipoMoneda = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoMonedaPago () {
+    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listTipoMonedaPago = res.Result.Data;
+    }
+  }
+
+
+  async GetListaTipoBancoPago () {
+    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
+    if (res.Result.Success) {
+      this.listTipoBancoPago = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoBanco () {
+    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
+    if (res.Result.Success) {
+      this.listTipoBanco = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoOperacionServicios () {
+    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
+    if (res.Result.Success) {
+      this.listTipoOperacionServicio = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoOperacionServiciosPago () {
+    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
+    if (res.Result.Success) {
+      this.listTipoOperacionServicioPago = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoEstado2 () {
+    let res = await this.maestroService.obtenerMaestros('EstadoPagoServicio').toPromise();
+    if (res.Result.Success) {
+      this.listTipoEstadoServicio = res.Result.Data;
     }
   }
 
@@ -499,6 +607,21 @@ export class ServiciosEditComponent implements OnInit {
   }
 
 
+  async OcultarSecciones(){
+
+    if(  this.ServicioPlantaId > 0){//0 es nuevo 
+      //ocultar secciones 
+      this.OcultarSeccion = true;
+
+    }else {
+      //mostrar secciones  con valor de id 
+      this.OcultarSeccion = false;
+
+    }
+  }
+
+
+
   GetDataModal(event: any): void {
     this.modalService.dismissAll();
   }
@@ -506,25 +629,25 @@ export class ServiciosEditComponent implements OnInit {
   async AutocompleteDataContrato(obj: any) {
     let empaque_Tipo = '';
     if (obj.ContratoId)
-      this.ordenProcesoEditForm.controls.idContrato.setValue(obj.ContratoId);
+      this.ServicioPlantaEditForm.controls.idContrato.setValue(obj.ContratoId);
 
     if (obj.Numero)
-      this.ordenProcesoEditForm.controls.nroContrato.setValue(obj.Numero);
+      this.ServicioPlantaEditForm.controls.nroContrato.setValue(obj.Numero);
 
     if (obj.ClienteId)
-      this.ordenProcesoEditForm.controls.idCliente.setValue(obj.ClienteId);
+      this.ServicioPlantaEditForm.controls.idCliente.setValue(obj.ClienteId);
 
     if (obj.NumeroCliente)
-      this.ordenProcesoEditForm.controls.codCliente.setValue(obj.NumeroCliente);
+      this.ServicioPlantaEditForm.controls.codCliente.setValue(obj.NumeroCliente);
 
     if (obj.Cliente)
-      this.ordenProcesoEditForm.controls.cliente.setValue(obj.Cliente);
+      this.ServicioPlantaEditForm.controls.cliente.setValue(obj.Cliente);
 
     if (obj.TipoProduccion)
-      this.ordenProcesoEditForm.controls.tipoProduccion.setValue(obj.TipoProduccion);
+      this.ServicioPlantaEditForm.controls.tipoProduccion.setValue(obj.TipoProduccion);
 
     if (obj.TipoCertificacion)
-      this.ordenProcesoEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
+      this.ServicioPlantaEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
 
     if (obj.Empaque)
       empaque_Tipo = obj.Empaque;
@@ -533,31 +656,31 @@ export class ServiciosEditComponent implements OnInit {
     if (obj.TipoEmpaque)
       empaque_Tipo = empaque_Tipo + obj.TipoEmpaque;
     if (empaque_Tipo)
-      this.ordenProcesoEditForm.controls.empaqueTipo.setValue(empaque_Tipo);
+      this.ServicioPlantaEditForm.controls.empaqueTipo.setValue(empaque_Tipo);
 
     if (obj.TotalSacos)
-      this.ordenProcesoEditForm.controls.cantidad.setValue(obj.TotalSacos);
+      this.ServicioPlantaEditForm.controls.cantidad.setValue(obj.TotalSacos);
 
     if (obj.PesoPorSaco)
-      this.ordenProcesoEditForm.controls.pesoSacoKG.setValue(obj.PesoPorSaco);
+      this.ServicioPlantaEditForm.controls.pesoSacoKG.setValue(obj.PesoPorSaco);
 
     if (obj.PesoKilos)
-      this.ordenProcesoEditForm.controls.totalKilosNetos.setValue(obj.PesoKilos);
+      this.ServicioPlantaEditForm.controls.totalKilosNetos.setValue(obj.PesoKilos);
 
     if (obj.Producto)
-      this.ordenProcesoEditForm.controls.producto.setValue(obj.Producto);
+      this.ServicioPlantaEditForm.controls.producto.setValue(obj.Producto);
 
     if (obj.SubProducto)
-      this.ordenProcesoEditForm.controls.subProducto.setValue(obj.SubProducto);
+      this.ServicioPlantaEditForm.controls.subProducto.setValue(obj.SubProducto);
 
     if (obj.Calidad)
-      this.ordenProcesoEditForm.controls.calidad.setValue(obj.Calidad);
+      this.ServicioPlantaEditForm.controls.calidad.setValue(obj.Calidad);
 
     if (obj.Grado)
-      this.ordenProcesoEditForm.controls.grado.setValue(obj.Grado);
+      this.ServicioPlantaEditForm.controls.grado.setValue(obj.Grado);
 
     if (obj.PreparacionCantidadDefectos)
-      this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
+      this.ServicioPlantaEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
   }
 
   GetDataEmpresa(event: any): void {
@@ -565,9 +688,9 @@ export class ServiciosEditComponent implements OnInit {
     if (this.selectOrganizacion[0]) {
 
       //this.notaIngredoFormEdit.controls['codigoOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
-      this.ordenProcesoEditForm.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
-      this.ordenProcesoEditForm.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
-      this.ordenProcesoEditForm.controls['organizacionId'].setValue(this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId);
+      this.ServicioPlantaEditForm.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
+      this.ServicioPlantaEditForm.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
+      this.ServicioPlantaEditForm.controls['organizacionId'].setValue(this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId);
     }
     this.modalService.dismissAll();
   }
@@ -586,9 +709,14 @@ export class ServiciosEditComponent implements OnInit {
     //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
+  openModalServicioPlanta(modalServicoPlanta) {
+    this.modalService.open(modalServicoPlanta, { windowClass: 'dark-modal', size: 'xl' });
+
+  }
+
   openModalNotaIngreso(modalAlmacenMateriaPrima: any, modalAlmacenProductoTerminado: any): void {
     
-    var tipoProceso = this.ordenProcesoEditForm.controls["tipoProceso"].value;
+    var tipoProceso = this.ServicioPlantaEditForm.controls["tipoProceso"].value;
 
     if (tipoProceso) {
       if (tipoProceso != '03') //Reproceso
@@ -606,9 +734,29 @@ export class ServiciosEditComponent implements OnInit {
     //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
+
+
+  
+  updateLimit(event: any): void {
+    this.limitRef = event.target.value;
+  }
+
+  filterUpdate(event: any): void {
+    const val = event.target.value.toLowerCase();
+    const temp = this.tempData.filter(function (d) {
+      return d.Numero.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    this.rows = temp;
+    this.table.offset = 0;
+  }
+
+  onSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
+  }
+
   GetRequest(): any {
 
-    const form = this.ordenProcesoEditForm.value;
+    const form = this.ServicioPlantaEditForm.value;
    // this.formGroupCantidad = new FormGroup(this.groupCantidad);
     /* this.rowsDetails.forEach(data =>
        {
@@ -644,28 +792,29 @@ export class ServiciosEditComponent implements OnInit {
       OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId),
       */
      ///////////datos de campos de api servicios////
-     ServicioPlantaId: this.ordenProcesoEditForm.controls["ServicioPlantaId"].value ? this.ordenProcesoEditForm.controls["ServicioPlantaId"].value : 0,
-     Numero: this.ordenProcesoEditForm.controls["Numero"].value ? this.ordenProcesoEditForm.controls["Numero"].value : '',
-     NumeroOperacionRelacionada: this.ordenProcesoEditForm.controls["NumeroOperacionRelacionada"].value ? this.ordenProcesoEditForm.controls["NumeroOperacionRelacionada"].value : '',
-     TipoServicioId: this.ordenProcesoEditForm.controls["TipoServicio"].value ? this.ordenProcesoEditForm.controls["TipoServicio"].value : '',
-     TipoComprobanteId: this.ordenProcesoEditForm.controls["TipoComprobante"].value ? this.ordenProcesoEditForm.controls["TipoComprobante"].value : '',
-     SerieComprobante:this.ordenProcesoEditForm.controls["SerieComprobante"].value ? this.ordenProcesoEditForm.controls["SerieComprobante"].value : '',
-     NumeroComprobante:this.ordenProcesoEditForm.controls["NumeroComprobante"].value ? this.ordenProcesoEditForm.controls["NumeroComprobante"].value : '',
-     FechaDocumento:this.ordenProcesoEditForm.controls["FechaDocumento"].value ? this.ordenProcesoEditForm.controls["FechaDocumento"].value : '',
-     SerieDocumento:this.ordenProcesoEditForm.controls["SerieDocumento"].value ? this.ordenProcesoEditForm.controls["SerieDocumento"].value : '',
-     NumeroDocumento:this.ordenProcesoEditForm.controls["NumeroDocumento"].value ? this.ordenProcesoEditForm.controls["NumeroDocumento"].value : '',
-     UnidadMedidaId:this.ordenProcesoEditForm.controls["UnidadMedida"].value ? this.ordenProcesoEditForm.controls["UnidadMedida"].value : '',
-     Cantidad:this.ordenProcesoEditForm.controls["Cantidad"].value ? this.ordenProcesoEditForm.controls["Cantidad"].value : 0,
-     PrecioUnitario:this.ordenProcesoEditForm.controls["PrecioUnitario"].value ? this.ordenProcesoEditForm.controls["PrecioUnitario"].value : 0,
-     Importe:this.ordenProcesoEditForm.controls["Importe"].value ? this.ordenProcesoEditForm.controls["Importe"].value : 0,
-     PorcentajeTIRB:this.ordenProcesoEditForm.controls["PorcentajeTIRB"].value ? this.ordenProcesoEditForm.controls["PorcentajeTIRB"].value : 0,
-     MonedaId:this.ordenProcesoEditForm.controls["Moneda"].value ? this.ordenProcesoEditForm.controls["Moneda"].value : '',
-     TotalImporte:this.ordenProcesoEditForm.controls["TotalImporte"].value ? this.ordenProcesoEditForm.controls["TotalImporte"].value : 0,
-     Observaciones:this.ordenProcesoEditForm.controls["Observaciones"].value ? this.ordenProcesoEditForm.controls["Observaciones"].value : '',
+     //ServicioPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
+     ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
+     Numero: this.ServicioPlantaEditForm.controls["Numero"].value ? this.ServicioPlantaEditForm.controls["Numero"].value : '',
+     NumeroOperacionRelacionada: this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value : '',
+     TipoServicioId: this.ServicioPlantaEditForm.controls["TipoServicio"].value ? this.ServicioPlantaEditForm.controls["TipoServicio"].value : '',
+     TipoComprobanteId: this.ServicioPlantaEditForm.controls["TipoComprobante"].value ? this.ServicioPlantaEditForm.controls["TipoComprobante"].value : '',
+     SerieComprobante:this.ServicioPlantaEditForm.controls["SerieComprobante"].value ? this.ServicioPlantaEditForm.controls["SerieComprobante"].value : '',
+     NumeroComprobante:this.ServicioPlantaEditForm.controls["NumeroComprobante"].value ? this.ServicioPlantaEditForm.controls["NumeroComprobante"].value : '',
+     FechaDocumento:this.ServicioPlantaEditForm.controls["FechaDocumento"].value ? this.ServicioPlantaEditForm.controls["FechaDocumento"].value : '',
+     SerieDocumento:this.ServicioPlantaEditForm.controls["SerieDocumento"].value ? this.ServicioPlantaEditForm.controls["SerieDocumento"].value : '',
+     NumeroDocumento:this.ServicioPlantaEditForm.controls["NumeroDocumento"].value ? this.ServicioPlantaEditForm.controls["NumeroDocumento"].value : '',
+     UnidadMedidaId:this.ServicioPlantaEditForm.controls["UnidadMedida"].value ? this.ServicioPlantaEditForm.controls["UnidadMedida"].value : '',
+     Cantidad:this.ServicioPlantaEditForm.controls["Cantidad"].value ? this.ServicioPlantaEditForm.controls["Cantidad"].value : 0,
+     PrecioUnitario:this.ServicioPlantaEditForm.controls["PrecioUnitario"].value ? this.ServicioPlantaEditForm.controls["PrecioUnitario"].value : 0,
+     Importe:this.ServicioPlantaEditForm.controls["Importe"].value ? this.ServicioPlantaEditForm.controls["Importe"].value : 0,
+     PorcentajeTIRB:this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value ? this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value : 0,
+     MonedaId:this.ServicioPlantaEditForm.controls["Moneda"].value ? this.ServicioPlantaEditForm.controls["Moneda"].value : '',
+     TotalImporte:this.ServicioPlantaEditForm.controls["TotalImporte"].value ? this.ServicioPlantaEditForm.controls["TotalImporte"].value : 0,
+     Observaciones:this.ServicioPlantaEditForm.controls["Observaciones"].value ? this.ServicioPlantaEditForm.controls["Observaciones"].value : '',
      //EstadoId:this.ordenProcesoEditForm.controls["estadoServicio"].value ? this.ordenProcesoEditForm.controls["estadoServicio"].value : '',
      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-     EmpresaClienteId:this.ordenProcesoEditForm.controls["organizacionId"].value ? this.ordenProcesoEditForm.controls["organizacionId"].value : 0
+     EmpresaClienteId:this.ServicioPlantaEditForm.controls["organizacionId"].value ? this.ServicioPlantaEditForm.controls["organizacionId"].value : 0
      
 
     }
@@ -676,22 +825,157 @@ export class ServiciosEditComponent implements OnInit {
 
   }
 
+  buscar(): void {
+    this.Search();
+  }
+  
+
+
+  Search(): void {
+    if (!this.ServicioPlantaEditForm.invalid) {
+      this.spinner.show();
+      const request = this.getRequestPagoConsultar();
+      this.PagoServicioPlantaService.Consultar(request)
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          res.Result.Data.forEach(x => {
+          //x.FechaInicio = this.dateUtil.formatDate(x.FechaInicio)
+          //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
+          x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
+          });
+            this.tempData = res.Result.Data;
+            this.rows = [...this.tempData];
+          this.errorGeneral = { isError: false, msgError: '' };
+        } else {
+          this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        }
+      }, (err: any) => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+      });
+    } else {
+
+    }
+  }
+
+  getRequestPagoConsultar(): any {
+      
+    
+    const form = this.ServicioPlantaEditForm.value;
+
+      const request =
+     {
+      
+        Numero: this.ServicioPlantaEditForm.controls["NumeroPagos"].value ? this.ServicioPlantaEditForm.controls["NumeroPagos"].value : '',
+        NumeroOperacion:  this.ServicioPlantaEditForm.controls["NumeroOperacionPagos"].value ?  this.ServicioPlantaEditForm.controls["NumeroOperacionPagos"].value : '',
+        TipoOperacionPagoServicioId:  this.ServicioPlantaEditForm.controls["TipoOperacionPago"].value ?this.ServicioPlantaEditForm.controls["TipoOperacionPago"].value : '',
+        ServicioPlantaId:   this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
+        BancoId:    this.ServicioPlantaEditForm.controls["BancoPagos"].value ? this.ServicioPlantaEditForm.controls["BancoPagos"].value : '',
+        MonedaId:   this.ServicioPlantaEditForm.controls["MonedaPagos"].value ? this.ServicioPlantaEditForm.controls["MonedaPagos"].value : '',
+        FechaInicio:   this.ServicioPlantaEditForm.controls["FechaInicioPagos"].value ? this.ServicioPlantaEditForm.controls["FechaInicioPagos"].value : '',
+        FechaFin:   this.ServicioPlantaEditForm.controls["FechaFinPagos"].value ? this.ServicioPlantaEditForm.controls["FechaFinPagos"].value : '',
+        EstadoId:   this.ServicioPlantaEditForm.controls["EstadoPagos"].value ? this.ServicioPlantaEditForm.controls["EstadoPagos"].value : '',
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+
+      }
+    
+      //let json = JSON.stringify(request);
+      return request;
+  
+  
+  }
+
+  anular() {
+
+  }
+  /*{
+    if (this.selected.length > 0) {
+    
+      if (this.selected[0].EstadoCalidadId == this.estadoPesado) {
+        var form = this;
+        swal.fire({
+          title: '¿Estas seguro?',
+          text: "¿Estas seguro de anular?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#2F8BE6',
+          cancelButtonColor: '#F55252',
+          confirmButtonText: 'Si',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-danger ml-1'
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            form.anularServicio();
+          }
+        });
+      } 
+    }
+  }*/
+ 
+ /* anularServicio(){
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.ControlCalidadService.Anular(
+      {
+        "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
+        "NotaIngresoPlantaId": this.selected[0].NotaIngresoPlantaId,
+        "Usuario": this.vSessionUser.Result.Data.NombreUsuario
+      })
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.alertUtil.alertOk('Anulado!', 'Control Calidad Anulado.');
+            this.buscar();
+  
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.alertUtil.alertError('Error', res.Result.Message);
+          } else {
+            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+          }
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      );
+  }*/
+
+  Nuevo(){
+   
+  }
+
   Save(): void {
   //  debugger
-    if (!this.ordenProcesoEditForm.invalid) {
+    if (!this.ServicioPlantaEditForm.invalid) {
         const form = this;
-        if (this.codeProcessOrder <= 0) {
+        if (this.ServicioPlantaId <= 0) {
 
           this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.', function (result) {
             if (result.isConfirmed) {
               form.Registrar();
             }
           });
-        } else if (this.codeProcessOrder > 0) {
+        } else if (this.ServicioPlantaId > 0) {
 
           this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.', function (result) {
             if (result.isConfirmed) {
-              form.Update();
+              form.Actualizar();
             }
           });
         }
@@ -751,154 +1035,147 @@ export class ServiciosEditComponent implements OnInit {
 
 
 
-  Update(): void {
+  Actualizar() {
     this.spinner.show();
-    this.errorGeneral = { isError: false, msgError: '' };
     const request = this.GetRequest();
-    const file = this.ordenProcesoEditForm.value.file;
-    this.ordenProcesoServicePlanta.Update(file, request).subscribe((res: any) => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se actualizo exitosamente.', () => {
-          this.Cancel();
-        });
-      } else {
-        this.errorGeneral = { isError: true, msgError: res.Result.Message };
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.spinner.hide();
-      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-    });
+    this.ServicioPlantaService.Actualizar(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            var form = this;
+            this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Planta Actualizado.', function (result) {
+              form.router.navigate(['/planta/operaciones/Servicios-list']);
+            }
+            );
+
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
   }
 
   fileChange(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.ordenProcesoEditForm.patchValue({ file: file });
+      this.ServicioPlantaEditForm.patchValue({ file: file });
     }
-    this.ordenProcesoEditForm.get('file').updateValueAndValidity();
+    this.ServicioPlantaEditForm.get('file').updateValueAndValidity();
   }
 
-  SearchByid(): void {
-    this.spinner.show();
-    this.errorGeneral = { isError: false, msgError: '' };
-    this.ordenProcesoServicePlanta.ConsultarPorId(this.codeProcessOrder).subscribe((res) => {
-      if (res.Result.Success) {
-        this.AutocompleteFormEdit(res.Result.Data);
-      } else {
-        this.errorGeneral = { isError: true, msgError: res.Result.Message };
-      }
-    }, (err) => {
-      console.log(err);
-      this.spinner.hide();
-      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-    });
+ 
+  async ConsultaPorId(ServicioPlantaId) {
+ 
+    
+    let request =
+    {
+      "ServicioPlantaId": Number(ServicioPlantaId),
+    }
+
+    this.ServicioPlantaService.ConsultarPorId(request)
+      .subscribe(res => {
+        //this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.AutocompleteFormEdit(res.Result.Data)
+             //this.dateUtil.formatDate(new Date(FechaAsignacionSocioBeneficiarioPropietario))); 
+             //this.dateUtil.formatDate(new Date(FechaAsignacionSocioInversorPropietario))); 
+             //this.dateUtil.formatDate(new Date(FechaInstalacion))); 
+            
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+         // this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+
+    //LLAMAR SERVICIO
+
+
   }
+
+
+
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
       
       //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
-      this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
-      this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-      this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
-      this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
-      let empaque_tipo = '';
+      this.ServicioPlantaEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
+      this.ServicioPlantaEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
+      this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
+      this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
       if (data.EstadoId)
-        this.ordenProcesoEditForm.controls.estado.setValue(data.EstadoId);
-      if (data.OrdenProcesoId)
-        this.codeProcessOrder = data.OrdenProcesoId
-      this.ordenProcesoEditForm.controls.idOrdenProceso.setValue(data.OrdenProcesoId);
-      if (data.Numero)
-        this.ordenProcesoEditForm.controls.nroOrden.setValue(data.Numero);
-
-      if (data.FechaRegistro) {
-        this.ordenProcesoEditForm.controls.fechaCabe.setValue(data.FechaRegistro.substring(0, 10));
-      }
-      // await this.cargarSubProducto(data.ProductoId);
-      // await this.cargarSubProductoTerminado(data.ProductoId);
-      //this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
-      //this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-      //this.ordenProcesoEditForm.controls.rucOrganizacion.setValue(data.Ruc);
-      //this.ordenProcesoEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
-      this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
-      //this.ordenProcesoEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
-      this.ordenProcesoEditForm.controls.producto.setValue(data.ProductoId);
-      //this.ordenProcesoEditForm.controls.numeroContrato.setValue(data.NumeroContrato);
-      if (data.EntidadCertificadoraId) {
-        await this.GetCertificadora();
-        this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
-      }
-      //this.ordenProcesoEditForm.controls.subProducto.setValue(data.SubProductoId);
-      this.ordenProcesoEditForm.controls.organizacionId.setValue(data.OrganizacionId);
-      this.ordenProcesoEditForm.controls.empaque.setValue(data.EmpaqueId);
-      this.ordenProcesoEditForm.controls.tipo.setValue(data.TipoId);
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoIdTerminado);
-      //this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
-      //this.ordenProcesoEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
-      //this.ordenProcesoEditForm.controls.calidad.setValue(data.CalidadId);
-      //this.ordenProcesoEditForm.controls.grado.setValue(data.GradoId);
-      /*  this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
-       this.ordenProcesoEditForm.controls.totalKilosBrutos.setValue(data.PesoKilos);
-       this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
-       this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
-  */
-      if (data.CertificacionId) {
-        await this.GetCertificacion();
-        this.ordenProcesoEditForm.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
-      }
-      if (data.TipoProcesoId) {
-        await this.GetTipoProcesos();
-        this.ordenProcesoEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
-      }
+        this.ServicioPlantaEditForm.controls.estado.setValue(data.EstadoId);
       //this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
-      this.ordenProcesoEditForm.controls.cantidadDefectos.setValue(data.CantidadDefectos);
-      this.ordenProcesoEditForm.controls.numeroContrato.setValue(data.NumeroContrato);
-      //this.ordenProcesoEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
-      //this.ordenProcesoEditForm.controls.cantidad.setValue(data.TotalSacos);
-      //this.ordenProcesoEditForm.controls.totalKilosBrutos.setValue(data.PesoKilos);
-      this.ordenProcesoEditForm.controls.fechaInicio.setValue(data.FechaInicioProceso == null ? "" : formatDate(data.FechaInicioProceso, 'yyyy-MM-dd', 'en'));
-      this.ordenProcesoEditForm.controls.fechaFin.setValue(data.FechaFinProceso == null ? "" : formatDate(data.FechaFinProceso, 'yyyy-MM-dd', 'en'));
-      //if (data.Observacion)
-       // this.ordenProcesoEditForm.controls.observaciones.setValue(data.Observacion);
-      //data.detalle.forEach(x => x.FechaNotaIngresoPlanta = x.FechaNotaIngresoPlanta.substring(0, 10));
-      if (data.NombreArchivo)
-        this.fileName = data.NombreArchivo;
-      if (data.PathArchivo)
-        this.ordenProcesoEditForm.controls.pathFile.setValue(data.PathArchivo);
-      //this.rowsDetails = data.detalle;
-      this.cargarDatos(data.detalle);
-      //this.tempDataLoteDetalle = this.listaNotaIngreso;
-      //this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-      this.cambiarPorTipos(data.TipoProcesoId);
-      this.ordenProcesoEditForm.controls.productoTerminado.setValue(data.ProductoIdTerminado)
+      this.ServicioPlantaEditForm.controls.cantidadDefectos.setValue(data.CantidadDefectos);
+      this.ServicioPlantaEditForm.controls.numeroContrato.setValue(data.NumeroContrato);
+      this.ServicioPlantaEditForm.controls.fechaInicio.setValue(data.FechaInicioProceso == null ? "" : formatDate(data.FechaInicioProceso, 'yyyy-MM-dd', 'en'));
+      this.ServicioPlantaEditForm.controls.fechaFin.setValue(data.FechaFinProceso == null ? "" : formatDate(data.FechaFinProceso, 'yyyy-MM-dd', 'en'));
       this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
-      this.ordenProcesoEditForm.controls.estado.disable();
+      this.ServicioPlantaEditForm.controls.estado.disable();
 
    /////////Camppos del api servicio planta ////////////////////////7
-   this.ordenProcesoEditForm.controls.ServicioPlantaId.setValue(data.ServicioPlantaId);
-   this.ordenProcesoEditForm.controls.Numero.setValue(data.Numero);
-   this.ordenProcesoEditForm.controls.NumeroOperacionRelacionada.setValue(data.NumeroOperacionRelacionada);
-   this.ordenProcesoEditForm.controls.TipoServicio.setValue(data.TipoServicioId);
-   this.ordenProcesoEditForm.controls.TipoComprobante.setValue(data.TipoComprobanteId);
-   this.ordenProcesoEditForm.controls.SerieComprobante.setValue(data.SerieComprobante);
-   this.ordenProcesoEditForm.controls.NumeroComprobante.setValue(data.NumeroComprobante);
+   this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(data.ServicioPlantaId);
+   //this.ServicioPlantaEditForm.controls.Numero.setValue(data.Numero);
 
-  this.ordenProcesoEditForm.controls.FechaDocumento.setValue(data.FechaDocumento == null ? "" : formatDate(data.FechaDocumento, 'yyyy-MM-dd', 'en'));
-   this.ordenProcesoEditForm.controls.SerieDocumento.setValue(data.SerieDocumento);
-   this.ordenProcesoEditForm.controls.NumeroDocumento.setValue(data.NumeroDocumento);
+   if (data.Numero){
+    this.ServicioPlantaEditForm.controls.Numero.setValue(data.Numero);
+   }
+   this.ServicioPlantaEditForm.controls.NumeroOperacionRelacionada.setValue(data.NumeroOperacionRelacionada);
+   this.ServicioPlantaEditForm.controls.TipoServicio.setValue(data.TipoServicioId);
+   this.ServicioPlantaEditForm.controls.TipoComprobante.setValue(data.TipoComprobanteId);
+   this.ServicioPlantaEditForm.controls.SerieComprobante.setValue(data.SerieComprobante);
+   this.ServicioPlantaEditForm.controls.NumeroComprobante.setValue(data.NumeroComprobante);
 
-   this.ordenProcesoEditForm.controls.UnidadMedida.setValue(data.UnidadMedidaId);
-   this.ordenProcesoEditForm.controls.Cantidad.setValue(data.Cantidad);
-   this.ordenProcesoEditForm.controls.PrecioUnitario.setValue(data.PrecioUnitario);
-   this.ordenProcesoEditForm.controls.Importe.setValue(data.Importe);
+  this.ServicioPlantaEditForm.controls.FechaDocumento.setValue(data.FechaDocumento == null ? "" : formatDate(data.FechaDocumento, 'yyyy-MM-dd', 'en'));
+  
+  this.ServicioPlantaEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
 
-   this.ordenProcesoEditForm.controls.PorcentajeTIRB.setValue(data.PorcentajeTIRB);
-   this.ordenProcesoEditForm.controls.Moneda.setValue(data.MonedaId);
-   this.ordenProcesoEditForm.controls.TotalImporte.setValue(data.TotalImporte);
-   this.ordenProcesoEditForm.controls.Observaciones.setValue(data.Observaciones);
+  this.ServicioPlantaEditForm.controls.SerieDocumento.setValue(data.SerieDocumento);
+   this.ServicioPlantaEditForm.controls.NumeroDocumento.setValue(data.NumeroDocumento);
 
+   this.ServicioPlantaEditForm.controls.UnidadMedida.setValue(data.UnidadMedidaId);
+   this.ServicioPlantaEditForm.controls.Cantidad.setValue(data.Cantidad);
+   this.ServicioPlantaEditForm.controls.PrecioUnitario.setValue(data.PrecioUnitario);
+   this.ServicioPlantaEditForm.controls.Importe.setValue(data.Importe);
+
+   this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue(data.PorcentajeTIRB);
+   this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
+   this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
+   this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
+   this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(data.RazonSocialEmpresaCliente);
+   this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(data.RucEmpresaCliente);
+   ////////////////////////////Pagos Servicios//////////////////////////////
+  // this.ServicioPlantaEditForm.controls.NumeroPagos.setValue(data.Numero);
+  // this.ServicioPlantaEditForm.controls.BancoPagos.setValue(data.BancoId);
+  // this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(data.MonedaId)
+  // this.ServicioPlantaEditForm.controls.EstadoPagos.setValue(data.EstadoId);
+  // this.ServicioPlantaEditForm.controls.NumeroOperacionPagos.setValue(data.NumeroOperacion);
+   //this.ServicioPlantaEditForm.controls.TipoOperacionPago.setValue(data.TipoOperacionPagoServicioId);
+ //  this.ServicioPlantaEditForm.controls.FechaInicioPagos.setValue(data.FechaInicio == null ? "" : formatDate(data.FechaInicio, 'yyyy-MM-dd', 'en'));
+  // this.ServicioPlantaEditForm.controls.FechaFinPagos.setValue(data.FechaFin == null ? "" : formatDate(data.FechaFin, 'yyyy-MM-dd', 'en'));
+  // this.ServicioPlantaEditForm.controls.FechaOperacion.setValue(data.FechaOperacion == null ? "" : formatDate(data.FechaOperacion, 'yyyy-MM-dd', 'en'));
 
     }
     this.spinner.hide();
@@ -959,7 +1236,7 @@ export class ServiciosEditComponent implements OnInit {
       if (result.value) {
         let link = document.createElement('a');
         document.body.appendChild(link);
-        link.href = `${host}OrdenProcesoPlanta/GenerarPDFOrdenProceso?id=${form.codeProcessOrder}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
+        link.href = `${host}OrdenProcesoPlanta/GenerarPDFOrdenProceso?id=${form.ServicioPlantaId}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
         link.target = "_blank";
         link.click();
         link.remove();
@@ -968,7 +1245,7 @@ export class ServiciosEditComponent implements OnInit {
   }
 
   Descargar(): void {
-    const rutaFile = this.ordenProcesoEditForm.value.pathFile;
+    const rutaFile = this.ServicioPlantaEditForm.value.pathFile;
     let link = document.createElement('a');
     document.body.appendChild(link);
     link.href = `${host}OrdenProceso/DescargarArchivo?path=${rutaFile}`;

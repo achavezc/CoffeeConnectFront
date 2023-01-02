@@ -928,7 +928,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
   agregarNotaIngreso(e, tipo) {
 
-    debugger
+    //debugger
 
     if (tipo == 'materiaPrima') 
     {

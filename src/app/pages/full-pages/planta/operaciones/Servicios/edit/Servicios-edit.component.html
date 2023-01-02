@@ -1,4 +1,4 @@
-<form class="needs-validation" [formGroup]="ordenProcesoEditForm">
+<form class="needs-validation" [formGroup]="ServicioPlantaEditForm">
     <section id="tooltip-validation">
         <ng-template #mdlOrdenProceso let-c="close" let-d="dismiss">
         <!--     <div class="modal-header" style="text-align: center;">
@@ -55,21 +55,21 @@
                                     
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <label for="nroOrden">N° Servicio</label>
-                                        <input type="text" name="nroOrden" id="nroOrden" formControlName="nroOrden"
+                                    <label for="Numero">N° Servicio</label>
+                                        <input type="text" name="Numero" id="Numero" formControlName="Numero"
                                             class="form-control"
-                                            [ngClass]="{ 'is-invalid': f.nroOrden.invalid, 'is-valid': !f.nroOrden.invalid }"
+                                            [ngClass]="{ 'is-invalid': f.Numero.invalid, 'is-valid': !f.Numero.invalid }"
                                             placeholder="N° Servicio" [readonly]="true" />
                     
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                
-                            <label for="fechaCabe" >FECHA</label>
+                            <label for="FechaRegistro" >FECHA</label>
                                    
-                                        <input type="date" class="form-control text-center" formControlName="fechaCabe"
-                                            id="fechaCabe" date name="fechaCabe" placeholder="Seleccionar fechaCabe"
+                                        <input type="date" class="form-control text-center" formControlName="FechaRegistro"
+                                            id="FechaRegistro" date name="FechaRegistro" placeholder="Seleccionar Fecha Registro"
                                             [readonly]="true"
-                                            [ngClass]="{ 'is-invalid': f.fechaCabe.invalid, 'is-valid': !f.fechaCabe.invalid }" />
+                                            [ngClass]="{ 'is-invalid': f.FechaRegistro.invalid, 'is-valid': !f.FechaRegistro.invalid }" />
                                    
                             </div>
                         </div>
@@ -139,15 +139,15 @@
                                         </ng-select>
                                     </div>
 
-                            <div class="col-lg-4 col-md-5 col-sm-5">
-                                <label for="TipoComprobante">TIPO COMPROBANTE </label>
-                                    <ng-select [items]="listTipoComprobante" formControlName="TipoComprobante"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoComprobante"
-                                        placeholder="Seleccionar Tipo Comprobante"
-                                        [ngClass]="{ 'is-invalid': f.TipoComprobante.invalid, 'is-valid': !f.TipoComprobante.invalid }"
-                                        [(ngModel)]="selectedTipoComprobante">
-                                    </ng-select>
-                                </div>
+                                    <div class="col-lg-4 col-md-5 col-sm-5">
+                                        <label for="TipoComprobante">TIPO COMPROBANTE</label>
+                                            <ng-select [items]="listTipoComprobante" formControlName="TipoComprobante"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoComprobante"
+                                                placeholder="Seleccionar Tipo Comprobante"
+                                                [ngClass]="{ 'is-invalid': f.TipoComprobante.invalid, 'is-valid': !f.TipoComprobante.invalid }"
+                                                [(ngModel)]="selectedTipoComprobante">
+                                            </ng-select>
+                                        </div>
                               
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                     <label for="Numero" >NUMERO</label>
@@ -168,24 +168,24 @@
                         <div class="form-row">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                
-                                    <label for="RucEmpresaCliente" >RUC</label>
+                                    <label for="nroRucCabe" >RUC</label>
                                     
                                         <input type="text" minlength="5" maxlength="20"
-                                            formControlName="RucEmpresaCliente" class="form-control"
+                                            formControlName="nroRucCabe" class="form-control"
                                             id="validationTooltip04" placeholder="RUC"
-                                            [ngClass]="{ 'is-invalid': f.RucEmpresaCliente.invalid, 'is-valid':  !f.RucEmpresaCliente.invalid }"
+                                            [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid':  !f.nroRucCabe.invalid }"
                                            >
                                    
                                
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                                 
-                                    <label for="ordenProcesoComercial">RAZON SOCIAL</label>
+                                    <label for="razonSocialCabe">RAZON SOCIAL</label>
                                     
                                         <input type="text" minlength="8" maxlength="100"
-                                            formControlName="nombreOrganizacion" class="form-control"
+                                            formControlName="razonSocialCabe" class="form-control"
                                             id="validationTooltip08" placeholder="RAZON SOCIAL"
-                                            [ngClass]="{ 'is-invalid': f.nombreOrganizacion.invalid, 'is-valid': !f.nombreOrganizacion.invalid }"
+                                            [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
                                             >
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-1">
@@ -312,7 +312,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-6">
                                 <label for="Moneda">MONEDA</label>
                                     <ng-select [items]="listTipoMoneda" formControlName="Moneda"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="Moneda"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
                                         placeholder="Seleccionar Moneda"
                                         [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
                                         [(ngModel)]="SelectedTipoMoneda">
@@ -325,93 +325,94 @@
                                        placeholder="Observaciones">
                                 </div> 
                          </div>
-
-
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
-                            <div class="row"  style="margin-right: 6rem; margin-left: 6rem;">
-                                <div class="cold-2" style="margin-top: 2rem;">
-                                  <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModalNotaIngreso(modalAlmacenMateriaPrima,modalAlmacenProductoTerminado)">Agregar
-                                    NIAs</button>
+                
+                            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12" >
+                                <div class="row"  style="margin-right: 6rem; margin-left: 6rem;" *ngIf="OcultarSeccion">
+                                    <div class="cold-2" style="margin-top: 2rem;">
+                                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModalNotaIngreso(modalAlmacenMateriaPrima,modalAlmacenProductoTerminado)">Agregar
+                                        NIAs</button>
+                                    </div>
+                                    <div class="cold-2" style="margin-top: 2rem;">
+                                      <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminarLote(selectLoteDetalle)"
+                                        [disabled]="selectLoteDetalle.length == 0">Eliminar NIAs</button>
+                                    </div>
+                                  </div>
+                            </div>-->
+                            <!--<div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;" >
+                                <div class="col-12">
+                                   <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
+                                    [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                                    [rows]="rowsDetails" [selected]="selectLoteDetalle" [selectionType]="'single'"> 
+    
+                                    <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails" 
+                                    [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"                                [summaryPosition]="'bottom'" >
+    
+                                    <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaIngresoAlmacenString"></ngx-datatable-column>
+                                    <ngx-datatable-column name="N° Nota Ingreso a Almacen Planta" prop="NumeroIngresoAlmacenPlanta"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Sacos Disponibles" prop="CantidadNotaIngreso" [sortable]="false"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Kilos Disponibles" prop="KilosNetosNotaIngreso"></ngx-datatable-column>
+                                    <ngx-datatable-column name="% Humedad" prop="PorcentajeHumedad" [summaryFunc]="emptySumm" *ngIf="!esReproceso"></ngx-datatable-column>
+                                    <ngx-datatable-column name="% Exportable" prop="PorcentajeExportable" [summaryTemplate]="exportable" *ngIf="!esReproceso"></ngx-datatable-column>
+                                    <ngx-datatable-column name="% Descarte" prop="PorcentajeDescarte" [summaryTemplate]="descarte" *ngIf="!esReproceso"></ngx-datatable-column>
+                                    <ngx-datatable-column name="% Cascarilla" prop="PorcentajeCascarilla" [summaryTemplate]="cascarilla" *ngIf="!esReproceso"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Kilos Exportables" prop="KilosExportables" [sortable]="false" *ngIf="!esReproceso"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Sacos / 69" prop="SacosCalculo" *ngIf="!esReproceso"></ngx-datatable-column>
+                                    
+                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false" [summaryFunc]="emptySumm">
+                                        <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                            <input type="number" class="form-control"  [formControlName]="row.NotaIngresoAlmacenPlantaId+'%cantidad'" id="basicInput">
+                                          </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" [summaryFunc]="emptySumm" >
+                                        <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                            <input type="number" class="form-control" id="basicInput">
+                                          </ng-template>
+                                    </ngx-datatable-column>
+                                    
+     
+                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"  >
+                                        <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
+                                            <div class="d-flex align-items-center">
+                                                <input type="number" autofocus  
+                                                    class="form-control form-control-sm"
+                                                    [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
+                                                    (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
+                                                    value="{{Cantidad}}" [disabled]="esHumedo==true">
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" >
+                                        <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value" let-rowIndex="rowIndex">
+                                            <div class="d-flex align-items-center">
+                                                <input type="number" autofocus
+                                                    class="form-control form-control-sm"
+                                                    [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos}"
+                                                    (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
+                                                    value="{{KilosNetos}}" [disabled]="esHumedo==true">
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>   
+    
+                                  </ngx-datatable>
+                                  <ng-template #exportable let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div>
+                                    {{ averageExportable }}
+                                    </div>
+                                  </ng-template>
+                                  <ng-template #descarte let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div>
+                                    {{ averageDescarte }}
+                                    </div>
+                                  </ng-template>
+                                  <ng-template #cascarilla let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div>
+                                    {{ averageCascarilla }}
+                                    </div>
+                                  </ng-template> 
                                 </div>
-                                <div class="cold-2" style="margin-top: 2rem;">
-                                  <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="eliminarLote(selectLoteDetalle)"
-                                    [disabled]="selectLoteDetalle.length == 0">Eliminar NIAs</button>
-                                </div>
-                              </div>
-                        </div>
-                        <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;">
-                            <div class="col-12">
-<!--                               <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
-                                [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-                                [rows]="rowsDetails" [selected]="selectLoteDetalle" [selectionType]="'single'"> -->
-
-                                <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails" 
-                                [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"                                [summaryPosition]="'bottom'" >
-
-                                <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaIngresoAlmacenString"></ngx-datatable-column>
-                                <ngx-datatable-column name="N° Nota Ingreso a Almacen Planta" prop="NumeroIngresoAlmacenPlanta"></ngx-datatable-column>
-                                <ngx-datatable-column name="Sacos Disponibles" prop="CantidadNotaIngreso" [sortable]="false"></ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Disponibles" prop="KilosNetosNotaIngreso"></ngx-datatable-column>
-                                <ngx-datatable-column name="% Humedad" prop="PorcentajeHumedad" [summaryFunc]="emptySumm" *ngIf="!esReproceso"></ngx-datatable-column>
-                                <ngx-datatable-column name="% Exportable" prop="PorcentajeExportable" [summaryTemplate]="exportable" *ngIf="!esReproceso"></ngx-datatable-column>
-                                <ngx-datatable-column name="% Descarte" prop="PorcentajeDescarte" [summaryTemplate]="descarte" *ngIf="!esReproceso"></ngx-datatable-column>
-                                <ngx-datatable-column name="% Cascarilla" prop="PorcentajeCascarilla" [summaryTemplate]="cascarilla" *ngIf="!esReproceso"></ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Exportables" prop="KilosExportables" [sortable]="false" *ngIf="!esReproceso"></ngx-datatable-column>
-                                <ngx-datatable-column name="Sacos / 69" prop="SacosCalculo" *ngIf="!esReproceso"></ngx-datatable-column>
-                                
-                               <!--  <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false" [summaryFunc]="emptySumm">
-                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                                        <input type="number" class="form-control"  [formControlName]="row.NotaIngresoAlmacenPlantaId+'%cantidad'" id="basicInput">
-                                      </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" [summaryFunc]="emptySumm" >
-                                    <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                                        <input type="number" class="form-control" id="basicInput">
-                                      </ng-template>
-                                </ngx-datatable-column>
-                                
- -->
-                                <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"  >
-                                    <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
-                                        <div class="d-flex align-items-center">
-                                            <input type="number" autofocus  
-                                                class="form-control form-control-sm"
-                                                [ngClass]="{ 'border-danger': !Cantidad, '': Cantidad }"
-                                                (blur)="UpdateValuesGridDetails($event, rowIndex, 'Cantidad')"
-                                                value="{{Cantidad}}" [disabled]="esHumedo==true">
-                                        </div>
-                                    </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" >
-                                    <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value" let-rowIndex="rowIndex">
-                                        <div class="d-flex align-items-center">
-                                            <input type="number" autofocus
-                                                class="form-control form-control-sm"
-                                                [ngClass]="{ 'border-danger': !KilosNetos, '': KilosNetos}"
-                                                (blur)="UpdateValuesGridDetails($event, rowIndex, 'KilosNetos')"
-                                                value="{{KilosNetos}}" [disabled]="esHumedo==true">
-                                        </div>
-                                    </ng-template>
-                                </ngx-datatable-column>   
-
-                              </ngx-datatable>
-                              <ng-template #exportable let-row="row" let-name="value" ngx-datatable-cell-template>
-                                <div>
-                                {{ averageExportable }}
-                                </div>
-                              </ng-template>
-                              <ng-template #descarte let-row="row" let-name="value" ngx-datatable-cell-template>
-                                <div>
-                                {{ averageDescarte }}
-                                </div>
-                              </ng-template>
-                              <ng-template #cascarilla let-row="row" let-name="value" ngx-datatable-cell-template>
-                                <div>
-                                {{ averageCascarilla }}
-                                </div>
-                              </ng-template> 
-                            </div>
-                          </div>
+                              </div>-->
+                    
+   
                         <!-- <div class="form-row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group row">
@@ -478,8 +479,208 @@
                                 </div>
                             </div>
                         </div> -->
-        
+                        
+                  
                     </div>
+                    <section id="tooltip-validation">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <!--<h5 class="card-header bg-primary text-white text-center align-middle p-0" >DETALLE SERVICIOS PLANTA</h5>-->
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="form-row bg-primary align-middle mb-2">
+                                                <label for="" class="text-white">PAGOS</label>
+                                            </div>
+                                            <!-- <form class="needs-validation" [formGroup]="ServicioPlantaEditForm" novalidate> -->
+                                                 <div class="form-row">
+                                                    <div class="col-md-4 mb-4 form-group mb-2">
+                                                        <label for="NumeroPagos" class="form-label">Numero Pagos</label>
+                                                        <input type="text" minlength="1" maxlength="30" formControlName="NumeroPagos"
+                                                        class="form-control" id="NumeroPagos" placeholder="Numero Pagos"
+                                                        [ngClass]="{ 'is-invalid': submitted && f.NumeroPagos.invalid, 'is-valid': submitted && !f.NumeroPagos.invalid }">
+                                                      </div>
+                    
+                                                      <div class="col-lg-4 col-md-4 col-sm-6">
+                                                        <label for="BancoPagos">Banco Pagos</label>
+                                                            <ng-select [items]="listTipoBancoPago" formControlName="BancoPagos"
+                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="BancoPagos"
+                                                                placeholder="Seleccionar Banco Pagos"
+                                                                [ngClass]="{ 'is-invalid': f.BancoPagos.invalid, 'is-valid': !f.BancoPagos.invalid }"
+                                                                [(ngModel)]="selectedTipoBancoPago">
+                                                            </ng-select>
+                                                        </div>
+                
+                
+                                                      <div class="col-md-4 mb-4 form-group mb-2">
+                                                        <label for="validationTooltip04">Numero Operacion Pago</label>
+                                                        <input type="text" minlength="1" maxlength="30" formControlName="NumeroOperacionPagos"
+                                                        class="form-control" id="NumeroOperacionPagos" placeholder="Numero Operacion Pago"
+                                                        [ngClass]="{ 'is-invalid': submitted && f.NumeroOperacionPagos.invalid, 'is-valid': submitted && !f.NumeroOperacionPagos.invalid }">
+                                                      </div>
+                
+                                                 </div> 
+                
+                                                <div class="form-row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                                        <label for="MonedaPagos">Moneda Pagos</label>
+                                                            <ng-select [items]="listTipoMonedaPago" formControlName="MonedaPagos"
+                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPagos"
+                                                                placeholder="Seleccionar Moneda Pago"
+                                                                [ngClass]="{ 'is-invalid': f.MonedaPagos.invalid, 'is-valid': !f.MonedaPagos.invalid }"
+                                                                [(ngModel)]="SelectedTipoMonedaPago">
+                                                            </ng-select>
+                                                        </div>
+                    
+                                                      <div class="col-lg-4 col-md-4 col-sm-6">
+                                                        <label for="TipoOperacionPago">Tipo Operacion Pagos</label>
+                                                            <ng-select [items]="listTipoOperacionServicio" formControlName="TipoOperacionPago"
+                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoOperacionPago"
+                                                                placeholder="Seleccionar Tipo Operacion Pagos"
+                                                                [ngClass]="{ 'is-invalid': f.TipoOperacionPago.invalid, 'is-valid': !f.TipoOperacionPago.invalid }"
+                                                                [(ngModel)]="selectedTipoOperacionServicio">
+                                                            </ng-select>
+                                                        </div>
+                
+                
+                                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                                            <label for="EstadoPagos">Estado Pagos </label>
+                                                                <ng-select [items]="listTipoEstadoServicio" formControlName="EstadoPagos"
+                                                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="EstadoPagos"
+                                                                    placeholder="Seleccionar Estado Pago"
+                                                                    [ngClass]="{ 'is-invalid': f.EstadoPagos.invalid, 'is-valid': !f.EstadoPagos.invalid }"
+                                                                    [(ngModel)]="selectedTipoEstadoServicio">
+                                                                </ng-select>
+                                                            </div>
+                                                </div> 
+                
+                                                <div class="form-row">
+                                                    <div class="col-md-4 mb-4 form-group mb-2">
+                                                        <label for="FechaInicioPagos" class="form-label">Fecha Inicio Pagos</label>
+                                                        <input type="date" class="form-control" formControlName="FechaInicioPagos" id="validationTooltip07"
+                                                        name="FechaInicioPagos" placeholder="date" date
+                                                        [ngClass]="{ 'is-invalid': submitted && f.FechaInicioPagos.invalid, 'is-valid': submitted && !f.FechaInicioPagos.invalid }"
+                                                        (blur)="compareFechas()" />
+                                                      <small class="form-text text-muted danger"
+                                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                                    </div>
+                    
+                                                    <div class="col-md-4 mb-4 form-group mb-2">
+                                                        <label for="FechaFinPagos" class="form-label">Fecha Fin Pagos</label>
+                                                        <input type="date" class="form-control" formControlName="FechaFinPagos" id="validationTooltip10"
+                                                        name="FechaFinPagos" placeholder="date" date
+                                                        [ngClass]="{ 'is-invalid': submitted && f.FechaFinPagos.invalid, 'is-valid': submitted && !f.FechaFinPagos.invalid }"
+                                                        (blur)="compareTwoDates()" />
+                                                      <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                                                    </div>
+                                                   
+                                                   
+                                                </div>
+
+                                                <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                                                    <ng-template #modalServicoPlanta let-c="close" let-d="dismiss">
+                                                      <div class="modal-header" style="text-align: center;">
+                                    
+                                                        <h4 class="modal-title" style="font-size: 1rem;">Pago De Servicios Planta </h4>
+                                                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                                          <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <app-ServicioPlanta-edit [popUp]="popUp" (seleccionarEvent)="agregarOrdenProceso($event)">
+                                                        </app-ServicioPlanta-edit>
+                                                      </div>
+                                                    </ng-template>
+                                                  </div>
+                
+                                                <small class="form-text text-muted danger"
+                                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
+                                                <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                                                <!--<button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
+                                                  (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
+                                                  *ngIf="popUp">Seleccionar</button>-->
+                                                  <!--<button class="btn btn-primary mr-1 mb-1" type="button" (click)="()">Nuevo</button>-->
+                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalServicioPlanta(modalServicoPlanta)">Nuevo</button> 
+                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular()">Anular</button> 
+                                                <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="anular()"
+                                                  *ngIf="!popUp">Anular</button>-->
+                                            <!-- </form> -->
+                             
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                
+                    <section id="ngx-datatable-filter">
+                        <div class="row">
+                            <div class="col-12">
+                            </div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <fieldset class="form-group">
+                                                <label>Show
+                                                    <select name="users-list-select"
+                                                        class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                                        (click)="updateLimit($event)">
+                                                        <option value="10">10</option>
+                                                        <option value="25">25</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                    </select>
+                                                    entries</label>
+                                                <label for="ngx-filter-ref" class="float-right">Search:
+                                                    <input id="ngx-filter-ref"
+                                                        class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
+                                                        (keyup)="filterUpdate($event)" />
+                                                </label>
+                                            </fieldset>
+
+
+                                            <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                                                [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                                                [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
+                    
+                                              
+                                               <ngx-datatable-column name="Numero Pago" prop="Numero" width="50">
+                                               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                                               <div class="d-flex align-items-center">
+                                                  <div class="cell-line-height">
+                                                <a class="line-height-1 mb-0"
+                                                [routerLink]="['/planta/operaciones/ServicioPlanta-edit', row.ServicioPlantaId,row.PagoServicioPlantaId]">{{
+                                                name }}</a>
+                                                 </div>
+                                              </div>
+                                           </ng-template>
+                                             </ngx-datatable-column>
+
+                                               <!--- <ngx-datatable-column name="Numero Pagos" prop="Numero" width="40" *ngIf="popUp">
+                                                </ngx-datatable-column>-->   
+                                                <ngx-datatable-column name="Nro Operacion Pago" prop="NumeroOperacion" width="40">
+                                                </ngx-datatable-column>                          
+                                                <ngx-datatable-column name="Tipo Operacion Pago" prop="TipoOperacionPagoServicio" width="40">
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column name="Banco Pago" prop="Banco" width="40">
+                                                </ngx-datatable-column>                            
+                                                <ngx-datatable-column name="Moneda Pago" prop="Moneda" width="40">
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column name="Importe Pago" prop="Importe" width="40">
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column name="Fecha Operacion Pago" prop="FechaOperacion" width="40">
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column name="Estado Pago" prop="Estado" width="40">
+                                                </ngx-datatable-column> 
+                                                </ngx-datatable>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>  
+
                     <div class="card-footer">
                         <div class="form-row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -490,7 +691,7 @@
                                     </div>
                                     <div class="col-lg-6 text-right">
                                        <button type="button" class="btn btn-primary mr-1" (click)="Print()"
-                                            *ngIf="codeProcessOrder > 0">Imprimir</button>
+                                            *ngIf="ServicioPlantaId > 0">Imprimir</button>
                                         <button type="button" class="btn btn-primary mr-1"
                                             (click)="Save()" [disabled]="readonly==true">Guardar</button>
                                         <button type="button" class="btn btn-danger"
@@ -504,6 +705,9 @@
             </div>
         </div>
     </section>
+
+
+
 </form>
 <div class="d-flex justify-content-between align-items-center">
     <ngx-spinner></ngx-spinner>

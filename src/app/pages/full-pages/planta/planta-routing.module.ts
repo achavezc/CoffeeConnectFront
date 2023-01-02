@@ -6,6 +6,7 @@ import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/orden
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
 import { ServiciosListComponent } from './operaciones/Servicios/list/Servicios-list.component';
 import { ServiciosEditComponent } from './operaciones/Servicios/edit/Servicios-edit.component';
+import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaPopup/ServicioPlanta-edit.component';
 
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
@@ -148,6 +149,42 @@ const routes: Routes = [
         component: ServiciosEditComponent,
         data: {
           title: 'ServiciosEdit'
+        }
+      },
+      {
+        path: 'Servicios-edit/:id',
+        component: ServiciosEditComponent,
+        data: {
+          title: 'ServiciosEdit'
+        }
+      },
+      {
+        path: 'Servicios-edit/:ServicioPlantaId',
+        component: ServiciosEditComponent,
+        data: {
+          title: 'ServiciosEdit'
+        }
+      },
+
+      {
+        path: 'ServicioPlanta-edit',
+        component: ServicioPlantaeditComponent,
+        data: {
+          title: 'ServicioPlantaedit'
+        }
+      },
+      {
+        path: 'ServicioPlanta-edit/:id',
+        component: ServicioPlantaeditComponent,
+        data: {
+          title: 'ServicioPlantaedit'
+        }
+      },
+      {
+        path: 'ServicioPlanta-edit/:ServicioPlantaId/:PagoServicioPlantaId',
+        component: ServicioPlantaeditComponent,
+        data: {
+          title: 'ServicioPlantaedit'
         }
       },
     ]
