@@ -242,6 +242,10 @@
 				{
 					"Label":"Nota de Salida"
 				},
+				"Servicios":
+				{
+					"Label":"Servicios"
+				},
 				"LiquidacionProceso":
 				{
 					"Label":"Liquidacion de Proceso"
