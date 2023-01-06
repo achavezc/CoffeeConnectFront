@@ -123,7 +123,7 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6">
                                         <label for="BancoPagos">BANCO PAGOS</label>
                                             <ng-select [items]="listTipoBancoPago" formControlName="BancoPagos"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="BancoId"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="BancoPagos"
                                                 placeholder="Seleccionar Banco"
                                                 [ngClass]="{ 'is-invalid': f.BancoPagos.invalid, 'is-valid': !f.BancoPagos.invalid }"
                                                 [(ngModel)]="selectedTipoBancoPago">
@@ -132,7 +132,7 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6">
                                         <label for="MonedaPagos">MONEDA PAGOS</label>
                                             <ng-select [items]="listTipoMonedaPago" formControlName="MonedaPagos"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPagos"
                                                 placeholder="Seleccionar Moneda"
                                                 [ngClass]="{ 'is-invalid': f.MonedaPagos.invalid, 'is-valid': !f.MonedaPagos.invalid }"
                                                 [(ngModel)]="SelectedTipoMonedaPago">
