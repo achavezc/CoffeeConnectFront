@@ -956,8 +956,9 @@ export class ServiciosEditComponent implements OnInit {
       );
   }*/
 
-  Nuevo(){
-   
+  Nuevo() {
+   // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
+    this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
   }
 
   Save(): void {
@@ -1044,7 +1045,7 @@ export class ServiciosEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             var form = this;
-            this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Planta Actualizado.', function (result) {
+            this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Actualizado.', function (result) {
               form.router.navigate(['/planta/operaciones/Servicios-list']);
             }
             );

@@ -120,8 +120,8 @@ export class ServicioPlantaeditComponent implements OnInit {
   vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  ServicioPlantaId: Number ;
-  PagoServicioPlantaId: Number;
+  ServicioPlantaId: Number;
+  PagoServicioPlantaId: Number = 0;
  // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
@@ -157,16 +157,18 @@ export class ServicioPlantaeditComponent implements OnInit {
   async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.PagoServicioPlantaId = this.route.snapshot.params.PagoServicioPlantaId ? Number(this.route.snapshot.params.PagoServicioPlantaId) : 0;
-    //this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+   // this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    // this.ProyectoInventarioId = this.route.snapshot.params.proyectoinventarioid ?parseInt(this.route.snapshot.params.proyectoinventarioid) : 0;
     this.ServicioPlantaId = this.route.snapshot.params.ServicioPlantaId ? Number(this.route.snapshot.params.ServicioPlantaId) : 0;
-    this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(this.ServicioPlantaId);
-    this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(this.PagoServicioPlantaId);
+    
+   // this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(this.ServicioPlantaId);
+    //this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(this.PagoServicioPlantaId);
     await this.LoadForm();
     this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.ServicioPlantaEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
     this.ServicioPlantaEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
-
+   // this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(this.route.snapshot.params.ServicioPlantaId? Number(this.route.snapshot.params.ServicioPlantaId) : 0);
     this.GetListTipoServicio();
     this.GetListaTipoMoneda();
     this.GetListaTipoMonedaPago();
@@ -464,10 +466,13 @@ export class ServicioPlantaeditComponent implements OnInit {
     return this.selected.indexOf(row) === -1;
   }
 
+//  Nuevo() {
+  //  this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
+ // }
 
 
   Guardar(): void {
-    debugger
+    //debugger
     if (!this.ServicioPlantaEditForm.invalid) {
         const form = this;
         if (this.PagoServicioPlantaId <= 0) {
@@ -491,7 +496,29 @@ export class ServicioPlantaeditComponent implements OnInit {
     }
   }
 
- /* RegistrarPagos(): void {
+  RegistrarPagos(): void {
+    this.spinner.show();
+    const request = this.GetRequest();
+    this.PagoServicioPlantaService.Registrar(request)
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+            "Se registro correctamente el Pago.",
+            () => {
+              this.Cancel();
+            });
+        } else {
+          this.alertUtil.alertError("ERROR!", res.Result.Message);
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.spinner.hide();
+        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
+      });
+  }
+
+  /*RegistrarPagos(): void {
     this.spinner.show();
   //  this.ServicioPlantaId
     const request = this.GetRequest();
@@ -514,99 +541,56 @@ export class ServicioPlantaeditComponent implements OnInit {
       });
   }*/
 
-  /*ActualizarPagos() {
-    this.spinner.show();
-    const request = this.GetRequest();
-    this.PagoServicioPlantaService.Actualizar(request)
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            var form = this;
-            this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Pago Planta Actualizado.', function (result) {
-              form.router.navigate(['/planta/operaciones/Servicios-edit']);
-            }
-            );
 
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
-          } else {
-            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+ ActualizarPagos() {
+  this.spinner.show();
+  const request = this.GetRequest();
+  this.PagoServicioPlantaService.Actualizar(request)
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          var form = this;
+          this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Planta Actualizado.', function (result) {
+            form.router.navigate([`/operaciones/Servicios-edit/${this.ServicioPlantaId}`]);
           }
+          );
+
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
         } else {
           this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
         }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
-        }
-      );
-  }*/
-
-
-  RegistrarPagos(): void {
-    this.spinner.show();
-    var request = this.GetRequest();
-    this.PagoServicioPlantaService.Registrar(request)
-      .subscribe((res: any) => {
+      } else {
+        this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+      }
+    },
+      err => {
         this.spinner.hide();
-        if (res.Result.Success) {
-             {
-            this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-            "Se registro correctamente el Pago.",
-            () => {
-              this.Cancel();
-            });
-          }
-        } else {
-          this.alertUtil.alertError("Error!", res.Result.Message);
-        }
-      }, (err: any) => {
         console.log(err);
-        this.spinner.hide();
-        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
-      });
-
-  }
-  ActualizarPagos(): void {
-    this.spinner.show();
-    const request = this.GetRequest();
-    request.ServicioPlantaId=this.ServicioPlantaId;
-    this.PagoServicioPlantaService.Actualizar(request)
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          this.alertUtil.alertOkCallback("Se Actualizo!", "Se completo correctamente!",
-            () => {
-              this.Cancel();
-            });
-        } else {
-          this.alertUtil.alertError("Error!", res.Result.Message);
-        }
-      }, (err: any) => {
-        console.log(err);
-        this.spinner.hide();
-      });
-
- }
+        this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+      }
+    );
+}
 
 
 
   GetRequest(): any {
 
-    debugger
+   // debugger
     const form = this.ServicioPlantaEditForm.value;
 
     const request =
     {
 
-    PagoServicioPlantaId: this.ServicioPlantaEditForm.controls["PagoServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["PagoServicioPlantaId"].value : 0,
-    ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
-     //PagoServicioPlantaId:    Number(this.PagoServicioPlantaId),
+    //PagoServicioPlantaId: this.ServicioPlantaEditForm.controls["PagoServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["PagoServicioPlantaId"].value : 0,
+    // ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
+      //PagoServicioPlantaId:    Number(this.PagoServicioPlantaId),
       //ServicioPlantaId:    Number(this.ServicioPlantaId),
-     //ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
+      PagoServicioPlantaId:    Number(this.PagoServicioPlantaId),
+      //ServicioPlantaId:    Number(this.ServicioPlantaId),
+      //ServicioPlantaId: this.ServicioPlantaEditForm.value.ServicioPlantaId ? this.ServicioPlantaEditForm.value.ServicioPlantaId : 0,
+     ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
      Numero: this.ServicioPlantaEditForm.controls["NumeroPagos"].value ? this.ServicioPlantaEditForm.controls["NumeroPagos"].value : '',
      NumeroOperacion: this.ServicioPlantaEditForm.controls["NumeroOperacionPagos"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionPagos"].value : '',
      TipoOperacionPagoServicioId: this.ServicioPlantaEditForm.controls["TipoOperacionPago"].value ? this.ServicioPlantaEditForm.controls["TipoOperacionPago"].value : '',
@@ -755,19 +739,12 @@ export class ServicioPlantaeditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate([`/operaciones/Servicios-edit/${this.ServicioPlantaId}`]);
-    //this.router.navigate(['/operaciones/Servicios-edit//:id']);
+    this.router.navigate([`/planta/operaciones/Servicios-edit/${this.ServicioPlantaId}`]);
+    //this.router.navigate(['/operaciones/Servicios-edit']);
+    ///planta/operaciones/Servicios-edit
   }
 
- /* Cancelar(): void {
-    //this.spinner.show();
-   // this.router.navigate(['/adminaccount/proyectoinventario-edit/:id']);
-
-    this.router.navigate([`/adminaccount/proyectoinventario-edit/${this.ProyectoInventarioId}`]);
-
-   //this.spinner.hide();  
-  }*/
-
+ 
   compareFechas() {
     /*
     var anioFechaInicio = new Date(this.ordenProcesoEditForm.controls['fechaInicio'].value).getFullYear()
