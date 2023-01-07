@@ -54,6 +54,7 @@
                 <ng-select [items]="listaCampania" formControlName="campania" class="form-control" bindLabel="Label"
                   bindValue="Codigo" id="validationTooltip12" placeholder="campania"
                   [ngClass]="{ 'is-invalid': submitted && fns.campania.invalid, 'is-valid': submitted && !fns.campania.invalid }"
+                  (change)="GetListConceptos($event)" 
                   [(ngModel)]="selectedCampania">
                 </ng-select>
                 <small class="form-text text-muted danger" *ngIf="fns.campania.errors?.required">Seleccione Campaña</small>

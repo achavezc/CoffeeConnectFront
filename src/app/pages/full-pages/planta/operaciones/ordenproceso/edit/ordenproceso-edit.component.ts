@@ -97,7 +97,13 @@ export class OrdenProcesoEditComponent implements OnInit {
   averageExportable: Number = 0;
   averageDescarte: Number = 0;
   averageCascarilla: Number = 0;
+
+
+  averageKilosNetos: Number = 0;
+  averageKilosDisponibles: Number = 0;
+
   formGroupCantidad: FormGroup;
+
   groupCantidad = {};
 
 
@@ -565,7 +571,6 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
 
   Save(): void {
-    debugger
     if (!this.ordenProcesoEditForm.invalid) {
       if (this.ValidateDataDetails() > 0) {
         const form = this;
@@ -879,7 +884,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   cargarDatos(detalle: any) {
     detalle.forEach(data => {
-      debugger
+      
       let object: any = {};
       object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId
 
@@ -912,8 +917,8 @@ export class OrdenProcesoEditComponent implements OnInit {
       //  object.SacosCalculo = Number(0);
       //}
 
-      object.Cantidad = data.Cantidad
-      object.KilosNetos = data.KilosNetos
+      object.Cantidad = data.Cantidad;
+      object.KilosNetos = data.KilosNetos;
 
       this.listaNotaIngreso.push(object);
     });
@@ -922,6 +927,15 @@ export class OrdenProcesoEditComponent implements OnInit {
   }
   emptySumm() {
     return null;
+  }
+  sumarKilonNetos(obj) {
+    var sumarKilosNetos = 0
+    obj.listaNotaIngreso.forEach(data => {
+      sumarKilosNetos = sumarKilosNetos + data.KilosNetos;
+    });
+
+    var sumarFinal = Number((sumarKilosNetos / obj.listaNotaIngreso.length).toFixed(2));
+    return sumarFinal;
   }
   calcularKilosNetos() {
     return 20;
@@ -961,7 +975,9 @@ export class OrdenProcesoEditComponent implements OnInit {
           var valorRounded = Number(KilosExportables / 69);
           object.SacosCalculo = valorRounded.toFixed(2);
           object.Cantidad = e[0].CantidadDisponible;
-          object.KilosNetos = e[0].KilosNetosDisponibles;
+          
+          var valorRoundedKilosNetos = Number(e[0].KilosNetosDisponibles);
+          object.KilosNetos =valorRoundedKilosNetos.toFixed(2); //e[0].KilosNetosDisponibles;
 
           this.listaNotaIngreso.push(object);
           this.tempDataLoteDetalle = this.listaNotaIngreso;
@@ -1021,14 +1037,28 @@ export class OrdenProcesoEditComponent implements OnInit {
       var sumExportable = 0;
       var sumDescarte = 0;
       var sumCascarilla = 0;
+
+      var sumKilosNetos = 0;
+      var sumKilosDisponibles = 0;
       this.listaNotaIngreso.forEach(data => {
         sumExportable = sumExportable + data.PorcentajeExportable;
         sumDescarte = sumDescarte + data.PorcentajeDescarte;
         sumCascarilla = sumCascarilla + data.PorcentajeCascarilla;
+
+        sumKilosNetos = sumKilosNetos + data.kilosNetos;
+        sumKilosDisponibles = sumKilosDisponibles + data.KilosNetosNotaIngreso;
+
+
       });
       this.averageCascarilla = Number((sumCascarilla / this.listaNotaIngreso.length).toFixed(2));
       this.averageDescarte = Number((sumDescarte / this.listaNotaIngreso.length).toFixed(2));
       this.averageExportable = Number((sumExportable / this.listaNotaIngreso.length).toFixed(2));
+
+      this.averageKilosNetos= Number((sumKilosNetos / this.listaNotaIngreso.length).toFixed(2));
+
+      this.averageKilosDisponibles = Number((sumKilosDisponibles / this.listaNotaIngreso.length).toFixed(2));
+
+
     }
 
   }

@@ -299,7 +299,7 @@ export class NotaIngresoEditComponent implements OnInit {
     });
     
     this.cargaCampania();
-    this.cargaConceptos();
+   // this.cargaConceptos();
 
   }
   async cargarEmpaque() {
@@ -341,11 +341,16 @@ export class NotaIngresoEditComponent implements OnInit {
       this.listaCampania = data.Result.Data;
     }
   }
-    async cargaConceptos() {
+
+  GetListConceptps(event: any): void {
+    this.cargaConceptos(event.Codigo);
+  }
+    async cargaConceptos(codigo: any) {
 
     var data = await this.maestroService.ConsultarConceptos("01").toPromise();
     if (data.Result.Success) {
-      this.listaConcepto = data.Result.Data;
+     // this.listaConcepto = data.Result.Data;
+     this.listaConcepto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
 
   }

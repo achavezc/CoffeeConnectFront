@@ -132,7 +132,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
       }
     });
     this.cargaCampania();
-    this.cargaConceptos();
+   // this.cargaConceptos();
 
     
 
@@ -145,11 +145,15 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     }
 
   }
-    async cargaConceptos() {
+  GetListConceptos(event: any): void {
+    this.cargaConceptos(event.Codigo);
+  }
+    async cargaConceptos(codigo: any) {
 
     var data = await this.maestroService.ConsultarConceptos("02").toPromise();
     if (data.Result.Success) {
-      this.listaConcepto = data.Result.Data;
+     // this.listaConcepto = data.Result.Data;
+      this.listaConcepto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
 
   }

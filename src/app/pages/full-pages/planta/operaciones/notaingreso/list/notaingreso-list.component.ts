@@ -200,10 +200,12 @@ export class NotaIngresoListComponent implements OnInit {
       }
     });
      this.cargaCampania();
-     this.cargaConceptos();
+     //this.cargaConceptos();
     await this.LoadFormPopup();
   }
-  async cargaCampania() {
+
+  async cargaCampania() 
+  {
 
     var data = await this.maestroService.ConsultarCampanias("01").toPromise();
     if (data.Result.Success) {
@@ -211,11 +213,16 @@ export class NotaIngresoListComponent implements OnInit {
     }
 
   }
-    async cargaConceptos() {
+    
+  GetListConceptos(event: any): void {
+    this.cargaConceptos(event.Codigo);
+  }
+  async cargaConceptos(codigo: any) {
 
     var data = await this.maestroService.ConsultarConceptos("01").toPromise();
     if (data.Result.Success) {
-      this.listaConcepto = data.Result.Data;
+     // this.listaConcepto = data.Result.Data;
+      this.listaConcepto = data.Result.Data.filter(obj => obj.Val1 == codigo);
     }
 
   }

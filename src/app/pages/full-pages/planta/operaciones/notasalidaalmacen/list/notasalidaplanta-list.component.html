@@ -86,6 +86,7 @@
                                     <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
                                       bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
                                       [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
+                                      (change)="GetListConceptos($event)" 
                                       [(ngModel)]="selectedCampania">
                                     </ng-select>
                                   </div>
