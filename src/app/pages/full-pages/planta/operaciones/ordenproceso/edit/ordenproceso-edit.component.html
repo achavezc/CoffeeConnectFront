@@ -303,7 +303,7 @@
                                 <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaIngresoAlmacenString"></ngx-datatable-column>
                                 <ngx-datatable-column name="N° Nota Ingreso a Almacen Planta" prop="NumeroIngresoAlmacenPlanta"></ngx-datatable-column>
                                 <ngx-datatable-column name="Sacos Disponibles" prop="CantidadNotaIngreso" [sortable]="false"></ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Disponibles" prop="KilosNetosNotaIngreso"  ></ngx-datatable-column>
+                                <ngx-datatable-column name="Kilos Disponibles" prop="KilosNetosNotaIngreso"></ngx-datatable-column>
                                 <ngx-datatable-column name="% Humedad" prop="PorcentajeHumedad" [summaryFunc]="emptySumm" *ngIf="!esReproceso"></ngx-datatable-column>
                                 <ngx-datatable-column name="% Exportable" prop="PorcentajeExportable" [summaryTemplate]="exportable" *ngIf="!esReproceso"></ngx-datatable-column>
                                 <ngx-datatable-column name="% Descarte" prop="PorcentajeDescarte" [summaryTemplate]="descarte" *ngIf="!esReproceso"></ngx-datatable-column>
@@ -334,7 +334,7 @@
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos"  >
+                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos">
                                     <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value" let-rowIndex="rowIndex">
                                         <div class="d-flex align-items-center">
                                             <input type="number" autofocus
