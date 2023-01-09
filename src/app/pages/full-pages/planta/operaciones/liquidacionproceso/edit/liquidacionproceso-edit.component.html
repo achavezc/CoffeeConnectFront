@@ -189,7 +189,7 @@
                       [formControlName]="row.Codigo+'%kilosNetos'"  disabled>
                   </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="%" prop="LiquidacionProcesoPlantaId" width="45" [formGroup]="formGroupPorcentaje"
+                <ngx-datatable-column name="%" prop="Porcentaje" width="45" [formGroup]="formGroupPorcentaje"
                   [summaryTemplate]="totalPorcentaje">
                   <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                     <input type="number" class="form-control" id="basicInput"

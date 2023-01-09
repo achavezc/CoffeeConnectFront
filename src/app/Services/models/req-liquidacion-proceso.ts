@@ -97,6 +97,7 @@ export class LiquidacionProcesoPlantaResultado
     KilosNetos: number,
     KilosBrutos: number,
     Tara: number,
+    Porcentaje: number,
     EmpaqueId: string,
     TipoId: string,
     LiquidacionProcesoPlantaResultadoId?: number,
@@ -117,6 +118,7 @@ export class LiquidacionProcesoPlantaResultado
         this.KilosNetos = KilosNetos;
         this.KilosBrutos = KilosBrutos;
         this.Tara = Tara;
+        this.Porcentaje = Porcentaje;
         this.EmpaqueId = EmpaqueId;
         this.TipoId = TipoId;
          
@@ -127,6 +129,7 @@ export class LiquidacionProcesoPlantaResultado
     CantidadSacos: number;
     KGN: number;
     KilosNetos: number;
+    Porcentaje: number;
     KilosBrutos: number;
     Tara: number;
     EmpaqueId: string;

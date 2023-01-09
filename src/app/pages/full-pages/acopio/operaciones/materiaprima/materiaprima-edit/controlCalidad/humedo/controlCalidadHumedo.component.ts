@@ -89,8 +89,8 @@ export class ControlCalidadComponentHumedo implements OnInit {
     this.formControlCalidadHumedo = new FormGroup(
       {
         humedad: new FormControl('', Validators.required),
-        exportable : new FormControl('', Validators.required),
-        descarte: new FormControl('', Validators.required),
+        exportable :  new FormControl('', []),
+        descarte:  new FormControl('', []),
         ObservacionAnalisisFisico: new FormControl('', [])
       });
   }
@@ -232,7 +232,9 @@ export class ControlCalidadComponentHumedo implements OnInit {
         controlFormControlCalidad["ObservacionAnalisisFisico"].value,
         listaDetalleOlor,
         listaDetalleColor,
+        0,
         exportablePorcentajeAnalisisFisico,
+        0,
         descartePorcentajeAnalisisFisico
       );
       let json = JSON.stringify(this.reqControlCalidad);

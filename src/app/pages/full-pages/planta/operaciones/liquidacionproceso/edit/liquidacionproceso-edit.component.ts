@@ -649,6 +649,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         var cantidad = 0;
          
         var tara = 0;
+
+        var porcentaje = 0;
+
         var kilosNetos = 0;
         var kilosBrutos = 0;
 
@@ -676,7 +679,11 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
             KGN = Number(this.formGroupKg.get(x.Codigo + '%Kg').value);
 
+            porcentaje = Number(this.formGroupPorcentaje.get(x.Codigo + '%porcentaje').value);
+
              
+            
+
             envases=this.liquidacionProcesoFormEdit.get("envases").value;
             trabajos=this.liquidacionProcesoFormEdit.get("trabajos").value;
             numDefectos=Number(this.liquidacionProcesoFormEdit.get("numDefectos").value);          
@@ -693,6 +700,9 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         kilosBrutos = Number(this.formGroupKilosBrutosHumedo.get(x.Codigo + '%kilosBrutosHumedo').value) ;
 
         KGN = Number(this.formGroupH2OHumedo.get(x.Codigo + '%h2OHumedo').value) ;
+
+        porcentaje = Number(this.formGroupMermaPorcentajeHumedo.get(x.Codigo + '%mermaPorcentajeHumedo').value);
+
       }
     
       observacion=this.liquidacionProcesoFormEdit.get("observacion").value;
@@ -703,7 +713,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
           KGN,
           kilosNetos,
           kilosBrutos,
-          tara,
+          tara,porcentaje,
           this.EmpaqueId,
           this.TipoId
           
