@@ -232,7 +232,9 @@ export class ControlCalidadComponentHumedo implements OnInit {
         controlFormControlCalidad["ObservacionAnalisisFisico"].value,
         listaDetalleOlor,
         listaDetalleColor,
+        0,
         exportablePorcentajeAnalisisFisico,
+        0,
         descartePorcentajeAnalisisFisico
       );
       let json = JSON.stringify(this.reqControlCalidad);
