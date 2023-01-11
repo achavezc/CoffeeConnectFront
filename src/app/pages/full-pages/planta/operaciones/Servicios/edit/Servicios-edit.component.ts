@@ -19,9 +19,9 @@ import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.serv
 import { AuthService } from '../../../../../../services/auth.service';
 
 @Component({
-  selector: 'app-Servicios-edit',
-  templateUrl: './Servicios-edit.component.html',
-  styleUrls: ['./Servicios-edit.component.scss', '/assets/sass/libs/datatables.scss'],
+  selector: 'app-servicios-edit',
+  templateUrl: './servicios-edit.component.html',
+  styleUrls: ['./servicios-edit.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ServiciosEditComponent implements OnInit {

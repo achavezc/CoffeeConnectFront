@@ -10,9 +10,9 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from '../../../../../../services/auth.service';
 
 @Component({
-  selector: 'app-Servicios-list',
-  templateUrl: './Servicios-list.component.html',
-  styleUrls: ['./Servicios-list.component.scss', '/assets/sass/libs/datatables.scss'],
+  selector: 'app-servicios-list',
+  templateUrl: './servicios-list.component.html',
+  styleUrls: ['./servicios-list.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ServiciosListComponent implements OnInit {
