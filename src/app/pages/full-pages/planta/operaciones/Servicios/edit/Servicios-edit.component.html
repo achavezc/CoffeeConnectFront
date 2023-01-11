@@ -166,7 +166,7 @@
                             
                         </div>
                         <div class="form-row">
-                            <div class="col-lg-5 col-md-5 col-sm-5">
+                            <!--<div class="col-lg-5 col-md-5 col-sm-5">
                                
                                     <label for="nroRucCabe" >RUC</label>
                                     
@@ -177,8 +177,17 @@
                                            >
                                    
                                
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            </div>-->
+
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                <label for="rucOrganizacion" >RUC</label>
+                                    <input type="text" id="validationTooltip04"
+                                        formControlName="rucOrganizacion" class="form-control"
+                                        placeholder="RUC"
+                                        [ngClass]="{ 'is-invalid': f.rucOrganizacion.invalid, 'is-valid':  !f.rucOrganizacion.invalid }">
+                                  </div> 
+
+                            <!--<div class="col-lg-6 col-md-6 col-sm-6">
                                                                 
                                     <label for="razonSocialCabe">RAZON SOCIAL</label>
                                     
@@ -187,7 +196,16 @@
                                             id="validationTooltip08" placeholder="RAZON SOCIAL"
                                             [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
                                             >
-                            </div>
+                            </div>-->
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label for="nombreOrganizacion">RAZON SOCIAL</label>
+                                    <input type="text" id="validationTooltip08"
+                                        formControlName="nombreOrganizacion" class="form-control"
+                                        placeholder="RAZON SOCIAL"
+                                        [ngClass]="{ 'is-invalid': f.nombreOrganizacion.invalid, 'is-valid':  !f.nombreOrganizacion.invalid }">
+                                  </div> 
+
                             <div class="col-lg-1 col-md-1 col-sm-1">
                                   <label for="ordenProcesoComercial5"></label>
                                   
@@ -326,7 +344,7 @@
                                 </div> 
                          </div>
                 
-                            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12" >
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12" *ngIf="OcultarSeccion" >
                                 <div class="row"  style="margin-right: 6rem; margin-left: 6rem;" *ngIf="OcultarSeccion">
                                     <div class="cold-2" style="margin-top: 2rem;">
                                       <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="openModalNotaIngreso(modalAlmacenMateriaPrima,modalAlmacenProductoTerminado)">Agregar
@@ -337,16 +355,16 @@
                                         [disabled]="selectLoteDetalle.length == 0">Eliminar NIAs</button>
                                     </div>
                                   </div>
-                            </div>-->
-                            <!--<div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;" >
+                            </div>
+                            <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;"*ngIf="OcultarSeccion">
                                 <div class="col-12">
-                                   <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
+    <!--                               <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
                                     [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-                                    [rows]="rowsDetails" [selected]="selectLoteDetalle" [selectionType]="'single'"> 
+                                    [rows]="rowsDetails" [selected]="selectLoteDetalle" [selectionType]="'single'"> -->
     
                                     <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails" 
-                                    [loadingIndicator]="isLoading" [scrollbarV]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"                                [summaryPosition]="'bottom'" >
-    
+                                    [loadingIndicator]="isLoading" [scrollbarH]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="true"                               [summaryPosition]="'bottom'" >
+                                    
                                     <ngx-datatable-column name="Fec. Ingreso Almacen" prop="FechaIngresoAlmacenString"></ngx-datatable-column>
                                     <ngx-datatable-column name="N° Nota Ingreso a Almacen Planta" prop="NumeroIngresoAlmacenPlanta"></ngx-datatable-column>
                                     <ngx-datatable-column name="Sacos Disponibles" prop="CantidadNotaIngreso" [sortable]="false"></ngx-datatable-column>
@@ -358,7 +376,7 @@
                                     <ngx-datatable-column name="Kilos Exportables" prop="KilosExportables" [sortable]="false" *ngIf="!esReproceso"></ngx-datatable-column>
                                     <ngx-datatable-column name="Sacos / 69" prop="SacosCalculo" *ngIf="!esReproceso"></ngx-datatable-column>
                                     
-                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false" [summaryFunc]="emptySumm">
+                                   <!--  <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false" [summaryFunc]="emptySumm">
                                         <ng-template let-row="row" let-name="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                                             <input type="number" class="form-control"  [formControlName]="row.NotaIngresoAlmacenPlantaId+'%cantidad'" id="basicInput">
                                           </ng-template>
@@ -369,8 +387,8 @@
                                           </ng-template>
                                     </ngx-datatable-column>
                                     
-     
-                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"  >
+     -->
+                                    <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"   >
                                         <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center">
                                                 <input type="number" autofocus  
@@ -381,7 +399,7 @@
                                             </div>
                                         </ng-template>
                                     </ngx-datatable-column>
-                                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" >
+                                    <ngx-datatable-column name="Kilos Netos" prop="KilosNetos">
                                         <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value" let-rowIndex="rowIndex">
                                             <div class="d-flex align-items-center">
                                                 <input type="number" autofocus
@@ -409,80 +427,24 @@
                                     {{ averageCascarilla }}
                                     </div>
                                   </ng-template> 
-                                </div>
-                              </div>-->
-                    
-   
-                        <!-- <div class="form-row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="tipoProduccion" class="col-lg-4 col-form-label">PESO POR SACO kg</label>
-                                    <div class="col-lg-8">
-                                        <input type="number" minlength="1" maxlength="20"
-                                        formControlName="pesoSaco" class="form-control"
-                                        id="validationTooltip08" placeholder="Peso Por Saco kg"
-                                        [ngClass]="{ 'is-invalid': f.pesoSaco.invalid, 'is-valid': !f.pesoSaco.invalid }"
-                                        >
+    
+                                  <ng-template #kilosNetos let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div>
+                                    {{ averageKilosNetos }}
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="calidad" class="col-lg-4 col-form-label">CALIDAD</label>
-                                    <div class="col-lg-8">
-                                        <ng-select [items]="listCalidad" formControlName="calidad" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="calidad"
-                                        placeholder="Seleccionar Calidad"
-                                        [ngClass]="{ 'is-invalid': f.calidad.invalid, 'is-valid': !f.calidad.invalid }"
-                                        [(ngModel)]="selectedCalidad">
-                                        </ng-select>
+                                  </ng-template> 
+    
+                                  <ng-template #kilosDisponibles let-row="row" let-name="value" ngx-datatable-cell-template>
+                                    <div>
+                                    {{ averageKilosDisponibles }}
                                     </div>
+                                  </ng-template> 
+    
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="tipoProduccion" class="col-lg-4 col-form-label">TOTAL KILOS BRUTOS</label>
-                                    <div class="col-lg-8">
-                                        <input type="number" minlength="1" maxlength="20"
-                                        formControlName="totalKilosBrutos" class="form-control"
-                                        id="validationTooltip08" placeholder="Total Kilos Brutos"
-                                        [ngClass]="{ 'is-invalid': f.totalKilosBrutos.invalid, 'is-valid': !f.totalKilosBrutos.invalid }"
-                                        >
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    <label for="grado" class="col-lg-4 col-form-label">GRADO</label>
-                                    <div class="col-lg-8">
-                                        <ng-select [items]="listGrado" formControlName="grado" class="form-control"
-                                        bindLabel="Label" bindValue="Codigo" id="grado"
-                                        placeholder="Seleccionar Grado"
-                                        [ngClass]="{ 'is-invalid': f.grado.invalid, 'is-valid': !f.grado.invalid }"
-                                        [(ngModel)]="selectedGrado">
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group row">
-                                    
-                                </div>
-                            </div>
-                        </div> -->
-                        
-                  
-                    </div>
-                    <section id="tooltip-validation">
+                              </div>
+                      
+
+                    <section id="ngx-datatable-filter"*ngIf="OcultarSeccion">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -613,7 +575,7 @@
                         </div>
                     </section>
                 
-                    <section id="ngx-datatable-filter">
+                    <section id="ngx-datatable-filter"*ngIf="OcultarSeccion">
                         <div class="row">
                             <div class="col-12">
                             </div>
@@ -690,8 +652,8 @@
                                             *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                                     </div>
                                     <div class="col-lg-6 text-right">
-                                       <button type="button" class="btn btn-primary mr-1" (click)="Print()"
-                                            *ngIf="ServicioPlantaId > 0">Imprimir</button>
+                                      <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
+                                            *ngIf="ServicioPlantaId > 0">Imprimir</button>-->
                                         <button type="button" class="btn btn-primary mr-1"
                                             (click)="Save()" [disabled]="readonly==true">Guardar</button>
                                         <button type="button" class="btn btn-danger"
@@ -703,6 +665,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

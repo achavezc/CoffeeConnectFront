@@ -173,13 +173,13 @@ const routes: Routes = [
           title: 'ServicioPlantaedit'
         }
       },
-      /*{
+      {
         path: 'ServicioPlanta-edit/:ServicioPlantaId',
         component: ServicioPlantaeditComponent,
         data: {
           title: 'ServicioPlantaedit'
         }
-      },*/
+      },
       {
         path: 'ServicioPlanta-edit/:ServicioPlantaId/:PagoServicioPlantaId',
         component: ServicioPlantaeditComponent,

@@ -81,7 +81,7 @@
                             <div class="form-row bg-primary align-middle mb-2">
                                 <label for="" class="text-white">Datos Generales</label>
                             </div>
-                            <form class="needs-validation" [formGroup]="ServicioPlantaEditForm" novalidate>
+                            <form class="needs-validation" [formGroup]="ServicioPlantaEditForm">
                                 <div class="form-row">
                                     <!--<div class="col-md-4 mb-4 form-group mb-2">
                                         <label for="Numero" class="form-label">Numero</label>
@@ -91,7 +91,7 @@
                                       </div>-->
                                       <div class="col-md-4 mb-4 form-group mb-2">
                                         <label for="validationTooltip04">NUMERO OPERACION PAGOS</label>
-                                        <input type="text" minlength="5" maxlength="100" formControlName="NumeroOperacionPagos"
+                                        <input type="text" formControlName="NumeroOperacionPagos"
                                         class="form-control" id="NumeroOperacionPagos" placeholder="Numero Operacion Pagos"
                                         [ngClass]="{ 'is-invalid': submitted && f.NumeroOperacionPagos.invalid, 'is-valid': submitted && !f.NumeroOperacionPagos.invalid }">
                                       </div>

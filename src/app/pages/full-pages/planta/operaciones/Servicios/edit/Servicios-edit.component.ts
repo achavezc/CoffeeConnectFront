@@ -185,7 +185,7 @@ export class ServiciosEditComponent implements OnInit {
     //this.GetGrado();
     if (this.ServicioPlantaId <= 0) {
       this.ServicioPlantaEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
-      this.ServicioPlantaEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
+      //this.ServicioPlantaEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
      //this.ServicioPlantaEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
      //this.ServicioPlantaEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
      //this.addRowDetail();
@@ -193,7 +193,7 @@ export class ServiciosEditComponent implements OnInit {
       this.ConsultaPorId(this.ServicioPlantaId);
     }
     
-    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm);
+  //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm);
     this.OcultarSecciones();
   }
 
@@ -958,7 +958,8 @@ export class ServiciosEditComponent implements OnInit {
 
   Nuevo() {
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
-    this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
+    //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
+    this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
   }
 
   Save(): void {
@@ -1124,8 +1125,8 @@ export class ServiciosEditComponent implements OnInit {
       //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
       this.ServicioPlantaEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
       this.ServicioPlantaEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-      this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
-      this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
+     // this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
+     // this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
       if (data.EstadoId)
         this.ServicioPlantaEditForm.controls.estado.setValue(data.EstadoId);
       //this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
@@ -1165,8 +1166,8 @@ export class ServiciosEditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
    this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
-   this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(data.RazonSocialEmpresaCliente);
-   this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(data.RucEmpresaCliente);
+   this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
+  this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
    ////////////////////////////Pagos Servicios//////////////////////////////
   // this.ServicioPlantaEditForm.controls.NumeroPagos.setValue(data.Numero);
   // this.ServicioPlantaEditForm.controls.BancoPagos.setValue(data.BancoId);

@@ -121,7 +121,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   ServicioPlantaId: Number;
-  PagoServicioPlantaId: Number = 0;
+  PagoServicioPlantaId: Number;
  // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
@@ -157,7 +157,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.PagoServicioPlantaId = this.route.snapshot.params.PagoServicioPlantaId ? Number(this.route.snapshot.params.PagoServicioPlantaId) : 0;
-   // this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+   // this.ServicioPlantaId = this.route.snapshot.params['ServicioPlantaId'] ? Number(this.route.snapshot.params['ServicioPlantaId']) : 0;
     // this.ProyectoInventarioId = this.route.snapshot.params.proyectoinventarioid ?parseInt(this.route.snapshot.params.proyectoinventarioid) : 0;
     this.ServicioPlantaId = this.route.snapshot.params.ServicioPlantaId ? Number(this.route.snapshot.params.ServicioPlantaId) : 0;
     
@@ -280,16 +280,16 @@ export class ServicioPlantaeditComponent implements OnInit {
       
       ///////////////////////////77
       NumeroPagos:['',''],
-      BancoPagos:['',''],
-      NumeroOperacionPagos:['',''],
-      MonedaPagos:['',],
+      BancoPagos:['', Validators.required],
+      NumeroOperacionPagos:['', Validators.required],
+      MonedaPagos:['', Validators.required],
       TipoOperacion:['',''],
       TipoOperacionPagoServicioId:['',''],
       TipoOperacionPagoServicio:['',''],
-      TipoOperacionPago:['',''],
+      TipoOperacionPago:['', Validators.required],
       EstadoPagos:[],
       ObservacionPagos: ['', ''],
-      ImportePagos: ['', ''],
+      ImportePagos:['', Validators.required],
       //FechaOperacion:['',''],
       FechaInicioPagos:['',''],
       FechaFinPagos:['',''],
@@ -300,7 +300,8 @@ export class ServicioPlantaeditComponent implements OnInit {
       nroRucPago: ['',],
       
       //////Grilla campos////////////
-      FechaOperacionPagos:['','']
+      FechaOperacionPagos:['', Validators.required],
+      FechaRegistroPagos:['','']
 
     });
     this.ServicioPlantaEditForm.controls.EstadoPagos.disable();
@@ -490,9 +491,9 @@ export class ServicioPlantaeditComponent implements OnInit {
             }
           });
         }
-      /* else {
+       else {
         this.alertUtil.alertWarning('ADVERTENCIA!', 'No pueden existir datos vacios en el detalle, por favor corregir.');
-      }*/
+      }
     }
   }
 
@@ -551,11 +552,10 @@ export class ServicioPlantaeditComponent implements OnInit {
       if (res.Result.Success) {
         if (res.Result.ErrCode == "") {
           var form = this;
-          this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Planta Actualizado.', function (result) {
-            form.router.navigate([`/operaciones/Servicios-edit/${this.ServicioPlantaId}`]);
-          }
-          );
-
+        this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se actualizo exitosamente.', () => {
+          this.Cancel();
+        });
+          
         } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
           this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
         } else {
@@ -572,7 +572,28 @@ export class ServicioPlantaeditComponent implements OnInit {
       }
     );
 }
-
+/*ActualizarPagos(): void {
+  this.spinner.show();
+  const request = this.GetRequest();
+  this.PagoServicioPlantaService.Actualizar(request)
+  .subscribe(res => {
+    this.spinner.hide();
+    if (res.Result.Success) {
+      if (res.Result.ErrCode == "") {
+        var form = this;
+      this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se actualizo exitosamente.', () => {
+        this.Cancel();
+      });
+    } else {
+      this.errorGeneral = { isError: true, msgError: res.Result.Message };
+    }
+  }, (err: any) => {
+    console.log(err);
+    this.spinner.hide();
+    this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+  };
+}
+*/
 
 
   GetRequest(): any {
@@ -583,14 +604,9 @@ export class ServicioPlantaeditComponent implements OnInit {
     const request =
     {
 
-    //PagoServicioPlantaId: this.ServicioPlantaEditForm.controls["PagoServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["PagoServicioPlantaId"].value : 0,
-    // ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
-      //PagoServicioPlantaId:    Number(this.PagoServicioPlantaId),
-      //ServicioPlantaId:    Number(this.ServicioPlantaId),
       PagoServicioPlantaId:    Number(this.PagoServicioPlantaId),
-      //ServicioPlantaId:    Number(this.ServicioPlantaId),
-      //ServicioPlantaId: this.ServicioPlantaEditForm.value.ServicioPlantaId ? this.ServicioPlantaEditForm.value.ServicioPlantaId : 0,
-     ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
+      ServicioPlantaId:    Number(this.ServicioPlantaId),
+     //ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
      Numero: this.ServicioPlantaEditForm.controls["NumeroPagos"].value ? this.ServicioPlantaEditForm.controls["NumeroPagos"].value : '',
      NumeroOperacion: this.ServicioPlantaEditForm.controls["NumeroOperacionPagos"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionPagos"].value : '',
      TipoOperacionPagoServicioId: this.ServicioPlantaEditForm.controls["TipoOperacionPago"].value ? this.ServicioPlantaEditForm.controls["TipoOperacionPago"].value : '',
@@ -684,10 +700,6 @@ export class ServicioPlantaeditComponent implements OnInit {
       this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
       this.ServicioPlantaEditForm.controls.estado.disable();
 
-   /////////Camppos del api servicio planta ////////////////////////7
-   
-   this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(data.PagoServicioPlantaId);
-   this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(data.ServicioPlantaId);
    //this.ServicioPlantaEditForm.controls.Numero.setValue(data.Numero);
 
    //if (data.Numero){
@@ -719,6 +731,10 @@ export class ServicioPlantaeditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.razonSocialPago.setValue(data.RazonSocialEmpresaCliente);
    this.ServicioPlantaEditForm.controls.nroRucPago.setValue(data.RucEmpresaCliente);
    //////////////////////////////////////////////////////////
+      /////////Camppos del api Por Id servicio planta ////////////////////////7
+   
+   this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(data.PagoServicioPlantaId);
+   this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(data.ServicioPlantaId);
    this.ServicioPlantaEditForm.controls.NumeroPagos.setValue(data.Numero);
    this.ServicioPlantaEditForm.controls.BancoPagos.setValue(data.BancoId);
    this.ServicioPlantaEditForm.controls.ImportePagos.setValue(data.Importe);
@@ -727,11 +743,15 @@ export class ServicioPlantaeditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.NumeroOperacionPagos.setValue(data.NumeroOperacion);
    this.ServicioPlantaEditForm.controls.TipoOperacionPago.setValue(data.TipoOperacionPagoServicioId);
    this.ServicioPlantaEditForm.controls.ObservacionPagos.setValue(data.Observaciones);
+   this.ServicioPlantaEditForm.controls.FechaOperacionPagos.setValue(data.FechaOperacion == null ? "" : formatDate(data.FechaOperacion, 'yyyy-MM-dd', 'en'));
+   //this.ServicioPlantaEditForm.controls.FechaRegistroPagos.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
+
+
    //EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
    
   // this.ServicioPlantaEditForm.controls.FechaRegistroPago.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaInicio, 'yyyy-MM-dd', 'en'));
   // this.ServicioPlantaEditForm.controls.FechaFinPagos.setValue(data.FechaFin == null ? "" : formatDate(data.FechaFin, 'yyyy-MM-dd', 'en'));
-   this.ServicioPlantaEditForm.controls.FechaOperacionPagos.setValue(data.FechaOperacion == null ? "" : formatDate(data.FechaOperacion, 'yyyy-MM-dd', 'en'));
+
    //this.EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
 
     }
