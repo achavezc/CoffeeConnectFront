@@ -253,7 +253,7 @@ export class ServiciosListComponent implements OnInit {
   }
   
   Nuevo(): void {
-    this.router.navigate(['/planta/operaciones/Servicios-edit']);
+    this.router.navigate(['/planta/operaciones/servicios-edit']);
   }
 
   Seleccionar(selected)

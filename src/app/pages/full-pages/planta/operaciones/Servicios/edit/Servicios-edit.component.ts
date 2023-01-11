@@ -959,7 +959,7 @@ export class ServiciosEditComponent implements OnInit {
   Nuevo() {
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
-    this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
+    this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}`]);
   }
 
   Save(): void {
@@ -1267,7 +1267,7 @@ export class ServiciosEditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate(['/planta/operaciones/Servicios-list']);
+    this.router.navigate(['/planta/operaciones/servicios-list']);
   }
 
   compareFechas() {

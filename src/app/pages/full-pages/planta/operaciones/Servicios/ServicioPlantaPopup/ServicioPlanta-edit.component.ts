@@ -759,7 +759,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate([`/planta/operaciones/Servicios-edit/${this.ServicioPlantaId}`]);
+    this.router.navigate([`/planta/operaciones/servicios-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/operaciones/Servicios-edit']);
     ///planta/operaciones/Servicios-edit
   }
