@@ -1047,7 +1047,7 @@ export class ServiciosEditComponent implements OnInit {
           if (res.Result.ErrCode == "") {
             var form = this;
             this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Actualizado.', function (result) {
-              form.router.navigate(['/planta/operaciones/Servicios-list']);
+              form.router.navigate(['/planta/operaciones/servicios-list']);
             }
             );
 
