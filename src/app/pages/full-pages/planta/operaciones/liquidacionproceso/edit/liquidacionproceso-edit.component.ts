@@ -366,8 +366,10 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     else
     {
 
-      debugger
+      
       this.EsHumedo = true;
+      this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
+      this.responsable = data.UsuarioRegistro;
 
       let object: any = {};
       object.Codigo = '02'; //Seco
@@ -404,7 +406,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.formGroupMermaKilosNetosHumedo = new FormGroup(groupMermaKilosNetosHumedo);
         this.formGroupMermaPorcentajeHumedo = new FormGroup(groupMermaPorcentajeHumedo);
 
-        debugger
+        
 
       data.Resultado.forEach(
         x => {
