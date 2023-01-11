@@ -7,7 +7,7 @@ import { DateUtil } from '../../../../../../services/util/date-util';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import {AuthService} from './../../../../../../services/auth.service';
+import {AuthService} from '../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-Servicios-list',

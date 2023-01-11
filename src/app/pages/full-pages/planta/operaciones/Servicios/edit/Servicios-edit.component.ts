@@ -16,7 +16,7 @@ import { ControlCalidadService } from '../../../../../../Services/control-calida
 import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
 import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
-import { AuthService } from './../../../../../../services/auth.service';
+import { AuthService } from '../../../../../../services/auth.service';
 
 @Component({
   selector: 'app-Servicios-edit',

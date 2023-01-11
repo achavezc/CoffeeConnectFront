@@ -4,9 +4,9 @@ import { NotaIngresoListComponent } from './operaciones/notaingreso/list/notaing
 import { ControlCalidadListComponent } from './operaciones/controlcalidad/list/controlcalidad-list.component';
 import { OrdenProcesoListComponent } from './operaciones/ordenproceso/list/ordenproceso-list.component';
 import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/ordenproceso-edit.component';
-import { ServiciosListComponent } from './operaciones/Servicios/list/Servicios-list.component';
-import { ServiciosEditComponent } from './operaciones/Servicios/edit/Servicios-edit.component';
-import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaPopup/ServicioPlanta-edit.component';
+import { ServiciosListComponent } from './operaciones/Servicios/list/servicios-list.component';
+import { ServiciosEditComponent } from './operaciones/Servicios/edit/servicios-edit.component';
+import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaPopup/servicioPlanta-edit.component';
 
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
