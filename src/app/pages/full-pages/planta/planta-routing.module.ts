@@ -137,7 +137,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'Servicios-list',
+        path: 'servicios-list',
         component: ServiciosListComponent,
         data:
         {
@@ -145,21 +145,21 @@ const routes: Routes = [
         }
       },
       {
-        path: 'Servicios-edit',
+        path: 'servicios-edit',
         component: ServiciosEditComponent,
         data: {
           title: 'ServiciosEdit'
         }
       },
       {
-        path: 'Servicios-edit/:id',
+        path: 'servicios-edit/:id',
         component: ServiciosEditComponent,
         data: {
           title: 'ServiciosEdit'
         }
       },
       {
-        path: 'Servicios-edit/:ServicioPlantaId',
+        path: 'servicios-edit/:ServicioPlantaId',
         component: ServiciosEditComponent,
         data: {
           title: 'ServiciosEdit'
@@ -167,21 +167,21 @@ const routes: Routes = [
       },
 
       {
-        path: 'ServicioPlanta-edit',
+        path: 'servicioPlanta-edit',
         component: ServicioPlantaeditComponent,
         data: {
           title: 'ServicioPlantaedit'
         }
       },
       {
-        path: 'ServicioPlanta-edit/:ServicioPlantaId',
+        path: 'servicioPlanta-edit/:ServicioPlantaId',
         component: ServicioPlantaeditComponent,
         data: {
           title: 'ServicioPlantaedit'
         }
       },
       {
-        path: 'ServicioPlanta-edit/:ServicioPlantaId/:PagoServicioPlantaId',
+        path: 'servicioPlanta-edit/:ServicioPlantaId/:PagoServicioPlantaId',
         component: ServicioPlantaeditComponent,
         data: {
           title: 'ServicioPlantaedit'
