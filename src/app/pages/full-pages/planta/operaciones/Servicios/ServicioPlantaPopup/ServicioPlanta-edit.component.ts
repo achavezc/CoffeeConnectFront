@@ -58,6 +58,9 @@ export class ServicioPlantaeditComponent implements OnInit {
   esReproceso = false;
   //listCertificacion = [];
 
+  listaCampania:any[];
+  selectedCampania:any;
+
   listTipoServicio: [] = [];
   selectedTipoServicio: any;
 
@@ -193,7 +196,7 @@ export class ServicioPlantaeditComponent implements OnInit {
       
       this.ConsultaPorId(this.PagoServicioPlantaId);
     }
-    
+    this.cargaCampania();
     //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm);
     this.OcultarSecciones();
   }
@@ -247,6 +250,7 @@ export class ServicioPlantaeditComponent implements OnInit {
       productoTerminado: ['',],
       fechaInicio: [],
       fechaFin: [],
+      Campania: new FormControl('',[]),
       EmpresaId:['',''],
 /////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
       ServicioPlantaId:['',''],
@@ -315,7 +319,15 @@ export class ServicioPlantaeditComponent implements OnInit {
     return this.ServicioPlantaEditForm.controls;
   }
 
- 
+  async cargaCampania() 
+  {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
 
   async GetListTipoServicio() {
     let res = await this.maestroService.obtenerMaestros('TipoServicioPlanta').toPromise();

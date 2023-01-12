@@ -244,8 +244,6 @@
                             </div> 
 
                         </div>
-                            
-    
                          <div class="form-row">
 
                             <div class="col-lg-4 col-md-6 col-sm-6">
@@ -268,7 +266,6 @@
                                    placeholder="Cantidad">
                             </div>
                          </div>
-                         
                          <div class="form-row">
 
                             <div class="col-lg-4 col-md-6 col-sm-6">
@@ -327,7 +324,15 @@
                          </div>
 
                          <div class="from-row">
-                            <div class="col-lg-3 col-md-3 col-sm-6">
+                            <div class="col-md-4 mb-4 form-group mb-2">
+                                <label for="validationTooltip12">Campaña</label>
+                                <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
+                                  bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
+                                  [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
+                                  [(ngModel)]="selectedCampania">
+                                </ng-select>
+                              </div>
+                            <div  class="col-md-4 mb-4 form-group mb-2">
                                 <label for="Moneda">MONEDA</label>
                                     <ng-select [items]="listTipoMoneda" formControlName="Moneda"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
@@ -336,7 +341,8 @@
                                         [(ngModel)]="SelectedTipoMoneda">
                                     </ng-select>
                                 </div>
-                                <div class="col-md-3 col-md-3 col-sm-6">
+
+                                <div  class="col-md-4 mb-4 form-group mb-2">
                                     <label for="Observaciones" >Observaciones</label>
                                         <input type="text" name="Observaciones" id="Observaciones"
                                        formControlName="Observaciones" class="form-control"
@@ -419,7 +425,7 @@
                                                 </div> 
                 
                                                 <div class="form-row">
-                                                    <div class="col-md-4 mb-4 form-group mb-2">
+                                                    <div class="col-lg-4 col-md-4 col-sm-6">
                                                         <label for="FechaInicioPagos" class="form-label">Fecha Inicio Pagos</label>
                                                         <input type="date" class="form-control" formControlName="FechaInicioPagos" id="validationTooltip07"
                                                         name="FechaInicioPagos" placeholder="date" date
@@ -429,7 +435,7 @@
                                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                                     </div>
                     
-                                                    <div class="col-md-4 mb-4 form-group mb-2">
+                                                    <div class="col-lg-4 col-md-4 col-sm-6">
                                                         <label for="FechaFinPagos" class="form-label">Fecha Fin Pagos</label>
                                                         <input type="date" class="form-control" formControlName="FechaFinPagos" id="validationTooltip10"
                                                         name="FechaFinPagos" placeholder="date" date
@@ -437,6 +443,15 @@
                                                         (blur)="compareTwoDates()" />
                                                       <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                                                     </div>
+
+                                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                                        <label for="validationTooltip12">Campaña</label>
+                                                        <ng-select [items]="listaCampania2" formControlName="Campania2" class="form-control" bindLabel="Label"
+                                                          bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
+                                                          [ngClass]="{ 'is-invalid': submitted && f.Campania2.invalid, 'is-valid': submitted && !f.Campania2.invalid }" 
+                                                          [(ngModel)]="selectedCampania2">
+                                                        </ng-select>
+                                                      </div>
                                                    
                                                    
                                                 </div>

@@ -289,7 +289,7 @@ export class CorrelativoPlantaEditComponent implements OnInit {
       
       CodigoTipoConcepto: this.CorrelativoEditForm.value.CodigoTipoConcepto ? this.CorrelativoEditForm.value.CodigoTipoConcepto : '',
       CantidadDigitosPlanta: String( this.CorrelativoEditForm.value.CantidadDigitosPlanta )?String( this.CorrelativoEditForm.value.CantidadDigitosPlanta) : '8',    
-      Prefijo:  this.CorrelativoEditForm.value.CodigoTipo ? this.CorrelativoEditForm.value.CodigoTipo : '',
+      Prefijo:  this.CorrelativoEditForm.value.Prefijo ? this.CorrelativoEditForm.value.Prefijo : '',
       Contador: this.CorrelativoEditForm.value.Contador ? this.CorrelativoEditForm.value.Contador : '',
       Tipo: this.CorrelativoEditForm.value.Tipo ? this.CorrelativoEditForm.value.Tipo : '',
       Concepto: this.CorrelativoEditForm.value.Concepto ? this.CorrelativoEditForm.value.Concepto : '',

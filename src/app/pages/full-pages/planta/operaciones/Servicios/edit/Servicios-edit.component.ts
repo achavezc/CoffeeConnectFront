@@ -90,6 +90,8 @@ export class ServiciosEditComponent implements OnInit {
 
 
   listaCertificacion: any[];
+  listaCampania:any[];
+  listaCampania2:any[];
   listProducto = [];
   listCertificadora = [];
   listSubProducto = [];
@@ -99,6 +101,8 @@ export class ServiciosEditComponent implements OnInit {
   listSubProductoTerminado = [];
   listCalidad = [];
   listGrado = [];
+  selectedCampania:any;
+  selectedCampania2:any;
   selectedGrado: any;
   selectedCalidad: any;
   selectedProductoTerminado: any;
@@ -192,7 +196,8 @@ export class ServiciosEditComponent implements OnInit {
     } else if (this.ServicioPlantaId > 0) {
       this.ConsultaPorId(this.ServicioPlantaId);
     }
-    
+    this.cargaCampania();
+    this.cargaCampania2();
   //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm);
     this.OcultarSecciones();
   }
@@ -453,6 +458,8 @@ export class ServiciosEditComponent implements OnInit {
       MonedaId:['',''],
       TotalImporte: ['', ''],
       Observaciones: ['', ''],
+      Campania: new FormControl('',[]),
+      Campania2:new FormControl('',[]),
       estadoServicio:['',''],
       /////////////Pagos Servicios//////////////77
       NumeroPagos:['',''],
@@ -479,6 +486,26 @@ export class ServiciosEditComponent implements OnInit {
 
   get f() {
     return this.ServicioPlantaEditForm.controls;
+  }
+
+  async cargaCampania() 
+  {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
+
+  async cargaCampania2() 
+  {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania2 = data.Result.Data;
+    }
+
   }
 
   async GetTipoProcesos() {
@@ -811,6 +838,9 @@ export class ServiciosEditComponent implements OnInit {
      MonedaId:this.ServicioPlantaEditForm.controls["Moneda"].value ? this.ServicioPlantaEditForm.controls["Moneda"].value : '',
      TotalImporte:this.ServicioPlantaEditForm.controls["TotalImporte"].value ? this.ServicioPlantaEditForm.controls["TotalImporte"].value : 0,
      Observaciones:this.ServicioPlantaEditForm.controls["Observaciones"].value ? this.ServicioPlantaEditForm.controls["Observaciones"].value : '',
+     CodigoCampania:this.ServicioPlantaEditForm.controls["Campania"].value ? this.ServicioPlantaEditForm.controls["Campania"].value:"",
+     RazonSocialEmpresaCliente:this.ServicioPlantaEditForm.controls["nombreOrganizacion"].value ? this.ServicioPlantaEditForm.controls["nombreOrganizacion"].value:"",
+     RucEmpresaCliente:this.ServicioPlantaEditForm.controls["rucOrganizacion"].value ? this.ServicioPlantaEditForm.controls["rucOrganizacion"].value:"",
      //EstadoId:this.ordenProcesoEditForm.controls["estadoServicio"].value ? this.ordenProcesoEditForm.controls["estadoServicio"].value : '',
      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
@@ -1166,6 +1196,7 @@ export class ServiciosEditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
    this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
+   this.ServicioPlantaEditForm.controls.Campania.setValue(data.CodigoCampania);
    this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
   this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
    ////////////////////////////Pagos Servicios//////////////////////////////

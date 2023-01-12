@@ -74,16 +74,16 @@
                                   </div>
 
                                   <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="RazonSocial" class="form-label">Razon Social</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="RazonSocial"
-                                    class="form-control" id="RazonSocial" placeholder="Razon Social"
-                                    [ngClass]="{ 'is-invalid': submitted && f.RazonSocial.invalid, 'is-valid': submitted && !f.RazonSocial.invalid }">
+                                    <label for="nombreOrganizacion" class="form-label">Razon Social</label>
+                                    <input type="text" minlength="5" maxlength="100" formControlName="nombreOrganizacion"
+                                    class="form-control" id="nombreOrganizacion" placeholder="Razon Social"
+                                    [ngClass]="{ 'is-invalid': submitted && f.nombreOrganizacion.invalid, 'is-valid': submitted && !f.nombreOrganizacion.invalid }">
                                   </div>
                                   <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="Ruc" class="form-label">Ruc</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="Ruc"
-                                    class="form-control" id="Ruc" placeholder="Ruc"
-                                    [ngClass]="{ 'is-invalid': submitted && f.Ruc.invalid, 'is-valid': submitted && !f.Ruc.invalid }">
+                                    <label for="rucOrganizacion" class="form-label">Ruc</label>
+                                    <input type="text" minlength="5" maxlength="100" formControlName="rucOrganizacion"
+                                    class="form-control" id="rucOrganizacion" placeholder="rucOrganizacion"
+                                    [ngClass]="{ 'is-invalid': submitted && f.rucOrganizacion.invalid, 'is-valid': submitted && !f.rucOrganizacion.invalid }">
                                   </div>
                             </div>
 
@@ -189,6 +189,8 @@
                             <ngx-datatable-column name="Nro Operacion" prop="NumeroOperacionRelacionada" width="90">
                             </ngx-datatable-column>                          
                             <ngx-datatable-column name="TipoServicio" prop="TipoServicio" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Campaña" prop="CodigoCampania" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Tipo Comprobante" prop="TipoComprobante" width="60">
                             </ngx-datatable-column>                            
