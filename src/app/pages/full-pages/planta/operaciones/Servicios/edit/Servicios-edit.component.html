@@ -263,7 +263,8 @@
                                 <label for="Cantidad" >Cantidad</label>
                                     <input type="number" name="Cantidad" id="Cantidad"
                                    formControlName="Cantidad" class="form-control"
-                                   placeholder="Cantidad">
+                                   placeholder="Cantidad" 
+                                   (change)="calcularcantidad($event)">
                             </div>
                          </div>
                          <div class="form-row">
@@ -272,20 +273,22 @@
                                 <label for="PrecioUnitario" >Precio Unitario</label>
                                     <input type="number" name="PrecioUnitario" id="PrecioUnitario"
                                    formControlName="PrecioUnitario" class="form-control"
-                                   placeholder="Precio Unitario">
+                                   placeholder="Precio Unitario"
+                                   (change)="calcularImporte($event)">
                             </div>
 
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <label for="Importe" >Importe</label>
                                     <input type="number" name="Importe" id="Importe"
                                    formControlName="Importe" class="form-control"
-                                   placeholder="Importe">
+                                   placeholder="Importe" readonly>
                             </div> 
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <label for="PorcentajeTIRB" >PorcentajeTIRB</label>
                                     <input type="number" name="PorcentajeTIRB" id="PorcentajeTIRB"
                                    formControlName="PorcentajeTIRB" class="form-control"
-                                   placeholder="PorcentajeTIRB">
+                                   placeholder="PorcentajeTIRB"
+                                   (change)="calcularTotalImporte($event)">
                             </div>
                 
                          </div>
@@ -296,8 +299,17 @@
                                 <label for="TotalImporte" >Total Importe</label>
                                     <input type="number" name="TotalImporte" id="TotalImporte"
                                    formControlName="TotalImporte" class="form-control"
-                                   placeholder="Total Importe">
+                                   placeholder="Total Importe"
+                                 
+                                   readonly>
                             </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <label for="ImportePago" >Importe Pagado</label>
+                                    <input type="number" name="ImportePago" id="ImportePago"
+                                   formControlName="ImportePago" class="form-control"
+                                   placeholder="Importe Pago" readonly>
+                            </div>
+
                             <div class="col-md-3 mb-3 form-group mb-2">
                                 <label for="FechaDocumento" class="form-label">Fecha Documento</label>
                                 <input type="date" class="form-control" formControlName="FechaDocumento" id="validationTooltip07"
@@ -308,8 +320,11 @@
                                 *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                             </div>
                       
+                         </div>
 
-                            <div class="col-lg-3 col-md-3 col-sm-6">
+                         <div class="from-row">
+
+                            <div class="col-lg-4 col-md-4 col-sm-6">
                                 <label for="UnidadMedida">UNIDAD MEDIDA</label>
                                     <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="UnidadMedida"
@@ -318,12 +333,7 @@
                                         [(ngModel)]="selectedTipoUnidadMedida">
                                     </ng-select>
                                 </div>
-                   
 
-
-                         </div>
-
-                         <div class="from-row">
                             <div class="col-md-4 mb-4 form-group mb-2">
                                 <label for="validationTooltip12">Campaña</label>
                                 <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
@@ -341,13 +351,14 @@
                                         [(ngModel)]="SelectedTipoMoneda">
                                     </ng-select>
                                 </div>
-
-                                <div  class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="Observaciones" >Observaciones</label>
-                                        <input type="text" name="Observaciones" id="Observaciones"
-                                       formControlName="Observaciones" class="form-control"
-                                       placeholder="Observaciones">
-                                </div> 
+                         </div>
+                         <div class="from-row">
+                            <div  class="col-md-4 mb-4 form-group mb-2">
+                                <label for="Observaciones" >Observaciones</label>
+                                    <input type="text" name="Observaciones" id="Observaciones"
+                                   formControlName="Observaciones" class="form-control"
+                                   placeholder="Observaciones">
+                            </div> 
                          </div>
                 
                

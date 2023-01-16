@@ -17,6 +17,7 @@ import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
 import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
 import { AuthService } from '../../../../../../services/auth.service';
+import { number } from 'ngx-custom-validators/src/app/number/validator';
 
 @Component({
   selector: 'app-servicios-edit',
@@ -457,6 +458,7 @@ export class ServiciosEditComponent implements OnInit {
       Moneda: ['', ''],
       MonedaId:['',''],
       TotalImporte: ['', ''],
+      ImportePago: ['', ''],
       Observaciones: ['', ''],
       Campania: new FormControl('',[]),
       Campania2:new FormControl('',[]),
@@ -839,9 +841,10 @@ export class ServiciosEditComponent implements OnInit {
      TotalImporte:this.ServicioPlantaEditForm.controls["TotalImporte"].value ? this.ServicioPlantaEditForm.controls["TotalImporte"].value : 0,
      Observaciones:this.ServicioPlantaEditForm.controls["Observaciones"].value ? this.ServicioPlantaEditForm.controls["Observaciones"].value : '',
      CodigoCampania:this.ServicioPlantaEditForm.controls["Campania"].value ? this.ServicioPlantaEditForm.controls["Campania"].value:"",
+     TotalImporteProcesado:this.ServicioPlantaEditForm.controls["ImportePago"].value ? this.ServicioPlantaEditForm.controls["ImportePago"].value :0,
      RazonSocialEmpresaCliente:this.ServicioPlantaEditForm.controls["nombreOrganizacion"].value ? this.ServicioPlantaEditForm.controls["nombreOrganizacion"].value:"",
      RucEmpresaCliente:this.ServicioPlantaEditForm.controls["rucOrganizacion"].value ? this.ServicioPlantaEditForm.controls["rucOrganizacion"].value:"",
-     //EstadoId:this.ordenProcesoEditForm.controls["estadoServicio"].value ? this.ordenProcesoEditForm.controls["estadoServicio"].value : '',
+     EstadoId:this.ServicioPlantaEditForm.controls["estado"].value ? this.ServicioPlantaEditForm.controls["estado"].value : '',
      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
      EmpresaClienteId:this.ServicioPlantaEditForm.controls["organizacionId"].value ? this.ServicioPlantaEditForm.controls["organizacionId"].value : 0
@@ -1042,6 +1045,30 @@ export class ServiciosEditComponent implements OnInit {
   }*/
 
 
+    calcularImporte(event){
+      var precioUnitario = Number(event.target.value);
+      var cantidad = this.ServicioPlantaEditForm.controls["Cantidad"].value;
+      var importe = precioUnitario * cantidad;
+      this.ServicioPlantaEditForm.controls.Importe.setValue(importe);
+
+    }
+
+    calcularcantidad(event  ){
+      var cantidad = Number(event.target.value);
+      var precioUnitario = this.ServicioPlantaEditForm.controls["PrecioUnitario"].value;
+      var importe = cantidad * precioUnitario;
+      this.ServicioPlantaEditForm.controls.Importe.setValue(importe);
+    }
+
+    calcularTotalImporte(event  ){
+      var importe = Number(event.target.value);
+      //var importe = this.ServicioPlantaEditForm.controls["Importe"].value;
+      var PorcentajeTIRB = this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value;
+
+      var TotalImporte = importe * PorcentajeTIRB;
+      this.ServicioPlantaEditForm.controls.TotalImporte.setValue(TotalImporte);
+    }
+
 
   Registrar(): void {
     this.spinner.show();
@@ -1188,28 +1215,23 @@ export class ServiciosEditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.NumeroDocumento.setValue(data.NumeroDocumento);
 
    this.ServicioPlantaEditForm.controls.UnidadMedida.setValue(data.UnidadMedidaId);
+  
    this.ServicioPlantaEditForm.controls.Cantidad.setValue(data.Cantidad);
    this.ServicioPlantaEditForm.controls.PrecioUnitario.setValue(data.PrecioUnitario);
+   
+   
+
+
    this.ServicioPlantaEditForm.controls.Importe.setValue(data.Importe);
 
    this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue(data.PorcentajeTIRB);
    this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
    this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
+   this.ServicioPlantaEditForm.controls.ImportePago.setValue(data.TotalImporteProcesado);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
    this.ServicioPlantaEditForm.controls.Campania.setValue(data.CodigoCampania);
    this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
   this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
-   ////////////////////////////Pagos Servicios//////////////////////////////
-  // this.ServicioPlantaEditForm.controls.NumeroPagos.setValue(data.Numero);
-  // this.ServicioPlantaEditForm.controls.BancoPagos.setValue(data.BancoId);
-  // this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(data.MonedaId)
-  // this.ServicioPlantaEditForm.controls.EstadoPagos.setValue(data.EstadoId);
-  // this.ServicioPlantaEditForm.controls.NumeroOperacionPagos.setValue(data.NumeroOperacion);
-   //this.ServicioPlantaEditForm.controls.TipoOperacionPago.setValue(data.TipoOperacionPagoServicioId);
- //  this.ServicioPlantaEditForm.controls.FechaInicioPagos.setValue(data.FechaInicio == null ? "" : formatDate(data.FechaInicio, 'yyyy-MM-dd', 'en'));
-  // this.ServicioPlantaEditForm.controls.FechaFinPagos.setValue(data.FechaFin == null ? "" : formatDate(data.FechaFin, 'yyyy-MM-dd', 'en'));
-  // this.ServicioPlantaEditForm.controls.FechaOperacion.setValue(data.FechaOperacion == null ? "" : formatDate(data.FechaOperacion, 'yyyy-MM-dd', 'en'));
-
     }
     this.spinner.hide();
   }

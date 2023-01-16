@@ -66,7 +66,8 @@ export class ServiciosListComponent implements OnInit {
   LoadForm(): void {
     this.Serviciosform = this.fb.group({
        Numero: ['', ''],
-       NumeroOperacionRelacionada: ['', ''],       
+       NumeroOperacionRelacionada: ['', ''],
+       NumeroOperacion: ['', ''],          
        TipoServicio: ['', ''],
        TipoComprobante: ['', ''],
        SerieComprobante: ['', ''],
@@ -175,6 +176,7 @@ export class ServiciosListComponent implements OnInit {
   getRequest(): any {
       
     return {
+      
         Numero: this.Serviciosform.value.Numero,
         NumeroOperacion: this.Serviciosform.value.NumeroOperacionRelacionada,       
         TipoServicio: this.Serviciosform.value.TipoServicioId,
@@ -187,7 +189,7 @@ export class ServiciosListComponent implements OnInit {
         FechaInicio:this.Serviciosform.value.FechaInicio,
         FechaFin:this.Serviciosform.value.FechaFin,
         EstadoId:  this.Serviciosform.controls["estado"].value,
-        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId 
     };
   }
 
