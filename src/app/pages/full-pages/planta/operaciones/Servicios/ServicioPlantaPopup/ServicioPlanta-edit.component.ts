@@ -55,6 +55,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   listTipoProduccion = [];
   esHumedo = false;
   submitted = false;
+  submittedEdit = false;
   esReproceso = false;
   //listCertificacion = [];
 
@@ -167,6 +168,7 @@ export class ServicioPlantaeditComponent implements OnInit {
    // this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(this.ServicioPlantaId);
     //this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(this.PagoServicioPlantaId);
     await this.LoadForm();
+    this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
     this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.ServicioPlantaEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
@@ -197,7 +199,7 @@ export class ServicioPlantaeditComponent implements OnInit {
       this.ConsultaPorId(this.PagoServicioPlantaId);
     }
     this.cargaCampania();
-    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm);
+    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.MonedaPagos);
     this.OcultarSecciones();
   }
 

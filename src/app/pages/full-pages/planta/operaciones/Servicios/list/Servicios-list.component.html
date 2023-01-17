@@ -82,13 +82,13 @@
                                   <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="rucOrganizacion" class="form-label">Ruc</label>
                                     <input type="text" minlength="5" maxlength="100" formControlName="rucOrganizacion"
-                                    class="form-control" id="rucOrganizacion" placeholder="rucOrganizacion"
+                                    class="form-control" id="rucOrganizacion" placeholder="Ruc"
                                     [ngClass]="{ 'is-invalid': submitted && f.rucOrganizacion.invalid, 'is-valid': submitted && !f.rucOrganizacion.invalid }">
                                   </div>
                             </div>
 
                             <div class="form-row">
-                                <div class="col-md-4 mb-4 form-group mb-2">
+                                <!--<div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaInicio" class="form-label">Fecha Inicial</label>
                                     <input type="date" class="form-control" formControlName="fechaInicio" id="validationTooltip07"
                                     name="fechaInicio" placeholder="date" date
@@ -96,16 +96,42 @@
                                     (blur)="compareFechas()" />
                                   <small class="form-text text-muted danger"
                                     *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>-->
+                                <div class="col-lg-4 col-md-2 col-sm-8">
+                                    <label for="FechaInicio" class="form-label">Fecha Inicio </label>
+                                    <input type="date" class="form-control" formControlName="FechaInicio" id="validationTooltip07"
+                                    name="FechaInicio" placeholder="date" date
+                                    [ngClass]="{ 'is-invalid': submitted && f.FechaInicio.invalid, 'is-valid': submitted && !f.FechaInicio.invalid }"
+                                    (blur)="compareFechas()" />
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>
 
-                                <div class="col-md-4 mb-4 form-group mb-2">
+                                <!--<div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaFin" class="form-label">Fecha Final</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="validationTooltip10"
                                     name="fechaFin" placeholder="date" date
                                     [ngClass]="{ 'is-invalid': submitted && f.fechaFin.invalid, 'is-valid': submitted && !f.fechaFin.invalid }"
                                     (blur)="compareTwoDates()" />
                                   <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                                </div>-->
+                                <div class="col-lg-4 col-md-2 col-sm-8">
+                                    <label for="FechaFin" class="form-label">Fecha Fin </label>
+                                    <input type="date" class="form-control" formControlName="FechaFin" id="validationTooltip10"
+                                    name="FechaFin" placeholder="date" date
+                                    [ngClass]="{ 'is-invalid': submitted && f.FechaFin.invalid, 'is-valid': submitted && !f.FechaFin.invalid }"
+                                    (blur)="compareTwoDates()" />
+                                  <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                                 </div>
+
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip12">Campaña</label>
+                                    <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
+                                      bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
+                                      [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
+                                      [(ngModel)]="selectedCampania">
+                                    </ng-select>
+                                  </div>
                                
                                
                             </div>
@@ -186,12 +212,13 @@
 
                             <ngx-datatable-column name="Numero" prop="Numero" width="90" *ngIf="popUp">
                             </ngx-datatable-column>   
+                            <ngx-datatable-column name="Campaña" prop="CodigoCampania" width="60">
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Nro Operacion" prop="NumeroOperacionRelacionada" width="90">
                             </ngx-datatable-column>                          
                             <ngx-datatable-column name="TipoServicio" prop="TipoServicio" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Campaña" prop="CodigoCampania" width="60">
-                            </ngx-datatable-column>
+                           
                             <ngx-datatable-column name="Tipo Comprobante" prop="TipoComprobante" width="60">
                             </ngx-datatable-column>                            
                             <ngx-datatable-column name="Serie Comprobante" prop="SerieComprobante" width="60">
@@ -218,9 +245,13 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Porcentajes" prop="PorcentajeTIRB" width="60">
                             </ngx-datatable-column>
+                            <ngx-datatable-column name="Moneda" prop="Moneda" width="60">
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Total Importe" prop="TotalImporte" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Importe Pagado" prop="TotalImporteProcesado" width="60">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Saldo" prop="Saldo" width="60">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="60">
                             </ngx-datatable-column>

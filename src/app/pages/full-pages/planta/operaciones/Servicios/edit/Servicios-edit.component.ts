@@ -55,6 +55,7 @@ export class ServiciosEditComponent implements OnInit {
   listTipoProduccion = [];
   esHumedo = false;
   submitted = false;
+  submittedEdit = false;
   esReproceso = false;
   //listCertificacion = [];
 
@@ -161,7 +162,9 @@ export class ServiciosEditComponent implements OnInit {
     await this.LoadForm();
     this.ServicioPlantaEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
     this.ServicioPlantaEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
-
+    this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
+    //this.ServicioPlantaEditForm.controls['MonedaId'].setValue(this.detalle.Result.Data.MonedaId);
+  
     this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.ServicioPlantaEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
@@ -199,7 +202,7 @@ export class ServiciosEditComponent implements OnInit {
     }
     this.cargaCampania();
     this.cargaCampania2();
-  //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm);
+   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.MonedaPagos);
     this.OcultarSecciones();
   }
 
@@ -467,7 +470,7 @@ export class ServiciosEditComponent implements OnInit {
       NumeroPagos:['',''],
       BancoPagos:['',''],
       NumeroOperacionPagos:['',''],
-      MonedaPagos:['',],
+      MonedaPagos:['', Validators.required],
       TipoOperacion:['',''],
       TipoOperacionPagoServicioId:['',''],
       TipoOperacionPago:['',''],
@@ -994,6 +997,7 @@ export class ServiciosEditComponent implements OnInit {
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
     this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}`]);
   }
+  
 
   Save(): void {
   //  debugger

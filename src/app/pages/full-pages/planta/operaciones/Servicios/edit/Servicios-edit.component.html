@@ -128,6 +128,14 @@
                         </div>
 
                         <div class="form-row">
+                            <div class="col-lg-4 col-md-5 col-sm-5">
+                                <label for="validationTooltip12">Campaña</label>
+                                <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
+                                  bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
+                                  [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
+                                  [(ngModel)]="selectedCampania">
+                                </ng-select>
+                              </div>
 
                             <div class="col-lg-4 col-md-5 col-sm-5">
                                     <label for="TipoServicio">TIPO DE SERVICIO </label>
@@ -148,13 +156,13 @@
                                                 [(ngModel)]="selectedTipoComprobante">
                                             </ng-select>
                                         </div>
-                              
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                    <label for="Numero" >NUMERO</label>
+                               
+                           <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                                     <label for="Numero" >NUMERO</label>
                                         <input type="text" name="Numero" id="Numero"
                                             formControlName="Numero" class="form-control"
                                             placeholder="Numero">
-                                      </div> 
+                                      </div> -->
                             <!-- <div class="col-lg-1 col-md-1 col-sm-1">
                                 <label for="ordenProcesoComercial6"></label>
                                 <button type="button" (click)="openModal(mdlOrdenProceso)"
@@ -310,7 +318,7 @@
                                    placeholder="Importe Pago" readonly>
                             </div>
 
-                            <div class="col-md-3 mb-3 form-group mb-2">
+                            <div class="col-md-4 mb-4 form-group mb-2">
                                 <label for="FechaDocumento" class="form-label">Fecha Documento</label>
                                 <input type="date" class="form-control" formControlName="FechaDocumento" id="validationTooltip07"
                                 name="FechaDocumento" placeholder="date" date
@@ -321,10 +329,41 @@
                             </div>
                       
                          </div>
+                         <div class="form-row">
 
-                         <div class="from-row">
+                            <div class="col-lg-4 col-md-2 col-sm-3">
+                                <label for="UnidadMedida">UNIDAD MEDIDA</label>
+                                <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="UnidadMedida"
+                                    placeholder="Seleccionar Unidad Medida"
+                                    [ngClass]="{ 'is-invalid': f.UnidadMedida.invalid, 'is-valid': !f.UnidadMedida.invalid }"
+                                    [(ngModel)]="selectedTipoUnidadMedida">
+                                </ng-select>
+                            </div>
+                            <div class="col-lg-4 col-md-2 col-sm-3">
+                                <label for="Moneda">MONEDA</label>
+                                <ng-select [items]="listTipoMoneda" formControlName="Moneda"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
+                                    placeholder="Seleccionar Moneda"
+                                    [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
+                                    [(ngModel)]="SelectedTipoMoneda" >
+                                    
+                                </ng-select>
+                                
+                            </div>
 
-                            <div class="col-lg-4 col-md-4 col-sm-6">
+                            <div class="col-md-4 mb-2 form-group mb-3">
+                                <label for="Observaciones" >Observaciones</label>
+                                <input type="text" name="Observaciones" id="Observaciones"
+                               formControlName="Observaciones" class="form-control"
+                               placeholder="Observaciones">
+                            </div>
+                      
+                         </div>
+
+                         <!--<div class="from-row">
+
+                            <div class="col-lg-4 col-md-5 col-sm-5">
                                 <label for="UnidadMedida">UNIDAD MEDIDA</label>
                                     <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="UnidadMedida"
@@ -334,15 +373,8 @@
                                     </ng-select>
                                 </div>
 
-                            <div class="col-md-4 mb-4 form-group mb-2">
-                                <label for="validationTooltip12">Campaña</label>
-                                <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
-                                  bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
-                                  [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
-                                  [(ngModel)]="selectedCampania">
-                                </ng-select>
-                              </div>
-                            <div  class="col-md-4 mb-4 form-group mb-2">
+                
+                            <div class="col-lg-4 col-md-5 col-sm-5">
                                 <label for="Moneda">MONEDA</label>
                                     <ng-select [items]="listTipoMoneda" formControlName="Moneda"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
@@ -351,18 +383,15 @@
                                         [(ngModel)]="SelectedTipoMoneda">
                                     </ng-select>
                                 </div>
-                         </div>
-                         <div class="from-row">
-                            <div  class="col-md-4 mb-4 form-group mb-2">
-                                <label for="Observaciones" >Observaciones</label>
-                                    <input type="text" name="Observaciones" id="Observaciones"
-                                   formControlName="Observaciones" class="form-control"
-                                   placeholder="Observaciones">
-                            </div> 
-                         </div>
-                
-               
-                    
+                                <div class="col-lg-4 col-md-5 col-sm-5">
+                                    <label for="Observaciones" >Observaciones</label>
+                                        <input type="text" name="Observaciones" id="Observaciones"
+                                       formControlName="Observaciones" class="form-control"
+                                       placeholder="Observaciones">
+                                </div> 
+                         </div>-->
+                 
+                   
                     <section id="ngx-datatable-filter"*ngIf="OcultarSeccion">
                         <div class="row">
                             <div class="col-12">
@@ -408,8 +437,8 @@
                                                             <ng-select [items]="listTipoMonedaPago" formControlName="MonedaPagos"
                                                                 class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPagos"
                                                                 placeholder="Seleccionar Moneda Pago"
-                                                                [ngClass]="{ 'is-invalid': f.MonedaPagos.invalid, 'is-valid': !f.MonedaPagos.invalid }"
-                                                                [(ngModel)]="SelectedTipoMonedaPago">
+                                                                [ngClass]="{ 'is-invalid': submittedEdit && f.MonedaPagos.invalid, 'is-valid': submittedEdit && !f.MonedaPagos.invalid }"
+                                                                [(ngModel)]="SelectedTipoMonedaPago" >
                                                             </ng-select>
                                                         </div>
                     
@@ -436,7 +465,7 @@
                                                 </div> 
                 
                                                 <div class="form-row">
-                                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                                    <div class="col-lg-4 col-md-2 col-sm-8">
                                                         <label for="FechaInicioPagos" class="form-label">Fecha Inicio Pagos</label>
                                                         <input type="date" class="form-control" formControlName="FechaInicioPagos" id="validationTooltip07"
                                                         name="FechaInicioPagos" placeholder="date" date
@@ -446,7 +475,7 @@
                                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                                     </div>
                     
-                                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                                    <div class="col-lg-4 col-md-2 col-sm-8">
                                                         <label for="FechaFinPagos" class="form-label">Fecha Fin Pagos</label>
                                                         <input type="date" class="form-control" formControlName="FechaFinPagos" id="validationTooltip10"
                                                         name="FechaFinPagos" placeholder="date" date
@@ -455,14 +484,14 @@
                                                       <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                                   <!-- <div class="col-lg-4 col-md-4 col-sm-6">
                                                         <label for="validationTooltip12">Campaña</label>
                                                         <ng-select [items]="listaCampania2" formControlName="Campania2" class="form-control" bindLabel="Label"
                                                           bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
                                                           [ngClass]="{ 'is-invalid': submitted && f.Campania2.invalid, 'is-valid': submitted && !f.Campania2.invalid }" 
                                                           [(ngModel)]="selectedCampania2">
                                                         </ng-select>
-                                                      </div>
+                                                      </div>-->
                                                    
                                                    
                                                 </div>
@@ -583,7 +612,7 @@
                                       <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
                                             *ngIf="ServicioPlantaId > 0">Imprimir</button>-->
                                         <button type="button" class="btn btn-primary mr-1"
-                                            (click)="Save()" [disabled]="readonly==true">Guardar</button>
+                                            (click)="Save()" [disabled]="readonly==false">Guardar</button>
                                         <button type="button" class="btn btn-danger"
                                             (click)="Cancel()">Cancelar</button>
                                     </div>

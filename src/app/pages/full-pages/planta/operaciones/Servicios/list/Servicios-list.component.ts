@@ -32,6 +32,10 @@ export class ServiciosListComponent implements OnInit {
   selectedEstado: any;
   listTipoServicio: [] = [];
   selectedTipoServicio: any;
+  listaCampania:any[];
+  selectedCampania:any;
+  listTipoMoneda:[]=[];
+  SelectedTipoMoneda:any;
 
   listTipoComprobante: [] = [];
   selectedTipoComprobante: any;
@@ -48,6 +52,7 @@ export class ServiciosListComponent implements OnInit {
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
   Serviciosform: FormGroup;
+ // MonedaId: Number;
   @Output() seleccionarEvent = new EventEmitter<any>();
   @Input() popUp = false;
   page: any;
@@ -57,8 +62,13 @@ export class ServiciosListComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
+    this.cargaCampania();
+    this.GetListaTipoMoneda();
+    //this.Serviciosform.controls['FechaFin'].setValue(this.dateUtil.currentDate());
+   // this.Serviciosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.Serviciosform.controls['FechaFin'].setValue(this.dateUtil.currentDate());
-    this.Serviciosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.Serviciosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo()); 
+    //this.Serviciosform.controls.MonedaId.setValue(this.vSessionUser.Result.Data.MonedaId);
     this.page = this.route.routeConfig.data.title;
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
@@ -72,6 +82,8 @@ export class ServiciosListComponent implements OnInit {
        TipoComprobante: ['', ''],
        SerieComprobante: ['', ''],
        NumeroComprobante: ['', ''],
+       Moneda: ['', ''],
+       MonedaId:['',''],
       // RazonSocial : ['', ''],
       // Ruc:['',''],
        Campania: new FormControl('',[]),
@@ -114,6 +126,15 @@ export class ServiciosListComponent implements OnInit {
   }
   get f() {
     return this.Serviciosform.controls;
+  }
+  async cargaCampania() 
+  {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
   }
 
   LoadCombos(): void {
@@ -185,7 +206,7 @@ export class ServiciosListComponent implements OnInit {
         NumeroComprobante:  this.Serviciosform.value.NumeroComprobante,
         nombreOrganizacion: this.Serviciosform.value.RazonSocialEmpresaCliente,
         rucOrganizacion:this.Serviciosform.value.RucEmpresaCliente,
-        Campania:this.Serviciosform.value.CodigoCampania,
+        CodigoCampania:this.Serviciosform.value.Campania,
         FechaInicio:this.Serviciosform.value.FechaInicio,
         FechaFin:this.Serviciosform.value.FechaFin,
         EstadoId:  this.Serviciosform.controls["estado"].value,
@@ -253,6 +274,13 @@ export class ServiciosListComponent implements OnInit {
       this.errorFecha = { isError: false, errorMessage: '' };
     }*/
   }
+  async GetListaTipoMoneda () {
+    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listTipoMoneda = res.Result.Data;
+    }
+  }
+
 
   Buscar(): void {
     this.Search();
@@ -260,6 +288,7 @@ export class ServiciosListComponent implements OnInit {
   
   Nuevo(): void {
     this.router.navigate(['/planta/operaciones/servicios-edit']);
+   // this.router.navigate([`/planta/operaciones/servicios-edit/${this.MonedaId}`]);
   }
 
   Seleccionar(selected)
