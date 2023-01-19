@@ -126,6 +126,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   ServicioPlantaId: Number;
   PagoServicioPlantaId: Number;
+  //MonedaId:Number;
  // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
@@ -149,6 +150,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   detalle: any;
   empresa: any[];
   readonly: boolean;
+  MonedaId:Number;
   OcultarSeccion: boolean =true;
   public limitRef = 20;
   averageExportable: Number = 0;
@@ -164,11 +166,13 @@ export class ServicioPlantaeditComponent implements OnInit {
    // this.ServicioPlantaId = this.route.snapshot.params['ServicioPlantaId'] ? Number(this.route.snapshot.params['ServicioPlantaId']) : 0;
     // this.ProyectoInventarioId = this.route.snapshot.params.proyectoinventarioid ?parseInt(this.route.snapshot.params.proyectoinventarioid) : 0;
     this.ServicioPlantaId = this.route.snapshot.params.ServicioPlantaId ? Number(this.route.snapshot.params.ServicioPlantaId) : 0;
-    
+   // this.MonedaId = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
    // this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(this.ServicioPlantaId);
     //this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(this.PagoServicioPlantaId);
     await this.LoadForm();
-    this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
+   
+   // this.ServicioPlantaEditForm.controls.Moneda.setValue(this.vSessionUser.Result.Data.MonedaId);
+   this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
     this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.ServicioPlantaEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
@@ -739,7 +743,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   // this.ServicioPlantaEditForm.controls.Importe.setValue(data.Importe);
 
    this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue(data.PorcentajeTIRB);
-  // this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
+   //this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
    this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
    this.ServicioPlantaEditForm.controls.razonSocialPago.setValue(data.RazonSocialEmpresaCliente);

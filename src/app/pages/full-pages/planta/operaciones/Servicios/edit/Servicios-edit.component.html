@@ -101,11 +101,11 @@
                                 
                                     <label for="estado" >ESTADO</label>
                                     
-                                        <ng-select [items]="listEstado" formControlName="estado" class="form-control"
+                                        <ng-select [items]="listEstadoServicio" formControlName="estado" class="form-control"
                                             bindLabel="Label" bindValue="Codigo" id="estado"
                                             placeholder="Seleccionar Estado"
                                             [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                            [(ngModel)]="selectedEstado" >
+                                            [(ngModel)]="selectedEstadoServicio" >
                                         </ng-select>
                                     
                             </div>
@@ -441,7 +441,17 @@
                                                                 [(ngModel)]="SelectedTipoMonedaPago" >
                                                             </ng-select>
                                                         </div>
-                    
+                                                        <!--<div class="col-lg-4 col-md-4 col-sm-6">
+                                                            <label for="Moneda">MONEDA</label>
+                                                            <ng-select [items]="listTipoMoneda" formControlName="Moneda"
+                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
+                                                                placeholder="Seleccionar Moneda"
+                                                                [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
+                                                                [(ngModel)]="SelectedTipoMoneda" >
+                                                                
+                                                            </ng-select>
+                                                            
+                                                        </div>-->
                                                       <div class="col-lg-4 col-md-4 col-sm-6">
                                                         <label for="TipoOperacionPago">Tipo Operacion Pagos</label>
                                                             <ng-select [items]="listTipoOperacionServicio" formControlName="TipoOperacionPago"
@@ -455,11 +465,11 @@
                 
                                                         <div class="col-lg-4 col-md-4 col-sm-6">
                                                             <label for="EstadoPagos">Estado Pagos </label>
-                                                                <ng-select [items]="listTipoEstadoServicio" formControlName="EstadoPagos"
+                                                                <ng-select [items]="listTipoEstadoServicioPagos" formControlName="EstadoPagos"
                                                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="EstadoPagos"
                                                                     placeholder="Seleccionar Estado Pago"
                                                                     [ngClass]="{ 'is-invalid': f.EstadoPagos.invalid, 'is-valid': !f.EstadoPagos.invalid }"
-                                                                    [(ngModel)]="selectedTipoEstadoServicio">
+                                                                    [(ngModel)]="selectedTipoEstadoServicioPagos">
                                                                 </ng-select>
                                                             </div>
                                                 </div> 

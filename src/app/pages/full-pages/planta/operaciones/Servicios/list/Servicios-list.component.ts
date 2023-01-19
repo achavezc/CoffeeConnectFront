@@ -75,13 +75,13 @@ export class ServiciosListComponent implements OnInit {
 
   LoadForm(): void {
     this.Serviciosform = this.fb.group({
-       Numero: ['', ''],
+       Numero: ['',''],
        NumeroOperacionRelacionada: ['', ''],
        NumeroOperacion: ['', ''],          
        TipoServicio: ['', ''],
        TipoComprobante: ['', ''],
-       SerieComprobante: ['', ''],
-       NumeroComprobante: ['', ''],
+       SerieComprobanteServicio: ['',''],
+       NumeroComprobanteServicio: ['',''],
        Moneda: ['', ''],
        MonedaId:['',''],
       // RazonSocial : ['', ''],
@@ -138,26 +138,15 @@ export class ServiciosListComponent implements OnInit {
   }
 
   LoadCombos(): void {
-    this.GetListEstado();
+    this.GetEstado();
     this.GetListTipoServicio();
     this.GetListTipoComprobante();
   }
 
-  async GetListEstado() {
-    const form = this;
-    let res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
+  async GetEstado() {
+    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
     if (res.Result.Success) {
-      this.listEstado= res.Result.Data;
-      if (this.popUp) {
-        switch (this.page) {
-          case "LiquidacionProcesoEdit":
-            form.selectedEstado = '01';
-            break;
-          default:
-            break;
-        }
-        this.Serviciosform.controls.estado.disable();
-      }
+      this.listEstado = res.Result.Data;
     }
   }
 
@@ -199,13 +188,13 @@ export class ServiciosListComponent implements OnInit {
     return {
       
         Numero: this.Serviciosform.value.Numero,
-        NumeroOperacion: this.Serviciosform.value.NumeroOperacionRelacionada,       
-        TipoServicio: this.Serviciosform.value.TipoServicioId,
-        TipoComprobante: this.Serviciosform.value.TipoComprobanteId,
-        SerieComprobante: this.Serviciosform.value.SerieComprobante,
-        NumeroComprobante:  this.Serviciosform.value.NumeroComprobante,
-        nombreOrganizacion: this.Serviciosform.value.RazonSocialEmpresaCliente,
-        rucOrganizacion:this.Serviciosform.value.RucEmpresaCliente,
+        NumeroOperacionRelacionada:this.Serviciosform.value.NumeroOperacion,       
+        TipoServicioId : this.Serviciosform.value.TipoServicio,
+        TipoComprobanteId : this.Serviciosform.value.TipoComprobante,
+        SerieComprobante: this.Serviciosform.controls["SerieComprobanteServicio"].value ? this.Serviciosform.controls["SerieComprobanteServicio"].value : '',
+        NumeroComprobante: this.Serviciosform.controls["NumeroComprobanteServicio"].value ? this.Serviciosform.controls["NumeroComprobanteServicio"].value : '',
+        RazonSocialEmpresaCliente : this.Serviciosform.value.nombreOrganizacion,
+        RucEmpresaCliente :this.Serviciosform.value.rucOrganizacion,
         CodigoCampania:this.Serviciosform.value.Campania,
         FechaInicio:this.Serviciosform.value.FechaInicio,
         FechaFin:this.Serviciosform.value.FechaFin,
@@ -222,9 +211,9 @@ export class ServiciosListComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
-          x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
-          x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
-          x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
+         // x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
+         // x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
+         // x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
           x.FechaDocumento = this.dateUtil.formatDate(x.FechaDocumento);
           });
             this.tempData = res.Result.Data;

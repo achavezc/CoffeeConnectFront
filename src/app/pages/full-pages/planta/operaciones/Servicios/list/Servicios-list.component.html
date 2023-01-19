@@ -14,16 +14,16 @@
                              <div class="form-row">
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="Numero" class="form-label">Numero</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="Numero"
+                                    <input type="text" minlength="1" maxlength="100" formControlName="Numero"
                                     class="form-control" id="Numero" placeholder="Numero"
                                     [ngClass]="{ 'is-invalid': submitted && f.Numero.invalid, 'is-valid': submitted && !f.Numero.invalid }">
                                   </div>
 
                                   <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="validationTooltip04">Numero Operacion</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="NumeroOperacionRelacionada"
+                                    <input type="text" minlength="1" maxlength="100" formControlName="NumeroOperacion"
                                     class="form-control" id="ruc" placeholder="Numero Operacion"
-                                    [ngClass]="{ 'is-invalid': submitted && f.NumeroOperacionRelacionada.invalid, 'is-valid': submitted && !f.NumeroOperacionRelacionada.invalid }">
+                                    [ngClass]="{ 'is-invalid': submitted && f.NumeroOperacion.invalid, 'is-valid': submitted && !f.NumeroOperacion.invalid }">
                                   </div>
 
                                   <div class="col-md-4 mb-4 form-group mb-2">
@@ -57,31 +57,33 @@
                                     </ng-select>
                                 </div>
                                 
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="SerieComprobante" class="form-label">Serie Comprobante</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="SerieComprobante"
-                                    class="form-control" id="SerieComprobante" placeholder="Serie Comprobante"
-                                    [ngClass]="{ 'is-invalid': submitted && f.SerieComprobante.invalid, 'is-valid': submitted && !f.SerieComprobante.invalid }">
+                  
+                                  <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="validationTooltip04">Serie Comprobante</label>
+                                    <input type="text" minlength="1" maxlength="100" formControlName="SerieComprobanteServicio"
+                                    class="form-control" id="ruc" placeholder="Serie Comprobante"
+                                    [ngClass]="{ 'is-invalid': submitted && f.SerieComprobanteServicio.invalid, 'is-valid': submitted && !f.SerieComprobanteServicio.invalid }">
                                   </div>
                             </div>
 
                             <div class="form-row">
-                                  <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="NumeroComprobante" class="form-label">Numero Comprobante</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="NumeroComprobante"
-                                    class="form-control" id="NumeroComprobante" placeholder="Numero Comprobante"
-                                    [ngClass]="{ 'is-invalid': submitted && f.NumeroComprobante.invalid, 'is-valid': submitted && !f.NumeroComprobante.invalid }">
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                    <label for="NumeroComprobanteServicio" class="form-label">Numero Comprobante</label>
+                                    <input type="text" minlength="1" maxlength="100" formControlName="NumeroComprobanteServicio"
+                                    class="form-control" id="NumeroComprobanteServicio" placeholder="Numero Comprobante"
+                                    [ngClass]="{ 'is-invalid': submitted && f.NumeroComprobanteServicio.invalid, 'is-valid': submitted && !f.NumeroComprobanteServicio.invalid }">
                                   </div>
+                       
 
                                   <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="nombreOrganizacion" class="form-label">Razon Social</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="nombreOrganizacion"
+                                    <input type="text" minlength="1" maxlength="100" formControlName="nombreOrganizacion"
                                     class="form-control" id="nombreOrganizacion" placeholder="Razon Social"
                                     [ngClass]="{ 'is-invalid': submitted && f.nombreOrganizacion.invalid, 'is-valid': submitted && !f.nombreOrganizacion.invalid }">
                                   </div>
                                   <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="rucOrganizacion" class="form-label">Ruc</label>
-                                    <input type="text" minlength="5" maxlength="100" formControlName="rucOrganizacion"
+                                    <input type="text"  minlength="1" maxlength="100" formControlName="rucOrganizacion"
                                     class="form-control" id="rucOrganizacion" placeholder="Ruc"
                                     [ngClass]="{ 'is-invalid': submitted && f.rucOrganizacion.invalid, 'is-valid': submitted && !f.rucOrganizacion.invalid }">
                                   </div>
@@ -139,8 +141,7 @@
 
                             <small class="form-text text-muted danger mb-1"
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                            <button class="btn btn-primary mr-1 mb-1" type="submit" [disabled]="Serviciosform.invalid"
-                                (click)="Buscar()">Buscar</button>
+                                <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()">Buscar</button>
                                 <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
                                 data-placement="top" (click)="Seleccionar(selected)"
                                 [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>

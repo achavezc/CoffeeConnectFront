@@ -18,6 +18,7 @@ import { formatDate } from '@angular/common';
 import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
 import { AuthService } from '../../../../../../services/auth.service';
 import { number } from 'ngx-custom-validators/src/app/number/validator';
+import { sum } from 'chartist';
 
 @Component({
   selector: 'app-servicios-edit',
@@ -85,8 +86,8 @@ export class ServiciosEditComponent implements OnInit {
   listTipoOperacionServicioPago:[]=[];
   selectedTipoOperacionServicioPago:any;
 
-  listTipoEstadoServicio:[]=[];
-  selectedTipoEstadoServicio:any;
+  listTipoEstadoServicioPagos:[]=[];
+  selectedTipoEstadoServicioPagos:any;
 
 
 
@@ -99,6 +100,8 @@ export class ServiciosEditComponent implements OnInit {
   listSubProducto = [];
   listEmpaque = [];
   listTipo = [];
+  listEstadoServicio:any[];
+  selectedEstadoServicio: any;
   listProductoTerminado = [];
   listSubProductoTerminado = [];
   listCalidad = [];
@@ -123,12 +126,15 @@ export class ServiciosEditComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   ServicioPlantaId: Number;
+ 
  // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
   rows = [];
   tempData = [];
   selected = [];
+
+  MonedaId:Number;
   //limitRef: number = 10;
   
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -180,8 +186,9 @@ export class ServiciosEditComponent implements OnInit {
     this.GetListaTipoBancoPago();
 
     this.GetListaTipoOperacionServicios();
-    this.GetListaTipoEstado2();
+    this.GetListaTipoEstadoPagos();
     this.GetEstado();
+    this.GetEstadoSercicio();
     //this.GetTipoProduccion();
     this.GetCertificacion();
     this.GetProducto();
@@ -587,10 +594,19 @@ export class ServiciosEditComponent implements OnInit {
     }
   }
 
-  async GetListaTipoEstado2 () {
+  async GetEstadoSercicio() {
+    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listEstadoServicio = res.Result.Data;
+    }
+  }
+
+
+
+  async GetListaTipoEstadoPagos () {
     let res = await this.maestroService.obtenerMaestros('EstadoPagoServicio').toPromise();
     if (res.Result.Success) {
-      this.listTipoEstadoServicio = res.Result.Data;
+      this.listTipoEstadoServicioPagos = res.Result.Data;
     }
   }
 
@@ -996,8 +1012,8 @@ export class ServiciosEditComponent implements OnInit {
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
     this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}`]);
-  }
   
+  }
 
   Save(): void {
   //  debugger
@@ -1065,13 +1081,42 @@ export class ServiciosEditComponent implements OnInit {
     }
 
     calcularTotalImporte(event  ){
+     var Importe = Number(event.target.value);
+      //var importe = this.ServicioPlantaEditForm.controls["Importe"].value;
+     //var  Importe = this.ServicioPlantaEditForm.controls["Importe"].value 
+      var PorcentajeTIRB = this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value;
+      if(PorcentajeTIRB = 0){
+        this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue( this.detalle.PorcentajeTIRB == null ? this.detalle.PorcentajeTIRB :"");
+      }else {
+        var TotalImporte = Importe + PorcentajeTIRB;
+        this.ServicioPlantaEditForm.controls.TotalImporte.setValue(TotalImporte);
+
+     /*  var Importe = Number(event.target.value);
+       var PorcentajeTIRB = this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value;
+        var TotalImporte =   Importe + PorcentajeTIRB;
+        this.ServicioPlantaEditForm.controls.TotalImporte.setValue(TotalImporte);*/
+
+      }
+    }
+ 
+    
+
+    /*calcularImportePago(event){
       var importe = Number(event.target.value);
       //var importe = this.ServicioPlantaEditForm.controls["Importe"].value;
       var PorcentajeTIRB = this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value;
+      if(PorcentajeTIRB == 0){
+        this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue( this.detalle.PorcentajeTIRB == null ? this.detalle.PorcentajeTIRB :"");
+      }
+      else {
+        var  TotalImporteProcesado= importe + PorcentajeTIRB;
+        this.ServicioPlantaEditForm.controls.ImportePago.setValue(TotalImporteProcesado);
+      }
 
-      var TotalImporte = importe * PorcentajeTIRB;
-      this.ServicioPlantaEditForm.controls.TotalImporte.setValue(TotalImporte);
-    }
+      }*/
+   
+ 
+    
 
 
   Registrar(): void {
@@ -1224,12 +1269,12 @@ export class ServiciosEditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.PrecioUnitario.setValue(data.PrecioUnitario);
    
    
-
+   this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
 
    this.ServicioPlantaEditForm.controls.Importe.setValue(data.Importe);
 
    this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue(data.PorcentajeTIRB);
-   this.ServicioPlantaEditForm.controls.Moneda.setValue(data.MonedaId);
+   this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(data.MonedaId);
    this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
    this.ServicioPlantaEditForm.controls.ImportePago.setValue(data.TotalImporteProcesado);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);

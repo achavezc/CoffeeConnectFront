@@ -147,19 +147,6 @@
                                         </div> 
                                 </div> 
 
-                                <div class="form-row">
-                                    <div class="col-lg-4 col-md-6 col-sm-6">
-                                        <label for="validationTooltip12">Campaña</label>
-                                        <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
-                                          bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
-                                          [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }" 
-                                          [(ngModel)]="selectedCampania">
-                                        </ng-select>
-                                      </div>
-
-                                </div>
-
-
                                 <div class="col-5">
                                     <label for="basicInput" style="font-size: 0.7rem;">Observaciones Pagos</label>
                                     <div class="position-relative has-icon-left">
