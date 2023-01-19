@@ -1065,11 +1065,27 @@ export class ServiciosEditComponent implements OnInit {
   }*/
 
 
+  
     calcularImporte(event){
       var precioUnitario = Number(event.target.value);
       var cantidad = this.ServicioPlantaEditForm.controls["Cantidad"].value;
       var importe = precioUnitario * cantidad;
       this.ServicioPlantaEditForm.controls.Importe.setValue(importe);
+
+      
+      var porcentajeTIRB;
+
+      if(this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value == "")
+       {
+         porcentajeTIRB = 0; 
+       }
+       else
+       {
+        porcentajeTIRB = Number(this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value);
+       } 
+ 
+       this.ServicioPlantaEditForm.controls.TotalImporte.setValue(importe + porcentajeTIRB); 
+
 
     }
 
@@ -1078,25 +1094,44 @@ export class ServiciosEditComponent implements OnInit {
       var precioUnitario = this.ServicioPlantaEditForm.controls["PrecioUnitario"].value;
       var importe = cantidad * precioUnitario;
       this.ServicioPlantaEditForm.controls.Importe.setValue(importe);
+
+      var porcentajeTIRB;
+
+      if(this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value == "")
+       {
+         porcentajeTIRB = 0; 
+       }
+       else
+       {
+        porcentajeTIRB = Number(this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value);
+       } 
+ 
+       this.ServicioPlantaEditForm.controls.TotalImporte.setValue(importe + porcentajeTIRB);    
+
+
     }
 
-    calcularTotalImporte(event  ){
-     var Importe = Number(event.target.value);
-      //var importe = this.ServicioPlantaEditForm.controls["Importe"].value;
-     //var  Importe = this.ServicioPlantaEditForm.controls["Importe"].value 
-      var PorcentajeTIRB = this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value;
-      if(PorcentajeTIRB = 0){
-        this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue( this.detalle.PorcentajeTIRB == null ? this.detalle.PorcentajeTIRB :"");
-      }else {
-        var TotalImporte = Importe + PorcentajeTIRB;
-        this.ServicioPlantaEditForm.controls.TotalImporte.setValue(TotalImporte);
+    
+    
 
-     /*  var Importe = Number(event.target.value);
-       var PorcentajeTIRB = this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value;
-        var TotalImporte =   Importe + PorcentajeTIRB;
-        this.ServicioPlantaEditForm.controls.TotalImporte.setValue(TotalImporte);*/
+    calcularTotalImporte(event)
+    {       
+      var porcentajeTIRB;
 
-      }
+      if(event.target.value == "")
+       {
+         porcentajeTIRB = 0; 
+       }
+       else
+       {
+        porcentajeTIRB = Number(event.target.value);
+       }
+            
+     
+      var importe = this.ServicioPlantaEditForm.controls["Importe"].value;     
+ 
+       this.ServicioPlantaEditForm.controls.TotalImporte.setValue(importe + porcentajeTIRB);     
+      
     }
  
     
