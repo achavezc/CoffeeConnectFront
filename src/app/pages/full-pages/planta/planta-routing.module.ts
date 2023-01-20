@@ -174,14 +174,14 @@ const routes: Routes = [
         }
       },
       {
-        path: 'servicioPlanta-edit/:ServicioPlantaId',
+        path: 'servicioPlanta-edit/:ServicioPlantaId/:Moneda',
         component: ServicioPlantaeditComponent,
         data: {
           title: 'ServicioPlantaedit'
         }
       },
       {
-        path: 'servicioPlanta-edit/:ServicioPlantaId/:PagoServicioPlantaId',
+        path: 'servicioPlanta-edit/:ServicioPlantaId/:PagoServicioPlantaId/:Moneda',
         component: ServicioPlantaeditComponent,
         data: {
           title: 'ServicioPlantaedit'

@@ -261,12 +261,17 @@
                                    placeholder="Serie Documento">
                             </div> 
 
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="NumeroOperacionRelacionada" >Numero Operacion</label>
-                                    <input type="text" name="NumeroOperacionRelacionada" id="NumeroOperacionRelacionada"
-                                   formControlName="NumeroOperacionRelacionada" class="form-control"
-                                   placeholder="Numero Operacion">
-                            </div> 
+                            <div class="col-md-4 mb-4 form-group mb-2">
+                                <label for="FechaComprobante" class="form-label">Fecha Comprobante</label>
+                                <input type="date" class="form-control" formControlName="FechaComprobante" id="validationTooltip07"
+                                name="FechaComprobante" placeholder="date" date
+                                [ngClass]="{ 'is-invalid': submitted && f.FechaComprobante.invalid, 'is-valid': submitted && !f.FechaComprobante.invalid }"
+                                (blur)="compareFechas()" />
+                              <small class="form-text text-muted danger"
+                                *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                            </div>
+                            
+                            
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <label for="Cantidad" >Cantidad</label>
                                     <input type="number" name="Cantidad" id="Cantidad"
@@ -581,7 +586,7 @@
                                                <div class="d-flex align-items-center">
                                                   <div class="cell-line-height">
                                                 <a class="line-height-1 mb-0"
-                                                [routerLink]="['/planta/operaciones/servicioPlanta-edit', row.ServicioPlantaId,row.PagoServicioPlantaId]">{{
+                                                [routerLink]="['/planta/operaciones/servicioPlanta-edit', row.ServicioPlantaId,row.PagoServicioPlantaId,row.MonedaId]">{{
                                                 name }}</a>
                                                  </div>
                                               </div>
@@ -603,6 +608,8 @@
                                                 <ngx-datatable-column name="Fecha Operacion Pago" prop="FechaOperacion" width="40">
                                                 </ngx-datatable-column>
                                                 <ngx-datatable-column name="Estado Pago" prop="Estado" width="40">
+                                                </ngx-datatable-column> 
+                                                <ngx-datatable-column name="Observaciones" prop="Observaciones" width="40">
                                                 </ngx-datatable-column> 
                                                 </ngx-datatable>
                                         </div>

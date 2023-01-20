@@ -74,10 +74,9 @@
                                     [ngClass]="{ 'is-invalid': submitted && f.NumeroComprobanteServicio.invalid, 'is-valid': submitted && !f.NumeroComprobanteServicio.invalid }">
                                   </div>
                        
-
                                   <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="nombreOrganizacion" class="form-label">Razon Social</label>
-                                    <input type="text" minlength="1" maxlength="100" formControlName="nombreOrganizacion"
+                                    <input type="text"  minlength="1" maxlength="100" formControlName="nombreOrganizacion"
                                     class="form-control" id="nombreOrganizacion" placeholder="Razon Social"
                                     [ngClass]="{ 'is-invalid': submitted && f.nombreOrganizacion.invalid, 'is-valid': submitted && !f.nombreOrganizacion.invalid }">
                                   </div>
@@ -215,7 +214,7 @@
                             </ngx-datatable-column>   
                             <ngx-datatable-column name="Campaña" prop="CodigoCampania" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nro Operacion" prop="NumeroOperacionRelacionada" width="90">
+                            <ngx-datatable-column name="Fecha Comprobante" prop="FechaComprobante" width="90">
                             </ngx-datatable-column>                          
                             <ngx-datatable-column name="TipoServicio" prop="TipoServicio" width="60">
                             </ngx-datatable-column>

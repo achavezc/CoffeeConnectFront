@@ -134,7 +134,7 @@ export class ServiciosEditComponent implements OnInit {
   tempData = [];
   selected = [];
 
-  MonedaId:Number;
+  Moneda:string;
   //limitRef: number = 10;
   
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -165,10 +165,11 @@ export class ServiciosEditComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     //this
     this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
     await this.LoadForm();
     this.ServicioPlantaEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
     this.ServicioPlantaEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
-    this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
+    //this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
     //this.ServicioPlantaEditForm.controls['MonedaId'].setValue(this.detalle.Result.Data.MonedaId);
   
     this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
@@ -456,6 +457,7 @@ export class ServiciosEditComponent implements OnInit {
       SerieComprobante: ['', ''],
       NumeroComprobante: ['', ''],
       FechaDocumento: ['', ''],
+      FechaComprobante:['',''],
       FechaRegistro:['',''],
       SerieDocumento: ['', ''],
       NumeroDocumento: ['', ''],
@@ -849,6 +851,7 @@ export class ServiciosEditComponent implements OnInit {
      SerieComprobante:this.ServicioPlantaEditForm.controls["SerieComprobante"].value ? this.ServicioPlantaEditForm.controls["SerieComprobante"].value : '',
      NumeroComprobante:this.ServicioPlantaEditForm.controls["NumeroComprobante"].value ? this.ServicioPlantaEditForm.controls["NumeroComprobante"].value : '',
      FechaDocumento:this.ServicioPlantaEditForm.controls["FechaDocumento"].value ? this.ServicioPlantaEditForm.controls["FechaDocumento"].value : '',
+     FechaComprobante:this.ServicioPlantaEditForm.controls["FechaComprobante"].value ? this.ServicioPlantaEditForm.controls["FechaComprobante"].value :'',
      SerieDocumento:this.ServicioPlantaEditForm.controls["SerieDocumento"].value ? this.ServicioPlantaEditForm.controls["SerieDocumento"].value : '',
      NumeroDocumento:this.ServicioPlantaEditForm.controls["NumeroDocumento"].value ? this.ServicioPlantaEditForm.controls["NumeroDocumento"].value : '',
      UnidadMedidaId:this.ServicioPlantaEditForm.controls["UnidadMedida"].value ? this.ServicioPlantaEditForm.controls["UnidadMedida"].value : '',
@@ -940,9 +943,7 @@ export class ServiciosEditComponent implements OnInit {
   }
 
   anular() {
-
-  }
-  /*{
+   /*  {
     if (this.selected.length > 0) {
     
       if (this.selected[0].EstadoCalidadId == this.estadoPesado) {
@@ -967,9 +968,11 @@ export class ServiciosEditComponent implements OnInit {
         });
       } 
     }
-  }*/
+  }
  
- /* anularServicio(){
+  }*/
+}
+  /*anularServicio(){
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -978,7 +981,7 @@ export class ServiciosEditComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.ControlCalidadService.Anular(
+    this.PagoServicioPlantaService.Anular(
       {
         "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
         "NotaIngresoPlantaId": this.selected[0].NotaIngresoPlantaId,
@@ -988,7 +991,7 @@ export class ServiciosEditComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Anulado!', 'Control Calidad Anulado.');
+            this.alertUtil.alertOk('Anulado!', 'Pago Servicio Anulado.');
             this.buscar();
   
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
@@ -1009,9 +1012,10 @@ export class ServiciosEditComponent implements OnInit {
   }*/
 
   Nuevo() {
+    var Moneda = this.ServicioPlantaEditForm.controls["Moneda"].value;
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
-    this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}`]);
+    this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}/${Moneda}`]);
   
   }
 
@@ -1292,6 +1296,8 @@ export class ServiciosEditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.NumeroComprobante.setValue(data.NumeroComprobante);
 
   this.ServicioPlantaEditForm.controls.FechaDocumento.setValue(data.FechaDocumento == null ? "" : formatDate(data.FechaDocumento, 'yyyy-MM-dd', 'en'));
+
+  this.ServicioPlantaEditForm.controls.FechaComprobante.setValue(data.FechaComprobante == null ? "" : formatDate(data.FechaComprobante, 'yyyy-MM-dd', 'en'));
   
   this.ServicioPlantaEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
 
@@ -1314,6 +1320,8 @@ export class ServiciosEditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.ImportePago.setValue(data.TotalImporteProcesado);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
    this.ServicioPlantaEditForm.controls.Campania.setValue(data.CodigoCampania);
+   
+   this.ServicioPlantaEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
    this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
   this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
     }

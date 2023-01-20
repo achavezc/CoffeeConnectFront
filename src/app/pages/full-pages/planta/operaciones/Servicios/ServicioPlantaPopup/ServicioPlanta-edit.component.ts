@@ -150,7 +150,7 @@ export class ServicioPlantaeditComponent implements OnInit {
   detalle: any;
   empresa: any[];
   readonly: boolean;
-  MonedaId:Number;
+  Moneda:string;
   OcultarSeccion: boolean =true;
   public limitRef = 20;
   averageExportable: Number = 0;
@@ -166,13 +166,14 @@ export class ServicioPlantaeditComponent implements OnInit {
    // this.ServicioPlantaId = this.route.snapshot.params['ServicioPlantaId'] ? Number(this.route.snapshot.params['ServicioPlantaId']) : 0;
     // this.ProyectoInventarioId = this.route.snapshot.params.proyectoinventarioid ?parseInt(this.route.snapshot.params.proyectoinventarioid) : 0;
     this.ServicioPlantaId = this.route.snapshot.params.ServicioPlantaId ? Number(this.route.snapshot.params.ServicioPlantaId) : 0;
-   // this.MonedaId = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
+    this.Moneda = this.route.snapshot.params.Moneda ? this.route.snapshot.params.Moneda : '';
+    //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
    // this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(this.ServicioPlantaId);
     //this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue(this.PagoServicioPlantaId);
     await this.LoadForm();
    
-   // this.ServicioPlantaEditForm.controls.Moneda.setValue(this.vSessionUser.Result.Data.MonedaId);
-   this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
+   this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.Moneda);
+   //this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
     this.ServicioPlantaEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.ServicioPlantaEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.ServicioPlantaEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);

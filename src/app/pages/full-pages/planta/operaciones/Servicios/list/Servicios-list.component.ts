@@ -87,8 +87,8 @@ export class ServiciosListComponent implements OnInit {
       // RazonSocial : ['', ''],
       // Ruc:['',''],
        Campania: new FormControl('',[]),
-       rucOrganizacion: ['',],
-       nombreOrganizacion: [],
+       rucOrganizacion: ['',''],
+       nombreOrganizacion: ['',''],
        estado :['',''],
        FechaInicio :['',''],
        FechaFin:['','']
@@ -143,6 +143,8 @@ export class ServiciosListComponent implements OnInit {
     this.GetListTipoComprobante();
   }
 
+
+  
   async GetEstado() {
     const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
     if (res.Result.Success) {
@@ -191,9 +193,9 @@ export class ServiciosListComponent implements OnInit {
         NumeroOperacionRelacionada:this.Serviciosform.value.NumeroOperacion,       
         TipoServicioId : this.Serviciosform.value.TipoServicio,
         TipoComprobanteId : this.Serviciosform.value.TipoComprobante,
-        SerieComprobante: this.Serviciosform.controls["SerieComprobanteServicio"].value ? this.Serviciosform.controls["SerieComprobanteServicio"].value : '',
-        NumeroComprobante: this.Serviciosform.controls["NumeroComprobanteServicio"].value ? this.Serviciosform.controls["NumeroComprobanteServicio"].value : '',
-        RazonSocialEmpresaCliente : this.Serviciosform.value.nombreOrganizacion,
+        SerieComprobante: this.Serviciosform.value.SerieComprobanteServicio,
+        NumeroComprobante: this.Serviciosform.value.NumeroComprobanteServicio,
+        RazonSocialEmpresaCliente: this.Serviciosform.value.nombreOrganizacion,
         RucEmpresaCliente :this.Serviciosform.value.rucOrganizacion,
         CodigoCampania:this.Serviciosform.value.Campania,
         FechaInicio:this.Serviciosform.value.FechaInicio,
@@ -211,10 +213,11 @@ export class ServiciosListComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
-         // x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
-         // x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
-         // x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
+          //x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
+          //x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
+          //x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
           x.FechaDocumento = this.dateUtil.formatDate(x.FechaDocumento);
+          x.FechaComprobante=this.dateUtil.formatDate(x.FechaComprobante);
           });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
