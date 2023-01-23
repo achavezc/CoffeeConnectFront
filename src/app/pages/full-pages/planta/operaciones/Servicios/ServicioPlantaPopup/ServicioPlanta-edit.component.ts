@@ -291,7 +291,7 @@ export class ServicioPlantaeditComponent implements OnInit {
       
       ///////////////////////////77
       NumeroPagos:['',''],
-      BancoPagos:['', Validators.required],
+      BancoPagos:['',''],
       NumeroOperacionPagos:['', Validators.required],
       MonedaPagos:['', Validators.required],
       TipoOperacion:['',''],

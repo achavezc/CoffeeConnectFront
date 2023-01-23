@@ -19,12 +19,12 @@
                                     [ngClass]="{ 'is-invalid': submitted && f.Numero.invalid, 'is-valid': submitted && !f.Numero.invalid }">
                                   </div>
 
-                                  <div class="col-md-4 mb-4 form-group mb-2">
+                                 <!--<div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="validationTooltip04">Numero Operacion</label>
                                     <input type="text" minlength="1" maxlength="100" formControlName="NumeroOperacion"
                                     class="form-control" id="ruc" placeholder="Numero Operacion"
                                     [ngClass]="{ 'is-invalid': submitted && f.NumeroOperacion.invalid, 'is-valid': submitted && !f.NumeroOperacion.invalid }">
-                                  </div>
+                                  </div>-->
 
                                   <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="TipoServicio" class="form-label">Tipo Servicio</label>
@@ -35,18 +35,20 @@
                                         [(ngModel)]="selectedTipoServicio">
                                     </ng-select>
                                 </div>
+
+                                <div class="col-md-4 mb-4 form-group mb-2">
+                                  <label for="estado" class="form-label">Estado</label>
+                                    <ng-select [items]="listEstado" formControlName="estado"
+                                      class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
+                                      placeholder="Seleccionar Estado"
+                                      [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                                      [(ngModel)]="selectedEstado">
+                                  </ng-select>
+                              </div>
                             </div> 
 
                             <div class="form-row">
-                                <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="estado" class="form-label">Estado</label>
-                                      <ng-select [items]="listEstado" formControlName="estado"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
-                                        placeholder="Seleccionar Estado"
-                                        [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
-                                        [(ngModel)]="selectedEstado">
-                                    </ng-select>
-                                </div>
+              
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="TipoComprobante" class="form-label">Tipo Comprobante</label>
                                       <ng-select [items]="listTipoComprobante" formControlName="TipoComprobante"
@@ -64,21 +66,24 @@
                                     class="form-control" id="ruc" placeholder="Serie Comprobante"
                                     [ngClass]="{ 'is-invalid': submitted && f.SerieComprobanteServicio.invalid, 'is-valid': submitted && !f.SerieComprobanteServicio.invalid }">
                                   </div>
-                            </div>
 
-                            <div class="form-row">
-                                <div class="col-md-4 mb-4 form-group mb-2">
+                                  <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="NumeroComprobanteServicio" class="form-label">Numero Comprobante</label>
                                     <input type="text" minlength="1" maxlength="100" formControlName="NumeroComprobanteServicio"
                                     class="form-control" id="NumeroComprobanteServicio" placeholder="Numero Comprobante"
                                     [ngClass]="{ 'is-invalid': submitted && f.NumeroComprobanteServicio.invalid, 'is-valid': submitted && !f.NumeroComprobanteServicio.invalid }">
                                   </div>
+
+                            </div>
+
+                            <div class="form-row">
+                     
                        
                                   <div class="col-md-4 mb-4 form-group mb-2">
-                                    <label for="nombreOrganizacion" class="form-label">Razon Social</label>
-                                    <input type="text"  minlength="1" maxlength="100" formControlName="nombreOrganizacion"
-                                    class="form-control" id="nombreOrganizacion" placeholder="Razon Social"
-                                    [ngClass]="{ 'is-invalid': submitted && f.nombreOrganizacion.invalid, 'is-valid': submitted && !f.nombreOrganizacion.invalid }">
+                                    <label for="RazonSocialEmpresaCliente" class="form-label">Razon Social</label>
+                                    <input type="text"  minlength="1" maxlength="100" formControlName="RazonSocialEmpresaCliente"
+                                    class="form-control" id="RazonSocialEmpresaCliente" placeholder="Razon Social"
+                                    [ngClass]="{ 'is-invalid': submitted && f.RazonSocialEmpresaCliente.invalid, 'is-valid': submitted && !f.RazonSocialEmpresaCliente.invalid }">
                                   </div>
                                   <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="rucOrganizacion" class="form-label">Ruc</label>
@@ -86,6 +91,16 @@
                                     class="form-control" id="rucOrganizacion" placeholder="Ruc"
                                     [ngClass]="{ 'is-invalid': submitted && f.rucOrganizacion.invalid, 'is-valid': submitted && !f.rucOrganizacion.invalid }">
                                   </div>
+
+                                  <div class="col-lg-4 col-md-2 col-sm-8">
+                                    <label for="FechaInicio" class="form-label">Fecha Inicio </label>
+                                    <input type="date" class="form-control" formControlName="FechaInicio" id="validationTooltip07"
+                                    name="FechaInicio" placeholder="date" date
+                                    [ngClass]="{ 'is-invalid': submitted && f.FechaInicio.invalid, 'is-valid': submitted && !f.FechaInicio.invalid }"
+                                    (blur)="compareFechas()" />
+                                  <small class="form-text text-muted danger"
+                                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                </div>
                             </div>
 
                             <div class="form-row">
@@ -98,16 +113,7 @@
                                   <small class="form-text text-muted danger"
                                     *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                 </div>-->
-                                <div class="col-lg-4 col-md-2 col-sm-8">
-                                    <label for="FechaInicio" class="form-label">Fecha Inicio </label>
-                                    <input type="date" class="form-control" formControlName="FechaInicio" id="validationTooltip07"
-                                    name="FechaInicio" placeholder="date" date
-                                    [ngClass]="{ 'is-invalid': submitted && f.FechaInicio.invalid, 'is-valid': submitted && !f.FechaInicio.invalid }"
-                                    (blur)="compareFechas()" />
-                                  <small class="form-text text-muted danger"
-                                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                                </div>
-
+                      
                                 <!--<div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="fechaFin" class="form-label">Fecha Final</label>
                                     <input type="date" class="form-control" formControlName="fechaFin" id="validationTooltip10"

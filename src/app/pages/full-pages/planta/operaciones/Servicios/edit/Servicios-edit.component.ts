@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input,EventEmitter, ViewChild,Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -126,6 +126,7 @@ export class ServiciosEditComponent implements OnInit {
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   ServicioPlantaId: Number;
+  //PagoServicioPlantaId:Number;
  
  // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
@@ -136,13 +137,15 @@ export class ServiciosEditComponent implements OnInit {
 
   Moneda:string;
   //limitRef: number = 10;
-  
+  @Output() agregarEvent = new EventEmitter<any>();
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild(DatatableComponent) tblDetails: DatatableComponent;
   @ViewChild(DatatableComponent) tableLotesDetalle: DatatableComponent;
   isLoading = false;
   fileName = "";
   popUp = true;
+  popUpAnularServicio = true;
+  estado = "01";
   public rowsLotesDetalle = [];
   selectLoteDetalle = [];
   public ColumnMode = ColumnMode;
@@ -288,11 +291,8 @@ export class ServiciosEditComponent implements OnInit {
 
 
   agregarOrdenProceso(e) {
-    this.ServicioPlantaEditForm.controls.ordenProcesoComercial.setValue(e[0].Numero);
-    this.ServicioPlantaEditForm.controls.idOrdenProcesoComercial.setValue(e[0].OrdenProcesoId);
-    this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(e[0].RucEmpresaProcesadora);
-    this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(e[0].RazonSocialEmpresaProcesadora);
-    this.SearchByidOrdenProceso(e[0].OrdenProcesoId);
+   // this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(e[0].ServicioPlantaId);
+    //this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue([0].PagoServicioPlantaId);
 
   }
 
@@ -451,9 +451,10 @@ export class ServiciosEditComponent implements OnInit {
       TipoServicioId:['',''],
       TipoServicio:[],
       TipoComprobante:[],
+      PagoServicioPlantaId:['',''],
       //TipoComprobanteId:['',''],
       Numero: ['', ''],
-      NumeroOperacionRelacionada: ['', ''],
+     // NumeroOperacionRelacionada: ['', ''],
       SerieComprobante: ['', ''],
       NumeroComprobante: ['', ''],
       FechaDocumento: ['', ''],
@@ -472,6 +473,7 @@ export class ServiciosEditComponent implements OnInit {
       TotalImporte: ['', ''],
       ImportePago: ['', ''],
       Observaciones: ['', ''],
+      ObservacionAnulacion:['',''],
       Campania: new FormControl('',[]),
       Campania2:new FormControl('',[]),
       estadoServicio:['',''],
@@ -759,8 +761,8 @@ export class ServiciosEditComponent implements OnInit {
     //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
-  openModalServicioPlanta(modalServicoPlanta) {
-    this.modalService.open(modalServicoPlanta, { windowClass: 'dark-modal', size: 'xl' });
+  openModalAnularServicioPlanta(modalServicoAnularPlanta) {
+    this.modalService.open(modalServicoAnularPlanta, { windowClass: 'dark-modal', size: 'xl' });
 
   }
 
@@ -845,7 +847,7 @@ export class ServiciosEditComponent implements OnInit {
      //ServicioPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
      ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
      Numero: this.ServicioPlantaEditForm.controls["Numero"].value ? this.ServicioPlantaEditForm.controls["Numero"].value : '',
-     NumeroOperacionRelacionada: this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value : '',
+    // NumeroOperacionRelacionada: this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value : '',
      TipoServicioId: this.ServicioPlantaEditForm.controls["TipoServicio"].value ? this.ServicioPlantaEditForm.controls["TipoServicio"].value : '',
      TipoComprobanteId: this.ServicioPlantaEditForm.controls["TipoComprobante"].value ? this.ServicioPlantaEditForm.controls["TipoComprobante"].value : '',
      SerieComprobante:this.ServicioPlantaEditForm.controls["SerieComprobante"].value ? this.ServicioPlantaEditForm.controls["SerieComprobante"].value : '',
@@ -942,15 +944,17 @@ export class ServiciosEditComponent implements OnInit {
   
   }
 
-  anular() {
-   /*  {
+ /* anular() {
     if (this.selected.length > 0) {
-    
-      if (this.selected[0].EstadoCalidadId == this.estadoPesado) {
+      if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
+       this.alertUtil.alertWarning("Advertencia","No se puede Anular la operacion Procesada");
+      return;
+      }
+      if (this.selected[0].EstadoId == this.estado) {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
-          text: "¿Estas seguro de anular?",
+          text: "¿Estas seguro de anular el Pago?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#2F8BE6',
@@ -963,60 +967,73 @@ export class ServiciosEditComponent implements OnInit {
           buttonsStyling: false,
         }).then(function (result) {
           if (result.value) {
-            form.anularServicio();
+            form.anularPago();
           }
         });
-      } 
+      } else {
+        this.alertUtil.alertError("Error", "Solo se puede anular Pagos  en  estado Registrado")
+      }
     }
-  }
- 
-  }*/
 }
-  /*anularServicio(){
-    this.spinner.show(undefined,
-      {
-        type: 'ball-triangle-path',
-        size: 'medium',
-        bdColor: 'rgba(0, 0, 0, 0.8)',
-        color: '#fff',
-        fullScreen: true
-      });
-    this.PagoServicioPlantaService.Anular(
-      {
-        "ControlCalidadPlantaId": this.selected[0].ControlCalidadPlantaId,
-        "NotaIngresoPlantaId": this.selected[0].NotaIngresoPlantaId,
-        "Usuario": this.vSessionUser.Result.Data.NombreUsuario
-      })
-      .subscribe(res => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          if (res.Result.ErrCode == "") {
-            this.alertUtil.alertOk('Anulado!', 'Pago Servicio Anulado.');
-            this.buscar();
-  
-          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-            this.alertUtil.alertError('Error', res.Result.Message);
-          } else {
-            this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-          }
+
+anularPago() {
+  this.spinner.show(undefined,
+    {
+      type: 'ball-triangle-path',
+      size: 'medium',
+      bdColor: 'rgba(0, 0, 0, 0.8)',
+      color: '#fff',
+      fullScreen: true
+    });
+  this.PagoServicioPlantaService.Anular(
+    {
+      "PagoServicioPlantaId": this.selected[0].PagoServicioPlantaId,
+      "ServicioPlantaId":this.selected[0].ServicioPlantaId,
+      "Importe":this.selected[0].Importe,
+      "Usuario": this.vSessionUser.Result.Data.NombreUsuario
+    })
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.alertUtil.alertOk('Anulado!', 'Pago de Servicios Anulado.');
+          this.buscar();
+
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.alertUtil.alertError('Error', res.Result.Message);
         } else {
           this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
         }
-      },
-        err => {
-          this.spinner.hide();
-          console.log(err);
-          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-        }
-      );
-  }*/
+      } else {
+        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+      }
+    );
+}
+*/
+
+
 
   Nuevo() {
     var Moneda = this.ServicioPlantaEditForm.controls["Moneda"].value;
+    var ImportePago = this.ServicioPlantaEditForm.controls["ImportePago"].value;
+    var TotalImporte = this.ServicioPlantaEditForm.controls["TotalImporte"].value;
+
+    if (ImportePago >= TotalImporte){
+      
+      this.alertUtil.alertWarning("Advertencia","No se puede Registrar Mas Pagos");
+    }
+    else{
+
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
     this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}/${Moneda}`]);
-  
+    }
   }
 
   Save(): void {
@@ -1263,6 +1280,9 @@ export class ServiciosEditComponent implements OnInit {
 
 
 
+  singleSelectCheck(row: any) {
+    return this.selected.indexOf(row) === -1;
+  }
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
@@ -1289,7 +1309,7 @@ export class ServiciosEditComponent implements OnInit {
    if (data.Numero){
     this.ServicioPlantaEditForm.controls.Numero.setValue(data.Numero);
    }
-   this.ServicioPlantaEditForm.controls.NumeroOperacionRelacionada.setValue(data.NumeroOperacionRelacionada);
+   //this.ServicioPlantaEditForm.controls.NumeroOperacionRelacionada.setValue(data.NumeroOperacionRelacionada);
    this.ServicioPlantaEditForm.controls.TipoServicio.setValue(data.TipoServicioId);
    this.ServicioPlantaEditForm.controls.TipoComprobante.setValue(data.TipoComprobanteId);
    this.ServicioPlantaEditForm.controls.SerieComprobante.setValue(data.SerieComprobante);
@@ -1319,6 +1339,7 @@ export class ServiciosEditComponent implements OnInit {
    this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
    this.ServicioPlantaEditForm.controls.ImportePago.setValue(data.TotalImporteProcesado);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
+   this.ServicioPlantaEditForm.controls.ObservacionAnulacion.setValue(data.  ObservacionAnulacion);
    this.ServicioPlantaEditForm.controls.Campania.setValue(data.CodigoCampania);
    
    this.ServicioPlantaEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
@@ -1615,6 +1636,10 @@ export class ServiciosEditComponent implements OnInit {
       }
     }
     );
+  }
+
+  Agregar(selected: any) {
+    this.agregarEvent.emit(selected)
   }
 
 

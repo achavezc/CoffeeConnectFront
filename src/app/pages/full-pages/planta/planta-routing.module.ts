@@ -7,6 +7,7 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/orden
 import { ServiciosListComponent } from './operaciones/Servicios/list/servicios-list.component';
 import { ServiciosEditComponent } from './operaciones/Servicios/edit/servicios-edit.component';
 import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaPopup/servicioPlanta-edit.component';
+import{AnularServicioeditComponent}from'./operaciones/Servicios/AnularPopup/edit/anularpopup-edit.component';
 
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
@@ -185,6 +186,13 @@ const routes: Routes = [
         component: ServicioPlantaeditComponent,
         data: {
           title: 'ServicioPlantaedit'
+        }
+      },
+      {
+        path: 'anularpopup-edit',
+        component: AnularServicioeditComponent,
+        data: {
+          title: 'AnularServicioPlantaedit'
         }
       },
     ]

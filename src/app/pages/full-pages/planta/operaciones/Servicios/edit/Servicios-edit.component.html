@@ -128,7 +128,7 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="col-lg-4 col-md-5 col-sm-5">
+                            <div class="col-lg-2 col-md-3 col-sm-5">
                                 <label for="validationTooltip12">Campaña</label>
                                 <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
                                   bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
@@ -137,25 +137,43 @@
                                 </ng-select>
                               </div>
 
-                            <div class="col-lg-4 col-md-5 col-sm-5">
-                                    <label for="TipoServicio">TIPO DE SERVICIO </label>
-                                        <ng-select [items]="listTipoServicio" formControlName="TipoServicio"
-                                            class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoServicio"
-                                            placeholder="Seleccionar Tipo Servicio"
-                                            [ngClass]="{ 'is-invalid': f.TipoServicio.invalid, 'is-valid': !f.TipoServicio.invalid }"
-                                            [(ngModel)]="selectedTipoServicio">
-                                        </ng-select>
-                                    </div>
+                              <div class="col-md-2 mb-3 form-group mb-2">
+                                <label for="FechaComprobante" class="form-label">Fecha Comprobante</label>
+                                <input type="date" class="form-control" formControlName="FechaComprobante" id="validationTooltip07"
+                                name="FechaComprobante" placeholder="date" date
+                                [ngClass]="{ 'is-invalid': submitted && f.FechaComprobante.invalid, 'is-valid': submitted && !f.FechaComprobante.invalid }"
+                                (blur)="compareFechas()" />
+                              <small class="form-text text-muted danger"
+                                *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                            </div>
 
-                                    <div class="col-lg-4 col-md-5 col-sm-5">
-                                        <label for="TipoComprobante">TIPO COMPROBANTE</label>
-                                            <ng-select [items]="listTipoComprobante" formControlName="TipoComprobante"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoComprobante"
-                                                placeholder="Seleccionar Tipo Comprobante"
-                                                [ngClass]="{ 'is-invalid': f.TipoComprobante.invalid, 'is-valid': !f.TipoComprobante.invalid }"
-                                                [(ngModel)]="selectedTipoComprobante">
-                                            </ng-select>
-                                        </div>
+                            <div class="col-lg-2 col-md-3 col-sm-5">
+                                <label for="TipoComprobante">TIPO COMPROBANTE</label>
+                                    <ng-select [items]="listTipoComprobante" formControlName="TipoComprobante"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoComprobante"
+                                        placeholder="Seleccionar Tipo Comprobante"
+                                        [ngClass]="{ 'is-invalid': f.TipoComprobante.invalid, 'is-valid': !f.TipoComprobante.invalid }"
+                                        [(ngModel)]="selectedTipoComprobante">
+                                    </ng-select>
+                                </div>
+
+                                
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="SerieComprobante" >Serie Comprobante</label>
+                                    <input type="text" name="SerieComprobante" id="SerieComprobante"
+                                   formControlName="SerieComprobante" class="form-control"
+                                   placeholder="Serie Comprobante">
+                            </div> 
+
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <label for="NumeroComprobante" >Numero Comprobante</label>
+                                    <input type="text" name="NumeroComprobante" id="NumeroComprobante"
+                                   formControlName="NumeroComprobante" class="form-control"
+                                   placeholder="Numero Comprobante">
+                            </div> 
+
+
+                            
                                
                            <!-- <div class="col-lg-4 col-md-6 col-sm-6">
                                      <label for="Numero" >NUMERO</label>
@@ -230,21 +248,37 @@
                         </div>
                         <div class="form-row">
 
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="NumeroComprobante" >Numero Comprobante</label>
-                                    <input type="text" name="NumeroComprobante" id="NumeroComprobante"
-                                   formControlName="NumeroComprobante" class="form-control"
-                                   placeholder="Numero Comprobante">
+                       
+                            <div class="col-lg-4 col-md-5 col-sm-5">
+                                <label for="TipoServicio">TIPO DE SERVICIO </label>
+                                    <ng-select [items]="listTipoServicio" formControlName="TipoServicio"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoServicio"
+                                        placeholder="Seleccionar Tipo Servicio"
+                                        [ngClass]="{ 'is-invalid': f.TipoServicio.invalid, 'is-valid': !f.TipoServicio.invalid }"
+                                        [(ngModel)]="selectedTipoServicio">
+                                    </ng-select>
+                                </div>
+
+                                
+                            <div class="col-md-2 mb-3 form-group mb-2">
+                                <label for="FechaDocumento" class="form-label">Fecha Documento</label>
+                                <input type="date" class="form-control" formControlName="FechaDocumento" id="validationTooltip07"
+                                name="FechaDocumento" placeholder="date" date
+                                [ngClass]="{ 'is-invalid': submitted && f.FechaDocumento.invalid, 'is-valid': submitted && !f.FechaDocumento.invalid }"
+                                (blur)="compareFechas()" />
+                              <small class="form-text text-muted danger"
+                                *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                            </div>
+
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="SerieDocumento" >Serie Documento</label>
+                                    <input type="text" name="SerieDocumento" id="SerieDocumento"
+                                   formControlName="SerieDocumento" class="form-control"
+                                   placeholder="Serie Documento">
                             </div> 
 
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="SerieComprobante" >Serie Comprobante</label>
-                                    <input type="text" name="SerieComprobante" id="SerieComprobante"
-                                   formControlName="SerieComprobante" class="form-control"
-                                   placeholder="Serie Comprobante">
-                            </div> 
 
-                            <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="col-lg-2 col-md-3 col-sm-6">
                                 <label for="NumeroDocumento" >Numero Documento</label>
                                     <input type="text" name="NumeroDocumento" id="NumeroDocumento"
                                    formControlName="NumeroDocumento" class="form-control"
@@ -254,91 +288,8 @@
                         </div>
                          <div class="form-row">
 
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="SerieDocumento" >Serie Documento</label>
-                                    <input type="text" name="SerieDocumento" id="SerieDocumento"
-                                   formControlName="SerieDocumento" class="form-control"
-                                   placeholder="Serie Documento">
-                            </div> 
-
-                            <div class="col-md-4 mb-4 form-group mb-2">
-                                <label for="FechaComprobante" class="form-label">Fecha Comprobante</label>
-                                <input type="date" class="form-control" formControlName="FechaComprobante" id="validationTooltip07"
-                                name="FechaComprobante" placeholder="date" date
-                                [ngClass]="{ 'is-invalid': submitted && f.FechaComprobante.invalid, 'is-valid': submitted && !f.FechaComprobante.invalid }"
-                                (blur)="compareFechas()" />
-                              <small class="form-text text-muted danger"
-                                *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                            </div>
-                            
-                            
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="Cantidad" >Cantidad</label>
-                                    <input type="number" name="Cantidad" id="Cantidad"
-                                   formControlName="Cantidad" class="form-control"
-                                   placeholder="Cantidad" 
-                                   (change)="calcularcantidad($event)">
-                            </div>
-                         </div>
-                         <div class="form-row">
-
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="PrecioUnitario" >Precio Unitario</label>
-                                    <input type="number" name="PrecioUnitario" id="PrecioUnitario"
-                                   formControlName="PrecioUnitario" class="form-control"
-                                   placeholder="Precio Unitario"
-                                   (change)="calcularImporte($event)">
-                            </div>
-
-
-                            
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="Importe" >Importe</label>
-                                    <input type="number" name="Importe" id="Importe"
-                                   formControlName="Importe" class="form-control"
-                                   placeholder="Importe" readonly>
-                            </div> 
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="PorcentajeTIRB" >PorcentajeTIRB</label>
-                                    <input type="number" name="PorcentajeTIRB" id="PorcentajeTIRB"
-                                   formControlName="PorcentajeTIRB" class="form-control"
-                                   placeholder="PorcentajeTIRB"
-                                   (change)="calcularTotalImporte($event)">
-                            </div>
-                
-                         </div>
-
-                         <div class="form-row">
-
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="TotalImporte" >Total Importe</label>
-                                    <input type="number" name="TotalImporte" id="TotalImporte"
-                                   formControlName="TotalImporte" class="form-control"
-                                   placeholder="Total Importe"
-                                 
-                                   readonly>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="ImportePago" >Importe Pagado</label>
-                                    <input type="number" name="ImportePago" id="ImportePago"
-                                   formControlName="ImportePago" class="form-control"
-                                   placeholder="Importe Pago" readonly>
-                            </div>
-
-                            <div class="col-md-4 mb-4 form-group mb-2">
-                                <label for="FechaDocumento" class="form-label">Fecha Documento</label>
-                                <input type="date" class="form-control" formControlName="FechaDocumento" id="validationTooltip07"
-                                name="FechaDocumento" placeholder="date" date
-                                [ngClass]="{ 'is-invalid': submitted && f.FechaDocumento.invalid, 'is-valid': submitted && !f.FechaDocumento.invalid }"
-                                (blur)="compareFechas()" />
-                              <small class="form-text text-muted danger"
-                                *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                            </div>
-                      
-                         </div>
-                         <div class="form-row">
-
-                            <div class="col-lg-4 col-md-2 col-sm-3">
+                    
+                            <div class="col-lg-2 col-md-3 col-sm-3">
                                 <label for="UnidadMedida">UNIDAD MEDIDA</label>
                                 <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="UnidadMedida"
@@ -347,7 +298,25 @@
                                     [(ngModel)]="selectedTipoUnidadMedida">
                                 </ng-select>
                             </div>
-                            <div class="col-lg-4 col-md-2 col-sm-3">
+
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="Cantidad" >Cantidad</label>
+                                    <input type="number" name="Cantidad" id="Cantidad"
+                                   formControlName="Cantidad" class="form-control"
+                                   placeholder="Cantidad" 
+                                   (change)="calcularcantidad($event)">
+                            </div>
+
+                            
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="PrecioUnitario" >Precio Unitario</label>
+                                    <input type="number" name="PrecioUnitario" id="PrecioUnitario"
+                                   formControlName="PrecioUnitario" class="form-control"
+                                   placeholder="Precio Unitario"
+                                   (change)="calcularImporte($event)">
+                            </div>
+
+                            <div class="col-lg-2 col-md-3 col-sm-3">
                                 <label for="Moneda">MONEDA</label>
                                 <ng-select [items]="listTipoMoneda" formControlName="Moneda"
                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
@@ -359,14 +328,50 @@
                                 
                             </div>
 
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="Importe" >Importe</label>
+                                    <input type="number" name="Importe" id="Importe"
+                                   formControlName="Importe" class="form-control"
+                                   placeholder="Importe" readonly>
+                            </div> 
+
+                         </div>
+                         <div class="form-row">
+
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="PorcentajeTIRB" >PorcentajeTIRB</label>
+                                    <input type="number" name="PorcentajeTIRB" id="PorcentajeTIRB"
+                                   formControlName="PorcentajeTIRB" class="form-control"
+                                   placeholder="PorcentajeTIRB"
+                                   (change)="calcularTotalImporte($event)">
+                            </div>
+
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="TotalImporte" >Total Importe</label>
+                                    <input type="number" name="TotalImporte" id="TotalImporte"
+                                   formControlName="TotalImporte" class="form-control"
+                                   placeholder="Total Importe"
+                                 
+                                   readonly>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="ImportePago" >Importe Pagado</label>
+                                    <input type="number" name="ImportePago" id="ImportePago"
+                                   formControlName="ImportePago" class="form-control"
+                                   placeholder="Importe Pago" readonly>
+                            </div>
+
+                            
                             <div class="col-md-4 mb-2 form-group mb-3">
                                 <label for="Observaciones" >Observaciones</label>
                                 <input type="text" name="Observaciones" id="Observaciones"
                                formControlName="Observaciones" class="form-control"
                                placeholder="Observaciones">
                             </div>
-                      
+                
                          </div>
+
+                       
 
                          <!--<div class="from-row">
 
@@ -411,14 +416,14 @@
                                             </div>
                                             <!-- <form class="needs-validation" [formGroup]="ServicioPlantaEditForm" novalidate> -->
                                                  <div class="form-row">
-                                                    <div class="col-md-4 mb-4 form-group mb-2">
+                                                    <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="NumeroPagos" class="form-label">Numero Pagos</label>
                                                         <input type="text" minlength="1" maxlength="30" formControlName="NumeroPagos"
                                                         class="form-control" id="NumeroPagos" placeholder="Numero Pagos"
                                                         [ngClass]="{ 'is-invalid': submitted && f.NumeroPagos.invalid, 'is-valid': submitted && !f.NumeroPagos.invalid }">
                                                       </div>
                     
-                                                      <div class="col-lg-4 col-md-4 col-sm-6">
+                                                      <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="BancoPagos">Banco Pagos</label>
                                                             <ng-select [items]="listTipoBancoPago" formControlName="BancoPagos"
                                                                 class="form-control" bindLabel="Label" bindValue="Codigo" id="BancoPagos"
@@ -429,7 +434,7 @@
                                                         </div>
                 
                 
-                                                      <div class="col-md-4 mb-4 form-group mb-2">
+                                                      <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="validationTooltip04">Numero Operacion Pago</label>
                                                         <input type="text" minlength="1" maxlength="30" formControlName="NumeroOperacionPagos"
                                                         class="form-control" id="NumeroOperacionPagos" placeholder="Numero Operacion Pago"
@@ -439,7 +444,7 @@
                                                  </div> 
                 
                                                 <div class="form-row">
-                                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                                    <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="MonedaPagos">Moneda Pagos</label>
                                                             <ng-select [items]="listTipoMonedaPago" formControlName="MonedaPagos"
                                                                 class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPagos"
@@ -459,7 +464,7 @@
                                                             </ng-select>
                                                             
                                                         </div>-->
-                                                      <div class="col-lg-4 col-md-4 col-sm-6">
+                                                      <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="TipoOperacionPago">Tipo Operacion Pagos</label>
                                                             <ng-select [items]="listTipoOperacionServicio" formControlName="TipoOperacionPago"
                                                                 class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoOperacionPago"
@@ -470,7 +475,7 @@
                                                         </div>
                 
                 
-                                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                                        <div class="col-md-4 mb-2 form-group mb-2">
                                                             <label for="EstadoPagos">Estado Pagos </label>
                                                                 <ng-select [items]="listTipoEstadoServicioPagos" formControlName="EstadoPagos"
                                                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="EstadoPagos"
@@ -482,7 +487,7 @@
                                                 </div> 
                 
                                                 <div class="form-row">
-                                                    <div class="col-lg-4 col-md-2 col-sm-8">
+                                                    <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="FechaInicioPagos" class="form-label">Fecha Inicio Pagos</label>
                                                         <input type="date" class="form-control" formControlName="FechaInicioPagos" id="validationTooltip07"
                                                         name="FechaInicioPagos" placeholder="date" date
@@ -492,7 +497,7 @@
                                                         *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                                     </div>
                     
-                                                    <div class="col-lg-4 col-md-2 col-sm-8">
+                                                    <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="FechaFinPagos" class="form-label">Fecha Fin Pagos</label>
                                                         <input type="date" class="form-control" formControlName="FechaFinPagos" id="validationTooltip10"
                                                         name="FechaFinPagos" placeholder="date" date
@@ -514,30 +519,32 @@
                                                 </div>
 
                                                 <div class="col-12 col-md-2" style="padding-left: 0cm;">
-                                                    <ng-template #modalServicoPlanta let-c="close" let-d="dismiss">
-                                                      <div class="modal-header" style="text-align: center;">
-                                    
-                                                        <h4 class="modal-title" style="font-size: 1rem;">Pago De Servicios Planta </h4>
-                                                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                                                          <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                      </div>
-                                                      <div class="modal-body">
-                                                        <app-ServicioPlanta-edit [popUp]="popUp" (seleccionarEvent)="agregarOrdenProceso($event)">
-                                                        </app-ServicioPlanta-edit>
-                                                      </div>
-                                                    </ng-template>
+                                                    <ng-template #modalServicoAnularPlanta let-c="close" let-d="dismiss">
+                                                        <!--<div class="modal-header" style="text-align: center;">
+                                                          <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
+                                                          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                                            <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                        </div> -->
+                                                        <div class="modal-body">
+                                                          <app-anularpopup-edit (agregarEvent)="openModalAnularServicioPlanta($event)" [popUp]="popUp"[selected]="selected">
+                                                          </app-anularpopup-edit>
+                                                        </div>
+                                                      </ng-template>
                                                   </div>
                 
-                                                <small class="form-text text-muted danger"
-                                                *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
-                                                <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
-                                                <!--<button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip" data-placement="top"
-                                                  (click)="Agregar(selected)" [disabled]="!rows.length || !selected.length"
-                                                  *ngIf="popUp">Seleccionar</button>-->
-                                                  <!--<button class="btn btn-primary mr-1 mb-1" type="button" (click)="()">Nuevo</button>-->
-                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
-                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular()">Anular</button> 
+                                                  <div class="col-md-5 mb-2 form-group mb-3">
+                                                  <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
+                
+                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button> 
+                                                  <!--<button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular(modalServicoAnularPlanta)"
+                                                  >Anular</button>-->
+                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalAnularServicioPlanta(modalServicoAnularPlanta)">Anular</button>
+                                                  </div>
+                                                
+                                                  <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
+                                                  (click)="openModalAnularServicioPlanta()">Anular</button>-->
+                                                  
                                                 <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="anular()"
                                                   *ngIf="!popUp">Anular</button>-->
                                             <!-- </form> -->
@@ -610,6 +617,8 @@
                                                 <ngx-datatable-column name="Estado Pago" prop="Estado" width="40">
                                                 </ngx-datatable-column> 
                                                 <ngx-datatable-column name="Observaciones" prop="Observaciones" width="40">
+                                                </ngx-datatable-column> 
+                                                <ngx-datatable-column name="Observaciones Anulados" prop="ObservacionAnulacion" width="40">
                                                 </ngx-datatable-column> 
                                                 </ngx-datatable>
                                         </div>

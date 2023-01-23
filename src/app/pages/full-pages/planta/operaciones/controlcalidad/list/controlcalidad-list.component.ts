@@ -441,6 +441,8 @@ export class ControlCalidadListComponent implements OnInit
         }
       );
   }
+
+  
   Procesar() {
     if (this.selected.length > 0) {
         var form = this;

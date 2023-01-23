@@ -76,8 +76,8 @@ export class ServiciosListComponent implements OnInit {
   LoadForm(): void {
     this.Serviciosform = this.fb.group({
        Numero: ['',''],
-       NumeroOperacionRelacionada: ['', ''],
-       NumeroOperacion: ['', ''],          
+       //NumeroOperacionRelacionada: ['', ''],
+       //NumeroOperacion: ['', ''],          
        TipoServicio: ['', ''],
        TipoComprobante: ['', ''],
        SerieComprobanteServicio: ['',''],
@@ -88,7 +88,7 @@ export class ServiciosListComponent implements OnInit {
       // Ruc:['',''],
        Campania: new FormControl('',[]),
        rucOrganizacion: ['',''],
-       nombreOrganizacion: ['',''],
+       RazonSocialEmpresaCliente: ['',''],
        estado :['',''],
        FechaInicio :['',''],
        FechaFin:['','']
@@ -189,12 +189,15 @@ export class ServiciosListComponent implements OnInit {
       
     return {
       
+      /*
         Numero: this.Serviciosform.value.Numero,
         NumeroOperacionRelacionada:this.Serviciosform.value.NumeroOperacion,       
         TipoServicioId : this.Serviciosform.value.TipoServicio,
         TipoComprobanteId : this.Serviciosform.value.TipoComprobante,
-        SerieComprobante: this.Serviciosform.value.SerieComprobanteServicio,
-        NumeroComprobante: this.Serviciosform.value.NumeroComprobanteServicio,
+        //SerieComprobante: this.Serviciosform.value.SerieComprobanteServicio,
+       // NumeroComprobante: this.Serviciosform.value.NumeroComprobanteServicio,
+       SerieComprobante:this.Serviciosform.controls["SerieComprobanteServicio"].value ? this.Serviciosform.controls["SerieComprobanteServicio"].value : '',
+       NumeroComprobante:this.Serviciosform.controls["NumeroComprobanteServicio"].value ? this.Serviciosform.controls["NumeroComprobanteServicio"].value : '',
         RazonSocialEmpresaCliente: this.Serviciosform.value.nombreOrganizacion,
         RucEmpresaCliente :this.Serviciosform.value.rucOrganizacion,
         CodigoCampania:this.Serviciosform.value.Campania,
@@ -202,11 +205,27 @@ export class ServiciosListComponent implements OnInit {
         FechaFin:this.Serviciosform.value.FechaFin,
         EstadoId:  this.Serviciosform.controls["estado"].value,
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId 
+        */
+
+        Numero: this.Serviciosform.controls["Numero"].value ? this.Serviciosform.controls["Numero"].value : '',
+        TipoServicioId: this.Serviciosform.controls["TipoServicio"].value ? this.Serviciosform.controls["TipoServicio"].value : '',
+        TipoComprobanteId: this.Serviciosform.controls["TipoComprobante"].value ? this.Serviciosform.controls["TipoComprobante"].value : '',
+        SerieComprobante:this.Serviciosform.controls["SerieComprobanteServicio"].value ? this.Serviciosform.controls["SerieComprobanteServicio"].value : '',
+        NumeroComprobante:this.Serviciosform.controls["NumeroComprobanteServicio"].value ? this.Serviciosform.controls["NumeroComprobanteServicio"].value : '',
+        RazonSocialEmpresaCliente:this.Serviciosform.controls["RazonSocialEmpresaCliente"].value.trim() ? this.Serviciosform.controls["RazonSocialEmpresaCliente"].value.trim() :"",
+        RucEmpresaCliente:this.Serviciosform.controls["rucOrganizacion"].value ? this.Serviciosform.controls["rucOrganizacion"].value:"",
+        CodigoCampania:this.Serviciosform.controls["Campania"].value ? this.Serviciosform.controls["Campania"].value:"",
+        FechaInicio:this.Serviciosform.value.FechaInicio,
+        FechaFin:this.Serviciosform.value.FechaFin,
+        EstadoId:  this.Serviciosform.controls["estado"].value,
+        EmpresaId: this.vSessionUser.Result.Data.EmpresaId 
+
+
     };
   }
 
   Search(): void {
-    if (!this.Serviciosform.invalid && !this.errorGeneral.isError) {
+    if (!this.Serviciosform.invalid) {
       this.spinner.show();
       const request = this.getRequest();
       this.ServicioPlantaService.Consultar(request).subscribe((res: any) => {
