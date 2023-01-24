@@ -205,6 +205,7 @@ export class ServicioPlantaeditComponent implements OnInit {
     }
     this.cargaCampania();
     this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.MonedaPagos);
+   // this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.BancoPagos);
     this.OcultarSecciones();
   }
 
@@ -300,7 +301,7 @@ export class ServicioPlantaeditComponent implements OnInit {
       TipoOperacionPago:['', Validators.required],
       EstadoPagos:[],
       ObservacionPagos: ['', ''],
-      ImportePagos:['', Validators.required],
+      ImportePagos:['', ''],
       //FechaOperacion:['',''],
       FechaInicioPagos:['',''],
       FechaFinPagos:['',''],
@@ -516,27 +517,60 @@ export class ServicioPlantaeditComponent implements OnInit {
     }
   }
 
+ /* if(this.ServicioPlantaEditForm.controls["ImportePagos"].value > 0)
+  {
+    this.alertUtil.alertWarning("Advertencia","La Suma de Importes Pagos Excedio");
+    return; 
+  }*/
+  /*
+      var ImportePago = this.ServicioPlantaEditForm.controls["ImportePago"].value;
+    var TotalImporte = this.ServicioPlantaEditForm.controls["TotalImporte"].value;
+
+    if (ImportePago > TotalImporte){
+      
+      this.alertUtil.alertWarning("Advertencia","No se puede Registrar Mas Pagos");
+      return;
+    }
+  
+  */
+
   RegistrarPagos(): void {
     this.spinner.show();
     const request = this.GetRequest();
     this.PagoServicioPlantaService.Registrar(request)
       .subscribe((res: any) => {
         this.spinner.hide();
-        if (res.Result.Success) {
-          this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-            "Se registro correctamente el Pago.",
-            () => {
-              this.Cancel();
-            });
-        } else {
+        
+        if (res.Result.Success)
+         {
+          if(res.Result.Data > 0) {
+
+              this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
+                "Se registro correctamente el Pago.",
+                () => {
+                  this.Cancel();
+                });
+           }else{
+            this.alertUtil.alertWarning("Advertencia","No se puede Registrar Mas Pagos");
+           }
+
+          }
+          
+        else {
           this.alertUtil.alertError("ERROR!", res.Result.Message);
         }
+      
       }, (err: any) => {
         console.log(err);
         this.spinner.hide();
-        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);
+        this.alertUtil.alertError("ERROR!", this.vMsgErrGenerico);{
+          
+        }
+       
       });
   }
+
+
 
   /*RegistrarPagos(): void {
     this.spinner.show();

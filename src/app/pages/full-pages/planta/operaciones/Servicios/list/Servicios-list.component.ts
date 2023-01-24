@@ -185,6 +185,41 @@ export class ServiciosListComponent implements OnInit {
     return this.selected.indexOf(row) === -1;
   }
 
+
+  Buscar(): void {
+    this.Search();
+  }
+
+  Search(): void {
+    if (!this.Serviciosform.invalid) {
+      this.spinner.show();
+      const request = this.getRequest();
+      this.ServicioPlantaService.Consultar(request).subscribe((res: any) => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          res.Result.Data.forEach(x => {
+          //x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
+          //x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
+          //x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
+          x.FechaDocumento = this.dateUtil.formatDate(x.FechaDocumento);
+          x.FechaComprobante=this.dateUtil.formatDate(x.FechaComprobante);
+          });
+            this.tempData = res.Result.Data;
+            this.rows = [...this.tempData];
+          this.errorGeneral = { isError: false, msgError: '' };
+        } else {
+          this.errorGeneral = { isError: true, msgError: res.Result.Message };
+        }
+      }, (err: any) => {
+        this.spinner.hide();
+        console.log(err);
+        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+      });
+    } else {
+
+    }
+  }
+
   getRequest(): any {
       
     return {
@@ -224,35 +259,9 @@ export class ServiciosListComponent implements OnInit {
     };
   }
 
-  Search(): void {
-    if (!this.Serviciosform.invalid) {
-      this.spinner.show();
-      const request = this.getRequest();
-      this.ServicioPlantaService.Consultar(request).subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          res.Result.Data.forEach(x => {
-          //x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
-          //x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
-          //x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
-          x.FechaDocumento = this.dateUtil.formatDate(x.FechaDocumento);
-          x.FechaComprobante=this.dateUtil.formatDate(x.FechaComprobante);
-          });
-            this.tempData = res.Result.Data;
-            this.rows = [...this.tempData];
-          this.errorGeneral = { isError: false, msgError: '' };
-        } else {
-          this.errorGeneral = { isError: true, msgError: res.Result.Message };
-        }
-      }, (err: any) => {
-        this.spinner.hide();
-        console.log(err);
-        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-      });
-    } else {
 
-    }
-  }
+
+
   compareTwoDates() {
     /*
     var anioFechaInicio = new Date(this.ordenProcesoform.controls['fechaInicio'].value).getFullYear()
@@ -293,9 +302,6 @@ export class ServiciosListComponent implements OnInit {
   }
 
 
-  Buscar(): void {
-    this.Search();
-  }
   
   Nuevo(): void {
     this.router.navigate(['/planta/operaciones/servicios-edit']);
