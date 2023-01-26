@@ -523,7 +523,7 @@ export class NotaIngresoListComponent implements OnInit {
         }).then(function (result) {
           if (result.value) {
             form.anularGuia();
-          }
+          }  
         });
       } else {
         this.alertUtil.alertError("Error", "Solo se puede anular guias con estado pesado")

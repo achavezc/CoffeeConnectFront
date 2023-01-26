@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn,FormB
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatatableComponent } from "@swimlane/ngx-datatable";
+import { AlertUtil } from '../../../../../../services/util/alert-util';
+import swal from 'sweetalert2';
+import{ PagoServicioPlantaService }from '../../../../../../Services/PagoServiciosPlanta.service';
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
@@ -19,8 +22,10 @@ export class ServiciosListComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private dateUtil: DateUtil,
     private OrdenProcesoServicePlanta: OrdenProcesoServicePlanta,
+    private alertUtil: AlertUtil,
     private ServicioPlantaService:ServicioPlantaService,
     private spinner: NgxSpinnerService,
+    private PagoServicioPlantaService:PagoServicioPlantaService,
     private maestroService: MaestroService,
     private router: Router,
     private route: ActivatedRoute,
@@ -46,11 +51,15 @@ export class ServiciosListComponent implements OnInit {
   limitRef: number = 10;
   rows = [];
   tempData = [];
+  mensajeErrorGenerico = "Ocurrio un error interno.";
   errorGeneral: any = { isError: false, errorMessage: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
+  estadoDeuda = "01";
+  estadoCancelado ="02";
+  estadoAnulado="00";
   Serviciosform: FormGroup;
  // MonedaId: Number;
   @Output() seleccionarEvent = new EventEmitter<any>();
@@ -84,8 +93,13 @@ export class ServiciosListComponent implements OnInit {
        NumeroComprobanteServicio: ['',''],
        Moneda: ['', ''],
        MonedaId:['',''],
+       Importe: ['', ''],
+       TotalImporte:['',''],
+       TotalImporteProcesado:['',''],
+       ObservacionAnulacion:['',''],
       // RazonSocial : ['', ''],
       // Ruc:['',''],
+       porcentajeTIRB:['',''],
        Campania: new FormControl('',[]),
        rucOrganizacion: ['',''],
        RazonSocialEmpresaCliente: ['',''],
@@ -98,29 +112,13 @@ export class ServiciosListComponent implements OnInit {
 
   public comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
-      const numeroGuia = group.controls['numeroGuia'];
-      const numeroDocumento = group.controls['numeroDocumento'];
-      const codigoSocio = group.controls['codigoSocio'];
-      const nombre = group.controls['nombre'];
-      const tipoDocumento = group.controls['tipoDocumento'];
-      if (numeroGuia.value == "" && numeroDocumento.value == "" && codigoSocio.value == "" && nombre.value == "") {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese por lo menos un campo' };
-
+      if (!group.value.fechaInicio || !group.value.fechaFin) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar ambas fechas.' };
+      } else if (!group.controls["estado"].value) {
+        this.errorGeneral = { isError: true, errorMessage: 'Por favor seleccionar un estado.' };
       } else {
         this.errorGeneral = { isError: false, errorMessage: '' };
       }
-
-      if (numeroDocumento.value != "" && (tipoDocumento.value == "" || tipoDocumento.value == undefined)) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Seleccione un tipo documento' };
-
-      } else if (numeroDocumento.value == "" && (tipoDocumento.value != "" && tipoDocumento.value != undefined)) {
-
-        this.errorGeneral = { isError: true, errorMessage: 'Ingrese un numero documento' };
-
-      }
-
       return;
     };
   }
@@ -258,6 +256,93 @@ export class ServiciosListComponent implements OnInit {
 
     };
   }
+    //if (this.selected[0].EstadoId == this.estado) {
+     
+      /*if ((TotalImporteProcesado - TotalImporte) < 0) {
+        
+        this.alertUtil.alertWarning("Advertencia","Puede eliminar el registro");
+        return;
+      }*/
+
+      
+anular(){
+      if (this.selected.length > 0) {
+       /* if (this.selected[0].EstadoId == this.estadoCancelado)
+        {
+        this.alertUtil.alertWarning("Advertencia","Tiene Pagos En Estado Cancelado No Peuede Eliminar");
+        return;
+        }
+      if(this.selected[0].estadoDeuda != this.selected[0].TotalImporteProcesado - this.selected[0].TotalImporte){
+        
+        this.alertUtil.alertWarning("Advertencia","Pagos Asociados A Deuda No Puede Eliminar");
+        return;
+      }*/
+     // if (this.selected[0].EstadoId == this.selected[0].estadoAnulado) {
+      var form = this;
+       swal.fire({
+        title: '¿Estas seguro?',
+        text: "¿Estas seguro de anular?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.AnularServicio();
+        }
+      });
+      }
+     
+     else {
+        this.alertUtil.alertError("Error", "Solo se puede anular guias con estado Anulado")
+      }
+}
+
+
+AnularServicio(){
+  this.spinner.show(undefined,
+    {
+      type: 'ball-triangle-path',
+      size: 'medium',
+      bdColor: 'rgba(0, 0, 0, 0.8)',
+      color: '#fff',
+      fullScreen: true
+    });
+  this.ServicioPlantaService.Anular(
+    {
+      "ServicioPlantaId":this.selected[0].ServicioPlantaId,
+      "Importe":this.selected[0].Importe,
+      "Usuario": this.vSessionUser.Result.Data.NombreUsuario,
+    })
+    .subscribe(res => {
+      this.spinner.hide();
+      if (res.Result.Success) {
+        if (res.Result.ErrCode == "") {
+          this.alertUtil.alertOk('Anulado!', 'Servicio Planta.');
+          this.Buscar();
+
+        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+          this.alertUtil.alertError('Error', res.Result.Message);
+        } else {
+          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+        }
+      } else {
+        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+      }
+    },
+      err => {
+        this.spinner.hide();
+        console.log(err);
+        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
+      }
+    );
+}
 
 
 
@@ -301,8 +386,6 @@ export class ServiciosListComponent implements OnInit {
     }
   }
 
-
-  
   Nuevo(): void {
     this.router.navigate(['/planta/operaciones/servicios-edit']);
    // this.router.navigate([`/planta/operaciones/servicios-edit/${this.MonedaId}`]);

@@ -41,7 +41,7 @@
                                     <ng-select [items]="listEstado" formControlName="estado"
                                       class="form-control" bindLabel="Label" bindValue="Codigo" id="estado"
                                       placeholder="Seleccionar Estado"
-                                      [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
+                                      [ngClass]="{ 'is-invalid': submitted && f.estado.invalid, 'is-valid': submitted && !f.estado.invalid }"
                                       [(ngModel)]="selectedEstado">
                                   </ng-select>
                               </div>
@@ -144,13 +144,15 @@
                             </div>
 
 
-                            <small class="form-text text-muted danger mb-1"
-                                *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                            <small class="form-text text-muted danger"
+                            *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>
                                 <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()">Buscar</button>
                                 <button class="btn btn-primary mr-1 mb-1" type="button" data-toggle="tooltip"
                                 data-placement="top" (click)="Seleccionar(selected)"
                                 [disabled]="!rows.length || !selected.length" *ngIf="popUp">Seleccionar</button>
                             <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="anular()"
+                            *ngIf="!popUp">Anular</button>
                             
                         </form>
                     </div>
@@ -259,10 +261,23 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Saldo" prop="Saldo" width="60">
                             </ngx-datatable-column>
+                            <!--<ngx-datatable-column name="Estado" prop="Estado" width="60">
+                            </ngx-datatable-column>-->
                             <ngx-datatable-column name="Estado" prop="Estado" width="60">
+                              <ng-template let-status="value" ngx-datatable-cell-template>
+                                <div class="badge" [ngClass]="{
+                                        'bg-light-success': status == 'Anulado',
+                                        'bg-light-warning': status == 'Cancelado',
+                                        'bg-light-warning': status == 'deuda'
+                                      }">
+                                  {{ status }}
+                                </div>
+                              </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Observaciones" prop="Observaciones" width="60">
                             </ngx-datatable-column>
+
+                
                         
                         </ngx-datatable>
                     </div>
