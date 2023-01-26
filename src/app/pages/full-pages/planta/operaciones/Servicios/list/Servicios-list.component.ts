@@ -266,17 +266,26 @@ export class ServiciosListComponent implements OnInit {
 
       
 anular(){
-      if (this.selected.length > 0) {
-       /* if (this.selected[0].EstadoId == this.estadoCancelado)
-        {
-        this.alertUtil.alertWarning("Advertencia","Tiene Pagos En Estado Cancelado No Peuede Eliminar");
+      if (this.selected.length > 0) 
+      {
+       if (this.selected[0].EstadoId == this.estadoCancelado)
+       {
+        this.alertUtil.alertWarning("Advertencia"," No se puede anular un Servicio en estado Cancelado.");
         return;
-        }
-      if(this.selected[0].estadoDeuda != this.selected[0].TotalImporteProcesado - this.selected[0].TotalImporte){
+       }
+
+       if (this.selected[0].EstadoId == this.estadoAnulado)
+       {
+        this.alertUtil.alertWarning("Advertencia","No se puede anular un Servicio en estado Anulado");
+        return;
+       }
+
+      if(this.selected[0].EstadoId == this.estadoDeuda && this.selected[0].TotalImporteProcesado>0)
+      {
         
-        this.alertUtil.alertWarning("Advertencia","Pagos Asociados A Deuda No Puede Eliminar");
+        this.alertUtil.alertWarning("Advertencia","No se puede anular un Servicio que tiene Pagos Asociados");
         return;
-      }*/
+      }
      // if (this.selected[0].EstadoId == this.selected[0].estadoAnulado) {
       var form = this;
        swal.fire({
@@ -297,11 +306,9 @@ anular(){
           form.AnularServicio();
         }
       });
-      }
+    }     
      
-     else {
-        this.alertUtil.alertError("Error", "Solo se puede anular guias con estado Anulado")
-      }
+
 }
 
 
