@@ -55,11 +55,11 @@
                                     
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <label for="Numero">N° Servicio</label>
-                                        <input type="text" name="Numero" id="Numero" formControlName="Numero"
+                                    <label for="NumeroPrestamo">N° Prestamo</label>
+                                        <input type="text" name="NumeroPrestamo" id="NumeroPrestamo" formControlName="NumeroPrestamo"
                                             class="form-control"
-                                            [ngClass]="{ 'is-invalid': f.Numero.invalid, 'is-valid': !f.Numero.invalid }"
-                                            placeholder="N° Servicio" [readonly]="true" />
+                                            [ngClass]="{ 'is-invalid': f.NumeroPrestamo.invalid, 'is-valid': !f.NumeroPrestamo.invalid }"
+                                            placeholder="N° Prestamos" [readonly]="true" />
                     
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
@@ -128,249 +128,85 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="col-lg-2 col-md-3 col-sm-5">
-                                <label for="validationTooltip12">Campaña</label>
-                                <ng-select [items]="listaCampania" formControlName="Campania" class="form-control" bindLabel="Label"
-                                  bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
-                                  [ngClass]="{ 'is-invalid': submitted && f.Campania.invalid, 'is-valid': submitted && !f.Campania.invalid }"
-                                  [(ngModel)]="selectedCampania">
-                                </ng-select>
-                              </div>
-
-                              <div class="col-md-2 mb-3 form-group mb-2">
-                                <label for="FechaComprobante" class="form-label">Fecha Comprobante</label>
-                                <input type="date" class="form-control" formControlName="FechaComprobante" id="validationTooltip07"
-                                name="FechaComprobante" placeholder="date" date
-                                [ngClass]="{ 'is-invalid': submitted && f.FechaComprobante.invalid, 'is-valid': submitted && !f.FechaComprobante.invalid }"
+                            <div class="col-md-4 mb-3 form-group mb-2">
+                                <label for="FechaPrestamo" class="form-label">Fecha Prestamo</label>
+                                <input type="date" class="form-control" formControlName="FechaPrestamo" id="validationTooltip07"
+                                name="FechaPrestamo" placeholder="date" date
+                                [ngClass]="{ 'is-invalid': submitted && f.FechaPrestamo.invalid, 'is-valid': submitted && !f.FechaPrestamo.invalid }"
                                 (blur)="compareFechas()" />
                               <small class="form-text text-muted danger"
                                 *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-sm-5">
-                                <label for="TipoComprobante">TIPO COMPROBANTE</label>
-                                    <ng-select [items]="listTipoComprobante" formControlName="TipoComprobante"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoComprobante"
-                                        placeholder="Seleccionar Tipo Comprobante"
-                                        [ngClass]="{ 'is-invalid': f.TipoComprobante.invalid, 'is-valid': !f.TipoComprobante.invalid }"
-                                        [(ngModel)]="selectedTipoComprobante">
-                                    </ng-select>
                                 </div>
 
-                                
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="SerieComprobante" >Serie Comprobante</label>
-                                    <input type="text" name="SerieComprobante" id="SerieComprobante"
-                                   formControlName="SerieComprobante" class="form-control"
-                                   placeholder="Serie Comprobante">
-                            </div> 
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <label for="MonedaPrestamos">MONEDA PRESTAMOS</label>
+                                        <ng-select [items]="listTipoMonedaPrestamos" formControlName="MonedaPrestamos"
+                                            class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPrestamos"
+                                            placeholder="Seleccionar Moneda Prestamo"
+                                            [ngClass]="{ 'is-invalid': f.MonedaPrestamos.invalid, 'is-valid': !f.MonedaPrestamos.invalid }"
+                                            [(ngModel)]="SelectedTipoMonedaPrestamos">
+                                        </ng-select>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <label for="NumeroPrestamo" >Numero. Prestamo </label>
+                                            <input type="number" name="NumeroPrestamo" id="NumeroPrestamo"
+                                           formControlName="NumeroPrestamo" class="form-control"
+                                           placeholder="Nro. Prestamo">
+                                     </div>   
+                                 </div>
+                        <div class="form-row">
 
                             <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="NumeroComprobante" >Numero Comprobante</label>
-                                    <input type="text" name="NumeroComprobante" id="NumeroComprobante"
-                                   formControlName="NumeroComprobante" class="form-control"
-                                   placeholder="Numero Comprobante">
+                                <label for="ImportePrestamo" >IMPORTE </label>
+                                    <input type="number" name="ImportePagos" id="ImportePrestamo"
+                                   formControlName="ImportePrestamo" class="form-control"
+                                   placeholder="Importe Prestamos">
                             </div> 
-
-
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <label for="SaldoPrestamo" >SALDO </label>
+                                    <input type="number" name="SaldoPrestamo" id="SaldoPrestamo"
+                                   formControlName="SaldoPrestamo" class="form-control"
+                                   placeholder="Saldo Prestamo">
+                            </div> 
                             
-                               
-                           <!-- <div class="col-lg-4 col-md-6 col-sm-6">
-                                     <label for="Numero" >NUMERO</label>
-                                        <input type="text" name="Numero" id="Numero"
-                                            formControlName="Numero" class="form-control"
-                                            placeholder="Numero">
-                                      </div> -->
-                            <!-- <div class="col-lg-1 col-md-1 col-sm-1">
-                                <label for="ordenProcesoComercial6"></label>
-                                <button type="button" (click)="openModal(mdlOrdenProceso)"
-                                class="btn btn-primary" style="margin-left: 2px; margin-top:22px">
-                                <i class="fa fa-search"></i>
-                                 </button>
-
-                            </div> -->
-                            
-                        </div>
-                        <div class="form-row">
-                            <!--<div class="col-lg-5 col-md-5 col-sm-5">
-                               
-                                    <label for="nroRucCabe" >RUC</label>
-                                    
-                                        <input type="text" minlength="5" maxlength="20"
-                                            formControlName="nroRucCabe" class="form-control"
-                                            id="validationTooltip04" placeholder="RUC"
-                                            [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid':  !f.nroRucCabe.invalid }"
-                                           >
-                                   
-                               
-                            </div>-->
-
-                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                <label for="rucOrganizacion" >RUC</label>
-                                    <input type="text" id="validationTooltip04"
-                                        formControlName="rucOrganizacion" class="form-control"
-                                        placeholder="RUC"
-                                        [ngClass]="{ 'is-invalid': f.rucOrganizacion.invalid, 'is-valid':  !f.rucOrganizacion.invalid }">
-                                  </div> 
-
-                            <!--<div class="col-lg-6 col-md-6 col-sm-6">
-                                                                
-                                    <label for="razonSocialCabe">RAZON SOCIAL</label>
-                                    
-                                        <input type="text" minlength="8" maxlength="100"
-                                            formControlName="razonSocialCabe" class="form-control"
-                                            id="validationTooltip08" placeholder="RAZON SOCIAL"
-                                            [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
-                                            >
-                            </div>-->
-
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <label for="nombreOrganizacion">RAZON SOCIAL</label>
-                                    <input type="text" id="validationTooltip08"
-                                        formControlName="nombreOrganizacion" class="form-control"
-                                        placeholder="RAZON SOCIAL"
-                                        [ngClass]="{ 'is-invalid': f.nombreOrganizacion.invalid, 'is-valid':  !f.nombreOrganizacion.invalid }">
-                                  </div> 
-
-                            <div class="col-lg-1 col-md-1 col-sm-1">
-                                  <label for="ordenProcesoComercial5"></label>
-                                  
-                                  <button type="button" (click)="openModal(modalEmpresa)"
-                                    class="btn btn-primary" style="margin-left: 2px; margin-top:22px">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                                <ng-template #modalEmpresa let-c="close" let-d="dismiss">
-                                    <app-consultar-empresa (empresaEvent)="GetDataEmpresa($event)">
-                                    </app-consultar-empresa>
-                                  </ng-template>
-
-                            </div>
+                            <div class="col-md-4 mb-2 form-group mb-2">
+                              <label for="EstadoPrestamo">Estado Prestamo </label>
+                                  <ng-select [items]="listTipoEstadoPrestamo" formControlName="EstadoPrestamo"
+                                      class="form-control" bindLabel="Label" bindValue="Codigo" id="EstadoPrestamo"
+                                      placeholder="Seleccionar Estado Prestamo"
+                                      [ngClass]="{ 'is-invalid': f.EstadoPrestamo.invalid, 'is-valid': !f.EstadoPrestamo.invalid }"
+                                      [(ngModel)]="selectedTipoEstadoPrestamo">
+                                  </ng-select>
+                              </div>
                         </div>
                         <div class="form-row">
 
-                       
-                            <div class="col-lg-4 col-md-5 col-sm-5">
-                                <label for="TipoServicio">TIPO DE SERVICIO </label>
-                                    <ng-select [items]="listTipoServicio" formControlName="TipoServicio"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoServicio"
-                                        placeholder="Seleccionar Tipo Servicio"
-                                        [ngClass]="{ 'is-invalid': f.TipoServicio.invalid, 'is-valid': !f.TipoServicio.invalid }"
-                                        [(ngModel)]="selectedTipoServicio">
-                                    </ng-select>
+                            <div class="col-md-5 mb-5 form-group mb-2">
+                                <label for="basicInput" style="font-size: 0.7rem;">Detalle Prestamo</label>
+                                <div class="position-relative has-icon-left">
+                                  <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000" name="notes"
+                                    formControlName="DetallePrestamo">
+                                        </textarea>
+                                  <div class="form-control-position">
+                                    <i class="ft-file"></i>
+                                  </div>
                                 </div>
-
-                                
-                            <div class="col-md-2 mb-3 form-group mb-2">
-                                <label for="FechaDocumento" class="form-label">Fecha Documento</label>
-                                <input type="date" class="form-control" formControlName="FechaDocumento" id="validationTooltip07"
-                                name="FechaDocumento" placeholder="date" date
-                                [ngClass]="{ 'is-invalid': submitted && f.FechaDocumento.invalid, 'is-valid': submitted && !f.FechaDocumento.invalid }"
-                                (blur)="compareFechas()" />
-                              <small class="form-text text-muted danger"
-                                *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="SerieDocumento" >Serie Documento</label>
-                                    <input type="text" name="SerieDocumento" id="SerieDocumento"
-                                   formControlName="SerieDocumento" class="form-control"
-                                   placeholder="Serie Documento">
-                            </div> 
-
-
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="NumeroDocumento" >Numero Documento</label>
-                                    <input type="text" name="NumeroDocumento" id="NumeroDocumento"
-                                   formControlName="NumeroDocumento" class="form-control"
-                                   placeholder="Numero Documento">
-                            </div> 
+                              </div>
+                              <div class="col-md-5 mb-5 form-group mb-2">
+                                <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
+                                <div class="position-relative has-icon-left">
+                                  <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000" name="notes"
+                                    formControlName="ObservacionesPrestamo">
+                                        </textarea>
+                                  <div class="form-control-position">
+                                    <i class="ft-file"></i>
+                                  </div>
+                                </div>
+                              </div>
 
                         </div>
-                         <div class="form-row">
-
-                    
-                            <div class="col-lg-2 col-md-3 col-sm-3">
-                                <label for="UnidadMedida">UNIDAD MEDIDA</label>
-                                <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
-                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="UnidadMedida"
-                                    placeholder="Seleccionar Unidad Medida"
-                                    [ngClass]="{ 'is-invalid': f.UnidadMedida.invalid, 'is-valid': !f.UnidadMedida.invalid }"
-                                    [(ngModel)]="selectedTipoUnidadMedida">
-                                </ng-select>
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="Cantidad" >Cantidad</label>
-                                    <input type="number" name="Cantidad" id="Cantidad"
-                                   formControlName="Cantidad" class="form-control"
-                                   placeholder="Cantidad" 
-                                   (change)="calcularcantidad($event)">
-                            </div>
-
-                            
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="PrecioUnitario" >Precio Unitario</label>
-                                    <input type="number" name="PrecioUnitario" id="PrecioUnitario"
-                                   formControlName="PrecioUnitario" class="form-control"
-                                   placeholder="Precio Unitario"
-                                   (change)="calcularImporte($event)">
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-sm-3">
-                                <label for="Moneda">MONEDA</label>
-                                <ng-select [items]="listTipoMoneda" formControlName="Moneda"
-                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
-                                    placeholder="Seleccionar Moneda"
-                                    [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
-                                    [(ngModel)]="SelectedTipoMoneda" >
-                                    
-                                </ng-select>
-                                
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="Importe" >Importe</label>
-                                    <input type="number" name="Importe" id="Importe"
-                                   formControlName="Importe" class="form-control"
-                                   placeholder="Importe" readonly>
-                            </div> 
-
-                         </div>
-                         <div class="form-row">
-
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="PorcentajeTIRB" >PorcentajeTIRB</label>
-                                    <input type="number" name="PorcentajeTIRB" id="PorcentajeTIRB"
-                                   formControlName="PorcentajeTIRB" class="form-control"
-                                   placeholder="PorcentajeTIRB"
-                                   (change)="calcularTotalImporte($event)">
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="TotalImporte" >Total Importe</label>
-                                    <input type="number" name="TotalImporte" id="TotalImporte"
-                                   formControlName="TotalImporte" class="form-control"
-                                   placeholder="Total Importe"
-                                 
-                                   readonly>
-                            </div>
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="ImportePago" >Importe Pagado</label>
-                                    <input type="number" name="ImportePago" id="ImportePago"
-                                   formControlName="ImportePago" class="form-control"
-                                   placeholder="Importe Pago" readonly>
-                            </div>
-
-                            
-                            <div class="col-md-4 mb-2 form-group mb-3">
-                                <label for="Observaciones" >Observaciones</label>
-                                <input type="text" name="Observaciones" id="Observaciones"
-                               formControlName="Observaciones" class="form-control"
-                               placeholder="Observaciones">
-                            </div>
-                
-                         </div>
-
+                       
                        
 
                          <!--<div class="from-row">
@@ -404,7 +240,7 @@
                          </div>-->
                  
                    
-                    <section id="ngx-datatable-filter">
+                    <section id="ngx-datatable-filter"OcultarSeccion>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -416,15 +252,19 @@
                                             </div>
                                             <!-- <form class="needs-validation" [formGroup]="ServicioPlantaEditForm" novalidate> -->
                                                  <div class="form-row">
+
                                                     <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="NumeroPagos" class="form-label">Numero Pagos</label>
-                                                        <input type="text" minlength="1" maxlength="30" formControlName="NumeroPagos"
-                                                        class="form-control" id="NumeroPagos" placeholder="Numero Pagos"
-                                                        [ngClass]="{ 'is-invalid': submitted && f.NumeroPagos.invalid, 'is-valid': submitted && !f.NumeroPagos.invalid }">
-                                                      </div>
-                    
+                                                        <label for="FechaPrestamo" class="form-label">Fecha</label>
+                                                        <input type="date" class="form-control" formControlName="FechaPrestamo" id="validationTooltip07"
+                                                        name="FechaPrestamo" placeholder="date" date
+                                                        [ngClass]="{ 'is-invalid': submitted && f.FechaPrestamo.invalid, 'is-valid': submitted && !f.FechaPrestamo.invalid }"
+                                                        (blur)="compareFechas()" />
+                                                      <small class="form-text text-muted danger"
+                                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                                        </div>
+
                                                       <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="BancoPagos">Banco Pagos</label>
+                                                        <label for="BancoPagos">Destino/Banco</label>
                                                             <ng-select [items]="listTipoBancoPago" formControlName="BancoPagos"
                                                                 class="form-control" bindLabel="Label" bindValue="Codigo" id="BancoPagos"
                                                                 placeholder="Seleccionar Banco Pagos"
@@ -432,91 +272,9 @@
                                                                 [(ngModel)]="selectedTipoBancoPago">
                                                             </ng-select>
                                                         </div>
-                
-                
-                                                      <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="validationTooltip04">Numero Operacion Pago</label>
-                                                        <input type="text" minlength="1" maxlength="30" formControlName="NumeroOperacionPagos"
-                                                        class="form-control" id="NumeroOperacionPagos" placeholder="Numero Operacion Pago"
-                                                        [ngClass]="{ 'is-invalid': submitted && f.NumeroOperacionPagos.invalid, 'is-valid': submitted && !f.NumeroOperacionPagos.invalid }">
-                                                      </div>
-                
                                                  </div> 
                 
-                                                <div class="form-row">
-                                                    <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="MonedaPagos">Moneda Pagos</label>
-                                                            <ng-select [items]="listTipoMonedaPago" formControlName="MonedaPagos"
-                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPagos"
-                                                                placeholder="Seleccionar Moneda Pago"
-                                                                [ngClass]="{ 'is-invalid': submittedEdit && f.MonedaPagos.invalid, 'is-valid': submittedEdit && !f.MonedaPagos.invalid }"
-                                                                [(ngModel)]="SelectedTipoMonedaPago" >
-                                                            </ng-select>
-                                                        </div>
-                                                        <!--<div class="col-lg-4 col-md-4 col-sm-6">
-                                                            <label for="Moneda">MONEDA</label>
-                                                            <ng-select [items]="listTipoMoneda" formControlName="Moneda"
-                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
-                                                                placeholder="Seleccionar Moneda"
-                                                                [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
-                                                                [(ngModel)]="SelectedTipoMoneda" >
-                                                                
-                                                            </ng-select>
-                                                            
-                                                        </div>-->
-                                                      <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="TipoOperacionPago">Tipo Operacion Pagos</label>
-                                                            <ng-select [items]="listTipoOperacionServicio" formControlName="TipoOperacionPago"
-                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoOperacionPago"
-                                                                placeholder="Seleccionar Tipo Operacion Pagos"
-                                                                [ngClass]="{ 'is-invalid': f.TipoOperacionPago.invalid, 'is-valid': !f.TipoOperacionPago.invalid }"
-                                                                [(ngModel)]="selectedTipoOperacionServicio">
-                                                            </ng-select>
-                                                        </div>
-                
-                
-                                                        <div class="col-md-4 mb-2 form-group mb-2">
-                                                            <label for="EstadoPagos">Estado Pagos </label>
-                                                                <ng-select [items]="listTipoEstadoServicioPagos" formControlName="EstadoPagos"
-                                                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="EstadoPagos"
-                                                                    placeholder="Seleccionar Estado Pago"
-                                                                    [ngClass]="{ 'is-invalid': f.EstadoPagos.invalid, 'is-valid': !f.EstadoPagos.invalid }"
-                                                                    [(ngModel)]="selectedTipoEstadoServicioPagos">
-                                                                </ng-select>
-                                                            </div>
-                                                </div> 
-                
-                                                <div class="form-row">
-                                                    <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="FechaInicioPagos" class="form-label">Fecha Inicio Pagos</label>
-                                                        <input type="date" class="form-control" formControlName="FechaInicioPagos" id="validationTooltip07"
-                                                        name="FechaInicioPagos" placeholder="date" date
-                                                        [ngClass]="{ 'is-invalid': submitted && f.FechaInicioPagos.invalid, 'is-valid': submitted && !f.FechaInicioPagos.invalid }"
-                                                        (blur)="compareFechas()" />
-                                                      <small class="form-text text-muted danger"
-                                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                                                    </div>
-                    
-                                                    <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="FechaFinPagos" class="form-label">Fecha Fin Pagos</label>
-                                                        <input type="date" class="form-control" formControlName="FechaFinPagos" id="validationTooltip10"
-                                                        name="FechaFinPagos" placeholder="date" date
-                                                        [ngClass]="{ 'is-invalid': submitted && f.FechaFinPagos.invalid, 'is-valid': submitted && !f.FechaFinPagos.invalid }"
-                                                        (blur)="compareTwoDates()" />
-                                                      <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
-                                                    </div>
-
-                                                   <!-- <div class="col-lg-4 col-md-4 col-sm-6">
-                                                        <label for="validationTooltip12">Campaña</label>
-                                                        <ng-select [items]="listaCampania2" formControlName="Campania2" class="form-control" bindLabel="Label"
-                                                          bindValue="Codigo" id="validationTooltip12" placeholder="Campaña"
-                                                          [ngClass]="{ 'is-invalid': submitted && f.Campania2.invalid, 'is-valid': submitted && !f.Campania2.invalid }" 
-                                                          [(ngModel)]="selectedCampania2">
-                                                        </ng-select>
-                                                      </div>-->
-                                                   
-                                                   
-                                                </div>
+                                                
 
                                                 <div class="col-12 col-md-2" style="padding-left: 0cm;">
                                                     <ng-template #modalServicoAnularPlanta let-c="close" let-d="dismiss">
@@ -533,14 +291,14 @@
                                                       </ng-template>
                                                   </div>
                 
-                                                  <div class="col-md-5 mb-2 form-group mb-3">
+                                                <!--<div class="col-md-3 mb-1 form-group mb-3">-->
                                                   <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
                 
                                                   <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button> 
                                                   <!--<button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular(modalServicoAnularPlanta)"
                                                   >Anular</button>-->
                                                   <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalAnularServicioPlanta(modalServicoAnularPlanta)">Anular</button>
-                                                  </div>
+                                                  <!--</div>-->
                                                 
                                                   <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
                                                   (click)="openModalAnularServicioPlanta()">Anular</button>-->
@@ -588,7 +346,7 @@
                                                 [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
                     
                                               
-                                               <ngx-datatable-column name="Numero Pago" prop="Numero" width="50">
+                                               <ngx-datatable-column name="Nro Devolucones" prop="NumeroDevoluciones" width="50">
                                                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                                <div class="d-flex align-items-center">
                                                   <div class="cell-line-height">
@@ -602,23 +360,19 @@
 
                                                <!--- <ngx-datatable-column name="Numero Pagos" prop="Numero" width="40" *ngIf="popUp">
                                                 </ngx-datatable-column>-->   
-                                                <ngx-datatable-column name="Nro Operacion Pago" prop="NumeroOperacion" width="40">
-                                                </ngx-datatable-column>                          
-                                                <ngx-datatable-column name="Tipo Operacion Pago" prop="TipoOperacionPagoServicio" width="40">
+                                                <!--<ngx-datatable-column name="Nro Devolucones" prop="NumeroDevoluciones" width="40">
+                                                </ngx-datatable-column>-->                          
+                                                <ngx-datatable-column name="Fecha Devoluciones" prop="Fecha" width="40">
                                                 </ngx-datatable-column>
-                                                <ngx-datatable-column name="Banco Pago" prop="Banco" width="40">
+                                                <ngx-datatable-column name="Destino/Banco" prop="Banco" width="40">
                                                 </ngx-datatable-column>                            
-                                                <ngx-datatable-column name="Moneda Pago" prop="Moneda" width="40">
+                                                <ngx-datatable-column name="Moneda" prop="Moneda" width="40">
                                                 </ngx-datatable-column>
-                                                <ngx-datatable-column name="Importe Pago" prop="Importe" width="40">
+                                                <ngx-datatable-column name="Importe" prop="Importe" width="40">
                                                 </ngx-datatable-column>
-                                                <ngx-datatable-column name="Fecha Operacion Pago" prop="FechaOperacion" width="40">
-                                                </ngx-datatable-column>
-                                                <ngx-datatable-column name="Estado Pago" prop="Estado" width="40">
+                                                <ngx-datatable-column name="Estado" prop="Estado" width="40">
                                                 </ngx-datatable-column> 
                                                 <ngx-datatable-column name="Observaciones" prop="Observaciones" width="40">
-                                                </ngx-datatable-column> 
-                                                <ngx-datatable-column name="Observaciones Anulados" prop="ObservacionAnulacion" width="40">
                                                 </ngx-datatable-column> 
                                                 </ngx-datatable>
                                         </div>

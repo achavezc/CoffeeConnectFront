@@ -212,6 +212,20 @@ const routes: Routes = [
           title: 'PrestamosEdit'
         }
       },
+      {
+        path: 'serviciosprestamos-edit/:id',
+        component: PrestamosEditComponent,
+        data: {
+          title: 'PrestamosEdit'
+        }
+      },
+      {
+        path: 'serviciosprestamos-edit/:ServicioPlantaId',
+        component: PrestamosEditComponent,
+        data: {
+          title: 'PrestamosEdit'
+        }
+      },
     ]
   }
 ];

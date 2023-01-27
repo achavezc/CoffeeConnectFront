@@ -89,9 +89,6 @@ export class PrestamosEditComponent implements OnInit {
   listTipoEstadoServicioPagos:[]=[];
   selectedTipoEstadoServicioPagos:any;
 
-
-
-
   listaCertificacion: any[];
   listaCampania:any[];
   listaCampania2:any[];
@@ -122,6 +119,13 @@ export class PrestamosEditComponent implements OnInit {
   selectOrganizacion = [];
   selectedEstado: any;
   selectedTipoProceso: any;
+
+  listTipoEstadoPrestamo:[]=[];
+  selectedTipoEstadoPrestamo:any;
+
+  listTipoMonedaPrestamos:[]=[];
+  SelectedTipoMonedaPrestamos:any;
+
   vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
@@ -180,6 +184,7 @@ export class PrestamosEditComponent implements OnInit {
     this.PrestamosEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
     this.PrestamosEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
 
+    
     this.GetTipoProcesos();
     this.GetListTipoServicio();
     this.GetListTipoComprobante();
@@ -194,11 +199,16 @@ export class PrestamosEditComponent implements OnInit {
     this.GetEstado();
     this.GetEstadoSercicio();
     //this.GetTipoProduccion();
-    this.GetCertificacion();
+    //this.GetCertificacion();
     this.GetProducto();
     this.GetCertificadora();
     this.GetEmpaque();
     this.GetTipo();
+
+    this.GetEstadoPrestamos();
+    this.GetListaTipoMonedaPrestamo();
+    //this.GetTipoProduccion();
+    this.GetCertificacion();
     //this.GetProductoTerminado();
     //this.GetCalidad();
     //this.GetGrado();
@@ -211,10 +221,163 @@ export class PrestamosEditComponent implements OnInit {
     } else if (this.ServicioPlantaId > 0) {
       this.ConsultaPorId(this.ServicioPlantaId);
     }
-    this.cargaCampania();
-    this.cargaCampania2();
+
    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.MonedaPagos);
     this.OcultarSecciones();
+  }
+
+  async cargaCampania() 
+  {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania = data.Result.Data;
+    }
+
+  }
+
+  async cargaCampania2() 
+  {
+
+    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
+    if (data.Result.Success) {
+      this.listaCampania2 = data.Result.Data;
+    }
+
+  }
+
+  async GetTipoProcesos() {
+    const res = await this.maestroService.obtenerMaestros('TipoProcesoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoProcesos = res.Result.Data;
+    }
+  }
+
+  async GetListTipoServicio() {
+    let res = await this.maestroService.obtenerMaestros('TipoServicioPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoServicio = res.Result.Data;
+    }
+  }
+
+  async GetListTipoComprobante() {
+    let res = await this.maestroService.obtenerMaestros('TipoComprobantePlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoComprobante = res.Result.Data;
+    }
+  }
+
+  
+
+  async GetListUnidadMedida() {
+    let res = await this.maestroService.obtenerMaestros('UnidadMedidaServicioPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoUnidadMedida = res.Result.Data;
+    }
+  }
+
+  
+  async GetListaTipoMoneda () {
+    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listTipoMoneda = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoMonedaPago () {
+    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listTipoMonedaPago = res.Result.Data;
+    }
+  }
+
+
+  async GetListaTipoBancoPago () {
+    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
+    if (res.Result.Success) {
+      this.listTipoBancoPago = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoBanco () {
+    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
+    if (res.Result.Success) {
+      this.listTipoBanco = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoOperacionServicios () {
+    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
+    if (res.Result.Success) {
+      this.listTipoOperacionServicio = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoOperacionServiciosPago () {
+    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
+    if (res.Result.Success) {
+      this.listTipoOperacionServicioPago = res.Result.Data;
+    }
+  }
+
+  async GetEstadoSercicio() {
+    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listEstadoServicio = res.Result.Data;
+    }
+  }
+
+
+
+  async GetListaTipoEstadoPagos () {
+    let res = await this.maestroService.obtenerMaestros('EstadoPagoServicio').toPromise();
+    if (res.Result.Success) {
+      this.listTipoEstadoServicioPagos = res.Result.Data;
+    }
+  }
+
+
+
+
+  async GetEstado() {
+    const res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listEstado = res.Result.Data;
+    }
+  }
+
+
+  async GetProducto() {
+    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listProducto = res.Result.Data;
+    }
+  }
+  async GetCertificadora() {
+    const res = await this.maestroService.obtenerMaestros('EntidadCertificadoraPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listCertificadora = res.Result.Data;
+    }
+  }
+
+  async GetEmpaque() {
+    const res = await this.maestroService.obtenerMaestros('Empaque').toPromise();
+    if (res.Result.Success) {
+      this.listEmpaque = res.Result.Data;
+    }
+  }
+  async GetTipo() {
+    const res = await this.maestroService.obtenerMaestros('TipoEmpaque').toPromise();
+    if (res.Result.Success) {
+      this.listTipo = res.Result.Data;
+    }
+  }
+
+  async GetProductoTerminado() {
+    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listProductoTerminado = res.Result.Data;
+    }
   }
 
   changeTipos(e)
@@ -406,7 +569,7 @@ export class PrestamosEditComponent implements OnInit {
   }
   LoadForm(): void {
     this.PrestamosEditForm = this.fb.group({
-     
+       
       idOrdenProceso: [],
       organizacionId: [],
       razonSocialCabe: ['',],
@@ -491,173 +654,25 @@ export class PrestamosEditComponent implements OnInit {
       FechaFinPagos:['',''],
       //////Grilla campos////////////
       FechaOperacionPagos:['',''],
+    
+    
+      //////campos Prestamos Y devoluciones///////////////////
+      FechaPrestamo:['',''],
+      DetallePrestamo:['',''],
+      ImportePrestamo:['',''],
+      EstadoPrestamo:['',''],
+      FondoPrestamo:['',''],
+      ObservacionesPrestamo:['',''],
+      SaldoPrestamo:['',''],
+      NumeroPrestamo:['',''],
+      MonedaPrestamos:['','']
 
     });
     this.PrestamosEditForm.controls.estado.disable();
   }
-
- 
-
-  
-
   get f() {
     return this.PrestamosEditForm.controls;
   }
-
-  async cargaCampania() 
-  {
-
-    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
-    if (data.Result.Success) {
-      this.listaCampania = data.Result.Data;
-    }
-
-  }
-
-  async cargaCampania2() 
-  {
-
-    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
-    if (data.Result.Success) {
-      this.listaCampania2 = data.Result.Data;
-    }
-
-  }
-
-  async GetTipoProcesos() {
-    const res = await this.maestroService.obtenerMaestros('TipoProcesoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoProcesos = res.Result.Data;
-    }
-  }
-
-  async GetListTipoServicio() {
-    let res = await this.maestroService.obtenerMaestros('TipoServicioPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoServicio = res.Result.Data;
-    }
-  }
-
-  async GetListTipoComprobante() {
-    let res = await this.maestroService.obtenerMaestros('TipoComprobantePlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoComprobante = res.Result.Data;
-    }
-  }
-
-  
-
-  async GetListUnidadMedida() {
-    let res = await this.maestroService.obtenerMaestros('UnidadMedidaServicioPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoUnidadMedida = res.Result.Data;
-    }
-  }
-
-  
-  async GetListaTipoMoneda () {
-    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
-    if (res.Result.Success) {
-      this.listTipoMoneda = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoMonedaPago () {
-    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
-    if (res.Result.Success) {
-      this.listTipoMonedaPago = res.Result.Data;
-    }
-  }
-
-
-  async GetListaTipoBancoPago () {
-    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
-    if (res.Result.Success) {
-      this.listTipoBancoPago = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoBanco () {
-    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
-    if (res.Result.Success) {
-      this.listTipoBanco = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoOperacionServicios () {
-    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
-    if (res.Result.Success) {
-      this.listTipoOperacionServicio = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoOperacionServiciosPago () {
-    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
-    if (res.Result.Success) {
-      this.listTipoOperacionServicioPago = res.Result.Data;
-    }
-  }
-
-  async GetEstadoSercicio() {
-    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listEstadoServicio = res.Result.Data;
-    }
-  }
-
-
-
-  async GetListaTipoEstadoPagos () {
-    let res = await this.maestroService.obtenerMaestros('EstadoPagoServicio').toPromise();
-    if (res.Result.Success) {
-      this.listTipoEstadoServicioPagos = res.Result.Data;
-    }
-  }
-
-
-
-
-  async GetEstado() {
-    const res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listEstado = res.Result.Data;
-    }
-  }
-
-
-  async GetProducto() {
-    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listProducto = res.Result.Data;
-    }
-  }
-  async GetCertificadora() {
-    const res = await this.maestroService.obtenerMaestros('EntidadCertificadoraPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listCertificadora = res.Result.Data;
-    }
-  }
-
-  async GetEmpaque() {
-    const res = await this.maestroService.obtenerMaestros('Empaque').toPromise();
-    if (res.Result.Success) {
-      this.listEmpaque = res.Result.Data;
-    }
-  }
-  async GetTipo() {
-    const res = await this.maestroService.obtenerMaestros('TipoEmpaque').toPromise();
-    if (res.Result.Success) {
-      this.listTipo = res.Result.Data;
-    }
-  }
-
-  async GetProductoTerminado() {
-    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listProductoTerminado = res.Result.Data;
-    }
-  }
-
 
   async OcultarSecciones(){
 
@@ -671,8 +686,25 @@ export class PrestamosEditComponent implements OnInit {
 
     }
   }
+/////////////////////////////////////
+
+  async GetEstadoPrestamos() {
+    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoEstadoPrestamo = res.Result.Data;
+    }
+  }
+
+  async GetListaTipoMonedaPrestamo () {
+    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listTipoMonedaPrestamos = res.Result.Data;
+    }
+  }
 
 
+
+/////////////////////////////////////
 
   GetDataModal(event: any): void {
     this.modalService.dismissAll();
@@ -1020,7 +1052,7 @@ anularPago() {
 
 
   Nuevo() {
-    var Moneda = this.PrestamosEditForm.controls["Moneda"].value;
+    /*var Moneda = this.PrestamosEditForm.controls["Moneda"].value;
     var ImportePago = this.PrestamosEditForm.controls["ImportePago"].value;
     var TotalImporte = this.PrestamosEditForm.controls["TotalImporte"].value;
 
@@ -1028,13 +1060,14 @@ anularPago() {
       
       this.alertUtil.alertWarning("Advertencia","No se puede Registrar Mas Pagos");
     }
-    else{
+    else{*/
 
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
-    this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}/${Moneda}`]);
+    this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}`]);
     }
-  }
+  
+
 
   Save(): void {
   //  debugger
@@ -1342,6 +1375,9 @@ anularPago() {
    this.PrestamosEditForm.controls.ObservacionAnulacion.setValue(data.  ObservacionAnulacion);
    this.PrestamosEditForm.controls.Campania.setValue(data.CodigoCampania);
    
+   this.PrestamosEditForm.controls.MonedaPrestamos.setValue(data.MonedaId);
+   
+   this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
    this.PrestamosEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
    this.PrestamosEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
   this.PrestamosEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
