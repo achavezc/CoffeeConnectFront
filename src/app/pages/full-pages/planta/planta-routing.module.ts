@@ -8,6 +8,8 @@ import { ServiciosListComponent } from './operaciones/Servicios/list/servicios-l
 import { ServiciosEditComponent } from './operaciones/Servicios/edit/servicios-edit.component';
 import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaPopup/servicioPlanta-edit.component';
 import{AnularServicioeditComponent}from'./operaciones/Servicios/AnularPopup/edit/anularpopup-edit.component';
+import{PrestamosListComponent}from './operaciones/ServiciosPrestamos/list/serviciosprestamos-list.component';
+import{PrestamosEditComponent}from './operaciones/ServiciosPrestamos/edit/serviciosprestamos-edit.component';
 
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
@@ -193,6 +195,21 @@ const routes: Routes = [
         component: AnularServicioeditComponent,
         data: {
           title: 'AnularServicioPlantaedit'
+        }
+      },
+      {
+        path: 'serviciosprestamos-list',
+        component: PrestamosListComponent,
+        data:
+        {
+          title: 'PrestamosList'
+        }
+      },
+      {
+        path: 'serviciosprestamos-edit',
+        component: PrestamosEditComponent,
+        data: {
+          title: 'PrestamosEdit'
         }
       },
     ]
