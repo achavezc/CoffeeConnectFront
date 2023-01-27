@@ -72,7 +72,7 @@ export class ServiciosEditComponent implements OnInit {
 
   listTipoMonedaPago:[]=[];
   SelectedTipoMonedaPago:any;
-
+  visibleBuscarLiquidacion = false;
 
   listTipoBanco:[]=[];
   selectedTipoBanco:any;
@@ -232,7 +232,7 @@ export class ServiciosEditComponent implements OnInit {
       
       this.ServicioPlantaEditForm.controls.producto.setValue("01") // Pergamino
       this.ServicioPlantaEditForm.controls.producto.disable();
-
+      
       
       
 
@@ -457,7 +457,10 @@ export class ServiciosEditComponent implements OnInit {
      // NumeroOperacionRelacionada: ['', ''],
       SerieComprobante: ['', ''],
       NumeroComprobante: ['', ''],
+      NumeroLiquidacion: ['', ''],
+      LiquidacionProcesoPlantaId:['',''],
       FechaDocumento: ['', ''],
+      FechaLiquidacion: ['', ''],
       FechaComprobante:['',''],
       FechaRegistro:['',''],
       SerieDocumento: ['', ''],
@@ -787,6 +790,53 @@ export class ServiciosEditComponent implements OnInit {
   }
 
 
+  onChangeTipoServicio(event: any): void 
+  {
+    if (event.Codigo == '02' /*Liq/Proceso*/ || event.Codigo == '03' /*Liq/Reproceso*/ || event.Codigo == '04' /*Liq/Secado*/) 
+    {
+      this.visibleBuscarLiquidacion = true;
+    } 
+    else
+     {
+      this.visibleBuscarLiquidacion = false;
+    }
+  }
+  openModalLiquidacion(modalLiquidacionProceso: any): void 
+  {
+    
+    debugger
+    if(this.ServicioPlantaEditForm.controls['rucOrganizacion'].value =='' || this.ServicioPlantaEditForm.controls['rucOrganizacion'].value ==null)
+    {
+      this.alertUtil.alertWarning("Oops...!", "Debe seleccionar una Empresa.");
+      
+    }
+    else
+    {
+      this.modalService.open(modalLiquidacionProceso, { windowClass: 'dark-modal', size: 'xl' });
+    }
+
+
+    //var tipoProceso = this.ServicioPlantaEditForm.controls["tipoProceso"].value;
+
+    
+     // if (tipoProceso != '03') //Reproceso
+      //{
+        
+      //}
+      //else {
+        //this.modalService.open(modalAlmacenProductoTerminado, { windowClass: 'dark-modal', size: 'xl' });
+    //  }
+    
+    // else {
+    //   this.alertUtil.alertWarning("Oops...!", "Seleccione Tipo de Proceso");
+
+    // }
+    //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
+  }
+
+
+
+
 
   
   updateLimit(event: any): void {
@@ -871,8 +921,10 @@ export class ServiciosEditComponent implements OnInit {
      EstadoId:this.ServicioPlantaEditForm.controls["estado"].value ? this.ServicioPlantaEditForm.controls["estado"].value : '',
      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-     EmpresaClienteId:this.ServicioPlantaEditForm.controls["organizacionId"].value ? this.ServicioPlantaEditForm.controls["organizacionId"].value : 0
+     EmpresaClienteId:this.ServicioPlantaEditForm.controls["organizacionId"].value ? this.ServicioPlantaEditForm.controls["organizacionId"].value : 0,
      
+     LiquidacionProcesoPlantaId:this.ServicioPlantaEditForm.controls["LiquidacionProcesoPlantaId"].value ? this.ServicioPlantaEditForm.controls["LiquidacionProcesoPlantaId"].value:null,
+
 
     }
     
@@ -1345,6 +1397,24 @@ anularPago() {
    this.ServicioPlantaEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
    this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
   this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
+
+
+  this.ServicioPlantaEditForm.controls.NumeroLiquidacion.setValue(data.NumeroLiquidacionProcesoPlanta);
+  this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(data.FechaFinLiquidacionProcesoPlanta == null ? "" : this.dateUtil.formatDate(data.FechaFinLiquidacionProcesoPlanta));
+  this.ServicioPlantaEditForm.controls.LiquidacionProcesoPlantaId.setValue(data.LiquidacionProcesoPlantaId);
+
+
+  if (data.TipoServicioId     == '02' /*Liq/Proceso*/ || data.TipoServicioId == '03' /*Liq/Reproceso*/ || data.TipoServicioId == '04' /*Liq/Secado*/) 
+    {
+      this.visibleBuscarLiquidacion = true;
+    } 
+    else
+     {
+      this.visibleBuscarLiquidacion = false;
+    }
+
+
+
     }
     this.spinner.hide();
   }
@@ -1518,6 +1588,35 @@ anularPago() {
   calcularKilosNetos() {
     return 20;
   }
+
+
+  seleccionarLiquidacion(e) 
+  {
+    debugger
+ 
+    // this.ServicioPlantaEditForm.controls["NumeroLiquidacion"].setValue(e[0].Numero);
+    // this.ServicioPlantaEditForm.controls["Observaciones"].setValue(e[0].Numero);
+
+      this.ServicioPlantaEditForm.controls.NumeroLiquidacion.setValue(e[0].Numero);
+      this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(e[0].FechaFinProceso == null ? "" : this.dateUtil.formatDate(e[0].FechaFinProceso));
+      this.ServicioPlantaEditForm.controls.LiquidacionProcesoPlantaId.setValue(e[0].LiquidacionProcesoPlantaId);
+      
+
+      //this.ServicioPlantaEditForm.controls.Observaciones.setValue(e[0].Numero);
+
+
+    
+    // this.ServicioPlantaEditForm.controls["tipoProceso"].setValue(e[0].TipoProceso);
+    // this.ServicioPlantaEditForm.controls["ruc"].setValue(e[0].RucOrganizacion);
+    
+    this.modalService.dismissAll();
+   
+
+  }
+
+
+
+
   agregarNotaIngreso(e, tipo) {
 
     debugger
