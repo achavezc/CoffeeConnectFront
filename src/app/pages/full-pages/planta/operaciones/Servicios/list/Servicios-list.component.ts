@@ -104,6 +104,7 @@ export class ServiciosListComponent implements OnInit {
        rucOrganizacion: ['',''],
        RazonSocialEmpresaCliente: ['',''],
        estado :['',''],
+       ///FechaPrestamo :['',''],
        FechaInicio :['',''],
        FechaFin:['','']
     });

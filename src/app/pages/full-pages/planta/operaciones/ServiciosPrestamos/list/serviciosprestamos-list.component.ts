@@ -45,6 +45,12 @@ export class PrestamosListComponent implements OnInit {
   listTipoComprobante: [] = [];
   selectedTipoComprobante: any;
 
+  listTipoMonedaPrestamos: [] = [];
+  SelectedTipoMonedaPrestamos:any;
+
+  listTipoEstadoPrestamo: [] = [];
+  selectedTipoEstadoPrestamo:any;
+
 
   vSessionUser: any;
   selected = [];
@@ -57,6 +63,7 @@ export class PrestamosListComponent implements OnInit {
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
   submitted = false;
+  submittedPrestamoEdit = false;
   estadoDeuda = "01";
   estadoCancelado ="02";
   estadoAnulado="00";
@@ -72,7 +79,7 @@ export class PrestamosListComponent implements OnInit {
     this.LoadForm();
     this.LoadCombos();
     this.cargaCampania();
-    this.GetListaTipoMoneda();
+    this.GetListaTipoMonedaPrestamos();
     //this.Serviciosform.controls['FechaFin'].setValue(this.dateUtil.currentDate());
    // this.Serviciosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.Prestamosform.controls['FechaFin'].setValue(this.dateUtil.currentDate());
@@ -105,7 +112,17 @@ export class PrestamosListComponent implements OnInit {
        RazonSocialEmpresaCliente: ['',''],
        estado :['',''],
        FechaInicio :['',''],
-       FechaFin:['','']
+       FechaFin:['',''],
+       ///////////////Prestamos Y Devoluciones ////////////////////
+       FechaPrestamo:['',''],
+       DetallePrestamo:['',''],
+       ImportePrestamo:['',''],
+       EstadoPrestamo:['',''],
+       FondoPrestamo:['',''],
+       ObservacionesPrestamo:['',''],
+       SaldoPrestamo:['',''],
+       NumeroPrestamo:['',''],
+       MonedaPrestamos:['','']
     });
    // this.ordenProcesoform.setValidators(this.comparisonValidator())
   }
@@ -136,17 +153,17 @@ export class PrestamosListComponent implements OnInit {
   }
 
   LoadCombos(): void {
-    this.GetEstado();
+    this.GetlistTipoEstadoPrestamo();
     this.GetListTipoServicio();
     this.GetListTipoComprobante();
   }
 
 
   
-  async GetEstado() {
+  async GetlistTipoEstadoPrestamo() {
     const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
     if (res.Result.Success) {
-      this.listEstado = res.Result.Data;
+      this.listTipoEstadoPrestamo = res.Result.Data;
     }
   }
 
@@ -379,10 +396,10 @@ AnularServicio(){
       this.errorFecha = { isError: false, errorMessage: '' };
     }*/
   }
-  async GetListaTipoMoneda () {
+  async GetListaTipoMonedaPrestamos () {
     let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
-      this.listTipoMoneda = res.Result.Data;
+      this.listTipoMonedaPrestamos = res.Result.Data;
     }
   }
 
