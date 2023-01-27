@@ -39,6 +39,21 @@
             <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
             </div>
           </ng-template>
+
+          <ng-template #modalLiquidacionProceso let-c="close" let-d="dismiss">
+            <div class="modal-header" style="text-align: center;">
+      
+              <h4 class="modal-title" style="font-size: 1rem;">BANDEJA DE LIQUIDACION DE PROCESO</h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <app-liquidacionproceso (liquidacionEvent)="seleccionarLiquidacion($event)" [popUp] = "popUp" [rucCliente]="this.ServicioPlantaEditForm.controls['rucOrganizacion'].value" [cliente]="this.ServicioPlantaEditForm.controls['nombreOrganizacion'].value"></app-liquidacionproceso>
+              </div>
+          </ng-template>
+
+
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card"  style="margin-bottom: 2rem;">
@@ -209,7 +224,7 @@
                                 <label for="rucOrganizacion" >RUC</label>
                                     <input type="text" id="validationTooltip04"
                                         formControlName="rucOrganizacion" class="form-control"
-                                        placeholder="RUC"
+                                        placeholder="RUC" readonly
                                         [ngClass]="{ 'is-invalid': f.rucOrganizacion.invalid, 'is-valid':  !f.rucOrganizacion.invalid }">
                                   </div> 
 
@@ -228,7 +243,7 @@
                                 <label for="nombreOrganizacion">RAZON SOCIAL</label>
                                     <input type="text" id="validationTooltip08"
                                         formControlName="nombreOrganizacion" class="form-control"
-                                        placeholder="RAZON SOCIAL"
+                                        placeholder="RAZON SOCIAL" readonly
                                         [ngClass]="{ 'is-invalid': f.nombreOrganizacion.invalid, 'is-valid':  !f.nombreOrganizacion.invalid }">
                                   </div> 
 
@@ -246,20 +261,16 @@
 
                             </div>
                         </div>
-                        <div class="form-row">
-
-                       
+                        <div class="form-row">                       
                             <div class="col-lg-4 col-md-5 col-sm-5">
                                 <label for="TipoServicio">TIPO DE SERVICIO </label>
                                     <ng-select [items]="listTipoServicio" formControlName="TipoServicio"
                                         class="form-control" bindLabel="Label" bindValue="Codigo" id="TipoServicio"
-                                        placeholder="Seleccionar Tipo Servicio"
+                                        placeholder="Seleccionar Tipo Servicio" (change)="onChangeTipoServicio($event)"
                                         [ngClass]="{ 'is-invalid': f.TipoServicio.invalid, 'is-valid': !f.TipoServicio.invalid }"
                                         [(ngModel)]="selectedTipoServicio">
                                     </ng-select>
-                                </div>
-
-                                
+                                </div>                                
                             <div class="col-md-2 mb-3 form-group mb-2">
                                 <label for="FechaDocumento" class="form-label">Fecha Documento</label>
                                 <input type="date" class="form-control" formControlName="FechaDocumento" id="validationTooltip07"
@@ -269,26 +280,25 @@
                               <small class="form-text text-muted danger"
                                 *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                             </div>
-
                             <div class="col-lg-2 col-md-3 col-sm-6">
                                 <label for="SerieDocumento" >Serie Documento</label>
                                     <input type="text" name="SerieDocumento" id="SerieDocumento"
                                    formControlName="SerieDocumento" class="form-control"
                                    placeholder="Serie Documento">
                             </div> 
-
-
                             <div class="col-lg-2 col-md-3 col-sm-6">
-                                <label for="NumeroDocumento" >Numero Documento</label>
+                                <label for="NumeroDocumento" >Número Documento</label>
                                     <input type="text" name="NumeroDocumento" id="NumeroDocumento"
                                    formControlName="NumeroDocumento" class="form-control"
                                    placeholder="Numero Documento">
                             </div> 
-
                         </div>
-                         <div class="form-row">
 
-                    
+
+                        
+
+                        
+                         <div class="form-row">
                             <div class="col-lg-2 col-md-3 col-sm-3">
                                 <label for="UnidadMedida">UNIDAD MEDIDA</label>
                                 <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
@@ -298,16 +308,13 @@
                                     [(ngModel)]="selectedTipoUnidadMedida">
                                 </ng-select>
                             </div>
-
                             <div class="col-lg-2 col-md-3 col-sm-6">
                                 <label for="Cantidad" >Cantidad</label>
                                     <input type="number" name="Cantidad" id="Cantidad"
                                    formControlName="Cantidad" class="form-control"
                                    placeholder="Cantidad" 
                                    (change)="calcularcantidad($event)">
-                            </div>
-
-                            
+                            </div>                            
                             <div class="col-lg-2 col-md-3 col-sm-6">
                                 <label for="PrecioUnitario" >Precio Unitario</label>
                                     <input type="number" name="PrecioUnitario" id="PrecioUnitario"
@@ -315,17 +322,14 @@
                                    placeholder="Precio Unitario"
                                    (change)="calcularImporte($event)">
                             </div>
-
                             <div class="col-lg-2 col-md-3 col-sm-3">
                                 <label for="Moneda">MONEDA</label>
                                 <ng-select [items]="listTipoMoneda" formControlName="Moneda"
                                     class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
                                     placeholder="Seleccionar Moneda"
                                     [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
-                                    [(ngModel)]="SelectedTipoMoneda" >
-                                    
-                                </ng-select>
-                                
+                                    [(ngModel)]="SelectedTipoMoneda" >                                    
+                                </ng-select>                                
                             </div>
 
                             <div class="col-lg-2 col-md-3 col-sm-6">
@@ -371,7 +375,35 @@
                 
                          </div>
 
-                       
+                         <div class="form-row">
+                           
+
+                            <div class="col-lg-2 col-md-3 col-sm-5">
+                                <label for="NumeroLiquidacion">Número Liquidación</label>
+                                <input type="text" name="NumeroLiquidacion" id="NumeroLiquidacion"
+                                   formControlName="NumeroLiquidacion" class="form-control"
+                                   placeholder="Número Liquidación" readonly>
+                                   
+                                </div>
+
+                                <div class="col-md-2 mb-3 form-group mb-2">        
+                            
+                                    <button type="button" *ngIf="visibleBuscarLiquidacion" (click)="openModalLiquidacion(modalLiquidacionProceso)"
+                                    class="btn btn-primary" style="margin-left: 2px; margin-top:22px">
+                                    <i class="fa fa-search"></i>
+                                </button> 
+                               </div> 
+
+                               <div class="col-md-2 mb-3 form-group mb-2">        
+                                <label for="FechaLiquidacion">Fecha Liquidación</label>
+                                <input type="text" name="FechaLiquidacion" id="FechaLiquidacion"
+                                   formControlName="FechaLiquidacion" class="form-control"
+                                   placeholder="Fecha Liquidación" readonly>
+                                 
+                              
+                               </div> 
+
+                        </div>
 
                          <!--<div class="from-row">
 

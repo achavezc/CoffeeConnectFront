@@ -68,7 +68,7 @@
                                 *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
                             <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="Buscar()"
                                 [disabled]="liquidacionProcesoForm.invalid">Buscar</button>
-                            <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()" [disabled]="readonly==true">Nuevo</button>
+                            <button class="btn btn-primary mr-1 mb-1" *ngIf="!popUp" type="button" (click)="Nuevo()" [disabled]="readonly==true">Nuevo</button>
                         </form>
                     </div>
                 </div>
@@ -108,9 +108,9 @@
                         </fieldset>
                         <ngx-datatable #tblOrdenProceso class="bootstrap core-bootstrap" [columnMode]="'force'"
                             [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows"
-                            [scrollbarH]="true" [selected]="selected" [selectionType]="'single'"
-                            [selectCheck]="singleSelectCheck">
-                            <ngx-datatable-column name="N° LIQUIDACIÓN" prop="Numero" width="100">
+                            [scrollbarH]="true" [selected]="selected" [selectionType]="'single'" (dblclick)="seleccionarLiquidacionProceso()"
+                            [selectCheck]="singleSelectCheck"   >
+                            <ngx-datatable-column name="N° LIQUIDACIÓN" prop="Numero" width="100" *ngIf="!popUp">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -122,6 +122,9 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
+                            <ngx-datatable-column name="N° LIQUIDACIÓN" prop="Numero" width="50"  *ngIf="popUp">
+                            </ngx-datatable-column>
+
                             <ngx-datatable-column name="N° ORDEN PRODESO" prop="NumeroOrdenProcesoPlanta" width="50">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="RUC" prop="RucOrganizacion" width="50">
@@ -148,6 +151,11 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
+
+                            <ngx-datatable-column name="ESTADO COMPROBANTE" prop="ServicioPagoEstado" width="50">
+                            </ngx-datatable-column>
+
+
                         </ngx-datatable>
                     </div>
                 </div>

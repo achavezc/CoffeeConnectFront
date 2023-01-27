@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, ViewChild, Output, EventEmitter} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -37,6 +37,7 @@ export class LiquidacionProcesoComponent implements OnInit {
   listEstados = [];
   selectedTipoProceso: any;
   selectedEstado: any;
+  
   limitRef = 10;
   rows = [];
   selected = [];
@@ -45,7 +46,11 @@ export class LiquidacionProcesoComponent implements OnInit {
   errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   readonly: boolean;
-
+  @Output() liquidacionEvent = new EventEmitter<any[]>();
+  @Input() popUp = false;
+  @Input() rucCliente="";
+  @Input() cliente="";
+  
   ngOnInit(): void {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
@@ -55,7 +60,8 @@ export class LiquidacionProcesoComponent implements OnInit {
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
-  LoadForm(): void {
+  LoadForm(): void 
+  {
     this.liquidacionProcesoForm = this.fb.group({
         nroLiquidacion: new FormControl('', []),        
         ruc: new FormControl('', []),
@@ -66,6 +72,31 @@ export class LiquidacionProcesoComponent implements OnInit {
         tipoProceso: new FormControl('', [])
     });
   }
+
+
+  seleccionarLiquidacionProceso(): void {
+    debugger
+    this.liquidacionEvent.emit(this.selected);
+  }
+
+  async LoadFormPopup() 
+  {
+    if (this.popUp) {
+      debugger
+      this.liquidacionProcesoForm.controls['estado'].disable();
+      this.liquidacionProcesoForm.controls['estado'].setValue("01"); //Liquidado
+      this.liquidacionProcesoForm.controls['ruc'].disable();
+      this.liquidacionProcesoForm.controls['ruc'].setValue(this.rucCliente);
+
+      this.liquidacionProcesoForm.controls['organizacion'].disable();
+      this.liquidacionProcesoForm.controls['organizacion'].setValue(this.cliente);
+
+
+      this.selectedEstado = '01';
+
+    }
+  }
+
 
   get f() {
     return this.liquidacionProcesoForm.controls;
@@ -83,6 +114,8 @@ export class LiquidacionProcesoComponent implements OnInit {
         this.listTipoProceso = res.Result.Data;
       }
     }); 
+
+    this.LoadFormPopup();
   }
 
   singleSelectCheck(row: any) {
