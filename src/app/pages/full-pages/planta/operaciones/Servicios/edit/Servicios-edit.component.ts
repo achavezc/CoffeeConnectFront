@@ -461,6 +461,8 @@ export class ServiciosEditComponent implements OnInit {
       LiquidacionProcesoPlantaId:['',''],
       FechaDocumento: ['', ''],
       FechaLiquidacion: ['', ''],
+      KilosNetosLiquidacionProcesoPlanta: ['', ''],
+      
       FechaComprobante:['',''],
       FechaRegistro:['',''],
       SerieDocumento: ['', ''],
@@ -795,6 +797,7 @@ export class ServiciosEditComponent implements OnInit {
     if (event.Codigo == '02' /*Liq/Proceso*/ || event.Codigo == '03' /*Liq/Reproceso*/ || event.Codigo == '04' /*Liq/Secado*/) 
     {
       this.visibleBuscarLiquidacion = true;
+      
     } 
     else
      {
@@ -804,7 +807,7 @@ export class ServiciosEditComponent implements OnInit {
   openModalLiquidacion(modalLiquidacionProceso: any): void 
   {
     
-    debugger
+    
     if(this.ServicioPlantaEditForm.controls['rucOrganizacion'].value =='' || this.ServicioPlantaEditForm.controls['rucOrganizacion'].value ==null)
     {
       this.alertUtil.alertWarning("Oops...!", "Debe seleccionar una Empresa.");
@@ -867,7 +870,17 @@ export class ServiciosEditComponent implements OnInit {
          data.Cantidad = cantidad;
        }); */
 
+    debugger
+ 
+    var FechaLiquidacion = this.ServicioPlantaEditForm.controls["FechaLiquidacion"].value;
+    var KilosNetosLiquidacion;
     
+    if(this.ServicioPlantaEditForm.controls["KilosNetosLiquidacionProcesoPlanta"].value!='')
+    {
+      KilosNetosLiquidacion = this.ServicioPlantaEditForm.controls["KilosNetosLiquidacionProcesoPlanta"].value;
+    }
+    
+
 
     const request =
     {
@@ -924,7 +937,10 @@ export class ServiciosEditComponent implements OnInit {
      EmpresaClienteId:this.ServicioPlantaEditForm.controls["organizacionId"].value ? this.ServicioPlantaEditForm.controls["organizacionId"].value : 0,
      
      LiquidacionProcesoPlantaId:this.ServicioPlantaEditForm.controls["LiquidacionProcesoPlantaId"].value ? this.ServicioPlantaEditForm.controls["LiquidacionProcesoPlantaId"].value:null,
-
+     NumeroLiquidacionProcesoPlanta:this.ServicioPlantaEditForm.controls["NumeroLiquidacion"].value ? this.ServicioPlantaEditForm.controls["NumeroLiquidacion"].value : '',
+     FechaFinLiquidacionProcesoPlanta:FechaLiquidacion,
+     KilosNetosLiquidacionProcesoPlanta:KilosNetosLiquidacion
+     
 
     }
     
@@ -1089,7 +1105,7 @@ anularPago() {
   }
 
   Save(): void {
-  //  debugger
+    debugger
     if (!this.ServicioPlantaEditForm.invalid) {
         const form = this;
         if (this.ServicioPlantaId <= 0) {
@@ -1400,7 +1416,10 @@ anularPago() {
 
 
   this.ServicioPlantaEditForm.controls.NumeroLiquidacion.setValue(data.NumeroLiquidacionProcesoPlanta);
-  this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(data.FechaFinLiquidacionProcesoPlanta == null ? "" : this.dateUtil.formatDate(data.FechaFinLiquidacionProcesoPlanta));
+  //this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(data.FechaFinLiquidacionProcesoPlanta == null ? "" : this.dateUtil.formatDate(data.FechaFinLiquidacionProcesoPlanta));
+  this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(data.FechaFinLiquidacionProcesoPlanta == null ? "" :  formatDate(data.FechaFinLiquidacionProcesoPlanta, 'yyyy-MM-dd', 'en') );
+      
+  
   this.ServicioPlantaEditForm.controls.LiquidacionProcesoPlantaId.setValue(data.LiquidacionProcesoPlantaId);
 
 
@@ -1541,7 +1560,7 @@ anularPago() {
 
   cargarDatos(detalle: any) {
     detalle.forEach(data => {
-      debugger
+      
       let object: any = {};
       object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId
 
@@ -1592,15 +1611,15 @@ anularPago() {
 
   seleccionarLiquidacion(e) 
   {
-    debugger
+    
  
     // this.ServicioPlantaEditForm.controls["NumeroLiquidacion"].setValue(e[0].Numero);
     // this.ServicioPlantaEditForm.controls["Observaciones"].setValue(e[0].Numero);
 
       this.ServicioPlantaEditForm.controls.NumeroLiquidacion.setValue(e[0].Numero);
-      this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(e[0].FechaFinProceso == null ? "" : this.dateUtil.formatDate(e[0].FechaFinProceso));
+      this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(e[0].FechaFinProceso == null ? "" :  formatDate(e[0].FechaFinProceso, 'yyyy-MM-dd', 'en') );
       this.ServicioPlantaEditForm.controls.LiquidacionProcesoPlantaId.setValue(e[0].LiquidacionProcesoPlantaId);
-      
+  
 
       //this.ServicioPlantaEditForm.controls.Observaciones.setValue(e[0].Numero);
 
@@ -1619,7 +1638,7 @@ anularPago() {
 
   agregarNotaIngreso(e, tipo) {
 
-    debugger
+    
 
     if (tipo == 'materiaPrima') 
     {

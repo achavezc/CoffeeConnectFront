@@ -382,26 +382,31 @@
                                 <label for="NumeroLiquidacion">Número Liquidación</label>
                                 <input type="text" name="NumeroLiquidacion" id="NumeroLiquidacion"
                                    formControlName="NumeroLiquidacion" class="form-control"
-                                   placeholder="Número Liquidación" readonly>
+                                   placeholder="Número Liquidación" [readonly]="visibleBuscarLiquidacion">
                                    
                                 </div>
-
-                                <div class="col-md-2 mb-3 form-group mb-2">        
+                                <div class="col-lg-1 col-md-1 col-sm-1"> 
+                                        
                             
                                     <button type="button" *ngIf="visibleBuscarLiquidacion" (click)="openModalLiquidacion(modalLiquidacionProceso)"
                                     class="btn btn-primary" style="margin-left: 2px; margin-top:22px">
                                     <i class="fa fa-search"></i>
                                 </button> 
                                </div> 
-
-                               <div class="col-md-2 mb-3 form-group mb-2">        
+                               <div class="col-lg-2 col-md-3 col-sm-6">  
+                                      
                                 <label for="FechaLiquidacion">Fecha Liquidación</label>
-                                <input type="text" name="FechaLiquidacion" id="FechaLiquidacion"
+                                <input type="date" name="FechaLiquidacion" id="FechaLiquidacion"
                                    formControlName="FechaLiquidacion" class="form-control"
-                                   placeholder="Fecha Liquidación" readonly>
-                                 
-                              
+                                   placeholder="Fecha Liquidación" [readonly]="visibleBuscarLiquidacion">    
                                </div> 
+
+                               <div class="col-lg-2 col-md-3 col-sm-6">
+                                <label for="KilosNetos" >Kilos Netos Liquidación</label>
+                                    <input type="number" name="KilosNetosLiquidacionProcesoPlanta" id="KilosNetosLiquidacionProcesoPlanta"
+                                   formControlName="KilosNetosLiquidacionProcesoPlanta" class="form-control"
+                                   placeholder="Kilos Netos Liquidación" [readonly]="visibleBuscarLiquidacion" >
+                            </div>
 
                         </div>
 
