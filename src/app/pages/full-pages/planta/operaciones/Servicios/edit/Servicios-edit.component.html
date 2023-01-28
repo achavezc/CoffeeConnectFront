@@ -186,39 +186,9 @@
                                    formControlName="NumeroComprobante" class="form-control"
                                    placeholder="Numero Comprobante">
                             </div> 
-
-
-                            
-                               
-                           <!-- <div class="col-lg-4 col-md-6 col-sm-6">
-                                     <label for="Numero" >NUMERO</label>
-                                        <input type="text" name="Numero" id="Numero"
-                                            formControlName="Numero" class="form-control"
-                                            placeholder="Numero">
-                                      </div> -->
-                            <!-- <div class="col-lg-1 col-md-1 col-sm-1">
-                                <label for="ordenProcesoComercial6"></label>
-                                <button type="button" (click)="openModal(mdlOrdenProceso)"
-                                class="btn btn-primary" style="margin-left: 2px; margin-top:22px">
-                                <i class="fa fa-search"></i>
-                                 </button>
-
-                            </div> -->
-                            
+                     
                         </div>
-                        <div class="form-row">
-                            <!--<div class="col-lg-5 col-md-5 col-sm-5">
-                               
-                                    <label for="nroRucCabe" >RUC</label>
-                                    
-                                        <input type="text" minlength="5" maxlength="20"
-                                            formControlName="nroRucCabe" class="form-control"
-                                            id="validationTooltip04" placeholder="RUC"
-                                            [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid':  !f.nroRucCabe.invalid }"
-                                           >
-                                   
-                               
-                            </div>-->
+                        <div class="form-row"> 
 
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <label for="rucOrganizacion" >RUC</label>
@@ -226,18 +196,7 @@
                                         formControlName="rucOrganizacion" class="form-control"
                                         placeholder="RUC" readonly
                                         [ngClass]="{ 'is-invalid': f.rucOrganizacion.invalid, 'is-valid':  !f.rucOrganizacion.invalid }">
-                                  </div> 
-
-                            <!--<div class="col-lg-6 col-md-6 col-sm-6">
-                                                                
-                                    <label for="razonSocialCabe">RAZON SOCIAL</label>
-                                    
-                                        <input type="text" minlength="8" maxlength="100"
-                                            formControlName="razonSocialCabe" class="form-control"
-                                            id="validationTooltip08" placeholder="RAZON SOCIAL"
-                                            [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
-                                            >
-                            </div>-->
+                                  </div>  
 
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <label for="nombreOrganizacion">RAZON SOCIAL</label>
@@ -292,11 +251,7 @@
                                    formControlName="NumeroDocumento" class="form-control"
                                    placeholder="Numero Documento">
                             </div> 
-                        </div>
-
-
-                        
-
+                        </div> 
                         
                          <div class="form-row">
                             <div class="col-lg-2 col-md-3 col-sm-3">
@@ -410,36 +365,7 @@
 
                         </div>
 
-                         <!--<div class="from-row">
-
-                            <div class="col-lg-4 col-md-5 col-sm-5">
-                                <label for="UnidadMedida">UNIDAD MEDIDA</label>
-                                    <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="UnidadMedida"
-                                        placeholder="Seleccionar Unidad Medida"
-                                        [ngClass]="{ 'is-invalid': f.UnidadMedida.invalid, 'is-valid': !f.UnidadMedida.invalid }"
-                                        [(ngModel)]="selectedTipoUnidadMedida">
-                                    </ng-select>
-                                </div>
-
-                
-                            <div class="col-lg-4 col-md-5 col-sm-5">
-                                <label for="Moneda">MONEDA</label>
-                                    <ng-select [items]="listTipoMoneda" formControlName="Moneda"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
-                                        placeholder="Seleccionar Moneda"
-                                        [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
-                                        [(ngModel)]="SelectedTipoMoneda">
-                                    </ng-select>
-                                </div>
-                                <div class="col-lg-4 col-md-5 col-sm-5">
-                                    <label for="Observaciones" >Observaciones</label>
-                                        <input type="text" name="Observaciones" id="Observaciones"
-                                       formControlName="Observaciones" class="form-control"
-                                       placeholder="Observaciones">
-                                </div> 
-                         </div>-->
-                 
+                         
                    
                     <section id="ngx-datatable-filter"*ngIf="OcultarSeccion">
                         <div class="row">
@@ -665,28 +591,38 @@
                         </div>
                     </section>  
 
-                    <div class="card-footer">
-                        <div class="form-row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group row">
-                                    <div class="col-lg-6">
-                                        <small class="form-text text-muted danger mb-1"
-                                            *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                                    </div>
-                                    <div class="col-lg-6 text-right">
-                                      <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
-                                            *ngIf="ServicioPlantaId > 0">Imprimir</button>-->
-                                        <button type="button" class="btn btn-primary mr-1"
-                                            (click)="Save()" [disabled]="readonly==false">Guardar</button>
-                                        <button type="button" class="btn btn-danger"
-                                            (click)="Cancel()">Cancelar</button>
-                                    </div>
+                    
+                
+                
+                </div>
+
+                <div class="card-footer">
+                    <div class="form-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <small class="form-text text-muted danger mb-1"
+                                        *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                  <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
+                                        *ngIf="ServicioPlantaId > 0">Imprimir</button>-->
+                                    <button type="button" class="btn btn-primary mr-1"
+                                        (click)="Save()" [disabled]="readonly==false">Guardar</button>
+                                    <button type="button" class="btn btn-danger"
+                                        (click)="Cancel()">Cancelar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            
+            
             </div>
+
+
+
+
         </div>
         </div>
     </section>
