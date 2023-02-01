@@ -53,6 +53,9 @@ export class PrestamosListComponent implements OnInit {
   listTipoEstadoPrestamo: [] = [];
   selectedTipoEstadoPrestamo:any;
 
+  listTipoEstadoDevolucion: [] = [];
+  selectedTipoEstadoDevolucion:any;
+
   listTipoEstadoFondos: [] = [];
   selectedTipoEstadoFondos:any;
 
@@ -98,28 +101,16 @@ export class PrestamosListComponent implements OnInit {
   LoadForm(): void {
     this.Prestamosform = this.fb.group({
        Numero: ['',''],
-       //NumeroOperacionRelacionada: ['', ''],
-       //NumeroOperacion: ['', ''],          
-       TipoServicio: ['', ''],
-       TipoComprobante: ['', ''],
-       SerieComprobanteServicio: ['',''],
-       NumeroComprobanteServicio: ['',''],
        Moneda: ['', ''],
        MonedaId:['',''],
        Importe: ['', ''],
        TotalImporte:['',''],
        TotalImporteProcesado:['',''],
-       ObservacionAnulacion:['',''],
-      // RazonSocial : ['', ''],
-      // Ruc:['',''],
-      FechaRegistro:['',''],
-       porcentajeTIRB:['',''],
-       Campania: new FormControl('',[]),
+       FechaRegistro:['',''],
        rucOrganizacion: ['',''],
        RazonSocialEmpresaCliente: ['',''],
        estado :['',''],
        Estado:['',''],
-  
        ///////////////Prestamos Y Devoluciones ////////////////////
        FechaPrestamo:['',''],
        DetalleServicioPrestamos:['',''],
@@ -237,7 +228,7 @@ export class PrestamosListComponent implements OnInit {
     return {
       
   
-        Numero: this.Prestamosform.controls["Numero"].value ? this.Prestamosform.controls["Numero"].value : '',
+        Numero: this.Prestamosform.controls["NumeroPrestamo"].value ? this.Prestamosform.controls["NumeroPrestamo"].value : '',
         FondoPrestamoId: this.Prestamosform.controls["FondoPrestamo"].value ? this.Prestamosform.controls["FondoPrestamo"].value : '',
         DetallePrestamo: this.Prestamosform.controls["DetalleServicioPrestamos"].value ? this.Prestamosform.controls["DetalleServicioPrestamos"].value : '',
         EstadoId:  this.Prestamosform.controls["EstadoPrestamo"].value ? this.Prestamosform.controls["EstadoPrestamo"].value : '',
@@ -248,13 +239,6 @@ export class PrestamosListComponent implements OnInit {
 
     };
   }
-    //if (this.selected[0].EstadoId == this.estado) {
-     
-      /*if ((TotalImporteProcesado - TotalImporte) < 0) {
-        
-        this.alertUtil.alertWarning("Advertencia","Puede eliminar el registro");
-        return;
-      }*/
 
       
 anular(){

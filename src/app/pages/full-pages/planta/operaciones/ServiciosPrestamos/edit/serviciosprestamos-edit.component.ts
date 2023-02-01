@@ -8,19 +8,12 @@ import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
-import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
-import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
-import{ PagoServicioPlantaService }from '../../../../../../Services/PagoServiciosPlanta.service';
-import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
-import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
 import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
-import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
 import{ServiciosPrestamosService}from '../../../../../../Services/ServiciosPrestamos.services';
 import{DevolucionPrestamoService}from '../../../../../../Services/ServiciosDevoluciones.services';
 import { AuthService } from '../../../../../../services/auth.service';
-import { number } from 'ngx-custom-validators/src/app/number/validator';
-import { sum } from 'chartist';
+
 
 @Component({
   selector: 'app-serviciosprestamos-edit',
@@ -35,17 +28,11 @@ export class PrestamosEditComponent implements OnInit {
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
     private ServiciosPrestamosService:ServiciosPrestamosService,
-    private ordenProcesoService: OrdenProcesoService,
-    private ordenProcesoServicePlanta: OrdenProcesoServicePlanta,
-    private PagoServicioPlantaService:PagoServicioPlantaService,
     private DevolucionPrestamoService:DevolucionPrestamoService,
     private route: ActivatedRoute,
     private router: Router,
-    private ServicioPlantaService:ServicioPlantaService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
-    private notaIngresoService: NotaIngresoService,
-    private controlCalidad: ControlCalidadService,
     private authService: AuthService) { }
 
 
@@ -63,11 +50,6 @@ export class PrestamosEditComponent implements OnInit {
   submittedEdit = false;
   esReproceso = false;
   //listCertificacion = [];
-
-  
-
-
-
   listTipoDestino:[]=[];
   selectedTipoDestino:any;
   listTipoBancoDevolucion:[]=[];
@@ -78,6 +60,13 @@ export class PrestamosEditComponent implements OnInit {
 
   listTipoMonedaPrestamos:[]=[];
   SelectedTipoMonedaPrestamos:any;
+
+  
+  listTipoMonedaDevolucion:[]=[];
+  SelectedTipoMonedaDevolucion:any;
+  
+  listTipoEstadoDevolucion: [] = [];
+  selectedTipoEstadoDevolucion:any;
   
   listTipoEstadoFondos: [] = [];
   selectedTipoEstadoFondos:any;
@@ -95,7 +84,7 @@ export class PrestamosEditComponent implements OnInit {
   tempData = [];
   selected = [];
 
-  //Moneda:string;
+  Moneda:string;
   //limitRef: number = 10;
   @Output() agregarEvent = new EventEmitter<any>();
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -141,7 +130,9 @@ export class PrestamosEditComponent implements OnInit {
     this.GetListaTipoBancoDevolucion();
     this.GetEstadoPrestamos();
     this.GetListaTipoMonedaPrestamo();
+    this.GetListaTipoMonedaDevolucion();
     this.GetlistTipoEstadoFondos();
+    this.GetlistTipoEstadoDevolucion();
 
 
     if (this.PrestamoPlantaId <= 0) {
@@ -157,48 +148,23 @@ export class PrestamosEditComponent implements OnInit {
 
   LoadForm(): void {
     this.PrestamosEditForm = this.fb.group({
-       
-      idOrdenProceso: [],
-      organizacionId: [],
+   
+     
       razonSocialCabe: ['',],
       nroOrden: [],
       direccionCabe: ['',],
-      certificacion: ['',],
       fechaCabe: ['',],
       nroRucCabe: ['',],
-      idContrato: ['',],
-      numeroContrato: ['',],
-      idCliente: ['',],
-      codCliente: ['',],
-      cliente: ['',],
-      idDestino: ['',],
-      destino: ['',],
-      porcenRendimiento: ['',],
-      producto: ['',''],
-      cantidadDefectos: ['',],
       responsableComercial: [],
-      file: [],
-      tipoProceso: ['',],
-      observaciones: [''],
-      pathFile: [],
       estado: ['',],
-      ordenProcesoComercial: [],
-      idOrdenProcesoComercial: [],
       rucOrganizacion: ['',],
       nombreOrganizacion: [],
-      certificadora: ['',],
-      empaque: ['', ],
-      tipo: ['',],
-      Destino:['',''],
       BnacoDevolucion:['',''],
 /////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
       EmpresaId:['',''],
-      EmpresaClienteId:['',''],
-      /////////////////7
-      RazonSocialEmpresaCliente:['',''],
-      RucEmpresaCliente:['',],    
+      //EmpresaClienteId:['',''],
       FechaRegistro:['',''],
-      ObservacionAnulacion:['',''],
+     // ObservacionAnulacion:['',''],
       /////////////Pagos Servicios//////////////77
       DestinoBanco:['',''],
       //////campos Prestamos Y devoluciones///////////////////
@@ -207,6 +173,7 @@ export class PrestamosEditComponent implements OnInit {
       DetallePrestamo:['',''],
       ImportePrestamo:['',''],
       EstadoPrestamo:[],
+      DevolucionPrestamoPlantaId:['',''],
       FondoPrestamo:['',''],
       ImporteProcesado:['',''],
       Importe: ['', ''],
@@ -223,7 +190,8 @@ export class PrestamosEditComponent implements OnInit {
       DestinoDevolucion:['',''],
       DestinoDevolucionId:['',''],
       BancoDevolucion:['',''],
-      MonedaPrestamosDevoluciones: ['', ''],
+      MonedaPrestamosDevoluciones:['',''],
+      FechaDevolucion:['',''],
       FechaInicioDevolucion:['',''],
       FechaFinDevolucion:['',''],
       EstadoDevolucion:['','']
@@ -261,6 +229,24 @@ export class PrestamosEditComponent implements OnInit {
       this.listTipoMonedaPrestamos = res.Result.Data;
     }
   }
+
+  
+  async GetListaTipoMonedaDevolucion () {
+    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
+    if (res.Result.Success) {
+      this.listTipoMonedaDevolucion = res.Result.Data;
+    }
+  }
+
+  
+
+  async GetlistTipoEstadoDevolucion() {
+    const res = await this.maestroService.obtenerMaestros('EstadoDevolucionPrestamoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoEstadoDevolucion = res.Result.Data;
+    }
+  }
+
 
   async GetlistTipoEstadoFondos() {
     const res = await this.maestroService.obtenerMaestros('FondoPrestamo').toPromise();
@@ -335,35 +321,6 @@ export class PrestamosEditComponent implements OnInit {
     const request =
     {
 
-      /*
-     PrestamoPlantaId: this.PrestamosEditForm.controls["PrestamoPlantaId"].value ? this.PrestamosEditForm.controls["PrestamoPlantaId"].value : 0,
-     Numero: this.PrestamosEditForm.controls["Numero"].value ? this.PrestamosEditForm.controls["Numero"].value : '',
-    // DetallePrestamo: this.ServicioPlantaEditForm.controls["DetallePrestamo"].value ? this.ServicioPlantaEditForm.controls["DetallePrestamo"].value : '',
-     TipoServicioId: this.PrestamosEditForm.controls["TipoServicio"].value ? this.PrestamosEditForm.controls["TipoServicio"].value : '',
-     TipoComprobanteId: this.PrestamosEditForm.controls["TipoComprobante"].value ? this.PrestamosEditForm.controls["TipoComprobante"].value : '',
-     SerieComprobante:this.PrestamosEditForm.controls["SerieComprobante"].value ? this.PrestamosEditForm.controls["SerieComprobante"].value : '',
-     NumeroComprobante:this.PrestamosEditForm.controls["NumeroComprobante"].value ? this.PrestamosEditForm.controls["NumeroComprobante"].value : '',
-     FechaDocumento:this.PrestamosEditForm.controls["FechaDocumento"].value ? this.PrestamosEditForm.controls["FechaDocumento"].value : '',
-     FechaComprobante:this.PrestamosEditForm.controls["FechaComprobante"].value ? this.PrestamosEditForm.controls["FechaComprobante"].value :'',
-     SerieDocumento:this.PrestamosEditForm.controls["SerieDocumento"].value ? this.PrestamosEditForm.controls["SerieDocumento"].value : '',
-     NumeroDocumento:this.PrestamosEditForm.controls["NumeroDocumento"].value ? this.PrestamosEditForm.controls["NumeroDocumento"].value : '',
-     UnidadMedidaId:this.PrestamosEditForm.controls["UnidadMedida"].value ? this.PrestamosEditForm.controls["UnidadMedida"].value : '',
-     Cantidad:this.PrestamosEditForm.controls["Cantidad"].value ? this.PrestamosEditForm.controls["Cantidad"].value : 0,
-     PrecioUnitario:this.PrestamosEditForm.controls["PrecioUnitario"].value ? this.PrestamosEditForm.controls["PrecioUnitario"].value : 0,
-     Importe:this.PrestamosEditForm.controls["Importe"].value ? this.PrestamosEditForm.controls["Importe"].value : 0,
-     PorcentajeTIRB:this.PrestamosEditForm.controls["PorcentajeTIRB"].value ? this.PrestamosEditForm.controls["PorcentajeTIRB"].value : 0,
-     MonedaId:this.PrestamosEditForm.controls["Moneda"].value ? this.PrestamosEditForm.controls["Moneda"].value : '',
-     TotalImporte:this.PrestamosEditForm.controls["TotalImporte"].value ? this.PrestamosEditForm.controls["TotalImporte"].value : 0,
-     Observaciones:this.PrestamosEditForm.controls["Observaciones"].value ? this.PrestamosEditForm.controls["Observaciones"].value : '',
-     CodigoCampania:this.PrestamosEditForm.controls["Campania"].value ? this.PrestamosEditForm.controls["Campania"].value:"",
-     TotalImporteProcesado:this.PrestamosEditForm.controls["ImportePago"].value ? this.PrestamosEditForm.controls["ImportePago"].value :0,
-     RazonSocialEmpresaCliente:this.PrestamosEditForm.controls["nombreOrganizacion"].value ? this.PrestamosEditForm.controls["nombreOrganizacion"].value:"",
-     RucEmpresaCliente:this.PrestamosEditForm.controls["rucOrganizacion"].value ? this.PrestamosEditForm.controls["rucOrganizacion"].value:"",
-     EstadoId:this.PrestamosEditForm.controls["estado"].value ? this.PrestamosEditForm.controls["estado"].value : '',
-     Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-     EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-     EmpresaClienteId:this.PrestamosEditForm.controls["organizacionId"].value ? this.PrestamosEditForm.controls["organizacionId"].value : 0
-     */
      PrestamoPlantaId:    Number(this.PrestamoPlantaId),
      Numero: this.PrestamosEditForm.controls["NumeroPrestamo"].value ? this.PrestamosEditForm.controls["NumeroPrestamo"].value : '',
      DetallePrestamo: this.PrestamosEditForm.controls["DetallePrestamo"].value ? this.PrestamosEditForm.controls["DetallePrestamo"].value : '',
@@ -397,7 +354,7 @@ export class PrestamosEditComponent implements OnInit {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
-          //x.FechaInicio = this.dateUtil.formatDate(x.FechaInicio)
+          x.FechaDevolucion = this.dateUtil.formatDate(x.FechaDevolucion)
           //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
           //x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
           });
@@ -423,9 +380,10 @@ export class PrestamosEditComponent implements OnInit {
 
       const request =
      {
-      
+       // PrestamoPlantaId:    Number(this.PrestamoPlantaId),
+        PrestamoPlantaId:  this.PrestamosEditForm.controls["PrestamoPlantaId"].value ?  this.PrestamosEditForm.controls["PrestamoPlantaId"].value : '',
         Numero: this.PrestamosEditForm.controls["NumeroDevoluciones"].value ? this.PrestamosEditForm.controls["NumeroDevoluciones"].value : '',
-        DestinoDevolucionId:  this.PrestamosEditForm.controls["DestinoDevolucion"].value ?  this.PrestamosEditForm.controls["DestinoDevolucion"].value : '',
+        DestinoDevolucionId:  this.PrestamosEditForm.controls["DestinoDevolucionId"].value ?  this.PrestamosEditForm.controls["DestinoDevolucionId"].value : '',
         BancoId:    this.PrestamosEditForm.controls["BancoDevolucion"].value ? this.PrestamosEditForm.controls["BancoDevolucion"].value : '',
         MonedaId:   this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
         FechaInicio:   this.PrestamosEditForm.controls["FechaInicioDevolucion"].value ? this.PrestamosEditForm.controls["FechaInicioDevolucion"].value : '',
@@ -579,12 +537,8 @@ export class PrestamosEditComponent implements OnInit {
   async AutocompleteFormEdit(data: any) {
     if (data) {
     
- this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
- this.PrestamosEditForm.controls.Moneda.setValue(data.MonedaId);
  this.PrestamosEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
- this.PrestamosEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
- this.PrestamosEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
- this.PrestamosEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
+ //this.PrestamosEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
  ////////////////////campos para eñ formulario de prestamos y devoluciones///////////////////////////
  this.PrestamosEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
  this.PrestamosEditForm.controls.NumeroPrestamo.setValue(data.Numero);
@@ -599,10 +553,7 @@ export class PrestamosEditComponent implements OnInit {
  this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
  this.PrestamosEditForm.controls.FechaPrestamo.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
  /////////////////////Campos de devoluciones //////////////////////////////
- //this.PrestamosEditForm.controls.NumeroDevoluciones.setValue(data.Numero);
- this.PrestamosEditForm.controls.DestinoDevolucion.setValue(data.DestinoDevolucionId);
- this.PrestamosEditForm.controls.BancoDevolucion.setValue(data.BancoId);
- this.PrestamosEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
+// this.PrestamosEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
 
     }
     this.spinner.hide();

@@ -404,9 +404,6 @@ export class ServiciosEditComponent implements OnInit {
     this.ServicioPlantaEditForm.controls.estado.disable();
   }
 
- 
-
-  
 
   get f() {
     return this.ServicioPlantaEditForm.controls;
@@ -426,7 +423,6 @@ export class ServiciosEditComponent implements OnInit {
       this.listTipoEstadoFondos = res.Result.Data;
     }
   }
-
 
   async cargaCampania() 
   {
@@ -469,8 +465,6 @@ export class ServiciosEditComponent implements OnInit {
     }
   }
 
-  
-
   async GetListUnidadMedida() {
     let res = await this.maestroService.obtenerMaestros('UnidadMedidaServicioPlanta').toPromise();
     if (res.Result.Success) {
@@ -478,7 +472,6 @@ export class ServiciosEditComponent implements OnInit {
     }
   }
 
-  
   async GetListaTipoMoneda () {
     let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
@@ -492,7 +485,6 @@ export class ServiciosEditComponent implements OnInit {
       this.listTipoMonedaPago = res.Result.Data;
     }
   }
-
 
   async GetListaTipoBancoPago () {
     let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
@@ -529,8 +521,6 @@ export class ServiciosEditComponent implements OnInit {
     }
   }
 
-
-
   async GetListaTipoEstadoPagos () {
     let res = await this.maestroService.obtenerMaestros('EstadoPagoServicio').toPromise();
     if (res.Result.Success) {
@@ -538,16 +528,12 @@ export class ServiciosEditComponent implements OnInit {
     }
   }
 
-
-
-
   async GetEstado() {
     const res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
     if (res.Result.Success) {
       this.listEstado = res.Result.Data;
     }
   }
-
 
   async GetProducto() {
     const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
@@ -582,7 +568,6 @@ export class ServiciosEditComponent implements OnInit {
     }
   }
 
-
   async OcultarSecciones(){
 
     if(  this.ServicioPlantaId > 0){//0 es nuevo 
@@ -595,8 +580,6 @@ export class ServiciosEditComponent implements OnInit {
 
     }
   }
-
-
 
   GetDataModal(event: any): void {
     this.modalService.dismissAll();
@@ -710,7 +693,6 @@ export class ServiciosEditComponent implements OnInit {
     //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
-
   onChangeTipoServicio(event: any): void 
   {
     if (event.Codigo == '02' /*Liq/Proceso*/ || event.Codigo == '03' /*Liq/Reproceso*/ || event.Codigo == '04' /*Liq/Secado*/) 
@@ -755,12 +737,6 @@ export class ServiciosEditComponent implements OnInit {
     // }
     //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
-
-
-
-
-
-  
   updateLimit(event: any): void {
     this.limitRef = event.target.value;
   }
@@ -781,16 +757,7 @@ export class ServiciosEditComponent implements OnInit {
   GetRequest(): any {
 
     const form = this.ServicioPlantaEditForm.value;
-   // this.formGroupCantidad = new FormGroup(this.groupCantidad);
-    /* this.rowsDetails.forEach(data =>
-       {
-         debugger
-         let cantidad =Number(this.formGroupCantidad.get(data.NotaIngresoAlmacenPlantaId+ '%cantidad').value)
-         data.Cantidad = cantidad;
-       }); */
 
-    
- 
     var FechaLiquidacion = this.ServicioPlantaEditForm.controls["FechaLiquidacion"].value;
     var KilosNetosLiquidacion;
     
@@ -803,30 +770,7 @@ export class ServiciosEditComponent implements OnInit {
 
     const request =
     {
-    /*
-      OrdenProcesoPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
-      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-      OrganizacionId: form.organizacionId ? form.organizacionId : 0,
-      TipoProcesoId: this.ordenProcesoEditForm.controls["tipoProceso"].value ? this.ordenProcesoEditForm.controls["tipoProceso"].value : '',
-      NumeroContrato: this.ordenProcesoEditForm.controls["numeroContrato"].value ? this.ordenProcesoEditForm.controls["numeroContrato"].value : '',
-      OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : null,
-      EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : '',
-      CertificacionId: this.ordenProcesoEditForm.controls["certificacion"].value ? this.ordenProcesoEditForm.controls["certificacion"].value.join('|') : '',
-
-      ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : '',
-      ProductoIdTerminado: this.ordenProcesoEditForm.controls["productoTerminado"].value ? this.ordenProcesoEditForm.controls["productoTerminado"].value : '',
-      EmpaqueId: this.ordenProcesoEditForm.controls["empaque"].value ? this.ordenProcesoEditForm.controls["empaque"].value : '',
-      TipoId: this.ordenProcesoEditForm.controls["tipo"].value ? this.ordenProcesoEditForm.controls["tipo"].value : '',
-      CantidadDefectos: this.ordenProcesoEditForm.controls["cantidadDefectos"].value ? this.ordenProcesoEditForm.controls["cantidadDefectos"].value : 0,
-      FechaInicioProceso: form.fechaInicio ? form.fechaInicio : null,
-      FechaFinProceso: form.fechaFin ? form.fechaFin : null,
-      Observacion: form.observaciones ? form.observaciones : '',
-      EstadoId: '01',
-      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId),
-      */
-     ///////////datos de campos de api servicios////
-     //ServicioPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
+  
      ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
      Numero: this.ServicioPlantaEditForm.controls["Numero"].value ? this.ServicioPlantaEditForm.controls["Numero"].value : '',
     // NumeroOperacionRelacionada: this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value : '',
