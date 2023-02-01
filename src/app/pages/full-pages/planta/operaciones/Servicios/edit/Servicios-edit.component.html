@@ -267,7 +267,7 @@
                                 <label for="Cantidad" >Cantidad</label>
                                     <input type="number" name="Cantidad" id="Cantidad"
                                    formControlName="Cantidad" class="form-control"
-                                   placeholder="Cantidad" 
+                                   placeholder="Cantidad" [readonly]="visibleBuscarLiquidacion"
                                    (change)="calcularcantidad($event)">
                             </div>                            
                             <div class="col-lg-2 col-md-3 col-sm-6">
@@ -356,11 +356,11 @@
                                    placeholder="Fecha Liquidación" [readonly]="visibleBuscarLiquidacion">    
                                </div> 
 
-                               <div class="col-lg-2 col-md-3 col-sm-6">
+                               <div class="col-lg-2 col-md-3 col-sm-6" *ngIf="false">
                                 <label for="KilosNetos" >Kilos Netos Liquidación</label>
                                     <input type="number" name="KilosNetosLiquidacionProcesoPlanta" id="KilosNetosLiquidacionProcesoPlanta"
                                    formControlName="KilosNetosLiquidacionProcesoPlanta" class="form-control"
-                                   placeholder="Kilos Netos Liquidación" [readonly]="visibleBuscarLiquidacion" >
+                                   placeholder="Kilos Netos Liquidación" [readonly]="visibleBuscarLiquidacion"  >
                             </div>
 
                         </div>

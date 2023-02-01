@@ -1318,7 +1318,7 @@ anularPago() {
   this.ServicioPlantaEditForm.controls.FechaLiquidacion.setValue(data.FechaFinLiquidacionProcesoPlanta == null ? "" :  formatDate(data.FechaFinLiquidacionProcesoPlanta, 'yyyy-MM-dd', 'en') );
   
   this.ServicioPlantaEditForm.controls.KilosNetosLiquidacionProcesoPlanta.setValue(data.KilosNetosLiquidacionProcesoPlanta);
-
+   
   
   this.ServicioPlantaEditForm.controls.LiquidacionProcesoPlantaId.setValue(data.LiquidacionProcesoPlantaId);
 
@@ -1540,6 +1540,8 @@ anularPago() {
           );
 
           this.ServicioPlantaEditForm.controls.KilosNetosLiquidacionProcesoPlanta.setValue(kilosNetos);
+          this.ServicioPlantaEditForm.controls.Cantidad.setValue(kilosNetos);
+           
           this.spinner.hide();
           this.modalService.dismissAll();  
 
