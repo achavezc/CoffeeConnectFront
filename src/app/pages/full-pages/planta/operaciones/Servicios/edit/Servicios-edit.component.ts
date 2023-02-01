@@ -93,8 +93,10 @@ export class ServiciosEditComponent implements OnInit {
   listTipoEstadoServicioPagos:[]=[];
   selectedTipoEstadoServicioPagos:any;
 
-
-
+  listTipoEstadoPrestamo:[]=[];
+  selectedTipoEstadoPrestamo:any;
+  listTipoEstadoFondos:[]=[];
+  selectedTipoEstadoFondos:any;
 
   listaCertificacion: any[];
   listaCampania:any[];
@@ -203,6 +205,9 @@ export class ServiciosEditComponent implements OnInit {
     this.GetCertificadora();
     this.GetEmpaque();
     this.GetTipo();
+    this.GetlistTipoEstadoPrestamo();
+    this.GetlistTipoEstadoFondos();
+
     //this.GetProductoTerminado();
     //this.GetCalidad();
     //this.GetGrado();
@@ -406,6 +411,22 @@ export class ServiciosEditComponent implements OnInit {
   get f() {
     return this.ServicioPlantaEditForm.controls;
   }
+
+  async GetlistTipoEstadoPrestamo() {
+    const res = await this.maestroService.obtenerMaestros('EstadoPrestamoPlanta').toPromise();
+    if (res.Result.Success) {
+      this.listTipoEstadoPrestamo = res.Result.Data;
+    }
+  }
+
+    
+  async GetlistTipoEstadoFondos() {
+    const res = await this.maestroService.obtenerMaestros('FondoPrestamo').toPromise();
+    if (res.Result.Success) {
+      this.listTipoEstadoFondos = res.Result.Data;
+    }
+  }
+
 
   async cargaCampania() 
   {

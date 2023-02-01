@@ -16,6 +16,8 @@ import { ControlCalidadService } from '../../../../../../Services/control-calida
 import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
 import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
+import{ServiciosPrestamosService}from '../../../../../../Services/ServiciosPrestamos.services';
+import{DevolucionPrestamoService}from '../../../../../../Services/ServiciosDevoluciones.services';
 import { AuthService } from '../../../../../../services/auth.service';
 import { number } from 'ngx-custom-validators/src/app/number/validator';
 import { sum } from 'chartist';
@@ -32,9 +34,11 @@ export class PrestamosEditComponent implements OnInit {
     private modalService: NgbModal,
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
+    private ServiciosPrestamosService:ServiciosPrestamosService,
     private ordenProcesoService: OrdenProcesoService,
     private ordenProcesoServicePlanta: OrdenProcesoServicePlanta,
     private PagoServicioPlantaService:PagoServicioPlantaService,
+    private DevolucionPrestamoService:DevolucionPrestamoService,
     private route: ActivatedRoute,
     private router: Router,
     private ServicioPlantaService:ServicioPlantaService,
@@ -60,76 +64,28 @@ export class PrestamosEditComponent implements OnInit {
   esReproceso = false;
   //listCertificacion = [];
 
-  listTipoServicio: [] = [];
-  selectedTipoServicio: any;
-  listTipoComprobante: [] = [];
-  selectedTipoComprobante: any;
-  listTipoUnidadMedida:[] =[];
-  selectedTipoUnidadMedida:any;
-
-  listTipoMoneda:[]=[];
-  SelectedTipoMoneda:any;
-
-  listTipoMonedaPago:[]=[];
-  SelectedTipoMonedaPago:any;
+  
 
 
-  listTipoBanco:[]=[];
-  selectedTipoBanco:any;
 
-  listTipoBancoPago:[]=[];
-  selectedTipoBancoPago:any;
-
-  listTipoOperacionServicio:[]=[];
-  selectedTipoOperacionServicio:any;
-
-  listTipoOperacionServicioPago:[]=[];
-  selectedTipoOperacionServicioPago:any;
-
-  listTipoEstadoServicioPagos:[]=[];
-  selectedTipoEstadoServicioPagos:any;
-
-  listaCertificacion: any[];
-  listaCampania:any[];
-  listaCampania2:any[];
-  listProducto = [];
-  listCertificadora = [];
-  listSubProducto = [];
-  listEmpaque = [];
-  listTipo = [];
-  listEstadoServicio:any[];
-  selectedEstadoServicio: any;
-  listProductoTerminado = [];
-  listSubProductoTerminado = [];
-  listCalidad = [];
-  listGrado = [];
-  selectedCampania:any;
-  selectedCampania2:any;
-  selectedGrado: any;
-  selectedCalidad: any;
-  selectedProductoTerminado: any;
-  selectedSubProductoTerminado: any;
-  selectedTipo: any;
-  selectedEmpaque: any;
-  selectedSubProducto: any;
-  selectedCertificadora: any;
-  selectedProducto: any;
-  selectedTipoProduccion: any;
-  selectedCertificacion: any;
+  listTipoDestino:[]=[];
+  selectedTipoDestino:any;
+  listTipoBancoDevolucion:[]=[];
+  selectedTipoBancoDevolucion:any;
   selectOrganizacion = [];
-  selectedEstado: any;
-  selectedTipoProceso: any;
-
   listTipoEstadoPrestamo:[]=[];
   selectedTipoEstadoPrestamo:any;
 
   listTipoMonedaPrestamos:[]=[];
   SelectedTipoMonedaPrestamos:any;
+  
+  listTipoEstadoFondos: [] = [];
+  selectedTipoEstadoFondos:any;
 
   vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  ServicioPlantaId: Number;
+  PrestamoPlantaId: Number;
   //PagoServicioPlantaId:Number;
  
  // errorGeneral = { isError: false, msgError: '' };
@@ -139,7 +95,7 @@ export class PrestamosEditComponent implements OnInit {
   tempData = [];
   selected = [];
 
-  Moneda:string;
+  //Moneda:string;
   //limitRef: number = 10;
   @Output() agregarEvent = new EventEmitter<any>();
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -171,402 +127,34 @@ export class PrestamosEditComponent implements OnInit {
   async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     //this
-    this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    this.PrestamoPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
     await this.LoadForm();
-    this.PrestamosEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
-    this.PrestamosEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
-    //this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
-    //this.ServicioPlantaEditForm.controls['MonedaId'].setValue(this.detalle.Result.Data.MonedaId);
-  
+    this.PrestamosEditForm.controls['FechaInicioDevolucion'].setValue(this.dateUtil.currentDate());
+    this.PrestamosEditForm.controls['FechaFinDevolucion'].setValue(this.dateUtil.currentMonthAgo()); 
     this.PrestamosEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.PrestamosEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.PrestamosEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
     this.PrestamosEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
 
-    
-    this.GetTipoProcesos();
-    this.GetListTipoServicio();
-    this.GetListTipoComprobante();
-    this.GetListUnidadMedida();
-    this.GetListaTipoMoneda();
-    this.GetListaTipoMonedaPago();
-    this.GetListaTipoBanco();
-    this.GetListaTipoBancoPago();
-
-    this.GetListaTipoOperacionServicios();
-    this.GetListaTipoEstadoPagos();
-    this.GetEstado();
-    this.GetEstadoSercicio();
-    //this.GetTipoProduccion();
-    //this.GetCertificacion();
-    this.GetProducto();
-    this.GetCertificadora();
-    this.GetEmpaque();
-    this.GetTipo();
-
+    this.GetListaTipoDestinoBanco();
+    this.GetListaTipoBancoDevolucion();
     this.GetEstadoPrestamos();
     this.GetListaTipoMonedaPrestamo();
-    //this.GetTipoProduccion();
-    this.GetCertificacion();
-    //this.GetProductoTerminado();
-    //this.GetCalidad();
-    //this.GetGrado();
-    if (this.ServicioPlantaId <= 0) {
+    this.GetlistTipoEstadoFondos();
+
+
+    if (this.PrestamoPlantaId <= 0) {
       this.PrestamosEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
-      //this.ServicioPlantaEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());
-     //this.ServicioPlantaEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
-     //this.ServicioPlantaEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
-     //this.addRowDetail();
-    } else if (this.ServicioPlantaId > 0) {
-      this.ConsultaPorId(this.ServicioPlantaId);
+    } else if (this.PrestamoPlantaId > 0) {
+      this.ConsultaPorId(this.PrestamoPlantaId);
     }
 
-   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.MonedaPagos);
+   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.SaldoPrestamo);
     this.OcultarSecciones();
   }
 
-  async cargaCampania() 
-  {
 
-    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
-    if (data.Result.Success) {
-      this.listaCampania = data.Result.Data;
-    }
-
-  }
-
-  async cargaCampania2() 
-  {
-
-    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
-    if (data.Result.Success) {
-      this.listaCampania2 = data.Result.Data;
-    }
-
-  }
-
-  async GetTipoProcesos() {
-    const res = await this.maestroService.obtenerMaestros('TipoProcesoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoProcesos = res.Result.Data;
-    }
-  }
-
-  async GetListTipoServicio() {
-    let res = await this.maestroService.obtenerMaestros('TipoServicioPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoServicio = res.Result.Data;
-    }
-  }
-
-  async GetListTipoComprobante() {
-    let res = await this.maestroService.obtenerMaestros('TipoComprobantePlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoComprobante = res.Result.Data;
-    }
-  }
-
-  
-
-  async GetListUnidadMedida() {
-    let res = await this.maestroService.obtenerMaestros('UnidadMedidaServicioPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoUnidadMedida = res.Result.Data;
-    }
-  }
-
-  
-  async GetListaTipoMoneda () {
-    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
-    if (res.Result.Success) {
-      this.listTipoMoneda = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoMonedaPago () {
-    let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
-    if (res.Result.Success) {
-      this.listTipoMonedaPago = res.Result.Data;
-    }
-  }
-
-
-  async GetListaTipoBancoPago () {
-    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
-    if (res.Result.Success) {
-      this.listTipoBancoPago = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoBanco () {
-    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
-    if (res.Result.Success) {
-      this.listTipoBanco = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoOperacionServicios () {
-    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
-    if (res.Result.Success) {
-      this.listTipoOperacionServicio = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoOperacionServiciosPago () {
-    let res = await this.maestroService.obtenerMaestros('TipoOperacionPagoServicio').toPromise();
-    if (res.Result.Success) {
-      this.listTipoOperacionServicioPago = res.Result.Data;
-    }
-  }
-
-  async GetEstadoSercicio() {
-    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listEstadoServicio = res.Result.Data;
-    }
-  }
-
-
-
-  async GetListaTipoEstadoPagos () {
-    let res = await this.maestroService.obtenerMaestros('EstadoPagoServicio').toPromise();
-    if (res.Result.Success) {
-      this.listTipoEstadoServicioPagos = res.Result.Data;
-    }
-  }
-
-
-
-
-  async GetEstado() {
-    const res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listEstado = res.Result.Data;
-    }
-  }
-
-
-  async GetProducto() {
-    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listProducto = res.Result.Data;
-    }
-  }
-  async GetCertificadora() {
-    const res = await this.maestroService.obtenerMaestros('EntidadCertificadoraPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listCertificadora = res.Result.Data;
-    }
-  }
-
-  async GetEmpaque() {
-    const res = await this.maestroService.obtenerMaestros('Empaque').toPromise();
-    if (res.Result.Success) {
-      this.listEmpaque = res.Result.Data;
-    }
-  }
-  async GetTipo() {
-    const res = await this.maestroService.obtenerMaestros('TipoEmpaque').toPromise();
-    if (res.Result.Success) {
-      this.listTipo = res.Result.Data;
-    }
-  }
-
-  async GetProductoTerminado() {
-    const res = await this.maestroService.obtenerMaestros('ProductoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listProductoTerminado = res.Result.Data;
-    }
-  }
-
-  changeTipos(e)
-  {
-     
-    this.cambiarPorTipos(e.Codigo);
-  }
-  cambiarPorTipos(codigo) 
-  {    
-   // debugger
-    if (codigo == this.tipoProcesoSecado) 
-    {
-      this.PrestamosEditForm.controls.cantidadDefectos.disable();
-
-      
-      this.PrestamosEditForm.controls.producto.setValue("01") // Pergamino
-      this.PrestamosEditForm.controls.producto.disable();
-
-      
-      
-
-      this.esReproceso = false;
-       
-      this.PrestamosEditForm.controls.productoTerminado.enable();
-      this.PrestamosEditForm.controls.productoTerminado.setValue("")
-      this.GetProductoTerminado();
-      this.PrestamosEditForm.controls.productoTerminado.setValue("01") // Pergamino
-       
-      this.PrestamosEditForm.controls.productoTerminado.disable();
-    }
-    else 
-    {
-     if(codigo == this.tipoProcesoReproceso) 
-     {
-        this.esReproceso = true;
-        this.listProductoTerminado= [];
-        this.PrestamosEditForm.controls.productoTerminado.enable();
-        this.PrestamosEditForm.controls.productoTerminado.setValue("")
-        this.GetSubProductoTerminado();
-        
-        this.PrestamosEditForm.controls.producto.setValue("02") // Exportable
-        this.PrestamosEditForm.controls.producto.disable();
-        
-     }
-     else
-     {
-      this.esReproceso = false;
-      this.listProductoTerminado= [];
-       
-      this.PrestamosEditForm.controls.productoTerminado.enable();
-      this.PrestamosEditForm.controls.productoTerminado.setValue("")
-
-      this.GetProductoTerminado();
-      this.PrestamosEditForm.controls.producto.disable();
-      this.PrestamosEditForm.controls.producto.setValue("01") // Pergamino
-      
-       
-      this.PrestamosEditForm.controls.productoTerminado.setValue("02") // Exportable
-      this.PrestamosEditForm.controls.productoTerminado.disable();
-     }
-
-      this.PrestamosEditForm.controls.cantidadDefectos.enable();
-    }
-  }
-  
-  
-
-  async GetSubProductoTerminado() {
-    const data = await this.maestroService.obtenerMaestros('SubProductoPlanta').toPromise();
-    if (data.Result.Success) {
-      this.listProductoTerminado = data.Result.Data.filter(obj => obj.Val1 == '02'); //Exportable
-    }
-  }
-
-
-  agregarOrdenProceso(e) {
-   // this.ServicioPlantaEditForm.controls.ServicioPlantaId.setValue(e[0].ServicioPlantaId);
-    //this.ServicioPlantaEditForm.controls.PagoServicioPlantaId.setValue([0].PagoServicioPlantaId);
-
-  }
-
-  SearchByidOrdenProceso(id: any): void {
-    this.spinner.show();
-    this.errorGeneral = { isError: false, msgError: '' };
-    this.ordenProcesoService.SearchById(id).subscribe((res) => {
-      if (res.Result.Success) {
-        if (res.Result.Data) {
-          var data = res.Result.Data;
-          this.autocompleteOrdenProcesoComercial(data);
-
-        }
-
-      } else {
-        this.errorGeneral = { isError: true, msgError: res.Result.Message };
-        this.modalService.dismissAll();
-        this.spinner.hide();
-      }
-    }, (err) => {
-      console.log(err);
-      this.spinner.hide();
-      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-      this.modalService.dismissAll();
-    });
-
-  }
-
-  SearchByidOrdenProcesoNumero(id: any): void {
-    this.spinner.show();
-    this.errorGeneral = { isError: false, msgError: '' };
-    this.ordenProcesoService.SearchById(id).subscribe((res) => {
-      if (res.Result.Success) {
-        if (res.Result.Data) {
-          var data = res.Result.Data;
-          this.PrestamosEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
-          this.PrestamosEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-          this.PrestamosEditForm.controls.rucOrganizacion.setValue(data.Ruc);
-          this.PrestamosEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
-        }
-
-      } else {
-        this.errorGeneral = { isError: true, msgError: res.Result.Message };
-        this.modalService.dismissAll();
-        this.spinner.hide();
-      }
-    }, (err) => {
-      console.log(err);
-      this.spinner.hide();
-      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-      this.modalService.dismissAll();
-    });
-
-  }
-  async autocompleteOrdenProcesoComercial(data) {
-
-    await this.GetCertificadora();
-    this.PrestamosEditForm.controls.ordenProcesoComercial.setValue(data.Numero);
-    this.PrestamosEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-    this.PrestamosEditForm.controls.rucOrganizacion.setValue(data.Ruc);
-    this.PrestamosEditForm.controls.nombreOrganizacion.setValue(data.RazonSocial);
-
-    this.PrestamosEditForm.controls.tipoProceso.setValue(data.TipoProcesoId);
-    this.PrestamosEditForm.controls.tipoProduccion.setValue(data.TipoProduccionId);
-
-    //this.ordenProcesoEditForm.controls.certificacion.setValue(data.TipoCertificacionId);
-    //this.ordenProcesoEditForm.controls["certificacion"].setValue(data.TipoCertificacionId);
-    this.PrestamosEditForm.controls.certificacion.setValue(data.CertificacionId.split('|').map(String));
-    this.PrestamosEditForm.controls.producto.setValue(data.ProductoId);
-    this.PrestamosEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
-
-    //this.ordenProcesoEditForm.controls.certificadora.setValue(data.EntidadCertificadoraId);
-    this.PrestamosEditForm.controls.subProducto.setValue(data.SubProductoId);
-    this.PrestamosEditForm.controls.organizacionId.setValue(data.EmpresaProcesadoraId);
-
-
-    this.PrestamosEditForm.controls.empaque.setValue(data.EmpaqueId);
-    this.PrestamosEditForm.controls.tipo.setValue(data.TipoId);
-    this.PrestamosEditForm.controls.productoTerminado.setValue(data.ProductoTerminadoId);
-    this.PrestamosEditForm.controls.cantidad.setValue(data.TotalSacos);
-    this.PrestamosEditForm.controls.subProductoTerminado.setValue(data.SubProductoId);
-    this.PrestamosEditForm.controls.pesoSaco.setValue(data.PesoPorSaco);
-    this.PrestamosEditForm.controls.calidad.setValue(data.CalidadId);
-    this.PrestamosEditForm.controls.totalKilosBrutos.setValue(data.PesoKilos);
-    this.PrestamosEditForm.controls.grado.setValue(data.GradoId);
-    this.PrestamosEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
-    this.PrestamosEditForm.controls.cantidadDefectos.setValue(data.PreparacionCantidadDefectos);
-
-    this.PrestamosEditForm.controls.empaque.disable();
-    this.PrestamosEditForm.controls.tipo.disable();
-    this.PrestamosEditForm.controls.productoTerminado.disable();
-    this.PrestamosEditForm.controls.cantidad.disable();
-    this.PrestamosEditForm.controls.subProductoTerminado.disable();
-    this.PrestamosEditForm.controls.pesoSaco.disable();
-    this.PrestamosEditForm.controls.calidad.disable();
-    this.PrestamosEditForm.controls.totalKilosBrutos.disable();
-    this.PrestamosEditForm.controls.grado.disable();
-    this.PrestamosEditForm.controls.cantidadContenedores.disable();
-    this.PrestamosEditForm.controls.cantidadDefectos.disable();
-
-    this.PrestamosEditForm.controls.tipoProceso.disable();
-    this.PrestamosEditForm.controls.rucOrganizacion.disable();
-    this.PrestamosEditForm.controls.nombreOrganizacion.disable();
-    this.PrestamosEditForm.controls.tipoProduccion.disable();
-    this.PrestamosEditForm.controls.certificacion.disable();
-    this.PrestamosEditForm.controls.producto.disable();
-    this.PrestamosEditForm.controls.certificadora.disable();
-    this.PrestamosEditForm.controls.subProducto.disable();
-    this.spinner.hide();
-    this.modalService.dismissAll();
-  }
   LoadForm(): void {
     this.PrestamosEditForm = this.fb.group({
        
@@ -601,74 +189,47 @@ export class PrestamosEditComponent implements OnInit {
       certificadora: ['',],
       empaque: ['', ],
       tipo: ['',],
-      productoTerminado: ['',],
-      fechaInicio: [],
-      fechaFin: [],
+      Destino:['',''],
+      BnacoDevolucion:['',''],
 /////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
-      ServicioPlantaId:['',''],
       EmpresaId:['',''],
       EmpresaClienteId:['',''],
       /////////////////7
       RazonSocialEmpresaCliente:['',''],
-      RucEmpresaCliente:['',],
-      TipoServicioId:['',''],
-      TipoServicio:[],
-      TipoComprobante:[],
-      PagoServicioPlantaId:['',''],
-      //TipoComprobanteId:['',''],
-      Numero: ['', ''],
-     // NumeroOperacionRelacionada: ['', ''],
-      SerieComprobante: ['', ''],
-      NumeroComprobante: ['', ''],
-      FechaDocumento: ['', ''],
-      FechaComprobante:['',''],
+      RucEmpresaCliente:['',],    
       FechaRegistro:['',''],
-      SerieDocumento: ['', ''],
-      NumeroDocumento: ['', ''],
-      UnidadMedida: ['', ''],
-      UnidadMedidaId:['',''],
-      Cantidad: ['', ''],
-      PrecioUnitario: ['', ''],
-      Importe: ['', ''],
-      PorcentajeTIRB: ['', ''],
-      Moneda: ['', ''],
-      MonedaId:['',''],
-      TotalImporte: ['', ''],
-      ImportePago: ['', ''],
-      Observaciones: ['', ''],
       ObservacionAnulacion:['',''],
-      Campania: new FormControl('',[]),
-      Campania2:new FormControl('',[]),
-      estadoServicio:['',''],
       /////////////Pagos Servicios//////////////77
-      NumeroPagos:['',''],
-      BancoPagos:['',''],
-      NumeroOperacionPagos:['',''],
-      MonedaPagos:['', Validators.required],
-      TipoOperacion:['',''],
-      TipoOperacionPagoServicioId:['',''],
-      TipoOperacionPago:['',''],
-      EstadoPagos:[],
-      //FechaOperacion:['',''],
-      FechaInicioPagos:['',''],
-      FechaFinPagos:['',''],
-      //////Grilla campos////////////
-      FechaOperacionPagos:['',''],
-    
-    
+      DestinoBanco:['',''],
       //////campos Prestamos Y devoluciones///////////////////
+      PrestamoPlantaId:['',''],
       FechaPrestamo:['',''],
       DetallePrestamo:['',''],
       ImportePrestamo:['',''],
-      EstadoPrestamo:['',''],
+      EstadoPrestamo:[],
       FondoPrestamo:['',''],
+      ImporteProcesado:['',''],
+      Importe: ['', ''],
+      ImporteDevolucion:['',''],
+      ImporteCambio:['',''],
       ObservacionesPrestamo:['',''],
       SaldoPrestamo:['',''],
+      Moneda: ['', ''],
+      MonedaId:['',''],
       NumeroPrestamo:['',''],
-      MonedaPrestamos:['','']
+      MonedaPrestamos:['',''],
+      //////////////campos de devoluciones////////////////////////////
+      NumeroDevoluciones:['',''],
+      DestinoDevolucion:['',''],
+      DestinoDevolucionId:['',''],
+      BancoDevolucion:['',''],
+      MonedaPrestamosDevoluciones: ['', ''],
+      FechaInicioDevolucion:['',''],
+      FechaFinDevolucion:['',''],
+      EstadoDevolucion:['','']
 
     });
-    this.PrestamosEditForm.controls.estado.disable();
+    this.PrestamosEditForm.controls.EstadoPrestamo.disable();
   }
   get f() {
     return this.PrestamosEditForm.controls;
@@ -676,7 +237,7 @@ export class PrestamosEditComponent implements OnInit {
 
   async OcultarSecciones(){
 
-    if(  this.ServicioPlantaId > 0){//0 es nuevo 
+    if(  this.PrestamoPlantaId > 0){//0 es nuevo 
       //ocultar secciones 
       this.OcultarSeccion = true;
 
@@ -686,10 +247,9 @@ export class PrestamosEditComponent implements OnInit {
 
     }
   }
-/////////////////////////////////////
 
   async GetEstadoPrestamos() {
-    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
+    const res = await this.maestroService.obtenerMaestros('EstadoPrestamoPlanta').toPromise();
     if (res.Result.Success) {
       this.listTipoEstadoPrestamo = res.Result.Data;
     }
@@ -702,70 +262,31 @@ export class PrestamosEditComponent implements OnInit {
     }
   }
 
+  async GetlistTipoEstadoFondos() {
+    const res = await this.maestroService.obtenerMaestros('FondoPrestamo').toPromise();
+    if (res.Result.Success) {
+      this.listTipoEstadoFondos = res.Result.Data;
+    }
+  }
 
+  async GetListaTipoDestinoBanco () {
+    let res = await this.maestroService.obtenerMaestros('DestinoDevolucion').toPromise();
+    if (res.Result.Success) {
+      this.listTipoDestino = res.Result.Data;
+    }
+  }
 
-/////////////////////////////////////
+  async GetListaTipoBancoDevolucion () {
+    let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
+    if (res.Result.Success) {
+      this.listTipoBancoDevolucion = res.Result.Data;
+    }
+  }
 
   GetDataModal(event: any): void {
     this.modalService.dismissAll();
   }
 
-  async AutocompleteDataContrato(obj: any) {
-    let empaque_Tipo = '';
-    if (obj.ContratoId)
-      this.PrestamosEditForm.controls.idContrato.setValue(obj.ContratoId);
-
-    if (obj.Numero)
-      this.PrestamosEditForm.controls.nroContrato.setValue(obj.Numero);
-
-    if (obj.ClienteId)
-      this.PrestamosEditForm.controls.idCliente.setValue(obj.ClienteId);
-
-    if (obj.NumeroCliente)
-      this.PrestamosEditForm.controls.codCliente.setValue(obj.NumeroCliente);
-
-    if (obj.Cliente)
-      this.PrestamosEditForm.controls.cliente.setValue(obj.Cliente);
-
-    if (obj.TipoProduccion)
-      this.PrestamosEditForm.controls.tipoProduccion.setValue(obj.TipoProduccion);
-
-    if (obj.TipoCertificacion)
-      this.PrestamosEditForm.controls.certificacion.setValue(obj.TipoCertificacion);
-
-    if (obj.Empaque)
-      empaque_Tipo = obj.Empaque;
-    if (empaque_Tipo)
-      empaque_Tipo = empaque_Tipo + ' - '
-    if (obj.TipoEmpaque)
-      empaque_Tipo = empaque_Tipo + obj.TipoEmpaque;
-    if (empaque_Tipo)
-      this.PrestamosEditForm.controls.empaqueTipo.setValue(empaque_Tipo);
-
-    if (obj.TotalSacos)
-      this.PrestamosEditForm.controls.cantidad.setValue(obj.TotalSacos);
-
-    if (obj.PesoPorSaco)
-      this.PrestamosEditForm.controls.pesoSacoKG.setValue(obj.PesoPorSaco);
-
-    if (obj.PesoKilos)
-      this.PrestamosEditForm.controls.totalKilosNetos.setValue(obj.PesoKilos);
-
-    if (obj.Producto)
-      this.PrestamosEditForm.controls.producto.setValue(obj.Producto);
-
-    if (obj.SubProducto)
-      this.PrestamosEditForm.controls.subProducto.setValue(obj.SubProducto);
-
-    if (obj.Calidad)
-      this.PrestamosEditForm.controls.calidad.setValue(obj.Calidad);
-
-    if (obj.Grado)
-      this.PrestamosEditForm.controls.grado.setValue(obj.Grado);
-
-    if (obj.PreparacionCantidadDefectos)
-      this.PrestamosEditForm.controls.cantidadDefectos.setValue(obj.PreparacionCantidadDefectos);
-  }
 
   GetDataEmpresa(event: any): void {
     this.selectOrganizacion = event;
@@ -779,12 +300,6 @@ export class PrestamosEditComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  async GetCertificacion() {
-    const res = await this.maestroService.obtenerMaestros('TipoCertificacionPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listaCertificacion = res.Result.Data;
-    }
-  }
 
   openModal(modal: any): void {
 
@@ -797,30 +312,6 @@ export class PrestamosEditComponent implements OnInit {
     this.modalService.open(modalServicoAnularPlanta, { windowClass: 'dark-modal', size: 'xl' });
 
   }
-
-  openModalNotaIngreso(modalAlmacenMateriaPrima: any, modalAlmacenProductoTerminado: any): void {
-    
-    var tipoProceso = this.PrestamosEditForm.controls["tipoProceso"].value;
-
-    if (tipoProceso) {
-      if (tipoProceso != '03') //Reproceso
-      {
-        this.modalService.open(modalAlmacenMateriaPrima, { windowClass: 'dark-modal', size: 'xl' });
-      }
-      else {
-        this.modalService.open(modalAlmacenProductoTerminado, { windowClass: 'dark-modal', size: 'xl' });
-      }
-    }
-    else {
-      this.alertUtil.alertWarning("Oops...!", "Seleccione Tipo de Proceso");
-
-    }
-    //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
-  }
-
-
-
-  
   updateLimit(event: any): void {
     this.limitRef = event.target.value;
   }
@@ -841,45 +332,13 @@ export class PrestamosEditComponent implements OnInit {
   GetRequest(): any {
 
     const form = this.PrestamosEditForm.value;
-   // this.formGroupCantidad = new FormGroup(this.groupCantidad);
-    /* this.rowsDetails.forEach(data =>
-       {
-         debugger
-         let cantidad =Number(this.formGroupCantidad.get(data.NotaIngresoAlmacenPlantaId+ '%cantidad').value)
-         data.Cantidad = cantidad;
-       }); */
-
-    
-
     const request =
     {
-    /*
-      OrdenProcesoPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
-      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-      OrganizacionId: form.organizacionId ? form.organizacionId : 0,
-      TipoProcesoId: this.ordenProcesoEditForm.controls["tipoProceso"].value ? this.ordenProcesoEditForm.controls["tipoProceso"].value : '',
-      NumeroContrato: this.ordenProcesoEditForm.controls["numeroContrato"].value ? this.ordenProcesoEditForm.controls["numeroContrato"].value : '',
-      OrdenProcesoId: form.idOrdenProcesoComercial ? form.idOrdenProcesoComercial : null,
-      EntidadCertificadoraId: this.ordenProcesoEditForm.controls["certificadora"].value ? this.ordenProcesoEditForm.controls["certificadora"].value : '',
-      CertificacionId: this.ordenProcesoEditForm.controls["certificacion"].value ? this.ordenProcesoEditForm.controls["certificacion"].value.join('|') : '',
 
-      ProductoId: this.ordenProcesoEditForm.controls["producto"].value ? this.ordenProcesoEditForm.controls["producto"].value : '',
-      ProductoIdTerminado: this.ordenProcesoEditForm.controls["productoTerminado"].value ? this.ordenProcesoEditForm.controls["productoTerminado"].value : '',
-      EmpaqueId: this.ordenProcesoEditForm.controls["empaque"].value ? this.ordenProcesoEditForm.controls["empaque"].value : '',
-      TipoId: this.ordenProcesoEditForm.controls["tipo"].value ? this.ordenProcesoEditForm.controls["tipo"].value : '',
-      CantidadDefectos: this.ordenProcesoEditForm.controls["cantidadDefectos"].value ? this.ordenProcesoEditForm.controls["cantidadDefectos"].value : 0,
-      FechaInicioProceso: form.fechaInicio ? form.fechaInicio : null,
-      FechaFinProceso: form.fechaFin ? form.fechaFin : null,
-      Observacion: form.observaciones ? form.observaciones : '',
-      EstadoId: '01',
-      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-      OrdenProcesoPlantaDetalle: this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId),
-      */
-     ///////////datos de campos de api servicios////
-     //ServicioPlantaId: this.codeProcessOrder ? this.codeProcessOrder : 0,
-     ServicioPlantaId: this.PrestamosEditForm.controls["ServicioPlantaId"].value ? this.PrestamosEditForm.controls["ServicioPlantaId"].value : 0,
+      /*
+     PrestamoPlantaId: this.PrestamosEditForm.controls["PrestamoPlantaId"].value ? this.PrestamosEditForm.controls["PrestamoPlantaId"].value : 0,
      Numero: this.PrestamosEditForm.controls["Numero"].value ? this.PrestamosEditForm.controls["Numero"].value : '',
-    // NumeroOperacionRelacionada: this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value : '',
+    // DetallePrestamo: this.ServicioPlantaEditForm.controls["DetallePrestamo"].value ? this.ServicioPlantaEditForm.controls["DetallePrestamo"].value : '',
      TipoServicioId: this.PrestamosEditForm.controls["TipoServicio"].value ? this.PrestamosEditForm.controls["TipoServicio"].value : '',
      TipoComprobanteId: this.PrestamosEditForm.controls["TipoComprobante"].value ? this.PrestamosEditForm.controls["TipoComprobante"].value : '',
      SerieComprobante:this.PrestamosEditForm.controls["SerieComprobante"].value ? this.PrestamosEditForm.controls["SerieComprobante"].value : '',
@@ -904,7 +363,18 @@ export class PrestamosEditComponent implements OnInit {
      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
      EmpresaClienteId:this.PrestamosEditForm.controls["organizacionId"].value ? this.PrestamosEditForm.controls["organizacionId"].value : 0
-     
+     */
+     PrestamoPlantaId:    Number(this.PrestamoPlantaId),
+     Numero: this.PrestamosEditForm.controls["NumeroPrestamo"].value ? this.PrestamosEditForm.controls["NumeroPrestamo"].value : '',
+     DetallePrestamo: this.PrestamosEditForm.controls["DetallePrestamo"].value ? this.PrestamosEditForm.controls["DetallePrestamo"].value : '',
+     FondoPrestamoId: this.PrestamosEditForm.controls["FondoPrestamo"].value ? this.PrestamosEditForm.controls["FondoPrestamo"].value : '',
+     MonedaId: this.PrestamosEditForm.controls["MonedaPrestamos"].value ? this.PrestamosEditForm.controls["MonedaPrestamos"].value : '',
+     Importe:this.PrestamosEditForm.controls["ImportePrestamo"].value ? this.PrestamosEditForm.controls["ImportePrestamo"].value : '',
+     Observaciones:this.PrestamosEditForm.controls["ObservacionesPrestamo"].value ? this.PrestamosEditForm.controls["ObservacionesPrestamo"].value : '',
+     EstadoId:this.PrestamosEditForm.controls["EstadoPrestamo"].value ? this.PrestamosEditForm.controls["EstadoPrestamo"].value : '',
+     Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+     EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
+  
 
     }
     
@@ -918,20 +388,18 @@ export class PrestamosEditComponent implements OnInit {
     this.Search();
   }
   
-
-
   Search(): void {
     if (!this.PrestamosEditForm.invalid) {
       this.spinner.show();
-      const request = this.getRequestPagoConsultar();
-      this.PagoServicioPlantaService.Consultar(request)
+      const request = this.getRequestDevolucionesConsultar();
+      this.DevolucionPrestamoService.Consultar(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
           //x.FechaInicio = this.dateUtil.formatDate(x.FechaInicio)
           //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
-          x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
+          //x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
           });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
@@ -949,142 +417,52 @@ export class PrestamosEditComponent implements OnInit {
     }
   }
 
-  getRequestPagoConsultar(): any {
-      
+  getRequestDevolucionesConsultar(): any {
     
     const form = this.PrestamosEditForm.value;
 
       const request =
      {
       
-        Numero: this.PrestamosEditForm.controls["NumeroPagos"].value ? this.PrestamosEditForm.controls["NumeroPagos"].value : '',
-        NumeroOperacion:  this.PrestamosEditForm.controls["NumeroOperacionPagos"].value ?  this.PrestamosEditForm.controls["NumeroOperacionPagos"].value : '',
-        TipoOperacionPagoServicioId:  this.PrestamosEditForm.controls["TipoOperacionPago"].value ?this.PrestamosEditForm.controls["TipoOperacionPago"].value : '',
-        ServicioPlantaId:   this.PrestamosEditForm.controls["ServicioPlantaId"].value ? this.PrestamosEditForm.controls["ServicioPlantaId"].value : 0,
-        BancoId:    this.PrestamosEditForm.controls["BancoPagos"].value ? this.PrestamosEditForm.controls["BancoPagos"].value : '',
-        MonedaId:   this.PrestamosEditForm.controls["MonedaPagos"].value ? this.PrestamosEditForm.controls["MonedaPagos"].value : '',
-        FechaInicio:   this.PrestamosEditForm.controls["FechaInicioPagos"].value ? this.PrestamosEditForm.controls["FechaInicioPagos"].value : '',
-        FechaFin:   this.PrestamosEditForm.controls["FechaFinPagos"].value ? this.PrestamosEditForm.controls["FechaFinPagos"].value : '',
-        EstadoId:   this.PrestamosEditForm.controls["EstadoPagos"].value ? this.PrestamosEditForm.controls["EstadoPagos"].value : '',
+        Numero: this.PrestamosEditForm.controls["NumeroDevoluciones"].value ? this.PrestamosEditForm.controls["NumeroDevoluciones"].value : '',
+        DestinoDevolucionId:  this.PrestamosEditForm.controls["DestinoDevolucion"].value ?  this.PrestamosEditForm.controls["DestinoDevolucion"].value : '',
+        BancoId:    this.PrestamosEditForm.controls["BancoDevolucion"].value ? this.PrestamosEditForm.controls["BancoDevolucion"].value : '',
+        MonedaId:   this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
+        FechaInicio:   this.PrestamosEditForm.controls["FechaInicioDevolucion"].value ? this.PrestamosEditForm.controls["FechaInicioDevolucion"].value : '',
+        FechaFin:   this.PrestamosEditForm.controls["FechaFinDevolucion"].value ? this.PrestamosEditForm.controls["FechaFinDevolucion"].value : '',
+        EstadoId:   this.PrestamosEditForm.controls["EstadoDevolucion"].value ? this.PrestamosEditForm.controls["EstadoDevolucion"].value : '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
 
       }
     
       //let json = JSON.stringify(request);
       return request;
-  
-  
   }
 
- /* anular() {
-    if (this.selected.length > 0) {
-      if (this.selected[0].Cantidad != this.selected[0].CantidadDisponible){
-       this.alertUtil.alertWarning("Advertencia","No se puede Anular la operacion Procesada");
-      return;
-      }
-      if (this.selected[0].EstadoId == this.estado) {
-        var form = this;
-        swal.fire({
-          title: '¿Estas seguro?',
-          text: "¿Estas seguro de anular el Pago?",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.anularPago();
-          }
-        });
-      } else {
-        this.alertUtil.alertError("Error", "Solo se puede anular Pagos  en  estado Registrado")
-      }
-    }
-}
-
-anularPago() {
-  this.spinner.show(undefined,
-    {
-      type: 'ball-triangle-path',
-      size: 'medium',
-      bdColor: 'rgba(0, 0, 0, 0.8)',
-      color: '#fff',
-      fullScreen: true
-    });
-  this.PagoServicioPlantaService.Anular(
-    {
-      "PagoServicioPlantaId": this.selected[0].PagoServicioPlantaId,
-      "ServicioPlantaId":this.selected[0].ServicioPlantaId,
-      "Importe":this.selected[0].Importe,
-      "Usuario": this.vSessionUser.Result.Data.NombreUsuario
-    })
-    .subscribe(res => {
-      this.spinner.hide();
-      if (res.Result.Success) {
-        if (res.Result.ErrCode == "") {
-          this.alertUtil.alertOk('Anulado!', 'Pago de Servicios Anulado.');
-          this.buscar();
-
-        } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
-          this.alertUtil.alertError('Error', res.Result.Message);
-        } else {
-          this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-        }
-      } else {
-        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-      }
-    },
-      err => {
-        this.spinner.hide();
-        console.log(err);
-        this.alertUtil.alertError('Error', this.mensajeErrorGenerico);
-      }
-    );
-}
-*/
-
-
-
   Nuevo() {
-    /*var Moneda = this.PrestamosEditForm.controls["Moneda"].value;
-    var ImportePago = this.PrestamosEditForm.controls["ImportePago"].value;
-    var TotalImporte = this.PrestamosEditForm.controls["TotalImporte"].value;
-
-    if (ImportePago >= TotalImporte){
-      
-      this.alertUtil.alertWarning("Advertencia","No se puede Registrar Mas Pagos");
-    }
-    else{*/
-
+    var Moneda = this.PrestamosEditForm.controls["MonedaPrestamos"].value;
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
-    this.router.navigate([`/planta/operaciones/servicioPlanta-edit/${this.ServicioPlantaId}`]);
+   
+    this.router.navigate([`/planta/operaciones/serviciodevoluciones-edit/${this.PrestamoPlantaId}/${Moneda}`]);
     }
-  
-
 
   Save(): void {
   //  debugger
     if (!this.PrestamosEditForm.invalid) {
         const form = this;
-        if (this.ServicioPlantaId <= 0) {
+        if (this.PrestamoPlantaId <= 0) {
 
           this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.', function (result) {
             if (result.isConfirmed) {
-              form.Registrar();
+              form.RegistrarPrestamos();
             }
           });
-        } else if (this.ServicioPlantaId > 0) {
+        } else if (this.PrestamoPlantaId > 0) {
 
           this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.', function (result) {
             if (result.isConfirmed) {
-              form.Actualizar();
+              form.ActualizarPrestamos();
             }
           });
         }
@@ -1094,129 +472,15 @@ anularPago() {
     }
   }
 
- /* Registrar(): void {
-    
-    this.spinner.show();
-    this.errorGeneral = { isError: false, msgError: '' };
-    const request = this.GetRequest();
-    //const file = this.ordenProcesoEditForm.value.file;
-    this.ServicioPlantaService.Registrar(request).subscribe((res: any) => 
-    {
-      
-      this.spinner.hide();
-      if (res.Result.Success) {
-        this.alertUtil.alertOkCallback('CONFIRMACIÓN!', 'Se registro exitosamente.', () => {
-          this.Cancel();
-        });
-      } else {
-        this.errorGeneral = { isError: true, msgError: res.Result.Message };
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.spinner.hide();
-      this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-    });
-  }*/
-
-
-  
-    calcularImporte(event){
-      var precioUnitario = Number(event.target.value);
-      var cantidad = this.PrestamosEditForm.controls["Cantidad"].value;
-      var importe = precioUnitario * cantidad;
-      this.PrestamosEditForm.controls.Importe.setValue(importe);
-
-      
-      var porcentajeTIRB;
-
-      if(this.PrestamosEditForm.controls["PorcentajeTIRB"].value == "")
-       {
-         porcentajeTIRB = 0; 
-       }
-       else
-       {
-        porcentajeTIRB = Number(this.PrestamosEditForm.controls["PorcentajeTIRB"].value);
-       } 
- 
-       this.PrestamosEditForm.controls.TotalImporte.setValue(importe + porcentajeTIRB); 
-
-
-    }
-
-    calcularcantidad(event  ){
-      var cantidad = Number(event.target.value);
-      var precioUnitario = this.PrestamosEditForm.controls["PrecioUnitario"].value;
-      var importe = cantidad * precioUnitario;
-      this.PrestamosEditForm.controls.Importe.setValue(importe);
-
-      var porcentajeTIRB;
-
-      if(this.PrestamosEditForm.controls["PorcentajeTIRB"].value == "")
-       {
-         porcentajeTIRB = 0; 
-       }
-       else
-       {
-        porcentajeTIRB = Number(this.PrestamosEditForm.controls["PorcentajeTIRB"].value);
-       } 
- 
-       this.PrestamosEditForm.controls.TotalImporte.setValue(importe + porcentajeTIRB);    
-
-
-    }
-
-    
-    
-
-    calcularTotalImporte(event)
-    {       
-      var porcentajeTIRB;
-
-      if(event.target.value == "")
-       {
-         porcentajeTIRB = 0; 
-       }
-       else
-       {
-        porcentajeTIRB = Number(event.target.value);
-       }
-            
-     
-      var importe = this.PrestamosEditForm.controls["Importe"].value;     
- 
-       this.PrestamosEditForm.controls.TotalImporte.setValue(importe + porcentajeTIRB);     
-      
-    }
- 
-    
-
-    /*calcularImportePago(event){
-      var importe = Number(event.target.value);
-      //var importe = this.ServicioPlantaEditForm.controls["Importe"].value;
-      var PorcentajeTIRB = this.ServicioPlantaEditForm.controls["PorcentajeTIRB"].value;
-      if(PorcentajeTIRB == 0){
-        this.ServicioPlantaEditForm.controls.PorcentajeTIRB.setValue( this.detalle.PorcentajeTIRB == null ? this.detalle.PorcentajeTIRB :"");
-      }
-      else {
-        var  TotalImporteProcesado= importe + PorcentajeTIRB;
-        this.ServicioPlantaEditForm.controls.ImportePago.setValue(TotalImporteProcesado);
-      }
-
-      }*/
-   
- 
-    
-
-
-  Registrar(): void {
+  RegistrarPrestamos(): void {
     this.spinner.show();
     const request = this.GetRequest();
-    this.ServicioPlantaService.Registrar(request)
+    this.ServiciosPrestamosService.Registrar(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
           this.alertUtil.alertOkCallback("CONFIRMACIÓN!",
-            "Se registro correctamente el servicio.",
+            "Se registro correctamente el servicio prestamo.",
             () => {
               this.Cancel();
             });
@@ -1230,19 +494,17 @@ anularPago() {
       });
   }
 
-
-
-  Actualizar() {
+  ActualizarPrestamos() {
     this.spinner.show();
     const request = this.GetRequest();
-    this.ServicioPlantaService.Actualizar(request)
+    this.ServiciosPrestamosService.Actualizar(request)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             var form = this;
-            this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Actualizado.', function (result) {
-              form.router.navigate(['/planta/operaciones/servicios-list']);
+            this.alertUtil.alertOkCallback('Actualizado!', 'Servicio Prestamo Actualizado.', function (result) {
+              form.router.navigate(['/planta/operaciones/serviciosprestamos-list']);
             }
             );
 
@@ -1271,16 +533,15 @@ anularPago() {
     this.PrestamosEditForm.get('file').updateValueAndValidity();
   }
 
- 
-  async ConsultaPorId(ServicioPlantaId) {
+  async ConsultaPorId(PrestamoPlantaId) {
  
     
     let request =
     {
-      "ServicioPlantaId": Number(ServicioPlantaId),
+      "PrestamoPlantaId": Number(PrestamoPlantaId),
     }
 
-    this.ServicioPlantaService.ConsultarPorId(request)
+    this.ServiciosPrestamosService.ConsultarPorId(request)
       .subscribe(res => {
         //this.spinner.hide();
         if (res.Result.Success) {
@@ -1311,114 +572,40 @@ anularPago() {
 
   }
 
-
-
   singleSelectCheck(row: any) {
     return this.selected.indexOf(row) === -1;
   }
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
-      
-      //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
-      this.PrestamosEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
-      this.PrestamosEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-     // this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
-     // this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
-      if (data.EstadoId)
-        this.PrestamosEditForm.controls.estado.setValue(data.EstadoId);
-      //this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
-      this.PrestamosEditForm.controls.cantidadDefectos.setValue(data.CantidadDefectos);
-      this.PrestamosEditForm.controls.numeroContrato.setValue(data.NumeroContrato);
-      this.PrestamosEditForm.controls.fechaInicio.setValue(data.FechaInicioProceso == null ? "" : formatDate(data.FechaInicioProceso, 'yyyy-MM-dd', 'en'));
-      this.PrestamosEditForm.controls.fechaFin.setValue(data.FechaFinProceso == null ? "" : formatDate(data.FechaFinProceso, 'yyyy-MM-dd', 'en'));
-      this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
-      this.PrestamosEditForm.controls.estado.disable();
+    
+ this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
+ this.PrestamosEditForm.controls.Moneda.setValue(data.MonedaId);
+ this.PrestamosEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
+ this.PrestamosEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
+ this.PrestamosEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
+ this.PrestamosEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
+ ////////////////////campos para eñ formulario de prestamos y devoluciones///////////////////////////
+ this.PrestamosEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
+ this.PrestamosEditForm.controls.NumeroPrestamo.setValue(data.Numero);
+ this.PrestamosEditForm.controls.DetallePrestamo.setValue(data.DetallePrestamo);
+ this.PrestamosEditForm.controls.FondoPrestamo.setValue(data.FondoPrestamoId);
+ this.PrestamosEditForm.controls.MonedaPrestamos.setValue(data.MonedaId);
+ this.PrestamosEditForm.controls.ImportePrestamo.setValue(data.Importe);
+ this.PrestamosEditForm.controls.ImporteDevolucion.setValue(data.ImporteProcesado);
+ this.PrestamosEditForm.controls.SaldoPrestamo.setValue(data.Saldo);
+ this.PrestamosEditForm.controls.ImporteCambio.setValue(data.ImporteCambio);
+ this.PrestamosEditForm.controls.ObservacionesPrestamo.setValue(data.Observaciones);
+ this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
+ this.PrestamosEditForm.controls.FechaPrestamo.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
+ /////////////////////Campos de devoluciones //////////////////////////////
+ //this.PrestamosEditForm.controls.NumeroDevoluciones.setValue(data.Numero);
+ this.PrestamosEditForm.controls.DestinoDevolucion.setValue(data.DestinoDevolucionId);
+ this.PrestamosEditForm.controls.BancoDevolucion.setValue(data.BancoId);
+ this.PrestamosEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
 
-   /////////Camppos del api servicio planta ////////////////////////7
-   this.PrestamosEditForm.controls.ServicioPlantaId.setValue(data.ServicioPlantaId);
-   //this.ServicioPlantaEditForm.controls.Numero.setValue(data.Numero);
-
-   if (data.Numero){
-    this.PrestamosEditForm.controls.Numero.setValue(data.Numero);
-   }
-   //this.ServicioPlantaEditForm.controls.NumeroOperacionRelacionada.setValue(data.NumeroOperacionRelacionada);
-   this.PrestamosEditForm.controls.TipoServicio.setValue(data.TipoServicioId);
-   this.PrestamosEditForm.controls.TipoComprobante.setValue(data.TipoComprobanteId);
-   this.PrestamosEditForm.controls.SerieComprobante.setValue(data.SerieComprobante);
-   this.PrestamosEditForm.controls.NumeroComprobante.setValue(data.NumeroComprobante);
-
-  this.PrestamosEditForm.controls.FechaDocumento.setValue(data.FechaDocumento == null ? "" : formatDate(data.FechaDocumento, 'yyyy-MM-dd', 'en'));
-
-  this.PrestamosEditForm.controls.FechaComprobante.setValue(data.FechaComprobante == null ? "" : formatDate(data.FechaComprobante, 'yyyy-MM-dd', 'en'));
-  
-  this.PrestamosEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
-
-  this.PrestamosEditForm.controls.SerieDocumento.setValue(data.SerieDocumento);
-   this.PrestamosEditForm.controls.NumeroDocumento.setValue(data.NumeroDocumento);
-
-   this.PrestamosEditForm.controls.UnidadMedida.setValue(data.UnidadMedidaId);
-  
-   this.PrestamosEditForm.controls.Cantidad.setValue(data.Cantidad);
-   this.PrestamosEditForm.controls.PrecioUnitario.setValue(data.PrecioUnitario);
-   
-   
-   this.PrestamosEditForm.controls.Moneda.setValue(data.MonedaId);
-
-   this.PrestamosEditForm.controls.Importe.setValue(data.Importe);
-
-   this.PrestamosEditForm.controls.PorcentajeTIRB.setValue(data.PorcentajeTIRB);
-   this.PrestamosEditForm.controls.MonedaPagos.setValue(data.MonedaId);
-   this.PrestamosEditForm.controls.TotalImporte.setValue(data.TotalImporte);
-   this.PrestamosEditForm.controls.ImportePago.setValue(data.TotalImporteProcesado);
-   this.PrestamosEditForm.controls.Observaciones.setValue(data.Observaciones);
-   this.PrestamosEditForm.controls.ObservacionAnulacion.setValue(data.  ObservacionAnulacion);
-   this.PrestamosEditForm.controls.Campania.setValue(data.CodigoCampania);
-   
-   this.PrestamosEditForm.controls.MonedaPrestamos.setValue(data.MonedaId);
-   
-   this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
-   this.PrestamosEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
-   this.PrestamosEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
-  this.PrestamosEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
     }
     this.spinner.hide();
-  }
-
-  addRowDetail(): void {
-    this.rowsDetails = [...this.rowsDetails, {
-      OrdenProcesoPlantaId: 0,
-      OrdenProcesoPlantaDetalleId: 0,
-      NotaIngresoPlantaId: 0,
-      NumeroIngresoPlanta: '',
-      FechaIngresoAlmacen: '',
-      CantidadNotaIngreso: 0,
-      KilosNetosNotaIngreso: 0,
-      PorcentajeHumedad: 0,
-      PorcentajeExportable: 0,
-      PorcentajeDescarte: 0,
-      PorcentajeCascarilla: 0,
-      KilosExportables: 0,
-      SacosCalculo: 0,
-      Cantidad: 0,
-      KilosNetos: 0
-    }];
-  }
-
-  DeleteRowDetail(index: any): void {
-    this.rowsDetails.splice(index, 1);
-    this.rowsDetails = [...this.rowsDetails];
-  }
-
-  UpdateValuesGridDetails(event: any, index: any, prop: any): void {
-    
-    if (prop === 'Cantidad')
-      this.rowsDetails[index].Cantidad = parseFloat(event.target.value);
-    else if (prop === 'KilosNetos')
-      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value);
-    else if (prop === 'KilosKilosExportablesNetosPesado')
-      this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
-
   }
 
   Print(): void {
@@ -1440,7 +627,7 @@ anularPago() {
       if (result.value) {
         let link = document.createElement('a');
         document.body.appendChild(link);
-        link.href = `${host}OrdenProcesoPlanta/GenerarPDFOrdenProceso?id=${form.ServicioPlantaId}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
+        link.href = `${host}OrdenProcesoPlanta/GenerarPDFOrdenProceso?id=${form.PrestamoPlantaId}&empresaId=${this.vSessionUser.Result.Data.EmpresaId}`;
         link.target = "_blank";
         link.click();
         link.remove();
@@ -1448,28 +635,8 @@ anularPago() {
     });
   }
 
-  Descargar(): void {
-    const rutaFile = this.PrestamosEditForm.value.pathFile;
-    let link = document.createElement('a');
-    document.body.appendChild(link);
-    link.href = `${host}OrdenProceso/DescargarArchivo?path=${rutaFile}`;
-    link.target = "_blank";
-    link.click();
-    link.remove();
-  }
-
-  ValidateDataDetails(): number {
-    let result = [];
-    /*  result = this.rowsLotesDetalle.filter(x => !x.NotaIngresoPlantaId
-       || !x.FechaRegistro || !x.RendimientoPorcentaje
-       || !x.HumedadPorcentaje)
-  */
-    result = this.rowsDetails.filter(x => x.NotaIngresoAlmacenPlantaId)
-    return result.length;
-  }
-
   Cancel(): void {
-    this.router.navigate(['/planta/operaciones/servicios-list']);
+    this.router.navigate(['/planta/operaciones/serviciosprestamos-list']);
   }
 
   compareFechas() {
@@ -1505,179 +672,8 @@ anularPago() {
     */
   }
 
-  cargarDatos(detalle: any) {
-    detalle.forEach(data => {
-      debugger
-      let object: any = {};
-      object.NotaIngresoAlmacenPlantaId = data.NotaIngresoAlmacenPlantaId
-
-      object.NumeroIngresoAlmacenPlanta = data.NumeroIngresoAlmacenPlanta
-      object.FechaIngresoAlmacen = data.FechaIngresoAlmacen;
-      object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
-
-      object.CantidadNotaIngreso = data.CantidadNotaIngreso
-      object.KilosNetosNotaIngreso = data.KilosNetosNotaIngreso
-      object.PorcentajeHumedad = data.PorcentajeHumedad
-      object.PorcentajeExportable = data.PorcentajeExportable
-      object.PorcentajeDescarte = data.PorcentajeDescarte
-      object.PorcentajeCascarilla = data.PorcentajeCascarilla
-
-      if (data.ProductoId == "01" && data.SubProductoId == "05") //01:Pergamino  05: Humedo
-      {
-        this.esHumedo = true;
-      }
-
-
-      if (data.PorcentajeExportable) {
-        object.KilosExportables = Math.round(Number(data.KilosNetosNotaIngreso * data.PorcentajeExportable) / 100);
-      } else {
-        object.KilosExportables = Number(0);
-      }
-      //if(data.KilosExportables){
-      // var valorRounded = Math.round(( Number(object.KilosExportables / 69) + Number.EPSILON) * 100) / 100
-      object.SacosCalculo = data.SacosCalculo;
-      //}else{
-      //  object.SacosCalculo = Number(0);
-      //}
-
-      object.Cantidad = data.Cantidad
-      object.KilosNetos = data.KilosNetos
-
-      this.listaNotaIngreso.push(object);
-    });
-    this.tempDataLoteDetalle = this.listaNotaIngreso;
-    this.rowsDetails = [...this.tempDataLoteDetalle];
-  }
-  emptySumm() {
-    return null;
-  }
-  calcularKilosNetos() {
-    return 20;
-  }
-  agregarNotaIngreso(e, tipo) {
-
-    debugger
-
-    if (tipo == 'materiaPrima') 
-    {
-      var listFilter = [];
-      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId == e[0].NotaIngresoAlmacenPlantaId);
-      if (listFilter.length == 0) 
-      {
-        if (e[0].ProductoId == "01" && e[0].SubProductoId == "05") //01:Pergamino  05: Humedo
-        {
-          this.esHumedo = true;
-        }
-
-          this.groupCantidad[e[0].NotaIngresoAlmacenPlantaId + '%cantidad'] = new FormControl('', []);
-          this.filtrosLotesID.NotaIngresoAlmacenPlantaId = Number(e[0].NotaIngresoAlmacenPlantaId);
-          let object: any = {};
-          object.NotaIngresoAlmacenPlantaId = e[0].NotaIngresoAlmacenPlantaId;         
-          object.NumeroIngresoAlmacenPlanta = e[0].Numero;
-          const [day, month, year] = e[0].FechaRegistro.split('/');
-          object.FechaIngresoAlmacen = new Date(year, month, day);
-          object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
-          object.CantidadNotaIngreso = e[0].CantidadDisponible;
-          object.KilosNetosNotaIngreso = e[0].KilosNetosDisponibles;
-          object.PorcentajeHumedad = e[0].HumedadPorcentajeAnalisisFisico;
-          object.PorcentajeExportable = e[0].ExportablePorcentajeAnalisisFisico;
-          object.PorcentajeRendimiento = e[0].RendimientoPorcentaje;
-          object.PorcentajeDescarte = e[0].DescartePorcentajeAnalisisFisico;
-          object.PorcentajeCascarilla = e[0].CascarillaPorcentajeAnalisisFisico;
-          var KilosExportables = Number(e[0].KilosNetosDisponibles * (e[0].RendimientoPorcentaje / 100))
-          object.KilosExportables = KilosExportables.toFixed(2);
-          var valorRounded = Number(KilosExportables / 69);
-          object.SacosCalculo = valorRounded.toFixed(2);
-          object.Cantidad = e[0].CantidadDisponible;
-          object.KilosNetos = e[0].KilosNetosDisponibles;
-
-          this.listaNotaIngreso.push(object);
-          this.tempDataLoteDetalle = this.listaNotaIngreso;
-          this.rowsDetails = [...this.tempDataLoteDetalle];
-          this.modalService.dismissAll();
-      }
-      else {
-        this.alertUtil.alertWarning("Oops...!", "Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroIngresoPlanta + ".");
-      }
-      
-    }
-    else
-    {
-      var listFilter = [];
-      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId == e[0].NotaIngresoProductoTerminadoAlmacenPlantaId);
-      if (listFilter.length == 0) 
-      {
-       
-          this.esHumedo = false;
-        
-
-          this.groupCantidad[e[0].NotaIngresoProductoTerminadoAlmacenPlantaId + '%cantidad'] = new FormControl('', []);
-          this.filtrosLotesID.NotaIngresoAlmacenPlantaId = Number(e[0].NotaIngresoProductoTerminadoAlmacenPlantaId);
-          let object: any = {};
-          object.NotaIngresoAlmacenPlantaId = e[0].NotaIngresoProductoTerminadoAlmacenPlantaId;         
-          object.NumeroIngresoAlmacenPlanta = e[0].Numero;
-          const [day, month, year] = e[0].FechaRegistro.split('/');
-          object.FechaIngresoAlmacen = new Date(year, month, day);
-          object.FechaIngresoAlmacenString = this.dateUtil.formatDate(object.FechaIngresoAlmacen);
-          object.CantidadNotaIngreso = e[0].CantidadDisponible;
-          object.KilosNetosNotaIngreso = e[0].KilosNetosDisponibles;
-          object.PorcentajeHumedad = 0;
-          object.PorcentajeExportable = 0;
-          object.PorcentajeRendimiento = 0;
-          object.PorcentajeDescarte = 0;
-          object.PorcentajeCascarilla = 0;
-          var KilosExportables = 0;
-          object.KilosExportables = KilosExportables.toFixed(2);
-          var valorRounded = Number(KilosExportables / 69);
-          object.SacosCalculo = 0;
-          object.Cantidad = e[0].CantidadDisponible;
-          object.KilosNetos = e[0].KilosNetosDisponibles;
-
-          this.listaNotaIngreso.push(object);
-          this.tempDataLoteDetalle = this.listaNotaIngreso;
-          this.rowsDetails = [...this.tempDataLoteDetalle];
-          this.modalService.dismissAll();
-      }
-      else {
-        this.alertUtil.alertWarning("Oops...!", "Ya ha sido agregado la Nota de Ingreso N° " + listFilter[0].NumeroIngresoPlanta + ".");
-      }
-
-    
-    }
-
-    if (this.listaNotaIngreso.length > 0) {
-      var sumExportable = 0;
-      var sumDescarte = 0;
-      var sumCascarilla = 0;
-      this.listaNotaIngreso.forEach(data => {
-        sumExportable = sumExportable + data.PorcentajeExportable;
-        sumDescarte = sumDescarte + data.PorcentajeDescarte;
-        sumCascarilla = sumCascarilla + data.PorcentajeCascarilla;
-      });
-      this.averageCascarilla = Number((sumCascarilla / this.listaNotaIngreso.length).toFixed(2));
-      this.averageDescarte = Number((sumDescarte / this.listaNotaIngreso.length).toFixed(2));
-      this.averageExportable = Number((sumExportable / this.listaNotaIngreso.length).toFixed(2));
-    }
-
-  }
-
-  eliminarLote(select) {
-    let form = this;
-    this.alertUtil.alertSiNoCallback('Está seguro?', 'La ' + select[0].NumeroIngresoAlmacenPlanta + ' se eliminará de su lista.', function (result) {
-      if (result.isConfirmed) {
-        form.listaNotaIngreso = form.listaNotaIngreso.filter(x => x.NotaIngresoAlmacenPlantaId != select[0].NotaIngresoAlmacenPlantaId)
-        form.tempDataLoteDetalle = form.listaNotaIngreso;
-        form.rowsDetails = [...form.tempDataLoteDetalle];
-        form.selectLoteDetalle = [];
-      }
-    }
-    );
-  }
-
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)
   }
-
-
 
 }
