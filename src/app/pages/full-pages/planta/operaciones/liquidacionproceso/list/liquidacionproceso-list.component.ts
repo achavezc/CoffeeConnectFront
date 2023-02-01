@@ -75,7 +75,7 @@ export class LiquidacionProcesoComponent implements OnInit {
 
 
   seleccionarLiquidacionProceso(): void {
-    debugger
+    
     this.liquidacionEvent.emit(this.selected);
   }
 
@@ -83,15 +83,19 @@ export class LiquidacionProcesoComponent implements OnInit {
   {
     if (this.popUp) {
       debugger
-      this.liquidacionProcesoForm.controls['estado'].disable();
+      
+      this.liquidacionProcesoForm.controls.estado.setValue("01");//Liquidado
       this.liquidacionProcesoForm.controls['estado'].setValue("01"); //Liquidado
-      this.liquidacionProcesoForm.controls['ruc'].disable();
+      this.liquidacionProcesoForm.controls['estado'].disable();
+      
+      this.liquidacionProcesoForm.controls.ruc.setValue(this.rucCliente); 
       this.liquidacionProcesoForm.controls['ruc'].setValue(this.rucCliente);
+      this.liquidacionProcesoForm.controls['ruc'].disable();
+    
 
-      this.liquidacionProcesoForm.controls['organizacion'].disable();
+      this.liquidacionProcesoForm.controls.organizacion.setValue(this.cliente); 
       this.liquidacionProcesoForm.controls['organizacion'].setValue(this.cliente);
-
-
+      this.liquidacionProcesoForm.controls['organizacion'].disable();
       this.selectedEstado = '01';
 
     }
@@ -137,14 +141,15 @@ export class LiquidacionProcesoComponent implements OnInit {
 
   getRequest(): any {
     const form = this.liquidacionProcesoForm.value;
-    return {
-      Numero: form.nroLiquidacion ? form.nroLiquidacion : '',
-      RucOrganizacion: form.ruc ? form.ruc : '',    
-      RazonSocialOrganizacion: form.organizacion ? form.organizacion:'',
+    return { 
+
+      Numero: this.liquidacionProcesoForm.controls.nroLiquidacion.value,
+      RucOrganizacion: this.liquidacionProcesoForm.controls.ruc.value,    
+      RazonSocialOrganizacion: this.liquidacionProcesoForm.controls.organizacion.value,
       FechaInicio: this.liquidacionProcesoForm.value.fechaInicial,
       FechaFin: this.liquidacionProcesoForm.value.fechaFinal ,
-      TipoProcesoId: form.tipoProceso ? form.tipoProceso : '',
-      EstadoId: form.estado ? form.estado : '',
+      TipoProcesoId: this.liquidacionProcesoForm.controls.tipoProceso.value,
+      EstadoId: this.liquidacionProcesoForm.value.estado,
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId
     };
   }
@@ -154,6 +159,7 @@ export class LiquidacionProcesoComponent implements OnInit {
      {
       this.spinner.show();
       const request = this.getRequest();
+      debugger
       let json = JSON.stringify(request);
       this.liquidacionProcesoPlantaService.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
