@@ -1,0 +1,188 @@
+<form class="needs-validation" [formGroup]="DevolucionesEditForm">
+    <section id="tooltip-validation">
+        <div class="row">
+            <div class="col-12">
+                <div class="card"  style="margin-bottom: 2rem;">
+                    <div class="card-header">
+
+                        <div class="form-row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label for="razonSocialCabelbl"></label>
+                                        <input type="text" name="razonSocialCabe" id="razonSocialCabe"
+                                            formControlName="razonSocialCabe" class="form-control"
+                                            placeholder="Razón Social"
+                                            [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
+                                            [readonly]="true" />
+                                    
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <label for="NumeroDevolucion">N° Devoluciones</label>
+                                        <input type="text" name="NumeroDevolucion" id="NumeroDevolucion" formControlName="NumeroDevolucion"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': f.NumeroDevolucion.invalid, 'is-valid': !f.NumeroDevolucion.invalid }"
+                                            placeholder="N°Devolucion" [readonly]="true" />
+                    
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                               
+                            <label for="FechaRegistroDevolucion" >FECHA</label>
+                                   
+                                        <input type="date" class="form-control text-center" formControlName="FechaRegistroDevolucion"
+                                            id="FechaRegistroDevolucion" date name="FechaRegistroDevolucion" placeholder="Seleccionar Fecha Devolucion"
+                                            [readonly]="true"
+                                            [ngClass]="{ 'is-invalid': f.FechaRegistroDevolucion.invalid, 'is-valid': !f.FechaRegistroDevolucion.invalid }" />
+                                   
+                            </div>
+                        </div>
+
+
+                        
+                        <div class="form-row">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                <label for="direccionCabelbl"> </label>
+                                        <input type="text" name="direccionCabe" id="direccionCabe"
+                                            formControlName="direccionCabe" class="form-control"
+                                            [ngClass]="{ 'is-invalid': f.direccionCabe.invalid, 'is-valid': !f.direccionCabe.invalid }"
+                                            placeholder="Dirección" [readonly]="true" />
+                            
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                               
+                                    <label for="nroRucCabe"> RUC</label>
+                                    
+                                        <input type="text" name="nroRucCabe" id="nroRucCabe"
+                                            formControlName="nroRucCabe" class="form-control" placeholder="Número R.U.C"
+                                            [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid': !f.nroRucCabe.invalid }"
+                                            [readonly]="true">
+                                   
+                                
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                
+                                
+                                    <label for="EstadoDevolucion" >ESTADO</label>
+                                    
+                                        <ng-select [items]="listEstadoDevolucion" formControlName="EstadoDevolucion" class="form-control"
+                                            bindLabel="Label" bindValue="Codigo" id="EstadoDevolucion"
+                                            placeholder="Seleccionar Estado"
+                                            [ngClass]="{ 'is-invalid': f.EstadoDevolucion.invalid, 'is-valid': !f.EstadoDevolucion.invalid }"
+                                            [(ngModel)]="selectedEstadoDevolucion" >
+                                        </ng-select>
+                                    
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <br>
+                    <h5 class="card-header bg-primary text-white text-center align-middle p-0" >DEVOLUCION SERVICIOS PLANTA</h5>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="form-row bg-primary align-middle mb-2">
+                                <label for="" class="text-white">Datos Generales</label>
+                            </div>
+                            <!--<form class="needs-validation" [formGroup]="ServicioPlantaEditForm">-->
+                                <div class="form-row">
+                            
+                                      <!--<div class="col-md-4 mb-4 form-group mb-2">
+                                        <label for="validationTooltip04">NUMERO DEVOLUCION</label>
+                                        <input type="text" formControlName="NumeroDevolucion"
+                                        class="form-control" id="NumeroDevolucion" placeholder="Numero Devolucion"
+                                        [ngClass]="{ 'is-invalid': submitted && f.NumeroDevolucion.invalid, 'is-valid': submitted && !f.NumeroDevolucion.invalid }">
+                                      </div>-->
+                                        <div class="col-md-4 mb-4 form-group mb-2">
+                                            <label for="FechaDevolucion" class="form-label">Fecha Devolucion</label>
+                                            <input type="date" class="form-control" formControlName="FechaDevolucion" id="validationTooltip07"
+                                            name="FechaDevolucion" placeholder="date" date
+                                            [ngClass]="{ 'is-invalid': submitted && f.FechaDevolucion.invalid, 'is-valid': submitted && !f.FechaDevolucion.invalid }"
+                                            (blur)="compareFechas()" />
+                                          <small class="form-text text-muted danger"
+                                            *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                        </div>
+
+                                        <div class="col-md-4 mb-2 form-group mb-2">
+                                            <label for="DestinoDevolucion">Destino</label>
+                                                <ng-select [items]="listTipoDestino" formControlName="DestinoDevolucion"
+                                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="DestinoDevolucion"
+                                                    placeholder="Seleccionar Destino"
+                                                    [ngClass]="{ 'is-invalid': f.DestinoDevolucion.invalid, 'is-valid': !f.DestinoDevolucion.invalid }"
+                                                    [(ngModel)]="selectedTipoDestino">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-6">
+                                                <label for="MonedaDevolucion">MONEDA DEVOLUCIONES</label>
+                                                    <ng-select [items]="listTipoMonedaDevoluciones" formControlName="MonedaDevolucion"
+                                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaDevolucion"
+                                                        placeholder="Seleccionar Moneda"
+                                                        [ngClass]="{ 'is-invalid': submittedEdit && f.MonedaDevolucion.invalid, 'is-valid': submittedEdit && !f.MonedaDevolucion.invalid }"
+                                                        [(ngModel)]="SelectedTipoMonedaDevoluciones">
+                                                    </ng-select>
+                                                </div>  
+                                           </div> 
+
+                         
+                                 <div class="form-row">
+
+                                    <div class="col-md-4 mb-2 form-group mb-2">
+                                        <label for="BancoDevolucion">Banco</label>
+                                            <ng-select [items]="listTipoBancoDevolucion" formControlName="BancoDevolucion"
+                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="BancoDevolucion"
+                                                placeholder="Seleccionar Banco"
+                                                [ngClass]="{ 'is-invalid': f.BancoDevolucion.invalid, 'is-valid': !f.BancoDevolucion.invalid }"
+                                                [(ngModel)]="selectedTipoBancoDevolucion">
+                                            </ng-select>
+                                        </div>
+                   
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label for="ImporteDevolucion" >IMPORTE DEVOLUCION </label>
+                                                <input type="number" name="ImporteDevolucion" id="ImporteDevolucion"
+                                               formControlName="ImporteDevolucion" class="form-control"
+                                               placeholder="Importe Devolucion">
+                                        </div> 
+
+                                              <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <label for="basicInput" style="font-size: 0.7rem;">Observaciones Devolcion</label>
+                                    <div class="position-relative has-icon-left">
+                                      <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000" name="notes"
+                                        formControlName="ObservacionDevolucion">
+                                            </textarea>
+                                      <div class="form-control-position">
+                                        <i class="ft-file"></i>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div> 
+
+                          
+                         
+                                  <div class="card-footer">
+                                    <div class="form-row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="form-group row">
+                                                <div class="col-lg-6">
+                                                    <small class="form-text text-muted danger mb-1"
+                                                        *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                                                </div>
+                                                <div class="col-lg-6 text-right">
+                                                    <button type="button" class="btn btn-primary mr-1"
+                                                        (click)="Guardar()" [disabled]="readonly==false">Guardar</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        (click)="Cancel()">Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!--</form>-->
+             
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+    </section>
+
+
+</form>

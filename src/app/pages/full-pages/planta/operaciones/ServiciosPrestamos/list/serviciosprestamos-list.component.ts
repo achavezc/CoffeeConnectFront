@@ -9,6 +9,7 @@ import{ PagoServicioPlantaService }from '../../../../../../Services/PagoServicio
 import { DateUtil } from '../../../../../../services/util/date-util';
 import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
 import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
+import{ServiciosPrestamosService}from '../../../../../../Services/ServiciosPrestamos.services';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from '../../../../../../services/auth.service';
 
@@ -24,6 +25,7 @@ export class PrestamosListComponent implements OnInit {
     private OrdenProcesoServicePlanta: OrdenProcesoServicePlanta,
     private alertUtil: AlertUtil,
     private ServicioPlantaService:ServicioPlantaService,
+    private ServiciosPrestamosService:ServiciosPrestamosService,
     private spinner: NgxSpinnerService,
     private PagoServicioPlantaService:PagoServicioPlantaService,
     private maestroService: MaestroService,
@@ -50,6 +52,13 @@ export class PrestamosListComponent implements OnInit {
 
   listTipoEstadoPrestamo: [] = [];
   selectedTipoEstadoPrestamo:any;
+
+  listTipoEstadoDevolucion: [] = [];
+  selectedTipoEstadoDevolucion:any;
+
+  listTipoEstadoFondos: [] = [];
+  selectedTipoEstadoFondos:any;
+
 
 
   vSessionUser: any;
@@ -78,7 +87,7 @@ export class PrestamosListComponent implements OnInit {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.LoadCombos();
-    this.cargaCampania();
+    //this.cargaCampania();
     this.GetListaTipoMonedaPrestamos();
     //this.Serviciosform.controls['FechaFin'].setValue(this.dateUtil.currentDate());
    // this.Serviciosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo());
@@ -92,36 +101,27 @@ export class PrestamosListComponent implements OnInit {
   LoadForm(): void {
     this.Prestamosform = this.fb.group({
        Numero: ['',''],
-       //NumeroOperacionRelacionada: ['', ''],
-       //NumeroOperacion: ['', ''],          
-       TipoServicio: ['', ''],
-       TipoComprobante: ['', ''],
-       SerieComprobanteServicio: ['',''],
-       NumeroComprobanteServicio: ['',''],
        Moneda: ['', ''],
        MonedaId:['',''],
        Importe: ['', ''],
        TotalImporte:['',''],
        TotalImporteProcesado:['',''],
-       ObservacionAnulacion:['',''],
-      // RazonSocial : ['', ''],
-      // Ruc:['',''],
-       porcentajeTIRB:['',''],
-       Campania: new FormControl('',[]),
+       FechaRegistro:['',''],
        rucOrganizacion: ['',''],
        RazonSocialEmpresaCliente: ['',''],
        estado :['',''],
-       FechaInicio :['',''],
-       FechaFin:['',''],
+       Estado:['',''],
        ///////////////Prestamos Y Devoluciones ////////////////////
        FechaPrestamo:['',''],
-       DetallePrestamo:['',''],
+       DetalleServicioPrestamos:['',''],
        ImportePrestamo:['',''],
        EstadoPrestamo:['',''],
        FondoPrestamo:['',''],
        ObservacionesPrestamo:['',''],
        SaldoPrestamo:['',''],
        NumeroPrestamo:['',''],
+       FechaInicio :['',''],
+       FechaFin:['',''],
        MonedaPrestamos:['','']
     });
    // this.ordenProcesoform.setValidators(this.comparisonValidator())
@@ -142,44 +142,32 @@ export class PrestamosListComponent implements OnInit {
   get f() {
     return this.Prestamosform.controls;
   }
-  async cargaCampania() 
-  {
 
-    var data = await this.maestroService.ConsultarCampanias("01").toPromise();
-    if (data.Result.Success) {
-      this.listaCampania = data.Result.Data;
-    }
-
-  }
 
   LoadCombos(): void {
     this.GetlistTipoEstadoPrestamo();
-    this.GetListTipoServicio();
-    this.GetListTipoComprobante();
+    this.GetlistTipoEstadoFondos();
+  //  this.GetListTipoServicio();
+   // this.GetListTipoComprobante();
   }
 
 
   
   async GetlistTipoEstadoPrestamo() {
-    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
+    const res = await this.maestroService.obtenerMaestros('EstadoPrestamoPlanta').toPromise();
     if (res.Result.Success) {
       this.listTipoEstadoPrestamo = res.Result.Data;
     }
   }
 
-  async GetListTipoServicio() {
-    let res = await this.maestroService.obtenerMaestros('TipoServicioPlanta').toPromise();
+    
+  async GetlistTipoEstadoFondos() {
+    const res = await this.maestroService.obtenerMaestros('FondoPrestamo').toPromise();
     if (res.Result.Success) {
-      this.listTipoServicio = res.Result.Data;
+      this.listTipoEstadoFondos = res.Result.Data;
     }
   }
 
-  async GetListTipoComprobante() {
-    let res = await this.maestroService.obtenerMaestros('TipoComprobantePlanta').toPromise();
-    if (res.Result.Success) {
-      this.listTipoComprobante = res.Result.Data;
-    }
-  }
 
 
 
@@ -209,14 +197,14 @@ export class PrestamosListComponent implements OnInit {
     if (!this.Prestamosform.invalid) {
       this.spinner.show();
       const request = this.getRequest();
-      this.ServicioPlantaService.Consultar(request).subscribe((res: any) => {
+      this.ServiciosPrestamosService.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
           //x.FechaInicioProceso = this.dateUtil.formatDate(x.FechaInicioProceso)
           //x.FechaRegistro =  this.dateUtil.formatDate(x.FechaRegistro);
           //x.FechaFinProceso =  this.dateUtil.formatDate(x.FechaFinProceso);
-          x.FechaDocumento = this.dateUtil.formatDate(x.FechaDocumento);
+          x.FechaRegistro = this.dateUtil.formatDate(x.FechaRegistro);
           x.FechaComprobante=this.dateUtil.formatDate(x.FechaComprobante);
           });
             this.tempData = res.Result.Data;
@@ -239,47 +227,18 @@ export class PrestamosListComponent implements OnInit {
       
     return {
       
-      /*
-        Numero: this.Serviciosform.value.Numero,
-        NumeroOperacionRelacionada:this.Serviciosform.value.NumeroOperacion,       
-        TipoServicioId : this.Serviciosform.value.TipoServicio,
-        TipoComprobanteId : this.Serviciosform.value.TipoComprobante,
-        //SerieComprobante: this.Serviciosform.value.SerieComprobanteServicio,
-       // NumeroComprobante: this.Serviciosform.value.NumeroComprobanteServicio,
-       SerieComprobante:this.Serviciosform.controls["SerieComprobanteServicio"].value ? this.Serviciosform.controls["SerieComprobanteServicio"].value : '',
-       NumeroComprobante:this.Serviciosform.controls["NumeroComprobanteServicio"].value ? this.Serviciosform.controls["NumeroComprobanteServicio"].value : '',
-        RazonSocialEmpresaCliente: this.Serviciosform.value.nombreOrganizacion,
-        RucEmpresaCliente :this.Serviciosform.value.rucOrganizacion,
-        CodigoCampania:this.Serviciosform.value.Campania,
-        FechaInicio:this.Serviciosform.value.FechaInicio,
-        FechaFin:this.Serviciosform.value.FechaFin,
-        EstadoId:  this.Serviciosform.controls["estado"].value,
-        EmpresaId: this.vSessionUser.Result.Data.EmpresaId 
-        */
-
-        Numero: this.Prestamosform.controls["Numero"].value ? this.Prestamosform.controls["Numero"].value : '',
-        TipoServicioId: this.Prestamosform.controls["TipoServicio"].value ? this.Prestamosform.controls["TipoServicio"].value : '',
-        TipoComprobanteId: this.Prestamosform.controls["TipoComprobante"].value ? this.Prestamosform.controls["TipoComprobante"].value : '',
-        SerieComprobante:this.Prestamosform.controls["SerieComprobanteServicio"].value ? this.Prestamosform.controls["SerieComprobanteServicio"].value : '',
-        NumeroComprobante:this.Prestamosform.controls["NumeroComprobanteServicio"].value ? this.Prestamosform.controls["NumeroComprobanteServicio"].value : '',
-        RazonSocialEmpresaCliente:this.Prestamosform.controls["RazonSocialEmpresaCliente"].value.trim() ? this.Prestamosform.controls["RazonSocialEmpresaCliente"].value.trim() :"",
-        RucEmpresaCliente:this.Prestamosform.controls["rucOrganizacion"].value ? this.Prestamosform.controls["rucOrganizacion"].value:"",
-        CodigoCampania:this.Prestamosform.controls["Campania"].value ? this.Prestamosform.controls["Campania"].value:"",
-        FechaInicio:this.Prestamosform.value.FechaInicio,
-        FechaFin:this.Prestamosform.value.FechaFin,
-        EstadoId:  this.Prestamosform.controls["estado"].value,
+  
+        Numero: this.Prestamosform.controls["NumeroPrestamo"].value ? this.Prestamosform.controls["NumeroPrestamo"].value : '',
+        FondoPrestamoId: this.Prestamosform.controls["FondoPrestamo"].value ? this.Prestamosform.controls["FondoPrestamo"].value : '',
+        DetallePrestamo: this.Prestamosform.controls["DetalleServicioPrestamos"].value ? this.Prestamosform.controls["DetalleServicioPrestamos"].value : '',
+        EstadoId:  this.Prestamosform.controls["EstadoPrestamo"].value ? this.Prestamosform.controls["EstadoPrestamo"].value : '',
+        FechaInicio: this.Prestamosform.controls["FechaInicio"].value ? this.Prestamosform.controls["FechaInicio"].value : '',
+        FechaFin:this.Prestamosform.controls["FechaFin"].value ? this.Prestamosform.controls["FechaFin"].value : '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId 
 
 
     };
   }
-    //if (this.selected[0].EstadoId == this.estado) {
-     
-      /*if ((TotalImporteProcesado - TotalImporte) < 0) {
-        
-        this.alertUtil.alertWarning("Advertencia","Puede eliminar el registro");
-        return;
-      }*/
 
       
 anular(){
@@ -404,7 +363,7 @@ AnularServicio(){
   }
 
   Nuevo(): void {
-    this.router.navigate(['/planta/operaciones/servicios-edit']);
+    this.router.navigate(['/planta/operaciones/serviciosprestamos-edit']);
    // this.router.navigate([`/planta/operaciones/servicios-edit/${this.MonedaId}`]);
   }
 

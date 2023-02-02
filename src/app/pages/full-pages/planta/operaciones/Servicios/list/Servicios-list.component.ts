@@ -223,24 +223,6 @@ export class ServiciosListComponent implements OnInit {
       
     return {
       
-      /*
-        Numero: this.Serviciosform.value.Numero,
-        NumeroOperacionRelacionada:this.Serviciosform.value.NumeroOperacion,       
-        TipoServicioId : this.Serviciosform.value.TipoServicio,
-        TipoComprobanteId : this.Serviciosform.value.TipoComprobante,
-        //SerieComprobante: this.Serviciosform.value.SerieComprobanteServicio,
-       // NumeroComprobante: this.Serviciosform.value.NumeroComprobanteServicio,
-       SerieComprobante:this.Serviciosform.controls["SerieComprobanteServicio"].value ? this.Serviciosform.controls["SerieComprobanteServicio"].value : '',
-       NumeroComprobante:this.Serviciosform.controls["NumeroComprobanteServicio"].value ? this.Serviciosform.controls["NumeroComprobanteServicio"].value : '',
-        RazonSocialEmpresaCliente: this.Serviciosform.value.nombreOrganizacion,
-        RucEmpresaCliente :this.Serviciosform.value.rucOrganizacion,
-        CodigoCampania:this.Serviciosform.value.Campania,
-        FechaInicio:this.Serviciosform.value.FechaInicio,
-        FechaFin:this.Serviciosform.value.FechaFin,
-        EstadoId:  this.Serviciosform.controls["estado"].value,
-        EmpresaId: this.vSessionUser.Result.Data.EmpresaId 
-        */
-
         Numero: this.Serviciosform.controls["Numero"].value ? this.Serviciosform.controls["Numero"].value : '',
         TipoServicioId: this.Serviciosform.controls["TipoServicio"].value ? this.Serviciosform.controls["TipoServicio"].value : '',
         TipoComprobanteId: this.Serviciosform.controls["TipoComprobante"].value ? this.Serviciosform.controls["TipoComprobante"].value : '',
@@ -257,13 +239,6 @@ export class ServiciosListComponent implements OnInit {
 
     };
   }
-    //if (this.selected[0].EstadoId == this.estado) {
-     
-      /*if ((TotalImporteProcesado - TotalImporte) < 0) {
-        
-        this.alertUtil.alertWarning("Advertencia","Puede eliminar el registro");
-        return;
-      }*/
 
       
 anular(){

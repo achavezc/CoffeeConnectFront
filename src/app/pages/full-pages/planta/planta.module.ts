@@ -31,6 +31,9 @@ import { OrdenProcesoEditComponent } from './operaciones/ordenproceso/edit/orden
 import { ServiciosListComponent } from './operaciones/Servicios/list/servicios-list.component';
 import { ServiciosEditComponent } from './operaciones/Servicios/edit/servicios-edit.component';
 import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaPopup/servicioPlanta-edit.component';
+import{ServicioDevolucionEditComponent}from './operaciones/ServiciosPrestamos/ServicioDevoluciones/serviciosdevoluciones-edit.component';
+
+
 import{AnularServicioeditComponent}from './operaciones/Servicios/AnularPopup/edit/anularpopup-edit.component';
 import{PrestamosListComponent}from './operaciones/ServiciosPrestamos/list/serviciosprestamos-list.component';
 import{PrestamosEditComponent}from './operaciones/ServiciosPrestamos/edit/serviciosprestamos-edit.component';
@@ -82,6 +85,7 @@ import { LiquidacionProcesoEditComponent } from './operaciones/liquidacionproces
     OrdenProcesoListComponent,
     ServiciosListComponent,
     ServicioPlantaeditComponent,
+    ServicioDevolucionEditComponent,
     AnularServicioeditComponent,
     PrestamosListComponent,
     PrestamosEditComponent,

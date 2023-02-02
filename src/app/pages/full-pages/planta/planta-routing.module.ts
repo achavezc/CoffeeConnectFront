@@ -10,6 +10,7 @@ import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaP
 import{AnularServicioeditComponent}from'./operaciones/Servicios/AnularPopup/edit/anularpopup-edit.component';
 import{PrestamosListComponent}from './operaciones/ServiciosPrestamos/list/serviciosprestamos-list.component';
 import{PrestamosEditComponent}from './operaciones/ServiciosPrestamos/edit/serviciosprestamos-edit.component';
+import{ServicioDevolucionEditComponent}from './operaciones/ServiciosPrestamos/ServicioDevoluciones/serviciosdevoluciones-edit.component';
 
 import { NotaIngresoEditComponent } from './operaciones/notaingreso/edit/notaingreso-edit.component';
 import{ControlCalidadEditComponent} from './operaciones/controlcalidad/edit/controlcalidad-edit.component';
@@ -220,10 +221,32 @@ const routes: Routes = [
         }
       },
       {
-        path: 'serviciosprestamos-edit/:ServicioPlantaId',
+        path: 'serviciosprestamos-edit/:PrestamoPlantaId',
         component: PrestamosEditComponent,
         data: {
           title: 'PrestamosEdit'
+        }
+      },
+
+      {
+        path: 'serviciosdevoluciones-edit',
+        component: ServicioDevolucionEditComponent,
+        data: {
+          title: 'ServicioDevolucionedit'
+        }
+      },
+      {
+        path: 'serviciosdevoluciones-edit/:PrestamoPlantaId/:Moneda',
+        component: ServicioDevolucionEditComponent,
+        data: {
+          title: 'ServicioDevolucionedit'
+        }
+      },
+      {
+        path: 'serviciosdevoluciones-edit/:PrestamoPlantaId/:DevolucionPrestamoPlantaId/:Moneda',
+        component: ServicioDevolucionEditComponent,
+        data: {
+          title: 'ServicioDevolucionedit'
         }
       },
     ]
