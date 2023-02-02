@@ -770,7 +770,16 @@ export class ServiciosEditComponent implements OnInit {
 
     
  
-    var FechaLiquidacion = this.ServicioPlantaEditForm.controls["FechaLiquidacion"].value;
+    var FechaLiquidacion;
+    
+    var TipoServicio = this.ServicioPlantaEditForm.controls["TipoServicio"].value 
+    
+    if ( TipoServicio== '02' /*Liq/Proceso*/ || TipoServicio == '03' /*Liq/Reproceso*/ || TipoServicio == '04' /*Liq/Secado*/) 
+    {     
+      FechaLiquidacion = this.ServicioPlantaEditForm.controls["FechaLiquidacion"].value;
+    }
+
+    
     var KilosNetosLiquidacion;
     
     if(this.ServicioPlantaEditForm.controls["KilosNetosLiquidacionProcesoPlanta"].value!='')
