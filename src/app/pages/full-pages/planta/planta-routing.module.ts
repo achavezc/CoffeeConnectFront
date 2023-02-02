@@ -229,21 +229,21 @@ const routes: Routes = [
       },
 
       {
-        path: 'serviciodevoluciones-edit',
+        path: 'serviciosdevoluciones-edit',
         component: ServicioDevolucionEditComponent,
         data: {
           title: 'ServicioDevolucionedit'
         }
       },
       {
-        path: 'serviciodevoluciones-edit/:PrestamoPlantaId/:Moneda',
+        path: 'serviciosdevoluciones-edit/:PrestamoPlantaId/:Moneda',
         component: ServicioDevolucionEditComponent,
         data: {
           title: 'ServicioDevolucionedit'
         }
       },
       {
-        path: 'serviciodevoluciones-edit/:PrestamoPlantaId/:DevolucionPrestamoPlantaId/:Moneda',
+        path: 'serviciosdevoluciones-edit/:PrestamoPlantaId/:DevolucionPrestamoPlantaId/:Moneda',
         component: ServicioDevolucionEditComponent,
         data: {
           title: 'ServicioDevolucionedit'

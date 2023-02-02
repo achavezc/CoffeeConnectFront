@@ -402,7 +402,7 @@ export class PrestamosEditComponent implements OnInit {
    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
    
-    this.router.navigate([`/planta/operaciones/serviciodevoluciones-edit/${this.PrestamoPlantaId}/${Moneda}`]);
+    this.router.navigate([`/planta/operaciones/serviciosdevoluciones-edit/${this.PrestamoPlantaId}/${Moneda}`]);
     }
 
   Save(): void {

@@ -21,9 +21,9 @@ import { AuthService } from '../../../../../../services/auth.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
-  selector: 'app-serviciodevoluciones-edit',
-  templateUrl: './serviciodevoluciones-edit.component.html',
-  styleUrls: ['./serviciodevoluciones-edit.component.scss', '/assets/sass/libs/datatables.scss'],
+  selector: 'app-serviciosdevoluciones-edit',
+  templateUrl: './serviciosdevoluciones-edit.component.html',
+  styleUrls: ['./serviciosdevoluciones-edit.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ServicioDevolucionEditComponent implements OnInit {
@@ -115,9 +115,10 @@ export class ServicioDevolucionEditComponent implements OnInit {
     this.DevolucionPrestamoPlantaId = this.route.snapshot.params.DevolucionPrestamoPlantaId ? Number(this.route.snapshot.params.DevolucionPrestamoPlantaId) : 0;
     this.PrestamoPlantaId = this.route.snapshot.params.PrestamoPlantaId ? Number(this.route.snapshot.params.PrestamoPlantaId) : 0;
     this.Moneda = this.route.snapshot.params.Moneda ? this.route.snapshot.params.Moneda : '';
+
     await this.LoadForm();
    
-   this.DevolucionesEditForm.controls.MonedaDevolucion.setValue(this.Moneda);
+  // this.DevolucionesEditForm.controls.MonedaDevolucion.setValue(this.Moneda);
     this.DevolucionesEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.DevolucionesEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.DevolucionesEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
@@ -134,7 +135,7 @@ export class ServicioDevolucionEditComponent implements OnInit {
       
       this.ConsultaPorId(this.DevolucionPrestamoPlantaId);
     }
-    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.DevolucionesEditForm.controls.MonedaPagos);
+   // this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.DevolucionesEditForm.controls.MonedaPagos);
 
     this.OcultarSecciones();
   }
