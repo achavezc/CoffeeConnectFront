@@ -13,14 +13,14 @@
                         <form class="needs-validation" [formGroup]="Prestamosform" novalidate>
                              <div class="form-row">
                                 <div class="col-lg-4 col-md-6 col-sm-6">
-                                    <label for="NumeroPrestamo" >Numero. Prestamo </label>
+                                    <label for="NumeroPrestamo" >Numero Prestamo </label>
                                         <input type="text" name="NumeroPrestamo" id="NumeroPrestamo"
                                        formControlName="NumeroPrestamo" class="form-control"
                                        placeholder="Nro. Prestamo">
                                      </div>   
 
                                 <div class="col-lg-4 col-md-4 col-sm-6">
-                                  <label for="MonedaPrestamos">MONEDA PRESTAMOS</label>
+                                  <label for="MonedaPrestamos">MONEDA PRESTAMO</label>
                                       <ng-select [items]="listTipoMonedaPrestamos" formControlName="MonedaPrestamos"
                                           class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPrestamos"
                                           placeholder="Seleccionar Moneda Prestamo"
@@ -28,25 +28,35 @@
                                           [(ngModel)]="SelectedTipoMonedaPrestamos">
                                       </ng-select>
                                   </div>
+
+                                  <div class="col-md-4 mb-2 form-group mb-2">
+                                    <label for="FondoPrestamo">Fondo Prestamo </label>
+                                        <ng-select [items]="listTipoEstadoFondos" formControlName="FondoPrestamo"
+                                            class="form-control" bindLabel="Label" bindValue="Codigo" id="FondoPrestamo"
+                                            placeholder="Seleccionar Fondo Prestamo"
+                                            [ngClass]="{ 'is-invalid': f.FondoPrestamo.invalid, 'is-valid': !f.FondoPrestamo.invalid }"
+                                            [(ngModel)]="selectedTipoEstadoFondos">
+                                        </ng-select>
+                                    </div>
   
-                                  <div class="col-lg-4 col-md-6 col-sm-6">
+                                 <!-- <div class="col-lg-4 col-md-6 col-sm-6">
                                     <label for="ImportePrestamo" >IMPORTE </label>
                                         <input type="number" name="ImportePagos" id="ImportePrestamo"
                                        formControlName="ImportePrestamo" class="form-control"
                                        placeholder="Importe Prestamos">
-                                </div> 
+                                </div> -->
                                
                              
                             </div> 
 
                             <div class="form-row">
 
-                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                <!--<div class="col-lg-4 col-md-6 col-sm-6">
                                     <label for="SaldoPrestamo" >SALDO </label>
                                         <input type="number" name="SaldoPrestamo" id="SaldoPrestamo"
                                        formControlName="SaldoPrestamo" class="form-control"
                                        placeholder="Saldo Prestamo">
-                                </div> 
+                                </div> -->
 
                                 <div class="col-md-4 mb-2 form-group mb-2">
                                     <label for="EstadoPrestamo">Estado Prestamo </label>
@@ -57,28 +67,32 @@
                                             [(ngModel)]="selectedTipoEstadoPrestamo">
                                         </ng-select>
                                     </div>
-                                    <div class="col-md-4 mb-2 form-group mb-2">
-                                        <label for="FondoPrestamo">Fondos Prestamos </label>
-                                            <ng-select [items]="listTipoEstadoFondos" formControlName="FondoPrestamo"
-                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="FondoPrestamo"
-                                                placeholder="Seleccionar Fondo Prestamos "
-                                                [ngClass]="{ 'is-invalid': f.FondoPrestamo.invalid, 'is-valid': !f.FondoPrestamo.invalid }"
-                                                [(ngModel)]="selectedTipoEstadoFondos">
-                                            </ng-select>
+
+                                    <div class="col-md-4 mb-3 form-group mb-2">
+                                        <label for="FechaInicioPrestamo" class="form-label">Fecha Inicio Prestamo</label>
+                                        <input type="date" class="form-control" formControlName="FechaInicioPrestamo" id="validationTooltip07"
+                                        name="FechaInicioPrestamo" placeholder="date" date
+                                        [ngClass]="{ 'is-invalid': submitted && f.FechaInicioPrestamo.invalid, 'is-valid': submitted && !f.FechaInicioPrestamo.invalid }"
+                                        (blur)="compareFechas()" />
+                                      <small class="form-text text-muted danger"
+                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
                                         </div>
-                                   </div>
 
-                            <div class="form-row">
+                                        <div class="col-md-4 mb-3 form-group mb-2">
+                                            <label for="FechaFinPrestamo" class="form-label">Fecha Fin Prestamo</label>
+                                            <input type="date" class="form-control" formControlName="FechaFinPrestamo" id="validationTooltip07"
+                                            name="FechaFinPrestamo" placeholder="date" date
+                                            [ngClass]="{ 'is-invalid': submitted && f.FechaFinPrestamo.invalid, 'is-valid': submitted && !f.FechaFinPrestamo.invalid }"
+                                            (blur)="compareFechas()" />
+                                          <small class="form-text text-muted danger"
+                                            *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                            </div>
+                       
+                            </div>
 
-                                <div class="col-md-4 mb-3 form-group mb-2">
-                                    <label for="FechaPrestamo" class="form-label">Fecha Prestamo</label>
-                                    <input type="date" class="form-control" formControlName="FechaPrestamo" id="validationTooltip07"
-                                    name="FechaPrestamo" placeholder="date" date
-                                    [ngClass]="{ 'is-invalid': submitted && f.FechaPrestamo.invalid, 'is-valid': submitted && !f.FechaPrestamo.invalid }"
-                                    (blur)="compareFechas()" />
-                                  <small class="form-text text-muted danger"
-                                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                                    </div>
+                           <!--- <div class="form-row">
+
+                       
                     
 
                               <div class="col-md-4 mb-4 form-group mb-2">
@@ -104,7 +118,7 @@
                                 </div>
                               </div>
                       
-                            </div>
+                            </div>-->
                         
                             <small class="form-text text-muted danger"
                             *ngIf="errorGeneral.isError">{{errorGeneral.errorMessage}}</small>

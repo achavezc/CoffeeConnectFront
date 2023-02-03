@@ -91,8 +91,8 @@ export class PrestamosListComponent implements OnInit {
     this.GetListaTipoMonedaPrestamos();
     //this.Serviciosform.controls['FechaFin'].setValue(this.dateUtil.currentDate());
    // this.Serviciosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-    this.Prestamosform.controls['FechaFin'].setValue(this.dateUtil.currentDate());
-    this.Prestamosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo()); 
+    this.Prestamosform.controls['FechaFinPrestamo'].setValue(this.dateUtil.currentDate());
+    this.Prestamosform.controls['FechaInicioPrestamo'].setValue(this.dateUtil.currentMonthAgo()); 
     //this.Serviciosform.controls.MonedaId.setValue(this.vSessionUser.Result.Data.MonedaId);
     this.page = this.route.routeConfig.data.title;
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
@@ -120,8 +120,8 @@ export class PrestamosListComponent implements OnInit {
        ObservacionesPrestamo:['',''],
        SaldoPrestamo:['',''],
        NumeroPrestamo:['',''],
-       FechaInicio :['',''],
-       FechaFin:['',''],
+       FechaInicioPrestamo :['',''],
+       FechaFinPrestamo:['',''],
        MonedaPrestamos:['','']
     });
    // this.ordenProcesoform.setValidators(this.comparisonValidator())
@@ -239,8 +239,8 @@ export class PrestamosListComponent implements OnInit {
         FondoPrestamoId: this.Prestamosform.controls["FondoPrestamo"].value ? this.Prestamosform.controls["FondoPrestamo"].value : '',
         DetallePrestamo: this.Prestamosform.controls["DetalleServicioPrestamos"].value ? this.Prestamosform.controls["DetalleServicioPrestamos"].value : '',
         EstadoId:  this.Prestamosform.controls["EstadoPrestamo"].value ? this.Prestamosform.controls["EstadoPrestamo"].value : '',
-        FechaInicio: this.Prestamosform.controls["FechaInicio"].value ? this.Prestamosform.controls["FechaInicio"].value : '',
-        FechaFin:this.Prestamosform.controls["FechaFin"].value ? this.Prestamosform.controls["FechaFin"].value : '',
+        FechaInicio: this.Prestamosform.controls["FechaInicioPrestamo"].value ? this.Prestamosform.controls["FechaInicioPrestamo"].value : '',
+        FechaFin:this.Prestamosform.controls["FechaFinPrestamo"].value ? this.Prestamosform.controls["FechaFinPrestamo"].value : '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId 
 
 
@@ -277,7 +277,7 @@ anular(){
         buttonsStyling: false,
       }).then(function (result) {
         if (result.value) {
-          form.AnularServicio();
+          form.AnularPrestamo();
         }
       });
       }
@@ -288,7 +288,7 @@ anular(){
 }
 
 
-AnularServicio(){
+AnularPrestamo(){
   this.spinner.show(undefined,
     {
       type: 'ball-triangle-path',
@@ -297,9 +297,9 @@ AnularServicio(){
       color: '#fff',
       fullScreen: true
     });
-  this.ServicioPlantaService.Anular(
+  this.ServiciosPrestamosService.Anular(
     {
-      "ServicioPlantaId":this.selected[0].ServicioPlantaId,
+      "PrestamoPlantaId":this.selected[0].PrestamoPlantaId,
       "Importe":this.selected[0].Importe,
       "Usuario": this.vSessionUser.Result.Data.NombreUsuario,
     })

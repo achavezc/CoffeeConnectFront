@@ -1,0 +1,42 @@
+<form class="needs-validation" [formGroup]="AnularPrestamoEditForm">
+    <section id="tooltip-validation">
+        <div class="row">
+            <div class="col-12">
+                <div class="card"  style="margin-bottom: 2rem;">
+                    <h5 class="card-header bg-primary text-white text-center align-middle p-0" >ANULACION PRESTAMOS PLANTA</h5>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="form-row bg-primary align-middle mb-2">
+                                <label for="" class="text-white">Datos Generales</label>
+                            </div>
+                            <!--<form class="needs-validation" [formGroup]="ServicioPlantaEditForm">-->
+                                <div class="col-5">
+                                    <label for="basicInput" style="font-size: 0.7rem;">Observaciones Prestamos</label>
+                                    <div class="position-relative has-icon-left">
+                                      <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000" name="notes"
+                                        formControlName="ObservacionAnulacion">
+                                            </textarea>
+                                      <div class="form-control-position">
+                                        <i class="ft-file"></i>
+                                      </div>
+                                    </div>
+                                  </div>
+                         
+                                <div  class="card-footer text-right" style="margin-top: 2rem;">
+                                    <button class="btn btn-primary mr-1 mb-1" type="button"  (click)="anular()">Anular</button>
+                                    <button  class="btn btn-danger mr-1 mb-1" type="button"(click)="Cancel()">Cancelar</button>
+                                 <!--- <button  class="btn btn-primary mr-1 mb-1"type="button"(click)="('Cross click')" id="btnCancel">Cancelar</button>-->
+                                 </div>
+                            <!--</form>-->
+             
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+    </section>
+
+
+</form>

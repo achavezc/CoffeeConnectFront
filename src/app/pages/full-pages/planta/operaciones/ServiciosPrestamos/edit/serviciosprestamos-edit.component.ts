@@ -180,6 +180,7 @@ export class PrestamosEditComponent implements OnInit {
       ImporteDevolucion:['',''],
       ImporteCambio:['',''],
       ObservacionesPrestamo:['',''],
+      ObservacionAnulacion:['',''],
       SaldoPrestamo:['',''],
       Moneda: ['', ''],
       MonedaId:['',''],
@@ -294,8 +295,8 @@ export class PrestamosEditComponent implements OnInit {
     //this.modalService.open(modal, { windowClass: 'dark-modal', size: 'xl', centered: true });
   }
 
-  openModalAnularServicioPlanta(modalServicoAnularPlanta) {
-    this.modalService.open(modalServicoAnularPlanta, { windowClass: 'dark-modal', size: 'xl' });
+  openModalAnularPrestamoPlanta(modalServicioPrestamoAnularPlanta) {
+    this.modalService.open(modalServicioPrestamoAnularPlanta, { windowClass: 'dark-modal', size: 'xl' });
 
   }
   updateLimit(event: any): void {
@@ -550,13 +551,19 @@ export class PrestamosEditComponent implements OnInit {
  this.PrestamosEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
  this.PrestamosEditForm.controls.NumeroPrestamo.setValue(data.Numero);
  this.PrestamosEditForm.controls.DetallePrestamo.setValue(data.DetallePrestamo);
- this.PrestamosEditForm.controls.FondoPrestamo.setValue(data.FondoPrestamoId);
- this.PrestamosEditForm.controls.MonedaPrestamos.setValue(data.MonedaId);
+ //this.PrestamosEditForm.controls.FondoPrestamo.setValue(data.FondoPrestamoId);
+ await this.GetlistTipoEstadoFondos();
+ this.PrestamosEditForm.controls["FondoPrestamo"].setValue(data.FondoPrestamoId);
+ //this.PrestamosEditForm.controls.MonedaPrestamos.setValue(data.MonedaId);
+ await this.GetListaTipoMonedaPrestamo();
+ this.PrestamosEditForm.controls["MonedaPrestamos"].setValue(data.MonedaId);
  this.PrestamosEditForm.controls.ImportePrestamo.setValue(data.Importe);
  this.PrestamosEditForm.controls.ImporteDevolucion.setValue(data.ImporteProcesado);
  this.PrestamosEditForm.controls.SaldoPrestamo.setValue(data.Saldo);
  this.PrestamosEditForm.controls.ImporteCambio.setValue(data.ImporteCambio);
  this.PrestamosEditForm.controls.ObservacionesPrestamo.setValue(data.Observaciones);
+ this.PrestamosEditForm.controls.ObservacionAnulacion.setValue(data.  ObservacionAnulacion);
+
  this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
  this.PrestamosEditForm.controls.FechaPrestamo.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
  /////////////////////Campos de devoluciones //////////////////////////////

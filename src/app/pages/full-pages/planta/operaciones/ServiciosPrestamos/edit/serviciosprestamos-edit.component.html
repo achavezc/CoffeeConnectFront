@@ -121,7 +121,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
-                    <h5 class="card-header bg-primary text-white text-center align-middle p-0" >SERVICIOS PRESTAMOS</h5>
+                    <h5 class="card-header bg-primary text-white text-center align-middle p-0" >DETALLE PRESTAMOS Y DEVOLUCIONES</h5>
                     <div class="card-body">
                         <div class="form-row bg-primary align-middle mb-2">
                             <label for="" class="text-white">DATOS GENERALES</label>
@@ -337,7 +337,7 @@
                                                 
 
                                                 <div class="col-12 col-md-2" style="padding-left: 0cm;">
-                                                    <ng-template #modalServicoAnularPlanta let-c="close" let-d="dismiss">
+                                                    <ng-template #modalServicioPrestamoAnularPlanta let-c="close" let-d="dismiss">
                                                         <!--<div class="modal-header" style="text-align: center;">
                                                           <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
                                                           <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -345,8 +345,8 @@
                                                           </button>
                                                         </div> -->
                                                         <div class="modal-body">
-                                                          <app-anularpopup-edit (agregarEvent)="openModalAnularServicioPlanta($event)" [popUp]="popUp"[selected]="selected">
-                                                          </app-anularpopup-edit>
+                                                          <app-anularPrestamo-edit (agregarEvent)="openModalAnularPrestamoPlanta($event)" [popUp]="popUp"[selected]="selected">
+                                                          </app-anularPrestamo-edit>
                                                         </div>
                                                       </ng-template>
                                                   </div>
@@ -357,7 +357,7 @@
                                                   <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button> 
                                                   <!--<button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular(modalServicoAnularPlanta)"
                                                   >Anular</button>-->
-                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalAnularServicioPlanta(modalServicoAnularPlanta)">Anular</button>
+                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalAnularPrestamoPlanta(modalServicioPrestamoAnularPlanta)">Anular</button>
                                                   <!--</div>-->
                                                 
                                                   <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
@@ -426,11 +426,13 @@
                                                 </ngx-datatable-column>                              
                                                 <ngx-datatable-column name="Moneda" prop="Moneda" width="40">
                                                 </ngx-datatable-column>
-                                                <ngx-datatable-column name="Importe" prop="Importe" width="40">
+                                                <ngx-datatable-column name="Importe Devolucion" prop="Importe" width="40">
                                                 </ngx-datatable-column>
                                                 <ngx-datatable-column name="Estado" prop="Estado" width="40">
                                                 </ngx-datatable-column> 
                                                 <ngx-datatable-column name="Observaciones" prop="Observaciones" width="40">
+                                                </ngx-datatable-column> 
+                                                <ngx-datatable-column name="Observaciones Anulados" prop="ObservacionAnulacion" width="40">
                                                 </ngx-datatable-column> 
                                                 </ngx-datatable>
                                         </div>

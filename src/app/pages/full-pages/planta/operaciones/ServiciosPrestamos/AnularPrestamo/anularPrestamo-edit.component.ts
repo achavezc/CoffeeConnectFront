@@ -5,33 +5,35 @@ import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { DateUtil } from '../../../../../../../services/util/date-util';
-import { AlertUtil } from '../../../../../../../services/util/alert-util';
-import { MaestroService } from '../../../../../../../services/maestro.service';
-import { OrdenProcesoService } from '../../../../../../../services/orden-proceso.service';
-import { OrdenProcesoServicePlanta } from '../../../../../../../Services/orden-proceso-planta.service';
-import{ PagoServicioPlantaService }from '../../../../../../../Services/PagoServiciosPlanta.service';
-import { NotaIngresoService } from '../../../../../../../services/notaingreso.service';
-import { ControlCalidadService } from '../../../../../../../Services/control-calidad.service';
-import { host } from '../../../../../../../shared/hosts/main.host';
+import { DateUtil } from '../../../../../../services/util/date-util';
+import { AlertUtil } from '../../../../../../services/util/alert-util';
+import { MaestroService } from '../../../../../../services/maestro.service';
+import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
+import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
+import{ PagoServicioPlantaService }from '../../../../../../Services/PagoServiciosPlanta.service';
+import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
+import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
+import{DevolucionPrestamoService}from '../../../../../../Services/ServiciosDevoluciones.services';
+import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
-import{ServicioPlantaService}from'../../../../../../../Services/ServicioPlanta.services';
-import { AuthService } from '../../../../../../../services/auth.service';
+import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
+import { AuthService } from '../../../../../../services/auth.service';
 import { number } from 'ngx-custom-validators/src/app/number/validator';
 import { sum } from 'chartist';
 
 @Component({
-  selector: 'app-anularpopup-edit',
-  templateUrl: './anularpopup-edit.component.html',
-  styleUrls: ['./anularpopup-edit.component.scss', '/assets/sass/libs/datatables.scss'],
+  selector: 'app-anularPrestamo-edit',
+  templateUrl: './anularPrestamo-edit.component.html',
+  styleUrls: ['./anularPrestamo-edit.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AnularServicioeditComponent implements OnInit {
+export class AnularPrestamoeditComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private modalService: NgbModal,
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
+    private DevolucionPrestamoService:DevolucionPrestamoService,
     private ordenProcesoService: OrdenProcesoService,
     private ordenProcesoServicePlanta: OrdenProcesoServicePlanta,
     private PagoServicioPlantaService:PagoServicioPlantaService,
@@ -47,7 +49,7 @@ export class AnularServicioeditComponent implements OnInit {
 
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
-  AnularServicioEditForm: FormGroup;
+  AnularPrestamoEditForm: FormGroup;
   vMsgErrGenerico = "Ha ocurrido un error interno.";
   listEstado = [];
   tipoProcesoSecado = '02';
@@ -125,8 +127,8 @@ export class AnularServicioeditComponent implements OnInit {
   vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
-  ServicioPlantaId: Number;
-  PagoServicioPlantaId: Number;
+  PrestamoPlantaId: Number;
+  DevolucionPrestamoPlantaId: Number;
   //PagoServicioPlantaId:Number;
  
  // errorGeneral = { isError: false, msgError: '' };
@@ -170,8 +172,8 @@ export class AnularServicioeditComponent implements OnInit {
   async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     //this
-    this.PagoServicioPlantaId = this.route.snapshot.params.PagoServicioPlantaId ? Number(this.route.snapshot.params.PagoServicioPlantaId) : 0;
-    this.ServicioPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
+    this.DevolucionPrestamoPlantaId = this.route.snapshot.params.DevolucionPrestamoPlantaId ? Number(this.route.snapshot.params.DevolucionPrestamoPlantaId) : 0;
+    this.PrestamoPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
     await this.LoadForm();
     //this.AnularServicioEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
@@ -179,38 +181,27 @@ export class AnularServicioeditComponent implements OnInit {
     //this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
     //this.ServicioPlantaEditForm.controls['MonedaId'].setValue(this.detalle.Result.Data.MonedaId);
   
-    this.AnularServicioEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
-    this.AnularServicioEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
-    this.AnularServicioEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
-    this.AnularServicioEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
+    this.AnularPrestamoEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
+    this.AnularPrestamoEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
+    this.AnularPrestamoEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
+    this.AnularPrestamoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
 
-    this.GetListaTipoEstadoPagos();
-    this.GetEstado();
-    this.GetEstadoSercicio();
-    //this.GetTipoProduccion();
-    this.GetCertificacion();
     //this.GetProductoTerminado();
     //this.GetCalidad();
     //this.GetGrado();
-    if (this.PagoServicioPlantaId <= 0) {
-      this.AnularServicioEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
-    } else if (this.PagoServicioPlantaId > 0) {
-      this.ConsultaPorId(this.PagoServicioPlantaId);
+    if (this.DevolucionPrestamoPlantaId <= 0) {
+      this.AnularPrestamoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
+    } else if (this.DevolucionPrestamoPlantaId > 0) {
+      this.ConsultaPorId(this.DevolucionPrestamoPlantaId);
     }
 
-   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularServicioEditForm.controls.MonedaPagos);
+   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularPrestamoEditForm.controls.MonedaPagos);
 
   }
 
-  async GetSubProductoTerminado() {
-    const data = await this.maestroService.obtenerMaestros('SubProductoPlanta').toPromise();
-    if (data.Result.Success) {
-      this.listProductoTerminado = data.Result.Data.filter(obj => obj.Val1 == '02'); //Exportable
-    }
-  }
 
   LoadForm(): void {
-    this.AnularServicioEditForm = this.fb.group({
+    this.AnularPrestamoEditForm = this.fb.group({
      
       idOrdenProceso: [],
       organizacionId: [],
@@ -248,7 +239,7 @@ export class AnularServicioeditComponent implements OnInit {
       fechaInicio: [],
       fechaFin: [],
 /////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
-      ServicioPlantaId:['',''],
+      PrestamoPlantaId:['',''],
       EmpresaId:['',''],
       EmpresaClienteId:['',''],
       /////////////////7
@@ -257,7 +248,7 @@ export class AnularServicioeditComponent implements OnInit {
       TipoServicioId:['',''],
       TipoServicio:[],
       TipoComprobante:[],
-      PagoServicioPlantaId:['',''],
+      DevolucionPrestamoPlantaId:['',''],
       ObservacionAnulacion:['',''],
       //TipoComprobanteId:['',''],
       Numero: ['', ''],
@@ -298,47 +289,20 @@ export class AnularServicioeditComponent implements OnInit {
       FechaOperacionPagos:['',''],
 
     });
-    this.AnularServicioEditForm.controls.estado.disable();
+    this.AnularPrestamoEditForm.controls.estado.disable();
   }
 
   get f() {
-    return this.AnularServicioEditForm.controls;
+    return this.AnularPrestamoEditForm.controls;
   }
 
-  async GetEstadoSercicio() {
-    const res = await this.maestroService.obtenerMaestros('EstadoServicioPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listEstadoServicio = res.Result.Data;
-    }
-  }
-
-  async GetListaTipoEstadoPagos () {
-    let res = await this.maestroService.obtenerMaestros('EstadoPagoServicio').toPromise();
-    if (res.Result.Success) {
-      this.listTipoEstadoServicioPagos = res.Result.Data;
-    }
-  }
-  async GetEstado() {
-    const res = await this.maestroService.obtenerMaestros('EstadoOrdenProcesoPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listEstado = res.Result.Data;
-    }
-  }
-
-
-  async GetCertificacion() {
-    const res = await this.maestroService.obtenerMaestros('TipoCertificacionPlanta').toPromise();
-    if (res.Result.Success) {
-      this.listaCertificacion = res.Result.Data;
-    }
-  }
 
 
   buscar(): void {
     this.Search();
   }
   Search(): void {
-    if (!this.AnularServicioEditForm.invalid) {
+    if (!this.AnularPrestamoEditForm.invalid) {
       this.spinner.show();
       const request = this.getRequestPagoConsultar();
       this.PagoServicioPlantaService.Consultar(request)
@@ -369,20 +333,20 @@ export class AnularServicioeditComponent implements OnInit {
   getRequestPagoConsultar(): any {
       
     
-    const form = this.AnularServicioEditForm.value;
+    const form = this.AnularPrestamoEditForm.value;
 
       const request =
      {
       
-        Numero: this.AnularServicioEditForm.controls["NumeroPagos"].value ? this.AnularServicioEditForm.controls["NumeroPagos"].value : '',
-        NumeroOperacion:  this.AnularServicioEditForm.controls["NumeroOperacionPagos"].value ?  this.AnularServicioEditForm.controls["NumeroOperacionPagos"].value : '',
-        TipoOperacionPagoServicioId:  this.AnularServicioEditForm.controls["TipoOperacionPago"].value ?this.AnularServicioEditForm.controls["TipoOperacionPago"].value : '',
-        ServicioPlantaId:   this.AnularServicioEditForm.controls["ServicioPlantaId"].value ? this.AnularServicioEditForm.controls["ServicioPlantaId"].value : 0,
-        BancoId:    this.AnularServicioEditForm.controls["BancoPagos"].value ? this.AnularServicioEditForm.controls["BancoPagos"].value : '',
-        MonedaId:   this.AnularServicioEditForm.controls["MonedaPagos"].value ? this.AnularServicioEditForm.controls["MonedaPagos"].value : '',
-        FechaInicio:   this.AnularServicioEditForm.controls["FechaInicioPagos"].value ? this.AnularServicioEditForm.controls["FechaInicioPagos"].value : '',
-        FechaFin:   this.AnularServicioEditForm.controls["FechaFinPagos"].value ? this.AnularServicioEditForm.controls["FechaFinPagos"].value : '',
-        EstadoId:   this.AnularServicioEditForm.controls["EstadoPagos"].value ? this.AnularServicioEditForm.controls["EstadoPagos"].value : '',
+        Numero: this.AnularPrestamoEditForm.controls["NumeroPagos"].value ? this.AnularPrestamoEditForm.controls["NumeroPagos"].value : '',
+        NumeroOperacion:  this.AnularPrestamoEditForm.controls["NumeroOperacionPagos"].value ?  this.AnularPrestamoEditForm.controls["NumeroOperacionPagos"].value : '',
+        TipoOperacionPagoServicioId:  this.AnularPrestamoEditForm.controls["TipoOperacionPago"].value ?this.AnularPrestamoEditForm.controls["TipoOperacionPago"].value : '',
+        ServicioPlantaId:   this.AnularPrestamoEditForm.controls["ServicioPlantaId"].value ? this.AnularPrestamoEditForm.controls["ServicioPlantaId"].value : 0,
+        BancoId:    this.AnularPrestamoEditForm.controls["BancoPagos"].value ? this.AnularPrestamoEditForm.controls["BancoPagos"].value : '',
+        MonedaId:   this.AnularPrestamoEditForm.controls["MonedaPagos"].value ? this.AnularPrestamoEditForm.controls["MonedaPagos"].value : '',
+        FechaInicio:   this.AnularPrestamoEditForm.controls["FechaInicioPagos"].value ? this.AnularPrestamoEditForm.controls["FechaInicioPagos"].value : '',
+        FechaFin:   this.AnularPrestamoEditForm.controls["FechaFinPagos"].value ? this.AnularPrestamoEditForm.controls["FechaFinPagos"].value : '',
+        EstadoId:   this.AnularPrestamoEditForm.controls["EstadoPagos"].value ? this.AnularPrestamoEditForm.controls["EstadoPagos"].value : '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
 
       }
@@ -413,7 +377,7 @@ export class AnularServicioeditComponent implements OnInit {
           buttonsStyling: false,
         }).then(function (result) {
           if (result.value) {
-            form.anularPago();
+            form.anularDevolucion();
           }
           else {
             this.alertUtil.alertError("Error", "Solo se puede Anular en estado Registrados")
@@ -424,7 +388,7 @@ export class AnularServicioeditComponent implements OnInit {
     }
   }
 
-  anularPago(){
+  anularDevolucion(){
     this.spinner.show(),
       {
         type: 'ball-triangle-path',
@@ -433,20 +397,20 @@ export class AnularServicioeditComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       };
-      this.PagoServicioPlantaService.Anular(
+      this.DevolucionPrestamoService.Anular(
       {
-        "PagoServicioPlantaId": this.selected[0].PagoServicioPlantaId,
-        "ServicioPlantaId":this.selected[0].ServicioPlantaId,
+        "DevolucionPrestamoPlantaId": this.selected[0].DevolucionPrestamoPlantaId,
+        "PrestamoPlantaId":this.selected[0].PrestamoPlantaId,
         "Importe":this.selected[0].Importe,
         "Usuario": this.vSessionUser.Result.Data.NombreUsuario,
-        "ObservacionAnulacion":this.AnularServicioEditForm.controls.ObservacionAnulacion.value
+        "ObservacionAnulacion":this.AnularPrestamoEditForm.controls.ObservacionAnulacion.value
       })
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
            // var form = this;
-            this.alertUtil.alertOk('Anulado!', 'Pago Servicios Anulado.');
+            this.alertUtil.alertOk('Anulado!', 'Devolucion Servicios Anulado.');
            //this.buscar();
            this.modalService.dismissAll();
 
@@ -471,15 +435,15 @@ export class AnularServicioeditComponent implements OnInit {
 
 
 
-async ConsultaPorId(PagoServicioPlantaId) {
+async ConsultaPorId(DevolucionPrestamoPlantaId) {
  
     
     let request =
     {
-      "PagoServicioPlantaId": Number(PagoServicioPlantaId),
+      "DevolucionPrestamoPlantaId": Number(DevolucionPrestamoPlantaId),
     }
 
-    this.PagoServicioPlantaService.ConsultarPorId(request)
+    this.DevolucionPrestamoService.ConsultarPorId(request)
       .subscribe(res => {
         //this.spinner.hide();
         if (res.Result.Success) {
@@ -513,68 +477,17 @@ async ConsultaPorId(PagoServicioPlantaId) {
   async AutocompleteFormEdit(data: any) {
     if (data) {
       
-      //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
-      this.AnularServicioEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
-      this.AnularServicioEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-     // this.ServicioPlantaEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
-     // this.ServicioPlantaEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
-      if (data.EstadoId)
-        this.AnularServicioEditForm.controls.estado.setValue(data.EstadoId);
-      //this.ordenProcesoEditForm.controls.cantidadContenedores.setValue(data.CantidadContenedores);
-      this.AnularServicioEditForm.controls.cantidadDefectos.setValue(data.CantidadDefectos);
-      this.AnularServicioEditForm.controls.numeroContrato.setValue(data.NumeroContrato);
-      this.AnularServicioEditForm.controls.fechaInicio.setValue(data.FechaInicioProceso == null ? "" : formatDate(data.FechaInicioProceso, 'yyyy-MM-dd', 'en'));
-      this.AnularServicioEditForm.controls.fechaFin.setValue(data.FechaFinProceso == null ? "" : formatDate(data.FechaFinProceso, 'yyyy-MM-dd', 'en'));
-      this.selectOrganizacion[0] = { EmpresaProveedoraAcreedoraId: data.OrganizacionId };
-      this.AnularServicioEditForm.controls.estado.disable();
 
-   /////////Camppos del api servicio planta ////////////////////////7
-   this.AnularServicioEditForm.controls.ServicioPlantaId.setValue(data.ServicioPlantaId);
-   //this.ServicioPlantaEditForm.controls.Numero.setValue(data.Numero);
+   this.AnularPrestamoEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
+   this.AnularPrestamoEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
+   this.AnularPrestamoEditForm.controls.Importe.setValue(data.Importe);
+   this.AnularPrestamoEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
 
-   if (data.Numero){
-    this.AnularServicioEditForm.controls.Numero.setValue(data.Numero);
-   }
-   this.AnularServicioEditForm.controls.NumeroOperacionRelacionada.setValue(data.NumeroOperacionRelacionada);
-   this.AnularServicioEditForm.controls.TipoServicio.setValue(data.TipoServicioId);
-   this.AnularServicioEditForm.controls.TipoComprobante.setValue(data.TipoComprobanteId);
-   this.AnularServicioEditForm.controls.SerieComprobante.setValue(data.SerieComprobante);
-   this.AnularServicioEditForm.controls.NumeroComprobante.setValue(data.NumeroComprobante);
-
-  this.AnularServicioEditForm.controls.FechaDocumento.setValue(data.FechaDocumento == null ? "" : formatDate(data.FechaDocumento, 'yyyy-MM-dd', 'en'));
-
-  this.AnularServicioEditForm.controls.FechaComprobante.setValue(data.FechaComprobante == null ? "" : formatDate(data.FechaComprobante, 'yyyy-MM-dd', 'en'));
-  
-  this.AnularServicioEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
-
-  this.AnularServicioEditForm.controls.SerieDocumento.setValue(data.SerieDocumento);
-   this.AnularServicioEditForm.controls.NumeroDocumento.setValue(data.NumeroDocumento);
-
-   this.AnularServicioEditForm.controls.UnidadMedida.setValue(data.UnidadMedidaId);
-  
-   this.AnularServicioEditForm.controls.Cantidad.setValue(data.Cantidad);
-   this.AnularServicioEditForm.controls.PrecioUnitario.setValue(data.PrecioUnitario);
-   
-   
-   this.AnularServicioEditForm.controls.Moneda.setValue(data.MonedaId);
-
-   this.AnularServicioEditForm.controls.Importe.setValue(data.Importe);
-
-   this.AnularServicioEditForm.controls.PorcentajeTIRB.setValue(data.PorcentajeTIRB);
-   this.AnularServicioEditForm.controls.MonedaPagos.setValue(data.MonedaId);
-   this.AnularServicioEditForm.controls.TotalImporte.setValue(data.TotalImporte);
-   this.AnularServicioEditForm.controls.ImportePago.setValue(data.TotalImporteProcesado);
-   this.AnularServicioEditForm.controls.ObservacionPago.setValue(data.Observaciones);
-   this.AnularServicioEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
-   this.AnularServicioEditForm.controls.Campania.setValue(data.CodigoCampania);
-   
-   this.AnularServicioEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);
-   this.AnularServicioEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
-  this.AnularServicioEditForm.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
     }
     this.spinner.hide();
   }
 
+  
   Cancel(): void {
       
     this.modalService.dismissAll();
