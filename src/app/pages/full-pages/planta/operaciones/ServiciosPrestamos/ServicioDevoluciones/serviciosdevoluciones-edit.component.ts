@@ -416,8 +416,16 @@ export class ServicioDevolucionEditComponent implements OnInit {
 
   }
 
+  fileChange(event: any): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.DevolucionesEditForm.patchValue({ file: file });
+    }
+    this.DevolucionesEditForm.get('file').updateValueAndValidity();
+  }
+
   async ConsultaPorId(DevolucionPrestamoPlantaId) {
- 
+   // this.spinner.show();
     
     let request =
     {
@@ -426,7 +434,7 @@ export class ServicioDevolucionEditComponent implements OnInit {
 
     this.DevolucionPrestamoService.ConsultarPorId(request)
       .subscribe(res => {
-        //this.spinner.hide();
+       // this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.AutocompleteFormEdit(res.Result.Data)
@@ -444,7 +452,7 @@ export class ServicioDevolucionEditComponent implements OnInit {
         }
       },
         err => {
-         // this.spinner.hide();
+          //this.spinner.hide();
           console.log(err);
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
@@ -461,28 +469,27 @@ export class ServicioDevolucionEditComponent implements OnInit {
   async AutocompleteFormEdit(data: any) {
     if (data) {
       
-      this.DevolucionesEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
-      this.DevolucionesEditForm.controls.rucOrganizacion.setValue(data.RucOrganizacion);
-      this.DevolucionesEditForm.controls.nombreOrganizacion.setValue(data.RazonSocialOrganizacion);
-   
-   this.DevolucionesEditForm.controls.razonSocialPago.setValue(data.RazonSocialEmpresaCliente);
-   this.DevolucionesEditForm.controls.nroRucPago.setValue(data.RucEmpresaCliente);
  ///////////////////////devolucion prestamos/////////////////////////////////////
   this.DevolucionesEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
   this.DevolucionesEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
   this.DevolucionesEditForm.controls.NumeroDevolucion.setValue(data.Numero);
-
-  this.DevolucionesEditForm.controls.DestinoDevolucion.setValue(data.DestinoDevolucionId);
-  this.DevolucionesEditForm.controls.BancoDevolucion.setValue(data.BancoId);
-
-  this.DevolucionesEditForm.controls.FechaDevolucion.setValue(data.FechaDevolucion == null ? "" : formatDate(data.FechaDevolucion, 'yyyy-MM-dd', 'en'));
-  this.DevolucionesEditForm.controls.MonedaDevolucion.setValue(data.MonedaId);
+  this.DevolucionesEditForm.controls.FechaRegistroDevolucion.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
+  this.DevolucionesEditForm.controls.FechaDevolucion.setValue(data.FechaDevolucion == null ? "" : formatDate(data.FechaDevolucion, 'yyyy-MM-dd', 'en'));    
+  await this.GetListaTipoDestino();
+  this.DevolucionesEditForm.controls["DestinoDevolucion"].setValue(data.DestinoDevolucionId);
+  //this.DevolucionesEditForm.controls.DestinoDevolucion.setValue(data.DestinoDevolucionId);
+   // this.DevolucionesEditForm.controls.MonedaDevolucion.setValue(data.MonedaId);
+   await this.GetListaTipoMonedaDevoluciones();
+   this.DevolucionesEditForm.controls["MonedaDevolucion"].setValue(data.MonedaId);
+  await this.GetListaTipoBancoDevolucion();
+  this.DevolucionesEditForm.controls["BancoDevolucion"].setValue(data.BancoId);
+ // this.DevolucionesEditForm.controls.BancoDevolucion.setValue(data.BancoId);
   this.DevolucionesEditForm.controls.ImporteDevolucion.setValue(data.Importe);
-  this.DevolucionesEditForm.controls.ImporteCambioDevolucion.setValue(data.ImporteCambio);
+  await this.GetEstadoDevolucion();
+  this.DevolucionesEditForm.controls["EstadoDevolucion"].setValue(data.EstadoId);
+ // this.DevolucionesEditForm.controls.ImporteCambioDevolucion.setValue(data.ImporteCambio);
   this.DevolucionesEditForm.controls.ObservacionDevolucion.setValue(data.Observaciones);
-  this.DevolucionesEditForm.controls.EstadoDevolucion.setValue(data.EstadoId);
-  
- 
+ // this.DevolucionesEditForm.controls.EstadoDevolucion.setValue(data.EstadoId);
 
     }
     this.spinner.hide();

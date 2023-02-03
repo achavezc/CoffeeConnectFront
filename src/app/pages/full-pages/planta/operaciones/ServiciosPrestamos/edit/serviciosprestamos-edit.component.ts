@@ -347,7 +347,14 @@ export class PrestamosEditComponent implements OnInit {
   
   Search(): void {
     if (!this.PrestamosEditForm.invalid) {
-      this.spinner.show();
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
       const request = this.getRequestDevolucionesConsultar();
       this.DevolucionPrestamoService.Consultar(request)
       .subscribe((res: any) => {
@@ -492,7 +499,7 @@ export class PrestamosEditComponent implements OnInit {
   }
 
   async ConsultaPorId(PrestamoPlantaId) {
- 
+    this.spinner.show();
     
     let request =
     {
@@ -501,7 +508,7 @@ export class PrestamosEditComponent implements OnInit {
 
     this.ServiciosPrestamosService.ConsultarPorId(request)
       .subscribe(res => {
-        //this.spinner.hide();
+        this.spinner.hide();
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.AutocompleteFormEdit(res.Result.Data)
@@ -519,7 +526,7 @@ export class PrestamosEditComponent implements OnInit {
         }
       },
         err => {
-         // this.spinner.hide();
+          this.spinner.hide();
           console.log(err);
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
@@ -587,7 +594,7 @@ export class PrestamosEditComponent implements OnInit {
   }
 
   Cancel(): void {
-    this.router.navigate(['/planta/operaciones/serviciosprestamos-list']);
+    this.router.navigate(['/planta/operaciones/prestamos-list']);
   }
 
   compareFechas() {

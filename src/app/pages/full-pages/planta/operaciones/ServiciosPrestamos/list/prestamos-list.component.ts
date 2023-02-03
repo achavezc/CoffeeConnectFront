@@ -14,9 +14,9 @@ import { MaestroService } from '../../../../../../services/maestro.service';
 import {AuthService} from '../../../../../../services/auth.service';
 
 @Component({
-  selector: 'app-serviciosprestamos-list',
-  templateUrl: './serviciosprestamos-list.component.html',
-  styleUrls: ['./serviciosprestamos-list.component.scss', '/assets/sass/libs/datatables.scss'],
+  selector: 'app-prestamos-list',
+  templateUrl: './prestamos-list.component.html',
+  styleUrls: ['./prestamos-list.component.scss', '/assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class PrestamosListComponent implements OnInit {
@@ -195,7 +195,14 @@ export class PrestamosListComponent implements OnInit {
 
   Search(): void {
     if (!this.Prestamosform.invalid) {
-      this.spinner.show();
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
       const request = this.getRequest();
       this.ServiciosPrestamosService.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
