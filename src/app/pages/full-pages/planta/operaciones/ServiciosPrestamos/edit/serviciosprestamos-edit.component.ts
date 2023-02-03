@@ -562,7 +562,7 @@ export class PrestamosEditComponent implements OnInit {
  this.PrestamosEditForm.controls.SaldoPrestamo.setValue(data.Saldo);
  this.PrestamosEditForm.controls.ImporteCambio.setValue(data.ImporteCambio);
  this.PrestamosEditForm.controls.ObservacionesPrestamo.setValue(data.Observaciones);
- this.PrestamosEditForm.controls.ObservacionAnulacion.setValue(data.  ObservacionAnulacion);
+ this.PrestamosEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
 
  this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
  this.PrestamosEditForm.controls.FechaPrestamo.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));

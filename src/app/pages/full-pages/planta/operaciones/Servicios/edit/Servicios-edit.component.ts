@@ -1278,7 +1278,7 @@ anularPago() {
    this.ServicioPlantaEditForm.controls.TotalImporte.setValue(data.TotalImporte);
    this.ServicioPlantaEditForm.controls.ImportePago.setValue(data.TotalImporteProcesado);
    this.ServicioPlantaEditForm.controls.Observaciones.setValue(data.Observaciones);
-   this.ServicioPlantaEditForm.controls.ObservacionAnulacion.setValue(data.  ObservacionAnulacion);
+   this.ServicioPlantaEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
    this.ServicioPlantaEditForm.controls.Campania.setValue(data.CodigoCampania);
    
    this.ServicioPlantaEditForm.controls['organizacionId'].setValue(data.EmpresaClienteId);

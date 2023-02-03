@@ -176,19 +176,6 @@ export class AnularPrestamoeditComponent implements OnInit {
     this.PrestamoPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
     await this.LoadForm();
-    //this.AnularServicioEditForm.controls['FechaFinPagos'].setValue(this.dateUtil.currentDate());
-    //this.AnularServicioEditForm.controls['FechaInicioPagos'].setValue(this.dateUtil.currentMonthAgo()); 
-    //this.ServicioPlantaEditForm.controls.MonedaPagos.setValue(this.vSessionUser.Result.Data.MonedaId);
-    //this.ServicioPlantaEditForm.controls['MonedaId'].setValue(this.detalle.Result.Data.MonedaId);
-  
-    this.AnularPrestamoEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
-    this.AnularPrestamoEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
-    this.AnularPrestamoEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
-    this.AnularPrestamoEditForm.controls.responsableComercial.setValue(this.vSessionUser.Result.Data.NombreCompletoUsuario);
-
-    //this.GetProductoTerminado();
-    //this.GetCalidad();
-    //this.GetGrado();
     if (this.DevolucionPrestamoPlantaId <= 0) {
       this.AnularPrestamoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
     } else if (this.DevolucionPrestamoPlantaId > 0) {
@@ -203,90 +190,22 @@ export class AnularPrestamoeditComponent implements OnInit {
   LoadForm(): void {
     this.AnularPrestamoEditForm = this.fb.group({
      
-      idOrdenProceso: [],
-      organizacionId: [],
-      razonSocialCabe: ['',],
-      nroOrden: [],
-      direccionCabe: ['',],
-      certificacion: ['',],
-      fechaCabe: ['',],
-      nroRucCabe: ['',],
-      idContrato: ['',],
-      numeroContrato: ['',],
-      idCliente: ['',],
-      codCliente: ['',],
-      cliente: ['',],
-      idDestino: ['',],
-      destino: ['',],
-      porcenRendimiento: ['',],
-      producto: ['',''],
-      cantidadDefectos: ['',],
-      responsableComercial: [],
-      file: [],
-      tipoProceso: ['',],
-      observaciones: [''],
-      ObservacionPagos:['',''],
-      pathFile: [],
-      estado: ['',],
-      ordenProcesoComercial: [],
-      idOrdenProcesoComercial: [],
-      rucOrganizacion: ['',],
-      nombreOrganizacion: [],
-      certificadora: ['',],
-      empaque: ['', ],
-      tipo: ['',],
-      productoTerminado: ['',],
-      fechaInicio: [],
-      fechaFin: [],
-/////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
+
+/////DATOS PARA EL APIC CONSULTAR DEVOLUCIONES 
       PrestamoPlantaId:['',''],
-      EmpresaId:['',''],
-      EmpresaClienteId:['',''],
-      /////////////////7
-      RazonSocialEmpresaCliente:['',''],
-      RucEmpresaCliente:['',],
-      TipoServicioId:['',''],
-      TipoServicio:[],
-      TipoComprobante:[],
       DevolucionPrestamoPlantaId:['',''],
+      NumeroDevoluciones:['',''],
+      DestinoDevolucionId:['',''],
+      BancoDevolucion:['',''],
+      MonedaPrestamosDevoluciones:['',''],
+      FechaInicioDevolucion:['',''],
+      FechaFinDevolucion:['',''],
+      EstadoDevolucion:['',''],
+      EmpresaId:['',''],
       ObservacionAnulacion:['',''],
-      //TipoComprobanteId:['',''],
-      Numero: ['', ''],
-      NumeroOperacionRelacionada: ['', ''],
-      SerieComprobante: ['', ''],
-      NumeroComprobante: ['', ''],
-      FechaDocumento: ['', ''],
-      FechaComprobante:['',''],
-      FechaRegistro:['',''],
-      SerieDocumento: ['', ''],
-      NumeroDocumento: ['', ''],
-      UnidadMedida: ['', ''],
-      UnidadMedidaId:['',''],
-      Cantidad: ['', ''],
-      PrecioUnitario: ['', ''],
       Importe: ['', ''],
-      PorcentajeTIRB: ['', ''],
-      Moneda: ['', ''],
-      MonedaId:['',''],
-      TotalImporte: ['', ''],
-      ImportePago: ['', ''],
-      Observaciones: ['', ''],
-      Campania: new FormControl('',[]),
-      estadoServicio:['',''],
-      /////////////Pagos Servicios//////////////77
-      NumeroPagos:['',''],
-      BancoPagos:['',''],
-      NumeroOperacionPagos:['',''],
-      MonedaPagos:['',''],
-      TipoOperacion:['',''],
-      TipoOperacionPagoServicioId:['',''],
-      TipoOperacionPago:['',''],
-      EstadoPagos:[],
-      //FechaOperacion:['',''],
-      FechaInicioPagos:['',''],
-      FechaFinPagos:['',''],
-      //////Grilla campos////////////
-      FechaOperacionPagos:['',''],
+
+    
 
     });
     this.AnularPrestamoEditForm.controls.estado.disable();
@@ -297,22 +216,29 @@ export class AnularPrestamoeditComponent implements OnInit {
   }
 
 
-
   buscar(): void {
     this.Search();
   }
+  
   Search(): void {
     if (!this.AnularPrestamoEditForm.invalid) {
-      this.spinner.show();
-      const request = this.getRequestPagoConsultar();
-      this.PagoServicioPlantaService.Consultar(request)
+      this.spinner.show(undefined,
+        {
+          type: 'ball-triangle-path',
+          size: 'medium',
+          bdColor: 'rgba(0, 0, 0, 0.8)',
+          color: '#fff',
+          fullScreen: true
+        });
+      const request = this.getRequestDevolucionesConsultar();
+      this.DevolucionPrestamoService.Consultar(request)
       .subscribe((res: any) => {
         this.spinner.hide();
         if (res.Result.Success) {
           res.Result.Data.forEach(x => {
-          //x.FechaInicio = this.dateUtil.formatDate(x.FechaInicio)
+          x.FechaDevolucion = this.dateUtil.formatDate(x.FechaDevolucion)
           //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
-          x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
+          //x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
           });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
@@ -330,31 +256,27 @@ export class AnularPrestamoeditComponent implements OnInit {
     }
   }
 
-  getRequestPagoConsultar(): any {
-      
+  getRequestDevolucionesConsultar(): any {
     
     const form = this.AnularPrestamoEditForm.value;
 
       const request =
      {
-      
-        Numero: this.AnularPrestamoEditForm.controls["NumeroPagos"].value ? this.AnularPrestamoEditForm.controls["NumeroPagos"].value : '',
-        NumeroOperacion:  this.AnularPrestamoEditForm.controls["NumeroOperacionPagos"].value ?  this.AnularPrestamoEditForm.controls["NumeroOperacionPagos"].value : '',
-        TipoOperacionPagoServicioId:  this.AnularPrestamoEditForm.controls["TipoOperacionPago"].value ?this.AnularPrestamoEditForm.controls["TipoOperacionPago"].value : '',
-        ServicioPlantaId:   this.AnularPrestamoEditForm.controls["ServicioPlantaId"].value ? this.AnularPrestamoEditForm.controls["ServicioPlantaId"].value : 0,
-        BancoId:    this.AnularPrestamoEditForm.controls["BancoPagos"].value ? this.AnularPrestamoEditForm.controls["BancoPagos"].value : '',
-        MonedaId:   this.AnularPrestamoEditForm.controls["MonedaPagos"].value ? this.AnularPrestamoEditForm.controls["MonedaPagos"].value : '',
-        FechaInicio:   this.AnularPrestamoEditForm.controls["FechaInicioPagos"].value ? this.AnularPrestamoEditForm.controls["FechaInicioPagos"].value : '',
-        FechaFin:   this.AnularPrestamoEditForm.controls["FechaFinPagos"].value ? this.AnularPrestamoEditForm.controls["FechaFinPagos"].value : '',
-        EstadoId:   this.AnularPrestamoEditForm.controls["EstadoPagos"].value ? this.AnularPrestamoEditForm.controls["EstadoPagos"].value : '',
+       // PrestamoPlantaId:    Number(this.PrestamoPlantaId),
+        PrestamoPlantaId:  this.AnularPrestamoEditForm.controls["PrestamoPlantaId"].value ?  this.AnularPrestamoEditForm.controls["PrestamoPlantaId"].value : '',
+        Numero: this.AnularPrestamoEditForm.controls["NumeroDevoluciones"].value ? this.AnularPrestamoEditForm.controls["NumeroDevoluciones"].value : '',
+        DestinoDevolucionId:  this.AnularPrestamoEditForm.controls["DestinoDevolucionId"].value ?  this.AnularPrestamoEditForm.controls["DestinoDevolucionId"].value : '',
+        BancoId:    this.AnularPrestamoEditForm.controls["BancoDevolucion"].value ? this.AnularPrestamoEditForm.controls["BancoDevolucion"].value : '',
+        MonedaId:   this.AnularPrestamoEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.AnularPrestamoEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
+        FechaInicio:   this.AnularPrestamoEditForm.controls["FechaInicioDevolucion"].value ? this.AnularPrestamoEditForm.controls["FechaInicioDevolucion"].value : '',
+        FechaFin:   this.AnularPrestamoEditForm.controls["FechaFinDevolucion"].value ? this.AnularPrestamoEditForm.controls["FechaFinDevolucion"].value : '',
+        EstadoId:   this.AnularPrestamoEditForm.controls["EstadoDevolucion"].value ? this.AnularPrestamoEditForm.controls["EstadoDevolucion"].value : '',
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
 
       }
     
       //let json = JSON.stringify(request);
       return request;
-  
-  
   }
 
   anular() {
@@ -482,6 +404,14 @@ async ConsultaPorId(DevolucionPrestamoPlantaId) {
    this.AnularPrestamoEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
    this.AnularPrestamoEditForm.controls.Importe.setValue(data.Importe);
    this.AnularPrestamoEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
+   this.AnularPrestamoEditForm.controls.NumeroDevoluciones.setValue(data.Numero);
+   this.AnularPrestamoEditForm.controls.DestinoDevolucionId.setValue(data.DestinoDevolucionId);
+   this.AnularPrestamoEditForm.controls.BancoDevolucion.setValue(data.BancoId);
+   this.AnularPrestamoEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
+   this.AnularPrestamoEditForm.controls.FechaInicioDevolucion.setValue(data.FechaInicio);
+   this.AnularPrestamoEditForm.controls.FechaFinDevolucion.setValue(data.FechaFin);
+   this.AnularPrestamoEditForm.controls.EstadoDevolucion.setValue(data.EstadoId);
+  
 
     }
     this.spinner.hide();
