@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input,EventEmitter, ViewChild,Output } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, EventEmitter, ViewChild, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,8 +10,8 @@ import { AlertUtil } from '../../../../../../services/util/alert-util';
 import { MaestroService } from '../../../../../../services/maestro.service';
 import { host } from '../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
-import{ServiciosPrestamosService}from '../../../../../../Services/ServiciosPrestamos.services';
-import{DevolucionPrestamoService}from '../../../../../../Services/ServiciosDevoluciones.services';
+import { ServiciosPrestamosService } from '../../../../../../Services/ServiciosPrestamos.services';
+import { DevolucionPrestamoService } from '../../../../../../Services/ServiciosDevoluciones.services';
 import { AuthService } from '../../../../../../services/auth.service';
 
 
@@ -27,8 +27,8 @@ export class PrestamosEditComponent implements OnInit {
     private modalService: NgbModal,
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
-    private ServiciosPrestamosService:ServiciosPrestamosService,
-    private DevolucionPrestamoService:DevolucionPrestamoService,
+    private ServiciosPrestamosService: ServiciosPrestamosService,
+    private DevolucionPrestamoService: DevolucionPrestamoService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
@@ -50,41 +50,41 @@ export class PrestamosEditComponent implements OnInit {
   submittedEdit = false;
   esReproceso = false;
   //listCertificacion = [];
-  listTipoDestino:[]=[];
-  selectedTipoDestino:any;
-  listTipoBancoDevolucion:[]=[];
-  selectedTipoBancoDevolucion:any;
+  listTipoDestino: [] = [];
+  selectedTipoDestino: any;
+  listTipoBancoDevolucion: [] = [];
+  selectedTipoBancoDevolucion: any;
   selectOrganizacion = [];
-  listTipoEstadoPrestamo:[]=[];
-  selectedTipoEstadoPrestamo:any;
+  listTipoEstadoPrestamo: [] = [];
+  selectedTipoEstadoPrestamo: any;
 
-  listTipoMonedaPrestamos:[]=[];
-  SelectedTipoMonedaPrestamos:any;
+  listTipoMonedaPrestamos: [] = [];
+  SelectedTipoMonedaPrestamos: any;
 
-  
-  listTipoMonedaDevolucion:[]=[];
-  SelectedTipoMonedaDevolucion:any;
-  
+
+  listTipoMonedaDevolucion: [] = [];
+  SelectedTipoMonedaDevolucion: any;
+
   listTipoEstadoDevolucion: [] = [];
-  selectedTipoEstadoDevolucion:any;
-  
+  selectedTipoEstadoDevolucion: any;
+
   listTipoEstadoFondos: [] = [];
-  selectedTipoEstadoFondos:any;
+  selectedTipoEstadoFondos: any;
 
   vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   PrestamoPlantaId: Number;
   //PagoServicioPlantaId:Number;
- 
- // errorGeneral = { isError: false, msgError: '' };
+
+  // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
   rows = [];
   tempData = [];
   selected = [];
 
-  Moneda:string;
+  Moneda: string;
   //limitRef: number = 10;
   @Output() agregarEvent = new EventEmitter<any>();
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -104,7 +104,7 @@ export class PrestamosEditComponent implements OnInit {
   detalle: any;
   empresa: any[];
   readonly: boolean;
-  OcultarSeccion: boolean =true;
+  OcultarSeccion: boolean = true;
   public limitRef = 20;
   averageExportable: Number = 0;
   averageDescarte: Number = 0;
@@ -120,7 +120,7 @@ export class PrestamosEditComponent implements OnInit {
     //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
     await this.LoadForm();
     this.PrestamosEditForm.controls['FechaInicioDevolucion'].setValue(this.dateUtil.currentDate());
-    this.PrestamosEditForm.controls['FechaFinDevolucion'].setValue(this.dateUtil.currentMonthAgo()); 
+    this.PrestamosEditForm.controls['FechaFinDevolucion'].setValue(this.dateUtil.currentMonthAgo());
     this.PrestamosEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.PrestamosEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.PrestamosEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
@@ -141,15 +141,15 @@ export class PrestamosEditComponent implements OnInit {
       this.ConsultaPorId(this.PrestamoPlantaId);
     }
 
-   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.SaldoPrestamo);
+    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.SaldoPrestamo);
     this.OcultarSecciones();
   }
 
 
   LoadForm(): void {
     this.PrestamosEditForm = this.fb.group({
-   
-     
+
+
       razonSocialCabe: ['',],
       nroOrden: [],
       direccionCabe: ['',],
@@ -159,43 +159,43 @@ export class PrestamosEditComponent implements OnInit {
       estado: ['',],
       rucOrganizacion: ['',],
       nombreOrganizacion: [],
-      BnacoDevolucion:['',''],
-/////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
-      EmpresaId:['',''],
+      BnacoDevolucion: ['', ''],
+      /////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
+      EmpresaId: ['', ''],
       //EmpresaClienteId:['',''],
-      FechaRegistro:['',''],
-     // ObservacionAnulacion:['',''],
+      FechaRegistro: ['', ''],
+      // ObservacionAnulacion:['',''],
       /////////////Pagos Servicios//////////////77
-      DestinoBanco:['',''],
+      DestinoBanco: ['', ''],
       //////campos Prestamos Y devoluciones///////////////////
-      PrestamoPlantaId:['',''],
-      FechaPrestamo:['',''],
-      DetallePrestamo:['',''],
-      ImportePrestamo:['',''],
-      EstadoPrestamo:[],
-      DevolucionPrestamoPlantaId:['',''],
-      FondoPrestamo:['',''],
-      ImporteProcesado:['',''],
+      PrestamoPlantaId: ['', ''],
+      FechaPrestamo: ['', ''],
+      DetallePrestamo: ['', ''],
+      ImportePrestamo: ['', ''],
+      EstadoPrestamo: [],
+      DevolucionPrestamoPlantaId: ['', ''],
+      FondoPrestamo: ['', ''],
+      ImporteProcesado: ['', ''],
       Importe: ['', ''],
-      ImporteDevolucion:['',''],
-      ImporteCambio:['',''],
-      ObservacionesPrestamo:['',''],
-      ObservacionAnulacion:['',''],
-      SaldoPrestamo:['',''],
+      ImporteDevolucion: ['', ''],
+      ImporteCambio: ['', ''],
+      ObservacionesPrestamo: ['', ''],
+      ObservacionAnulacion: ['', ''],
+      SaldoPrestamo: ['', ''],
       Moneda: ['', ''],
-      MonedaId:['',''],
-      NumeroPrestamo:['',''],
-      MonedaPrestamos:['',''],
+      MonedaId: ['', ''],
+      NumeroPrestamo: ['', ''],
+      MonedaPrestamos: ['', ''],
       //////////////campos de devoluciones////////////////////////////
-      NumeroDevoluciones:['',''],
-      DestinoDevolucion:['',''],
-      DestinoDevolucionId:['',''],
-      BancoDevolucion:['',''],
-      MonedaPrestamosDevoluciones:['',''],
-      FechaDevolucion:['',''],
-      FechaInicioDevolucion:['',''],
-      FechaFinDevolucion:['',''],
-      EstadoDevolucion:['','']
+      NumeroDevoluciones: ['', ''],
+      DestinoDevolucion: ['', ''],
+      DestinoDevolucionId: ['', ''],
+      BancoDevolucion: ['', ''],
+      MonedaPrestamosDevoluciones: ['', ''],
+      FechaDevolucion: ['', ''],
+      FechaInicioDevolucion: ['', ''],
+      FechaFinDevolucion: ['', ''],
+      EstadoDevolucion: ['', '']
 
     });
     this.PrestamosEditForm.controls.EstadoPrestamo.disable();
@@ -204,13 +204,13 @@ export class PrestamosEditComponent implements OnInit {
     return this.PrestamosEditForm.controls;
   }
 
-  async OcultarSecciones(){
+  async OcultarSecciones() {
 
-    if(  this.PrestamoPlantaId > 0){//0 es nuevo 
+    if (this.PrestamoPlantaId > 0) {//0 es nuevo 
       //ocultar secciones 
       this.OcultarSeccion = true;
 
-    }else {
+    } else {
       //mostrar secciones  con valor de id 
       this.OcultarSeccion = false;
 
@@ -224,22 +224,22 @@ export class PrestamosEditComponent implements OnInit {
     }
   }
 
-  async GetListaTipoMonedaPrestamo () {
+  async GetListaTipoMonedaPrestamo() {
     let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
       this.listTipoMonedaPrestamos = res.Result.Data;
     }
   }
 
-  
-  async GetListaTipoMonedaDevolucion () {
+
+  async GetListaTipoMonedaDevolucion() {
     let res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
     if (res.Result.Success) {
       this.listTipoMonedaDevolucion = res.Result.Data;
     }
   }
 
-  
+
 
   async GetlistTipoEstadoDevolucion() {
     const res = await this.maestroService.obtenerMaestros('EstadoDevolucionPrestamoPlanta').toPromise();
@@ -256,14 +256,14 @@ export class PrestamosEditComponent implements OnInit {
     }
   }
 
-  async GetListaTipoDestinoBanco () {
+  async GetListaTipoDestinoBanco() {
     let res = await this.maestroService.obtenerMaestros('DestinoDevolucion').toPromise();
     if (res.Result.Success) {
       this.listTipoDestino = res.Result.Data;
     }
   }
 
-  async GetListaTipoBancoDevolucion () {
+  async GetListaTipoBancoDevolucion() {
     let res = await this.maestroService.obtenerMaestros('Banco').toPromise();
     if (res.Result.Success) {
       this.listTipoBancoDevolucion = res.Result.Data;
@@ -322,20 +322,20 @@ export class PrestamosEditComponent implements OnInit {
     const request =
     {
 
-     PrestamoPlantaId:    Number(this.PrestamoPlantaId),
-     Numero: this.PrestamosEditForm.controls["NumeroPrestamo"].value ? this.PrestamosEditForm.controls["NumeroPrestamo"].value : '',
-     DetallePrestamo: this.PrestamosEditForm.controls["DetallePrestamo"].value ? this.PrestamosEditForm.controls["DetallePrestamo"].value : '',
-     FondoPrestamoId: this.PrestamosEditForm.controls["FondoPrestamo"].value ? this.PrestamosEditForm.controls["FondoPrestamo"].value : '',
-     MonedaId: this.PrestamosEditForm.controls["MonedaPrestamos"].value ? this.PrestamosEditForm.controls["MonedaPrestamos"].value : '',
-     Importe:this.PrestamosEditForm.controls["ImportePrestamo"].value ? this.PrestamosEditForm.controls["ImportePrestamo"].value : '',
-     Observaciones:this.PrestamosEditForm.controls["ObservacionesPrestamo"].value ? this.PrestamosEditForm.controls["ObservacionesPrestamo"].value : '',
-     EstadoId:this.PrestamosEditForm.controls["EstadoPrestamo"].value ? this.PrestamosEditForm.controls["EstadoPrestamo"].value : '',
-     Usuario: this.vSessionUser.Result.Data.NombreUsuario,
-     EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
-  
+      PrestamoPlantaId: Number(this.PrestamoPlantaId),
+      Numero: this.PrestamosEditForm.controls["NumeroPrestamo"].value ? this.PrestamosEditForm.controls["NumeroPrestamo"].value : '',
+      DetallePrestamo: this.PrestamosEditForm.controls["DetallePrestamo"].value ? this.PrestamosEditForm.controls["DetallePrestamo"].value : '',
+      FondoPrestamoId: this.PrestamosEditForm.controls["FondoPrestamo"].value ? this.PrestamosEditForm.controls["FondoPrestamo"].value : '',
+      MonedaId: this.PrestamosEditForm.controls["MonedaPrestamos"].value ? this.PrestamosEditForm.controls["MonedaPrestamos"].value : '',
+      Importe: this.PrestamosEditForm.controls["ImportePrestamo"].value ? this.PrestamosEditForm.controls["ImportePrestamo"].value : '',
+      Observaciones: this.PrestamosEditForm.controls["ObservacionesPrestamo"].value ? this.PrestamosEditForm.controls["ObservacionesPrestamo"].value : '',
+      EstadoId: this.PrestamosEditForm.controls["EstadoPrestamo"].value ? this.PrestamosEditForm.controls["EstadoPrestamo"].value : '',
+      Usuario: this.vSessionUser.Result.Data.NombreUsuario,
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId,
+
 
     }
-    
+
     //let json = JSON.stringify(request);
     return request;
 
@@ -345,7 +345,7 @@ export class PrestamosEditComponent implements OnInit {
   buscar(): void {
     this.Search();
   }
-  
+
   Search(): void {
     if (!this.PrestamosEditForm.invalid) {
       this.spinner.show(undefined,
@@ -358,80 +358,80 @@ export class PrestamosEditComponent implements OnInit {
         });
       const request = this.getRequestDevolucionesConsultar();
       this.DevolucionPrestamoService.Consultar(request)
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          res.Result.Data.forEach(x => {
-          x.FechaDevolucion = this.dateUtil.formatDate(x.FechaDevolucion)
-          //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
-          //x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
-          });
+        .subscribe((res: any) => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            res.Result.Data.forEach(x => {
+              x.FechaDevolucion = this.dateUtil.formatDate(x.FechaDevolucion)
+              //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
+              //x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
+            });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
-          this.errorGeneral = { isError: false, msgError: '' };
-        } else {
-          this.errorGeneral = { isError: true, msgError: res.Result.Message };
-        }
-      }, (err: any) => {
-        this.spinner.hide();
-        console.log(err);
-        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-      });
+            this.errorGeneral = { isError: false, msgError: '' };
+          } else {
+            this.errorGeneral = { isError: true, msgError: res.Result.Message };
+          }
+        }, (err: any) => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+        });
     } else {
 
     }
   }
 
   getRequestDevolucionesConsultar(): any {
-    
+
     const form = this.PrestamosEditForm.value;
 
-      const request =
-     {
-       // PrestamoPlantaId:    Number(this.PrestamoPlantaId),
-        PrestamoPlantaId:  this.PrestamosEditForm.controls["PrestamoPlantaId"].value ?  this.PrestamosEditForm.controls["PrestamoPlantaId"].value : '',
-        Numero: this.PrestamosEditForm.controls["NumeroDevoluciones"].value ? this.PrestamosEditForm.controls["NumeroDevoluciones"].value : '',
-        DestinoDevolucionId:  this.PrestamosEditForm.controls["DestinoDevolucionId"].value ?  this.PrestamosEditForm.controls["DestinoDevolucionId"].value : '',
-        BancoId:    this.PrestamosEditForm.controls["BancoDevolucion"].value ? this.PrestamosEditForm.controls["BancoDevolucion"].value : '',
-        MonedaId:   this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
-        FechaInicio:   this.PrestamosEditForm.controls["FechaInicioDevolucion"].value ? this.PrestamosEditForm.controls["FechaInicioDevolucion"].value : '',
-        FechaFin:   this.PrestamosEditForm.controls["FechaFinDevolucion"].value ? this.PrestamosEditForm.controls["FechaFinDevolucion"].value : '',
-        EstadoId:   this.PrestamosEditForm.controls["EstadoDevolucion"].value ? this.PrestamosEditForm.controls["EstadoDevolucion"].value : '',
-        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+    const request =
+    {
+      // PrestamoPlantaId:    Number(this.PrestamoPlantaId),
+      PrestamoPlantaId: this.PrestamosEditForm.controls["PrestamoPlantaId"].value ? this.PrestamosEditForm.controls["PrestamoPlantaId"].value : '',
+      Numero: this.PrestamosEditForm.controls["NumeroDevoluciones"].value ? this.PrestamosEditForm.controls["NumeroDevoluciones"].value : '',
+      DestinoDevolucionId: this.PrestamosEditForm.controls["DestinoDevolucionId"].value ? this.PrestamosEditForm.controls["DestinoDevolucionId"].value : '',
+      BancoId: this.PrestamosEditForm.controls["BancoDevolucion"].value ? this.PrestamosEditForm.controls["BancoDevolucion"].value : '',
+      MonedaId: this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
+      FechaInicio: this.PrestamosEditForm.controls["FechaInicioDevolucion"].value ? this.PrestamosEditForm.controls["FechaInicioDevolucion"].value : '',
+      FechaFin: this.PrestamosEditForm.controls["FechaFinDevolucion"].value ? this.PrestamosEditForm.controls["FechaFinDevolucion"].value : '',
+      EstadoId: this.PrestamosEditForm.controls["EstadoDevolucion"].value ? this.PrestamosEditForm.controls["EstadoDevolucion"].value : '',
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
 
-      }
-    
-      //let json = JSON.stringify(request);
-      return request;
+    }
+
+    //let json = JSON.stringify(request);
+    return request;
   }
 
   Nuevo() {
     var Moneda = this.PrestamosEditForm.controls["MonedaPrestamos"].value;
-   // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
+    // this.router.navigate([`/planta/operaciones/ServicioPlanta-edit/${this.ServicioPlantaId}`]);
     //this.router.navigate(['/planta/operaciones/ServicioPlanta-edit']);
-   
+
     this.router.navigate([`/planta/operaciones/serviciosdevoluciones-edit/${this.PrestamoPlantaId}/${Moneda}`]);
-    }
+  }
 
   Save(): void {
-  //  debugger
+    //  debugger
     if (!this.PrestamosEditForm.invalid) {
-        const form = this;
-        if (this.PrestamoPlantaId <= 0) {
+      const form = this;
+      if (this.PrestamoPlantaId <= 0) {
 
-          this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.', function (result) {
-            if (result.isConfirmed) {
-              form.RegistrarPrestamos();
-            }
-          });
-        } else if (this.PrestamoPlantaId > 0) {
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con el registro?.', function (result) {
+          if (result.isConfirmed) {
+            form.RegistrarPrestamos();
+          }
+        });
+      } else if (this.PrestamoPlantaId > 0) {
 
-          this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.', function (result) {
-            if (result.isConfirmed) {
-              form.ActualizarPrestamos();
-            }
-          });
-        }
+        this.alertUtil.alertRegistro('Confirmación', '¿Está seguro de continuar con la actualización?.', function (result) {
+          if (result.isConfirmed) {
+            form.ActualizarPrestamos();
+          }
+        });
+      }
       /* else {
         this.alertUtil.alertWarning('ADVERTENCIA!', 'No pueden existir datos vacios en el detalle, por favor corregir.');
       }*/
@@ -501,7 +501,7 @@ export class PrestamosEditComponent implements OnInit {
 
   async ConsultaPorId(PrestamoPlantaId) {
     this.spinner.show();
-    
+
     let request =
     {
       "PrestamoPlantaId": Number(PrestamoPlantaId),
@@ -513,10 +513,10 @@ export class PrestamosEditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.AutocompleteFormEdit(res.Result.Data)
-             //this.dateUtil.formatDate(new Date(FechaAsignacionSocioBeneficiarioPropietario))); 
-             //this.dateUtil.formatDate(new Date(FechaAsignacionSocioInversorPropietario))); 
-             //this.dateUtil.formatDate(new Date(FechaInstalacion))); 
-            
+            //this.dateUtil.formatDate(new Date(FechaAsignacionSocioBeneficiarioPropietario))); 
+            //this.dateUtil.formatDate(new Date(FechaAsignacionSocioInversorPropietario))); 
+            //this.dateUtil.formatDate(new Date(FechaInstalacion))); 
+
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
@@ -544,30 +544,30 @@ export class PrestamosEditComponent implements OnInit {
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
-    
- this.PrestamosEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
- //this.PrestamosEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
- ////////////////////campos para eñ formulario de prestamos y devoluciones///////////////////////////
- this.PrestamosEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
- this.PrestamosEditForm.controls.NumeroPrestamo.setValue(data.Numero);
- this.PrestamosEditForm.controls.DetallePrestamo.setValue(data.DetallePrestamo);
- //this.PrestamosEditForm.controls.FondoPrestamo.setValue(data.FondoPrestamoId);
- await this.GetlistTipoEstadoFondos();
- this.PrestamosEditForm.controls["FondoPrestamo"].setValue(data.FondoPrestamoId);
- //this.PrestamosEditForm.controls.MonedaPrestamos.setValue(data.MonedaId);
- await this.GetListaTipoMonedaPrestamo();
- this.PrestamosEditForm.controls["MonedaPrestamos"].setValue(data.MonedaId);
- this.PrestamosEditForm.controls.ImportePrestamo.setValue(data.Importe);
- this.PrestamosEditForm.controls.ImporteDevolucion.setValue(data.ImporteProcesado);
- this.PrestamosEditForm.controls.SaldoPrestamo.setValue(data.Saldo);
- this.PrestamosEditForm.controls.ImporteCambio.setValue(data.ImporteCambio);
- this.PrestamosEditForm.controls.ObservacionesPrestamo.setValue(data.Observaciones);
- this.PrestamosEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
 
- this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
- this.PrestamosEditForm.controls.FechaPrestamo.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
- /////////////////////Campos de devoluciones //////////////////////////////
-// this.PrestamosEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
+      this.PrestamosEditForm.controls.FechaRegistro.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
+      //this.PrestamosEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
+      ////////////////////campos para eñ formulario de prestamos y devoluciones///////////////////////////
+      this.PrestamosEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
+      this.PrestamosEditForm.controls.NumeroPrestamo.setValue(data.Numero);
+      this.PrestamosEditForm.controls.DetallePrestamo.setValue(data.DetallePrestamo);
+      //this.PrestamosEditForm.controls.FondoPrestamo.setValue(data.FondoPrestamoId);
+      await this.GetlistTipoEstadoFondos();
+      this.PrestamosEditForm.controls["FondoPrestamo"].setValue(data.FondoPrestamoId);
+      //this.PrestamosEditForm.controls.MonedaPrestamos.setValue(data.MonedaId);
+      await this.GetListaTipoMonedaPrestamo();
+      this.PrestamosEditForm.controls["MonedaPrestamos"].setValue(data.MonedaId);
+      this.PrestamosEditForm.controls.ImportePrestamo.setValue(data.Importe);
+      this.PrestamosEditForm.controls.ImporteDevolucion.setValue(data.ImporteProcesado);
+      this.PrestamosEditForm.controls.SaldoPrestamo.setValue(data.Saldo);
+      this.PrestamosEditForm.controls.ImporteCambio.setValue(data.ImporteCambio);
+      this.PrestamosEditForm.controls.ObservacionesPrestamo.setValue(data.Observaciones);
+      this.PrestamosEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
+
+      this.PrestamosEditForm.controls.EstadoPrestamo.setValue(data.EstadoId);
+      this.PrestamosEditForm.controls.FechaPrestamo.setValue(data.FechaRegistro == null ? "" : formatDate(data.FechaRegistro, 'yyyy-MM-dd', 'en'));
+      /////////////////////Campos de devoluciones //////////////////////////////
+      // this.PrestamosEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
 
     }
     this.spinner.hide();

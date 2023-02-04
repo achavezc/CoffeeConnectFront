@@ -35,7 +35,7 @@ import{ServicioDevolucionEditComponent}from './operaciones/ServiciosPrestamos/Se
 
 
 import{AnularServicioeditComponent}from './operaciones/Servicios/AnularPopup/edit/anularpopup-edit.component';
-import{AnularPrestamoeditComponent}from './operaciones/ServiciosPrestamos/AnularPrestamo/anularPrestamo-edit.component';
+import{AnularPrestamoeditComponent}from './operaciones/ServiciosPrestamos/AnularPrestamo/edit/anularPrestamo-edit.component';
 import{PrestamosListComponent}from './operaciones/ServiciosPrestamos/list/prestamos-list.component';
 import{PrestamosEditComponent}from './operaciones/ServiciosPrestamos/edit/serviciosprestamos-edit.component';
 

@@ -1,7 +1,7 @@
 <form class="needs-validation" [formGroup]="PrestamosEditForm">
     <section id="tooltip-validation">
         <ng-template #mdlOrdenProceso let-c="close" let-d="dismiss">
-        <!--     <div class="modal-header" style="text-align: center;">
+            <!--     <div class="modal-header" style="text-align: center;">
 
                 <h4 class="modal-title" style="font-size: 1rem;">ORDEN DE PROCESO PLANTA</h4>
                 <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -15,105 +15,106 @@
         </ng-template>
         <ng-template #modalAlmacenMateriaPrima let-c="close" let-d="dismiss">
             <div class="modal-header" style="text-align: center;">
-      
-              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso a Almacen</h4>
-              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-              </button>
+
+                <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso a Almacen</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <app-notaingresoalmacen-list (agregarEvent)="agregarNotaIngreso($event,'materiaPrima')" [popUp] = "popUp"></app-notaingresoalmacen-list>
-            <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
+                <app-notaingresoalmacen-list (agregarEvent)="agregarNotaIngreso($event,'materiaPrima')"
+                    [popUp]="popUp"></app-notaingresoalmacen-list>
+                <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
             </div>
-          </ng-template>
-          <ng-template #modalAlmacenProductoTerminado let-c="close" let-d="dismiss">
+        </ng-template>
+        <ng-template #modalAlmacenProductoTerminado let-c="close" let-d="dismiss">
             <div class="modal-header" style="text-align: center;">
-      
-              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso a Almacen</h4>
-              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-              </button>
+
+                <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso a Almacen</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <app-notaingresoproducto-list (agregarEvent)="agregarNotaIngreso($event,'productoTerminado')" [popUp] = "popUp"></app-notaingresoproducto-list>
-            <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
+                <app-notaingresoproducto-list (agregarEvent)="agregarNotaIngreso($event,'productoTerminado')"
+                    [popUp]="popUp"></app-notaingresoproducto-list>
+                <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
             </div>
-          </ng-template>
+        </ng-template>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card"  style="margin-bottom: 2rem;">
+                <div class="card" style="margin-bottom: 2rem;">
                     <div class="card-header">
 
                         <div class="form-row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <label for="razonSocialCabelbl"></label>
-                                        <input type="text" name="razonSocialCabe" id="razonSocialCabe"
-                                            formControlName="razonSocialCabe" class="form-control"
-                                            placeholder="Razón Social"
-                                            [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
-                                            [readonly]="true" />
-                                    
+                                <input type="text" name="razonSocialCabe" id="razonSocialCabe"
+                                    formControlName="razonSocialCabe" class="form-control" placeholder="Razón Social"
+                                    [ngClass]="{ 'is-invalid': f.razonSocialCabe.invalid, 'is-valid': !f.razonSocialCabe.invalid }"
+                                    [readonly]="true" />
+
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <label for="NumeroPrestamo">N° Prestamo</label>
-                                        <input type="text" name="NumeroPrestamo" id="NumeroPrestamo" formControlName="NumeroPrestamo"
-                                            class="form-control"
-                                            [ngClass]="{ 'is-invalid': f.NumeroPrestamo.invalid, 'is-valid': !f.NumeroPrestamo.invalid }"
-                                            placeholder="N° Prestamos" [readonly]="true" />
-                    
+                                <label for="NumeroPrestamo">N° Prestamo</label>
+                                <input type="text" name="NumeroPrestamo" id="NumeroPrestamo"
+                                    formControlName="NumeroPrestamo" class="form-control"
+                                    [ngClass]="{ 'is-invalid': f.NumeroPrestamo.invalid, 'is-valid': !f.NumeroPrestamo.invalid }"
+                                    placeholder="N° Prestamos" [readonly]="true" />
+
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                               
-                            <label for="FechaRegistro" >FECHA</label>
-                                   
-                                        <input type="date" class="form-control text-center" formControlName="FechaRegistro"
-                                            id="FechaRegistro" date name="FechaRegistro" placeholder="Seleccionar Fecha Registro"
-                                            [readonly]="true"
-                                            [ngClass]="{ 'is-invalid': f.FechaRegistro.invalid, 'is-valid': !f.FechaRegistro.invalid }" />
-                                   
+
+                                <label for="FechaRegistro">FECHA</label>
+
+                                <input type="date" class="form-control text-center" formControlName="FechaRegistro"
+                                    id="FechaRegistro" date name="FechaRegistro"
+                                    placeholder="Seleccionar Fecha Registro" [readonly]="true"
+                                    [ngClass]="{ 'is-invalid': f.FechaRegistro.invalid, 'is-valid': !f.FechaRegistro.invalid }" />
+
                             </div>
                         </div>
 
 
-                        
+
                         <div class="form-row">
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <label for="direccionCabelbl"> </label>
-                                        <input type="text" name="direccionCabe" id="direccionCabe"
-                                            formControlName="direccionCabe" class="form-control"
-                                            [ngClass]="{ 'is-invalid': f.direccionCabe.invalid, 'is-valid': !f.direccionCabe.invalid }"
-                                            placeholder="Dirección" [readonly]="true" />
-                            
+                                <input type="text" name="direccionCabe" id="direccionCabe"
+                                    formControlName="direccionCabe" class="form-control"
+                                    [ngClass]="{ 'is-invalid': f.direccionCabe.invalid, 'is-valid': !f.direccionCabe.invalid }"
+                                    placeholder="Dirección" [readonly]="true" />
+
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
-                               
-                                    <label for="nroRucCabe"> RUC</label>
-                                    
-                                        <input type="text" name="nroRucCabe" id="nroRucCabe"
-                                            formControlName="nroRucCabe" class="form-control" placeholder="Número R.U.C"
-                                            [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid': !f.nroRucCabe.invalid }"
-                                            [readonly]="true">
-                                   
-                                
+
+                                <label for="nroRucCabe"> RUC</label>
+
+                                <input type="text" name="nroRucCabe" id="nroRucCabe" formControlName="nroRucCabe"
+                                    class="form-control" placeholder="Número R.U.C"
+                                    [ngClass]="{ 'is-invalid': f.nroRucCabe.invalid, 'is-valid': !f.nroRucCabe.invalid }"
+                                    [readonly]="true">
+
+
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
-                                
-                                
-                                    <label for="EstadoPrestamo" >ESTADO</label>
-                                    
-                                        <ng-select [items]="listTipoEstadoPrestamo" formControlName="EstadoPrestamo" class="form-control"
-                                            bindLabel="Label" bindValue="Codigo" id="EstadoPrestamo"
-                                            placeholder="Seleccionar Estado"
-                                            [ngClass]="{ 'is-invalid': f.EstadoPrestamo.invalid, 'is-valid': !f.EstadoPrestamo.invalid }"
-                                            [(ngModel)]="selectedTipoEstadoPrestamo" >
-                                        </ng-select>
-                                    
+
+
+                                <label for="EstadoPrestamo">ESTADO</label>
+
+                                <ng-select [items]="listTipoEstadoPrestamo" formControlName="EstadoPrestamo"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="EstadoPrestamo"
+                                    placeholder="Seleccionar Estado"
+                                    [ngClass]="{ 'is-invalid': f.EstadoPrestamo.invalid, 'is-valid': !f.EstadoPrestamo.invalid }"
+                                    [(ngModel)]="selectedTipoEstadoPrestamo">
+                                </ng-select>
+
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </section>
@@ -121,7 +122,8 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
-                    <h5 class="card-header bg-primary text-white text-center align-middle p-0" >DETALLE PRESTAMOS Y DEVOLUCIONES</h5>
+                    <h5 class="card-header bg-primary text-white text-center align-middle p-0">DETALLE PRESTAMOS Y
+                        DEVOLUCIONES</h5>
                     <div class="card-body">
                         <div class="form-row bg-primary align-middle mb-2">
                             <label for="" class="text-white">DATOS GENERALES</label>
@@ -130,54 +132,54 @@
                         <div class="form-row">
                             <div class="col-md-4 mb-3 form-group mb-2">
                                 <label for="FechaPrestamo" class="form-label">Fecha Prestamo</label>
-                                <input type="date" class="form-control" formControlName="FechaPrestamo" id="validationTooltip07"
-                                name="FechaPrestamo" placeholder="date" date
-                                [ngClass]="{ 'is-invalid': submitted && f.FechaPrestamo.invalid, 'is-valid': submitted && !f.FechaPrestamo.invalid }"
-                                (blur)="compareFechas()" />
-                              <small class="form-text text-muted danger"
-                                *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                                </div>
+                                <input type="date" class="form-control" formControlName="FechaPrestamo"
+                                    id="validationTooltip07" name="FechaPrestamo" placeholder="date" date
+                                    [ngClass]="{ 'is-invalid': submitted && f.FechaPrestamo.invalid, 'is-valid': submitted && !f.FechaPrestamo.invalid }"
+                                    (blur)="compareFechas()" />
+                                <small class="form-text text-muted danger"
+                                    *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                            </div>
 
-                                <div class="col-lg-4 col-md-4 col-sm-6">
-                                    <label for="MonedaPrestamos">MONEDA PRESTAMOS</label>
-                                        <ng-select [items]="listTipoMonedaPrestamos" formControlName="MonedaPrestamos"
-                                            class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
-                                            placeholder="Seleccionar Moneda Prestamo"
-                                            [ngClass]="{ 'is-invalid': f.MonedaPrestamos.invalid, 'is-valid': !f.MonedaPrestamos.invalid }"
-                                            [(ngModel)]="SelectedTipoMonedaPrestamos">
-                                        </ng-select>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6">
-                                        <label for="ImportePrestamo" >IMPORTE PRESTAMO </label>
-                                            <input type="number" name="ImportePagos" id="ImportePrestamo"
-                                           formControlName="ImportePrestamo" class="form-control"
-                                           placeholder="Importe Prestamos">
-                                    </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6">
+                                <label for="MonedaPrestamos">MONEDA PRESTAMOS</label>
+                                <ng-select [items]="listTipoMonedaPrestamos" formControlName="MonedaPrestamos"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
+                                    placeholder="Seleccionar Moneda Prestamo"
+                                    [ngClass]="{ 'is-invalid': f.MonedaPrestamos.invalid, 'is-valid': !f.MonedaPrestamos.invalid }"
+                                    [(ngModel)]="SelectedTipoMonedaPrestamos">
+                                </ng-select>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <label for="ImportePrestamo">IMPORTE PRESTAMO </label>
+                                <input type="number" name="ImportePagos" id="ImportePrestamo"
+                                    formControlName="ImportePrestamo" class="form-control"
+                                    placeholder="Importe Prestamos">
+                            </div>
                         </div>
                         <div class="form-row">
 
                             <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="ImporteDevolucion" >IMPORTE DEVOLUCION </label>
-                                    <input type="number" name="ImporteDevolucion" id="ImporteDevolucion"
-                                   formControlName="ImporteDevolucion" class="form-control"
-                                   placeholder="Importe Devolucion">
-                            </div> 
+                                <label for="ImporteDevolucion">IMPORTE DEVOLUCION </label>
+                                <input type="number" name="ImporteDevolucion" id="ImporteDevolucion"
+                                    formControlName="ImporteDevolucion" class="form-control"
+                                    placeholder="Importe Devolucion">
+                            </div>
                             <div class="col-lg-4 col-md-6 col-sm-6">
-                                <label for="SaldoPrestamo" >SALDO </label>
-                                    <input type="number" name="SaldoPrestamo" id="SaldoPrestamo"
-                                   formControlName="SaldoPrestamo" class="form-control"
-                                   placeholder="Saldo Prestamo" readonly>
-                            </div> 
+                                <label for="SaldoPrestamo">SALDO </label>
+                                <input type="number" name="SaldoPrestamo" id="SaldoPrestamo"
+                                    formControlName="SaldoPrestamo" class="form-control" placeholder="Saldo Prestamo"
+                                    readonly>
+                            </div>
                             <div class="col-md-4 mb-2 form-group mb-2">
                                 <label for="FondoPrestamo">Fondos Prestamo </label>
-                                    <ng-select [items]="listTipoEstadoFondos" formControlName="FondoPrestamo"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="FondoPrestamo"
-                                        placeholder="Seleccionar Fondo Prestamos "
-                                        [ngClass]="{ 'is-invalid': f.FondoPrestamo.invalid, 'is-valid': !f.FondoPrestamo.invalid }"
-                                        [(ngModel)]="selectedTipoEstadoFondos">
-                                    </ng-select>
-                                </div>
-                            
+                                <ng-select [items]="listTipoEstadoFondos" formControlName="FondoPrestamo"
+                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="FondoPrestamo"
+                                    placeholder="Seleccionar Fondo Prestamos "
+                                    [ngClass]="{ 'is-invalid': f.FondoPrestamo.invalid, 'is-valid': !f.FondoPrestamo.invalid }"
+                                    [(ngModel)]="selectedTipoEstadoFondos">
+                                </ng-select>
+                            </div>
+
                             <!--<div class="col-md-4 mb-2 form-group mb-2">
                               <label for="EstadoPrestamo">Estado Prestamo </label>
                                   <ng-select [items]="listTipoEstadoPrestamo" formControlName="EstadoPrestamo"
@@ -190,154 +192,135 @@
                         </div>
                         <div class="form-row">
 
-                     
+
 
                             <div class="col-md-4 mb-4 form-group mb-2">
                                 <label for="basicInput" style="font-size: 0.7rem;">Detalle Prestamo</label>
                                 <div class="position-relative has-icon-left">
-                                  <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000" name="notes"
-                                    formControlName="DetallePrestamo">
+                                    <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000"
+                                        name="notes" formControlName="DetallePrestamo">
                                         </textarea>
-                                  <div class="form-control-position">
-                                    <i class="ft-file"></i>
-                                  </div>
+                                    <div class="form-control-position">
+                                        <i class="ft-file"></i>
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="col-md-4 mb-4 form-group mb-2">
+                            </div>
+                            <div class="col-md-4 mb-4 form-group mb-2">
                                 <label for="basicInput" style="font-size: 0.7rem;">Observaciones</label>
                                 <div class="position-relative has-icon-left">
-                                  <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000" name="notes"
-                                    formControlName="ObservacionesPrestamo">
+                                    <textarea id="bordered-form-6" rows="4" class="form-control" maxlength="1000"
+                                        name="notes" formControlName="ObservacionesPrestamo">
                                         </textarea>
-                                  <div class="form-control-position">
-                                    <i class="ft-file"></i>
-                                  </div>
+                                    <div class="form-control-position">
+                                        <i class="ft-file"></i>
+                                    </div>
                                 </div>
-                              </div>
+                            </div>
 
                         </div>
-                       
-                       
 
-                         <!--<div class="from-row">
-
-                            <div class="col-lg-4 col-md-5 col-sm-5">
-                                <label for="UnidadMedida">UNIDAD MEDIDA</label>
-                                    <ng-select [items]="listTipoUnidadMedida" formControlName="UnidadMedida"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="UnidadMedida"
-                                        placeholder="Seleccionar Unidad Medida"
-                                        [ngClass]="{ 'is-invalid': f.UnidadMedida.invalid, 'is-valid': !f.UnidadMedida.invalid }"
-                                        [(ngModel)]="selectedTipoUnidadMedida">
-                                    </ng-select>
-                                </div>
-
-                
-                            <div class="col-lg-4 col-md-5 col-sm-5">
-                                <label for="Moneda">MONEDA</label>
-                                    <ng-select [items]="listTipoMoneda" formControlName="Moneda"
-                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaId"
-                                        placeholder="Seleccionar Moneda"
-                                        [ngClass]="{ 'is-invalid': f.Moneda.invalid, 'is-valid': !f.Moneda.invalid }"
-                                        [(ngModel)]="SelectedTipoMoneda">
-                                    </ng-select>
-                                </div>
-                                <div class="col-lg-4 col-md-5 col-sm-5">
-                                    <label for="Observaciones" >Observaciones</label>
-                                        <input type="text" name="Observaciones" id="Observaciones"
-                                       formControlName="Observaciones" class="form-control"
-                                       placeholder="Observaciones">
-                                </div> 
-                         </div>-->
-                 
-                   
-                    <section id="ngx-datatable-filter">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <!--<h5 class="card-header bg-primary text-white text-center align-middle p-0" >DETALLE SERVICIOS PLANTA</h5>-->
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div class="form-row bg-primary align-middle mb-2">
-                                                <label for="" class="text-white">DEVOLUCIONES</label>
-                                            </div>
-                                            <!-- <form class="needs-validation" [formGroup]="ServicioPlantaEditForm" novalidate> -->
-                                                 <div class="form-row">
+                        <section id="ngx-datatable-filter">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <!--<h5 class="card-header bg-primary text-white text-center align-middle p-0" >DETALLE SERVICIOS PLANTA</h5>-->
+                                        <div class="card-content">
+                                            <div class="card-body">
+                                                <div class="form-row bg-primary align-middle mb-2">
+                                                    <label for="" class="text-white">DEVOLUCIONES</label>
+                                                </div>
+                                                <!-- <form class="needs-validation" [formGroup]="ServicioPlantaEditForm" novalidate> -->
+                                                <div class="form-row">
                                                     <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="MonedaPrestamosDevoluciones">Moneda Devoluciones</label>
-                                                            <ng-select [items]="listTipoMonedaDevolucion" formControlName="MonedaPrestamosDevoluciones"
-                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="MonedaPrestamosDevoluciones"
-                                                                placeholder="Seleccionar Moneda "
-                                                                [ngClass]="{ 'is-invalid': submittedEdit && f.MonedaPrestamosDevoluciones.invalid, 
+                                                        <label for="MonedaPrestamosDevoluciones">Moneda
+                                                            Devoluciones</label>
+                                                        <ng-select [items]="listTipoMonedaDevolucion"
+                                                            formControlName="MonedaPrestamosDevoluciones"
+                                                            class="form-control" bindLabel="Label" bindValue="Codigo"
+                                                            id="MonedaPrestamosDevoluciones"
+                                                            placeholder="Seleccionar Moneda "
+                                                            [ngClass]="{ 'is-invalid': submittedEdit && f.MonedaPrestamosDevoluciones.invalid, 
                                                                 'is-valid': submittedEdit && !f.MonedaPrestamosDevoluciones.invalid }"
-                                                                [(ngModel)]="SelectedTipoMonedaDevolucion" >
-                                                            </ng-select>
-                                                        </div>
+                                                            [(ngModel)]="SelectedTipoMonedaDevolucion">
+                                                        </ng-select>
+                                                    </div>
                                                     <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="DestinoDevolucion">Destino</label>
-                                                            <ng-select [items]="listTipoDestino" formControlName="DestinoDevolucion"
-                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="DestinoDevolucionId"
-                                                                placeholder="Seleccionar Destino "
-                                                                [ngClass]="{ 'is-invalid': f.DestinoDevolucion.invalid, 'is-valid': !f.DestinoDevolucion.invalid }"
-                                                                [(ngModel)]="selectedTipoDestino">
-                                                            </ng-select>
-                                                        </div>
+                                                        <ng-select [items]="listTipoDestino"
+                                                            formControlName="DestinoDevolucion" class="form-control"
+                                                            bindLabel="Label" bindValue="Codigo"
+                                                            id="DestinoDevolucionId" placeholder="Seleccionar Destino "
+                                                            [ngClass]="{ 'is-invalid': f.DestinoDevolucion.invalid, 'is-valid': !f.DestinoDevolucion.invalid }"
+                                                            [(ngModel)]="selectedTipoDestino">
+                                                        </ng-select>
+                                                    </div>
 
-                                                        <div class="col-md-4 mb-2 form-group mb-2">
-                                                            <label for="BnacoDevolucion">Banco</label>
-                                                                <ng-select [items]="listTipoBancoDevolucion" formControlName="BnacoDevolucion"
-                                                                    class="form-control" bindLabel="Label" bindValue="Codigo" id="BancoId"
-                                                                    placeholder="Seleccionar Banco"
-                                                                    [ngClass]="{ 'is-invalid': f.BnacoDevolucion.invalid, 'is-valid': !f.BnacoDevolucion.invalid }"
-                                                                    [(ngModel)]="selectedTipoBancoDevolucion">
-                                                                </ng-select>
-                                                            </div>
-                                             
-                                                </div> 
+                                                    <div class="col-md-4 mb-2 form-group mb-2">
+                                                        <label for="BnacoDevolucion">Banco</label>
+                                                        <ng-select [items]="listTipoBancoDevolucion"
+                                                            formControlName="BnacoDevolucion" class="form-control"
+                                                            bindLabel="Label" bindValue="Codigo" id="BancoId"
+                                                            placeholder="Seleccionar Banco"
+                                                            [ngClass]="{ 'is-invalid': f.BnacoDevolucion.invalid, 'is-valid': !f.BnacoDevolucion.invalid }"
+                                                            [(ngModel)]="selectedTipoBancoDevolucion">
+                                                        </ng-select>
+                                                    </div>
+
+                                                </div>
                                                 <div class="form-row">
                                                     <div class="col-lg-4 col-md-6 col-sm-6">
-                                                        <label for="NumeroDevoluciones" >NUMERO DEVOLUCIONES </label>
-                                                            <input type="text" name="NumeroDevoluciones" id="NumeroDevoluciones"
-                                                           formControlName="NumeroDevoluciones" class="form-control"
-                                                           placeholder="Numero Devolucion">
+                                                        <label for="NumeroDevoluciones">NUMERO DEVOLUCIONES </label>
+                                                        <input type="text" name="NumeroDevoluciones"
+                                                            id="NumeroDevoluciones" formControlName="NumeroDevoluciones"
+                                                            class="form-control" placeholder="Numero Devolucion">
                                                     </div>
                                                     <div class="col-md-4 mb-2 form-group mb-2">
                                                         <label for="EstadoDevolucion">Estado </label>
-                                                            <ng-select [items]="listTipoEstadoDevolucion" formControlName="EstadoDevolucion"
-                                                                class="form-control" bindLabel="Label" bindValue="Codigo" id="EstadoDevolucion"
-                                                                placeholder="Seleccionar Estado "
-                                                                [ngClass]="{ 'is-invalid': f.EstadoDevolucion.invalid, 'is-valid': !f.EstadoDevolucion.invalid }"
-                                                                [(ngModel)]="selectedTipoEstadoDevolucion">
-                                                            </ng-select>
-                                                        </div>
-
-                                                    <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="FechaInicioDevolucion" class="form-label">Fecha Inicio Devolucion</label>
-                                                        <input type="date" class="form-control" formControlName="FechaInicioDevolucion" id="validationTooltip07"
-                                                        name="FechaInicioDevolucion" placeholder="date" date
-                                                        [ngClass]="{ 'is-invalid': submitted && f.FechaInicioDevolucion.invalid, 'is-valid': submitted && !f.FechaInicioDevolucion.invalid }"
-                                                        (blur)="compareFechas()" />
-                                                      <small class="form-text text-muted danger"
-                                                        *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
-                                                    </div>
-                    
-                                                    <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="FechaFinDevolucion" class="form-label">Fecha Fin Devolucion</label>
-                                                        <input type="date" class="form-control" formControlName="FechaFinDevolucion" id="validationTooltip10"
-                                                        name="FechaFinDevolucion" placeholder="date" date
-                                                        [ngClass]="{ 'is-invalid': submitted && f.FechaFinDevolucion.invalid, 'is-valid': submitted && !f.FechaFinDevolucion.invalid }"
-                                                        (blur)="compareTwoDates()" />
-                                                      <small class="form-text text-muted danger" *ngIf="error.isError">{{error.errorMessage}}</small>
+                                                        <ng-select [items]="listTipoEstadoDevolucion"
+                                                            formControlName="EstadoDevolucion" class="form-control"
+                                                            bindLabel="Label" bindValue="Codigo" id="EstadoDevolucion"
+                                                            placeholder="Seleccionar Estado "
+                                                            [ngClass]="{ 'is-invalid': f.EstadoDevolucion.invalid, 'is-valid': !f.EstadoDevolucion.invalid }"
+                                                            [(ngModel)]="selectedTipoEstadoDevolucion">
+                                                        </ng-select>
                                                     </div>
 
-                                          
-                                               
+                                                    <div class="col-md-4 mb-2 form-group mb-2">
+                                                        <label for="FechaInicioDevolucion" class="form-label">Fecha
+                                                            Inicio Devolucion</label>
+                                                        <input type="date" class="form-control"
+                                                            formControlName="FechaInicioDevolucion"
+                                                            id="validationTooltip07" name="FechaInicioDevolucion"
+                                                            placeholder="date" date
+                                                            [ngClass]="{ 'is-invalid': submitted && f.FechaInicioDevolucion.invalid, 'is-valid': submitted && !f.FechaInicioDevolucion.invalid }"
+                                                            (blur)="compareFechas()" />
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="errorFecha.isError">{{errorFecha.errorMessage}}</small>
+                                                    </div>
+
+                                                    <div class="col-md-4 mb-2 form-group mb-2">
+                                                        <label for="FechaFinDevolucion" class="form-label">Fecha Fin
+                                                            Devolucion</label>
+                                                        <input type="date" class="form-control"
+                                                            formControlName="FechaFinDevolucion"
+                                                            id="validationTooltip10" name="FechaFinDevolucion"
+                                                            placeholder="date" date
+                                                            [ngClass]="{ 'is-invalid': submitted && f.FechaFinDevolucion.invalid, 'is-valid': submitted && !f.FechaFinDevolucion.invalid }"
+                                                            (blur)="compareTwoDates()" />
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="error.isError">{{error.errorMessage}}</small>
+                                                    </div>
+
+
+
                                                 </div>
-                                              
-                
-                                                
+
+
+
 
                                                 <div class="col-12 col-md-2" style="padding-left: 0cm;">
-                                                    <ng-template #modalServicioPrestamoAnularPlanta let-c="close" let-d="dismiss">
+                                                    <ng-template #modalServicioPrestamoAnularPlanta let-c="close"
+                                                        let-d="dismiss">
                                                         <!--<div class="modal-header" style="text-align: center;">
                                                           <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
                                                           <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -345,118 +328,128 @@
                                                           </button>
                                                         </div> -->
                                                         <div class="modal-body">
-                                                          <app-anularPrestamo-edit (agregarEvent)="openModalAnularPrestamoPlanta($event)" [popUp]="popUp"[selected]="selected">
-                                                          </app-anularPrestamo-edit>
+                                                            <app-anularPrestamo-edit
+                                                                (agregarEvent)="openModalAnularPrestamoPlanta($event)"
+                                                                [popUp]="popUp" [selected]="selected">
+                                                            </app-anularPrestamo-edit>
                                                         </div>
-                                                      </ng-template>
-                                                  </div>
-                
+                                                    </ng-template>
+                                                </div>
+
                                                 <!--<div class="col-md-3 mb-1 form-group mb-3">-->
-                                                  <button class="btn btn-primary mr-1 mb-1" type="submit" (click)="buscar()">Buscar</button>
-                
-                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="Nuevo()">Nuevo</button> 
-                                                  <!--<button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular(modalServicoAnularPlanta)"
+                                                <button class="btn btn-primary mr-1 mb-1" type="submit"
+                                                    (click)="buscar()">Buscar</button>
+
+                                                <button class="btn btn-primary mr-1 mb-1" type="button"
+                                                    (click)="Nuevo()">Nuevo</button>
+                                                <!--<button class="btn btn-primary mr-1 mb-1" type="button" (click)="anular(modalServicoAnularPlanta)"
                                                   >Anular</button>-->
-                                                  <button class="btn btn-primary mr-1 mb-1" type="button" (click)="openModalAnularPrestamoPlanta(modalServicioPrestamoAnularPlanta)">Anular</button>
-                                                  <!--</div>-->
-                                                
-                                                  <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
+                                                <button class="btn btn-primary mr-1 mb-1" type="button"
+                                                    (click)="openModalAnularPrestamoPlanta(modalServicioPrestamoAnularPlanta)">Anular</button>
+                                                <!--</div>-->
+
+                                                <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true"
                                                   (click)="openModalAnularServicioPlanta()">Anular</button>-->
-                                                  
+
                                                 <!--<button class="btn btn-primary mr-1 mb-1" type="button" [disabled]="selected.length==0 || readonly==true" (click)="anular()"
                                                   *ngIf="!popUp">Anular</button>-->
-                                            <!-- </form> -->
-                             
+                                                <!-- </form> -->
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                
-                    <section id="ngx-datatable-filter">
-                        <div class="row">
-                            <div class="col-12">
-                            </div>
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <fieldset class="form-group">
-                                                <label>Show
-                                                    <select name="users-list-select"
-                                                        class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
-                                                        (click)="updateLimit($event)">
-                                                        <option value="10">10</option>
-                                                        <option value="25">25</option>
-                                                        <option value="50">50</option>
-                                                        <option value="100">100</option>
-                                                    </select>
-                                                    entries</label>
-                                                <label for="ngx-filter-ref" class="float-right">Search:
-                                                    <input id="ngx-filter-ref"
-                                                        class="form-control form-control-sm d-inline-block width-200 ml-1" type="text"
-                                                        (keyup)="filterUpdate($event)" />
-                                                </label>
-                                            </fieldset>
+                        </section>
+
+                        <section id="ngx-datatable-filter">
+                            <div class="row">
+                                <div class="col-12">
+                                </div>
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-body">
+                                                <fieldset class="form-group">
+                                                    <label>Show
+                                                        <select name="users-list-select"
+                                                            class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                                            (click)="updateLimit($event)">
+                                                            <option value="10">10</option>
+                                                            <option value="25">25</option>
+                                                            <option value="50">50</option>
+                                                            <option value="100">100</option>
+                                                        </select>
+                                                        entries</label>
+                                                    <label for="ngx-filter-ref" class="float-right">Search:
+                                                        <input id="ngx-filter-ref"
+                                                            class="form-control form-control-sm d-inline-block width-200 ml-1"
+                                                            type="text" (keyup)="filterUpdate($event)" />
+                                                    </label>
+                                                </fieldset>
 
 
-                                            <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
-                                                [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
-                                                [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                    
-                                              
-                                               <ngx-datatable-column name="Nro Devoluciones" prop="Numero" width="50">
-                                               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                                               <div class="d-flex align-items-center">
-                                                  <div class="cell-line-height">
-                                                <a class="line-height-1 mb-0"
-                                                [routerLink]="['/planta/operaciones/serviciosdevoluciones-edit',row.PrestamoPlantaId,row.DevolucionPrestamoPlantaId,row.MonedaId]">{{
-                                                    name }}</a>
-                                                 </div>
-                                              </div>
-                                           </ng-template>
-                                             </ngx-datatable-column>
-                     
-                                                <ngx-datatable-column name="Fecha Devoluciones" prop="FechaDevolucion" width="40">
-                                                </ngx-datatable-column>
-                                                <ngx-datatable-column name="Destino" prop="DestinoDevolucion" width="40">
-                                                </ngx-datatable-column> 
-                                                <ngx-datatable-column name="Banco" prop="Banco" width="40">
-                                                </ngx-datatable-column>                              
-                                                <ngx-datatable-column name="Moneda" prop="Moneda" width="40">
-                                                </ngx-datatable-column>
-                                                <ngx-datatable-column name="Importe Devolucion" prop="Importe" width="40">
-                                                </ngx-datatable-column>
-                                                <ngx-datatable-column name="Estado" prop="Estado" width="40">
-                                                </ngx-datatable-column> 
-                                                <ngx-datatable-column name="Observaciones" prop="Observaciones" width="40">
-                                                </ngx-datatable-column> 
-                                                <ngx-datatable-column name="Observaciones Anulados" prop="ObservacionAnulacion" width="40">
-                                                </ngx-datatable-column> 
+                                                <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'"
+                                                    [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                                                    [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                                                    [selected]="selected" [selectionType]="'single'"
+                                                    [selectCheck]="onSelectCheck">
+
+
+                                                    <ngx-datatable-column name="Nro Devoluciones" prop="Numero"
+                                                        width="50">
+                                                        <ng-template let-row="row" let-name="value"
+                                                            ngx-datatable-cell-template>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="cell-line-height">
+                                                                    <a class="line-height-1 mb-0"
+                                                                        [routerLink]="['/planta/operaciones/serviciosdevoluciones-edit',row.PrestamoPlantaId,row.DevolucionPrestamoPlantaId,row.MonedaId]">{{
+                                                                        name }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+
+                                                    <ngx-datatable-column name="Fecha Devoluciones"prop="FechaDevolucion" width="40">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="Destino" prop="DestinoDevolucion"width="40">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="Banco" prop="Banco" width="40">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="Moneda" prop="Moneda" width="40">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="Importe Devolucion" prop="Importe"width="40">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="Estado" prop="Estado" width="40">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="Observaciones" prop="Observaciones"width="40">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="Observaciones Anulados"prop="ObservacionAnulacion" width="40">
+                                                    </ngx-datatable-column>
                                                 </ngx-datatable>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>  
+                        </section>
 
-                    <div class="card-footer">
-                        <div class="form-row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group row">
-                                    <div class="col-lg-6">
-                                        <small class="form-text text-muted danger mb-1"
-                                            *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                                    </div>
-                                    <div class="col-lg-6 text-right">
-                                      <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
+                        <div class="card-footer">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <div class="col-lg-6">
+                                            <small class="form-text text-muted danger mb-1"
+                                                *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                                        </div>
+                                        <div class="col-lg-6 text-right">
+                                            <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
                                             *ngIf="ServicioPlantaId > 0">Imprimir</button>-->
-                                        <button type="button" class="btn btn-primary mr-1"
-                                            (click)="Save()" [disabled]="readonly==false">Guardar</button>
-                                        <button type="button" class="btn btn-danger"
-                                            (click)="Cancel()">Cancelar</button>
+                                            <button type="button" class="btn btn-primary mr-1" (click)="Save()"
+                                                [disabled]="readonly==false">Guardar</button>
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="Cancel()">Cancelar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -464,7 +457,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 

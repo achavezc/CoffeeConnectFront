@@ -8,7 +8,7 @@ import { ServiciosListComponent } from './operaciones/Servicios/list/servicios-l
 import { ServiciosEditComponent } from './operaciones/Servicios/edit/servicios-edit.component';
 import{ServicioPlantaeditComponent}from './operaciones/Servicios/ServicioPlantaPopup/servicioPlanta-edit.component';
 import{AnularServicioeditComponent}from'./operaciones/Servicios/AnularPopup/edit/anularpopup-edit.component';
-import{AnularPrestamoeditComponent}from './operaciones/ServiciosPrestamos/AnularPrestamo/anularPrestamo-edit.component';
+import{AnularPrestamoeditComponent}from './operaciones/ServiciosPrestamos/AnularPrestamo/edit/anularPrestamo-edit.component';
 import{PrestamosListComponent}from './operaciones/ServiciosPrestamos/list/prestamos-list.component';
 import{PrestamosEditComponent}from './operaciones/ServiciosPrestamos/edit/serviciosprestamos-edit.component';
 import{ServicioDevolucionEditComponent}from './operaciones/ServiciosPrestamos/ServicioDevoluciones/serviciosdevoluciones-edit.component';

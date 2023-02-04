@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewEncapsulation, Input,EventEmitter, ViewChild,Output } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, EventEmitter, ViewChild, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
-import { DateUtil } from '../../../../../../services/util/date-util';
-import { AlertUtil } from '../../../../../../services/util/alert-util';
-import { MaestroService } from '../../../../../../services/maestro.service';
-import { OrdenProcesoService } from '../../../../../../services/orden-proceso.service';
-import { OrdenProcesoServicePlanta } from '../../../../../../Services/orden-proceso-planta.service';
-import{ PagoServicioPlantaService }from '../../../../../../Services/PagoServiciosPlanta.service';
-import { NotaIngresoService } from '../../../../../../services/notaingreso.service';
-import { ControlCalidadService } from '../../../../../../Services/control-calidad.service';
-import{DevolucionPrestamoService}from '../../../../../../Services/ServiciosDevoluciones.services';
-import { host } from '../../../../../../shared/hosts/main.host';
+import { DateUtil } from '../../../../../../../services/util/date-util';
+import { AlertUtil } from '../../../../../../../services/util/alert-util';
+import { MaestroService } from '../../../../../../../services/maestro.service';
+import { OrdenProcesoService } from '../../../../../../../services/orden-proceso.service';
+import { OrdenProcesoServicePlanta } from '../../../../../../../Services/orden-proceso-planta.service';
+import { PagoServicioPlantaService } from '../../../../../../../Services/PagoServiciosPlanta.service';
+import { NotaIngresoService } from '../../../../../../../services/notaingreso.service';
+import { ControlCalidadService } from '../../../../../../../Services/control-calidad.service';
+import { DevolucionPrestamoService } from '../../../../../../../Services/ServiciosDevoluciones.services';
+import { host } from '../../../../../../../shared/hosts/main.host';
 import { formatDate } from '@angular/common';
-import{ServicioPlantaService}from'../../../../../../Services/ServicioPlanta.services';
-import { AuthService } from '../../../../../../services/auth.service';
+import { ServicioPlantaService } from '../../../../../../../Services/ServicioPlanta.services';
+import { AuthService } from '../../../../../../../services/auth.service';
 import { number } from 'ngx-custom-validators/src/app/number/validator';
 import { sum } from 'chartist';
 
@@ -33,13 +33,13 @@ export class AnularPrestamoeditComponent implements OnInit {
     private modalService: NgbModal,
     private dateUtil: DateUtil,
     private maestroService: MaestroService,
-    private DevolucionPrestamoService:DevolucionPrestamoService,
+    private DevolucionPrestamoService: DevolucionPrestamoService,
     private ordenProcesoService: OrdenProcesoService,
     private ordenProcesoServicePlanta: OrdenProcesoServicePlanta,
-    private PagoServicioPlantaService:PagoServicioPlantaService,
+    private PagoServicioPlantaService: PagoServicioPlantaService,
     private route: ActivatedRoute,
     private router: Router,
-    private ServicioPlantaService:ServicioPlantaService,
+    private ServicioPlantaService: ServicioPlantaService,
     private spinner: NgxSpinnerService,
     private alertUtil: AlertUtil,
     private notaIngresoService: NotaIngresoService,
@@ -61,84 +61,21 @@ export class AnularPrestamoeditComponent implements OnInit {
   submittedEdit = false;
   esReproceso = false;
   //listCertificacion = [];
-
-  listTipoServicio: [] = [];
-  selectedTipoServicio: any;
-  listTipoComprobante: [] = [];
-  selectedTipoComprobante: any;
-  listTipoUnidadMedida:[] =[];
-  selectedTipoUnidadMedida:any;
-
-  listTipoMoneda:[]=[];
-  SelectedTipoMoneda:any;
-
-  listTipoMonedaPago:[]=[];
-  SelectedTipoMonedaPago:any;
-
-
-  listTipoBanco:[]=[];
-  selectedTipoBanco:any;
-
-  listTipoBancoPago:[]=[];
-  selectedTipoBancoPago:any;
-
-  listTipoOperacionServicio:[]=[];
-  selectedTipoOperacionServicio:any;
-
-  listTipoOperacionServicioPago:[]=[];
-  selectedTipoOperacionServicioPago:any;
-
-  listTipoEstadoServicioPagos:[]=[];
-  selectedTipoEstadoServicioPagos:any;
-
-
-
-
-  listaCertificacion: any[];
-  listaCampania:any[];
-  listaCampania2:any[];
-  listProducto = [];
-  listCertificadora = [];
-  listSubProducto = [];
-  listEmpaque = [];
-  listTipo = [];
-  listEstadoServicio:any[];
-  selectedEstadoServicio: any;
-  listProductoTerminado = [];
-  listSubProductoTerminado = [];
-  listCalidad = [];
-  listGrado = [];
-  selectedCampania:any;
-  selectedCampania2:any;
-  selectedGrado: any;
-  selectedCalidad: any;
-  selectedProductoTerminado: any;
-  selectedSubProductoTerminado: any;
-  selectedTipo: any;
-  selectedEmpaque: any;
-  selectedSubProducto: any;
-  selectedCertificadora: any;
-  selectedProducto: any;
-  selectedTipoProduccion: any;
-  selectedCertificacion: any;
-  selectOrganizacion = [];
-  selectedEstado: any;
-  selectedTipoProceso: any;
   vSessionUser: any;
   errorGeneral: any = { isError: false, errorMessage: '' };
   mensajeErrorGenerico = "Ocurrio un error interno.";
   PrestamoPlantaId: Number;
   DevolucionPrestamoPlantaId: Number;
   //PagoServicioPlantaId:Number;
- 
- // errorGeneral = { isError: false, msgError: '' };
+
+  // errorGeneral = { isError: false, msgError: '' };
   msgErrorGenerico = 'Ocurrio un error interno.';
   rowsDetails = [];
   rows = [];
   tempData = [];
   //selected = [];
 
-  Moneda:string;
+  Moneda: string;
   //limitRef: number = 10;
   @Output() agregarEvent = new EventEmitter<any>();
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -146,7 +83,7 @@ export class AnularPrestamoeditComponent implements OnInit {
   @ViewChild(DatatableComponent) tableLotesDetalle: DatatableComponent;
   isLoading = false;
   fileName = "";
- // popUp = true;
+  // popUp = true;
   @Input() popUp = false;
   @Input() selected = [];
   popUpAnularServicio = true;
@@ -160,7 +97,7 @@ export class AnularPrestamoeditComponent implements OnInit {
   detalle: any;
   empresa: any[];
   readonly: boolean;
-  OcultarSeccion: boolean =true;
+  OcultarSeccion: boolean = true;
   public limitRef = 20;
   averageExportable: Number = 0;
   averageDescarte: Number = 0;
@@ -177,35 +114,36 @@ export class AnularPrestamoeditComponent implements OnInit {
     //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
     await this.LoadForm();
     if (this.DevolucionPrestamoPlantaId <= 0) {
-      this.AnularPrestamoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
+      //this.AnularPrestamoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
     } else if (this.DevolucionPrestamoPlantaId > 0) {
       this.ConsultaPorId(this.DevolucionPrestamoPlantaId);
     }
 
-   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularPrestamoEditForm.controls.MonedaPagos);
+    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularPrestamoEditForm.controls.MonedaPagos);
 
   }
 
 
   LoadForm(): void {
     this.AnularPrestamoEditForm = this.fb.group({
-     
 
-/////DATOS PARA EL APIC CONSULTAR DEVOLUCIONES 
-      PrestamoPlantaId:['',''],
-      DevolucionPrestamoPlantaId:['',''],
-      NumeroDevoluciones:['',''],
-      DestinoDevolucionId:['',''],
-      BancoDevolucion:['',''],
-      MonedaPrestamosDevoluciones:['',''],
-      FechaInicioDevolucion:['',''],
-      FechaFinDevolucion:['',''],
-      EstadoDevolucion:['',''],
-      EmpresaId:['',''],
-      ObservacionAnulacion:['',''],
-      Importe: ['', ''],
 
-    
+      /////DATOS PARA EL APIC CONSULTAR DEVOLUCIONES 
+      PrestamoPlantaId: ['', ''],
+      DevolucionPrestamoPlantaId: ['', ''],
+      NumeroDevoluciones: ['', ''],
+      DestinoDevolucionId: ['', ''],
+      BancoDevolucion: ['', ''],
+      MonedaPrestamosDevoluciones: ['', ''],
+      FechaInicioDevolucion: ['', ''],
+      FechaFinDevolucion: ['', ''],
+      EstadoDevolucion: ['', ''],
+      EmpresaId: ['', ''],
+      ObservacionAnulacion: ['', ''],
+      ObservacionesPrestamo: ['', ''],
+      Importe: ['', '']
+
+
 
     });
     this.AnularPrestamoEditForm.controls.estado.disable();
@@ -219,7 +157,7 @@ export class AnularPrestamoeditComponent implements OnInit {
   buscar(): void {
     this.Search();
   }
-  
+
   Search(): void {
     if (!this.AnularPrestamoEditForm.invalid) {
       this.spinner.show(undefined,
@@ -232,81 +170,81 @@ export class AnularPrestamoeditComponent implements OnInit {
         });
       const request = this.getRequestDevolucionesConsultar();
       this.DevolucionPrestamoService.Consultar(request)
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        if (res.Result.Success) {
-          res.Result.Data.forEach(x => {
-          x.FechaDevolucion = this.dateUtil.formatDate(x.FechaDevolucion)
-          //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
-          //x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
-          });
+        .subscribe((res: any) => {
+          this.spinner.hide();
+          if (res.Result.Success) {
+            res.Result.Data.forEach(x => {
+              x.FechaDevolucion = this.dateUtil.formatDate(x.FechaDevolucion)
+              //x.FechaFin =  this.dateUtil.formatDate(x.FechaFin);
+              //x.FechaOperacion =  this.dateUtil.formatDate(x.FechaOperacion);
+            });
             this.tempData = res.Result.Data;
             this.rows = [...this.tempData];
-          this.errorGeneral = { isError: false, msgError: '' };
-        } else {
-          this.errorGeneral = { isError: true, msgError: res.Result.Message };
-        }
-      }, (err: any) => {
-        this.spinner.hide();
-        console.log(err);
-        this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
-      });
+            this.errorGeneral = { isError: false, msgError: '' };
+          } else {
+            this.errorGeneral = { isError: true, msgError: res.Result.Message };
+          }
+        }, (err: any) => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: true, msgError: this.msgErrorGenerico };
+        });
     } else {
 
     }
   }
 
   getRequestDevolucionesConsultar(): any {
-    
+
     const form = this.AnularPrestamoEditForm.value;
 
-      const request =
-     {
-       // PrestamoPlantaId:    Number(this.PrestamoPlantaId),
-        PrestamoPlantaId:  this.AnularPrestamoEditForm.controls["PrestamoPlantaId"].value ?  this.AnularPrestamoEditForm.controls["PrestamoPlantaId"].value : '',
-        Numero: this.AnularPrestamoEditForm.controls["NumeroDevoluciones"].value ? this.AnularPrestamoEditForm.controls["NumeroDevoluciones"].value : '',
-        DestinoDevolucionId:  this.AnularPrestamoEditForm.controls["DestinoDevolucionId"].value ?  this.AnularPrestamoEditForm.controls["DestinoDevolucionId"].value : '',
-        BancoId:    this.AnularPrestamoEditForm.controls["BancoDevolucion"].value ? this.AnularPrestamoEditForm.controls["BancoDevolucion"].value : '',
-        MonedaId:   this.AnularPrestamoEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.AnularPrestamoEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
-        FechaInicio:   this.AnularPrestamoEditForm.controls["FechaInicioDevolucion"].value ? this.AnularPrestamoEditForm.controls["FechaInicioDevolucion"].value : '',
-        FechaFin:   this.AnularPrestamoEditForm.controls["FechaFinDevolucion"].value ? this.AnularPrestamoEditForm.controls["FechaFinDevolucion"].value : '',
-        EstadoId:   this.AnularPrestamoEditForm.controls["EstadoDevolucion"].value ? this.AnularPrestamoEditForm.controls["EstadoDevolucion"].value : '',
-        EmpresaId: this.vSessionUser.Result.Data.EmpresaId
+    const request =
+    {
+      // PrestamoPlantaId:    Number(this.PrestamoPlantaId),
+      PrestamoPlantaId: this.AnularPrestamoEditForm.controls["PrestamoPlantaId"].value ? this.AnularPrestamoEditForm.controls["PrestamoPlantaId"].value : '',
+      Numero: this.AnularPrestamoEditForm.controls["NumeroDevoluciones"].value ? this.AnularPrestamoEditForm.controls["NumeroDevoluciones"].value : '',
+      DestinoDevolucionId: this.AnularPrestamoEditForm.controls["DestinoDevolucionId"].value ? this.AnularPrestamoEditForm.controls["DestinoDevolucionId"].value : '',
+      BancoId: this.AnularPrestamoEditForm.controls["BancoDevolucion"].value ? this.AnularPrestamoEditForm.controls["BancoDevolucion"].value : '',
+      MonedaId: this.AnularPrestamoEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.AnularPrestamoEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
+      FechaInicio: this.AnularPrestamoEditForm.controls["FechaInicioDevolucion"].value ? this.AnularPrestamoEditForm.controls["FechaInicioDevolucion"].value : '',
+      FechaFin: this.AnularPrestamoEditForm.controls["FechaFinDevolucion"].value ? this.AnularPrestamoEditForm.controls["FechaFinDevolucion"].value : '',
+      EstadoId: this.AnularPrestamoEditForm.controls["EstadoDevolucion"].value ? this.AnularPrestamoEditForm.controls["EstadoDevolucion"].value : '',
+      EmpresaId: this.vSessionUser.Result.Data.EmpresaId
 
-      }
-    
-      //let json = JSON.stringify(request);
-      return request;
+    }
+
+    //let json = JSON.stringify(request);
+    return request;
   }
 
   anular() {
     if (this.selected.length > 0) {
-    
-     // if (this.selected[0].EstadoId == this.estado) {
-        var form = this;
-        swal.fire({
-          title: '¿Estas seguro?',
-          text: "¿Estas seguro de anular?",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#2F8BE6',
-          cancelButtonColor: '#F55252',
-          confirmButtonText: 'Si',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-danger ml-1'
-          },
-          buttonsStyling: false,
-        }).then(function (result) {
-          if (result.value) {
-            form.anularDevolucion();
-          }
-          else {
-            this.alertUtil.alertError("Error", "Solo se puede Anular en estado Registrados")
-          }
-        });
-       
-     // } 
+
+      // if (this.selected[0].EstadoId == this.estado) {
+      var form = this;
+      swal.fire({
+        title: '¿Estas seguro?',
+        text: "¿Estas seguro de anular?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2F8BE6',
+        cancelButtonColor: '#F55252',
+        confirmButtonText: 'Si',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          form.anularDevolucion();
+        }
+        else {
+          this.alertUtil.alertError("Error", "Solo se puede Anular en estado Registrados")
+        }
+      });
+
+      // } 
     }
   }
 
@@ -321,8 +259,8 @@ export class AnularPrestamoeditComponent implements OnInit {
       };
       this.DevolucionPrestamoService.Anular(
       {
-        "DevolucionPrestamoPlantaId": this.selected[0].DevolucionPrestamoPlantaId,
-        "PrestamoPlantaId":this.selected[0].PrestamoPlantaId,
+        "PrestamoPlantaId": this.selected[0].PrestamoPlantaId,
+        "DevolucionPrestamoPlantaId":this.selected[0].DevolucionPrestamoPlantaId,
         "Importe":this.selected[0].Importe,
         "Usuario": this.vSessionUser.Result.Data.NombreUsuario,
         "ObservacionAnulacion":this.AnularPrestamoEditForm.controls.ObservacionAnulacion.value
@@ -332,7 +270,7 @@ export class AnularPrestamoeditComponent implements OnInit {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
            // var form = this;
-            this.alertUtil.alertOk('Anulado!', 'Devolucion Servicios Anulado.');
+            this.alertUtil.alertOk('Anulado!', 'Pago Servicios Anulado.');
            //this.buscar();
            this.modalService.dismissAll();
 
@@ -357,9 +295,9 @@ export class AnularPrestamoeditComponent implements OnInit {
 
 
 
-async ConsultaPorId(DevolucionPrestamoPlantaId) {
- 
-    
+  async ConsultaPorId(DevolucionPrestamoPlantaId) {
+
+
     let request =
     {
       "DevolucionPrestamoPlantaId": Number(DevolucionPrestamoPlantaId),
@@ -371,10 +309,10 @@ async ConsultaPorId(DevolucionPrestamoPlantaId) {
         if (res.Result.Success) {
           if (res.Result.ErrCode == "") {
             this.AutocompleteFormEdit(res.Result.Data)
-             //this.dateUtil.formatDate(new Date(FechaAsignacionSocioBeneficiarioPropietario))); 
-             //this.dateUtil.formatDate(new Date(FechaAsignacionSocioInversorPropietario))); 
-             //this.dateUtil.formatDate(new Date(FechaInstalacion))); 
-            
+            //this.dateUtil.formatDate(new Date(FechaAsignacionSocioBeneficiarioPropietario))); 
+            //this.dateUtil.formatDate(new Date(FechaAsignacionSocioInversorPropietario))); 
+            //this.dateUtil.formatDate(new Date(FechaInstalacion))); 
+
           } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
             this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
           } else {
@@ -385,7 +323,7 @@ async ConsultaPorId(DevolucionPrestamoPlantaId) {
         }
       },
         err => {
-         // this.spinner.hide();
+          // this.spinner.hide();
           console.log(err);
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
@@ -398,28 +336,29 @@ async ConsultaPorId(DevolucionPrestamoPlantaId) {
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
-      
 
-   this.AnularPrestamoEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
-   this.AnularPrestamoEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
-   this.AnularPrestamoEditForm.controls.Importe.setValue(data.Importe);
-   this.AnularPrestamoEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
-   this.AnularPrestamoEditForm.controls.NumeroDevoluciones.setValue(data.Numero);
-   this.AnularPrestamoEditForm.controls.DestinoDevolucionId.setValue(data.DestinoDevolucionId);
-   this.AnularPrestamoEditForm.controls.BancoDevolucion.setValue(data.BancoId);
-   this.AnularPrestamoEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
-   this.AnularPrestamoEditForm.controls.FechaInicioDevolucion.setValue(data.FechaInicio);
-   this.AnularPrestamoEditForm.controls.FechaFinDevolucion.setValue(data.FechaFin);
-   this.AnularPrestamoEditForm.controls.EstadoDevolucion.setValue(data.EstadoId);
-  
+
+      this.AnularPrestamoEditForm.controls.PrestamoPlantaId.setValue(data.PrestamoPlantaId);
+      this.AnularPrestamoEditForm.controls.DevolucionPrestamoPlantaId.setValue(data.DevolucionPrestamoPlantaId);
+      this.AnularPrestamoEditForm.controls.Importe.setValue(data.Importe);
+      this.AnularPrestamoEditForm.controls.ObservacionesPrestamo.setValue(data.Observaciones);
+      this.AnularPrestamoEditForm.controls.ObservacionAnulacion.setValue(data.ObservacionAnulacion);
+      this.AnularPrestamoEditForm.controls.NumeroDevoluciones.setValue(data.Numero);
+      this.AnularPrestamoEditForm.controls.DestinoDevolucionId.setValue(data.DestinoDevolucionId);
+      this.AnularPrestamoEditForm.controls.BancoDevolucion.setValue(data.BancoId);
+      this.AnularPrestamoEditForm.controls.MonedaPrestamosDevoluciones.setValue(data.MonedaId);
+      this.AnularPrestamoEditForm.controls.FechaInicioDevolucion.setValue(data.FechaInicio);
+      this.AnularPrestamoEditForm.controls.FechaFinDevolucion.setValue(data.FechaFin);
+      this.AnularPrestamoEditForm.controls.EstadoDevolucion.setValue(data.EstadoId);
+
 
     }
     this.spinner.hide();
   }
 
-  
+
   Cancel(): void {
-      
+
     this.modalService.dismissAll();
   }
 
