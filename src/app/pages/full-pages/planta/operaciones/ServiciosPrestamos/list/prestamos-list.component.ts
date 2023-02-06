@@ -204,6 +204,7 @@ export class PrestamosListComponent implements OnInit {
           color: '#fff',
           fullScreen: true
         });
+        debugger
       const request = this.getRequest();
       this.ServiciosPrestamosService.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
@@ -238,7 +239,7 @@ export class PrestamosListComponent implements OnInit {
 
       Numero: this.Prestamosform.controls["NumeroPrestamo"].value ? this.Prestamosform.controls["NumeroPrestamo"].value : '',
       FondoPrestamoId: this.Prestamosform.controls["FondoPrestamo"].value ? this.Prestamosform.controls["FondoPrestamo"].value : '',
-      DetallePrestamo: this.Prestamosform.controls["DetalleServicioPrestamos"].value ? this.Prestamosform.controls["DetalleServicioPrestamos"].value : '',
+      MonedaId: this.Prestamosform.controls["MonedaPrestamos"].value ? this.Prestamosform.controls["MonedaPrestamos"].value : '',
       EstadoId: this.Prestamosform.controls["EstadoPrestamo"].value ? this.Prestamosform.controls["EstadoPrestamo"].value : '',
       FechaInicio: this.Prestamosform.controls["FechaInicioPrestamo"].value ? this.Prestamosform.controls["FechaInicioPrestamo"].value : '',
       FechaFin: this.Prestamosform.controls["FechaFinPrestamo"].value ? this.Prestamosform.controls["FechaFinPrestamo"].value : '',
