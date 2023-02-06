@@ -240,6 +240,7 @@ export class PrestamosListComponent implements OnInit {
       FondoPrestamoId: this.Prestamosform.controls["FondoPrestamo"].value ? this.Prestamosform.controls["FondoPrestamo"].value : '',
       DetallePrestamo: this.Prestamosform.controls["DetalleServicioPrestamos"].value ? this.Prestamosform.controls["DetalleServicioPrestamos"].value : '',
       EstadoId: this.Prestamosform.controls["EstadoPrestamo"].value ? this.Prestamosform.controls["EstadoPrestamo"].value : '',
+      MonedaId:this.Prestamosform.controls["MonedaPrestamos"].value ? this.Prestamosform.controls["MonedaPrestamos"].value : '',
       FechaInicio: this.Prestamosform.controls["FechaInicioPrestamo"].value ? this.Prestamosform.controls["FechaInicioPrestamo"].value : '',
       FechaFin: this.Prestamosform.controls["FechaFinPrestamo"].value ? this.Prestamosform.controls["FechaFinPrestamo"].value : '',
       EmpresaId: this.vSessionUser.Result.Data.EmpresaId
@@ -249,45 +250,51 @@ export class PrestamosListComponent implements OnInit {
   }
 
 
-  anular() {
-    if (this.selected.length > 0) {
-      /* if (this.selected[0].EstadoId == this.estadoCancelado)
-       {
-       this.alertUtil.alertWarning("Advertencia","Tiene Pagos En Estado Cancelado No Peuede Eliminar");
-       return;
-       }
-     if(this.selected[0].estadoDeuda != this.selected[0].TotalImporteProcesado - this.selected[0].TotalImporte){
-       
-       this.alertUtil.alertWarning("Advertencia","Pagos Asociados A Deuda No Puede Eliminar");
-       return;
-     }*/
-      // if (this.selected[0].EstadoId == this.selected[0].estadoAnulado) {
-      var form = this;
-      swal.fire({
-        title: '¿Estas seguro?',
-        text: "¿Estas seguro de anular?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#2F8BE6',
-        cancelButtonColor: '#F55252',
-        confirmButtonText: 'Si',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        buttonsStyling: false,
-      }).then(function (result) {
-        if (result.value) {
-          form.AnularPrestamo();
-        }
-      });
-    }
+  anular(){
+    if (this.selected.length > 0) 
+    {
+     if (this.selected[0].EstadoId == this.estadoCancelado)
+     {
+      this.alertUtil.alertWarning("Advertencia"," No se puede anular un Prestamo en estado Cancelado.");
+      return;
+     }
 
-    else {
-      this.alertUtil.alertError("Error", "Solo se puede anular guias con estado Anulado")
-    }
-  }
+     if (this.selected[0].EstadoId == this.estadoAnulado)
+     {
+      this.alertUtil.alertWarning("Advertencia","No se puede anular un Prestamo en estado Anulado");
+      return;
+     }
 
+    if(this.selected[0].EstadoId == this.estadoDeuda && this.selected[0].TotalImporteProcesado>0)
+    {
+      
+      this.alertUtil.alertWarning("Advertencia","No se puede anular un Prestamo que tienen Asociados");
+      return;
+    }
+   // if (this.selected[0].EstadoId == this.selected[0].estadoAnulado) {
+    var form = this;
+     swal.fire({
+      title: '¿Estas seguro?',
+      text: "¿Estas seguro de anular?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2F8BE6',
+      cancelButtonColor: '#F55252',
+      confirmButtonText: 'Si',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        form.AnularPrestamo();
+      }
+    });
+  }     
+   
+
+}
 
   AnularPrestamo() {
     this.spinner.show(undefined,

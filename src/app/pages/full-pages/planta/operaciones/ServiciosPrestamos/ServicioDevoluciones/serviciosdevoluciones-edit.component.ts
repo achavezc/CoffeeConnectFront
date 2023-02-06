@@ -423,7 +423,7 @@ export class ServicioDevolucionEditComponent implements OnInit {
     this.DevolucionesEditForm.get('file').updateValueAndValidity();
   }
 
-  async ConsultaPorId(DevolucionPrestamoPlantaId) {
+  /*async ConsultaPorId(DevolucionPrestamoPlantaId) {
     // this.spinner.show();
 
     let request =
@@ -460,8 +460,46 @@ export class ServicioDevolucionEditComponent implements OnInit {
     //LLAMAR SERVICIO
 
 
-  }
+  }*/
 
+  async ConsultaPorId(DevolucionPrestamoPlantaId) {
+    this.spinner.show();
+
+    let request =
+    {
+      "DevolucionPrestamoPlantaId": Number(DevolucionPrestamoPlantaId),
+    }
+
+    this.DevolucionPrestamoService.ConsultarPorId(request)
+      .subscribe(res => {
+        this.spinner.hide();
+        if (res.Result.Success) {
+          if (res.Result.ErrCode == "") {
+            this.AutocompleteFormEdit(res.Result.Data)
+            //this.dateUtil.formatDate(new Date(FechaAsignacionSocioBeneficiarioPropietario))); 
+            //this.dateUtil.formatDate(new Date(FechaAsignacionSocioInversorPropietario))); 
+            //this.dateUtil.formatDate(new Date(FechaInstalacion))); 
+
+          } else if (res.Result.Message != "" && res.Result.ErrCode != "") {
+            this.errorGeneral = { isError: true, errorMessage: res.Result.Message };
+          } else {
+            this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+          }
+        } else {
+          this.errorGeneral = { isError: true, errorMessage: this.mensajeErrorGenerico };
+        }
+      },
+        err => {
+          this.spinner.hide();
+          console.log(err);
+          this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
+        }
+      );
+
+    //LLAMAR SERVICIO
+
+
+  }
 
 
 
