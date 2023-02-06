@@ -119,8 +119,8 @@ export class PrestamosEditComponent implements OnInit {
     this.PrestamoPlantaId = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
     //this.Moneda = this.route.snapshot.params.Moneda ? Number(this.route.snapshot.params.Moneda) : 0;
     await this.LoadForm();
-    this.PrestamosEditForm.controls['FechaInicioDevolucion'].setValue(this.dateUtil.currentDate());
-    this.PrestamosEditForm.controls['FechaFinDevolucion'].setValue(this.dateUtil.currentMonthAgo());
+    this.PrestamosEditForm.controls['FechaInicioDevolucion'].setValue(this.dateUtil.currentMonthAgo());
+    this.PrestamosEditForm.controls['FechaFinDevolucion'].setValue(this.dateUtil.currentDate());
     this.PrestamosEditForm.controls.razonSocialCabe.setValue(this.vSessionUser.Result.Data.RazonSocialEmpresa);
     this.PrestamosEditForm.controls.direccionCabe.setValue(this.vSessionUser.Result.Data.DireccionEmpresa);
     this.PrestamosEditForm.controls.nroRucCabe.setValue(this.vSessionUser.Result.Data.RucEmpresa);
