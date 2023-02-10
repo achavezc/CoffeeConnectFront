@@ -22,6 +22,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { AdelantoComponent } from './adelanto/list/adelanto.component';
 import { AdelantoEditComponent } from './adelanto/edit/adelanto-edit.component';
 import { AcopioModule } from '../acopio/acopio.module';
+import { ModalModule } from '../modals/modal.module';
 import { AgropecuarioModule } from '../agropecuario/agropecuario.module';
 import {PlantaModule} from '../planta/planta.module';
 import { NotaCompraEditComponent } from '../tesoreria/notacompra/notacompra-edit/nota-compra-edit.component';
@@ -49,6 +50,7 @@ import {AnticiposEditComponent} from '../tesoreria/anticipos/edit/anticipos-edit
     AgmCoreModule,
     NgSelectModule,
     NgbModule,
+    ModalModule,
     SwiperModule,
     CustomFormsModule,
     ArchwizardModule,

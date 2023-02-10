@@ -1,16 +1,17 @@
 <form class="needs-validation" [formGroup]="anticipoFormEdit">
   <section id="tooltip-validation">
-    <ng-template #modalProveedoraAcreedora let-c="close" let-d="dismiss">
+    <ng-template #modalEmpresa let-c="close" let-d="dismiss">
       <!--<div class="modal-header" style="text-align: center;">
-        <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div> -->
-      <div class="modal-body">
-        <app-empresaproveedora (agregarEvent)="agregarEmpresaProveedora($event)" [popUp]="popUpEmpresaProveedora"></app-empresaproveedora>
-      </div>
-    </ng-template>
+         <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Notas de Compra por Liquidar</h4>
+         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>-->
+       <div class="modal-body">
+         <app-consultar-empresa (empresaEvent)="GetEmpresa($event)" [popUp]="popUpEmpresa"></app-consultar-empresa>
+       </div>
+     </ng-template>
+ 
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -69,25 +70,32 @@
                       [ngClass]="{ 'is-invalid': fedit.ruc.invalid, 'is-valid': !fedit.ruc.invalid }" disabled>
 
                   </div>
+    
+                 <!--- <div class="col-12 col-md-2" style="padding-left: 0cm;">
+                    <ng-template #modalEmpresaV let-c="close" let-d="dismiss">
+                      <app-consultar-empresa (empresaEvent)="GetEmpresa($event)"></app-consultar-empresa>
+                    </ng-template>
+                    <button type="button" (click)="openModalEmpresa(modalEmpresaV)" class="btn btn-default"
+                      style="margin-top: 1.5rem;">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>-->
+
                   <div class="col-12 col-md-2">
-                    <button type="button" (click)="openModal(modalProveedoraAcreedora)" class="btn btn-default"
+                    <button type="button" (click)="openModal(modalEmpresa)" class="btn btn-default"
                       style="margin-top: 1.5rem;">
                       <i class="fa fa-search"></i>
                     </button>
                   </div>
                 </div>
-
               </div>
-
-             
-
             </div>
             <div class="row" style="margin-right: 6rem; margin-left: 6rem;">
               <div class="col-12 col-md-6">
                 <label for="basicInput">Razon Social</label>
-                <input type="text" name="razonSocial" id="razonSocial" formControlName="razonSocial" class="form-control"
+                <input type="text" name="destinatario" id="destinatario" formControlName="destinatario" class="form-control"
                   placeholder="Razon Social"
-                  [ngClass]="{ 'is-invalid': fedit.razonSocial.invalid, 'is-valid': !fedit.razonSocial.invalid }">
+                  [ngClass]="{ 'is-invalid': fedit.destinatario.invalid, 'is-valid': !fedit.destinatario.invalid }">
               </div>
             </div>
 

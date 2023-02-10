@@ -416,7 +416,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   
   UpdateValuesGridDetails(event: any, index: any, prop: any): void 
   {
-    debugger
+    ///debugger
     if (prop === 'Cantidad')
     {  
     this.listaNotaIngreso[index].Cantidad =  parseFloat(event.target.value);

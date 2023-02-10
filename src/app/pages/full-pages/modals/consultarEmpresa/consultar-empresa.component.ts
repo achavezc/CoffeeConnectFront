@@ -40,6 +40,7 @@ export class MConsultarEmpresaComponent implements OnInit {
     this.singleSelectCheck = this.singleSelectCheck.bind(this);
   }
 
+  
   singleSelectCheck(row: any) {
     return this.selectedEmpresa.indexOf(row) === -1;
   }

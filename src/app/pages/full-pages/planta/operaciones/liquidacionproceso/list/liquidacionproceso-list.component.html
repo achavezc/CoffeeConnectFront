@@ -152,8 +152,20 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
+                           <!--- <ngx-datatable-column name="ESTADO COMPROBANTE" prop="ServicioPagoEstado" width="50">
+                            </ngx-datatable-column>-->
+
                             <ngx-datatable-column name="ESTADO COMPROBANTE" prop="ServicioPagoEstado" width="50">
-                            </ngx-datatable-column>
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                  <div class="badge" [ngClass]="{
+                                          'bg-light-success': status == 'Registrado',
+                                          'bg-light-danger': status == 'Deuda',
+                                          'bg-light-warning': status == 'Anulado'
+                                        }">
+                                    {{ status }}
+                                  </div>
+                                </ng-template>
+                              </ngx-datatable-column> 
 
 
                         </ngx-datatable>

@@ -162,7 +162,7 @@
                                 <label for="ImporteDevolucion">IMPORTE DEVOLUCION </label>
                                 <input type="number" name="ImporteDevolucion" id="ImporteDevolucion"
                                     formControlName="ImporteDevolucion" class="form-control"
-                                    placeholder="Importe Devolucion">
+                                    placeholder="Importe Devolucion" readonly>
                             </div>
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <label for="SaldoPrestamo">SALDO </label>
@@ -249,19 +249,19 @@
                                                         <ng-select [items]="listTipoDestino"
                                                             formControlName="DestinoDevolucion" class="form-control"
                                                             bindLabel="Label" bindValue="Codigo"
-                                                            id="DestinoDevolucionId" placeholder="Seleccionar Destino "
+                                                            id="DestinoDevolucion" placeholder="Seleccionar Destino "
                                                             [ngClass]="{ 'is-invalid': f.DestinoDevolucion.invalid, 'is-valid': !f.DestinoDevolucion.invalid }"
                                                             [(ngModel)]="selectedTipoDestino">
                                                         </ng-select>
                                                     </div>
 
                                                     <div class="col-md-4 mb-2 form-group mb-2">
-                                                        <label for="BnacoDevolucion">Banco</label>
+                                                        <label for="BancoDevolucion">Banco</label>
                                                         <ng-select [items]="listTipoBancoDevolucion"
-                                                            formControlName="BnacoDevolucion" class="form-control"
-                                                            bindLabel="Label" bindValue="Codigo" id="BancoId"
+                                                            formControlName="BancoDevolucion" class="form-control"
+                                                            bindLabel="Label" bindValue="Codigo" id="BancoDevolucion"
                                                             placeholder="Seleccionar Banco"
-                                                            [ngClass]="{ 'is-invalid': f.BnacoDevolucion.invalid, 'is-valid': !f.BnacoDevolucion.invalid }"
+                                                            [ngClass]="{ 'is-invalid': f.BancoDevolucion.invalid, 'is-valid': !f.BancoDevolucion.invalid }"
                                                             [(ngModel)]="selectedTipoBancoDevolucion">
                                                         </ng-select>
                                                     </div>
