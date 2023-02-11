@@ -228,14 +228,14 @@ export class AnticiposEditComponent implements OnInit {
     this.numeroRecibo = data.Numero;
     this.estado = data.Estado;
     this.empresaProveedoraId = data.ProveedorId;
-    //this.anticipoFormEdit.controls["ruc"].setValue(data.RucProveedor);
+  //  this.anticipoFormEdit.controls["ruc"].setValue(data.RucProveedor);
     this.anticipoFormEdit.controls["ruc"].setValue(data.RucEmpresa);
     this.anticipoFormEdit.controls["destinatario"].setValue(data.Destinatario);
     this.anticipoFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
      //this.anticipoFormEdit.controls['organizacionId'].setValue(data.EmpresaClienteId);
      //this.anticipoFormEdit.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
     //this.anticipoFormEdit.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
-    this.anticipoFormEdit.controls["razonSocial"].setValue(data.RazonSocialProveedor);
+    //this.anticipoFormEdit.controls["razonSocial"].setValue(data.RazonSocialProveedor);
     this.anticipoFormEdit.controls["moneda"].setValue(data.MonedaId);
     let objectDestino: any = {};
     objectDestino.EmpresaProveedoraAcreedoraId = data.EmpresaIdDestino;
