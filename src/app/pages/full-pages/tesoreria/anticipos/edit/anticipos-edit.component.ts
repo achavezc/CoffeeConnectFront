@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,Output ,ViewChild,EventEmitter  } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaestroService } from '../../../../../services/maestro.service';
 import { FormControl, FormGroup, Validators,  FormBuilder } from '@angular/forms';
@@ -20,6 +20,8 @@ import { AnticipoService } from '../../../../../services/anticipio.service';
 export class AnticiposEditComponent implements OnInit {
 
   @ViewChild('vform') validationForm: FormGroup;
+  @Output() empresaEvent = new EventEmitter<any[]>();
+ @Output() agregarEvent = new EventEmitter<any>();
   anticipoFormEdit: FormGroup;
 
   errorGeneral: any = { isError: false, errorMessage: '' };
@@ -40,7 +42,12 @@ export class AnticiposEditComponent implements OnInit {
   listMoneda: [];
   selectedTipoDocumento: any;
   selectedMoneda: any;
+  selectedEmpresa = [];
+  selectOrganizacion = [];
+  empresa: any[];
+  selected = [];
   popUpEmpresaProveedora = true;
+  popUpEmpresa = true;
   empresaProveedoraId: Number = 0;
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
@@ -78,7 +85,12 @@ export class AnticiposEditComponent implements OnInit {
   cargarForm() {
     this.anticipoFormEdit = this.fb.group(
       {
-        ruc: ['', ],
+        ruc: new FormControl('', []),
+        destinatario: ['', [Validators.required]],
+        dirDestino: new FormControl('', []),
+       // nombreOrganizacion: [],
+       // rucOrganizacion: ['',],
+       // organizacionId: [],
         razonSocial: ['', Validators.required],
         moneda: ['', Validators.required],
         monto: ['', Validators.required],
@@ -120,14 +132,14 @@ export class AnticiposEditComponent implements OnInit {
       this.errorFecha = { isError: false, errorMessage: '' };
     }
   }
-  agregarEmpresaProveedora(e) {
+  /*agregarEmpresaProveedora(e) {
 
     this.empresaProveedoraId = e[0].EmpresaProveedoraAcreedoraId;
     this.anticipoFormEdit.controls["ruc"].setValue(e[0].Ruc);
     this.anticipoFormEdit.controls["razonSocial"].setValue(e[0].RazonSocial);
     this.anticipoFormEdit.controls["ruc"].disable();
     this.modalService.dismissAll();
-  }
+  }*/
 
   async GetMoneda() {
     const res = await this.maestroService.obtenerMaestros('Moneda').toPromise();
@@ -144,9 +156,33 @@ export class AnticiposEditComponent implements OnInit {
 
     }
   }
+  
+
+
   openModal(modalEmpresa) {
-    this.modalService.open(modalEmpresa, { size: 'xl', centered: true });
+    this.modalService.open(modalEmpresa, { windowClass: 'dark-modal', size: 'xl' });
   }
+
+  
+  GetEmpresa($event) {
+    this.selectedEmpresa = $event
+    this.anticipoFormEdit.get('destinatario').setValue(this.selectedEmpresa[0].RazonSocial);
+    this.anticipoFormEdit.get('ruc').setValue(this.selectedEmpresa[0].Ruc);
+    this.anticipoFormEdit.get('dirDestino').setValue(this.selectedEmpresa[0].Direccion + " - " + this.selectedEmpresa[0].Distrito + " - " + this.selectedEmpresa[0].Provincia + " - " + this.selectedEmpresa[0].Departamento);
+    this.modalService.dismissAll();
+  }
+
+  /*GetDataEmpresa(event: any): void {
+    this.selectOrganizacion = event;
+    if (this.selectOrganizacion[0]) {
+      this.anticipoFormEdit.controls['nombreOrganizacion'].setValue(this.selectOrganizacion[0].RazonSocial);
+      this.anticipoFormEdit.controls['rucOrganizacion'].setValue(this.selectOrganizacion[0].Ruc);
+      this.anticipoFormEdit.controls['organizacionId'].setValue(this.selectOrganizacion[0].EmpresaProveedoraAcreedoraId);
+    }
+    this.modalService.dismissAll();
+  }*/
+
+
 
 
   clear() {
@@ -192,9 +228,18 @@ export class AnticiposEditComponent implements OnInit {
     this.numeroRecibo = data.Numero;
     this.estado = data.Estado;
     this.empresaProveedoraId = data.ProveedorId;
-    this.anticipoFormEdit.controls["ruc"].setValue(data.RucProveedor);
-    this.anticipoFormEdit.controls["razonSocial"].setValue(data.RazonSocialProveedor);
+  //  this.anticipoFormEdit.controls["ruc"].setValue(data.RucProveedor);
+    this.anticipoFormEdit.controls["ruc"].setValue(data.RucEmpresa);
+    this.anticipoFormEdit.controls["destinatario"].setValue(data.Destinatario);
+    this.anticipoFormEdit.controls["dirDestino"].setValue(data.DireccionDestino);
+     //this.anticipoFormEdit.controls['organizacionId'].setValue(data.EmpresaClienteId);
+     //this.anticipoFormEdit.controls.nombreOrganizacion.setValue(data.RazonSocialEmpresaCliente);
+    //this.anticipoFormEdit.controls.rucOrganizacion.setValue(data.RucEmpresaCliente);
+    //this.anticipoFormEdit.controls["razonSocial"].setValue(data.RazonSocialProveedor);
     this.anticipoFormEdit.controls["moneda"].setValue(data.MonedaId);
+    let objectDestino: any = {};
+    objectDestino.EmpresaProveedoraAcreedoraId = data.EmpresaIdDestino;
+    this.selectedEmpresa.push(objectDestino);
     this.anticipoFormEdit.controls["monto"].setValue(data.Monto);
     this.anticipoFormEdit.controls["fechaPago"].setValue(data.FechaPago.substring(0, 10));
     this.anticipoFormEdit.controls["fechaEntregaProducto"].setValue(data.FechaEntregaProducto.substring(0, 10));
@@ -308,6 +353,13 @@ export class AnticiposEditComponent implements OnInit {
     link.click();
     link.remove();
   }
+
+  seleccionarEmpresa(e) {
+    this.empresa = e;
+    this.empresaEvent.emit(this.empresa)
+  }
+
+ 
 
 }
 

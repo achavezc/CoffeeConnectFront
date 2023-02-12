@@ -178,9 +178,20 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Registro" prop="FechaRegistro" width="60">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Estado" prop="Estado" width="60">
+                            <!--<ngx-datatable-column name="Estado" prop="Estado" width="60">
                                
-                            </ngx-datatable-column>
+                            </ngx-datatable-column>-->
+                            <ngx-datatable-column name="Estado" prop="Estado" width="60">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                  <div class="badge" [ngClass]="{
+                                          'bg-light-Success': status == 'Registrado',
+                                          'bg-light-danger': status == 'Anulado',
+                                          'bg-light-warning': status == 'liquidado'
+                                        }">
+                                    {{ status }}
+                                  </div>
+                                </ng-template>
+                              </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
                 </div>

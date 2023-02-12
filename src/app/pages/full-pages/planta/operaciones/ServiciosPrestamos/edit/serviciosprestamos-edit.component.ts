@@ -142,6 +142,7 @@ export class PrestamosEditComponent implements OnInit {
     }
 
     this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.SaldoPrestamo);
+    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.ImporteDevolucion);
     this.OcultarSecciones();
   }
 
@@ -159,7 +160,7 @@ export class PrestamosEditComponent implements OnInit {
       estado: ['',],
       rucOrganizacion: ['',],
       nombreOrganizacion: [],
-      BnacoDevolucion: ['', ''],
+     // BnacoDevolucion: ['', ''],
       /////DATOS DE PANTALLA EDIT DE SERVICIOS PLANTA
       EmpresaId: ['', ''],
       //EmpresaClienteId:['',''],
@@ -189,7 +190,7 @@ export class PrestamosEditComponent implements OnInit {
       //////////////campos de devoluciones////////////////////////////
       NumeroDevoluciones: ['', ''],
       DestinoDevolucion: ['', ''],
-      DestinoDevolucionId: ['', ''],
+     // DestinoDevolucionId: ['', ''],
       BancoDevolucion: ['', ''],
       MonedaPrestamosDevoluciones: ['', ''],
       FechaDevolucion: ['', ''],
@@ -391,7 +392,7 @@ export class PrestamosEditComponent implements OnInit {
       // PrestamoPlantaId:    Number(this.PrestamoPlantaId),
       PrestamoPlantaId: this.PrestamosEditForm.controls["PrestamoPlantaId"].value ? this.PrestamosEditForm.controls["PrestamoPlantaId"].value : '',
       Numero: this.PrestamosEditForm.controls["NumeroDevoluciones"].value ? this.PrestamosEditForm.controls["NumeroDevoluciones"].value : '',
-      DestinoDevolucionId: this.PrestamosEditForm.controls["DestinoDevolucionId"].value ? this.PrestamosEditForm.controls["DestinoDevolucionId"].value : '',
+      DestinoDevolucionId: this.PrestamosEditForm.controls["DestinoDevolucion"].value ? this.PrestamosEditForm.controls["DestinoDevolucion"].value : '',
       BancoId: this.PrestamosEditForm.controls["BancoDevolucion"].value ? this.PrestamosEditForm.controls["BancoDevolucion"].value : '',
       MonedaId: this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value ? this.PrestamosEditForm.controls["MonedaPrestamosDevoluciones"].value : '',
       FechaInicio: this.PrestamosEditForm.controls["FechaInicioDevolucion"].value ? this.PrestamosEditForm.controls["FechaInicioDevolucion"].value : '',

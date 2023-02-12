@@ -82,7 +82,7 @@ export class LiquidacionProcesoComponent implements OnInit {
   async LoadFormPopup() 
   {
     if (this.popUp) {
-      debugger
+      //debugger
       
       this.liquidacionProcesoForm.controls.estado.setValue("01");//Liquidado
       this.liquidacionProcesoForm.controls['estado'].setValue("01"); //Liquidado
@@ -159,7 +159,7 @@ export class LiquidacionProcesoComponent implements OnInit {
      {
       this.spinner.show();
       const request = this.getRequest();
-      debugger
+     // debugger
       let json = JSON.stringify(request);
       this.liquidacionProcesoPlantaService.Consultar(request).subscribe((res: any) => {
         this.spinner.hide();
