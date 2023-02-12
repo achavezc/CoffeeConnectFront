@@ -380,6 +380,12 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Razon Social" prop="Productor" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
+                            <ngx-datatable-column name="Departamento" prop="Departamento" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Provincia" prop="Provincia" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+
+
                             <ngx-datatable-column name="Distrito" prop="Distrito" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nro. Contenedor" prop="NumeroContenedor" width="180" *ngIf="tipoEmpresaId != '01' ">
@@ -388,19 +394,18 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Tipo de Empaque" prop="TipoEmpaqueCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            
+                            <ngx-datatable-column name="Kg. Netos en QQ" prop="KilosNetosQQContratoCompra" width="140" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Kg. Netos en QQ" prop="KilosNetosQQ" width="140" *ngIf="tipoEmpresaId == '01' ">
+                            <ngx-datatable-column name="Kg. Neto en LB" prop="KilosNetosLBContratoCompra" width="140" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Quintales" prop="KilosNetosQQ" width="140" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Nivel Fijación" prop="PrecioNivelFijacionContratoCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Nivel Fijación" prop="PrecioNivelFijacionCompra" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Diferencial" prop="DiferencialContratoCompra" width="140" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Diferencial" prop="DiferencialCompra" width="140" *ngIf="tipoEmpresaId != '01' ">
+                            <ngx-datatable-column name="Precio QQ Compras" prop="PUTotalAContratoCompra" width="100" *ngIf="tipoEmpresaId != '01' ">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Precio QQ Compras" prop="PUTotalACompra" width="100" *ngIf="tipoEmpresaId != '01' ">
-                            </ngx-datatable-column>
-                            <ngx-datatable-column name="Precio a Facturar" prop="TotalFacturar1" width="140" *ngIf="tipoEmpresaId == '01' ">
+                            <ngx-datatable-column name="Precio a Facturar" prop="TotalFacturar1ContratoCompra" width="140" *ngIf="tipoEmpresaId == '01' ">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Importe ($)" prop="TotalFactura1Compra" width="140" *ngIf="tipoEmpresaId != '01' " >
                             </ngx-datatable-column>
@@ -421,3 +426,36 @@
         </div>
     </div>
 </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
