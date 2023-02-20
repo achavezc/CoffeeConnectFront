@@ -151,7 +151,7 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
-                                <label for="cliente" class="col-lg-2 col-form-label">Razon Social</label>
+                                <label for="cliente" class="col-lg-2 col-form-label">Razón Social</label>
                                 <div class="col-lg-5">
                                     <input type="text" name="cliente" id="cliente" formControlName="cliente"
                                         class="form-control" placeholder="Razon Social" [readonly]="true"
@@ -211,6 +211,29 @@
                             </div>
                         </div> -->
                     </div>
+
+
+                    <div class="form-row" *ngIf="tipoEmpresaId != '01'">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group row">
+                                <label for="plantaProcesoAlmacen" class="col-lg-4 col-form-label pr-0">PLANTA
+                                    ENTREGA</label>
+                                <div class="col-lg-6">
+                                    <ng-select [items]="listPlantaProcesoAlmacen" formControlName="plantaProcesoAlmacen"
+                                        class="form-control" bindLabel="Label" bindValue="Codigo" id="plantaProcesoAlmacen"
+                                        placeholder="Planta de Entrega"
+                                        [ngClass]="{ 'is-invalid': f.plantaProcesoAlmacen.invalid, 'is-valid': !f.plantaProcesoAlmacen.invalid }"
+                                        [(ngModel)]="selectedplantaProcesoAlmacen">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+
+
                     <div class="form-row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="form-group row">
