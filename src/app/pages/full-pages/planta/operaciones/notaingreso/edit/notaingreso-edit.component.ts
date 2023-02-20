@@ -342,7 +342,7 @@ export class NotaIngresoEditComponent implements OnInit {
     }
   }
 
-  GetListConceptps(event: any): void {
+  GetListConceptos(event: any): void {
     this.cargaConceptos(event.Codigo);
   }
     async cargaConceptos(codigo: any) {
