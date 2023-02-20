@@ -36,6 +36,8 @@ export class ContratoCompraEditComponent implements OnInit {
 
   contratoEditForm: FormGroup;
   listCondicionEntrega = [];
+  listPlantaProcesoAlmacen = [];
+  
   listEstadoPagoFactura = [];
   listPaises = [];
   listCiudades = [];
@@ -157,6 +159,7 @@ export class ContratoCompraEditComponent implements OnInit {
       condicionEntrega: [, Validators.required],
       estadoPagoFactura: [],
       fechaPagoFactura:[],
+      plantaProcesoAlmacen: [],
       fechaEntrega: [, Validators.required],
       fechaFactura: [],
       pais: [],
@@ -228,6 +231,7 @@ export class ContratoCompraEditComponent implements OnInit {
   LoadCombos(): void {
     this.spinner.show();
     this.GetShipmentCondition();
+    this.GetPlantaProcesoAlmacen();
     this.GetCountries();
     this.GetCities();
     this.GetProducts();
@@ -257,6 +261,17 @@ export class ContratoCompraEditComponent implements OnInit {
       this.listCondicionEntrega = res.Result.Data;
     }
   }
+
+  async GetPlantaProcesoAlmacen() {
+    this.listPlantaProcesoAlmacen = [];
+    const res = await this.maestroService.obtenerMaestros('PlantaProcesoAlmacenKardexProceso').toPromise();
+    if (res.Result.Success) {
+      this.listPlantaProcesoAlmacen = res.Result.Data;
+    }
+  }
+
+
+  
 
   async GetEstadoPagoFactura() {
     this.listEstadoPagoFactura = [];
@@ -491,6 +506,7 @@ export class ContratoCompraEditComponent implements OnInit {
       ContratoVentaId: form.nroContratoVenta ? form.nroContratoVenta : '',
       FloId: form.floId ? form.floId.join('|') : '',
       CondicionEntregaId: form.condicionEntrega ? form.condicionEntrega : '',
+      PlantaProcesoAlmacenId: form.plantaProcesoAlmacen ? form.plantaProcesoAlmacen : '',
       FechaEntrega: form.fechaEntrega ? form.fechaEntrega : '',
       FechaContrato: form.fechaContrato ? form.fechaContrato : '',
       FechaFacturacion : form.fechaPagoFactura? form.fechaPagoFactura: '',
@@ -705,6 +721,13 @@ export class ContratoCompraEditComponent implements OnInit {
         await this.GetShipmentCondition();
         this.contratoEditForm.controls.condicionEntrega.setValue(data.CondicionEntregaId);
       }
+
+      if (data.PlantaProcesoAlmacenId) {
+        await this.GetPlantaProcesoAlmacen();
+        this.contratoEditForm.controls.plantaProcesoAlmacen.setValue(data.PlantaProcesoAlmacenId);
+      }
+
+      
       if (data.EstadoPagoFacturaId) {
         await this.GetEstadoPagoFactura();
         this.contratoEditForm.controls.estadoPagoFactura.setValue(data.EstadoPagoFacturaId);

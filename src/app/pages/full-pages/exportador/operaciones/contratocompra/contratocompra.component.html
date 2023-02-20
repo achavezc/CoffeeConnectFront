@@ -214,6 +214,9 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Condicion de Entrega" prop="CondicionEntrega" width="200">
                             </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Planta Entrega" prop="PlantaProcesoAlmacen" width="200" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Fecha Entrega" prop="FechaEntrega" width="100">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Nro. Factura" prop="NumeroFactura" width="100">
