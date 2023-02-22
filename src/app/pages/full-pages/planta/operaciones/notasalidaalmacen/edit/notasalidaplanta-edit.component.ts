@@ -124,14 +124,20 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       );
   }
 
-  cargarDataFormulario(data: any) {
+  async  cargarDataFormulario(data: any) {
     if (data)
      {
       
       //debugger
 
       this.notaSalidaFormEdit.controls["destinatario"].setValue(data.Destinatario);
+      
       this.notaSalidaFormEdit.controls["campania"].setValue(data.CodigoCampania);
+      //await this.cargaCampania();
+     // this.notaSalidaFormEdit.controls["campania"].setValue(data.CodigoCampania);
+
+      //this.notaSalidaFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
+      await this.cargaConceptos(data.CodigoCampania);
       this.notaSalidaFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
       this.notaSalidaFormEdit.controls["ruc"].setValue(data.RucEmpresa);
       this.notaSalidaFormEdit.controls["dirPartida"].setValue(data.DireccionPartida);

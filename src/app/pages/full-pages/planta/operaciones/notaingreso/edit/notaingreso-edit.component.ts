@@ -967,8 +967,9 @@ export class NotaIngresoEditComponent implements OnInit {
     } */
 
     this.notaIngredoFormEdit.controls["campania"].setValue(data.CodigoCampania);
-    this.notaIngredoFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
-
+   // this.notaIngredoFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
+   await this.cargaConceptos(data.CodigoCampania);
+   this.notaIngredoFormEdit.controls["concepto"].setValue(data.CodigoTipoConcepto);
     this.notaIngredoFormEdit.controls["direccion"].setValue(data.DireccionOrganizacion);
     this.notaIngredoFormEdit.controls["rucOrganizacion"].setValue(data.RucOrganizacion);
     await this.cargarSubProducto(data.ProductoId);
