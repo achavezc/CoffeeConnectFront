@@ -102,16 +102,25 @@ export class ContratoEditComponent implements OnInit {
   totalFacturar1;
   totalFacturar2;
   totalFacturar3;
+  rowsDetails = [];
+  listaContrato = [];
   tipoEmpresaId = '';
   readonly: boolean;
+  isLoading = false;
   popUp = true;
+  selectLoteDetalle = [];
   selectContrato: any[] = [];
-  ngOnInit(): void {
+
+  formGroupCantidad: FormGroup;
+
+  groupCantidad = {};
+
+  async ngOnInit() {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.tipoEmpresaId = this.vSessionUser.Result.Data.TipoEmpresaid;
-    this.LoadForm();
+    await this.LoadForm();
     this.addValidations();
     this.LoadCombos();
     this.LoadDataInicial();
@@ -166,6 +175,8 @@ export class ContratoEditComponent implements OnInit {
       cantidadDefectos: [, Validators.required],
       cantidadContenedores: [, Validators.required],
       responsableComercial: [, Validators.required],
+      totalSacosAsignados: [],
+      totalSacosPendientes: [],
       estado: [],
       file: new FormControl('', []),
       fileName: new FormControl('', []),
@@ -478,6 +489,8 @@ export class ContratoEditComponent implements OnInit {
 
   GetRequest(): any {
     const form = this.contratoEditForm.value;
+    this.formGroupCantidad = new FormGroup(this.groupCantidad);
+
     return {
       ContratoId: form.idContrato ? parseInt(form.idContrato) : 0,
       Numero: form.nroContrato ? form.nroContrato : '',
@@ -911,9 +924,247 @@ export class ContratoEditComponent implements OnInit {
   receiveMessageContrato($event) {
  
     this.selectContrato = $event;
-    this.AsignarContrato(this.selectContrato[0].ContratoCompraId);
+    this.agregarContrato(this.selectContrato);
    // this.modalService.dismissAll();
   }
+
+
+  UpdateValuesGridDetails(event: any, index: any, prop: any): void 
+  {
+    
+    if (prop === 'Cantidad')
+      this.rowsDetails[index].Cantidad = parseFloat(event.target.value);
+    else if (prop === 'KilosNetos')
+      this.rowsDetails[index].KilosNetos = parseFloat(event.target.value);
+    else if (prop === 'KilosKilosExportablesNetosPesado')
+      this.rowsDetails[index].KilosExportables = parseFloat(event.target.value);
+
+  }
+
+
+
+  CalcularKilosNetosDetalle(event: any, index: any): void  
+  {
+    debugger
+    let totalbags = event.target.value ? parseFloat(event.target.value) : 0;
+    let sackweight = this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0;
+    let netweightkilos = totalbags * sackweight;
+    let netkilosQQ = netweightkilos / 46;
+    
+    this.rowsDetails[index].Cantidad = totalbags.toFixed(2);
+    this.rowsDetails[index].KilosNetosQQ = netkilosQQ.toFixed(2);
+
+
+    if (this.rowsDetails.length > 0) 
+          {                  
+            var sumCantidad = 0;
+            
+            this.listaContrato.forEach(data => 
+                {
+              sumCantidad = Number(sumCantidad) + Number(data.Cantidad);
+            });
+                       
+
+            var cantidadTotalSacos = this.contratoEditForm.value.totalSacos69Kg ? Number(this.contratoEditForm.value.totalSacos69Kg) : 0;
+          
+            var cantidadTotalSacosPendientes = Number(cantidadTotalSacos) - Number(sumCantidad);
+
+            if(cantidadTotalSacosPendientes >= 0)
+            {
+              this.contratoEditForm.controls.totalSacosAsignados.setValue(Number(sumCantidad).toFixed()); 
+              this.contratoEditForm.controls.totalSacosPendientes.setValue(cantidadTotalSacosPendientes);
+            }
+            else
+            {
+              this.contratoEditForm.controls.totalSacosAsignados.setValue(0); 
+              this.contratoEditForm.controls.totalSacosPendientes.setValue(0);
+
+              this.rowsDetails[index].Cantidad = 0;
+              this.rowsDetails[index].KilosNetosQQ = 0;
+
+              this.alertUtil.alertWarning("Oops...!", "El total de Sacos Asignados no debe exceder al total de Sacos del Contrato de Venta.");
+            }
+          }
+
+
+
+          
+
+
+  }
+
+
+
+  eliminarContrato(select) 
+  {
+    debugger
+    let form = this;
+    this.alertUtil.alertSiNoCallback('Está seguro?', 'El contrato de compra ' + select[0].Numero + ' se eliminará de su lista.', function (result) {
+      if (result.isConfirmed) 
+      {
+        debugger
+
+        var cantidad = Number(select[0].Cantidad);
+
+        var cantidadTotalSacos = this.contratoEditForm.value.totalSacos69Kg ? Number(this.contratoEditForm.value.totalSacos69Kg) : 0;
+          
+        var cantidadTotalSacosAsignadosActual = this.contratoEditForm.value.totalSacosAsignados ? Number(this.contratoEditForm.value.totalSacosAsignados) : 0;
+          
+        var cantidadTotalSacosAsignados = cantidadTotalSacosAsignadosActual - cantidad;
+
+        if(cantidadTotalSacosAsignados < 0)
+        {
+          cantidadTotalSacosAsignados = 0;
+        }
+
+        var cantidadTotalSacosPendientes = cantidadTotalSacos - cantidadTotalSacosAsignados;
+
+
+        this.contratoEditForm.controls.totalSacosAsignados.setValue(cantidadTotalSacosAsignados); 
+        this.contratoEditForm.controls.totalSacosPendientes.setValue(cantidadTotalSacosPendientes);
+
+        form.listaContrato = form.listaContrato.filter(x => x.ContratoCompraId != select[0].ContratoCompraId)
+         
+        form.rowsDetails = [...form.listaContrato];
+        form.selectLoteDetalle = [];
+      }
+    }
+    );
+  }
+
+  agregarContrato(e) {
+    
+
+    
+      var listFilter = [];
+      listFilter = this.listaContrato.filter(x => x.ContratoCompraId == e[0].ContratoCompraId);
+
+      if (listFilter.length == 0) 
+      {
+        
+
+          this.groupCantidad[e[0].ContratoCompraId + '%cantidad'] = new FormControl('', []);
+          
+          let object: any = {};
+          object.ContratoCompraId = e[0].ContratoCompraId;         
+          object.Numero = e[0].Numero;
+
+           const [day, month, year] = e[0].FechaContrato.split('/');
+          //object.FechaContrato = new Date(year, month, day);
+
+          object.FechaContrato = e[0].FechaContrato;
+
+          object.FechaContratoString = this.dateUtil.formatDate(new Date(year, month, day));
+
+          object.RucProductor = e[0].RucProductor;
+          object.Productor = e[0].Productor;
+          object.CondicionEntrega = e[0].CondicionEntrega;
+          object.PlantaProcesoAlmacen = e[0].PlantaProcesoAlmacen;
+          object.NumeroFactura = e[0].NumeroFactura;
+          object.FechaEntrega = e[0].FechaEntrega;
+          object.MonedaFactura = e[0].MonedaFactura;
+          object.FechaFactura = e[0].FechaFactura;
+          object.MontoFactura = e[0].MontoFactura;
+          
+
+          object.FechaEntregaProducto = e[0].FechaEntregaProducto;
+          object.EstadoPagoFactura = e[0].EstadoPagoFactura;
+          object.FechaPagoFactura = e[0].FechaPagoFactura;
+          object.CantidadContenedores = e[0].CantidadContenedores;
+          object.TotalSacos = e[0].TotalSacos;
+          
+          object.PreparacionCantidadDefectos = e[0].PreparacionCantidadDefectos;
+          object.TipoEmpaque = e[0].TipoEmpaque;
+          
+          object.KilosNetosLB = e[0].KilosNetosLB;
+          object.FechaFijacionContrato = e[0].FechaFijacionContrato;
+          object.EstadoFijacion = e[0].EstadoFijacion;
+          object.PrecioNivelFijacion = e[0].PrecioNivelFijacion;
+          object.Diferencial = e[0].Diferencial;
+          object.NotaCreditoComision = e[0].NotaCreditoComision;
+          object.PUTotalA = e[0].PUTotalA;
+          object.TotalFacturar1 = e[0].TotalFacturar1;
+          object.TotalFacturar2 = e[0].TotalFacturar2;
+          object.GastosExpCostos = e[0].GastosExpCostos;
+          object.PUTotalC = e[0].PUTotalC;
+          object.TotalFacturar3 = e[0].TotalFacturar3;
+
+          
+         
+
+          object.Cantidad = e[0].CantidadDisponible;
+          
+          var valorRoundedKilosNetosDisponibles = Number(e[0].KilosNetosDisponibles);
+          object.KilosNetosDisponibles =valorRoundedKilosNetosDisponibles.toFixed(2); //e[0].KilosNetosDisponibles;
+
+          let totalbags = e[0].CantidadDisponible;
+          let sackweight = this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0;
+          let netweightkilos = totalbags * sackweight;
+          let netkilosQQ = netweightkilos / 46;
+          
+          object.KilosNetosQQ = netkilosQQ;
+           
+
+
+          this.listaContrato.push(object);
+          //this.tempDataLoteDetalle = this.listaContrato;
+          this.rowsDetails = [...this.listaContrato];
+          this.modalService.dismissAll();
+
+          debugger
+
+          if (this.listaContrato.length > 0) 
+          {                  
+            var sumCantidad = 0;
+            
+            this.listaContrato.forEach(data => 
+            {
+              
+               sumCantidad = Number(sumCantidad) + Number(data.Cantidad);
+            });
+
+
+
+            var cantidadTotalSacos = this.contratoEditForm.value.totalSacos69Kg ? Number(this.contratoEditForm.value.totalSacos69Kg) : 0;
+          
+            var cantidadTotalSacosPendientes = Number(cantidadTotalSacos) - Number(sumCantidad);
+
+            if(cantidadTotalSacosPendientes >= 0)
+            {
+              this.contratoEditForm.controls.totalSacosAsignados.setValue(Number(sumCantidad).toFixed()); 
+              this.contratoEditForm.controls.totalSacosPendientes.setValue(cantidadTotalSacosPendientes);
+            }
+            else
+            {
+              this.contratoEditForm.controls.totalSacosAsignados.setValue(0); 
+              this.contratoEditForm.controls.totalSacosPendientes.setValue(0);
+
+              let itemActualizado: any[] = [];
+
+              itemActualizado = this.listaContrato.filter(x => x.ContratoCompraId == e[0].ContratoCompraId)
+              
+              if (itemActualizado.length > 0) 
+              {
+                itemActualizado[0].Cantidad = 0;
+                itemActualizado[0].KilosNetosQQ = 0;
+              }         
+
+              this.alertUtil.alertWarning("Oops...!", "El total de Sacos Asignados no debe exceder al total de Sacos del Contrato de Venta.");
+            }
+
+
+
+            
+          }
+
+
+      }
+      else
+       {
+        this.alertUtil.alertWarning("Oops...!", "Ya ha sido agregado el Contrato de Compra N° " + listFilter[0].Numero + ".");
+      }
+      
+    }
 
  
   AsignarContrato(contratoId) {

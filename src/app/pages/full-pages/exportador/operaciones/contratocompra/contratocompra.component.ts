@@ -60,6 +60,10 @@ export class ContratoCompraComponent implements OnInit {
   msgErrorGenerico = 'Ocurrio un error interno.';
   userSession: any;
   tipoEmpresaId = '';
+
+  cantidadKilosNetosDetalle: Number = 0;
+
+
   page: any;
   readonly: boolean;
   selectedEstadoPagoFactura : any;
@@ -125,10 +129,18 @@ export class ContratoCompraComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('EstadoContratoCompra', (res: any) => {
       if (res.Result.Success) {
         form.listEstados = res.Result.Data;
-        if (this.popUp == true) {
+        if (this.popUp == true) 
+        {
+          
           switch (this.page) {
             case "Aduanas":
               this.selectedEstado = '03';
+              break;
+          case "Contratos":
+              let selectarrayProd = [];
+              selectarrayProd.push('01');//Ingresado
+              selectarrayProd.push('03');//Asignado             
+              this.selectedEstado = selectarrayProd;
               break;
             default:
               this.selectedEstado = '01';
@@ -161,9 +173,17 @@ export class ContratoCompraComponent implements OnInit {
     this.maestroUtil.obtenerMaestros('ContratoEstadoFijacion', (res: any) => {
       if (res.Result.Success) {
         form.listEstadoFijacion = res.Result.Data;
-        if (this.popUp == true) {
-          this.selectedEstadoFijacion = '02'
-          this.contratoForm.controls.estadoFijacion.disable();
+        
+        if (this.popUp == true) 
+        {         
+          switch (this.page) 
+          {
+            case "Aduanas":
+              this.selectedEstadoFijacion = '02'
+              this.contratoForm.controls.estadoFijacion.disable();
+              break;        
+            
+          }    
         }
       }
     });
@@ -193,7 +213,8 @@ export class ContratoCompraComponent implements OnInit {
       ProductoId: this.contratoForm.value.producto ? this.contratoForm.value.producto : '',
       TipoProduccionId: this.contratoForm.value.tipoProduccion ? this.contratoForm.value.tipoProduccion : '',
       CalidadId: this.contratoForm.value.calidad ? this.contratoForm.value.calidad : '',
-      EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value : '',
+      //EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value : '',
+      EstadoId: this.contratoForm.controls['estado'].value ? this.contratoForm.controls['estado'].value.join('|') : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       CondicionEntregaId: this.contratoForm.value.condicionEntrega ? this.contratoForm.value.condicionEntrega : '',
       EstadoFijacionId: this.contratoForm.value.estadoFijacion ? this.contratoForm.value.estadoFijacion : '',

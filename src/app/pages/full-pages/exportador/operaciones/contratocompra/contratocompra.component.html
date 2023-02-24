@@ -77,7 +77,7 @@
                                     <label for="estado" class="form-label">Estado</label>
                                     <ng-select [items]="listEstados" formControlName="estado" class="form-control"
                                         bindLabel="Label" bindValue="Codigo" id="estado"
-                                        placeholder="Seleccionar estado"
+                                        placeholder="Seleccionar estado" [multiple]="true"
                                         [ngClass]="{ 'is-invalid': f.estado.invalid, 'is-valid': !f.estado.invalid }"
                                         [(ngModel)]="selectedEstado">
                                     </ng-select>
@@ -186,7 +186,7 @@
                         <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="'force'" [headerHeight]="50"
                             [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                             [selected]="selected" [selectionType]="'single'" [selectCheck]="onSelectCheck">
-                            <ngx-datatable-column name="Contrato Compra" prop="Numero" width="180">
+                            <ngx-datatable-column name="Contrato Compra" prop="Numero" width="180" *ngIf="!popUp">
                                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                                     <div class="d-flex align-items-center">
                                         <div class="cell-line-height">
@@ -197,6 +197,14 @@
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
+
+
+
+                             
+              
+                              <ngx-datatable-column name="Número" prop="Numero" width="180" *ngIf="popUp">
+                              </ngx-datatable-column> 
+
                             
                             <ngx-datatable-column name="Fecha de Contrato Compra" prop="FechaContrato" width="200">
                             </ngx-datatable-column>
@@ -243,6 +251,8 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Cantidad" prop="TotalSacos" width="120">
                             </ngx-datatable-column>
+                            <ngx-datatable-column name="Cantidad de Defectos" prop="PreparacionCantidadDefectos" width="120">
+                            </ngx-datatable-column>
                             <ngx-datatable-column name="Tipo de Empaque" prop="TipoEmpaque" width="140">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Kilos Netos" prop="PesoKilos" width="120">
@@ -258,6 +268,8 @@
                             <ngx-datatable-column name="Nivel Fijación" prop="PrecioNivelFijacion" width="180">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Diferencial" prop="Diferencial" width="140">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Comisión Productor" prop="NotaCreditoComision" width="200">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Precio por QQ" prop="PUTotalA" width="100">
                             </ngx-datatable-column>
