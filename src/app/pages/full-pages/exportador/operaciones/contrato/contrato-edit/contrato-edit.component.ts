@@ -1006,9 +1006,9 @@ export class ContratoEditComponent implements OnInit {
 
         var cantidad = Number(select[0].Cantidad);
 
-        var cantidadTotalSacos = this.contratoEditForm.value.totalSacos69Kg ? Number(this.contratoEditForm.value.totalSacos69Kg) : 0;
+        var cantidadTotalSacos = form.contratoEditForm.value.totalSacos69Kg ? Number(form.contratoEditForm.value.totalSacos69Kg) : 0;
           
-        var cantidadTotalSacosAsignadosActual = this.contratoEditForm.value.totalSacosAsignados ? Number(this.contratoEditForm.value.totalSacosAsignados) : 0;
+        var cantidadTotalSacosAsignadosActual = form.contratoEditForm.value.totalSacosAsignados ? Number(form.contratoEditForm.value.totalSacosAsignados) : 0;
           
         var cantidadTotalSacosAsignados = cantidadTotalSacosAsignadosActual - cantidad;
 
@@ -1020,8 +1020,8 @@ export class ContratoEditComponent implements OnInit {
         var cantidadTotalSacosPendientes = cantidadTotalSacos - cantidadTotalSacosAsignados;
 
 
-        this.contratoEditForm.controls.totalSacosAsignados.setValue(cantidadTotalSacosAsignados); 
-        this.contratoEditForm.controls.totalSacosPendientes.setValue(cantidadTotalSacosPendientes);
+        form.contratoEditForm.controls.totalSacosAsignados.setValue(cantidadTotalSacosAsignados); 
+        form.contratoEditForm.controls.totalSacosPendientes.setValue(cantidadTotalSacosPendientes);
 
         form.listaContrato = form.listaContrato.filter(x => x.ContratoCompraId != select[0].ContratoCompraId)
          
