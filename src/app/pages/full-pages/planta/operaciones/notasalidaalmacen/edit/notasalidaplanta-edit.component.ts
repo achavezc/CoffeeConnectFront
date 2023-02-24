@@ -297,7 +297,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
       let list: NotaSalidaAlmacenPlantaDetalleDTO[] = [];
       if (this.child.listaNotaIngreso.length != 0) {
         this.child.listaNotaIngreso.forEach(x => {
-          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoProductoTerminadoAlmacenPlantaId,x.Cantidad,x.KilosNetos,x.KilosBrutos);
+          let object = new NotaSalidaAlmacenPlantaDetalleDTO(x.NotaIngresoProductoTerminadoAlmacenPlantaId,x.Cantidad,x.KilosNetos,x.KilosBrutos,x.Numero);
           TotalKilosBrutos = TotalKilosBrutos + x.KilosBrutos;
           TotalKilosNetos = TotalKilosNetos + x.KilosNetos;
           Totaltara = Totaltara + x.Tara;
