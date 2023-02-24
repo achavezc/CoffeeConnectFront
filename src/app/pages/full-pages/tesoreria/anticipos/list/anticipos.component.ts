@@ -231,8 +231,8 @@ export class AnticiposComponent implements OnInit {
     return {
       Numero: this.anticipoForm.value.nroRecibo ? this.anticipoForm.value.nroRecibo : '',
       NumeroNotaIngresoPlanta: this.anticipoForm.value.numeroNotaIngreso ? this.anticipoForm.value.numeroNotaIngreso : '',
-      RazonSocialProveedor: this.anticipoForm.value.razonSocial ? this.anticipoForm.value.razonSocial : '',
-      RucProveedor: this.anticipoForm.value.ruc ? this.anticipoForm.value.ruc : '',
+      RazonSocialEmpresa: this.anticipoForm.value.razonSocial ? this.anticipoForm.value.razonSocial : '',
+      RucEmpresa: this.anticipoForm.value.ruc ? this.anticipoForm.value.ruc : '',
       EstadoId: this.anticipoForm.value.estado ? this.anticipoForm.value.estado : '',
       EmpresaId: this.userSession.Result.Data.EmpresaId,
       FechaInicio: this.anticipoForm.value.fechaInicial ? this.anticipoForm.value.fechaInicial : '',

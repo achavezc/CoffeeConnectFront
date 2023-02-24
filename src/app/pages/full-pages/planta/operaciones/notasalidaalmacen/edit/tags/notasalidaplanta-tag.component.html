@@ -55,7 +55,7 @@
                                 <!-- <ngx-datatable-column name="Neto Disponibles" prop="KilosNetosDisponibles" [summaryFunc]="emptySumm"></ngx-datatable-column> -->
                                 
 
-                                <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false"  [summaryTemplate]="cantidad">
+                                <ngx-datatable-column name="Cantidad" prop="Cantidad" [sortable]="false">
                                     <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
                                         <div class="d-flex align-items-center">
                                             <input type="number" autofocus
@@ -66,7 +66,7 @@
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos" [summaryTemplate]="kilosNetos">
+                                <ngx-datatable-column name="Kilos Netos" prop="KilosNetos">
                                     <ng-template ngx-datatable-cell-template let-row="row" let-KilosNetos="value" let-rowIndex="rowIndex">
                                         <div class="d-flex align-items-center">
                                             <input type="number" autofocus
@@ -77,7 +77,9 @@
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>                                  
-                                <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutos" [summaryTemplate]="kilosBrutos"></ngx-datatable-column>  
+                                <ngx-datatable-column name="Kilos Brutos" prop="KilosBrutos">
+                                  
+                                </ngx-datatable-column>  
                                  
                                
                               </ngx-datatable>

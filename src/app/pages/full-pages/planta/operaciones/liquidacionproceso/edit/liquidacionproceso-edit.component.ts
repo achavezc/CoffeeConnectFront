@@ -262,7 +262,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       }
     );
     
-    debugger
+    //debugger
 
     this.listMateriaPrima = data.Detalle;
     this.tempMateriaPrima = data.Detalle;
@@ -343,7 +343,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
           (            
             x => 
             {
-              debugger
+             // debugger
               // this.formGroupSacos.get(x.ReferenciaId + '%sacos').setValue(x.CantidadSacos);
               // this.formGroupKg.get(x.ReferenciaId + '%Kg').setValue(x.KGN);
               // this.formGroupEmpaque.get(x.ReferenciaId + '%empaque').setValue(x.EmpaqueId);
@@ -646,7 +646,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       debugger
       let liquidacionProcesoPlantaResultado: LiquidacionProcesoPlantaResultado[] = [];
       this.rowsResultProceso.forEach(x => {
-        debugger
+      //  debugger
 
         var cantidad = 0;
          
@@ -780,7 +780,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   }
 
   registrarLiquidacionProcesoService(request: ReqLiquidacionProceso) {
-   debugger
+ //  debugger
     this.liquidacionProcesoPlantaService.Registrar(request)
       .subscribe(res => {
         this.spinner.hide();
@@ -844,7 +844,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
 
    agregarOrdenProceso(e) {
-    debugger
+ //   debugger
     this.liquidacionProcesoFormEdit.controls["ordenProcesoPlantaId"].setValue(e[0].OrdenProcesoPlantaId);
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(e[0].TipoProceso);
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(e[0].RucOrganizacion);
@@ -996,7 +996,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         {
           if (res.Result.ErrCode == "") 
           {
-            debugger
+           // debugger
             this.listMateriaPrima = [];
             
             res.Result.Data.detalle.forEach(data => 
