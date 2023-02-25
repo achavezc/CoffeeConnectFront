@@ -17,8 +17,7 @@ export class ReqNotaSalidaPlanta
         PlacaCarreta: string,
         Conductor: string,
         Licencia: string,
-        Observacion: string,
-       
+        Observacion: string,      
         PesoKilosBrutos: number,
         PesoKilosNetos: number,
         Tara: number,
@@ -100,16 +99,18 @@ export class ReqNotaSalidaPlanta
 
  export class  NotaSalidaAlmacenPlantaDetalleDTO{
 
-    constructor(NotaIngresoProductoTerminadoAlmacenPlantaId:number,Cantidad:number,KilosNetos:number,KilosBrutos:number)
+    constructor(NotaIngresoProductoTerminadoAlmacenPlantaId:number,Cantidad:number,KilosNetos:number,KilosBrutos:number,Numero:string)
     {
         this.NotaIngresoProductoTerminadoAlmacenPlantaId = NotaIngresoProductoTerminadoAlmacenPlantaId
+        this.Numero = Numero
         this.Cantidad = Cantidad
         this.KilosNetos = KilosNetos
         this.KilosBrutos = KilosBrutos
         this.Tara = 0
     }
 
-    NotaIngresoProductoTerminadoAlmacenPlantaId: number;
+    NotaIngresoProductoTerminadoAlmacenPlantaId:number;
+    Numero:string;
     Cantidad: number;
     KilosNetos: number;
     KilosBrutos: number;
