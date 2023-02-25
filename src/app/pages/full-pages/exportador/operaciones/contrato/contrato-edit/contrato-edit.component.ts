@@ -115,6 +115,11 @@ export class ContratoEditComponent implements OnInit {
 
   groupCantidad = {};
 
+
+  formGroupNroContenedores: FormGroup;
+
+  groupNroContenedores = {};
+
   async ngOnInit() {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -490,6 +495,9 @@ export class ContratoEditComponent implements OnInit {
   GetRequest(): any {
     const form = this.contratoEditForm.value;
     this.formGroupCantidad = new FormGroup(this.groupCantidad);
+
+    this.formGroupNroContenedores = new FormGroup(this.groupNroContenedores);
+    
 
     return {
       ContratoId: form.idContrato ? parseInt(form.idContrato) : 0,
@@ -955,6 +963,113 @@ export class ContratoEditComponent implements OnInit {
     this.rowsDetails[index].KilosNetosQQ = netkilosQQ.toFixed(2);
 
 
+
+
+    let CantidadContenedores = this.contratoEditForm.value.cantidadContenedores ? this.contratoEditForm.value.cantidadContenedores : 0;
+
+    this.rowsDetails[index].CantidadContenedores = CantidadContenedores;
+      
+          
+          
+          
+
+           
+
+          let netkilosLB = netweightkilos * 2.20462;
+
+          if (netkilosLB > 0) {
+            netkilosLB = parseFloat(netkilosLB.toFixed(2));
+          }
+          
+           
+            
+          //"Importe Cliente ($)" prop="TotalFacturar1"
+
+            let putotal = this.precioUnitarioTotalA ? this.precioUnitarioTotalA : 0;
+            let TotalFacturar1 = 0;
+            
+            if (this.contratoEditForm.value.invoiceIn === '01') 
+            {
+              TotalFacturar1 = netkilosLB * putotal;
+            } 
+            else 
+            {
+              TotalFacturar1 = netkilosQQ * putotal;
+            }
+            if (TotalFacturar1) 
+            {
+              this.rowsDetails[index].TotalFacturar1 = TotalFacturar1.toFixed(2);                 
+              
+              this.rowsDetails[index].PrecioQQVenta = (TotalFacturar1/netkilosQQ).toFixed(2);              
+
+            }
+          
+            //"Importe Comisión ($)" prop="TotalFacturar2"
+            
+           
+            //round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2) as PrecioQQCompra,             
+          
+              let putotalTotalBilling3 = this.precioUnitarioTotalC ? this.precioUnitarioTotalC : 0;
+              let TotalFacturar3 = 0;
+
+              if (this.contratoEditForm.value.invoiceIn === '01') 
+              {
+                TotalFacturar3 = netkilosLB * putotalTotalBilling3;
+              } else 
+              {
+                TotalFacturar3 = netkilosQQ * putotalTotalBilling3;
+              }
+              if (TotalFacturar3) 
+              {
+                this.rowsDetails[index].PrecioQQCompra = (TotalFacturar3/netkilosQQ).toFixed(2);                 
+              }
+            
+          
+              let UtilidadBruta = 0;
+
+              if (TotalFacturar1 && TotalFacturar3) 
+              {
+                //round(C.TotalFacturar1/C.KilosNetosQQ,2) -  round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2)  as UtilidadBruta, 
+                UtilidadBruta=  TotalFacturar1/netkilosQQ - TotalFacturar3/netkilosQQ;
+                this.rowsDetails[index].UtilidadBruta = UtilidadBruta.toFixed(2); 
+              }
+
+
+              let GastosExpCostos = this.contratoEditForm.value.ExpensesExpCosts ? parseFloat(this.contratoEditForm.value.ExpensesExpCosts) * 100 : 0;
+              let NotaCreditoComision = this.contratoEditForm.value.CreditNoteCommission ? parseFloat(this.contratoEditForm.value.ExpensesExpCosts) * 100: 0;
+             
+
+              let UtilidadNeta = 0;
+
+              UtilidadNeta = (TotalFacturar1/netkilosQQ) - (TotalFacturar3/netkilosQQ) - GastosExpCostos - NotaCreditoComision;
+
+              //round(C.TotalFacturar1/C.KilosNetosQQ,2) -  round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2) - abs(C.GastosExpCostos*100)- abs(C.NotaCreditoComision*100) as UtilidadNeta,  
+
+              this.rowsDetails[index].UtilidadNeta = UtilidadNeta.toFixed(2);
+
+             //abs(C.NotaCreditoComision*100) as Comision, 
+
+             let Comision = NotaCreditoComision * 100;
+
+             this.rowsDetails[index].Comision = Comision.toFixed(2);
+
+          
+             //(round(C.TotalFacturar1/C.KilosNetosQQ,2) -  round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2) - abs(C.GastosExpCostos*100)- abs(C.NotaCreditoComision*100)) * C.KilosNetosQQ  as GananciaNeta, 
+
+             let GananciaNeta = UtilidadNeta * netkilosQQ;
+
+             this.rowsDetails[index].GananciaNeta = GananciaNeta.toFixed(2);
+
+
+
+
+
+
+
+
+
+
+
     if (this.rowsDetails.length > 0) 
           {                  
             var sumCantidad = 0;
@@ -1032,78 +1147,137 @@ export class ContratoEditComponent implements OnInit {
     );
   }
 
-  agregarContrato(e) {
-    
-
+  agregarContrato(e) 
+  {
     
       var listFilter = [];
       listFilter = this.listaContrato.filter(x => x.ContratoCompraId == e[0].ContratoCompraId);
 
       if (listFilter.length == 0) 
       {
-        
+        debugger
 
           this.groupCantidad[e[0].ContratoCompraId + '%cantidad'] = new FormControl('', []);
           
           let object: any = {};
-          object.ContratoCompraId = e[0].ContratoCompraId;         
-          object.Numero = e[0].Numero;
 
-           const [day, month, year] = e[0].FechaContrato.split('/');
-          //object.FechaContrato = new Date(year, month, day);
+          object.ContratoCompraId = e[0].ContratoCompraId;
 
-          object.FechaContrato = e[0].FechaContrato;
+          let CantidadContenedores = this.contratoEditForm.value.cantidadContenedores ? this.contratoEditForm.value.cantidadContenedores : 0;
 
-          object.FechaContratoString = this.dateUtil.formatDate(new Date(year, month, day));
-
-          object.RucProductor = e[0].RucProductor;
-          object.Productor = e[0].Productor;
-          object.CondicionEntrega = e[0].CondicionEntrega;
-          object.PlantaProcesoAlmacen = e[0].PlantaProcesoAlmacen;
-          object.NumeroFactura = e[0].NumeroFactura;
-          object.FechaEntrega = e[0].FechaEntrega;
-          object.MonedaFactura = e[0].MonedaFactura;
-          object.FechaFactura = e[0].FechaFactura;
-          object.MontoFactura = e[0].MontoFactura;
-          
-
-          object.FechaEntregaProducto = e[0].FechaEntregaProducto;
-          object.EstadoPagoFactura = e[0].EstadoPagoFactura;
-          object.FechaPagoFactura = e[0].FechaPagoFactura;
-          object.CantidadContenedores = e[0].CantidadContenedores;
-          object.TotalSacos = e[0].TotalSacos;
-          
-          object.PreparacionCantidadDefectos = e[0].PreparacionCantidadDefectos;
-          object.TipoEmpaque = e[0].TipoEmpaque;
-          
-          object.KilosNetosLB = e[0].KilosNetosLB;
-          object.FechaFijacionContrato = e[0].FechaFijacionContrato;
-          object.EstadoFijacion = e[0].EstadoFijacion;
-          object.PrecioNivelFijacion = e[0].PrecioNivelFijacion;
-          object.Diferencial = e[0].Diferencial;
-          object.NotaCreditoComision = e[0].NotaCreditoComision;
-          object.PUTotalA = e[0].PUTotalA;
-          object.TotalFacturar1 = e[0].TotalFacturar1;
-          object.TotalFacturar2 = e[0].TotalFacturar2;
-          object.GastosExpCostos = e[0].GastosExpCostos;
-          object.PUTotalC = e[0].PUTotalC;
-          object.TotalFacturar3 = e[0].TotalFacturar3;
-
-          
-         
-
+          object.CantidadContenedores = CantidadContenedores;
+      
           object.Cantidad = e[0].CantidadDisponible;
           
           var valorRoundedKilosNetosDisponibles = Number(e[0].KilosNetosDisponibles);
           object.KilosNetosDisponibles =valorRoundedKilosNetosDisponibles.toFixed(2); //e[0].KilosNetosDisponibles;
 
-          let totalbags = e[0].CantidadDisponible;
+          let totalbags = e[0].CantidadDisponible ?  e[0].CantidadDisponible:0;
           let sackweight = this.contratoEditForm.value.pesoSacoKG ? parseFloat(this.contratoEditForm.value.pesoSacoKG) : 0;
           let netweightkilos = totalbags * sackweight;
           let netkilosQQ = netweightkilos / 46;
+
+          let netkilosLB = netweightkilos * 2.20462;
+
+          if (netkilosLB > 0) {
+            netkilosLB = parseFloat(netkilosLB.toFixed(2));
+          }
           
           object.KilosNetosQQ = netkilosQQ;
+            
+          //"Importe Cliente ($)" prop="TotalFacturar1"
+
+            let putotal = this.precioUnitarioTotalA ? this.precioUnitarioTotalA : 0;
+            let TotalFacturar1 = 0;
+            
+            if (this.contratoEditForm.value.invoiceIn === '01') 
+            {
+              TotalFacturar1 = netkilosLB * putotal;
+            } 
+            else 
+            {
+              TotalFacturar1 = netkilosQQ * putotal;
+            }
+            if (TotalFacturar1) 
+            {
+              object.TotalFacturar1 = TotalFacturar1.toFixed(2);                 
+              
+              object.PrecioQQVenta = (TotalFacturar1/netkilosQQ).toFixed(2);              
+
+            }
+          
+            //"Importe Comisión ($)" prop="TotalFacturar2"
+            
            
+            //round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2) as PrecioQQCompra,             
+          
+              let putotalTotalBilling3 = this.precioUnitarioTotalC ? this.precioUnitarioTotalC : 0;
+              let TotalFacturar3 = 0;
+
+              if (this.contratoEditForm.value.invoiceIn === '01') 
+              {
+                TotalFacturar3 = netkilosLB * putotalTotalBilling3;
+              } else 
+              {
+                TotalFacturar3 = netkilosQQ * putotalTotalBilling3;
+              }
+              if (TotalFacturar3) 
+              {
+                object.PrecioQQCompra = (TotalFacturar3/netkilosQQ).toFixed(2);                 
+              }
+            
+          
+              let UtilidadBruta = 0;
+
+              if (TotalFacturar1 && TotalFacturar3) 
+              {
+                //round(C.TotalFacturar1/C.KilosNetosQQ,2) -  round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2)  as UtilidadBruta, 
+                UtilidadBruta=  TotalFacturar1/netkilosQQ - TotalFacturar3/netkilosQQ;
+                object.UtilidadBruta = UtilidadBruta.toFixed(2); 
+              }
+
+
+              let GastosExpCostos = this.contratoEditForm.value.ExpensesExpCosts ? parseFloat(this.contratoEditForm.value.ExpensesExpCosts) * 100 : 0;
+              let NotaCreditoComision = this.contratoEditForm.value.CreditNoteCommission ? parseFloat(this.contratoEditForm.value.ExpensesExpCosts) * 100: 0;
+             
+
+              let UtilidadNeta = 0;
+
+              UtilidadNeta = (TotalFacturar1/netkilosQQ) - (TotalFacturar3/netkilosQQ) - GastosExpCostos - NotaCreditoComision;
+
+              //round(C.TotalFacturar1/C.KilosNetosQQ,2) -  round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2) - abs(C.GastosExpCostos*100)- abs(C.NotaCreditoComision*100) as UtilidadNeta,  
+
+              object.UtilidadNeta = UtilidadNeta.toFixed(2);
+
+             //abs(C.NotaCreditoComision*100) as Comision, 
+
+             let Comision = NotaCreditoComision * 100;
+
+             object.Comision = Comision.toFixed(2);
+
+          
+             //(round(C.TotalFacturar1/C.KilosNetosQQ,2) -  round(Cc.TotalFacturar3/Cc.KilosNetosQQ,2) - abs(C.GastosExpCostos*100)- abs(C.NotaCreditoComision*100)) * C.KilosNetosQQ  as GananciaNeta, 
+
+             let GananciaNeta = UtilidadNeta * netkilosQQ;
+
+            object.GananciaNeta = GananciaNeta.toFixed(2);
+
+            object.Numero = e[0].Numero;
+
+            const [day, month, year] = e[0].FechaContrato.split('/');
+            //object.FechaContrato = new Date(year, month, day);
+
+            object.FechaContrato = e[0].FechaContrato;
+
+            object.FechaContratoString = this.dateUtil.formatDate(new Date(year, month, day));
+
+            object.RucProductor = e[0].RucProductor;
+            object.Productor = e[0].Productor;
+
+
+            object.CondicionEntrega = e[0].CondicionEntrega;
+            object.EstadoPagoFactura = e[0].EstadoPagoFactura;
+          
 
 
           this.listaContrato.push(object);
@@ -1151,10 +1325,6 @@ export class ContratoEditComponent implements OnInit {
 
               this.alertUtil.alertWarning("Oops...!", "El total de Sacos Asignados no debe exceder al total de Sacos del Contrato de Venta.");
             }
-
-
-
-            
           }
 
 

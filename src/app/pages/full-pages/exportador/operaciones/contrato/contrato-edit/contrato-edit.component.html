@@ -759,7 +759,7 @@
                         </div>
                     </div>
 
-                    <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;">
+                    <div class="row" style="margin-right: 6rem; margin-left: 6rem; margin-top: 2rem;" *ngIf="tipoEmpresaId != '01' && vId!=0">
                         <div class="col-12">
 <!--                               <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-proveedor" #tableLotesDetalle
                             [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
@@ -768,96 +768,80 @@
                             <ngx-datatable #tableLotesDetalle class="bootstrap core-bootstrap" [rows]="rowsDetails" 
                             [loadingIndicator]="isLoading" [scrollbarH]="true" [selectionType]="'single'" [selected]="selectLoteDetalle" [summaryRow]="false"  [summaryPosition]="'bottom'" >
                             
+
+                            
+
+                            <ngx-datatable-column name="Nro. Contenedor" prop="CantidadContenedores" [sortable]="false"   >
+                                <ng-template ngx-datatable-cell-template let-row="row" let-CantidadContenedores="value" let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus  
+                                            class="form-control form-control-sm"
+                                            [ngClass]="{ 'border-danger': !CantidadContenedores, '': CantidadContenedores }"
+                                            
+                                            value="{{CantidadContenedores}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                           <!--  <ngx-datatable-column name="Nro. Contenedor" prop="CantidadContenedores" [sortable]="false"   >
+                                <ng-template ngx-datatable-cell-template let-row="row" let-Cantidad="value" let-rowIndex="rowIndex">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" autofocus  
+                                            class="form-control form-control-sm"
+                                            [ngClass]="{ 'border-danger': !CantidadContenedores, '': CantidadContenedores }"
+                                           
+                                            value="{{CantidadContenedores}}">
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column> -->
+
+
+                             
+
+                            <ngx-datatable-column name="Importe Cliente ($)" prop="TotalFacturar1" width="120">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Comisión Productor" prop="Comision" width="180" >
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Precio QQ Venta" prop="PrecioQQVenta" width="180" >
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Precio QQ Compra" prop="PrecioQQCompra" width="180" >
+                            </ngx-datatable-column>                            
+
+                            <ngx-datatable-column name="Utilidad Bruta" prop="UtilidadBruta" width="180" >
+                            </ngx-datatable-column>
+
+                          
+                            <ngx-datatable-column name="Utilidad Neta" prop="UtilidadNeta" width="180" >
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Ganancia Neta" prop="GananciaNeta" width="180" >
+                            </ngx-datatable-column>
+
                             <ngx-datatable-column name="Número Contrato Compra" prop="Numero" width="180" *ngIf="popUp">
                             </ngx-datatable-column> 
 
 
                           
-                          <ngx-datatable-column name="Fecha de Contrato Compra" prop="FechaContratoString" width="200">
-                          </ngx-datatable-column>
+                         
                           <ngx-datatable-column name="Fecha de Contrato Compra" prop="FechaContrato" width="200">
                             </ngx-datatable-column>
-                          <!-- <ngx-datatable-column name="Contrato Venta" prop="NumeroContratoVenta" width="120">
-                          </ngx-datatable-column> -->
+                         
                           <ngx-datatable-column name="Ruc" prop="RucProductor" width="150">
                           </ngx-datatable-column>
                           <ngx-datatable-column name="Razon Social" prop="Productor" width="250">
                           </ngx-datatable-column>
-                          <!-- <ngx-datatable-column name="Departamento" prop="Departamento" width="150">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Provincia" prop="Provincia" width="150">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Distrito" prop="Distrito" width="150"> 
-                          </ngx-datatable-column>-->
+                        
                           <ngx-datatable-column name="Condicion de Entrega" prop="CondicionEntrega" width="200">
                           </ngx-datatable-column>
 
-                          <ngx-datatable-column name="Planta Entrega" prop="PlantaProcesoAlmacen" width="200" *ngIf="tipoEmpresaId != '01' ">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Fecha Entrega" prop="FechaEntrega" width="100">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Nro. Factura" prop="NumeroFactura" width="100">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Moneda Factura" prop="MonedaFactura" width="120">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Monto Factura" prop="MontoFactura" width="120">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Fecha Factura" prop="FechaFactura" width="120">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Fecha Entrega Producto" prop="FechaEntregaProducto" width="180">
-                          </ngx-datatable-column>
+                          
                           <ngx-datatable-column name="Status Pago Factura" prop="EstadoPagoFactura" width="150">
                           </ngx-datatable-column>
-                          <ngx-datatable-column name="Fecha Pago Factura" prop="FechaPagoFactura" width="150">
-                          </ngx-datatable-column>
-                          <!-- <ngx-datatable-column name="Periodo Cosecha" prop="PeriodosCosecha" width="150">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Certificación" prop="TipoCertificacion" width="150">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Mes de Entrega" prop="MesEntrega" width="150">
-                          </ngx-datatable-column> -->
-                          <ngx-datatable-column name="Nro. Contenedor" prop="CantidadContenedores" width="140">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Cantidad" prop="TotalSacos" width="120">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Cantidad de Defectos" prop="PreparacionCantidadDefectos" width="120">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Tipo de Empaque" prop="TipoEmpaque" width="140">
-                          </ngx-datatable-column>
-                          
-                          <!-- <ngx-datatable-column name="Kg. Netos en QQ" prop="KilosNetosQQ" width="140">
-                          </ngx-datatable-column> -->
-                          <ngx-datatable-column name="Kg. Neto en LB" prop="KilosNetosLB" width="140">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Fecha Fijación Contrato" prop="FechaFijacionContrato" width="200">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Estado Fijación" prop="EstadoFijacion" width="140">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Nivel Fijación" prop="PrecioNivelFijacion" width="180">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Diferencial" prop="Diferencial" width="140">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Comisión Productor" prop="NotaCreditoComision" width="200">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Precio por QQ" prop="PUTotalA" width="100">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Precio a Facturar" prop="TotalFacturar1" width="140">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="PRxFT" prop="TotalFacturar2" width="100">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Gastos de Exportación" prop="GastosExpCostos" width="180">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Precio Total" prop="PUTotalC" width="100">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Precio de Venta" prop="TotalFacturar3" width="140">
-                          </ngx-datatable-column>
-                          <!-- <ngx-datatable-column name="Producto" prop="Producto" width="140">
-                          </ngx-datatable-column>
-                          <ngx-datatable-column name="Tipo de Producción" prop="TipoProduccion" width="180">
-                          </ngx-datatable-column>
-
-                          <ngx-datatable-column name="Estado" prop="Estado" width="140">
-                        </ngx-datatable-column> -->
+                         
 
                           
   
