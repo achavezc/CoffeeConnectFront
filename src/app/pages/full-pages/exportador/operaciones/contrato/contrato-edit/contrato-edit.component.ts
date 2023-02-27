@@ -498,6 +498,8 @@ export class ContratoEditComponent implements OnInit {
 
     this.formGroupNroContenedores = new FormGroup(this.groupNroContenedores);
     
+    let detalle = this.rowsDetails.filter(x => x.ContratoCompraId);
+
 
     return {
       ContratoId: form.idContrato ? parseInt(form.idContrato) : 0,
@@ -572,7 +574,8 @@ export class ContratoEditComponent implements OnInit {
 
       NumeroFacturaVenta: form.numeroFactura ? form.numeroFactura : '',
       MonedaFacturaVenta: form.monedaFacturaVenta ? form.monedaFacturaVenta : '',
-      MontoFacturaVenta: form.montoFacturaVenta ? form.montoFacturaVenta : 0
+      MontoFacturaVenta: form.montoFacturaVenta ? form.montoFacturaVenta : 0,
+      ContratoDetalle: detalle
     }
   }
 
@@ -921,6 +924,12 @@ export class ContratoEditComponent implements OnInit {
         await this.GetTypesContracts();
         this.contratoEditForm.controls.contractType.setValue(data.TipoContratoId);
       }
+
+      debugger
+      this.cargarDatos(data.Detalle);
+       
+      //this.rowsDetails = data.detalle ;
+
       if (data.EstadoContrato)
         this.estadoContrato = data.EstadoContrato;
       this.spinner.hide();
@@ -928,6 +937,8 @@ export class ContratoEditComponent implements OnInit {
     }
     this.spinner.hide();
   }
+
+  
 
   receiveMessageContrato($event) {
  
@@ -1110,6 +1121,47 @@ export class ContratoEditComponent implements OnInit {
 
 
 
+  cargarDatos(detalle: any)
+  {
+    this.listaContrato = [];
+
+    detalle.forEach(data => {
+      
+      let object: any = {};
+      object.ContratoDetalleId = data.ContratoDetalleId;
+      object.ContratoId = data.ContratoId;
+      object.CantidadContenedores = data.CantidadContenedores;
+      object.ContratoCompraId = data.ContratoCompraId;
+      object.TotalFacturar1 = data.TotalFacturar1;
+      object.Comision = data.Comision;
+      object.PrecioQQVenta = data.PrecioQQVenta;
+      object.PrecioQQCompra = data.PrecioQQCompra;
+      object.UtilidadBruta = data.UtilidadBruta;
+      object.UtilidadNeta = data.UtilidadNeta;
+      object.GananciaNeta = data.GananciaNeta;
+      object.Cantidad = data.Cantidad;
+      object.KilosNetosQQ = data.KilosNetosQQ;
+      object.Numero = data.Numero;
+      object.FechaContrato = data.FechaContrato;
+      object.RucProductor = data.RucProductor;
+      object.Productor = data.Productor;
+      object.CondicionEntregaId = data.CondicionEntregaId;
+      object.CondicionEntrega = data.CondicionEntrega;
+      object.EstadoPagoFacturaId = data.EstadoPagoFacturaId;
+      object.EstadoPagoFactura = data.EstadoPagoFactura;
+
+      debugger
+
+      this.listaContrato.push(object);
+          //this.tempDataLoteDetalle = this.listaContrato;
+          this.rowsDetails = [...this.listaContrato];
+
+     
+    })
+  }
+
+
+
   eliminarContrato(select) 
   {
     debugger
@@ -1160,6 +1212,7 @@ export class ContratoEditComponent implements OnInit {
           this.groupCantidad[e[0].ContratoCompraId + '%cantidad'] = new FormControl('', []);
           
           let object: any = {};
+          
 
           object.ContratoCompraId = e[0].ContratoCompraId;
 
