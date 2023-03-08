@@ -778,7 +778,7 @@
                                             class="form-control form-control-sm"
                                             [ngClass]="{ 'border-danger': !CantidadContenedores, '': CantidadContenedores }"
                                             
-                                            value="{{CantidadContenedores}}">
+                                            value="{{CantidadContenedores}}" (blur)="CalcularCantidadContenedores($event, rowIndex)">
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
@@ -829,6 +829,11 @@
                          
                           <ngx-datatable-column name="Fecha de Contrato Compra" prop="FechaContrato" width="200">
                             </ngx-datatable-column>
+
+                            <!-- <ngx-datatable-column name="Fecha de Contrato Compra" prop="FechaContratoString" width="200">
+                            </ngx-datatable-column> -->
+
+                            
                          
                           <ngx-datatable-column name="Ruc" prop="RucProductor" width="150">
                           </ngx-datatable-column>
@@ -860,6 +865,9 @@
                              
 
                             <ngx-datatable-column name="Kg. Netos en QQ" prop="KilosNetosQQ" width="140">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Existe Perdida" prop="ExistePerdida" width="140">
                             </ngx-datatable-column>
 
                           </ngx-datatable>
