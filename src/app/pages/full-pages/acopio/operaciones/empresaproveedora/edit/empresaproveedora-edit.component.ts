@@ -331,15 +331,22 @@ export class EmpresaProveedoraEditComponent implements OnInit {
 
         var request = this.getRequest();
         this.empresaProveedoraService.Registrar(request)
-            .subscribe((res: any) => {
+            .subscribe((res: any) => 
+            {
                 this.spinner.hide();
-                if (res.Result.Success) {
+                if (res.Result.Success && (!res.Result.ErrCode || res.Result.ErrCode === '00'))
+
+                //if (res.Result.Success) 
+                {
                     this.alertUtil.alertOkCallback("Registrado!", "Se completo el registro correctamente!",
                         () => {
                             this.Cancel();
                         });
-                } else {
+                } 
+                else 
+                {
                     this.alertUtil.alertError("Error!", res.Result.Message);
+                    
                 }
             }, (err: any) => {
                 console.log(err);

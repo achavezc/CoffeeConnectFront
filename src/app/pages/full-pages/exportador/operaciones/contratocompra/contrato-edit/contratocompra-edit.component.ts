@@ -525,7 +525,8 @@ export class ContratoCompraEditComponent implements OnInit {
       GradoId: form.grado ? form.grado : '',
       TotalSacos: form.totalSacos69Kg ? form.totalSacos69Kg : 0,
       PesoEnContrato: form.contractWeight ? form.contractWeight : null,
-      PesoKilos: this.pesoNetoKilos ? this.pesoNetoKilos : 0,
+      //PesoKilos: this.pesoNetoKilos ? this.pesoNetoKilos : 0,
+      PesoKilos: form.pesoKilos ? parseFloat(form.pesoKilos) : 0,
       PesoPorSaco: form.pesoSacoKG ? parseFloat(form.pesoSacoKG) : 0,
       PreparacionCantidadDefectos: form.cantidadDefectos ? parseFloat(form.cantidadDefectos) : 0,
       LaboratorioId: '',
@@ -904,6 +905,7 @@ export class ContratoCompraEditComponent implements OnInit {
         this.totalFacturar2 = data.TotalFacturar2;
         this.contratoEditForm.controls.TotalBilling2.setValue(data.TotalFacturar2.toFixed(2));
       }
+      
       if (data.GastosExpCostos)
         this.contratoEditForm.controls.ExpensesExpCosts.setValue(data.GastosExpCostos);
         else

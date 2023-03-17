@@ -158,7 +158,8 @@ export class ContratoEditComponent implements OnInit {
       idCliente: [, Validators.required],
       codCliente: [, Validators.required],
       cliente: [, Validators.required],
-      floId: [, Validators.required],
+      //floId: [, Validators.required],
+      floId: [],
       condicionEmbarque: [, Validators.required],
       estadoPagoFactura: [],
       fechaEmbarque: [, Validators.required],
@@ -720,7 +721,14 @@ export class ContratoEditComponent implements OnInit {
       if (data.Cliente)
         this.contratoEditForm.controls.cliente.setValue(data.Cliente);
       if (data.FloId)
+      {
         this.contratoEditForm.controls.floId.setValue(data.FloId);
+      }
+      else
+      {
+        this.contratoEditForm.controls.floId.setValue('');
+      }
+
       if (data.CondicionEmbarqueId) {
         await this.GetShipmentCondition();
         this.contratoEditForm.controls.condicionEmbarque.setValue(data.CondicionEmbarqueId);
@@ -911,7 +919,14 @@ export class ContratoEditComponent implements OnInit {
         this.contratoEditForm.controls.TotalBilling2.setValue(data.TotalFacturar2.toFixed(2));
       }
       if (data.GastosExpCostos)
+      {
         this.contratoEditForm.controls.ExpensesExpCosts.setValue(data.GastosExpCostos);
+      }
+      else
+      {
+          this.contratoEditForm.controls.ExpensesExpCosts.setValue(0);
+      }
+      
       if (data.PUTotalC) {
         this.precioUnitarioTotalC = data.PUTotalC;
         this.contratoEditForm.controls.PUTotalC.setValue(data.PUTotalC);

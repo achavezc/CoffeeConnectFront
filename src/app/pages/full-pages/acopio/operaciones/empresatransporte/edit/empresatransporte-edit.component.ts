@@ -256,12 +256,16 @@ export class EmpresaTransporteEditComponent implements OnInit {
         this.empresaTransporteService.Registrar(request)
             .subscribe((res: any) => {
                 this.spinner.hide();
-                if (res.Result.Success) {
+                //if (res.Result.Success) 
+                if (res.Result.Success && (!res.Result.ErrCode || res.Result.ErrCode === '00'))
+                {
                     this.alertUtil.alertOkCallback("Registrado!", "Se completo el registro correctamente!",
                         () => {
                             this.Cancel();
                         });
-                } else {
+                }
+                 else 
+                {
                     this.alertUtil.alertError("Error!", res.Result.Message);
                 }
             }, (err: any) => {

@@ -208,8 +208,8 @@
                             
                             <ngx-datatable-column name="Fecha de Contrato Compra" prop="FechaContrato" width="200">
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="Contrato Venta" prop="NumeroContratoVenta" width="120">
-                            </ngx-datatable-column>
+                            <!-- <ngx-datatable-column name="Contrato Venta" prop="NumeroContratoVenta" width="120">
+                            </ngx-datatable-column> -->
                             <ngx-datatable-column name="Ruc" prop="RucProductor" width="150">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Razon Social" prop="Productor" width="250">
@@ -287,6 +287,14 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Tipo de Producción" prop="TipoProduccion" width="180">
                             </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Sacos Asignados" prop="TotalSacosContratoVenta" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Saldo" prop="CantidadDisponible" width="180" *ngIf="tipoEmpresaId != '01' ">
+                            </ngx-datatable-column>
+
+
                             <ngx-datatable-column name="Estado" prop="Estado" width="140">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
                                     <div class="badge"

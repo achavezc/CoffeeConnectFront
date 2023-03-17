@@ -180,7 +180,7 @@ export class ContratoEditComponent implements OnInit {
           this.errorGeneral = { isError: false, errorMessage: this.mensajeErrorGenerico };
         }
       );
-  }
+  } 
   cargarDataFormulario(data: any) {
     this.responsable = data.UsuarioRegistro;
     this.AduanaId = data.AduanaId;
@@ -199,7 +199,7 @@ export class ContratoEditComponent implements OnInit {
     this.contratoFormEdit.controls["empaque"].setValue( data.Empaque + " - " + data.TipoEmpaque);
     this.contratoFormEdit.controls["certificacion"].setValue(data.TipoCertificacion);
     this.contratoFormEdit.controls["cantidadDefectos"].setValue(data.PreparacionCantidadDefectos);
-    this.contratoFormEdit.controls["nroContenedores"].setValue(data.CantidadContenedores);
+    this.contratoFormEdit.controls["nroContenedores"].setValue(data.NumeroContenedores);
     this.contratoFormEdit.controls["pesoxSaco"].setValue(data.PesoPorSaco);
     this.contratoFormEdit.controls["totalKilosNetos"].setValue(data.PesoKilos);
     if (data.FechaPagoFactura)

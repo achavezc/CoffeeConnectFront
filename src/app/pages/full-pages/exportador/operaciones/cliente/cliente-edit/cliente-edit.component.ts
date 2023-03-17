@@ -88,7 +88,9 @@ export class ClienteEditComponent implements OnInit {
       descPresidente: [''],
       idPresidente: [''],
       responsableComercial: [''],
-      floId: [, Validators.required],
+      
+      //floId: [, Validators.required],
+      floId: [''],
       codigoInterno: [''],
     });
     this.clienteEditForm.setValidators(this.comparisonValidator());
