@@ -49,6 +49,9 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
   vSessionUser: any;
   listaAlmacen: Observable<any[]>;
   @Input() popUp = false;
+  @Input() tipoProceso = "";
+  @Input() rucCliente="";
+
   @Output() agregarEvent = new EventEmitter<any>();
   readonly: boolean;
 
@@ -195,24 +198,50 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
     await this.LoadFormPopup();
   }
 
-  async LoadFormPopup() {
-    if (this.popUp) {
+  async LoadFormPopup() 
+  {
+    debugger
+    if (this.popUp) 
+    {
+
       this.selectedEstadoProducto = '01';
       this.notaIngresoProductoAlmacenForm.controls["estado"].setValue('01');
       this.notaIngresoProductoAlmacenForm.controls.estado.disable();
-     
-
       this.notaIngresoProductoAlmacenForm.controls["estado"].setValue('01');
-      //this.selectedProducto = '02';
-      //this.cargarProducto(this.selectedProducto);
-      this.notaIngresoProductoAlmacenForm.controls.estado.disable();
+
+      switch (this.tipoProceso) 
+      {
+        case '03': //Reproceso
+           this.selectedProducto = '02';
+           this.notaIngresoProductoAlmacenForm.controls.producto.disable();
+           this.cargarProducto(this.selectedProducto);
+          break;
+        case '04': ///TRANSFORMACIÓN (Resultado Secado)
+          this.selectedMotivo = '07';//Liquidación Proceso Secado
+          //this.notaIngresoProductoAlmacenForm.controls['motivo'].setValue('07'); 
+          this.notaIngresoProductoAlmacenForm.controls.motivo.disable();
+
+           break;
+        
+        default:
+           
+          break;
+      }
+
+      this.notaIngresoProductoAlmacenForm.controls.ruc.setValue(this.rucCliente); 
+      this.notaIngresoProductoAlmacenForm.controls['ruc'].setValue(this.rucCliente);
+      this.notaIngresoProductoAlmacenForm.controls['ruc'].disable();
+
+      
+      
+      //this.notaIngresoProductoAlmacenForm.controls.estado.disable();
       //this.notaIngresoProductoAlmacenForm.controls.producto.disable();
 
 
     }
   }
 
- /*cargarProducto(codigo:any)
+ cargarProducto(codigo:any)
   {
     
     this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) 
@@ -225,19 +254,19 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
         }
       }
     });
-   } */
+   } 
 
 
 
-  /* changeProduct(event: any): void 
+   changeProduct(event: any): void 
    {   
    
     this.cargarProducto(event.Codigo);
    
-  }*/
+  }
  
 
-  changeProduct(event: any): void {
+  /* changeProduct(event: any): void {
     let form = this;
     if (event) {
       this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) {
@@ -252,7 +281,7 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
     } else {
       form.listaSubProducto = [];
     }
-  }
+  } */
    
 
   public comparisonValidator(): ValidatorFn {

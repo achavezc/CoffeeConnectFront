@@ -92,7 +92,14 @@
                 <small class="form-text text-muted danger" *ngIf="fns.tipoProceso.errors?.required">Ingrese
                   Tipo de Proceso</small>
                   <label for="fechaFin" >Fecha de Termino Proceso</label>
-                  <input type="text" class="form-control" id="basicInput" formControlName="fechaFinProceso" disabled>
+                  <!-- <input type="text" class="form-control" id="basicInput" formControlName="fechaFinProceso" disabled> -->
+
+                  <input type="date" class="form-control" formControlName="fechaFinProceso" id="validationTooltip10"
+                      name="fechaFinProceso" placeholder="date" date
+                      [ngClass]="{ 'is-invalid': submittedEdit && fedit.fechaFinProceso.invalid, 'is-valid': submittedEdit && !fedit.fechaFinProceso.invalid }" />
+                 
+
+
 
                 <label for="basicInput"></label>
                 <input type="text" class="form-control" id="basicInput" formControlName="razonSocial" disabled>

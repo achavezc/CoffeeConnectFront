@@ -52,6 +52,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
   readonly: boolean;
+  @Input() tipoProceso = "";
+  @Input() rucCliente="";
 
   // row data
   public rows = [];
@@ -254,11 +256,47 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
       );
   }
 
-  async LoadFormPopup() {
-    if (this.popUp) {
+  async LoadFormPopup() 
+  {
+    if (this.popUp) 
+    {
       this.selectedEstado = '01';
       this.notaIngresoAlmacenForm.controls["estado"].setValue('01');
       this.notaIngresoAlmacenForm.controls.estado.disable();
+
+
+      this.notaIngresoAlmacenForm.controls.ruc.setValue(this.rucCliente); 
+      this.notaIngresoAlmacenForm.controls['ruc'].setValue(this.rucCliente);
+      this.notaIngresoAlmacenForm.controls['ruc'].disable();
+
+
+      switch (this.tipoProceso) 
+      {
+        
+        case '01': //TRANSFORMACIÓN
+           this.selectedProducto = '01'; //TRANSFORMACIÓN
+           this.notaIngresoAlmacenForm.controls.producto.disable();
+           this.cargarProducto(this.selectedProducto);
+           this.selectedSubProducto = '02';//Seco
+           this.notaIngresoAlmacenForm.controls.subproducto.disable();
+          //this.notaIngresoProductoAlmacenForm.controls['motivo'].setValue('07'); 
+          //this.notaIngresoAlmacenForm.controls.subproducto.disable();
+          break;
+          case '02': //SECADO
+           this.selectedProducto = '01'; //Pergamino
+           this.notaIngresoAlmacenForm.controls.producto.disable();
+           this.cargarProducto(this.selectedProducto);
+           this.selectedSubProducto = '05';//HUMEDO
+           this.notaIngresoAlmacenForm.controls.subproducto.disable();
+          //this.notaIngresoProductoAlmacenForm.controls['motivo'].setValue('07'); 
+          //this.notaIngresoAlmacenForm.controls.subproducto.disable();
+          break;
+        default:
+           
+          break;
+      }
+
+
     }
   }
 
@@ -738,8 +776,50 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
 
 
 
+  cargarProducto(codigo:any)
+  {
+    
+    var form = this;
 
-  changeProduct(event: any): void {
+    this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) 
+    {
+      if (res.Result.Success) {
+        if (res.Result.Data.length > 0) {
+          
+          debugger
+          form.listaSubProducto = res.Result.Data.filter(x => x.Val1 == codigo);
+
+          if (form.popUp) 
+          {
+            if (form.tipoProceso =='01') //Transformacion
+            {
+              form.selectedSubProducto = '02';//Seco
+            }
+            else if (form.tipoProceso =='02') //Secado
+            {
+              form.selectedSubProducto = '05';//Humedo
+            }
+            
+          }
+          
+        } else {
+          form.listaSubProducto = [];
+        }
+      }
+    });
+   } 
+
+
+
+   changeProduct(event: any): void 
+   {   
+   
+    this.cargarProducto(event.Codigo);
+   
+  }
+
+
+  /* changeProduct(event: any): void {
     let form = this;
     if (event) {
       this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) {
@@ -754,7 +834,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     } else {
       form.listaSubProducto = [];
     }
-  }
+  } */
 
   Agregar(selected: any) {
     this.agregarEvent.emit(selected)

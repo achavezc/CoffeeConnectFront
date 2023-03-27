@@ -6,12 +6,14 @@ export class ReqLiquidacionProceso {
         EmpresaId: number,
         Observacion: string,
         EnvasesProductos: string,
+        FechaFinProceso: Date,
         CertificacionId: string,
         TrabajosRealizados: string,
         EstadoId: string,
         Usuario: string,
         LiquidacionProcesoPlantaDetalle : LiquidacionProcesoPlantaDetalle[],
         LiquidacionProcesoPlantaResultado: LiquidacionProcesoPlantaResultado[],
+        
         NumeroDefectos: number)
          {
         if (LiquidacionProcesoPlantaId != 0) {
@@ -28,6 +30,7 @@ export class ReqLiquidacionProceso {
         this.Observacion = Observacion;
         this.EnvasesProductos = EnvasesProductos;
         this.CertificacionId = CertificacionId;
+        this.FechaFinProceso = FechaFinProceso;
         
         this.TrabajosRealizados = TrabajosRealizados;
         this.EstadoId = EstadoId;
@@ -46,6 +49,7 @@ export class ReqLiquidacionProceso {
     TrabajosRealizados: string;
     EstadoId: string;
     CertificacionId: string;
+    FechaFinProceso: Date;
     
     Usuario: string;
     LiquidacionProcesoPlantaDetalle : LiquidacionProcesoPlantaDetalle[];

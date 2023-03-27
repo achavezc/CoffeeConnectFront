@@ -140,7 +140,7 @@
                       <label for="validationTooltip12">Motivo</label>
                       <ng-select [items]="listaMotivo" formControlName="motivo" class="form-control"
                         bindLabel="Label" bindValue="Codigo" id="validationTooltip12" placeholder="Motivo"
-                        [ngClass]="{ 'is-invalid': submitted && f.subproducto.invalid, 'is-valid': submitted && !f.subproducto.invalid }"
+                        [ngClass]="{ 'is-invalid': submitted && f.motivo.invalid, 'is-valid': submitted && !f.motivo.invalid }"
                         [(ngModel)]="selectedMotivo">
                       </ng-select>
                     </div>
@@ -267,6 +267,8 @@
                 <ngx-datatable-column name="Fecha Guia Remision" prop="FechaGuiaRemisionString" width="140">
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Fecha Registro" prop="FechaRegistroString" width="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Ruc Empresa Origen" prop="RucEmpresaOrigen" width="80">
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Razon Social Empresa Origen" prop="RazonSocialEmpresaOrigen" width="100">
                 </ngx-datatable-column>

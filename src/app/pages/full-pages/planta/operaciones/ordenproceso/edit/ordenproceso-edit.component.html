@@ -22,20 +22,20 @@
               </button>
             </div>
             <div class="modal-body">
-                <app-notaingresoalmacen-list (agregarEvent)="agregarNotaIngreso($event,'materiaPrima')" [popUp] = "popUp"></app-notaingresoalmacen-list>
+                <app-notaingresoalmacen-list (agregarEvent)="agregarNotaIngreso($event,'materiaPrima')" [popUp] = "popUp" [tipoProceso]="this.ordenProcesoEditForm.controls['tipoProceso'].value" [rucCliente]="this.ordenProcesoEditForm.controls['rucOrganizacion'].value"></app-notaingresoalmacen-list>
             <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
             </div>
           </ng-template>
           <ng-template #modalAlmacenProductoTerminado let-c="close" let-d="dismiss">
             <div class="modal-header" style="text-align: center;">
       
-              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso a Almacen</h4>
+              <h4 class="modal-title" style="font-size: 1rem;">Bandeja de Nota de Ingreso Producto Terminado a Almacen</h4>
               <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-                <app-notaingresoproducto-list (agregarEvent)="agregarNotaIngreso($event,'productoTerminado')" [popUp] = "popUp"></app-notaingresoproducto-list>
+                <app-notaingresoproducto-list (agregarEvent)="agregarNotaIngreso($event,'productoTerminado')" [popUp] = "popUp" [tipoProceso]="this.ordenProcesoEditForm.controls['tipoProceso'].value" [rucCliente]="this.ordenProcesoEditForm.controls['rucOrganizacion'].value"></app-notaingresoproducto-list>
             <!-- <app-controlcalidad-list (agregarEvent)="agregarNotaIngreso($event)" [popUp] = "popUp"></app-controlcalidad-list>-->
             </div>
           </ng-template>

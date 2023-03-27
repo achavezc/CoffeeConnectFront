@@ -47,8 +47,10 @@ export class ControlCalidadListComponent implements OnInit
   errorGeneral: any = { isError: false, errorMessage: '' };
   selected = []
   mensajeErrorGenerico = "Ocurrio un error interno.";
+  estadoAnulado = "00";
   estadoPesado = "01";
   estadoAnalizado = "02";
+  estadoEnviadoAlmacen = "04";
   vSessionUser: any;
   @Input() popUp = false;
   @Output() agregarEvent = new EventEmitter<any>();
@@ -378,9 +380,11 @@ export class ControlCalidadListComponent implements OnInit
   }
 
   anular() {
-    if (this.selected.length > 0) {
-    
-      if (this.selected[0].EstadoCalidadId == this.estadoPesado) {
+    if (this.selected.length > 0) 
+    {
+      debugger
+      if (this.selected[0].EstadoCalidadId != this.estadoAnulado && this.selected[0].EstadoCalidadId!=this.estadoEnviadoAlmacen) 
+      {
         var form = this;
         swal.fire({
           title: '¿Estas seguro?',
@@ -401,6 +405,9 @@ export class ControlCalidadListComponent implements OnInit
           }
         });
       } 
+      else {
+        this.alertUtil.alertError("ADVERTENCIA", "No se puede anular Control de Calidad en este estado.")
+      }
     }
   }
   anularCalidad(){

@@ -508,16 +508,30 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   openModalNotaIngreso(modalAlmacenMateriaPrima: any, modalAlmacenProductoTerminado: any): void {
     
+    debugger
     var tipoProceso = this.ordenProcesoEditForm.controls["tipoProceso"].value;
 
-    if (tipoProceso) {
-      if (tipoProceso != '03') //Reproceso
+    var rucOrganizacion = this.ordenProcesoEditForm.controls["rucOrganizacion"].value;
+
+    if (tipoProceso) 
+    {
+      if(rucOrganizacion)
       {
-        this.modalService.open(modalAlmacenMateriaPrima, { windowClass: 'dark-modal', size: 'xl' });
+        if (tipoProceso == '03' ||  tipoProceso == '04') //Reproceso o TRANSFORMACIÓN (Resultado Secado)
+        {
+          this.modalService.open(modalAlmacenProductoTerminado, { windowClass: 'dark-modal', size: 'xl' });
+          
+        }
+        else 
+        {
+          this.modalService.open(modalAlmacenMateriaPrima, { windowClass: 'dark-modal', size: 'xl' });
+        }
       }
-      else {
-        this.modalService.open(modalAlmacenProductoTerminado, { windowClass: 'dark-modal', size: 'xl' });
+      else
+      {
+        this.alertUtil.alertWarning("Oops...!", "Seleccione Cliente");
       }
+      
     }
     else {
       this.alertUtil.alertWarning("Oops...!", "Seleccione Tipo de Proceso");
@@ -1050,6 +1064,9 @@ export class OrdenProcesoEditComponent implements OnInit {
 
 
       });
+
+      debugger
+      
       this.averageCascarilla = Number((sumCascarilla / this.listaNotaIngreso.length).toFixed(2));
       this.averageDescarte = Number((sumDescarte / this.listaNotaIngreso.length).toFixed(2));
       this.averageExportable = Number((sumExportable / this.listaNotaIngreso.length).toFixed(2));

@@ -126,7 +126,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
       this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
       this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
-      this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
+      //this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
       this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
       this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
       this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
@@ -193,7 +193,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         trabajos: new FormControl('', []),
         numDefectos: new FormControl('', []),
         fechaInicioProceso: [],
-        fechaFinProceso: [],
+        fechaFinProceso: new FormControl('', [Validators.required]),
         totalKilosNetosNotas: new FormControl('', [])
       });
 
@@ -217,7 +217,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
       this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
       this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
       this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
-      this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
+      //this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
       this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
       this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
       this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
@@ -238,7 +238,8 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["producto"].setValue(data.Producto);
     this.liquidacionProcesoFormEdit.controls["productoTerminado"].setValue(data.ProductoTerminado);
     this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].setValue(this.dateUtil.formatDate(data.FechaInicioProceso));
-    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(this.dateUtil.formatDate(data.FechaFinProceso));
+    //this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(this.dateUtil.formatDate(data.FechaFinProceso));
+    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(data.FechaFinProceso);
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);
@@ -275,7 +276,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
     this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
     this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
-    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
+    //this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
     this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
     this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
@@ -739,6 +740,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         this.vSessionUser.Result.Data.EmpresaId,
         observacion,
           envases,
+          this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].value,
           this.CertificacionId,
           trabajos,
         '01',
@@ -974,7 +976,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["producto"].disable() ;
     this.liquidacionProcesoFormEdit.controls["productoTerminado"].disable();
     this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].disable();
-    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
+    //this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].disable();
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable();
     this.liquidacionProcesoFormEdit.controls["razonSocial"].disable();
     this.liquidacionProcesoFormEdit.controls["certificacion"].disable();
