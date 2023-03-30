@@ -33,6 +33,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   mensajeErrorGenerico = "Ocurrio un error interno.";
   fechaRegistro: any;
   responsable: "";
+  fechaPesado: any;
   numeroNota: "";
   viewCafeP: Boolean = false;
   codigoCafeP= "01";
@@ -415,7 +416,9 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("numeroBrevete").setValue(data.LicenciaConductorEmpresaTransporte);
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("observacion").setValue(data.ObservacionPesado);
     this.consultaNotaIngresoAlmacenFormEdit.get('pesado').get("marca").setValue(data.Marca);
-    
+    this.fechaRegistro = this.dateUtil.formatDate(new Date(data.FechaRegistro), "/");
+    this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
+
 
     await this.cargaTipo();
     await this.cargaEmpaque();

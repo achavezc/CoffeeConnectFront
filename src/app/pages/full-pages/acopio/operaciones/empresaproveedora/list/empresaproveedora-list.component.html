@@ -128,6 +128,12 @@
                             <ngx-datatable-column name="Floid" prop="Floid" width="200">
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Certificados Vencidos" prop="Vencidos" width="40">
+                                <ng-template let-status="value" ngx-datatable-cell-template>
+                                    <div class="badge"
+                                        [ngClass]="{'bg-light-success': status == 'No', 'bg-light-warning': status == 'Si' }">
+                                        {{ status }}
+                                    </div>
+                                </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column name="Estado" prop="Estado" width="70">
                                 <ng-template let-status="value" ngx-datatable-cell-template>
