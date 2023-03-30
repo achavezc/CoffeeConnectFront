@@ -20,6 +20,7 @@
                       [ngClass]="{ 'is-invalid': submitted && f.numeroIngresoAlmacen.invalid, 'is-valid': submitted &&  !f.numeroIngresoAlmacen.invalid }">
                  
                   </div>
+                  
                   <!--<div class="col-md-4 mb-4 form-group mb-2">
                     <label for="validationTooltip04">Nro Control Calidad</label>
                     <input type="text" minlength="1" maxlength="20" formControlName="numeroControlCalidad"
@@ -261,6 +262,10 @@
                 </ngx-datatable-column>  
 
                 <ngx-datatable-column name="Número Nota Ingreso Planta" prop="NumeroNotaIngresoPlanta" width="120">
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column name="Número Liquidación" prop="NumeroLiquidacionPlanta" width="120">
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Nro Guia Remisión" prop="NumeroGuiaRemision" width="140">
                 </ngx-datatable-column>

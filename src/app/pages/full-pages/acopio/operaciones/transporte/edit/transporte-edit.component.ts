@@ -115,7 +115,8 @@ export class TransporteEditComponent implements OnInit {
             configVehicular: ['', Validators.required],
             marcaCarreta: ['', ],
             placaCarreta: ['', ],
-            color: ['', Validators.required],
+            color: ['', ],
+            //color: ['', Validators.required],
             pesoBruto: ['', ],
             altura: ['', ],
             cargaUtil: ['', ],
@@ -124,9 +125,12 @@ export class TransporteEditComponent implements OnInit {
             longitud: ['', ],
             conductor: ['', Validators.required],
             numeroDni: ['', Validators.required],
-            licencia: ['', Validators.required],
-            soat: ['', Validators.required],
-            constanciaMTC: ['', Validators.required],
+            //licencia: ['', Validators.required],
+            licencia: ['', ],
+            //soat: ['', Validators.required],
+            soat: ['', ],
+            //constanciaMTC: ['', Validators.required],
+            constanciaMTC: ['', ],
             numeroCelular: ['', ]
 
             

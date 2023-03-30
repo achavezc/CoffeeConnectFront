@@ -270,12 +270,16 @@
                 <ngx-datatable-column name="Cantidad Almacen" prop="CantidadProcesada" width="100"></ngx-datatable-column>
                 <ngx-datatable-column name="Kilos Netos Almacen" prop="KilosNetosProcesado" width="100"></ngx-datatable-column>
                 <ngx-datatable-column name="Cantidad Disponible" prop="CantidadDisponible" width="100"></ngx-datatable-column>
+                
                 <ngx-datatable-column name="Kilos Netos Disponibles" prop="KilosNetosDisponibles" width="100"></ngx-datatable-column>
              <!-- estos campos no se usaran -->
                 <!--<ngx-datatable-column name="% Rendimiento" prop="RendimientoPorcentaje" width="140"></ngx-datatable-column>
                 <ngx-datatable-column name="Puntaje Final" prop="PuntajeFinal" width="100"></ngx-datatable-column>-->
                 <!-- <ngx-datatable-column name="Certificacion" prop="Certificacion" width="30"></ngx-datatable-column> -->
   
+                <ngx-datatable-column name="Tiene Defectos Graves" prop="TieneDefectosGrave" width="40"></ngx-datatable-column>
+
+
                 <ngx-datatable-column name="Estado" prop="EstadoCalidad" width="150">
                   <ng-template let-status="value" ngx-datatable-cell-template>
                     <div class="badge" [ngClass]="{

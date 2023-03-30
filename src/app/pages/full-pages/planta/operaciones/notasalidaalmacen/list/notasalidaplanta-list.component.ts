@@ -106,12 +106,12 @@ export class NotaSalidaAlmacenComponent implements OnInit {
 
   LoadCombos(): void {
     let form = this;
-    this.empresaService.Consultar({ EmpresaId: 1 }).subscribe(res => {
+    this.empresaService.Consultar({ EmpresaId: this.vSessionUser.Result.Data.EmpresaId }).subscribe(res => {
       if (res.Result.Success) {
         form.listDestinatarios = res.Result.Data;
       }
     });
-    this.empTransporteService.Consultar({ EmpresaId: 1 }).subscribe(res => {
+    this.empTransporteService.Consultar({ EmpresaId: this.vSessionUser.Result.Data.EmpresaId }).subscribe(res => {
       if (res.Result.Success) {
         form.listTransportistas = res.Result.Data;
       }
