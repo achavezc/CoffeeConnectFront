@@ -79,7 +79,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
 
   LoadForm(): void {
     this.notaSalidaForm = this.fb.group({
-      nroNotaSalida: ['', [Validators.minLength(5), Validators.maxLength(20), Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
+      nroNotaSalida: ['', [Validators.minLength(5), Validators.maxLength(20)]],
       destinatario: [],
       transportista: [],
       fechaInicio: [, [Validators.required]],
