@@ -66,10 +66,11 @@ export class NotaSalidaAlmacenComponent implements OnInit {
   readonly: boolean;
   ngOnInit(): void {
     this.LoadForm();
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadCombos();
     this.notaSalidaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.notaSalidaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
+    
     this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
