@@ -277,7 +277,7 @@
                 <ngx-datatable-column name="Puntaje Final" prop="PuntajeFinal" width="100"></ngx-datatable-column>-->
                 <!-- <ngx-datatable-column name="Certificacion" prop="Certificacion" width="30"></ngx-datatable-column> -->
   
-                <ngx-datatable-column name="Tiene Defectos Graves" prop="TieneDefectosGrave" width="40">
+                <ngx-datatable-column name="Defectos Graves" prop="TieneDefectosGrave" width="40">
                   <ng-template let-status="value" ngx-datatable-cell-template>
                     <div class="badge"
                         [ngClass]="{'bg-light-success': status == 'No', 'bg-light-warning': status == 'Si' }">
@@ -285,7 +285,22 @@
                     </div>
                 </ng-template>
                 </ngx-datatable-column>
-
+                <ngx-datatable-column name="Defectos Olor " prop="TieneDefectosOlor" width="40">
+                 <ng-template let-status="value" ngx-datatable-cell-template>
+                    <div class="badge"
+                        [ngClass]="{'bg-light-success': status == 'No', 'bg-light-warning': status == 'Si' }">
+                        {{ status }}
+                    </div>
+                </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Defectos Color" prop="TieneDefectosColor" width="40">
+                 <ng-template let-status="value" ngx-datatable-cell-template>
+                    <div class="badge"
+                        [ngClass]="{'bg-light-success': status == 'No', 'bg-light-warning': status == 'Si' }">
+                        {{ status }}
+                    </div>
+                </ng-template>
+                </ngx-datatable-column>
 
                 <ngx-datatable-column name="Estado" prop="EstadoCalidad" width="150">
                   <ng-template let-status="value" ngx-datatable-cell-template>

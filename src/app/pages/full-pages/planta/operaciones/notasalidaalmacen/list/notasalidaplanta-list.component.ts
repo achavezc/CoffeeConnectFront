@@ -169,9 +169,9 @@ export class NotaSalidaAlmacenComponent implements OnInit {
     if (vEndDate < vBeginDate) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio.' };
       this.notaSalidaForm.value.fechaInicio.setErrors({ isError: true })
-    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+    /*}else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'Por favor el Rango de fechas no puede ser mayor a 2 años.' };
-      this.notaSalidaForm.value.fechaFin.setErrors({ isError: true })
+      this.notaSalidaForm.value.fechaFin.setErrors({ isError: true })*/
     } else {
       this.error = { isError: false, errorMessage: '' };
     }
@@ -213,8 +213,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
         CodigoTipoConcepto: this.notaSalidaForm.value.Concepto,
         EstadoId: this.notaSalidaForm.value.estado,
         EmpresaId: this.vSessionUser.Result.Data.EmpresaId
-        
-    
+         
       }
 
       this.spinner.show();
