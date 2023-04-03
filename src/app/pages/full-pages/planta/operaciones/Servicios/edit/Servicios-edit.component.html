@@ -365,7 +365,26 @@
 
                         </div>
 
-                         
+                        <div class="card-footer">
+                            <div class="form-row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <div class="col-lg-6">
+                                            <small class="form-text text-muted danger mb-1"
+                                                *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
+                                        </div>
+                                        <div class="col-lg-6 text-right">
+                                          <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
+                                                *ngIf="ServicioPlantaId > 0">Imprimir</button>-->
+                                            <button type="button" class="btn btn-primary mr-1"
+                                                (click)="Save()" [disabled]="readonly==false">Guardar</button>
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="Cancel()">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                    
                     <section id="ngx-datatable-filter"*ngIf="OcultarSeccion">
                         <div class="row">
@@ -596,26 +615,7 @@
                 
                 </div>
 
-                <div class="card-footer">
-                    <div class="form-row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="form-group row">
-                                <div class="col-lg-6">
-                                    <small class="form-text text-muted danger mb-1"
-                                        *ngIf="errorGeneral.isError">{{errorGeneral.msgError}}</small>
-                                </div>
-                                <div class="col-lg-6 text-right">
-                                  <!--<button type="button" class="btn btn-primary mr-1" (click)="Print()"
-                                        *ngIf="ServicioPlantaId > 0">Imprimir</button>-->
-                                    <button type="button" class="btn btn-primary mr-1"
-                                        (click)="Save()" [disabled]="readonly==false">Guardar</button>
-                                    <button type="button" class="btn btn-danger"
-                                        (click)="Cancel()">Cancelar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             
             
             </div>

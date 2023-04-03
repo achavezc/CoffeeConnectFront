@@ -775,10 +775,13 @@ export class ServiciosEditComponent implements OnInit {
     }
     
 
+    
+
 
     const request =
     {
   
+      
      ServicioPlantaId: this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value ? this.ServicioPlantaEditForm.controls["ServicioPlantaId"].value : 0,
      Numero: this.ServicioPlantaEditForm.controls["Numero"].value ? this.ServicioPlantaEditForm.controls["Numero"].value : '',
     // NumeroOperacionRelacionada: this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value ? this.ServicioPlantaEditForm.controls["NumeroOperacionRelacionada"].value : '',
@@ -787,7 +790,7 @@ export class ServiciosEditComponent implements OnInit {
      SerieComprobante:this.ServicioPlantaEditForm.controls["SerieComprobante"].value ? this.ServicioPlantaEditForm.controls["SerieComprobante"].value : '',
      NumeroComprobante:this.ServicioPlantaEditForm.controls["NumeroComprobante"].value ? this.ServicioPlantaEditForm.controls["NumeroComprobante"].value : '',
      FechaDocumento:this.ServicioPlantaEditForm.controls["FechaDocumento"].value ? this.ServicioPlantaEditForm.controls["FechaDocumento"].value : '',
-     FechaComprobante:this.ServicioPlantaEditForm.controls["FechaComprobante"].value ? this.ServicioPlantaEditForm.controls["FechaComprobante"].value :'',
+     FechaComprobante:this.ServicioPlantaEditForm.controls["FechaComprobante"].value ? this.ServicioPlantaEditForm.controls["FechaComprobante"].value :null,
      SerieDocumento:this.ServicioPlantaEditForm.controls["SerieDocumento"].value ? this.ServicioPlantaEditForm.controls["SerieDocumento"].value : '',
      NumeroDocumento:this.ServicioPlantaEditForm.controls["NumeroDocumento"].value ? this.ServicioPlantaEditForm.controls["NumeroDocumento"].value : '',
      UnidadMedidaId:this.ServicioPlantaEditForm.controls["UnidadMedida"].value ? this.ServicioPlantaEditForm.controls["UnidadMedida"].value : '',
