@@ -28,7 +28,7 @@
                                 <div class="col-md-4 mb-4 form-group mb-2">
                                     <label for="destinatario" class="form-label">Destinatario</label>
                                     <ng-select [items]="listDestinatarios" formControlName="destinatario"
-                                        class="form-control" bindLabel="RazonSocial" bindValue="EmpresaId"
+                                        class="form-control" bindLabel="RazonSocial" bindValue="EmpresaProveedoraAcreedoraId"
                                         id="destinatario" placeholder="Destinatario"
                                         [ngClass]="{ 'is-invalid': submitted && f.destinatario.invalid, 'is-valid': submitted && !f.destinatario.invalid }"
                                         [(ngModel)]="selectedDestinatario">

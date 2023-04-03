@@ -202,6 +202,7 @@ export class NotaSalidaAlmacenComponent implements OnInit {
       this.selected = [];
       this.submitted = false;
       let request = {
+        
         Numero: this.notaSalidaForm.value.nroNotaSalida,
         EmpresaIdDestino: this.notaSalidaForm.value.destinatario ?? null,
         EmpresaTransporteId: this.notaSalidaForm.value.transportista ?? null,
