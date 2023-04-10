@@ -189,20 +189,22 @@ export class OrdenProcesoListComponent implements OnInit {
     }
   }
   compareTwoDates() {
-    /*
-    var anioFechaInicio = new Date(this.ordenProcesoform.controls['fechaInicio'].value).getFullYear()
-    var anioFechaFin = new Date(this.ordenProcesoform.controls['fechaFin'].value).getFullYear()
-
-    if (new Date(this.ordenProcesoform.controls['fechaFin'].value) < new Date(this.ordenProcesoform.controls['fechaInicio'].value)) {
-      this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
-      this.ordenProcesoform.controls['fechaFin'].setErrors({ isError: true })
-    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
-      this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.ordenProcesoform.controls['fechaFin'].setErrors({ isError: true })
-    } else {
-      this.error = { isError: false, errorMessage: '' };
-    }
-    */
+      let vBeginDate = new Date(this.ordenProcesoform.value.fechaInicio);
+      let vEndDate = new Date(this.ordenProcesoform.value.fechaFin);
+  
+      var anioFechaInicio = vBeginDate.getFullYear()
+      var anioFechaFin = vEndDate.getFullYear()
+  
+      if (vEndDate < vBeginDate) {
+        this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio.' };
+        this.ordenProcesoform.value.fechaInicio.setErrors({ isError: true })
+      /*}else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+        this.error = { isError: true, errorMessage: 'Por favor el Rango de fechas no puede ser mayor a 2 años.' };
+        this.notaSalidaForm.value.fechaFin.setErrors({ isError: true })*/
+      } else {
+        this.error = { isError: false, errorMessage: '' };
+      }
+    
   }
 
   
