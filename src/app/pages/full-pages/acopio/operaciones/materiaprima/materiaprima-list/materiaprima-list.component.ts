@@ -212,9 +212,9 @@ export class MateriaPrimaListComponent implements OnInit {
     if (new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value) < new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value)) {
       this.error = { isError: true, errorMessage: 'La fecha fin no puede ser anterior a la fecha inicio' };
       this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
-    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+    /*} else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
       this.error = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })
+      this.consultaMateriaPrimaForm.controls['fechaFin'].setErrors({ isError: true })*/
     } else {
       this.error = { isError: false, errorMessage: '' };
     }
@@ -226,9 +226,9 @@ export class MateriaPrimaListComponent implements OnInit {
     if (new Date(this.consultaMateriaPrimaForm.controls['fechaInicio'].value) > new Date(this.consultaMateriaPrimaForm.controls['fechaFin'].value)) {
       this.errorFecha = { isError: true, errorMessage: 'La fecha inicio no puede ser mayor a la fecha fin' };
       this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
-    } else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
-      this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
-      this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
+    //} //else if (this.dateUtil.restarAnio(anioFechaInicio, anioFechaFin) > 2) {
+      //this.errorFecha = { isError: true, errorMessage: 'El Rango de fechas no puede ser mayor a 2 años' };
+      //this.consultaMateriaPrimaForm.controls['fechaInicio'].setErrors({ isError: true })
     } else {
       this.errorFecha = { isError: false, errorMessage: '' };
     }
