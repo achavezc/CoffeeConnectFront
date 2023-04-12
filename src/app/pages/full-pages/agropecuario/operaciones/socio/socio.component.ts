@@ -73,7 +73,7 @@ export class SocioComponent implements OnInit {
     this.socioListForm = this.fb.group({
       codSocio: ['', [Validators.minLength(5), Validators.maxLength(25)]],
       tipoDocumento: [],
-      nroDocumento: ['', [Validators.maxLength(25), Validators.pattern('^[0-9]+$')]],
+      nroDocumento: ['', [Validators.maxLength(25),Validators.maxLength(25)]],
       nombRazonSocial: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['', [Validators.required]],
