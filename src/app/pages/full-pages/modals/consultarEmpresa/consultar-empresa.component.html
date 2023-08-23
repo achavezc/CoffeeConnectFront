@@ -92,8 +92,9 @@
 
         <ngx-datatable class="bootstrap core-bootstrap ngx-datatable-empresa" #tableEmpresa
           [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="limitRef"
-          [rows]="rows" style="font-size: 0.8rem;" [selectCheck]="singleSelectCheck" [selected]="selectedEmpresa"
-          [selectionType]="'single'" (dblclick)="seleccionarEmpresa(selectedEmpresa)">
+          [rows]="rows" [scrollbarH]="false" [selected]="selectedEmpresa" [selectionType]="'single'"   (dblclick)="seleccionarEmpresa(selectedEmpresa)"
+           [selectCheck]="singleSelectCheck" 
+          >
           <ngx-datatable-column name="Ruc" prop="Ruc" width="20">
           </ngx-datatable-column>
           <ngx-datatable-column name="Razon Social" prop="RazonSocial" width="40">
