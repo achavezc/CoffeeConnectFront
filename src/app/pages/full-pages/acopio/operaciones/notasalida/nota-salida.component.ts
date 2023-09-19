@@ -64,7 +64,7 @@ export class NotaSalidaComponent implements OnInit {
     this.notaSalidaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.notaSalidaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   get f() {

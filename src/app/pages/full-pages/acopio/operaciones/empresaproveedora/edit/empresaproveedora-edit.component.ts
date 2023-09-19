@@ -77,7 +77,7 @@ export class EmpresaProveedoraEditComponent implements OnInit {
                     this.esEdit = true;
                 }
             });
-        this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.empresaProveedoraEditForm);
+        //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.empresaProveedoraEditForm);
     }
 
     ConsultarPorId() {

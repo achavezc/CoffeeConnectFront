@@ -75,7 +75,7 @@ export class ProductorEditComponent implements OnInit {
     this.LoadDataInitial();
     this.addValidations();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.productorEditForm);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.productorEditForm);
   }
 
   LoadForm(): void {

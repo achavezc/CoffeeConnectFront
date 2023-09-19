@@ -104,7 +104,7 @@ export class AduanasEditComponent implements OnInit {
       itemsShowLimit: 100,
       allowSearchFilter: true
     };
-    //this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.aduanasFormEdit);
+    ////this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.aduanasFormEdit);
   }
   cargarForm() {
     this.aduanasFormEdit = this.fb.group(

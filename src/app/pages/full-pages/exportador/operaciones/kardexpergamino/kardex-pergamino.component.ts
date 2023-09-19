@@ -72,7 +72,7 @@ export class KardexPergaminoComponent implements OnInit {
     this.kardexProcesoForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.kardexProcesoForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   get f() {

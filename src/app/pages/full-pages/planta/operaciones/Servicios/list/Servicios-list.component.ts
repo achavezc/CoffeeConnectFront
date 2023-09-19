@@ -79,7 +79,7 @@ export class ServiciosListComponent implements OnInit {
     this.Serviciosform.controls['FechaInicio'].setValue(this.dateUtil.currentMonthAgo()); 
     //this.Serviciosform.controls.MonedaId.setValue(this.vSessionUser.Result.Data.MonedaId);
     this.page = this.route.routeConfig.data.title;
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

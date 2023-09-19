@@ -62,7 +62,7 @@ export class NotaCompraEditComponent implements OnInit {
     } else {
       this.router.navigate['/tesoreria/notasdecompra-list'];
     }
-    this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.notaCompraEditForm );
+    //this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.notaCompraEditForm );
     var x = 0;
   }
 

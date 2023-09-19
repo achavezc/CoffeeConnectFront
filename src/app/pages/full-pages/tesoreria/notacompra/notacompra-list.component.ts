@@ -64,7 +64,7 @@ export class NotacompraListComponent implements OnInit {
     this.LoadCombos();
     this.consultaNotaCompraForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
     this.consultaNotaCompraForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

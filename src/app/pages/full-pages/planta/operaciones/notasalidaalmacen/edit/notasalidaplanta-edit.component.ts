@@ -95,7 +95,7 @@ export class NotaSalidaPlantaEditComponent implements OnInit {
         }
       }
       );
-      this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+      //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   obtenerDetalle() {

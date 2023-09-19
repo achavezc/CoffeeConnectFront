@@ -46,7 +46,7 @@ export class DiagnosticoComponent implements OnInit {
     this.LoadForm();
     this.socioFincaDiagnosticoForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.socioFincaDiagnosticoForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

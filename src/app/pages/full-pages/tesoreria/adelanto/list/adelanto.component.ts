@@ -61,7 +61,7 @@ export class AdelantoComponent implements OnInit {
     this.LoadCombos();
     this.adelantoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.adelantoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

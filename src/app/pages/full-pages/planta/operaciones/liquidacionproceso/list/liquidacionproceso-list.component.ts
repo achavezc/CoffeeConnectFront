@@ -57,7 +57,7 @@ export class LiquidacionProcesoComponent implements OnInit {
     this.liquidacionProcesoForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
     this.liquidacionProcesoForm.controls.fechaInicial.setValue(this.dateUtil.currentMonthAgo());
     this.LoadCombos();
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void 

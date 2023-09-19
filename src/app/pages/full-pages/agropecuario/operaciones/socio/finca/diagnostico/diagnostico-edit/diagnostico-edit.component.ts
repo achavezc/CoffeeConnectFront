@@ -57,7 +57,7 @@ export class DiagnosticoEditComponent implements OnInit {
     this.codeFincaPartner = this.route.snapshot.params['fincapartner'] ? parseInt(this.route.snapshot.params['fincapartner']) : 0;
     this.LoadForm();
     this.SearchPartnerProducerByFincaPartnerId();
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaDiagnosticoEdit);
+    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaDiagnosticoEdit);
   }
 
   LoadForm(): void {

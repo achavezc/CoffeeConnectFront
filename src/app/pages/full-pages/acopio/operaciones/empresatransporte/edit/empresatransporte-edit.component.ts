@@ -71,7 +71,7 @@ export class EmpresaTransporteEditComponent implements OnInit {
                     this.esEdit = true;
                 }
             });
-            this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura,this.empresaTransporteEditForm );
+            //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura,this.empresaTransporteEditForm );
     }
 
     ConsultarPorId() {

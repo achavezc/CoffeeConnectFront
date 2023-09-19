@@ -57,7 +57,7 @@ export class ProductorComponent implements OnInit {
     this.LoadCombos();
     this.productorForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.productorForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

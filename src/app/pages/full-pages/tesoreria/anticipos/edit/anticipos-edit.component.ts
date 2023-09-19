@@ -79,7 +79,7 @@ export class AnticiposEditComponent implements OnInit {
         }
       }
       );
-      this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.anticipoFormEdit);
+      //this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.anticipoFormEdit);
   }
 
   cargarForm() {

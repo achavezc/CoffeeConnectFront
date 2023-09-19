@@ -63,7 +63,7 @@ export class KardexProcesoEditComponent implements OnInit {
     this.id = this.route.snapshot.queryParams.id ? Number(this.route.snapshot.queryParams.id) : 0;
     this.LoadForm();
     this.LoadCombos();
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
     if (this.id <= 0) {
       this.kardexProcesoEditForm.controls.fechaCabe.setValue(this.dateUtil.currentDate());
       this.kardexProcesoEditForm.controls.fecFinProcesoPlanta.setValue(this.dateUtil.currentDate());

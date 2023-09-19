@@ -64,7 +64,7 @@ export class SocioComponent implements OnInit {
     this.socioListForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.page = this.route.routeConfig.data.title;
     this.vSessionUser = JSON.parse(localStorage.getItem('user')); 
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     var X = 0;
 
   }

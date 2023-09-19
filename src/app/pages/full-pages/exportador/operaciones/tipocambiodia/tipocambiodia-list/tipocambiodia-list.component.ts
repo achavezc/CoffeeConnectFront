@@ -48,7 +48,7 @@ export class TipoCambioDiaComponent implements OnInit {
     this.preciosdiaform.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.preciosdiaform.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

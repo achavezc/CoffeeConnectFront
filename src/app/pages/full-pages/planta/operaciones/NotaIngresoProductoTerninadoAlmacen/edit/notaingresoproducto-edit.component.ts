@@ -99,7 +99,7 @@ export class NotaIngresoProductoTerminadoEditComponent implements OnInit {
         }
       }
       );
-      this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+      //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
   get frendExport() {
     return this.consultaNotaIngresoProductoAlmacenFormEdit.controls;
