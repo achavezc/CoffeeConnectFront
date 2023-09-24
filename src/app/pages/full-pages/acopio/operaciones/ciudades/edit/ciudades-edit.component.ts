@@ -59,7 +59,7 @@ export class CiudadesEditComponent implements OnInit {
         this.esEdit= true;
       }
     });
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.precioDiaEditForm);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.precioDiaEditForm);
   }
 
   ConsultarPorId() {

@@ -80,7 +80,7 @@ export class ContratoCompraComponent implements OnInit {
     this.contratoForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.contratoForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
     this.page = this.route.routeConfig.data.title;
-    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
 
   }
 

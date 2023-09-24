@@ -65,7 +65,7 @@ export class FincaComponent implements OnInit {
     //     }
     //   }
     // });
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

@@ -61,7 +61,7 @@ export class LotesComponent implements OnInit {
     this.banLoteForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.banLoteForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

@@ -118,7 +118,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         }
       }
       );
-      //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.liquidacionProcesoFormEdit);
+      ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.liquidacionProcesoFormEdit);
       this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
       this.liquidacionProcesoFormEdit.controls["tipoProceso"].disable() ;
       this.liquidacionProcesoFormEdit.controls["ruc"].disable() ;

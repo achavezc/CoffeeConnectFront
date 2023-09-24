@@ -81,7 +81,7 @@ export class InspeccionEditComponent implements OnInit {
     } else if (this.codeInternalInspection <= 0) {
       this.isEdit = false;
     }
-    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaInspeccionEdit);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaInspeccionEdit);
   }
 
   LoadForm(): void {

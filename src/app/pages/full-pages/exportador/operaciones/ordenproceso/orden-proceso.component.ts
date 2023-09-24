@@ -59,7 +59,7 @@ export class OrdenProcesoComponent implements OnInit {
     this.ordenProcesoForm.controls.fechaInicial.setValue(this.dateUtil.currentMonthAgo());
     this.LoadCombos();
     this.page = this.route.routeConfig.data.title;
-    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

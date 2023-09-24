@@ -123,7 +123,7 @@ export class ContratoEditComponent implements OnInit {
   async ngOnInit() {
     this.vId = this.route.snapshot.params['id'] ? parseFloat(this.route.snapshot.params['id']) : 0;
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.tipoEmpresaId = this.vSessionUser.Result.Data.TipoEmpresaid;
     await this.LoadForm();
     this.addValidations();

@@ -296,7 +296,7 @@ export class MListaDocumentosComponent implements OnInit {
         color: '#fff',
         fullScreen: true
       });
-    this.productorDocumentoService.Eliminar(id)
+    this.socioDocumentoService.Eliminar(id)
       .subscribe(res => {
         this.spinner.hide();
         if (res.Result.Success) {

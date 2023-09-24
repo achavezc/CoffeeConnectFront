@@ -84,7 +84,7 @@ export class NotaSalidaEditComponent implements OnInit {
   ngOnInit(): void {
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {

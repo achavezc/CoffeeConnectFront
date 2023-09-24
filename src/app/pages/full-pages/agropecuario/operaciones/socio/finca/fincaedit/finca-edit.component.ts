@@ -93,7 +93,7 @@ export class FincaEditComponent implements OnInit {
     } else {
       this.GetFincas(this.codeProducer);
     }
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     // this.route.queryParams.subscribe((params) => {
     //   this.objParams = params;
     //   this.LoadForm();

@@ -41,7 +41,7 @@ export class ProyectosComponent implements OnInit {
     } else {
       this.Cancel();
     }
-    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   New(): void {

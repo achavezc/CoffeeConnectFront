@@ -62,7 +62,7 @@ export class CorrelativoPlantaEditComponent implements OnInit {
         this.esEdit= true;
       }
     });
-  //  //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.CorrelativoEditForm);
+  //  ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.CorrelativoEditForm);
   }
 
   ConsultarPorId() {

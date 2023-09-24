@@ -60,7 +60,7 @@ export class ClienteComponent implements OnInit {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.clienteForm.controls['fechaInicial'].setValue(this.dateUtil.currentMonthAgo());
     this.clienteForm.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

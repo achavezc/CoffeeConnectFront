@@ -119,7 +119,7 @@ export class AnularPrestamoeditComponent implements OnInit {
       this.ConsultaPorId(this.DevolucionPrestamoPlantaId);
     }
 
-    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularPrestamoEditForm.controls.MonedaPagos);
+    ////this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularPrestamoEditForm.controls.MonedaPagos);
 
   }
 

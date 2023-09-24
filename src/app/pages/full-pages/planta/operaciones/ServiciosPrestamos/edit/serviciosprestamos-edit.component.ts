@@ -141,8 +141,8 @@ export class PrestamosEditComponent implements OnInit {
       this.ConsultaPorId(this.PrestamoPlantaId);
     }
 
-    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.SaldoPrestamo);
-    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.ImporteDevolucion);
+    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.SaldoPrestamo);
+    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.PrestamosEditForm.controls.ImporteDevolucion);
     this.OcultarSecciones();
   }
 

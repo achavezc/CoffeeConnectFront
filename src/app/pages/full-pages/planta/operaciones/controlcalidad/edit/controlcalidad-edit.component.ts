@@ -128,7 +128,7 @@ export class ControlCalidadEditComponent implements OnInit {
   // else { this.disabledControl = 'disabled'; }
       }
       );
-   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);;
+   //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);;
   }
 
   cargarForm() {

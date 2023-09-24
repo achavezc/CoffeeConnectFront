@@ -88,7 +88,7 @@ export class ControlCalidadListComponent implements OnInit
     this.consultaControlCalidadPlantaForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
     this.consultaControlCalidadPlantaForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
     this.vSessionUser = JSON.parse(localStorage.getItem("user"));
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     
   }
 

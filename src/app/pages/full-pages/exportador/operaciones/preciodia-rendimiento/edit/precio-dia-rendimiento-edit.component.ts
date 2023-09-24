@@ -43,7 +43,7 @@ export class PrecioDiaRendimientoEditComponent implements OnInit {
   ngOnInit(): void {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.idPriceDayPerformance = this.route.snapshot.params['id'] ? Number(this.route.snapshot.params['id']) : 0;
-    //this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
     this.LoadForm();
     if (this.idPriceDayPerformance > 0) {
       this.GetPriceDayPerformanceById();

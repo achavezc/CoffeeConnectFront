@@ -204,8 +204,8 @@ export class ServicioPlantaeditComponent implements OnInit {
       this.ConsultaPorId(this.PagoServicioPlantaId);
     }
     this.cargaCampania();
-    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.MonedaPagos);
-   // this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.BancoPagos);
+    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.MonedaPagos);
+   // //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.BancoPagos);
     this.OcultarSecciones();
   }
 

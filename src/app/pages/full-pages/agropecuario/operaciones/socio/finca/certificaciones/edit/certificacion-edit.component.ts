@@ -80,7 +80,7 @@ export class CertificacionEditComponent implements OnInit {
       }
     });
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    //this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.certificacionEditForm);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.certificacionEditForm);
   }
   cargarcombos() {
    this.GetEntidadCertificadora();

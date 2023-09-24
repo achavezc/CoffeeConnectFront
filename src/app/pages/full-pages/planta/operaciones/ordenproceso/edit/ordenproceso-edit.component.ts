@@ -133,7 +133,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     } else if (this.codeProcessOrder > 0) {
       this.SearchByid();
     }
-    this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
+    //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
   }
 
   changeTipos(e)
