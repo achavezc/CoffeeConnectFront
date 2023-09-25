@@ -47,7 +47,7 @@ export class DiagnosticoEditComponent implements OnInit {
     if (this.codeDiagnostic > 0) {
       this.SearchById();
     }
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaDiagnosticoEdit);
+   
   }
 
   ngOnInit(): void {
@@ -57,6 +57,7 @@ export class DiagnosticoEditComponent implements OnInit {
     this.codeFincaPartner = this.route.snapshot.params['fincapartner'] ? parseInt(this.route.snapshot.params['fincapartner']) : 0;
     this.LoadForm();
     this.SearchPartnerProducerByFincaPartnerId();
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.frmFincaDiagnosticoEdit);
   }
 
   LoadForm(): void {

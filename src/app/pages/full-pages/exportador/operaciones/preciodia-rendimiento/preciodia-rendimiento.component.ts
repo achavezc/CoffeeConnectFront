@@ -46,7 +46,7 @@ export class PreciodiaRendimientoComponent implements OnInit {
     this.userSession = JSON.parse(localStorage.getItem('user'));
     this.LoadForm();
     this.GetStatus();
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm() {

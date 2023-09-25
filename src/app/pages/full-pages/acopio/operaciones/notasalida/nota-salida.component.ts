@@ -60,11 +60,12 @@ export class NotaSalidaComponent implements OnInit {
 
   ngOnInit(): void {
     this.LoadForm();
+    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
     this.LoadCombos();
     this.notaSalidaForm.controls['fechaFin'].setValue(this.dateUtil.currentDate());
     this.notaSalidaForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-    this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   get f() {
@@ -99,6 +100,7 @@ export class NotaSalidaComponent implements OnInit {
   }
 
   LoadCombos(): void {
+    debugger
     let form = this;
     this.empresaService.Consultar({ EmpresaId: this.vSessionUser.Result.Data.EmpresaId }).subscribe(res => {
       if (res.Result.Success) {

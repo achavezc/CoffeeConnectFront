@@ -61,7 +61,7 @@ export class TransporteEditComponent implements OnInit {
                 }
             });
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura,this.transporteEditForm);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura,this.transporteEditForm);
     }
 
     ConsultarPorId() {

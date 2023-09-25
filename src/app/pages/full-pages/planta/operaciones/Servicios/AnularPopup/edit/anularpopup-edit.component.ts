@@ -198,7 +198,7 @@ export class AnularServicioeditComponent implements OnInit {
       this.ConsultaPorId(this.PagoServicioPlantaId);
     }
 
-   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularServicioEditForm.controls.MonedaPagos);
+   //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.AnularServicioEditForm.controls.MonedaPagos);
 
   }
 

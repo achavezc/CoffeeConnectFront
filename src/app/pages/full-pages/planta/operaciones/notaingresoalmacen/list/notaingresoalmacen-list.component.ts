@@ -87,7 +87,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.notaIngresoAlmacenForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
     this.notaIngresoAlmacenForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
 
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
   compareTwoDates() {
     /*

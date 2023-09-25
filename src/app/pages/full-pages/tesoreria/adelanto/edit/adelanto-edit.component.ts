@@ -75,7 +75,7 @@ export class AdelantoEditComponent implements OnInit {
         }
       }
       );
-      this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.adelantoFormEdit);
+      ////this.readonly= this.authService.esReadOnly(this.login.Result.Data.OpcionesEscritura, this.adelantoFormEdit);
   }
 
   cargarForm() {

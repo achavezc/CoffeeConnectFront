@@ -63,7 +63,7 @@ export class OrdenProcesoEditComponent implements OnInit {
     } else if (this.codeProcessOrder > 0) {
       this.SearchByid();
     }
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.ordenProcesoEditForm);
   }
 
   LoadForm(): void {

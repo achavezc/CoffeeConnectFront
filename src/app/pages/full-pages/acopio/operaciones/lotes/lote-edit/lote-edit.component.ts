@@ -69,7 +69,7 @@ export class LoteEditComponent implements OnInit {
     else {
       this.disabledControl = 'disabled';
     }
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
      (this.readonly)? this.loteEditForm.disable() : this.loteEditForm.enable();
   }
 

@@ -70,7 +70,7 @@ export class IngresoAlmacenComponent implements OnInit {
     this.ingresoAlmacenForm.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
     this.userSession = JSON.parse(localStorage.getItem('user'));
 
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
 
   }
 

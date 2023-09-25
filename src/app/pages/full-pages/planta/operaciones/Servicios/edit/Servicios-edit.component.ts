@@ -222,7 +222,7 @@ export class ServiciosEditComponent implements OnInit {
     }
     this.cargaCampania();
     this.cargaCampania2();
-   this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.MonedaPagos);
+   //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.ServicioPlantaEditForm.controls.MonedaPagos);
     this.OcultarSecciones();
   }
 

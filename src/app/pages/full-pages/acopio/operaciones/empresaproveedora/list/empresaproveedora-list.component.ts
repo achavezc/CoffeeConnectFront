@@ -51,7 +51,7 @@ export class EmpresaProveedoraListComponent implements OnInit {
     this.LoadForm();
     this.LoadCombos();
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
 
   LoadForm(): void {

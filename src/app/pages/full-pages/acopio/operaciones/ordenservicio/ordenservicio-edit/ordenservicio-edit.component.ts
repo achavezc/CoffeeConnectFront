@@ -72,7 +72,7 @@ export class OrdenServicioEditComponent implements OnInit {
     this.ordenServicioFormEdit.get('ruc').setValue(this.selectEmpresa[0].Ruc);
     this.ordenServicioFormEdit.get('dirDestino').setValue(this.selectEmpresa[0].Direccion + " - " + this.selectEmpresa[0].Distrito + " - " + this.selectEmpresa[0].Provincia + " - " + this.selectEmpresa[0].Departamento);
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
-    this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
     this.modalService.dismissAll();
   }
 
@@ -83,7 +83,7 @@ export class OrdenServicioEditComponent implements OnInit {
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem("user"));
     this.cargarForm();
-    this.readonly = true;
+    //this.readonly = true;
     this.route.queryParams
       .subscribe(params => {
         if (Number(params.id)) {

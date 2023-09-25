@@ -47,7 +47,7 @@ export class InspeccionComponent implements OnInit {
     this.socioFincaInspeccionForm.controls.fechaInicio.setValue(this.dateUtil.currentMonthAgo());
     this.socioFincaInspeccionForm.controls.fechaFinal.setValue(this.dateUtil.currentDate());
     this.LoadState();
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura);
   }
 
   LoadForm() {
@@ -76,6 +76,7 @@ export class InspeccionComponent implements OnInit {
       Numero: this.socioFincaInspeccionForm.value.nroFicha,
       EstadoId: this.socioFincaInspeccionForm.value.estado,
       EmpresaId: this.userSession.Result.Data.EmpresaId,
+      SocioFincaId:this.codeFincaPartner,
       FechaInicio: this.socioFincaInspeccionForm.value.fechaInicio,
       FechaFin: this.socioFincaInspeccionForm.value.fechaFinal
     }

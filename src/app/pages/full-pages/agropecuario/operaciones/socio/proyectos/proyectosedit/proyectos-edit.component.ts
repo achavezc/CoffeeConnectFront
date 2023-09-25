@@ -66,7 +66,7 @@ export class ProyectosEditComponent implements OnInit {
     } else {
       this.GetProjectById();
     }
-    this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.proyectosEditForm);
+    ////this.readonly= this.authService.esReadOnly(this.userSession.Result.Data.OpcionesEscritura, this.proyectosEditForm);
   }
 
   LoadForm(): void {

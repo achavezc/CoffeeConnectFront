@@ -135,7 +135,7 @@ export class ServicioDevolucionEditComponent implements OnInit {
 
       this.ConsultaPorId(this.DevolucionPrestamoPlantaId);
     }
-    // this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.DevolucionesEditForm.controls.MonedaPagos);
+    // //this.readonly = this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.DevolucionesEditForm.controls.MonedaPagos);
 
     this.OcultarSecciones();
   }
