@@ -319,7 +319,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     
     await this.cargaTipo();
     await this.cargaEmpaque();
-    if(data.EstadoId == "02"){
+    if(data.EstadoId == "02" && this.id != 0){
       this.esProcesado = true;
     }
 
