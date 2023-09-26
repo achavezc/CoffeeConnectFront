@@ -680,7 +680,7 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
-      if (data.EstadoId = "02"){
+      if (data.EstadoId == "02"){
         this.esLiquidado = true;
       }
       //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);

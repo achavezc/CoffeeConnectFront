@@ -233,7 +233,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   cargarDataFormulario(data: any) 
   {
 
-    if (data.EstadoId = "02"){
+    if (data.EstadoId == "02"){
       this.esLiquidado = true;
     }
 
