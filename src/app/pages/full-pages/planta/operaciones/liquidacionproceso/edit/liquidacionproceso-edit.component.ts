@@ -86,7 +86,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   taraYute = 0.7
   selectedDetalleTipoEmpaque : any[];
   selectedDetalleEmpaque: any[];
-
+  esLiquidado = false;
   @ViewChild(DatatableComponent) tblResultProceso: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
@@ -232,6 +232,11 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   cargarDataFormulario(data: any) 
   {
+
+    if (data.EstadoId = "02"){
+      this.esLiquidado = true;
+    }
+
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(data.TipoProceso);
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);

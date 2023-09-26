@@ -105,7 +105,7 @@ export class OrdenProcesoEditComponent implements OnInit {
   formGroupCantidad: FormGroup;
 
   groupCantidad = {};
-
+  esLiquidado = false;
 
   async ngOnInit() {
     this.vSessionUser = JSON.parse(localStorage.getItem('user'));
@@ -680,7 +680,9 @@ export class OrdenProcesoEditComponent implements OnInit {
 
   async AutocompleteFormEdit(data: any) {
     if (data) {
-      
+      if (data.EstadoId = "02"){
+        this.esLiquidado = true;
+      }
       //this.SearchByidOrdenProcesoNumero(data.OrdenProcesoId);
       this.ordenProcesoEditForm.controls.ordenProcesoComercial.setValue(data.NumeroOrdenProcesoComercial);
       this.ordenProcesoEditForm.controls.idOrdenProcesoComercial.setValue(data.OrdenProcesoId);
