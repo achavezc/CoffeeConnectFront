@@ -129,7 +129,7 @@
   
   
   
-                <div class="col-md-1 mb-1 form-group mb-2">
+                <div class="col-md-1 mb-1 form-group mb-2" style="display: none;">
                   <!-- <ng-template #mdlConsultarOrganizacion let-c="close" let-d="dismiss">
                     <app-consultar-organizacion (empresaEvent)="GetDataEmpresa($event)">
                     </app-consultar-organizacion>
@@ -270,7 +270,7 @@
                       <span class="d-none d-sm-block" style="font-size: 1.1rem;">Control de Calidad</span>
                     </a>
                     <ng-template ngbNavContent *ngIf="viewTagSeco">
-                      <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form]="form" [readonly]="readonly"></app-controlCalidadSeco>
+                      <app-controlCalidadSeco *ngIf="detalle" [detalle]="detalle" [form]="form" [readonly]="readonly"  [esAlmacen]="esAlmacen"></app-controlCalidadSeco>
                     </ng-template>
   
                     <ng-template ngbNavContent *ngIf="!viewTagSeco">

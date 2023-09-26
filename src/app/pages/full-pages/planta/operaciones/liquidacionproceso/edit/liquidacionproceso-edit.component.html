@@ -359,7 +359,7 @@
                
                 <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2"
                   (click)="ImprimirLiquidacionProceso()" [disabled]="!id || id <= 0">Imprimir</button>
-                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()" [disabled]="readonly==true">Guardar</button>
+                <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()" [disabled]="readonly==true"  *ngIf="!this.esLiquidado" >Guardar</button>
                 <button type="submit"class="btn btn-danger ml-1"
                   (click)="cancelar()">Cancelar</button>
               </div>

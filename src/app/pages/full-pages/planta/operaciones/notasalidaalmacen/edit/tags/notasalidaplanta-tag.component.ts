@@ -49,12 +49,12 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   averageCantidad: Number = 0;
   averageKilosBrutos: Number = 0;
   averageKilosNetos: Number = 0;
-  
+
   submitted = false;
   submittedT = false;
   closeResult: string;
   tagNotadeSalida: FormGroup;
-  notaSalidaFormEdit : FormGroup;
+  notaSalidaFormEdit: FormGroup;
   errorGeneral: any = { isError: false, errorMessage: '' };
   error: any = { isError: false, errorMessage: '' };
   errorFecha: any = { isError: false, errorMessage: '' };
@@ -102,7 +102,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
 
     this.cargarformTagNotaSalida();
     this.tagNotadeSalida = <FormGroup>this.controlContainer.control;
-    this.notaSalidaFormEdit =  <FormGroup>this.controlContainer.control;
+    this.notaSalidaFormEdit = <FormGroup>this.controlContainer.control;
     this.login = JSON.parse(localStorage.getItem("user"));
     this.eventsNs.subscribe({
       next: (data) => this.cargarDatos(data)
@@ -113,40 +113,40 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   cargarDatos(detalle: any) {
     detalle.forEach(x => {
       let object: any = {};
-     /*  object.NotaSalidaAlmacenPlantaDetalleId = x.NotaSalidaAlmacenPlantaDetalleId
-      object.NotaSalidaAlmacenPlantaId = x.NotaSalidaAlmacenPlantaId
-      object.NotaIngresoAlmacenPlantaId = x.NotaIngresoAlmacenPlantaId
-      object.EmpaqueId = x.EmpaqueId 
-      object.Empaque = x.Empaque
-      object.TipoId = x.TipoId 
-      object.TipoEmpaque = x.TipoEmpaque 
-      object.Producto = x.Producto
-      object.SubProducto = x.SubProducto
-      object.Cantidad = x.Cantidad
-      object.PesoKilosBrutos = x.PesoKilosBrutos
-      object.PesoKilosNetos = x.PesoKilosNetos
-      object.Tara = x.Tara */
+      /*  object.NotaSalidaAlmacenPlantaDetalleId = x.NotaSalidaAlmacenPlantaDetalleId
+       object.NotaSalidaAlmacenPlantaId = x.NotaSalidaAlmacenPlantaId
+       object.NotaIngresoAlmacenPlantaId = x.NotaIngresoAlmacenPlantaId
+       object.EmpaqueId = x.EmpaqueId 
+       object.Empaque = x.Empaque
+       object.TipoId = x.TipoId 
+       object.TipoEmpaque = x.TipoEmpaque 
+       object.Producto = x.Producto
+       object.SubProducto = x.SubProducto
+       object.Cantidad = x.Cantidad
+       object.PesoKilosBrutos = x.PesoKilosBrutos
+       object.PesoKilosNetos = x.PesoKilosNetos
+       object.Tara = x.Tara */
 
 
       object.NotaIngresoProductoTerminadoAlmacenPlantaId = x.NotaIngresoProductoTerminadoAlmacenPlantaId
-        object.LiquidacionProcesoPlantaId = x.LiquidacionProcesoPlantaId
-        object.NotaIngresoPlantaId = x.NotaIngresoPlantaId
-        object.Producto = x.Producto 
-        object.ProductoId = x.ProductoId       
-        object.SubProducto = x.SubProducto
-        object.SubProductoId = x.SubProductoId 
-        object.Numero = x.Numero
-        object.Empaque = x.Empaque
-        object.EmpaqueId = x.EmpaqueId
-        object.TipoEmpaque = x.TipoEmpaque
-        object.TipoId = x.TipoId
-        object.Cantidad = x.Cantidad
-        object.KilosNetos = x.KilosNetos
-        object.KilosBrutos= x.KilosBrutos
-        object.Tara= x.Tara
-        object.CantidadDisponible = x.CantidadDisponible
-        object.KilosNetosDisponibles = x.KilosNetosDisponibles 
-        object.AlmacenId = x.AlmacenId
+      object.LiquidacionProcesoPlantaId = x.LiquidacionProcesoPlantaId
+      object.NotaIngresoPlantaId = x.NotaIngresoPlantaId
+      object.Producto = x.Producto
+      object.ProductoId = x.ProductoId
+      object.SubProducto = x.SubProducto
+      object.SubProductoId = x.SubProductoId
+      object.Numero = x.Numero
+      object.Empaque = x.Empaque
+      object.EmpaqueId = x.EmpaqueId
+      object.TipoEmpaque = x.TipoEmpaque
+      object.TipoId = x.TipoId
+      object.Cantidad = x.Cantidad
+      object.KilosNetos = x.KilosNetos
+      object.KilosBrutos = x.KilosBrutos
+      object.Tara = x.Tara
+      object.CantidadDisponible = x.CantidadDisponible
+      object.KilosNetosDisponibles = x.KilosNetosDisponibles
+      object.AlmacenId = x.AlmacenId
 
 
       this.listaNotaIngreso.push(object);
@@ -156,16 +156,16 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   }
 
   openModal(modalLotes) {
-   
-      this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'xl' });    
-      this.cargarLotes();
-      this.clear();
-      this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
-      this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
-   
+
+    this.modalService.open(modalLotes, { windowClass: 'dark-modal', size: 'xl' });
+    this.cargarLotes();
+    this.clear();
+    this.consultaLotes.controls['fechaInicio'].setValue(this.dateUtil.currentMonthAgo());
+    this.consultaLotes.controls['fechaFinal'].setValue(this.dateUtil.currentDate());
+
   }
 
-  
+
 
   openModalTransportista(modalTransportista) {
     this.modalService.open(modalTransportista, { windowClass: 'dark-modal', size: 'xl' });
@@ -201,7 +201,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   }
 
   cargarLotes() {
-    
+
     this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
@@ -282,7 +282,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     this.tableLotes.offset = 0;
   }
 
-  
+
   compareTwoDates(): void {
     let vBeginDate = new Date(this.consultaLotes.value.fechaInicio);
     let vEndDate = new Date(this.consultaLotes.value.fechaFinal);
@@ -308,7 +308,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
   updateLimit(limit) {
     this.limitRef = limit.target.value;
   }
- 
+
   get f() {
     return this.consultaLotes.controls;
   }
@@ -357,7 +357,7 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     this.tagNotadeSalida.get('numconstanciamtc').setValue(this.selectedTransportista[0].NumeroConstanciaMTC);
     this.modalService.dismissAll();
   }
-  
+
   buscar() {
     if (this.consultaLotes.invalid || this.error.isError) {
       this.submitted = true;
@@ -413,26 +413,23 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     }
   }
 
-  
-  UpdateValuesGridDetails(event: any, index: any, prop: any): void 
-  {
+
+  UpdateValuesGridDetails(event: any, index: any, prop: any): void {
     ///debugger
-    if (prop === 'Cantidad')
-    {  
-    this.listaNotaIngreso[index].Cantidad =  parseFloat(event.target.value);
-    this.calcularTara( this.listaNotaIngreso[index].Cantidad, this.listaNotaIngreso[index].EmpaqueId, this.listaNotaIngreso[index].TipoId, this.listaNotaIngreso[index].KilosNetos,index );
-  
+    if (prop === 'Cantidad') {
+      this.listaNotaIngreso[index].Cantidad = parseFloat(event.target.value);
+      this.calcularTara(this.listaNotaIngreso[index].Cantidad, this.listaNotaIngreso[index].EmpaqueId, this.listaNotaIngreso[index].TipoId, this.listaNotaIngreso[index].KilosNetos, index);
+
     }
-    else if (prop === 'KilosNetos')
-    {
+    else if (prop === 'KilosNetos') {
       this.listaNotaIngreso[index].KilosNetos = parseFloat(event.target.value);
-      this.calcularTara( this.listaNotaIngreso[index].Cantidad, this.listaNotaIngreso[index].EmpaqueId, this.listaNotaIngreso[index].TipoId, this.listaNotaIngreso[index].KilosNetos,index );
-    } 
-      
+      this.calcularTara(this.listaNotaIngreso[index].Cantidad, this.listaNotaIngreso[index].EmpaqueId, this.listaNotaIngreso[index].TipoId, this.listaNotaIngreso[index].KilosNetos, index);
+    }
+
   }
 
-  calcularTara(cantidad, empaque, tipo,kilosNetos,index) {
-  
+  calcularTara(cantidad, empaque, tipo, kilosNetos, index) {
+
     var valor = 0;
     if (empaque == this.CodigoSaco && tipo == this.CodigoTipoYute) {
       var valor = cantidad * this.taraYute;
@@ -444,11 +441,11 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     var tara = Math.round((valor + Number.EPSILON) * 100) / 100
     //this.pesadoFormGroup.controls['tara'].setValue(tara);
     this.listaNotaIngreso[index].Tara = tara
-    this.calcularKilosBrutos(tara,kilosNetos,index);
+    this.calcularKilosBrutos(tara, kilosNetos, index);
   }
 
-  calcularKilosBrutos(tara, kilosNetos,index){
- 
+  calcularKilosBrutos(tara, kilosNetos, index) {
+
     var valor = kilosNetos + tara;
     var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
     this.listaNotaIngreso[index].KilosBrutos = valorRounded
@@ -462,8 +459,8 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
     this.listaNotaIngreso = [...this.listaNotaIngreso];
   }
 
- 
-  
+
+
   eliminarLote(select) {
     let form = this;
     this.alertUtil.alertSiNoCallback('Está seguro?', 'Nota de Ingreso N°   ' + select[0].Numero + ' se eliminará de su lista.', function (result) {
@@ -481,84 +478,77 @@ export class TagNotaSalidaPlantaEditComponent implements OnInit {
 
   agregarNotaIngreso(e) {
 
-    
-    var listFilter=[];        
-    
-   
-      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoProductoTerminadoAlmacenPlantaId == e[0].NotaIngresoProductoTerminadoAlmacenPlantaId);
-      if (listFilter.length == 0)
-      {
-        
-        if(e[0].AlmacenId =='' )
-        {
-          this.alertUtil.alertWarning("Oops...!","La Nota de Ingreso seleccionada no tiene un almacén asignado.");
-          
+    var listaEquiposAgregados = "";
+    var listaEquiposExistentes = "";
+    for (var obje in e) {
+      var listFilter = [];
+      listFilter = this.listaNotaIngreso.filter(x => x.NotaIngresoProductoTerminadoAlmacenPlantaId == e[obje].NotaIngresoProductoTerminadoAlmacenPlantaId);
+      if (listFilter.length == 0) {
+
+        if (e[obje].AlmacenId == '') {
+          this.alertUtil.alertWarning("Oops...!", "La Nota de Ingreso seleccionada no tiene un almacén asignado.");
+
         }
-        else
-        {
-            let object: any = {};
-            object.NotaIngresoProductoTerminadoAlmacenPlantaId = e[0].NotaIngresoProductoTerminadoAlmacenPlantaId
-            object.Numero = e[0].Numero
-            object.LiquidacionProcesoPlantaId = e[0].LiquidacionProcesoPlantaId
-            object.NotaIngresoPlantaId = e[0].NotaIngresoPlantaId
-            object.Producto = e[0].Producto 
-            object.ProductoId = e[0].ProductoId       
-            object.SubProducto = e[0].SubProducto
-            object.SubProductoId = e[0].SubProductoId 
-            object.Empaque = e[0].Empaque
-            object.TipoEmpaque = e[0].TipoEmpaque
-            object.TipoId = e[0].TipoId
-            object.EmpaqueId = e[0].EmpaqueId
-            object.Cantidad = e[0].CantidadDisponible
-            object.KilosNetos = e[0].KilosNetosDisponibles
-            object.KilosBrutos= e[0].KilosBrutos
-            object.Tara= 0
-            object.CantidadDisponible = e[0].CantidadDisponible
-            object.KilosNetosDisponibles = e[0].KilosNetosDisponibles 
-
-
-            /* var valor = 0;
-            if (empaque == this.CodigoSaco && object.TipoEmpaque == this.CodigoTipoYute) {
-              var valor = cantidad * this.taraYute;
-            } else if (empaque == this.CodigoSaco && object.TipoEmpaque != this.CodigoTipoYute) {
-              var valor = cantidad * this.tara;
-            } 
-
-
-    var tara = Math.round((valor + Number.EPSILON) * 100) / 100
-    //this.pesadoFormGroup.controls['tara'].setValue(tara);
-    this.listaNotaIngreso[index].Tara = tara*/
-
-
-            
-            
-            this.listaNotaIngreso.push(object);
-            this.tempDataLoteDetalle = this.listaNotaIngreso;
-            this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
-            this.modalService.dismissAll();     
+        else {
+          let object: any = {};
+          object.NotaIngresoProductoTerminadoAlmacenPlantaId = e[obje].NotaIngresoProductoTerminadoAlmacenPlantaId;
+          object.Numero = e[obje].Numero;
+          object.LiquidacionProcesoPlantaId = e[obje].LiquidacionProcesoPlantaId;
+          object.NotaIngresoPlantaId = e[obje].NotaIngresoPlantaId;
+          object.Producto = e[obje].Producto;
+          object.ProductoId = e[obje].ProductoId;
+          object.SubProducto = e[obje].SubProducto;
+          object.SubProductoId = e[obje].SubProductoId;
+          object.Empaque = e[obje].Empaque;
+          object.TipoEmpaque = e[obje].TipoEmpaque;
+          object.TipoId = e[obje].TipoId;
+          object.EmpaqueId = e[obje].EmpaqueId;
+          object.Cantidad = e[obje].CantidadDisponible;
+          object.KilosNetos = e[obje].KilosNetosDisponibles;
+          object.KilosBrutos = e[obje].KilosBrutos;
+          object.Tara = 0;
+          object.CantidadDisponible = e[obje].CantidadDisponible;
+          object.KilosNetosDisponibles = e[obje].KilosNetosDisponibles;
+          this.listaNotaIngreso.push(object);
+          this.tempDataLoteDetalle = this.listaNotaIngreso;
+          this.rowsLotesDetalle = [...this.tempDataLoteDetalle];
+          listaEquiposAgregados += e[obje].Numero + ";";
         }
       }
-      else 
-      {
-        this.alertUtil.alertWarning("Oops...!","Ya ha sido agregada la Nota de Ingreso seleccionada.");
+      else {
+        //his.alertUtil.alertWarning("Oops...!", "Ya ha sido agregada la Nota de Ingreso seleccionada.");
+        listaEquiposExistentes += e[obje].Numero + ";";
       }
+    }
+    listaEquiposAgregados.slice(0,-1);
+    listaEquiposExistentes.slice(0,-1);
+    var msgAgregar = "";
+    var msgExistente = "";
+    if(listaEquiposAgregados.length > 0){
+      msgAgregar = "Se agregaron las siguientes notas de ingreso.  " + listaEquiposAgregados + "." + "\n"
+    }
+    if(listaEquiposExistentes.length > 0){
+      msgExistente = "Las siguientes notas de ingreso son existentes. " + listaEquiposExistentes + "." 
+    }
 
-      if (this.listaNotaIngreso.length > 0 )
-      {
-        var sumCantidad = 0;
-        var sumKilosNetos = 0;
-        var sumKilosBrutos= 0;
-        this.listaNotaIngreso.forEach(data => 
-        {
-          sumCantidad = sumCantidad + data.Cantidad;
-          sumKilosNetos = sumKilosNetos + data.KilosNetos;
-          sumKilosBrutos = sumKilosBrutos + data.KilosBrutos;
-        });
-        this.averageCantidad = sumCantidad;
-        this.averageKilosNetos = sumKilosNetos;
-        this.averageKilosBrutos = sumKilosBrutos;
-      }
-    
-  }d
+      this.alertUtil.alertWarning("Información", msgAgregar
+                                        + msgExistente  );
+    this.modalService.dismissAll();
+
+    if (this.listaNotaIngreso.length > 0) {
+      var sumCantidad = 0;
+      var sumKilosNetos = 0;
+      var sumKilosBrutos = 0;
+      this.listaNotaIngreso.forEach(data => {
+        sumCantidad = sumCantidad + data.Cantidad;
+        sumKilosNetos = sumKilosNetos + data.KilosNetos;
+        sumKilosBrutos = sumKilosBrutos + data.KilosBrutos;
+      });
+      this.averageCantidad = sumCantidad;
+      this.averageKilosNetos = sumKilosNetos;
+      this.averageKilosBrutos = sumKilosBrutos;
+    }
+
+  }
 
 }

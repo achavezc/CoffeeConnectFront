@@ -86,7 +86,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
   taraYute = 0.7
   selectedDetalleTipoEmpaque : any[];
   selectedDetalleEmpaque: any[];
-
+  esLiquidado = false;
   @ViewChild(DatatableComponent) tblResultProceso: DatatableComponent;
 
   constructor(private modalService: NgbModal, private maestroService: MaestroService,
@@ -118,7 +118,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
         }
       }
       );
-      ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.liquidacionProcesoFormEdit);
+      //this.readonlythis.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura, this.liquidacionProcesoFormEdit);
       this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].disable() ;
       this.liquidacionProcesoFormEdit.controls["tipoProceso"].disable() ;
       this.liquidacionProcesoFormEdit.controls["ruc"].disable() ;
@@ -232,6 +232,11 @@ export class LiquidacionProcesoEditComponent implements OnInit {
 
   cargarDataFormulario(data: any) 
   {
+
+    if (data.EstadoId == "02"){
+      this.esLiquidado = true;
+    }
+
     this.liquidacionProcesoFormEdit.controls["tipoProceso"].setValue(data.TipoProceso);
     this.liquidacionProcesoFormEdit.controls["ruc"].setValue(data.RucOrganizacion);
     this.liquidacionProcesoFormEdit.controls["tipoProduccion"].setValue(data.TipoProduccion);
@@ -239,7 +244,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["productoTerminado"].setValue(data.ProductoTerminado);
     this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].setValue(this.dateUtil.formatDate(data.FechaInicioProceso));
     //this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(this.dateUtil.formatDate(data.FechaFinProceso));
-    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(data.FechaFinProceso);
+    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(data.FechaFinProceso.substring(0, 10) );
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);

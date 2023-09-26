@@ -54,7 +54,7 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
 
   @Output() agregarEvent = new EventEmitter<any>();
   readonly: boolean;
-
+  selectionType = 'single';
   // row data
   public rows = [];
   public ColumnMode = ColumnMode;
@@ -88,6 +88,9 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
     //this.notaIngresoProductoAlmacenForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
 
     ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
+    if(this.popUp){
+      this.selectionType = 'checkbox';
+    }
   }
   compareTwoDates() {
     /*
@@ -109,7 +112,10 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
     return this.notaIngresoProductoAlmacenForm.controls;
    
   }
-
+  onSelect({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+  }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {

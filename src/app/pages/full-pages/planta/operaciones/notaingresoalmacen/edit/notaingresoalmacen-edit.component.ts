@@ -62,6 +62,9 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   taraYute = 0.7
   tara = 0.2;
   controlCalidadPlantaId = 0;
+  cantidadDisponible = 0;
+  kilosNetosDisponible = 0;
+  esProcesado = false
   constructor(
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -225,6 +228,8 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   }
 
   agregarControlCalidad(e) {
+    this.cantidadDisponible =   e[0].CantidadDisponible;
+    this.kilosNetosDisponible = e[0].KilosNetosDisponibles;
     this.obtenerDetalleControlCalidad(e[0].ControlCalidadPlantaId);
 
   }
@@ -246,7 +251,6 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
               this.detalle.DireccionEmpresaOrigen = res.Result.Data.DireccionOrganizacion;  
 
               this.detalle.PesoBruto = res.Result.Data.KilosBrutos;
-
               this.cargarDataFormulario(this.detalle);
               //this.detalle.requestPesado = this.obtenerRequest();
             } else {
@@ -313,6 +317,15 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   async cargarDataFormulario(data: any) {
  
     
+    await this.cargaTipo();
+    await this.cargaEmpaque();
+    if(data.EstadoId == "02" && this.id != 0){
+      this.esProcesado = true;
+    }
+
+    
+    this.consultaNotaIngresoAlmacenFormEdit.controls["tipo"].setValue(this.detalle.TipoId);
+    this.consultaNotaIngresoAlmacenFormEdit.controls["empaque"].setValue(this.detalle.EmpaqueId);
 
     this.controlCalidadPlantaId = data.ControlCalidadPlantaId;
     this.consultaNotaIngresoAlmacenFormEdit.controls["estadoCalidad"] = data.EstadoCalidadId;
@@ -326,13 +339,13 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
       this.consultaNotaIngresoAlmacenFormEdit.get("pesoBrutoAlmacen").disable();
       
     }else if( data.EstadoCalidadId == "01" && this.id == 0){
-      this.consultaNotaIngresoAlmacenFormEdit.controls["cantidadAlmacen"].setValue("");
-      this.consultaNotaIngresoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue("");
-      this.consultaNotaIngresoAlmacenFormEdit.controls["taraAlmacen"].setValue("");
-      this.consultaNotaIngresoAlmacenFormEdit.controls["kilosNetosAlmacen"].setValue("");
+      this.consultaNotaIngresoAlmacenFormEdit.controls["cantidadAlmacen"].setValue(this.cantidadDisponible);
+      //this.consultaNotaIngresoAlmacenFormEdit.controls["pesoBrutoAlmacen"].setValue("");
+      //this.consultaNotaIngresoAlmacenFormEdit.controls["taraAlmacen"].setValue("");
+      this.consultaNotaIngresoAlmacenFormEdit.controls["kilosNetosAlmacen"].setValue(this.kilosNetosDisponible);
       this.consultaNotaIngresoAlmacenFormEdit.get("cantidadAlmacen").enable();
       this.consultaNotaIngresoAlmacenFormEdit.get("pesoBrutoAlmacen").enable()
-      this.calcularTara();
+      this.calcularTaraNuevo();
     }
   if(this.id > 0){
     this.consultaNotaIngresoAlmacenFormEdit.controls["cantidadAlmacen"].setValue(data.Cantidad);
@@ -420,10 +433,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     this.fechaPesado = this.dateUtil.formatDate(new Date(data.FechaPesado), "/");
 
 
-    await this.cargaTipo();
-    await this.cargaEmpaque();
-    this.consultaNotaIngresoAlmacenFormEdit.controls["tipo"].setValue(this.detalle.TipoId);
-    this.consultaNotaIngresoAlmacenFormEdit.controls["empaque"].setValue(this.detalle.EmpaqueId);
+ 
 
 
     this.spinner.hide();
@@ -452,6 +462,24 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
     this.consultaNotaIngresoAlmacenFormEdit.controls['taraAlmacen'].setValue(valorRounded);
     this.calcularKilosNetos();
+  }
+  calcularTaraNuevo() {
+    var cantidad = this.consultaNotaIngresoAlmacenFormEdit.controls['cantidadAlmacen'].value;
+    var empaque = this.consultaNotaIngresoAlmacenFormEdit.controls['empaque'].value;
+    var tipo = this.consultaNotaIngresoAlmacenFormEdit.controls['tipo'].value;
+    var valor = 0;
+    if (empaque == this.CodigoSacao && tipo == this.CodigoTipoYute) {
+      var valor = cantidad * this.taraYute;
+    } else if (empaque == this.CodigoSacao && tipo != this.CodigoTipoYute) {
+      var valor = cantidad * this.tara;
+    }
+
+
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.consultaNotaIngresoAlmacenFormEdit.controls['taraAlmacen'].setValue(valorRounded);
+    var kilosNetos = this.consultaNotaIngresoAlmacenFormEdit.controls['kilosNetosAlmacen'].value;
+    
+    this.consultaNotaIngresoAlmacenFormEdit.controls['pesoBrutoAlmacen'].setValue(kilosNetos + valorRounded);
   }
   calcularKilosNetos(){
     var tara = this.consultaNotaIngresoAlmacenFormEdit.controls['taraAlmacen'].value;

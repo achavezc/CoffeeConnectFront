@@ -243,9 +243,35 @@
                     type="text" (keyup)="filterUpdate($event)" />
                 </label>
               </fieldset>
-              <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
+              <!--  <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
                 [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
                 [selectCheck]="singleSelectCheck" [selected]="selected" [selectionType]="'single'">
+                  -->
+                <ngx-datatable 
+                class="bootstrap core-bootstrap" 
+                [columnMode]="'force'"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                rowHeight="auto"
+                [limit]="limitRef"
+                [rows]="rows" 
+                [scrollbarH]="true"
+                [selectionType]="selectionType"
+                [selectAllRowsOnPage]="false"
+                (select)='onSelect($event)'>    
+
+             
+                <ngx-datatable-column *ngIf="popUp"
+                [width]="30"
+                [sortable]="false"
+                [canAutoResize]="false"
+                [draggable]="false"
+                [resizeable]="false"
+                [headerCheckboxable]="true"
+                [checkboxable]="true"
+                >
+                </ngx-datatable-column>
+
                 
                 <ngx-datatable-column name="Número" prop="Numero" width="150" *ngIf="!popUp">
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
