@@ -239,7 +239,7 @@ export class LiquidacionProcesoEditComponent implements OnInit {
     this.liquidacionProcesoFormEdit.controls["productoTerminado"].setValue(data.ProductoTerminado);
     this.liquidacionProcesoFormEdit.controls["fechaInicioProceso"].setValue(this.dateUtil.formatDate(data.FechaInicioProceso));
     //this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(this.dateUtil.formatDate(data.FechaFinProceso));
-    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(data.FechaFinProceso);
+    this.liquidacionProcesoFormEdit.controls["fechaFinProceso"].setValue(data.FechaFinProceso.substring(0, 10) );
     this.liquidacionProcesoFormEdit.controls["numOrdenProceso"].setValue(data.NumeroOrdenProcesoPlanta);
     this.liquidacionProcesoFormEdit.controls["razonSocial"].setValue(data.RazonSocialOrganizacion);
     this.liquidacionProcesoFormEdit.controls["certificacion"].setValue(data.Certificacion);
