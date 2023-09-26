@@ -249,14 +249,14 @@ export class NotaIngresoProductoTerminadoListComponent implements OnInit {
 
  cargarProducto(codigo:any)
   {
-    
+    var form = this;
     this.maestroUtil.obtenerMaestros("SubProductoPlanta", function (res) 
     {
       if (res.Result.Success) {
         if (res.Result.Data.length > 0) {
-          this.listaSubProducto = res.Result.Data.filter(x => x.Val1 == codigo);
+          form.listaSubProducto = res.Result.Data.filter(x => x.Val1 == codigo);
         } else {
-          this.listaSubProducto = [];
+          form.listaSubProducto = [];
         }
       }
     });
