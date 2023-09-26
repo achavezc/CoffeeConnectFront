@@ -64,6 +64,7 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
   controlCalidadPlantaId = 0;
   cantidadDisponible = 0;
   kilosNetosDisponible = 0;
+  esProcesado = false
   constructor(
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -318,6 +319,11 @@ export class NotaIngresoAlmacenEditComponent implements OnInit {
     
     await this.cargaTipo();
     await this.cargaEmpaque();
+    if(data.EstadoId == "02"){
+      this.esProcesado = true;
+    }
+
+    
     this.consultaNotaIngresoAlmacenFormEdit.controls["tipo"].setValue(this.detalle.TipoId);
     this.consultaNotaIngresoAlmacenFormEdit.controls["empaque"].setValue(this.detalle.EmpaqueId);
 

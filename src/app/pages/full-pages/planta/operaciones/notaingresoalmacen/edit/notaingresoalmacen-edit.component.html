@@ -387,7 +387,7 @@
           
           
                           <div class="card-footer text-right" style="margin-top: 2rem;">
-                              <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()" >Guardar</button>
+                              <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="guardar()" *ngIf="!this.esProcesado" >Guardar</button>
                               <!-- <button type="submit" class="btn btn-primary mb-2 mb-sm-0 mr-sm-2" (click)="imprimir()" *ngIf="form==='controlcalidadplanta'">Imprimir</button>-->
                               <button type="submit" class="btn btn-danger mb-2 mb-sm-0 mr-sm-2" (click)="cancelar()" >Cancelar</button>
                                   
