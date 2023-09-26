@@ -623,7 +623,7 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   async cargarDataFormulario(data: any) {
-     if(data.EstadoId = "04"){
+     if(data.EstadoId == "04"){
       this.esAlmacen = true;
      }
 
