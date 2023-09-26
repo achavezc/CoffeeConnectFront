@@ -235,7 +235,25 @@ export class ControlCalidadComponent implements OnInit {
     this.formControlCalidad.controls['taraControlCalidad'].setValue(valorRounded);
     this.calcularKilosNetos();
   }
- 
+  calcularTaraNuevo(){
+    var cantidad = this.formControlCalidad.controls['cantidadControlCalidad'].value;
+    var empaque = this.formControlCalidad.controls['empaque'].value;
+    var tipo = this.formControlCalidad.controls['tipo'].value;
+    var valor = 0;
+    if (empaque == this.CodigoSacao && tipo == this.CodigoTipoYute) {
+      var valor = cantidad * this.taraYute;
+    } else if (empaque == this.CodigoSacao && tipo != this.CodigoTipoYute) {
+      var valor = cantidad * this.tara;
+    }
+
+
+    var valorRounded = Math.round((valor + Number.EPSILON) * 100) / 100
+    this.formControlCalidad.controls['taraControlCalidad'].setValue(valorRounded);
+    var kilosNetos = this.formControlCalidad.controls['kilosNetosControlCalidad'].value;
+    
+    this.formControlCalidad.controls['pesoBrutoControlCalidad'].setValue(kilosNetos + valorRounded);
+
+  }
 
   calcularKilosNetos(){
     var tara = this.formControlCalidad.controls['taraControlCalidad'].value;
@@ -857,19 +875,25 @@ export class ControlCalidadComponent implements OnInit {
     var controlFormControlCalidad = this.formControlCalidad.controls;
     var controlDefectos = this.formDefectos.controls;
    
-  
-
-    controlFormControlCalidad["cantidadControlCalidad"].setValue(this.detalle.CantidadControlCalidad);
-    controlFormControlCalidad["pesoBrutoControlCalidad"].setValue(this.detalle.PesoBrutoControlCalidad);
-
-    
-    controlFormControlCalidad["taraControlCalidad"].setValue(this.detalle.TaraControlCalidad);
-    controlFormControlCalidad["kilosNetosControlCalidad"].setValue(this.detalle.KilosNetosControlCalidad);
-
     await this.cargaTipo();
     await this.cargaEmpaque();
     controlFormControlCalidad["tipo"].setValue(this.detalle.TipoId);
     controlFormControlCalidad["empaque"].setValue(this.detalle.EmpaqueId);
+
+    if(this.detalle.esNuevo){
+      controlFormControlCalidad["cantidadControlCalidad"].setValue(this.detalle.cantidadDisponibleNI);
+      controlFormControlCalidad["kilosNetosControlCalidad"].setValue(this.detalle.kilosNetosDisponibleNI);
+      this.calcularTaraNuevo();
+
+    }else{
+      controlFormControlCalidad["cantidadControlCalidad"].setValue(this.detalle.CantidadControlCalidad);
+      controlFormControlCalidad["pesoBrutoControlCalidad"].setValue(this.detalle.PesoBrutoControlCalidad);
+      controlFormControlCalidad["taraControlCalidad"].setValue(this.detalle.TaraControlCalidad);
+      controlFormControlCalidad["kilosNetosControlCalidad"].setValue(this.detalle.KilosNetosControlCalidad);
+    }
+
+
+
 
    
     ///Ddddddddddddddddddd

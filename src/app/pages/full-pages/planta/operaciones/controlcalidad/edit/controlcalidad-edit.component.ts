@@ -91,6 +91,8 @@ export class ControlCalidadEditComponent implements OnInit {
   readonly: boolean;
   popUp = true;
   msgErrorGenerico = 'Ocurrio un error interno.';
+  cantidadDisponible = 0;
+  kilosNetosDisponible = 0;
 
   constructor(private modalService: NgbModal,
     private maestroService: MaestroService,
@@ -245,6 +247,8 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   agregarNotaIngreso(e) {
+    this.cantidadDisponible =   e[0].CantidadDisponible;
+    this.kilosNetosDisponible = e[0].KilosNetosDisponibles;
     this.obtenerDetalleNotaIngreso(e[0].NotaIngresoPlantaId);
 
   }
@@ -258,7 +262,11 @@ export class ControlCalidadEditComponent implements OnInit {
             this.detalle = res.Result.Data;
             if (this.detalle != null) {
               this.cargarDataFormulario(res.Result.Data);
+              this.detalle.cantidadDisponibleNI = this.cantidadDisponible;
+              this.detalle.kilosNetosDisponibleNI = this.kilosNetosDisponible;
+              this.detalle.esNuevo = true;
               this.detalle.requestPesado = this.obtenerRequest();
+         
             } else {
               this.spinner.hide();
               this.modalService.dismissAll();
