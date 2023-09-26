@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { MaestroUtil } from '../../../../../services/util/maestro-util';
 import { DateUtil } from '../../../../../services/util/date-util';
-import { ProductorService } from '../../../../../Services/productor.service';
+import { ProductorService } from '../../../../../services/productor.service';
 import { HeaderExcel } from '../../../../../services/models/headerexcel.model';
 import { ExcelService } from '../../../../../shared/util/excel.service';
 import {AuthService} from './../../../../../services/auth.service';
