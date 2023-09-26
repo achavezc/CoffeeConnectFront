@@ -93,7 +93,7 @@ export class ControlCalidadEditComponent implements OnInit {
   msgErrorGenerico = 'Ocurrio un error interno.';
   cantidadDisponible = 0;
   kilosNetosDisponible = 0;
-
+  esAlmacen = false;
   constructor(private modalService: NgbModal,
     private maestroService: MaestroService,
     private alertUtil: AlertUtil,
@@ -623,6 +623,11 @@ export class ControlCalidadEditComponent implements OnInit {
   }
 
   async cargarDataFormulario(data: any) {
+     if(data.EstadoId = "04"){
+      this.esAlmacen = true;
+     }
+
+
     this.NotaIngresoPlantaId = data.NotaIngresoPlantaId;
     this.idPlantEntryNote = data.NotaIngresoPlantaId;
     this.numeroNotaIngreso = data.NumeroCalidadPlanta;
