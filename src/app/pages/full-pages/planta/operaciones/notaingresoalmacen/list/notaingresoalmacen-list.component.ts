@@ -54,7 +54,7 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
   readonly: boolean;
   @Input() tipoProceso = "";
   @Input() rucCliente="";
-
+  selectionType = 'single';
   // row data
   public rows = [];
   public ColumnMode = ColumnMode;
@@ -86,7 +86,9 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     this.notaIngresoAlmacenForm.controls.fechaFin.setValue(this.dateUtil.currentDate());
     this.notaIngresoAlmacenForm.controls.fechaGuiaRemisionInicio.setValue(this.dateUtil.currentMonthAgo());
     this.notaIngresoAlmacenForm.controls.fechaGuiaRemisionFin.setValue(this.dateUtil.currentDate());
-
+    if(this.popUp){
+      this.selectionType = 'checkbox';
+    }
     ////this.readonly= this.authService.esReadOnly(this.vSessionUser.Result.Data.OpcionesEscritura);
   }
   compareTwoDates() {
@@ -109,7 +111,10 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
     return this.notaIngresoAlmacenForm.controls;
    
   }
-
+  onSelect({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+  }
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempData.filter(function (d) {
@@ -428,8 +433,8 @@ export class NotaIngresoAlmacenListComponent implements OnInit {
         "NumeroControlCalidad": this.notaIngresoAlmacenForm.controls['numeroControlCalidad'].value,
         "NumeroGuiaRemision": this.notaIngresoAlmacenForm.controls['numeroGuiRemision'].value,
         "NumeroOrganizacion": this.notaIngresoAlmacenForm.controls['codigoOrganizacion'].value,
-        "RazonSocialOrganizacion": this.notaIngresoAlmacenForm.controls['rzsocial'].value,
-        "RucOrganizacion": this.notaIngresoAlmacenForm.controls['ruc'].value,
+        "RazonSocialEmpresaOrigen": this.notaIngresoAlmacenForm.controls['rzsocial'].value,
+        "RucEmpresaOrigen": this.notaIngresoAlmacenForm.controls['ruc'].value,
         "ProductoId": this.notaIngresoAlmacenForm.controls['producto'].value,
         "SubProductoId": this.notaIngresoAlmacenForm.controls['subproducto'].value,
         "EstadoId": this.notaIngresoAlmacenForm.controls['estado'].value,
