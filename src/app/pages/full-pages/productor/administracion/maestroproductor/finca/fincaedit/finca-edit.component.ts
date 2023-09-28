@@ -83,11 +83,16 @@ export class FincaEditComponent implements OnInit {
     if (this.vId > 0) {
       this.SearchProducerFincaById();
       this.esEdit = true;
+
+     // this.fincaEditForm.controls["NivelEducativo"].enable();
+     // this.fincaEditForm.controls["numeroAdenda"].enable();
+
     } else {
       this.esEdit = false;
       this.route.queryParams.subscribe((res: any) => {
         this.vCodProductor = parseInt(res.codProductor)
       });
+      //this.fincaEditForm.controls["NivelEducativo"].disable();
     }
   }
 

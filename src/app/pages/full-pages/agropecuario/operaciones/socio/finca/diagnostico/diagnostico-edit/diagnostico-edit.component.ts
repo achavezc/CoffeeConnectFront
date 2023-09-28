@@ -492,7 +492,7 @@ export class DiagnosticoEditComponent implements OnInit {
     this.socioFincaService.SearchPartnerProducerByFincaPartnerId({ SocioFincaId: this.codeFincaPartner })
       .subscribe((res: any) => {
         if (res.Result.Success) {
-          // this.frmFincaDiagnosticoEdit.controls.organization.setValue(res.Result.Data.);
+          // this.frmFincaDiagnosticoEdit.controls.organization.setValue(res.Result.Data.Responsable);
           this.frmFincaDiagnosticoEdit.controls.surnamesFirstnames.setValue(`${res.Result.Data.Apellidos} ${res.Result.Data.Nombres}`);
           this.frmFincaDiagnosticoEdit.controls.documentNumber.setValue(res.Result.Data.NumeroDocumento);
           this.frmFincaDiagnosticoEdit.controls.cellPhoneNumber.setValue(res.Result.Data.NumeroTelefonoCelular);
