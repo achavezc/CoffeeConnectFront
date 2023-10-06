@@ -75,6 +75,7 @@ export class ControlCalidadComponent implements OnInit {
   page: any;
   btnGuardarCalidad = true;
   calculocascarilla = 400;
+  calculocascarillaCooperativa = 300;
   formDefectos : FormGroup;
   subtotalDefectos: number;
   idPesado: any;
@@ -824,7 +825,11 @@ export class ControlCalidadComponent implements OnInit {
         cascarillaGramos = this.calculocascarilla-exportGramos - descarteGramos;
         this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
       }      
-      
+      if (this.page == "Edit")
+      {
+        cascarillaGramos = this.calculocascarillaCooperativa -exportGramos - descarteGramos;
+        this.formControlCalidad.controls["cascarillaGramos"].setValue(cascarillaGramos);
+      }  
       const totalRendExportable = exportGramos + descarteGramos + cascarillaGramos;
       this.formControlCalidad.controls['totalGramos'].setValue(totalRendExportable);
       this.formControlCalidad.controls['cascarillaPorcentaje'].setValue(cascarillaGramos == 0 ? "0%" : (Number(cascarillaGramos / totalRendExportable) * 100).toFixed(2) + "%");
